@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pylint mysdk test --exit-zero
+pylint ibm_cloud_networking_services test --exit-zero

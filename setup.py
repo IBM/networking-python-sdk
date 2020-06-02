@@ -20,8 +20,8 @@ import sys
 import pkg_resources
 
 __version__ = '0.0.1'
-PACKAGE_NAME = 'mysdk'
-PACKAGE_DESC = 'Python client library for IBM Cloud MYSDK Services'
+PACKAGE_NAME = 'ibm_cloud_networking_services'
+PACKAGE_DESC = 'Python client library for IBM Cloud Networking Services'
 
 with open('requirements.txt') as f:
     install_requires = [str(req) for req in pkg_resources.parse_requirements(f)]
@@ -71,7 +71,7 @@ setup(name=PACKAGE_NAME.replace('_', '-'),
       author_email='devexdev@us.ibm.com',
       long_description=readme,
       long_description_content_type='text/markdown',
-      url='https://github.com/mysdk/python-sdk',
+      url='https://github.com/IBM/networking-services-python-sdk',
       packages=[PACKAGE_NAME],
       include_package_data=True,
       keywords=PACKAGE_NAME,

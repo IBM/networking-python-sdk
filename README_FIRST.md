@@ -6,6 +6,7 @@ This repository serves as a template for Python SDKs that are produced with the
 You can use the contents of this repository to create your own Python SDK repository.
 
 ## Table of Contents
+
 <!--
   The TOC below is generated using the `markdown-toc` node package.
 
@@ -19,48 +20,52 @@ You can use the contents of this repository to create your own Python SDK reposi
 <!-- toc -->
 
 - [How to use this repository](#how-to-use-this-repository)
-  * [1. Create your new github repository from this template](#1-create-your-new-github-repository-from-this-template)
-  * [2. Modify selected files](#2-modify-selected-files)
-  * [3. Add one or more services to the project](#3-add-one-or-more-services-to-the-project)
-  * [4. Test your SDK](#4-test-your-sdk)
+  - [1. Create your new github repository from this template](#1-create-your-new-github-repository-from-this-template)
+  - [2. Modify selected files](#2-modify-selected-files)
+  - [3. Add one or more services to the project](#3-add-one-or-more-services-to-the-project)
+  - [4. Test your SDK](#4-test-your-sdk)
 - [Integration tests](#integration-tests)
 - [Continuous Integration](#continuous-integration)
-  * [Release management with semantic-release](#release-management-with-semantic-release)
-  * [Publishing build outputs to PyPI](#publishing-build-outputs-to-pypi)
-  * [Encrypting secrets](#encrypting-secrets)
-- [Setting the ``User-Agent`` Header In Preparation for SDK Metrics Gathering](#setting-the-user-agent-header-in-preparation-for-sdk-metrics-gathering)
+  - [Release management with semantic-release](#release-management-with-semantic-release)
+  - [Publishing build outputs to PyPI](#publishing-build-outputs-to-pypi)
+  - [Encrypting secrets](#encrypting-secrets)
+- [Setting the `User-Agent` Header In Preparation for SDK Metrics Gathering](#setting-the-user-agent-header-in-preparation-for-sdk-metrics-gathering)
 
 <!-- tocstop -->
 
 ## How to use this repository
 
 ### 1. Create your new github repository from this template
+
 This SDK template repository is implemented as a
 [github template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template),
 which makes it easy to create new projects from it.
 
-To create a new SDK repository from this template, follow these instructions:  
+To create a new SDK repository from this template, follow these instructions:
+
 1. In your browser, open the link for this
-[template repository](https://github.ibm.com/CloudEngineering/python-sdk-template).
+   [template repository](https://github.ibm.com/CloudEngineering/python-sdk-template).
 
 2. Click on the `Use this template` button that appears next to the `Clone or download` button.
 
-3. In the next window:  
+3. In the next window:
+
 - Select the `Owner`. This is the github id or organization where the new repository should be created
-- Enter the respository name (e.g. `platform-services-python-sdk`):  
-  - Recommendation: use a name of the form `<service-category>-<language>-sdk`, where:  
+- Enter the respository name (e.g. `platform-services-python-sdk`):
+  - Recommendation: use a name of the form `<service-category>-<language>-sdk`, where:
     - `<service-category>` refers to the IBM Cloud service category associated with the services that
-	  will be included in the project (e.g. `platform-services`)
+      will be included in the project (e.g. `platform-services`)
     - `<language>` is the language associated with the SDK project (e.g. `python`)
-	
+
 4. Click the `Create repository from template` button to create the new repository  
-If your goal is to create the new SDK repository on the `Github Enterprise` server (github.ibm.com),
-then you are finished creating the new repository and you can proceed to section 2.
+   If your goal is to create the new SDK repository on the `Github Enterprise` server (github.ibm.com),
+   then you are finished creating the new repository and you can proceed to section 2.
 
 On the other hand, if your goal is to create the new SDK repository on the `Public Github` server (github.com),
 then perform these additional steps:
 
-5. Create a new **EMPTY** repository on the Public Github server:  
+5. Create a new **EMPTY** repository on the Public Github server:
+
 - Select "No template" for the "Repository template" option
 - Select the `Owner` (your personal id or an organization)
 - Enter the same respository name that you used when creating the new repository above (e.g. my-python-sdk)
@@ -68,17 +73,19 @@ then perform these additional steps:
 - Select `None` for the `Add .gitignore` and `Add a license` options
 - Click the `Create repository` button.
 - After the new empty repository has been created, you will be at the main page
-of your new repository, which will include this text:
+  of your new repository, which will include this text:
+
 ```
 ...or push an existing repository from the command line
 
 git remote add origin git@github.com:padamstx/my-python-sdk.git
 git push -u origin master
 ```
+
 - Take note of the two git commands listed above for your new repository, as we'll execute these later
 
 6. Clone your new `Github Enterprise` repository (created in steps 1-3 above)
-to your local development environment:  
+   to your local development environment:
 
 ```sh
 [/work/demos]
@@ -98,10 +105,11 @@ Resolving deltas: 100% (1/1), done.
 [/work/demos]
 $ cd my-python-sdk
 [/work/demos/my-python-sdk]
-$ 
+$
 ```
 
-8. Remove the existing remote:  
+8. Remove the existing remote:
+
 ```sh
 [/work/demos/my-python-sdk]
 $ git remote remove origin
@@ -114,7 +122,7 @@ $ git remote remove origin
 $ git remote add origin git@github.com:padamstx/my-python-sdk.git
 ```
 
-10. Push your local repository to the new remote (Public Github):  
+10. Push your local repository to the new remote (Public Github):
 
 ```sh
 [/work/demos/my-python-sdk]
@@ -136,27 +144,27 @@ You have now created your new SDK repository on the `Public Github` server.
 You may want to now delete the new SDK repository that you created on the `Github Enterprise`
 server since it will no longer be used now that you have created your repository on `Public Github`.
 
-
 ### 2. Modify selected files
 
 - In this section, you'll modify various files within your new SDK repository to reflect
-the proper names and settings for your specific project.
+  the proper names and settings for your specific project.
 
 - The template repository comes with an example service included, but this should be removed
-from your project.  Remove the following files:
+  from your project. Remove the following files:
+
   - test/unit/test_example_service_v1.py
   - test/integration/test_example_service_v1.py
   - mysdk/example_service_v1.py
 
 - The root of the project contains a directory named `mysdk` which represents the python package
-where all the generated service files will eventually be located.  
-Rename this directory to reflect the service category associated with your SDK project
-(e.g. `ibm_platform_services`, `ibm_database_services`, `ibm_networking_services`, etc.).
-Choose your package name wisely as it will also be used to form the package name when
-publishing your package to [PyPI](https://pypi.org/).
+  where all the generated service files will eventually be located.  
+  Rename this directory to reflect the service category associated with your SDK project
+  (e.g. `ibm_platform_services`, `ibm_database_services`, `ibm_cloud_networking_services`, etc.).
+  Choose your package name wisely as it will also be used to form the package name when
+  publishing your package to [PyPI](https://pypi.org/).
 
 - After renaming the `mysdk` package directory, you'll need to modify various files to
-reflect the new package name:
+  reflect the new package name:
   - pylint.sh
   - .bumpversion.cfg
   - README.md
@@ -170,47 +178,55 @@ reflect the new package name:
 In the instructions that follow, your project's package name will be referred to as `<package>`.
 
 - Recommended: After selecting the python package name for your new project, you can configure the
-`apiPackage` configuration property within the API definition for each of the services that will be
-included in your project.  This is helpful because the SDK generator will use this configuration
-property as the package into which the generated service code will be written.
-Otherwise, you will need to use the equivalent `--api-package <package>` 
-command-line option when running the SDK generator to generate each service into the project.
-Here's an example of the configuration properties that you can add to each API definition:
+  `apiPackage` configuration property within the API definition for each of the services that will be
+  included in your project. This is helpful because the SDK generator will use this configuration
+  property as the package into which the generated service code will be written.
+  Otherwise, you will need to use the equivalent `--api-package <package>`
+  command-line option when running the SDK generator to generate each service into the project.
+  Here's an example of the configuration properties that you can add to each API definition:
+
 ```yaml
-  info:
-    x-codegen-config:
-      python:
-        apiPackage: '<package>'
+info:
+  x-codegen-config:
+    python:
+      apiPackage: "<package>"
 ```
-  Details about SDK generator configuration properties can be found
+
+Details about SDK generator configuration properties can be found
 [here](https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Config-Options)
 
 - Next, here is a list of the various files within the project with comments
-that will guide you in the required modifications:
+  that will guide you in the required modifications:
 
   - `.bumpversion.cfg`:
+
     - modify instances of `mysdk` to be `<package>`
 
   - `<package>/version.py`:
+
     - set `__version__` to `0.0.1`
     - modify the comment to reflect your package name.
-  
-  - `<package>/common.py`:  
+
+  - `<package>/common.py`:
+
     - modify SDK_NAME to reflect the name of your SDK project (e.g. `platform-services-python-sdk`)
     - modify instances of `mysdk` to be `<package>`.
     - follow the instructions in the `get_sdk_headers()` function.
 
   - `test/unit/test_common.py`
+
     - modify the code in `test_get_sdk_headers` to reflect the correct name of your project
       (e.g. `platform-services-python-sdk`).
-    
+
   - `<package>/__init__.py`:
+
     - modify module docstring to contain a description for your package
       (e.g. `"""Python client library for the IBM Cloud Platform Services"""`)
     - comment out the import for `ExampleServiceV1` (later, you'll add a similar
       import for each service added to your project).
-    
+
   - `pylint.sh`:
+
     - modify `mysdk` to be `<package>`
 
   - `requirements.txt`: make sure that the version specified for the `ibm_cloud_sdk_core` dependency
@@ -224,13 +240,16 @@ that will guide you in the required modifications:
       - `author_email`
       - `url`
   - `tox.ini`:
+
     - change `mysdk` to be `<package>`
 
   - `.travis.yml`:
+
     - Uncomment the `matrix` section.
     - Remove the `jobs` section as this is only applicable to the template repository's build.
-    
+
   - `README.md`:
+
     - Change the title to reflect your project; leave the version in the title as `0.0.1`
     - Change the `cloud.ibm.com/apidocs` link to reflect the correct service category
       (e.g. `platform-services`)
@@ -252,6 +271,7 @@ At this point, it's probably a good idea to commit the changes that you have mad
 Be sure to use proper commit messages when committing changes (follow the link in `CONTRIBUTING.md`
 to the common CONTRIBUTING document).  
 Example:
+
 ```sh
 cd <project-root>
 git add .
@@ -259,12 +279,13 @@ git commit -m "chore: initial SDK project setup"
 ```
 
 ### 3. Add one or more services to the project
+
 For each service that you'd like to add to your SDK project, follow
 [these instructions](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/CONTRIBUTING_python.md#adding-a-new-service).
 
-
 ### 4. Test your SDK
-SDK tests are organized into *unit* and *integration* tests, which are located in
+
+SDK tests are organized into _unit_ and _integration_ tests, which are located in
 `test/unit/` and `test/integration/`, respectively.
 Unit tests mock the request framework and test that request objects are constructed properly.
 Integration tests make requests to live service instances and test that the SDK works as intended
@@ -281,6 +302,7 @@ pytest test
 ```
 
 ## Integration tests
+
 Integration tests must be developed by hand.
 For integration tests to run properly with an actual running instance of the service,
 credentials (e.g. IAM api key, etc.) must be provided as external configuration properties.
@@ -297,6 +319,7 @@ Any additional files needed for testing (such as an image to send to a visual re
 should be placed in `test/resources/`.
 
 ## Continuous Integration
+
 This repository is set up to use [Travis](https://travis-ci.com/)
 or [Travis Enterprise](https://travis.ibm.com) for continuous integration.
 
@@ -307,37 +330,42 @@ For details related to the `travis.yml` file, see
 [this](https://docs.travis-ci.com/user/customizing-the-build/)
 
 ### Release management with semantic-release
+
 The `.travis.yml` file included in this template repository is configured to
 perform automated release management with
 [semantic-release](https://semantic-release.gitbook.io/semantic-release/).
 
 When you configure your SDK project in Travis, be sure to set this environment variable in your
-Travis build settings:  
+Travis build settings:
+
 - `GH_TOKEN`: set this to the Github oauth token for a user having "push" access to your repository
 
 If you are using `Travis Enterprise` (travis.ibm.com), you'll need to add these environment variables
-as well:  
+as well:
+
 - `GH_URL`: set this to the string `https://github.ibm.com`
 - `GH_PREFIX`: set this to the string `/api/v3`
 
 ### Publishing build outputs to PyPI
+
 If you will be publishing your build outputs to
 [PyPI](https://pypi.org/), you'll need to add this environment variable to your
-Travis build settings:  
+Travis build settings:
+
 - `PYPI_TOKEN`: set this to your [PyPI API token](https://pypi.org/help/#apitoken)
 
 ### Encrypting secrets
+
 To run integration tests within a Travis build, you'll need to encrypt the file containing the
 required external configuration properties.
 For details on how to do this, please see
 [this](https://github.com/IBM/ibm-cloud-sdk-common/blob/master/EncryptingSecrets.md)
 
-
-## Setting the ``User-Agent`` Header In Preparation for SDK Metrics Gathering
+## Setting the `User-Agent` Header In Preparation for SDK Metrics Gathering
 
 If you plan to gather metrics for your SDK, the `User-Agent` header value must be
 a string similar to the following:
-   `my-python-sdk/0.0.1 (lang=python; arch=x86_64; os=Linux; python.version=3.7.4)`
+`my-python-sdk/0.0.1 (lang=python; arch=x86_64; os=Linux; python.version=3.7.4)`
 
 The key parts are the sdk name (`my-python-sdk`), version (`0.0.1`) and the
 language name (`lang=python`).
@@ -352,9 +380,9 @@ Python SDK. The rest of the system information should remain as-is.
 For example, suppose your Python SDK project is called `platform-services-python-sdk` and its
 version is `2.3.1`.
 The `User-Agent` header value should be:
-   `platform-services-python-sdk/2.3.1 (lang=python; arch=x86_64; os=Linux; python.version=3.7.4)`
+`platform-services-python-sdk/2.3.1 (lang=python; arch=x86_64; os=Linux; python.version=3.7.4)`
 
-__Note__: It is very important that the sdk name ends with the string `-sdk`,
+**Note**: It is very important that the sdk name ends with the string `-sdk`,
 as the analytics data collector uses this to gather usage data.
 
 More information about the analytics tool, and other steps you should take to start gathering

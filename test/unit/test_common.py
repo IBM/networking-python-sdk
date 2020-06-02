@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2019 IBM All Rights Reserved.
+# Copyright 2020 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ Test methods in the common module
 """
 
 import unittest
-from mysdk import common
+from ibm_cloud_networking_services import common
+
 
 class TestCommon(unittest.TestCase):
     """
@@ -30,10 +31,12 @@ class TestCommon(unittest.TestCase):
         """
         Test the get_sdk_headers method
         """
-        headers = common.get_sdk_headers(service_name='example_service', service_version='V1', operation_id='operation1')
+        headers = common.get_sdk_headers(
+            service_name='example_service', service_version='V1', operation_id='operation1')
         self.assertIsNotNone(headers)
         self.assertIsNotNone(headers.get('User-Agent'))
-        self.assertIn('my-python-sdk', headers.get('User-Agent'))
+        self.assertIn('networking-services-python-sdk',
+                      headers.get('User-Agent'))
 
     def test_get_system_info(self):
         """

@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2019 IBM All Rights Reserved.
+# Copyright 2020 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,19 +19,20 @@ This module provides common methods for use across all service modules.
 """
 
 import platform
-from mysdk.version import __version__
+from .version import __version__
 
 HEADER_NAME_USER_AGENT = 'User-Agent'
-SDK_NAME = 'my-python-sdk'
+SDK_NAME = 'networking-services-python-sdk'
+
 
 def get_system_info():
     """
     Get information about the system to be inserted into the User-Agent header.
     """
     return 'lang={0}; arch={1}; os={2}; python.version={3}'.format('python',
-                                platform.machine(), # Architecture
-                                platform.system(), # OS
-                                platform.python_version()) # Python version
+                                                                   platform.machine(),  # Architecture
+                                                                   platform.system(),  # OS
+                                                                   platform.python_version())  # Python version
 
 
 def get_user_agent():
@@ -47,7 +48,7 @@ USER_AGENT = '{0}/{1} ({2})'.format(SDK_NAME, __version__, get_system_info())
 def get_sdk_headers(service_name, service_version, operation_id):
     """
     Get the request headers to be sent in requests by the SDK.
-    
+
     If you plan to gather metrics for your SDK, the User-Agent header value must
     be a string similar to the following:
     my-python-sdk/0.0.1 (lang=python; arch=x86_64; os=Linux; python.version=3.7.4)
