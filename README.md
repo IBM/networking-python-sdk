@@ -87,13 +87,13 @@ IBM Cloud services:
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade "ibm-networking-services>=0.0.1"
+pip install --upgrade "ibm-cloud-networking-services>=0.0.1"
 ```
 
 or
 
 ```bash
-easy_install --upgrade "ibm-networking-servies>=0.0.1"
+easy_install --upgrade "ibm-cloud-networking-servies>=0.0.1"
 ```
 
 ## Using the SDK
