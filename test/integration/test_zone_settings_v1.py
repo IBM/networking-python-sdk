@@ -7,6 +7,7 @@ import os
 import unittest
 from ibm_cloud_networking_services.zones_settings_v1 import ZonesSettingsV1
 
+
 class TestZonesSettingsV1(unittest.TestCase):
     """ Sample function to call zones sdk functions """
 
@@ -252,10 +253,10 @@ class TestZonesSettingsV1(unittest.TestCase):
         domain = self.url.split('.')[0]
         if result.get('value').get('status') == 'on':
             self.value = {
-                    "status": "off",
-                    "mobile_subdomain": domain,
-                    "strip_uri": False
-                }
+                "status": "off",
+                "mobile_subdomain": domain,
+                "strip_uri": False
+            }
         else:
             self.value = {
                 "status": "on",
@@ -462,6 +463,18 @@ class TestZonesSettingsV1(unittest.TestCase):
         response = self.zonesSettings.update_challenge_ttl(
             value=self.value).get_result()
         assert response is not None and response.get('success') is True
+
+    def test_1_cipher_setting(self):
+        """ Get cipher setting """
+        response = self.zonesSettings.get_ciphers().get_result()
+        assert response is not None and response.get('success') is True
+
+        """ Update cipher setting """
+        response = self.zonesSettings.update_ciphers(
+            value=["AES256-GCM-SHA384", "AES256-SHA256"]).get_result()
+        print("update", response)
+        assert response is not None and response.get('success') is True
+
 
 if __name__ == '__main__':
     unittest.main()

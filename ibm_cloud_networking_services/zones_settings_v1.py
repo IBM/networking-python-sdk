@@ -2321,3 +2321,82 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
+    #########################
+    # Get Ciphers setting
+    #########################
+
+
+    def get_ciphers(self, *, accept: str = None, **kwargs) -> DetailedResponse:
+        """
+        get ciphers setting.
+
+        Get ciphers setting for a zone.
+
+        :param str accept: (optional) The type of the response: *_/_* or
+               application/json.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CiphersResp` object
+        """
+
+        headers = {
+            'Accept': accept
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_ciphers')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/settings/ciphers'.format(*self.encode_path_vars(self.crn, self.zone_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Update Ciphers setting
+    #########################
+
+
+    def update_ciphers(self, *, accept: str = None, value: List[List[str]] = None, **kwargs) -> DetailedResponse:
+        """
+        Update ciphers setting.
+
+        Update ciphers setting for a zone.
+
+        :param str accept: (optional) The type of the response: *_/_* or
+               application/json.
+        :param List[List[str]] value: (optional) Value.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CiphersResp` object
+        """
+
+        headers = {
+            'Accept': accept
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='update_ciphers')
+        headers.update(sdk_headers)
+
+        data = {
+            'value': value
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/settings/ciphers'.format(*self.encode_path_vars(self.crn, self.zone_identifier))
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+

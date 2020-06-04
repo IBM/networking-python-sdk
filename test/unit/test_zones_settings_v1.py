@@ -19,7 +19,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services.zones_settings_v1 import ZonesSettingsV1
+from ibm_cloud.zones_settings_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -1475,7 +1475,6 @@ class TestUpdateMinify():
             html=html,
             js=js,
         )
-        print(response)
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
@@ -3816,5 +3815,140 @@ class TestUpdateWebApplicationFirewall():
 # endregion
 ##############################################################################
 # End of Service: UpdateWebApplicationFirewallSetting
+##############################################################################
+
+##############################################################################
+# Start of Service: GetCiphersSetting
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for get_ciphers
+#-----------------------------------------------------------------------------
+class TestGetCiphers():
+
+    #--------------------------------------------------------
+    # get_ciphers()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_ciphers_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/ciphers'
+        mock_response = '{"result": {"id": "ciphers", "value": [["value"]], "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='*/*',
+                      status=200)
+
+        # Set up parameter values
+        accept = 'testString'
+
+        # Invoke method
+        response = service.get_ciphers(
+            accept=accept
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_ciphers_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_ciphers_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/ciphers'
+        mock_response = '{"result": {"id": "ciphers", "value": [["value"]], "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='*/*',
+                      status=200)
+
+        # Invoke method
+        response = service.get_ciphers()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+# endregion
+##############################################################################
+# End of Service: GetCiphersSetting
+##############################################################################
+
+##############################################################################
+# Start of Service: UpdateCiphersSetting
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for update_ciphers
+#-----------------------------------------------------------------------------
+class TestUpdateCiphers():
+
+    #--------------------------------------------------------
+    # update_ciphers()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_ciphers_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/ciphers'
+        mock_response = '{"result": {"id": "ciphers", "value": [["value"]], "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='*/*',
+                      status=200)
+
+        # Set up parameter values
+        accept = 'testString'
+        value = [['ECDHE-ECDSA-AES128-GCM-SHA256']]
+
+        # Invoke method
+        response = service.update_ciphers(
+            accept=accept,
+            value=value,
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['value'] == value
+
+
+    #--------------------------------------------------------
+    # test_update_ciphers_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_ciphers_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/ciphers'
+        mock_response = '{"result": {"id": "ciphers", "value": [["value"]], "editable": true, "modified_on": "2019-01-01T12:00:00"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='*/*',
+                      status=200)
+
+        # Invoke method
+        response = service.update_ciphers()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+# endregion
+##############################################################################
+# End of Service: UpdateCiphersSetting
 ##############################################################################
 
