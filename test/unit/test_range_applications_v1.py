@@ -18,8 +18,9 @@ from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthen
 import inspect
 import json
 import pytest
+import requests
 import responses
-from ibm_cloud_networking_services import RangeApplicationsV1
+from ibm_cloud.range_applications_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -57,13 +58,30 @@ class TestListRangeApps():
                       content_type='application/json',
                       status=200)
 
-        # Invoke method
-        response = service.list_range_apps()
+        # Set up parameter values
+        page = 38
+        per_page = 38
+        order = 'protocol'
+        direction = 'asc'
 
+        # Invoke method
+        response = service.list_range_apps(
+            page=page,
+            per_page=per_page,
+            order=order,
+            direction=direction
+        )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = requests.utils.unquote(query_string)
+        assert 'page={}'.format(page) in query_string
+        assert 'per_page={}'.format(per_page) in query_string
+        assert 'order={}'.format(order) in query_string
+        assert 'direction={}'.format(direction) in query_string
 
 
     #--------------------------------------------------------

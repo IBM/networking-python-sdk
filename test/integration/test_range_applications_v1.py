@@ -18,7 +18,8 @@ class TestRangeApplicationsApiV1(unittest.TestCase):
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")
         self.url = os.getenv("URL")
-        self.rapp = RangeApplicationsV1.new_instance(crn=self.crn, zone_identifier=self.zone_id, service_name="cis_services")
+        self.rapp = RangeApplicationsV1.new_instance(
+            crn=self.crn, zone_identifier=self.zone_id, service_name="cis_services")
         self.rapp.set_service_url(self.endpoint)
         self._clean_up_page_apps()
 
@@ -137,11 +138,6 @@ class TestRangeApplicationsApiV1(unittest.TestCase):
 
     def test_1_list_range_apps(self):
         protocol = "tcp/22"
-        dns = {
-            "type": "CNAME",
-            "name": "example5." + self.url
-        }
-        origin_direct = ["tcp://12.1.1.1:22"]
         origin_port = 22
         ip_firewall = True
         proxy_protocol = "off"
@@ -153,16 +149,23 @@ class TestRangeApplicationsApiV1(unittest.TestCase):
         tls = "off"
 
         # create range app
-        resp = self.rapp.create_range_app(protocol=protocol, dns=dns, origin_direct=origin_direct,
-                                          origin_port=origin_port, ip_firewall=ip_firewall, proxy_protocol=proxy_protocol, edge_ips=edge_ips, traffic_type=traffic_type, tls=tls)
-        assert resp is not None
-        assert resp.status_code == 200
+        for i in range(1, 10, 1):
+            number = str(i)
+            dns = {
+                "type": "CNAME",
+                "name": "example" + number + "." + self.url
+            }
+            origin_direct = ["tcp://12.1.1." + number + ":22"]
+            resp = self.rapp.create_range_app(protocol=protocol, dns=dns, origin_direct=origin_direct,
+                                              origin_port=origin_port, ip_firewall=ip_firewall, proxy_protocol=proxy_protocol, edge_ips=edge_ips, traffic_type=traffic_type, tls=tls)
+            assert resp is not None
+            assert resp.status_code == 200
 
         name = "origin1.net"
         protocol = "tcp/22"
         dns = {
             "type": "CNAME",
-            "name": "example1." + self.url
+            "name": "example50." + self.url
         }
         origin_dns = {
             "name": name
@@ -185,12 +188,21 @@ class TestRangeApplicationsApiV1(unittest.TestCase):
         assert resp.get_result().get("result").get("origin_dns").get("name") == name
 
         resp = self.rapp.list_range_apps()
+        assert resp is not None
+        assert resp.status_code == 200
 
+        # list range apps by page and per page input
+        resp = self.rapp.list_range_apps(
+            page=2, per_page=5, order="created_on", direction="asc")
+        assert resp is not None
+        assert resp.status_code == 200
+        assert resp.get_result().get("result_info").get("page") == 2
+        assert resp.get_result().get("result_info").get("per_page") == 5
+
+        resp = self.rapp.list_range_apps()
         for id in resp.get_result().get("result"):
             # delete range app
             resp = self.rapp.delete_range_app(app_identifier=id.get("id"))
-            assert resp is not None
-            assert resp.status_code == 200
 
     def test_1_range_app_origin_direct_ip_firewall(self):
         protocol = "tcp/22"

@@ -103,12 +103,19 @@ class RangeApplicationsV1(BaseService):
     #########################
 
 
-    def list_range_apps(self, **kwargs) -> DetailedResponse:
+    def list_range_apps(self, *, page: int = None, per_page: int = None, order: str = None, direction: str = None, **kwargs) -> DetailedResponse:
         """
         Get a list of currently existing Range Applications inside a zone.
 
         Get a list of currently existing Range Applications inside a zone.
 
+        :param int page: (optional) Page number of paginated results.
+        :param int per_page: (optional) Maximum number of Range applications per
+               page.
+        :param str order: (optional) Field by which to order the list of Range
+               applications.
+        :param str direction: (optional) Direction in which to order results
+               [ascending/descending order].
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `RangeApplications` object
@@ -118,13 +125,21 @@ class RangeApplicationsV1(BaseService):
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='list_range_apps')
         headers.update(sdk_headers)
 
+        params = {
+            'page': page,
+            'per_page': per_page,
+            'order': order,
+            'direction': direction
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
         url = '/v1/{0}/zones/{1}/range/apps'.format(*self.encode_path_vars(self.crn, self.zone_identifier))
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
         response = self.send(request)
         return response
