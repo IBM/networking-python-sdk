@@ -7,8 +7,8 @@ Integration test code to execute dns records api
 
 import os
 import unittest
-from ibm_cloud_pdns_services.dns_zones_v1 import DnsZonesV1
-from ibm_cloud_pdns_services.resource_records_v1 import ResourceRecordsV1
+from ibm_cloud_networking_services import DnsZonesV1
+from ibm_cloud_networking_services import ResourceRecordsV1
 
 
 class TestResourceRecordsV1(unittest.TestCase):

@@ -7,8 +7,8 @@ Integration test code to execute dns permitted networks api
 
 import os
 import unittest
-from ibm_cloud_pdns_services.dns_zones_v1 import DnsZonesV1
-from ibm_cloud_pdns_services.permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
+from ibm_cloud_networking_services import DnsZonesV1
+from ibm_cloud_networking_services import PermittedNetworksForDnsZonesV1
 
 
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
@@ -56,7 +56,7 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
             'vpc_crn': self.vpc_crn
         }
         # permit = [pnw]
-        resp = self.nw.create_permitted_networks(
+        resp = self.nw.create_permitted_network(
             instance_id=self.instance_id, dnszone_id=self.zone_id, type='vpc', permitted_network=pnw)
         assert resp is not None
         assert resp.status_code == 200

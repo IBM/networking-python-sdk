@@ -7,7 +7,9 @@ Integration test code to execute ssl certificate client functions
 
 import os
 import unittest
+import time
 from ibm_cloud_networking_services import SslCertificateApiV1
+from ibm_cloud_sdk_core import ApiException
 
 
 class TestSSLCertV1(unittest.TestCase):
@@ -18,6 +20,7 @@ class TestSSLCertV1(unittest.TestCase):
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")
+        self.url = os.getenv("URL")
         self.ssl = SslCertificateApiV1.new_instance(
             crn=self.crn, zone_identifier=self.zone_id, service_name="cis_services")
         self.ssl.set_service_url(self.endpoint)
@@ -25,6 +28,7 @@ class TestSSLCertV1(unittest.TestCase):
         self.private_key = os.getenv("PRIVATE_KEY")
         self.update_certificate = os.getenv("UPDATE_CERTIFICATE")
         self.update_private_key = os.getenv("UPDATE_PRIVATE_KEY")
+        self._clean_ssl_certificates()
 
     def tearDown(self):
         """ tear down """
@@ -37,7 +41,13 @@ class TestSSLCertV1(unittest.TestCase):
         certs = resp.get_result().get("result")
         for cert in certs:
             print("ssl certificate id", cert.get("id"))
-            self.ssl.delete_certificate(cert.get("id"))
+            try:
+                self.ssl.delete_certificate(cert.get("id"))
+            except ApiException:
+                print ('Error: Bad response certificate service, Code: 400')
+                # deleting ssl certificate will be pending state for a while.
+                # So, wait for 60 sec and re-run the test.
+                time.sleep(60)
 
     def test_1_list_certificates(self):
         """ test method list all ssl certificate packs """
@@ -49,7 +59,7 @@ class TestSSLCertV1(unittest.TestCase):
         """ test method for order/view/delete ssl certificate packs """
         # order certificate
         resp = self.ssl.order_certificate(
-            x_correlation_id="1234", type="dedicated", hosts=["sdk.cistest-load.com"])
+            x_correlation_id="1234", type="dedicated", hosts=[self.url])
         assert resp is not None
         assert resp.status_code == 200
         cert_id = resp.get_result().get("result")["id"]

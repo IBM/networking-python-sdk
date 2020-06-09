@@ -19,7 +19,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud.zones_settings_v1 import *
+from ibm_cloud_networking_services.zones_settings_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'

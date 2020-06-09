@@ -20,7 +20,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services import *
+from ibm_cloud_networking_services.permitted_networks_for_dns_zones_v1 import *
 
 
 service = PermittedNetworksForDnsZonesV1(
@@ -47,7 +47,7 @@ class TestListPermittedNetworks():
     def test_list_permitted_networks_all_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks'
-        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?limit=10"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?offset=1&limit=10"}}'
+        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?limit=10"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?offset=1&limit=10"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -87,7 +87,7 @@ class TestListPermittedNetworks():
     def test_list_permitted_networks_required_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks'
-        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?limit=10"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?offset=1&limit=10"}}'
+        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?limit=10"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:252926c6-7d0c-4d37-861a-1faca0041785/permitted_networks?offset=1&limit=10"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -110,18 +110,18 @@ class TestListPermittedNetworks():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for create_permitted_networks
+# Test Class for create_permitted_network
 #-----------------------------------------------------------------------------
-class TestCreatePermittedNetworks():
+class TestCreatePermittedNetwork():
 
     #--------------------------------------------------------
-    # create_permitted_networks()
+    # create_permitted_network()
     #--------------------------------------------------------
     @responses.activate
-    def test_create_permitted_networks_all_params(self):
+    def test_create_permitted_network_all_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks'
-        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}'
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -141,7 +141,7 @@ class TestCreatePermittedNetworks():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = service.create_permitted_networks(
+        response = service.create_permitted_network(
             instance_id,
             dnszone_id,
             type=type,
@@ -159,13 +159,13 @@ class TestCreatePermittedNetworks():
 
 
     #--------------------------------------------------------
-    # test_create_permitted_networks_required_params()
+    # test_create_permitted_network_required_params()
     #--------------------------------------------------------
     @responses.activate
-    def test_create_permitted_networks_required_params(self):
+    def test_create_permitted_network_required_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks'
-        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}'
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -177,7 +177,7 @@ class TestCreatePermittedNetworks():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = service.create_permitted_networks(
+        response = service.create_permitted_network(
             instance_id,
             dnszone_id
         )
@@ -199,7 +199,7 @@ class TestDeletePermittedNetwork():
     def test_delete_permitted_network_all_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks/testString'
-        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}'
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.DELETE,
                       url,
                       body=mock_response,
@@ -232,7 +232,7 @@ class TestDeletePermittedNetwork():
     def test_delete_permitted_network_required_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks/testString'
-        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}'
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.DELETE,
                       url,
                       body=mock_response,
@@ -268,7 +268,7 @@ class TestGetPermittedNetwork():
     def test_get_permitted_network_all_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks/testString'
-        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}'
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -301,7 +301,7 @@ class TestGetPermittedNetwork():
     def test_get_permitted_network_required_params(self):
         # Set up mock
         url = base_url + '/instances/testString/dnszones/testString/permitted_networks/testString'
-        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": [{"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}], "type": "vpc", "state": "ACTIVE"}'
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,

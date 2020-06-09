@@ -20,7 +20,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services import *
+from ibm_cloud_networking_services.dns_zones_v1 import *
 
 
 service = DnsZonesV1(
@@ -57,8 +57,8 @@ class TestListDnszones():
         # Set up parameter values
         instance_id = 'testString'
         x_correlation_id = 'testString'
-        offset = 'testString'
-        limit = 'testString'
+        offset = 38
+        limit = 38
         vpc_id = 'testString'
 
         # Invoke method

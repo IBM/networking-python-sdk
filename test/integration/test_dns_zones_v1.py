@@ -7,7 +7,7 @@ Integration test code to execute dns zones
 
 import os
 import unittest
-from ibm_cloud_pdns_services.dns_zones_v1 import DnsZonesV1
+from ibm_cloud_networking_services import DnsZonesV1
 
 
 class TestZonesV1(unittest.TestCase):
@@ -18,6 +18,8 @@ class TestZonesV1(unittest.TestCase):
         self.instance_id = os.getenv("INSTANCE_ID")
         # create zone class object
         self.zone = DnsZonesV1.new_instance(service_name="pdns_services")
+        # Delete the resources
+        self._clean_dns_zones()
 
     def tearDown(self):
         """ tear down """
@@ -30,10 +32,12 @@ class TestZonesV1(unittest.TestCase):
         response = self.zone.list_dnszones(instance_id=self.instance_id)
         assert response is not None
         assert response.status_code == 200
-        result = response.get_result().get("dnszones")
-        for zone in result:
-            print(zone.get("id"))
-            self.zone.delete_dnszone(instance_id=self.instance_id, dnszone_id=zone.get("id"))
+        result = response.get_result()
+        if result is not None:
+            zones = result.get("dnszones")
+            for zone in zones:
+                print(zone.get("id"))
+                self.zone.delete_dnszone(instance_id=self.instance_id, dnszone_id=zone.get("id"))
 
     def test_1_pdns_zone_action(self):
         """ test private dns zone create/delete/update/get functionality """
@@ -93,7 +97,20 @@ class TestZonesV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
-        resp = self.zone.list_dnszones(instance_id=self.instance_id)
+        name = "test.example36.com"
+        # create dns zone
+        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        name = "test.example37.com"
+        # create dns zone
+        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        assert resp is not None
+        assert resp.status_code == 200
+
+
+        resp = self.zone.list_dnszones(instance_id=self.instance_id, offset=1, limit=2)
         assert resp is not None
         assert resp.status_code == 200
 

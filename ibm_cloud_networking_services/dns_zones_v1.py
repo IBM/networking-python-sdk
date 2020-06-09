@@ -75,7 +75,7 @@ class DnsZonesV1(BaseService):
     #########################
 
 
-    def list_dnszones(self, instance_id: str, *, x_correlation_id: str = None, offset: str = None, limit: str = None, vpc_id: str = None, **kwargs) -> DetailedResponse:
+    def list_dnszones(self, instance_id: str, *, x_correlation_id: str = None, offset: int = None, limit: int = None, vpc_id: str = None, **kwargs) -> DetailedResponse:
         """
         List DNS zones.
 
@@ -83,9 +83,9 @@ class DnsZonesV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param str offset: (optional) Specify how many DNS zones to skip over, the
+        :param int offset: (optional) Specify how many DNS zones to skip over, the
                default value is 0.
-        :param str limit: (optional) Specify how many DNS zones are returned, the
+        :param int limit: (optional) Specify how many DNS zones are returned, the
                default value is 10.
         :param str vpc_id: (optional) Specify the VPC instance id.
         :param dict headers: A `dict` containing the request headers

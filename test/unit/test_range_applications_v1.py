@@ -20,7 +20,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud.range_applications_v1 import *
+from ibm_cloud_networking_services.range_applications_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'

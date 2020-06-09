@@ -121,7 +121,7 @@ class PermittedNetworksForDnsZonesV1(BaseService):
         return response
 
 
-    def create_permitted_networks(self, instance_id: str, dnszone_id: str, *, type: str = None, permitted_network: 'PermittedNetworkVpc' = None, x_correlation_id: str = None, **kwargs) -> DetailedResponse:
+    def create_permitted_network(self, instance_id: str, dnszone_id: str, *, type: str = None, permitted_network: 'PermittedNetworkVpc' = None, x_correlation_id: str = None, **kwargs) -> DetailedResponse:
         """
         Create a permitted network.
 
@@ -147,7 +147,7 @@ class PermittedNetworksForDnsZonesV1(BaseService):
         headers = {
             'X-Correlation-ID': x_correlation_id
         }
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='create_permitted_networks')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='create_permitted_network')
         headers.update(sdk_headers)
 
         data = {
