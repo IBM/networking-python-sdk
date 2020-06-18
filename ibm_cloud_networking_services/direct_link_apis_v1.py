@@ -95,6 +95,326 @@ class DirectLinkApisV1(BaseService):
     #########################
 
 
+    def list_gateways(self,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List gateways.
+
+        List all Direct Link gateways in this account.  Gateways in other accounts with
+        connections to networks in this account are also returned.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `GatewayCollection` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_gateways')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
+    def create_gateway(self,
+        gateway_template: 'GatewayTemplate',
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create gateway.
+
+        Creates a Direct Link gateway based on the supplied template.
+
+        :param GatewayTemplate gateway_template: The Direct Link Gateway template.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
+        """
+
+        if gateway_template is None:
+            raise ValueError('gateway_template must be provided')
+        if isinstance(gateway_template, GatewayTemplate):
+            gateway_template = convert_model(gateway_template)
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_gateway')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        data = json.dumps(gateway_template)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def delete_gateway(self,
+        id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete gateway.
+
+        Delete a Direct Link gateway.
+
+        :param str id: Direct Link gateway identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if id is None:
+            raise ValueError('id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_gateway')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways/{0}'.format(
+            *self.encode_path_vars(id))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
+    def get_gateway(self,
+        id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get gateway.
+
+        Retrieve a Direct Link gateway.
+
+        :param str id: Direct Link gateway identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
+        """
+
+        if id is None:
+            raise ValueError('id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_gateway')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways/{0}'.format(
+            *self.encode_path_vars(id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
+    def update_gateway(self,
+        id: str,
+        *,
+        global_: bool = None,
+        loa_reject_reason: str = None,
+        metered: bool = None,
+        name: str = None,
+        operational_status: str = None,
+        speed_mbps: int = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update gateway.
+
+        Update a Direct Link gateway.
+
+        :param str id: Direct Link gateway identifier.
+        :param bool global_: (optional) Gateways with global routing (`true`) can
+               connect to networks outside of their associated region.
+        :param str loa_reject_reason: (optional) Use this field during LOA
+               rejection to provide the reason for the rejection.
+               Only allowed for type=dedicated gateways.
+        :param bool metered: (optional) Metered billing option.  When `true`
+               gateway usage is billed per gigabyte.  When `false` there is no per
+               gigabyte usage charge, instead a flat rate is charged for the gateway.
+        :param str name: (optional) The unique user-defined name for this gateway.
+        :param str operational_status: (optional) Gateway operational status.
+               For gateways pending LOA approval, patch operational_status to the
+               appropriate value to approve or reject its LOA.  When rejecting an LOA,
+               provide reject reasoning in `loa_reject_reason`.
+               Only allowed for type=dedicated gateways.
+        :param int speed_mbps: (optional) Gateway speed in megabits per second.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
+        """
+
+        if id is None:
+            raise ValueError('id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_gateway')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        data = {
+            'global': global_,
+            'loa_reject_reason': loa_reject_reason,
+            'metered': metered,
+            'name': name,
+            'operational_status': operational_status,
+            'speed_mbps': speed_mbps
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways/{0}'.format(
+            *self.encode_path_vars(id))
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def create_gateway_action(self,
+        id: str,
+        action: str,
+        *,
+        global_: bool = None,
+        metered: bool = None,
+        resource_group: 'ResourceGroupIdentity' = None,
+        updates: List[object] = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Approve or reject change requests.
+
+        Approve or reject a gateway's current oustanding change request.
+        This API is only used for provider created Direct Link Connect gateways to approve
+        or reject specific changes initiated from a provider portal.
+
+        :param str id: Direct Link Connect gateway identifier.
+        :param str action: Action request.
+        :param bool global_: (optional) Set for create_gateway_approve requests to
+               select the gateway's routing option.  Gateways with global routing (`true`)
+               can connect to networks outside of their associated region.
+        :param bool metered: (optional) Set for create_gateway_approve requests to
+               select the gateway's metered billing option.  When `true` gateway usage is
+               billed per gigabyte.  When `false` there is no per gigabyte usage charge,
+               instead a flat rate is charged for the gateway.
+        :param ResourceGroupIdentity resource_group: (optional) Set for
+               create_gateway_approve requests to select the gateway's resource group.
+        :param List[object] updates: (optional) Specify attribute updates being
+               approved or rejected, update_attributes_approve and
+               update_attributes_reject actions must provide an updates field that matches
+               the gateway's current pending changes.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
+        """
+
+        if id is None:
+            raise ValueError('id must be provided')
+        if action is None:
+            raise ValueError('action must be provided')
+        if resource_group is not None:
+            resource_group = convert_model(resource_group)
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_gateway_action')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        data = {
+            'action': action,
+            'global': global_,
+            'metered': metered,
+            'resource_group': resource_group,
+            'updates': updates
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways/{0}/actions'.format(
+            *self.encode_path_vars(id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
     def list_gateway_completion_notice(self,
         id: str,
         **kwargs
@@ -187,310 +507,6 @@ class DirectLinkApisV1(BaseService):
         return response
 
 
-    def list_gateways(self,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        List gateways.
-
-        List all Direct Link gateways in this account.  Gateways in other accounts with
-        connections to networks in this account are also returned.
-
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `GatewayCollection` object
-        """
-
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_gateways')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request)
-        return response
-
-
-    def create_gateway(self,
-        gateway_template: 'GatewayTemplate',
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Create gateway.
-
-        Creates a Direct Link gateway based on the supplied template.
-
-        :param GatewayTemplate gateway_template: The Direct Link Gateway template.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
-        """
-
-        if gateway_template is None:
-            raise ValueError('gateway_template must be provided')
-        if isinstance(gateway_template, GatewayTemplate):
-            gateway_template = convert_model(gateway_template)
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_gateway')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        data = json.dumps(gateway_template)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways'
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
-
-        response = self.send(request)
-        return response
-
-
-    def get_gateway(self,
-        id: str,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Get gateway.
-
-        Retrieve a Direct Link gateway.
-
-        :param str id: Direct Link gateway identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
-        """
-
-        if id is None:
-            raise ValueError('id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_gateway')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways/{0}'.format(
-            *self.encode_path_vars(id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request)
-        return response
-
-
-    def update_gateway(self,
-        id: str,
-        *,
-        name: str = None,
-        speed_mbps: int = None,
-        operational_status: str = None,
-        loa_reject_reason: str = None,
-        global_: bool = None,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Update gateway.
-
-        Update a Direct Link gateway.
-
-        :param str id: Direct Link gateway identifier.
-        :param str name: (optional) The unique user-defined name for this gateway.
-        :param int speed_mbps: (optional) Gateway speed in megabits per second.
-        :param str operational_status: (optional) Gateway operational status.
-               For gateways pending LOA approval, patch operational_status to the
-               appropriate value to approve or reject its LOA.  When rejecting an LOA,
-               provide reject reasoning in `loa_reject_reason`.
-               Only allowed for type=dedicated gateways.
-        :param str loa_reject_reason: (optional) Use this field during LOA
-               rejection to provide the reason for the rejection.
-               Only allowed for type=dedicated gateways.
-        :param bool global_: (optional) Gateways with global routing (`true`) can
-               connect to networks outside of their associated region.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
-        """
-
-        if id is None:
-            raise ValueError('id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_gateway')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        data = {
-            'name': name,
-            'speed_mbps': speed_mbps,
-            'operational_status': operational_status,
-            'loa_reject_reason': loa_reject_reason,
-            'global': global_
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways/{0}'.format(
-            *self.encode_path_vars(id))
-        request = self.prepare_request(method='PATCH',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
-
-        response = self.send(request)
-        return response
-
-
-    def delete_gateway(self,
-        id: str,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Delete gateway.
-
-        Delete a Direct Link gateway.
-
-        :param str id: Direct Link gateway identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if id is None:
-            raise ValueError('id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_gateway')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways/{0}'.format(
-            *self.encode_path_vars(id))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request)
-        return response
-
-
-    def create_gateway_action(self,
-        id: str,
-        action: str,
-        *,
-        resource_group: 'ResourceGroupIdentity' = None,
-        updates: List[object] = None,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Approve or reject change requests.
-
-        Approve or reject a gateway's current oustanding change request.
-        This API is only used for provider created Direct Link Connect gateways to approve
-        or reject specific changes initiated from a provider portal.
-
-        :param str id: Direct Link Connect gateway identifier.
-        :param str action: Action request.
-        :param ResourceGroupIdentity resource_group: (optional) Set for
-               create_gateway_approve requests to select the gateway's resource group.
-        :param List[object] updates: (optional) Specify attribute updates being
-               approved or rejected, update_attributes_approve and
-               update_attributes_reject actions must provide an updates field that matches
-               the gateway's current pending changes.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
-        """
-
-        if id is None:
-            raise ValueError('id must be provided')
-        if action is None:
-            raise ValueError('action must be provided')
-        if resource_group is not None:
-            resource_group = convert_model(resource_group)
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_gateway_action')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        data = {
-            'action': action,
-            'resource_group': resource_group,
-            'updates': updates
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways/{0}/actions'.format(
-            *self.encode_path_vars(id))
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
-
-        response = self.send(request)
-        return response
-
-
     def list_gateway_letter_of_authorization(self,
         id: str,
         **kwargs
@@ -536,6 +552,48 @@ class DirectLinkApisV1(BaseService):
     #########################
 
 
+    def list_offering_type_locations(self,
+        offering_type: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List available locations.
+
+        Retrieve the list of valid locations for the specified Direct Link offering.
+
+        :param str offering_type: The Direct Link offering type.  Current supported
+               values are `"dedicated"` and `"connect"`.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LocationCollection` object
+        """
+
+        if offering_type is None:
+            raise ValueError('offering_type must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_offering_type_locations')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/offering_types/{0}/locations'.format(
+            *self.encode_path_vars(offering_type))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
     def list_offering_type_location_cross_connect_routers(self,
         offering_type: str,
         location_name: str,
@@ -574,48 +632,6 @@ class DirectLinkApisV1(BaseService):
 
         url = '/offering_types/{0}/locations/{1}/cross_connect_routers'.format(
             *self.encode_path_vars(offering_type, location_name))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request)
-        return response
-
-
-    def list_offering_type_locations(self,
-        offering_type: str,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        List available locations.
-
-        Retrieve the list of valid locations for the specified Direct Link offering.
-
-        :param str offering_type: The Direct Link offering type.  Current supported
-               values are `"dedicated"` and `"connect"`.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `LocationCollection` object
-        """
-
-        if offering_type is None:
-            raise ValueError('offering_type must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_offering_type_locations')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/offering_types/{0}/locations'.format(
-            *self.encode_path_vars(offering_type))
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -874,6 +890,51 @@ class DirectLinkApisV1(BaseService):
         return response
 
 
+    def delete_gateway_virtual_connection(self,
+        gateway_id: str,
+        id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete virtual connection.
+
+        Delete the virtual connection.
+
+        :param str gateway_id: Direct Link gateway identifier.
+        :param str id: The virtual connection identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if gateway_id is None:
+            raise ValueError('gateway_id must be provided')
+        if id is None:
+            raise ValueError('id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_gateway_virtual_connection')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways/{0}/virtual_connections/{1}'.format(
+            *self.encode_path_vars(gateway_id, id))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
     def get_gateway_virtual_connection(self,
         gateway_id: str,
         id: str,
@@ -984,70 +1045,12 @@ class DirectLinkApisV1(BaseService):
         return response
 
 
-    def delete_gateway_virtual_connection(self,
-        gateway_id: str,
-        id: str,
-        **kwargs
-    ) -> DetailedResponse:
-        """
-        Delete virtual connection.
-
-        Delete the virtual connection.
-
-        :param str gateway_id: Direct Link gateway identifier.
-        :param str id: The virtual connection identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if gateway_id is None:
-            raise ValueError('gateway_id must be provided')
-        if id is None:
-            raise ValueError('id must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_gateway_virtual_connection')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version
-        }
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/gateways/{0}/virtual_connections/{1}'.format(
-            *self.encode_path_vars(gateway_id, id))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers,
-                                       params=params)
-
-        response = self.send(request)
-        return response
-
-
-class ListOfferingTypeLocationCrossConnectRoutersEnums:
-    """
-    Enums for list_offering_type_location_cross_connect_routers parameters.
-    """
-
-    class OfferingType(Enum):
-        """
-        The Direct Link offering type.  Only value `"dedicated"` is supported for this
-        API.
-        """
-        DEDICATED = 'dedicated'
-
-
 class ListOfferingTypeLocationsEnums:
     """
     Enums for list_offering_type_locations parameters.
     """
 
-    class OfferingType(Enum):
+    class OfferingType(str, Enum):
         """
         The Direct Link offering type.  Current supported values are `"dedicated"` and
         `"connect"`.
@@ -1056,12 +1059,25 @@ class ListOfferingTypeLocationsEnums:
         CONNECT = 'connect'
 
 
+class ListOfferingTypeLocationCrossConnectRoutersEnums:
+    """
+    Enums for list_offering_type_location_cross_connect_routers parameters.
+    """
+
+    class OfferingType(str, Enum):
+        """
+        The Direct Link offering type.  Only value `"dedicated"` is supported for this
+        API.
+        """
+        DEDICATED = 'dedicated'
+
+
 class ListOfferingTypeSpeedsEnums:
     """
     Enums for list_offering_type_speeds parameters.
     """
 
-    class OfferingType(Enum):
+    class OfferingType(str, Enum):
         """
         The Direct Link offering type.  Current supported values are `"dedicated"` and
         `"connect"`.
@@ -1144,175 +1160,217 @@ class Gateway():
     """
     gateway.
 
-    :attr str id: The unique identifier of this gateway.
-    :attr GatewayChangeRequest change_request: (optional) Changes pending approval
-          for provider managed Direct Link Connect gateways.
-    :attr datetime created_at: The date and time resource was created.
-    :attr str name: The unique user-defined name for this gateway.
-    :attr str operational_status: Gateway operational status.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
-    :attr bool provider_api_managed: (optional) Indicates whether gateway changes
-          must be made via a provider portal.
-    :attr str type: Gateway type.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
-    :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr bool global_: Gateways with global routing (`true`) can connect to
-          networks outside their associated region.
-    :attr str location_name: Gateway location.
-    :attr GatewayPort port: (optional) gateway port for type=connect gateways.
-    :attr str cross_connect_router: (optional) Cross connect router.  Only included
-          on type=dedicated gateways.
     :attr int bgp_asn: Customer BGP ASN.
-    :attr int bgp_ibm_asn: (optional) IBM BGP ASN.
-    :attr bool metered: Metered billing option.  When `true` gateway usage is billed
-          per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
-          flat rate is charged for the gateway.
     :attr str bgp_base_cidr: (optional) BGP base CIDR.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
     :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
-    :attr ResourceGroupReference resource_group: (optional) Resource group
-          reference.
-    :attr str dedicated_hosting_id: (optional) Dedicated Hosting associated with
-          this gateway.  Only set when the gateway is part of a Dedicated Hosting
-          solution.
+    :attr int bgp_ibm_asn: (optional) IBM BGP ASN.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
     :attr str bgp_status: (optional) Gateway BGP status.
           The list of enumerated values for this property may expand in the future. Code
           and processes using this field  must tolerate unexpected values.
+    :attr GatewayChangeRequest change_request: (optional) Changes pending approval
+          for provider managed Direct Link Connect gateways.
+    :attr str completion_notice_reject_reason: (optional) Reason for completion
+          notice rejection.  Only included on type=dedicated gateways with a rejected
+          completion notice.
+    :attr datetime created_at: The date and time resource was created.
+    :attr str crn: The CRN (Cloud Resource Name) of this gateway.
+    :attr str cross_connect_router: (optional) Cross connect router.  Only included
+          on type=dedicated gateways.
+    :attr str dedicated_hosting_id: (optional) Dedicated Hosting associated with
+          this gateway.  Only set when the gateway is part of a Dedicated Hosting
+          solution.
+    :attr bool global_: Gateways with global routing (`true`) can connect to
+          networks outside their associated region.
+    :attr str id: The unique identifier of this gateway.
     :attr str link_status: (optional) Gateway link status.  Only included on
           type=dedicated gateways.
           The list of enumerated values for this property may expand in the future. Code
           and processes using this field  must tolerate unexpected values.
-    :attr str completion_notice_reject_reason: (optional) Reason for completion
-          notice rejection.  Only included on type=dedicated gateways with a rejected
-          completion notice.
-    :attr str crn: The CRN (Cloud Resource Name) of this gateway.
     :attr str location_display_name: Gateway location long name.
+    :attr str location_name: Gateway location.
+    :attr bool metered: Metered billing option.  When `true` gateway usage is billed
+          per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
+          flat rate is charged for the gateway.
+    :attr str name: The unique user-defined name for this gateway.
+    :attr str operational_status: Gateway operational status.
+          The list of enumerated values for this property may expand in the future. Code
+          and processes using this field  must tolerate unexpected values.
+    :attr GatewayPort port: (optional) gateway port for type=connect gateways.
+    :attr bool provider_api_managed: (optional) Indicates whether gateway changes
+          must be made via a provider portal.
+    :attr ResourceGroupReference resource_group: (optional) Resource group
+          reference.
+    :attr int speed_mbps: Gateway speed in megabits per second.
+    :attr str type: Gateway type.
+          The list of enumerated values for this property may expand in the future. Code
+          and processes using this field  must tolerate unexpected values.
     :attr int vlan: (optional) VLAN allocated for this gateway.  Only set for
-          type=connect gateways created directly through the IBM portal.
+          type=connect gateways.
     """
 
     def __init__(self,
-                 id: str,
+                 bgp_asn: int,
                  created_at: datetime,
+                 crn: str,
+                 global_: bool,
+                 id: str,
+                 location_display_name: str,
+                 location_name: str,
+                 metered: bool,
                  name: str,
                  operational_status: str,
-                 type: str,
                  speed_mbps: int,
-                 global_: bool,
-                 location_name: str,
-                 bgp_asn: int,
-                 metered: bool,
-                 crn: str,
-                 location_display_name: str,
+                 type: str,
                  *,
-                 change_request: 'GatewayChangeRequest' = None,
-                 provider_api_managed: bool = None,
-                 port: 'GatewayPort' = None,
-                 cross_connect_router: str = None,
-                 bgp_ibm_asn: int = None,
                  bgp_base_cidr: str = None,
-                 bgp_ibm_cidr: str = None,
                  bgp_cer_cidr: str = None,
-                 resource_group: 'ResourceGroupReference' = None,
-                 dedicated_hosting_id: str = None,
+                 bgp_ibm_asn: int = None,
+                 bgp_ibm_cidr: str = None,
                  bgp_status: str = None,
-                 link_status: str = None,
+                 change_request: 'GatewayChangeRequest' = None,
                  completion_notice_reject_reason: str = None,
+                 cross_connect_router: str = None,
+                 dedicated_hosting_id: str = None,
+                 link_status: str = None,
+                 port: 'GatewayPort' = None,
+                 provider_api_managed: bool = None,
+                 resource_group: 'ResourceGroupReference' = None,
                  vlan: int = None) -> None:
         """
         Initialize a Gateway object.
 
-        :param str id: The unique identifier of this gateway.
+        :param int bgp_asn: Customer BGP ASN.
         :param datetime created_at: The date and time resource was created.
+        :param str crn: The CRN (Cloud Resource Name) of this gateway.
+        :param bool global_: Gateways with global routing (`true`) can connect to
+               networks outside their associated region.
+        :param str id: The unique identifier of this gateway.
+        :param str location_display_name: Gateway location long name.
+        :param str location_name: Gateway location.
+        :param bool metered: Metered billing option.  When `true` gateway usage is
+               billed per gigabyte.  When `false` there is no per gigabyte usage charge,
+               instead a flat rate is charged for the gateway.
         :param str name: The unique user-defined name for this gateway.
         :param str operational_status: Gateway operational status.
                The list of enumerated values for this property may expand in the future.
                Code and processes using this field  must tolerate unexpected values.
+        :param int speed_mbps: Gateway speed in megabits per second.
         :param str type: Gateway type.
                The list of enumerated values for this property may expand in the future.
                Code and processes using this field  must tolerate unexpected values.
-        :param int speed_mbps: Gateway speed in megabits per second.
-        :param bool global_: Gateways with global routing (`true`) can connect to
-               networks outside their associated region.
-        :param str location_name: Gateway location.
-        :param int bgp_asn: Customer BGP ASN.
-        :param bool metered: Metered billing option.  When `true` gateway usage is
-               billed per gigabyte.  When `false` there is no per gigabyte usage charge,
-               instead a flat rate is charged for the gateway.
-        :param str crn: The CRN (Cloud Resource Name) of this gateway.
-        :param str location_display_name: Gateway location long name.
-        :param GatewayChangeRequest change_request: (optional) Changes pending
-               approval for provider managed Direct Link Connect gateways.
-        :param bool provider_api_managed: (optional) Indicates whether gateway
-               changes must be made via a provider portal.
-        :param GatewayPort port: (optional) gateway port for type=connect gateways.
-        :param str cross_connect_router: (optional) Cross connect router.  Only
-               included on type=dedicated gateways.
-        :param int bgp_ibm_asn: (optional) IBM BGP ASN.
         :param str bgp_base_cidr: (optional) BGP base CIDR.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
         :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
-        :param ResourceGroupReference resource_group: (optional) Resource group
-               reference.
-        :param str dedicated_hosting_id: (optional) Dedicated Hosting associated
-               with this gateway.  Only set when the gateway is part of a Dedicated
-               Hosting solution.
+        :param int bgp_ibm_asn: (optional) IBM BGP ASN.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
         :param str bgp_status: (optional) Gateway BGP status.
                The list of enumerated values for this property may expand in the future.
                Code and processes using this field  must tolerate unexpected values.
+        :param GatewayChangeRequest change_request: (optional) Changes pending
+               approval for provider managed Direct Link Connect gateways.
+        :param str completion_notice_reject_reason: (optional) Reason for
+               completion notice rejection.  Only included on type=dedicated gateways with
+               a rejected completion notice.
+        :param str cross_connect_router: (optional) Cross connect router.  Only
+               included on type=dedicated gateways.
+        :param str dedicated_hosting_id: (optional) Dedicated Hosting associated
+               with this gateway.  Only set when the gateway is part of a Dedicated
+               Hosting solution.
         :param str link_status: (optional) Gateway link status.  Only included on
                type=dedicated gateways.
                The list of enumerated values for this property may expand in the future.
                Code and processes using this field  must tolerate unexpected values.
-        :param str completion_notice_reject_reason: (optional) Reason for
-               completion notice rejection.  Only included on type=dedicated gateways with
-               a rejected completion notice.
+        :param GatewayPort port: (optional) gateway port for type=connect gateways.
+        :param bool provider_api_managed: (optional) Indicates whether gateway
+               changes must be made via a provider portal.
+        :param ResourceGroupReference resource_group: (optional) Resource group
+               reference.
         :param int vlan: (optional) VLAN allocated for this gateway.  Only set for
-               type=connect gateways created directly through the IBM portal.
+               type=connect gateways.
         """
-        self.id = id
+        self.bgp_asn = bgp_asn
+        self.bgp_base_cidr = bgp_base_cidr
+        self.bgp_cer_cidr = bgp_cer_cidr
+        self.bgp_ibm_asn = bgp_ibm_asn
+        self.bgp_ibm_cidr = bgp_ibm_cidr
+        self.bgp_status = bgp_status
         self.change_request = change_request
+        self.completion_notice_reject_reason = completion_notice_reject_reason
         self.created_at = created_at
+        self.crn = crn
+        self.cross_connect_router = cross_connect_router
+        self.dedicated_hosting_id = dedicated_hosting_id
+        self.global_ = global_
+        self.id = id
+        self.link_status = link_status
+        self.location_display_name = location_display_name
+        self.location_name = location_name
+        self.metered = metered
         self.name = name
         self.operational_status = operational_status
-        self.provider_api_managed = provider_api_managed
-        self.type = type
-        self.speed_mbps = speed_mbps
-        self.global_ = global_
-        self.location_name = location_name
         self.port = port
-        self.cross_connect_router = cross_connect_router
-        self.bgp_asn = bgp_asn
-        self.bgp_ibm_asn = bgp_ibm_asn
-        self.metered = metered
-        self.bgp_base_cidr = bgp_base_cidr
-        self.bgp_ibm_cidr = bgp_ibm_cidr
-        self.bgp_cer_cidr = bgp_cer_cidr
+        self.provider_api_managed = provider_api_managed
         self.resource_group = resource_group
-        self.dedicated_hosting_id = dedicated_hosting_id
-        self.bgp_status = bgp_status
-        self.link_status = link_status
-        self.completion_notice_reject_reason = completion_notice_reject_reason
-        self.crn = crn
-        self.location_display_name = location_display_name
+        self.speed_mbps = speed_mbps
+        self.type = type
         self.vlan = vlan
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Gateway':
         """Initialize a Gateway object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
+        if 'bgp_asn' in _dict:
+            args['bgp_asn'] = _dict.get('bgp_asn')
         else:
-            raise ValueError('Required property \'id\' not present in Gateway JSON')
+            raise ValueError('Required property \'bgp_asn\' not present in Gateway JSON')
+        if 'bgp_base_cidr' in _dict:
+            args['bgp_base_cidr'] = _dict.get('bgp_base_cidr')
+        if 'bgp_cer_cidr' in _dict:
+            args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
+        if 'bgp_ibm_asn' in _dict:
+            args['bgp_ibm_asn'] = _dict.get('bgp_ibm_asn')
+        if 'bgp_ibm_cidr' in _dict:
+            args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
+        if 'bgp_status' in _dict:
+            args['bgp_status'] = _dict.get('bgp_status')
         if 'change_request' in _dict:
             args['change_request'] = _dict.get('change_request')
+        if 'completion_notice_reject_reason' in _dict:
+            args['completion_notice_reject_reason'] = _dict.get('completion_notice_reject_reason')
         if 'created_at' in _dict:
             args['created_at'] = string_to_datetime(_dict.get('created_at'))
         else:
             raise ValueError('Required property \'created_at\' not present in Gateway JSON')
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in Gateway JSON')
+        if 'cross_connect_router' in _dict:
+            args['cross_connect_router'] = _dict.get('cross_connect_router')
+        if 'dedicated_hosting_id' in _dict:
+            args['dedicated_hosting_id'] = _dict.get('dedicated_hosting_id')
+        if 'global' in _dict:
+            args['global_'] = _dict.get('global')
+        else:
+            raise ValueError('Required property \'global\' not present in Gateway JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in Gateway JSON')
+        if 'link_status' in _dict:
+            args['link_status'] = _dict.get('link_status')
+        if 'location_display_name' in _dict:
+            args['location_display_name'] = _dict.get('location_display_name')
+        else:
+            raise ValueError('Required property \'location_display_name\' not present in Gateway JSON')
+        if 'location_name' in _dict:
+            args['location_name'] = _dict.get('location_name')
+        else:
+            raise ValueError('Required property \'location_name\' not present in Gateway JSON')
+        if 'metered' in _dict:
+            args['metered'] = _dict.get('metered')
+        else:
+            raise ValueError('Required property \'metered\' not present in Gateway JSON')
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -1321,62 +1379,20 @@ class Gateway():
             args['operational_status'] = _dict.get('operational_status')
         else:
             raise ValueError('Required property \'operational_status\' not present in Gateway JSON')
+        if 'port' in _dict:
+            args['port'] = GatewayPort.from_dict(_dict.get('port'))
         if 'provider_api_managed' in _dict:
             args['provider_api_managed'] = _dict.get('provider_api_managed')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        else:
-            raise ValueError('Required property \'type\' not present in Gateway JSON')
+        if 'resource_group' in _dict:
+            args['resource_group'] = ResourceGroupReference.from_dict(_dict.get('resource_group'))
         if 'speed_mbps' in _dict:
             args['speed_mbps'] = _dict.get('speed_mbps')
         else:
             raise ValueError('Required property \'speed_mbps\' not present in Gateway JSON')
-        if 'global' in _dict:
-            args['global_'] = _dict.get('global')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
         else:
-            raise ValueError('Required property \'global\' not present in Gateway JSON')
-        if 'location_name' in _dict:
-            args['location_name'] = _dict.get('location_name')
-        else:
-            raise ValueError('Required property \'location_name\' not present in Gateway JSON')
-        if 'port' in _dict:
-            args['port'] = GatewayPort.from_dict(_dict.get('port'))
-        if 'cross_connect_router' in _dict:
-            args['cross_connect_router'] = _dict.get('cross_connect_router')
-        if 'bgp_asn' in _dict:
-            args['bgp_asn'] = _dict.get('bgp_asn')
-        else:
-            raise ValueError('Required property \'bgp_asn\' not present in Gateway JSON')
-        if 'bgp_ibm_asn' in _dict:
-            args['bgp_ibm_asn'] = _dict.get('bgp_ibm_asn')
-        if 'metered' in _dict:
-            args['metered'] = _dict.get('metered')
-        else:
-            raise ValueError('Required property \'metered\' not present in Gateway JSON')
-        if 'bgp_base_cidr' in _dict:
-            args['bgp_base_cidr'] = _dict.get('bgp_base_cidr')
-        if 'bgp_ibm_cidr' in _dict:
-            args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
-        if 'bgp_cer_cidr' in _dict:
-            args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
-        if 'resource_group' in _dict:
-            args['resource_group'] = ResourceGroupReference.from_dict(_dict.get('resource_group'))
-        if 'dedicated_hosting_id' in _dict:
-            args['dedicated_hosting_id'] = _dict.get('dedicated_hosting_id')
-        if 'bgp_status' in _dict:
-            args['bgp_status'] = _dict.get('bgp_status')
-        if 'link_status' in _dict:
-            args['link_status'] = _dict.get('link_status')
-        if 'completion_notice_reject_reason' in _dict:
-            args['completion_notice_reject_reason'] = _dict.get('completion_notice_reject_reason')
-        if 'crn' in _dict:
-            args['crn'] = _dict.get('crn')
-        else:
-            raise ValueError('Required property \'crn\' not present in Gateway JSON')
-        if 'location_display_name' in _dict:
-            args['location_display_name'] = _dict.get('location_display_name')
-        else:
-            raise ValueError('Required property \'location_display_name\' not present in Gateway JSON')
+            raise ValueError('Required property \'type\' not present in Gateway JSON')
         if 'vlan' in _dict:
             args['vlan'] = _dict.get('vlan')
         return cls(**args)
@@ -1389,56 +1405,56 @@ class Gateway():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
+        if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
+            _dict['bgp_asn'] = self.bgp_asn
+        if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
+            _dict['bgp_base_cidr'] = self.bgp_base_cidr
+        if hasattr(self, 'bgp_cer_cidr') and self.bgp_cer_cidr is not None:
+            _dict['bgp_cer_cidr'] = self.bgp_cer_cidr
+        if hasattr(self, 'bgp_ibm_asn') and self.bgp_ibm_asn is not None:
+            _dict['bgp_ibm_asn'] = self.bgp_ibm_asn
+        if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
+            _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
+        if hasattr(self, 'bgp_status') and self.bgp_status is not None:
+            _dict['bgp_status'] = self.bgp_status
         if hasattr(self, 'change_request') and self.change_request is not None:
             _dict['change_request'] = self.change_request
+        if hasattr(self, 'completion_notice_reject_reason') and self.completion_notice_reject_reason is not None:
+            _dict['completion_notice_reject_reason'] = self.completion_notice_reject_reason
         if hasattr(self, 'created_at') and self.created_at is not None:
             _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        if hasattr(self, 'cross_connect_router') and self.cross_connect_router is not None:
+            _dict['cross_connect_router'] = self.cross_connect_router
+        if hasattr(self, 'dedicated_hosting_id') and self.dedicated_hosting_id is not None:
+            _dict['dedicated_hosting_id'] = self.dedicated_hosting_id
+        if hasattr(self, 'global_') and self.global_ is not None:
+            _dict['global'] = self.global_
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'link_status') and self.link_status is not None:
+            _dict['link_status'] = self.link_status
+        if hasattr(self, 'location_display_name') and self.location_display_name is not None:
+            _dict['location_display_name'] = self.location_display_name
+        if hasattr(self, 'location_name') and self.location_name is not None:
+            _dict['location_name'] = self.location_name
+        if hasattr(self, 'metered') and self.metered is not None:
+            _dict['metered'] = self.metered
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'operational_status') and self.operational_status is not None:
             _dict['operational_status'] = self.operational_status
-        if hasattr(self, 'provider_api_managed') and self.provider_api_managed is not None:
-            _dict['provider_api_managed'] = self.provider_api_managed
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'speed_mbps') and self.speed_mbps is not None:
-            _dict['speed_mbps'] = self.speed_mbps
-        if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_
-        if hasattr(self, 'location_name') and self.location_name is not None:
-            _dict['location_name'] = self.location_name
         if hasattr(self, 'port') and self.port is not None:
             _dict['port'] = self.port.to_dict()
-        if hasattr(self, 'cross_connect_router') and self.cross_connect_router is not None:
-            _dict['cross_connect_router'] = self.cross_connect_router
-        if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
-            _dict['bgp_asn'] = self.bgp_asn
-        if hasattr(self, 'bgp_ibm_asn') and self.bgp_ibm_asn is not None:
-            _dict['bgp_ibm_asn'] = self.bgp_ibm_asn
-        if hasattr(self, 'metered') and self.metered is not None:
-            _dict['metered'] = self.metered
-        if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
-            _dict['bgp_base_cidr'] = self.bgp_base_cidr
-        if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
-            _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
-        if hasattr(self, 'bgp_cer_cidr') and self.bgp_cer_cidr is not None:
-            _dict['bgp_cer_cidr'] = self.bgp_cer_cidr
+        if hasattr(self, 'provider_api_managed') and self.provider_api_managed is not None:
+            _dict['provider_api_managed'] = self.provider_api_managed
         if hasattr(self, 'resource_group') and self.resource_group is not None:
             _dict['resource_group'] = self.resource_group.to_dict()
-        if hasattr(self, 'dedicated_hosting_id') and self.dedicated_hosting_id is not None:
-            _dict['dedicated_hosting_id'] = self.dedicated_hosting_id
-        if hasattr(self, 'bgp_status') and self.bgp_status is not None:
-            _dict['bgp_status'] = self.bgp_status
-        if hasattr(self, 'link_status') and self.link_status is not None:
-            _dict['link_status'] = self.link_status
-        if hasattr(self, 'completion_notice_reject_reason') and self.completion_notice_reject_reason is not None:
-            _dict['completion_notice_reject_reason'] = self.completion_notice_reject_reason
-        if hasattr(self, 'crn') and self.crn is not None:
-            _dict['crn'] = self.crn
-        if hasattr(self, 'location_display_name') and self.location_display_name is not None:
-            _dict['location_display_name'] = self.location_display_name
+        if hasattr(self, 'speed_mbps') and self.speed_mbps is not None:
+            _dict['speed_mbps'] = self.speed_mbps
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
         if hasattr(self, 'vlan') and self.vlan is not None:
             _dict['vlan'] = self.vlan
         return _dict
@@ -1461,55 +1477,55 @@ class Gateway():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class OperationalStatusEnum(Enum):
-        """
-        Gateway operational status.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
-        """
-        AWAITING_COMPLETION_NOTICE = "awaiting_completion_notice"
-        AWAITING_LOA = "awaiting_loa"
-        CREATE_PENDING = "create_pending"
-        COMPLETION_NOTICE_APPROVED = "completion_notice_approved"
-        COMPLETION_NOTICE_RECEIVED = "completion_notice_received"
-        COMPLETION_NOTICE_REJECTED = "completion_notice_rejected"
-        DELETE_PENDING = "delete_pending"
-        LOA_ACCEPTED = "loa_accepted"
-        LOA_CREATED = "loa_created"
-        LOA_REJECTED = "loa_rejected"
-        PROVISIONED = "provisioned"
-
-
-    class TypeEnum(Enum):
-        """
-        Gateway type.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
-        """
-        CONNECT = "connect"
-        DEDICATED = "dedicated"
-
-
-    class BgpStatusEnum(Enum):
+    class BgpStatusEnum(str, Enum):
         """
         Gateway BGP status.
         The list of enumerated values for this property may expand in the future. Code and
         processes using this field  must tolerate unexpected values.
         """
-        ACTIVE = "active"
-        CONNECT = "connect"
-        ESTABLISHED = "established"
-        IDLE = "idle"
+        ACTIVE = 'active'
+        CONNECT = 'connect'
+        ESTABLISHED = 'established'
+        IDLE = 'idle'
 
 
-    class LinkStatusEnum(Enum):
+    class LinkStatusEnum(str, Enum):
         """
         Gateway link status.  Only included on type=dedicated gateways.
         The list of enumerated values for this property may expand in the future. Code and
         processes using this field  must tolerate unexpected values.
         """
-        DOWN = "down"
-        UP = "up"
+        DOWN = 'down'
+        UP = 'up'
+
+
+    class OperationalStatusEnum(str, Enum):
+        """
+        Gateway operational status.
+        The list of enumerated values for this property may expand in the future. Code and
+        processes using this field  must tolerate unexpected values.
+        """
+        AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice'
+        AWAITING_LOA = 'awaiting_loa'
+        CREATE_PENDING = 'create_pending'
+        COMPLETION_NOTICE_APPROVED = 'completion_notice_approved'
+        COMPLETION_NOTICE_RECEIVED = 'completion_notice_received'
+        COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected'
+        DELETE_PENDING = 'delete_pending'
+        LOA_ACCEPTED = 'loa_accepted'
+        LOA_CREATED = 'loa_created'
+        LOA_REJECTED = 'loa_rejected'
+        PROVISIONED = 'provisioned'
+
+
+    class TypeEnum(str, Enum):
+        """
+        Gateway type.
+        The list of enumerated values for this property may expand in the future. Code and
+        processes using this field  must tolerate unexpected values.
+        """
+        CONNECT = 'connect'
+        DEDICATED = 'dedicated'
 
 
 class GatewayChangeRequest():
@@ -1699,59 +1715,59 @@ class GatewayTemplate():
     """
     Create gateway template.
 
-    :attr str name: The unique user-defined name for this gateway.
-    :attr str type: Gateway type.
-    :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr bool global_: Gateways with global routing (`true`) can connect to
-          networks outside their associated region.
     :attr int bgp_asn: BGP ASN.
     :attr str bgp_base_cidr: BGP base CIDR.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-          ommitted and a CIDR will be selected automatically.
     :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify a
           value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field
           can  be ommitted and a CIDR will be selected automatically.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
+          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
+          ommitted and a CIDR will be selected automatically.
+    :attr bool global_: Gateways with global routing (`true`) can connect to
+          networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
           per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
           flat rate is charged for the gateway.
+    :attr str name: The unique user-defined name for this gateway.
     :attr ResourceGroupIdentity resource_group: (optional) Resource group for this
           resource. If unspecified, the account's [default resource
           group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
           used.
+    :attr int speed_mbps: Gateway speed in megabits per second.
+    :attr str type: Gateway type.
     """
 
     def __init__(self,
-                 name: str,
-                 type: str,
-                 speed_mbps: int,
-                 global_: bool,
                  bgp_asn: int,
                  bgp_base_cidr: str,
+                 global_: bool,
                  metered: bool,
+                 name: str,
+                 speed_mbps: int,
+                 type: str,
                  *,
-                 bgp_ibm_cidr: str = None,
                  bgp_cer_cidr: str = None,
+                 bgp_ibm_cidr: str = None,
                  resource_group: 'ResourceGroupIdentity' = None) -> None:
         """
         Initialize a GatewayTemplate object.
 
-        :param str name: The unique user-defined name for this gateway.
-        :param str type: Gateway type.
-        :param int speed_mbps: Gateway speed in megabits per second.
-        :param bool global_: Gateways with global routing (`true`) can connect to
-               networks outside their associated region.
         :param int bgp_asn: BGP ASN.
         :param str bgp_base_cidr: BGP base CIDR.
+        :param bool global_: Gateways with global routing (`true`) can connect to
+               networks outside their associated region.
         :param bool metered: Metered billing option.  When `true` gateway usage is
                billed per gigabyte.  When `false` there is no per gigabyte usage charge,
                instead a flat rate is charged for the gateway.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-               ommitted and a CIDR will be selected automatically.
+        :param str name: The unique user-defined name for this gateway.
+        :param int speed_mbps: Gateway speed in megabits per second.
+        :param str type: Gateway type.
         :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify
                a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
                field can  be ommitted and a CIDR will be selected automatically.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
+               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
+               ommitted and a CIDR will be selected automatically.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://console.bluemix.net/apidocs/resource-manager#introduction)
@@ -1761,61 +1777,61 @@ class GatewayTemplate():
                   ", ".join(['GatewayTemplateGatewayTypeDedicatedTemplate', 'GatewayTemplateGatewayTypeConnectTemplate']))
         raise Exception(msg)
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Gateway type.
         """
-        CONNECT = "connect"
-        DEDICATED = "dedicated"
+        CONNECT = 'connect'
+        DEDICATED = 'dedicated'
 
 
 class GatewayVirtualConnection():
     """
     Virtual connection.
 
+    :attr datetime created_at: The date and time resource was created.
     :attr str id: The unique identifier for this virtual connection.
+    :attr str name: The user-defined name for this virtual connection.  Virtual
+          connection names are unique within a gateway.  This is the name of the virtual
+          connection itself, the network being connected may have its own name attribute.
     :attr str network_account: (optional) For virtual connections across two
           different IBM Cloud Accounts network_account indicates the account that owns the
           target network.
     :attr str network_id: (optional) Unique identifier of the target network.  For
           type=vpc virtual connections this is the CRN of the target VPC.  This field does
           not apply to type=classic connections.
-    :attr str type: Virtual connection type.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
     :attr str status: Status of the virtual connection.
           The list of enumerated values for this property may expand in the future. Code
           and processes using this field  must tolerate unexpected values.
-    :attr datetime created_at: The date and time resource was created.
-    :attr str name: The user-defined name for this virtual connection.  Virtual
-          connection names are unique within a gateway.  This is the name of the virtual
-          connection itself, the network being connected may have its own name attribute.
+    :attr str type: Virtual connection type.
+          The list of enumerated values for this property may expand in the future. Code
+          and processes using this field  must tolerate unexpected values.
     """
 
     def __init__(self,
-                 id: str,
-                 type: str,
-                 status: str,
                  created_at: datetime,
+                 id: str,
                  name: str,
+                 status: str,
+                 type: str,
                  *,
                  network_account: str = None,
                  network_id: str = None) -> None:
         """
         Initialize a GatewayVirtualConnection object.
 
-        :param str id: The unique identifier for this virtual connection.
-        :param str type: Virtual connection type.
-               The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
-        :param str status: Status of the virtual connection.
-               The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
         :param datetime created_at: The date and time resource was created.
+        :param str id: The unique identifier for this virtual connection.
         :param str name: The user-defined name for this virtual connection.
                Virtual connection names are unique within a gateway.  This is the name of
                the virtual connection itself, the network being connected may have its own
                name attribute.
+        :param str status: Status of the virtual connection.
+               The list of enumerated values for this property may expand in the future.
+               Code and processes using this field  must tolerate unexpected values.
+        :param str type: Virtual connection type.
+               The list of enumerated values for this property may expand in the future.
+               Code and processes using this field  must tolerate unexpected values.
         :param str network_account: (optional) For virtual connections across two
                different IBM Cloud Accounts network_account indicates the account that
                owns the target network.
@@ -1823,42 +1839,42 @@ class GatewayVirtualConnection():
                For type=vpc virtual connections this is the CRN of the target VPC.  This
                field does not apply to type=classic connections.
         """
+        self.created_at = created_at
         self.id = id
+        self.name = name
         self.network_account = network_account
         self.network_id = network_id
-        self.type = type
         self.status = status
-        self.created_at = created_at
-        self.name = name
+        self.type = type
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'GatewayVirtualConnection':
         """Initialize a GatewayVirtualConnection object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in GatewayVirtualConnection JSON')
-        if 'network_account' in _dict:
-            args['network_account'] = _dict.get('network_account')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        else:
-            raise ValueError('Required property \'type\' not present in GatewayVirtualConnection JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in GatewayVirtualConnection JSON')
         if 'created_at' in _dict:
             args['created_at'] = string_to_datetime(_dict.get('created_at'))
         else:
             raise ValueError('Required property \'created_at\' not present in GatewayVirtualConnection JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in GatewayVirtualConnection JSON')
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
             raise ValueError('Required property \'name\' not present in GatewayVirtualConnection JSON')
+        if 'network_account' in _dict:
+            args['network_account'] = _dict.get('network_account')
+        if 'network_id' in _dict:
+            args['network_id'] = _dict.get('network_id')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in GatewayVirtualConnection JSON')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError('Required property \'type\' not present in GatewayVirtualConnection JSON')
         return cls(**args)
 
     @classmethod
@@ -1869,20 +1885,20 @@ class GatewayVirtualConnection():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'network_account') and self.network_account is not None:
             _dict['network_account'] = self.network_account
         if hasattr(self, 'network_id') and self.network_id is not None:
             _dict['network_id'] = self.network_id
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
         return _dict
 
     def _to_dict(self):
@@ -1903,30 +1919,30 @@ class GatewayVirtualConnection():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
-        """
-        Virtual connection type.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
-        """
-        CLASSIC = "classic"
-        VPC = "vpc"
-
-
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Status of the virtual connection.
         The list of enumerated values for this property may expand in the future. Code and
         processes using this field  must tolerate unexpected values.
         """
-        PENDING = "pending"
-        ATTACHED = "attached"
-        APPROVAL_PENDING = "approval_pending"
-        REJECTED = "rejected"
-        EXPIRED = "expired"
-        DELETING = "deleting"
-        DETACHED_BY_NETWORK_PENDING = "detached_by_network_pending"
-        DETACHED_BY_NETWORK = "detached_by_network"
+        PENDING = 'pending'
+        ATTACHED = 'attached'
+        APPROVAL_PENDING = 'approval_pending'
+        REJECTED = 'rejected'
+        EXPIRED = 'expired'
+        DELETING = 'deleting'
+        DETACHED_BY_NETWORK_PENDING = 'detached_by_network_pending'
+        DETACHED_BY_NETWORK = 'detached_by_network'
+
+
+    class TypeEnum(str, Enum):
+        """
+        Virtual connection type.
+        The list of enumerated values for this property may expand in the future. Code and
+        processes using this field  must tolerate unexpected values.
+        """
+        CLASSIC = 'classic'
+        VPC = 'vpc'
 
 
 class GatewayVirtualConnectionCollection():
@@ -2104,6 +2120,7 @@ class LocationOutput():
     """
     location.
 
+    :attr str billing_location: Billing location.
     :attr str building_colocation_owner: (optional) Building colocation owner.  Only
           present for offering_type=dedicated locations.
     :attr str display_name: Location long name.
@@ -2114,10 +2131,10 @@ class LocationOutput():
     :attr str name: Location short name.
     :attr str offering_type: Location offering type.
     :attr str vpc_region: (optional) Location's VPC region.
-    :attr str billing_location: Billing location.
     """
 
     def __init__(self,
+                 billing_location: str,
                  display_name: str,
                  location_type: str,
                  market: str,
@@ -2125,13 +2142,13 @@ class LocationOutput():
                  mzr: bool,
                  name: str,
                  offering_type: str,
-                 billing_location: str,
                  *,
                  building_colocation_owner: str = None,
                  vpc_region: str = None) -> None:
         """
         Initialize a LocationOutput object.
 
+        :param str billing_location: Billing location.
         :param str display_name: Location long name.
         :param str location_type: Location type.
         :param str market: Location market.
@@ -2139,11 +2156,11 @@ class LocationOutput():
         :param bool mzr: Is location a multi-zone region (MZR).
         :param str name: Location short name.
         :param str offering_type: Location offering type.
-        :param str billing_location: Billing location.
         :param str building_colocation_owner: (optional) Building colocation owner.
                 Only present for offering_type=dedicated locations.
         :param str vpc_region: (optional) Location's VPC region.
         """
+        self.billing_location = billing_location
         self.building_colocation_owner = building_colocation_owner
         self.display_name = display_name
         self.location_type = location_type
@@ -2153,12 +2170,15 @@ class LocationOutput():
         self.name = name
         self.offering_type = offering_type
         self.vpc_region = vpc_region
-        self.billing_location = billing_location
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'LocationOutput':
         """Initialize a LocationOutput object from a json dictionary."""
         args = {}
+        if 'billing_location' in _dict:
+            args['billing_location'] = _dict.get('billing_location')
+        else:
+            raise ValueError('Required property \'billing_location\' not present in LocationOutput JSON')
         if 'building_colocation_owner' in _dict:
             args['building_colocation_owner'] = _dict.get('building_colocation_owner')
         if 'display_name' in _dict:
@@ -2191,10 +2211,6 @@ class LocationOutput():
             raise ValueError('Required property \'offering_type\' not present in LocationOutput JSON')
         if 'vpc_region' in _dict:
             args['vpc_region'] = _dict.get('vpc_region')
-        if 'billing_location' in _dict:
-            args['billing_location'] = _dict.get('billing_location')
-        else:
-            raise ValueError('Required property \'billing_location\' not present in LocationOutput JSON')
         return cls(**args)
 
     @classmethod
@@ -2205,6 +2221,8 @@ class LocationOutput():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'billing_location') and self.billing_location is not None:
+            _dict['billing_location'] = self.billing_location
         if hasattr(self, 'building_colocation_owner') and self.building_colocation_owner is not None:
             _dict['building_colocation_owner'] = self.building_colocation_owner
         if hasattr(self, 'display_name') and self.display_name is not None:
@@ -2223,8 +2241,6 @@ class LocationOutput():
             _dict['offering_type'] = self.offering_type
         if hasattr(self, 'vpc_region') and self.vpc_region is not None:
             _dict['vpc_region'] = self.vpc_region
-        if hasattr(self, 'billing_location') and self.billing_location is not None:
-            _dict['billing_location'] = self.billing_location
         return _dict
 
     def _to_dict(self):
@@ -2367,9 +2383,9 @@ class Port():
     :attr str label: Port Label.
     :attr str location_display_name: Port location long name.
     :attr str location_name: Port location name identifier.
+    :attr str provider_name: Port's provider name.
     :attr List[int] supported_link_speeds: Port's supported speeds in megabits per
           second.
-    :attr str provider_name: Port's provider name.
     """
 
     def __init__(self,
@@ -2378,8 +2394,8 @@ class Port():
                  label: str,
                  location_display_name: str,
                  location_name: str,
-                 supported_link_speeds: List[int],
-                 provider_name: str) -> None:
+                 provider_name: str,
+                 supported_link_speeds: List[int]) -> None:
         """
         Initialize a Port object.
 
@@ -2389,17 +2405,17 @@ class Port():
         :param str label: Port Label.
         :param str location_display_name: Port location long name.
         :param str location_name: Port location name identifier.
+        :param str provider_name: Port's provider name.
         :param List[int] supported_link_speeds: Port's supported speeds in megabits
                per second.
-        :param str provider_name: Port's provider name.
         """
         self.direct_link_count = direct_link_count
         self.id = id
         self.label = label
         self.location_display_name = location_display_name
         self.location_name = location_name
-        self.supported_link_speeds = supported_link_speeds
         self.provider_name = provider_name
+        self.supported_link_speeds = supported_link_speeds
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Port':
@@ -2425,14 +2441,14 @@ class Port():
             args['location_name'] = _dict.get('location_name')
         else:
             raise ValueError('Required property \'location_name\' not present in Port JSON')
-        if 'supported_link_speeds' in _dict:
-            args['supported_link_speeds'] = _dict.get('supported_link_speeds')
-        else:
-            raise ValueError('Required property \'supported_link_speeds\' not present in Port JSON')
         if 'provider_name' in _dict:
             args['provider_name'] = _dict.get('provider_name')
         else:
             raise ValueError('Required property \'provider_name\' not present in Port JSON')
+        if 'supported_link_speeds' in _dict:
+            args['supported_link_speeds'] = _dict.get('supported_link_speeds')
+        else:
+            raise ValueError('Required property \'supported_link_speeds\' not present in Port JSON')
         return cls(**args)
 
     @classmethod
@@ -2453,10 +2469,10 @@ class Port():
             _dict['location_display_name'] = self.location_display_name
         if hasattr(self, 'location_name') and self.location_name is not None:
             _dict['location_name'] = self.location_name
-        if hasattr(self, 'supported_link_speeds') and self.supported_link_speeds is not None:
-            _dict['supported_link_speeds'] = self.supported_link_speeds
         if hasattr(self, 'provider_name') and self.provider_name is not None:
             _dict['provider_name'] = self.provider_name
+        if hasattr(self, 'supported_link_speeds') and self.supported_link_speeds is not None:
+            _dict['supported_link_speeds'] = self.supported_link_speeds
         return _dict
 
     def _to_dict(self):
@@ -2868,11 +2884,11 @@ class GatewayChangeRequestGatewayClientGatewayCreate(GatewayChangeRequest):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         type of gateway change request.
         """
-        CREATE_GATEWAY = "create_gateway"
+        CREATE_GATEWAY = 'create_gateway'
 
 
 class GatewayChangeRequestGatewayClientGatewayDelete(GatewayChangeRequest):
@@ -2932,11 +2948,11 @@ class GatewayChangeRequestGatewayClientGatewayDelete(GatewayChangeRequest):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         type of gateway change request.
         """
-        DELETE_GATEWAY = "delete_gateway"
+        DELETE_GATEWAY = 'delete_gateway'
 
 
 class GatewayChangeRequestGatewayClientGatewayUpdateAttributes(GatewayChangeRequest):
@@ -3006,112 +3022,96 @@ class GatewayChangeRequestGatewayClientGatewayUpdateAttributes(GatewayChangeRequ
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         type of gateway change request.
         """
-        UPDATE_ATTRIBUTES = "update_attributes"
+        UPDATE_ATTRIBUTES = 'update_attributes'
 
 
 class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     """
     Gateway fields specific to type=connect gateway create.
 
-    :attr str name: The unique user-defined name for this gateway.
-    :attr str type: Gateway type.
-    :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr bool global_: Gateways with global routing (`true`) can connect to
-          networks outside their associated region.
     :attr int bgp_asn: BGP ASN.
     :attr str bgp_base_cidr: BGP base CIDR.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-          ommitted and a CIDR will be selected automatically.
     :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify a
           value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field
           can  be ommitted and a CIDR will be selected automatically.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
+          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
+          ommitted and a CIDR will be selected automatically.
+    :attr bool global_: Gateways with global routing (`true`) can connect to
+          networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
           per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
           flat rate is charged for the gateway.
+    :attr str name: The unique user-defined name for this gateway.
     :attr ResourceGroupIdentity resource_group: (optional) Resource group for this
           resource. If unspecified, the account's [default resource
           group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
           used.
+    :attr int speed_mbps: Gateway speed in megabits per second.
+    :attr str type: Gateway type.
     :attr GatewayPortIdentity port: Select Port Label for new type=connect gateway.
     """
 
     def __init__(self,
-                 name: str,
-                 type: str,
-                 speed_mbps: int,
-                 global_: bool,
                  bgp_asn: int,
                  bgp_base_cidr: str,
+                 global_: bool,
                  metered: bool,
+                 name: str,
+                 speed_mbps: int,
+                 type: str,
                  port: 'GatewayPortIdentity',
                  *,
-                 bgp_ibm_cidr: str = None,
                  bgp_cer_cidr: str = None,
+                 bgp_ibm_cidr: str = None,
                  resource_group: 'ResourceGroupIdentity' = None) -> None:
         """
         Initialize a GatewayTemplateGatewayTypeConnectTemplate object.
 
-        :param str name: The unique user-defined name for this gateway.
-        :param str type: Gateway type.
-        :param int speed_mbps: Gateway speed in megabits per second.
-        :param bool global_: Gateways with global routing (`true`) can connect to
-               networks outside their associated region.
         :param int bgp_asn: BGP ASN.
         :param str bgp_base_cidr: BGP base CIDR.
+        :param bool global_: Gateways with global routing (`true`) can connect to
+               networks outside their associated region.
         :param bool metered: Metered billing option.  When `true` gateway usage is
                billed per gigabyte.  When `false` there is no per gigabyte usage charge,
                instead a flat rate is charged for the gateway.
+        :param str name: The unique user-defined name for this gateway.
+        :param int speed_mbps: Gateway speed in megabits per second.
+        :param str type: Gateway type.
         :param GatewayPortIdentity port: Select Port Label for new type=connect
                gateway.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-               ommitted and a CIDR will be selected automatically.
         :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify
                a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
                field can  be ommitted and a CIDR will be selected automatically.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
+               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
+               ommitted and a CIDR will be selected automatically.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://console.bluemix.net/apidocs/resource-manager#introduction)
                is used.
         """
         # pylint: disable=super-init-not-called
-        self.name = name
-        self.type = type
-        self.speed_mbps = speed_mbps
-        self.global_ = global_
         self.bgp_asn = bgp_asn
         self.bgp_base_cidr = bgp_base_cidr
-        self.bgp_ibm_cidr = bgp_ibm_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
+        self.bgp_ibm_cidr = bgp_ibm_cidr
+        self.global_ = global_
         self.metered = metered
+        self.name = name
         self.resource_group = resource_group
+        self.speed_mbps = speed_mbps
+        self.type = type
         self.port = port
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeConnectTemplate':
         """Initialize a GatewayTemplateGatewayTypeConnectTemplate object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        else:
-            raise ValueError('Required property \'type\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
-        if 'speed_mbps' in _dict:
-            args['speed_mbps'] = _dict.get('speed_mbps')
-        else:
-            raise ValueError('Required property \'speed_mbps\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
-        if 'global' in _dict:
-            args['global_'] = _dict.get('global')
-        else:
-            raise ValueError('Required property \'global\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
         if 'bgp_asn' in _dict:
             args['bgp_asn'] = _dict.get('bgp_asn')
         else:
@@ -3120,16 +3120,32 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
             args['bgp_base_cidr'] = _dict.get('bgp_base_cidr')
         else:
             raise ValueError('Required property \'bgp_base_cidr\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
-        if 'bgp_ibm_cidr' in _dict:
-            args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
         if 'bgp_cer_cidr' in _dict:
             args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
+        if 'bgp_ibm_cidr' in _dict:
+            args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
+        if 'global' in _dict:
+            args['global_'] = _dict.get('global')
+        else:
+            raise ValueError('Required property \'global\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
         if 'metered' in _dict:
             args['metered'] = _dict.get('metered')
         else:
             raise ValueError('Required property \'metered\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
         if 'resource_group' in _dict:
             args['resource_group'] = ResourceGroupIdentity.from_dict(_dict.get('resource_group'))
+        if 'speed_mbps' in _dict:
+            args['speed_mbps'] = _dict.get('speed_mbps')
+        else:
+            raise ValueError('Required property \'speed_mbps\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError('Required property \'type\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
         if 'port' in _dict:
             args['port'] = GatewayPortIdentity.from_dict(_dict.get('port'))
         else:
@@ -3144,26 +3160,26 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'speed_mbps') and self.speed_mbps is not None:
-            _dict['speed_mbps'] = self.speed_mbps
-        if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_
         if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
             _dict['bgp_asn'] = self.bgp_asn
         if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
             _dict['bgp_base_cidr'] = self.bgp_base_cidr
-        if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
-            _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
         if hasattr(self, 'bgp_cer_cidr') and self.bgp_cer_cidr is not None:
             _dict['bgp_cer_cidr'] = self.bgp_cer_cidr
+        if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
+            _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
+        if hasattr(self, 'global_') and self.global_ is not None:
+            _dict['global'] = self.global_
         if hasattr(self, 'metered') and self.metered is not None:
             _dict['metered'] = self.metered
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'resource_group') and self.resource_group is not None:
             _dict['resource_group'] = self.resource_group.to_dict()
+        if hasattr(self, 'speed_mbps') and self.speed_mbps is not None:
+            _dict['speed_mbps'] = self.speed_mbps
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
         if hasattr(self, 'port') and self.port is not None:
             _dict['port'] = self.port.to_dict()
         return _dict
@@ -3186,38 +3202,38 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Gateway type.
         """
-        CONNECT = "connect"
-        DEDICATED = "dedicated"
+        CONNECT = 'connect'
+        DEDICATED = 'dedicated'
 
 
 class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     """
     Gateway fields specific to type=dedicated gateway create.
 
-    :attr str name: The unique user-defined name for this gateway.
-    :attr str type: Gateway type.
-    :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr bool global_: Gateways with global routing (`true`) can connect to
-          networks outside their associated region.
     :attr int bgp_asn: BGP ASN.
     :attr str bgp_base_cidr: BGP base CIDR.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-          ommitted and a CIDR will be selected automatically.
     :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify a
           value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field
           can  be ommitted and a CIDR will be selected automatically.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
+          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
+          ommitted and a CIDR will be selected automatically.
+    :attr bool global_: Gateways with global routing (`true`) can connect to
+          networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
           per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
           flat rate is charged for the gateway.
+    :attr str name: The unique user-defined name for this gateway.
     :attr ResourceGroupIdentity resource_group: (optional) Resource group for this
           resource. If unspecified, the account's [default resource
           group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
           used.
+    :attr int speed_mbps: Gateway speed in megabits per second.
+    :attr str type: Gateway type.
     :attr str carrier_name: Carrier name.
     :attr str cross_connect_router: Cross connect router.
     :attr str customer_name: Customer name.
@@ -3228,45 +3244,45 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     """
 
     def __init__(self,
-                 name: str,
-                 type: str,
-                 speed_mbps: int,
-                 global_: bool,
                  bgp_asn: int,
                  bgp_base_cidr: str,
+                 global_: bool,
                  metered: bool,
+                 name: str,
+                 speed_mbps: int,
+                 type: str,
                  carrier_name: str,
                  cross_connect_router: str,
                  customer_name: str,
                  location_name: str,
                  *,
-                 bgp_ibm_cidr: str = None,
                  bgp_cer_cidr: str = None,
+                 bgp_ibm_cidr: str = None,
                  resource_group: 'ResourceGroupIdentity' = None,
                  dedicated_hosting_id: str = None) -> None:
         """
         Initialize a GatewayTemplateGatewayTypeDedicatedTemplate object.
 
-        :param str name: The unique user-defined name for this gateway.
-        :param str type: Gateway type.
-        :param int speed_mbps: Gateway speed in megabits per second.
-        :param bool global_: Gateways with global routing (`true`) can connect to
-               networks outside their associated region.
         :param int bgp_asn: BGP ASN.
         :param str bgp_base_cidr: BGP base CIDR.
+        :param bool global_: Gateways with global routing (`true`) can connect to
+               networks outside their associated region.
         :param bool metered: Metered billing option.  When `true` gateway usage is
                billed per gigabyte.  When `false` there is no per gigabyte usage charge,
                instead a flat rate is charged for the gateway.
+        :param str name: The unique user-defined name for this gateway.
+        :param int speed_mbps: Gateway speed in megabits per second.
+        :param str type: Gateway type.
         :param str carrier_name: Carrier name.
         :param str cross_connect_router: Cross connect router.
         :param str customer_name: Customer name.
         :param str location_name: Gateway location.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-               ommitted and a CIDR will be selected automatically.
         :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify
                a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
                field can  be ommitted and a CIDR will be selected automatically.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
+               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
+               ommitted and a CIDR will be selected automatically.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://console.bluemix.net/apidocs/resource-manager#introduction)
@@ -3276,16 +3292,16 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                Hosting Offering.
         """
         # pylint: disable=super-init-not-called
-        self.name = name
-        self.type = type
-        self.speed_mbps = speed_mbps
-        self.global_ = global_
         self.bgp_asn = bgp_asn
         self.bgp_base_cidr = bgp_base_cidr
-        self.bgp_ibm_cidr = bgp_ibm_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
+        self.bgp_ibm_cidr = bgp_ibm_cidr
+        self.global_ = global_
         self.metered = metered
+        self.name = name
         self.resource_group = resource_group
+        self.speed_mbps = speed_mbps
+        self.type = type
         self.carrier_name = carrier_name
         self.cross_connect_router = cross_connect_router
         self.customer_name = customer_name
@@ -3296,22 +3312,6 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeDedicatedTemplate':
         """Initialize a GatewayTemplateGatewayTypeDedicatedTemplate object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        else:
-            raise ValueError('Required property \'type\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
-        if 'speed_mbps' in _dict:
-            args['speed_mbps'] = _dict.get('speed_mbps')
-        else:
-            raise ValueError('Required property \'speed_mbps\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
-        if 'global' in _dict:
-            args['global_'] = _dict.get('global')
-        else:
-            raise ValueError('Required property \'global\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
         if 'bgp_asn' in _dict:
             args['bgp_asn'] = _dict.get('bgp_asn')
         else:
@@ -3320,16 +3320,32 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
             args['bgp_base_cidr'] = _dict.get('bgp_base_cidr')
         else:
             raise ValueError('Required property \'bgp_base_cidr\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
-        if 'bgp_ibm_cidr' in _dict:
-            args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
         if 'bgp_cer_cidr' in _dict:
             args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
+        if 'bgp_ibm_cidr' in _dict:
+            args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
+        if 'global' in _dict:
+            args['global_'] = _dict.get('global')
+        else:
+            raise ValueError('Required property \'global\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
         if 'metered' in _dict:
             args['metered'] = _dict.get('metered')
         else:
             raise ValueError('Required property \'metered\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
         if 'resource_group' in _dict:
             args['resource_group'] = ResourceGroupIdentity.from_dict(_dict.get('resource_group'))
+        if 'speed_mbps' in _dict:
+            args['speed_mbps'] = _dict.get('speed_mbps')
+        else:
+            raise ValueError('Required property \'speed_mbps\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError('Required property \'type\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
         if 'carrier_name' in _dict:
             args['carrier_name'] = _dict.get('carrier_name')
         else:
@@ -3358,26 +3374,26 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'speed_mbps') and self.speed_mbps is not None:
-            _dict['speed_mbps'] = self.speed_mbps
-        if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_
         if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
             _dict['bgp_asn'] = self.bgp_asn
         if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
             _dict['bgp_base_cidr'] = self.bgp_base_cidr
-        if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
-            _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
         if hasattr(self, 'bgp_cer_cidr') and self.bgp_cer_cidr is not None:
             _dict['bgp_cer_cidr'] = self.bgp_cer_cidr
+        if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
+            _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
+        if hasattr(self, 'global_') and self.global_ is not None:
+            _dict['global'] = self.global_
         if hasattr(self, 'metered') and self.metered is not None:
             _dict['metered'] = self.metered
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'resource_group') and self.resource_group is not None:
             _dict['resource_group'] = self.resource_group.to_dict()
+        if hasattr(self, 'speed_mbps') and self.speed_mbps is not None:
+            _dict['speed_mbps'] = self.speed_mbps
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
         if hasattr(self, 'carrier_name') and self.carrier_name is not None:
             _dict['carrier_name'] = self.carrier_name
         if hasattr(self, 'cross_connect_router') and self.cross_connect_router is not None:
@@ -3408,10 +3424,10 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Gateway type.
         """
-        CONNECT = "connect"
-        DEDICATED = "dedicated"
+        CONNECT = 'connect'
+        DEDICATED = 'dedicated'
 

@@ -159,7 +159,7 @@ class TestDirectLinkApisV1(unittest.TestCase):
         # update gateway name
         update_name = os.getenv("DL_SERVICES_GW_NAME")+"-PATCH"
         response = self.dl.update_gateway(id=gateway_id,
-            name=update_name)
+            name=update_name, metered=True)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == update_name
@@ -335,6 +335,9 @@ class TestDirectLinkApisV1(unittest.TestCase):
         with self.assertRaises(ApiException) as ex:
             response = self.dl.list_gateway_completion_notice(id=gateway_id)
         assert ex.exception.code == 404
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
 
 
 if __name__ == '__main__':
