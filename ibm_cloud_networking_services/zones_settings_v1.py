@@ -246,7 +246,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_opportunistic_encryption(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get opportunistic encryption setting.
+        Get opportunistic encryption setting.
 
         Get opportunistic encryption setting for a zone.
 
@@ -317,7 +317,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_challenge_ttl(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get challenge TTL setting.
+        Get challenge TTL setting.
 
         Get challenge TTL setting for a zone.
 
@@ -388,7 +388,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_automatic_https_rewrites(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get automatic https rewrites setting.
+        Get automatic https rewrites setting.
 
         Get automatic https rewrites setting for a zone.
 
@@ -459,7 +459,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_ture_client_ip(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get true client IP setting.
+        Get true client IP setting.
 
         Get true client IP setting for a zone.
 
@@ -530,7 +530,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_always_use_https(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get always use https setting.
+        Get always use https setting.
 
         Get always use https setting for a zone.
 
@@ -601,7 +601,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_image_size_optimization(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get image size optimization setting.
+        Get image size optimization setting.
 
         Get image size optimization setting for a zone.
 
@@ -676,7 +676,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_script_load_optimization(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get script load optimization setting.
+        Get script load optimization setting.
 
         Get script load optimization setting for a zone.
 
@@ -747,7 +747,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_image_load_optimization(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get image load optimizationn setting.
+        Get image load optimizationn setting.
 
         Get image load optimizationn setting for a zone.
 
@@ -818,7 +818,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_minify(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get minify setting.
+        Get minify setting.
 
         Get minify setting for a zone.
 
@@ -846,9 +846,7 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-
-
-    def update_minify(self, *, accept: str = None, css: str = None, html: str = None, js: str = None, **kwargs) -> DetailedResponse:
+    def update_minify(self, *, accept: str = None, value: 'MinifySettingValue' = None, **kwargs) -> DetailedResponse:
         """
         Update minify setting.
 
@@ -862,17 +860,17 @@ class ZonesSettingsV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `MinifyResp` object
         """
 
+        if value is not None:
+            value = convert_model(value)
         headers = {
             'Accept': accept
         }
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='update_minify')
         headers.update(sdk_headers)
 
-        data = {'value': {
-            'css': css,
-            'html': html,
-            'js': js
-        }}
+        data = {
+            'value': value
+        }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -892,7 +890,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_min_tls_version(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get minimum TLS version setting.
+        Get minimum TLS version setting.
 
         Get minimum TLS version setting for a zone.
 
@@ -963,7 +961,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_ip_geolocation(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get IP geolocation setting.
+        Get IP geolocation setting.
 
         Get IP geolocation setting for a zone.
 
@@ -1034,7 +1032,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_server_side_exclude(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get server side exclude setting.
+        Get server side exclude setting.
 
         Get server side exclude setting for a zone.
 
@@ -1105,7 +1103,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_security_header(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get HTTP strict transport security setting.
+        Get HTTP strict transport security setting.
 
         Get HTTP strict transport security setting for a zone.
 
@@ -1178,7 +1176,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_mobile_redirect(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get mobile redirect setting.
+        Get mobile redirect setting.
 
         Get mobile redirect setting for a zone.
 
@@ -1251,7 +1249,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_prefetch_preload(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get prefetch URLs from header setting.
+        Get prefetch URLs from header setting.
 
         Get prefetch URLs from header setting for a zone.
 
@@ -1322,7 +1320,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_http2(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get http/2 setting.
+        Get http/2 setting.
 
         Get http/2 setting for a zone.
 
@@ -1393,7 +1391,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_ipv6(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get IPv6 compatibility setting.
+        Get IPv6 compatibility setting.
 
         Get IPv6 compatibility setting for a zone.
 
@@ -1464,7 +1462,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_web_sockets(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get web sockets setting.
+        Get web sockets setting.
 
         Get web sockets setting for a zone.
 
@@ -1535,7 +1533,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_pseudo_ipv4(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get pseudo IPv4 setting.
+        Get pseudo IPv4 setting.
 
         Get pseudo IPv4 setting for a zone.
 
@@ -1606,7 +1604,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_response_buffering(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get response buffering setting.
+        Get response buffering setting.
 
         Get response buffering setting for a zone.
 
@@ -1677,7 +1675,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_hotlink_protection(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get hotlink protection setting.
+        Get hotlink protection setting.
 
         Get hotlink protection setting for a zone.
 
@@ -1748,7 +1746,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_max_upload(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get maximum upload size setting.
+        Get maximum upload size setting.
 
         Get maximum upload size setting for a zone.
 
@@ -1822,7 +1820,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_tls_client_auth(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get TLS Client Auth setting.
+        Get TLS Client Auth setting.
 
         Get TLS Client Auth setting for a zone.
 
@@ -1893,7 +1891,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_browser_check(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get browser check setting.
+        Get browser check setting.
 
         Get browser check setting for a zone.
 
@@ -1964,7 +1962,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_enable_error_pages_on(self, **kwargs) -> DetailedResponse:
         """
-        get enable error pages on setting.
+        Get enable error pages on setting.
 
         Get enable error pages on setting for a zone.
 
@@ -2031,7 +2029,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_web_application_firewall(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get web application firewall setting.
+        Get web application firewall setting.
 
         Get web application firewall setting for a zone.
 
@@ -2102,7 +2100,7 @@ class ZonesSettingsV1(BaseService):
 
     def get_ciphers(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
-        get ciphers setting.
+        Get ciphers setting.
 
         Get ciphers setting for a zone.
 

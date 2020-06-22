@@ -166,14 +166,19 @@ class TestZonesSettingsV1(unittest.TestCase):
         response = self.zonesSettings.get_minify().get_result()
         assert response is not None and response.get('success') is True
         result = response.get('result').get('value')
-        if result.get('css') == 'off':
-            self.value = 'on'
+        if result.get('css') == 'on':
+            self.value = 'off'
         else:
             self.value = 'on'
 
         """ Update minify css setting """
+        self.minfy = {
+            'css': self.value,
+            'html': self.value,
+            'js': self.value
+        }
         response = self.zonesSettings.update_minify(
-            css=self.value, html=self.value, js=self.value).get_result()
+            value=self.minfy).get_result()
         assert response is not None and response.get('success') is True
 
     def test_1_min_tls_setting(self):

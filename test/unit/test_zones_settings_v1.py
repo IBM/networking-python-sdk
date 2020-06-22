@@ -1252,27 +1252,29 @@ class TestUpdateMinify():
                       content_type='*/*',
                       status=200)
 
+        # Construct a dict representation of a MinifySettingValue model
+        minify_setting_value_model =  {
+            'css': 'false',
+            'html': 'false',
+            'js': 'false'
+        }
+
         # Set up parameter values
         accept = 'testString'
-        css = 'false'
-        html = 'false'
-        js = 'false'
+        value = minify_setting_value_model
 
         # Invoke method
         response = service.update_minify(
             accept=accept,
-            css=css,
-            html=html,
-            js=js,
+            value=value,
         )
+
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body.get("value")['css'] == css
-        assert req_body.get("value")['html'] == html
-        assert req_body.get("value")['js'] == js
+        assert req_body['value'] == value
 
 
     #--------------------------------------------------------
