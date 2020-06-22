@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services.zone_firewall_access_rules_v1 import ZoneFirewallAccessRulesV1
+from ibm_cloud_networking_services.zone_firewall_access_rules_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllAccessRules
+# Start of Service: ZoneFirewallAccessRules
 ##############################################################################
 # region
 
@@ -121,15 +121,134 @@ class TestListAllZoneAccessRules():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: ListAllAccessRules
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for create_zone_access_rule
+#-----------------------------------------------------------------------------
+class TestCreateZoneAccessRule():
 
-##############################################################################
-# Start of Service: GetAnAccessRule
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # create_zone_access_rule()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_zone_access_rule_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "notes": "This rule is set because of an event that occurred and caused X.", "allowed_modes": ["block"], "mode": "block", "scope": {"type": "account"}, "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "configuration": {"target": "ip", "value": "ip example 198.51.100.4; ip_range example 198.51.100.4/16 ; asn example AS12345; country example AZ"}}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a ZoneAccessRuleInputConfiguration model
+        zone_access_rule_input_configuration_model =  {
+            'target': 'ip',
+            'value': 'ip example 198.51.100.4; ip_range example 198.51.100.4/16 ; asn example AS12345; country example AZ'
+        }
+
+        # Set up parameter values
+        mode = 'block'
+        notes = 'This rule is added because of event X that occurred on date xyz'
+        configuration = zone_access_rule_input_configuration_model
+
+        # Invoke method
+        response = service.create_zone_access_rule(
+            mode=mode,
+            notes=notes,
+            configuration=configuration,
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['mode'] == mode
+        assert req_body['notes'] == notes
+        assert req_body['configuration'] == configuration
+
+
+    #--------------------------------------------------------
+    # test_create_zone_access_rule_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_zone_access_rule_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "notes": "This rule is set because of an event that occurred and caused X.", "allowed_modes": ["block"], "mode": "block", "scope": {"type": "account"}, "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "configuration": {"target": "ip", "value": "ip example 198.51.100.4; ip_range example 198.51.100.4/16 ; asn example AS12345; country example AZ"}}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.create_zone_access_rule()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_zone_access_rule
+#-----------------------------------------------------------------------------
+class TestDeleteZoneAccessRule():
+
+    #--------------------------------------------------------
+    # delete_zone_access_rule()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_access_rule_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        accessrule_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_access_rule(
+            accessrule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_zone_access_rule_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_access_rule_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        accessrule_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_access_rule(
+            accessrule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for get_zone_access_rule
@@ -189,96 +308,6 @@ class TestGetZoneAccessRule():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetAnAccessRule
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateAnAccessRule
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for create_zone_access_rule
-#-----------------------------------------------------------------------------
-class TestCreateZoneAccessRule():
-
-    #--------------------------------------------------------
-    # create_zone_access_rule()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_zone_access_rule_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "notes": "This rule is set because of an event that occurred and caused X.", "allowed_modes": ["block"], "mode": "block", "scope": {"type": "account"}, "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "configuration": {"target": "ip", "value": "ip example 198.51.100.4; ip_range example 198.51.100.4/16 ; asn example AS12345; country example AZ"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a AccessruleInputConfiguration model
-        accessrule_input_configuration_model =  {
-            'target': 'ip',
-            'value': 'ip example 198.51.100.4; ip_range example 198.51.100.4/16 ; asn example AS12345; country example AZ'
-        }
-
-        # Set up parameter values
-        mode = 'block'
-        notes = 'This rule is added because of event X that occurred on date xyz'
-        configuration = accessrule_input_configuration_model
-
-        # Invoke method
-        response = service.create_zone_access_rule(
-            mode=mode,
-            notes=notes,
-            configuration=configuration,
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['mode'] == mode
-        assert req_body['notes'] == notes
-        assert req_body['configuration'] == configuration
-
-
-    #--------------------------------------------------------
-    # test_create_zone_access_rule_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_zone_access_rule_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "notes": "This rule is set because of an event that occurred and caused X.", "allowed_modes": ["block"], "mode": "block", "scope": {"type": "account"}, "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "configuration": {"target": "ip", "value": "ip example 198.51.100.4; ip_range example 198.51.100.4/16 ; asn example AS12345; country example AZ"}}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.create_zone_access_rule()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: CreateAnAccessRule
-##############################################################################
-
-##############################################################################
-# Start of Service: UpdateAnAccessRule
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for update_zone_access_rule
@@ -349,75 +378,6 @@ class TestUpdateZoneAccessRule():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateAnAccessRule
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteAnAccessRule
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_zone_access_rule
-#-----------------------------------------------------------------------------
-class TestDeleteZoneAccessRule():
-
-    #--------------------------------------------------------
-    # delete_zone_access_rule()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_access_rule_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        accessrule_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_access_rule(
-            accessrule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_zone_access_rule_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_access_rule_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/access_rules/rules/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        accessrule_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_access_rule(
-            accessrule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteAnAccessRule
+# End of Service: ZoneFirewallAccessRules
 ##############################################################################
 

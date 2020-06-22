@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services.waf_api_v1 import WafApiV1
+from ibm_cloud_networking_services.waf_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'

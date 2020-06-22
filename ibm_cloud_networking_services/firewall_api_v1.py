@@ -95,7 +95,7 @@ class FirewallApiV1(BaseService):
 
 
     #########################
-    # Get security level setting
+    # Security Level Setting
     #########################
 
 
@@ -124,10 +124,6 @@ class FirewallApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Set security level setting
-    #########################
 
 
     def set_security_level_setting(self, *, value: str = None, **kwargs) -> DetailedResponse:

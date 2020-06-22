@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import GlobalLoadBalancerV1
+from ibm_cloud_networking_services.global_load_balancer_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -33,7 +33,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListLoadBalancers
+# Start of Service: GlobalLoadBalancer
 ##############################################################################
 # region
 
@@ -87,85 +87,6 @@ class TestListAllLoadBalancers():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListLoadBalancers
-##############################################################################
-
-##############################################################################
-# Start of Service: GetALoadBalancer
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_load_balancer_settings
-#-----------------------------------------------------------------------------
-class TestGetLoadBalancerSettings():
-
-    #--------------------------------------------------------
-    # get_load_balancer_settings()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_load_balancer_settings_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Load Balancer for www.example.com", "name": "www.example.com", "ttl": 30, "fallback_pool": "17b5962d775c646f3f9725cbc7a53df4", "default_pools": ["default_pools"], "region_pools": ["unknown property type: region_pools"], "pop_pools": ["unknown property type: pop_pools"], "proxied": true, "enabled": true, "session_affinity": "ip_cookie", "steering_policy": "dynamic_latency"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        load_balancer_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_load_balancer_settings(
-            load_balancer_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_load_balancer_settings_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_load_balancer_settings_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Load Balancer for www.example.com", "name": "www.example.com", "ttl": 30, "fallback_pool": "17b5962d775c646f3f9725cbc7a53df4", "default_pools": ["default_pools"], "region_pools": ["unknown property type: region_pools"], "pop_pools": ["unknown property type: pop_pools"], "proxied": true, "enabled": true, "session_affinity": "ip_cookie", "steering_policy": "dynamic_latency"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        load_balancer_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_load_balancer_settings(
-            load_balancer_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetALoadBalancer
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateALoadBalancer
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_load_balancer
@@ -254,85 +175,6 @@ class TestCreateLoadBalancer():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: CreateALoadBalancer
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteALoadBalancer
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_load_balancer
-#-----------------------------------------------------------------------------
-class TestDeleteLoadBalancer():
-
-    #--------------------------------------------------------
-    # delete_load_balancer()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_load_balancer_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        load_balancer_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_load_balancer(
-            load_balancer_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_load_balancer_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_load_balancer_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        load_balancer_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_load_balancer(
-            load_balancer_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteALoadBalancer
-##############################################################################
-
-##############################################################################
-# Start of Service: EditALoadBalancer
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for edit_load_balancer
@@ -428,8 +270,126 @@ class TestEditLoadBalancer():
         assert response.status_code == 200
 
 
+#-----------------------------------------------------------------------------
+# Test Class for delete_load_balancer
+#-----------------------------------------------------------------------------
+class TestDeleteLoadBalancer():
+
+    #--------------------------------------------------------
+    # delete_load_balancer()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_load_balancer_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        load_balancer_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_load_balancer(
+            load_balancer_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_load_balancer_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_load_balancer_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        load_balancer_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_load_balancer(
+            load_balancer_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_load_balancer_settings
+#-----------------------------------------------------------------------------
+class TestGetLoadBalancerSettings():
+
+    #--------------------------------------------------------
+    # get_load_balancer_settings()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_load_balancer_settings_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Load Balancer for www.example.com", "name": "www.example.com", "ttl": 30, "fallback_pool": "17b5962d775c646f3f9725cbc7a53df4", "default_pools": ["default_pools"], "region_pools": ["unknown property type: region_pools"], "pop_pools": ["unknown property type: pop_pools"], "proxied": true, "enabled": true, "session_affinity": "ip_cookie", "steering_policy": "dynamic_latency"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        load_balancer_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_load_balancer_settings(
+            load_balancer_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_load_balancer_settings_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_load_balancer_settings_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/load_balancers/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "699d98642c564d2e855e9661899b7252", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Load Balancer for www.example.com", "name": "www.example.com", "ttl": 30, "fallback_pool": "17b5962d775c646f3f9725cbc7a53df4", "default_pools": ["default_pools"], "region_pools": ["unknown property type: region_pools"], "pop_pools": ["unknown property type: pop_pools"], "proxied": true, "enabled": true, "session_affinity": "ip_cookie", "steering_policy": "dynamic_latency"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        load_balancer_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_load_balancer_settings(
+            load_balancer_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
 # endregion
 ##############################################################################
-# End of Service: EditALoadBalancer
+# End of Service: GlobalLoadBalancer
 ##############################################################################
 

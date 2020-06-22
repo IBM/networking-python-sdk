@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services.user_agent_blocking_rules_v1 import UserAgentBlockingRulesV1
+from ibm_cloud_networking_services.user_agent_blocking_rules_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllUserAgentBlockingRules
+# Start of Service: UserAgentBlockingRules
 ##############################################################################
 # region
 
@@ -99,85 +99,6 @@ class TestListAllZoneUserAgentRules():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListAllUserAgentBlockingRules
-##############################################################################
-
-##############################################################################
-# Start of Service: GetAUserAgentBlockingRule
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_user_agent_rule
-#-----------------------------------------------------------------------------
-class TestGetUserAgentRule():
-
-    #--------------------------------------------------------
-    # get_user_agent_rule()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_user_agent_rule_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        useragent_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_user_agent_rule(
-            useragent_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_user_agent_rule_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_user_agent_rule_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        useragent_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_user_agent_rule(
-            useragent_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetAUserAgentBlockingRule
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateANewUserAgentBlockingRule
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_zone_user_agent_rule
@@ -252,15 +173,123 @@ class TestCreateZoneUserAgentRule():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: CreateANewUserAgentBlockingRule
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for delete_zone_user_agent_rule
+#-----------------------------------------------------------------------------
+class TestDeleteZoneUserAgentRule():
 
-##############################################################################
-# Start of Service: UpdateAUserAgentBlockingRule
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # delete_zone_user_agent_rule()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_user_agent_rule_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        useragent_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_user_agent_rule(
+            useragent_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_zone_user_agent_rule_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_user_agent_rule_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        useragent_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_user_agent_rule(
+            useragent_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_user_agent_rule
+#-----------------------------------------------------------------------------
+class TestGetUserAgentRule():
+
+    #--------------------------------------------------------
+    # get_user_agent_rule()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_user_agent_rule_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        useragent_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_user_agent_rule(
+            useragent_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_user_agent_rule_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_user_agent_rule_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "paused": true, "description": "Prevent access from abusive clients identified by this UserAgent to mitigate DDoS attack", "mode": "block", "configuration": {"target": "ua", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"}}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        useragent_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_user_agent_rule(
+            useragent_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for update_user_agent_rule
@@ -343,75 +372,6 @@ class TestUpdateUserAgentRule():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateAUserAgentBlockingRule
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteAUserAgentBlockingRule
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_zone_user_agent_rule
-#-----------------------------------------------------------------------------
-class TestDeleteZoneUserAgentRule():
-
-    #--------------------------------------------------------
-    # delete_zone_user_agent_rule()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_user_agent_rule_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        useragent_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_user_agent_rule(
-            useragent_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_zone_user_agent_rule_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_user_agent_rule_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/ua_rules/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        useragent_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_user_agent_rule(
-            useragent_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteAUserAgentBlockingRule
+# End of Service: UserAgentBlockingRules
 ##############################################################################
 

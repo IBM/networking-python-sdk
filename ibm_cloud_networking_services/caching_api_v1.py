@@ -32,7 +32,7 @@ from .common import get_sdk_headers
 ##############################################################################
 
 class CachingApiV1(BaseService):
-    """The Caching  API V1 service."""
+    """The Caching API V1 service."""
 
     DEFAULT_SERVICE_URL = 'https://api.cis.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'caching_api'
@@ -44,7 +44,7 @@ class CachingApiV1(BaseService):
                      service_name: str = DEFAULT_SERVICE_NAME,
                     ) -> 'CachingApiV1':
         """
-        Return a new client for the Caching  API service using the specified
+        Return a new client for the Caching API service using the specified
                parameters and external configuration.
 
         :param str crn: cloud resource name.
@@ -71,7 +71,7 @@ class CachingApiV1(BaseService):
                  authenticator: Authenticator = None,
                 ) -> None:
         """
-        Construct a new client for the Caching  API service.
+        Construct a new client for the Caching API service.
 
         :param str crn: cloud resource name.
 
@@ -94,7 +94,7 @@ class CachingApiV1(BaseService):
 
 
     #########################
-    # Purge-All
+    # Cache Settings
     #########################
 
 
@@ -124,10 +124,6 @@ class CachingApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Purge-By-URLs
-    #########################
 
 
     def purge_by_urls(self, *, files: List[str] = None, **kwargs) -> DetailedResponse:
@@ -166,10 +162,6 @@ class CachingApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Purge-By-Tags
-    #########################
-
 
     def purge_by_cache_tags(self, *, tags: List[str] = None, **kwargs) -> DetailedResponse:
         """
@@ -207,10 +199,6 @@ class CachingApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Purge-By-Hosts
-    #########################
-
 
     def purge_by_hosts(self, *, hosts: List[str] = None, **kwargs) -> DetailedResponse:
         """
@@ -247,80 +235,6 @@ class CachingApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Cache-level
-    #########################
-
-
-    def get_cache_level(self, **kwargs) -> DetailedResponse:
-        """
-        Get cache level setting of a specific zone.
-
-        Get cache level setting of a specific zone.
-
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `CacheLevelResponse` object
-        """
-
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_cache_level')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/settings/cache_level'.format(*self.encode_path_vars(self.crn, self.zone_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-
-    def update_cache_level(self, *, value: str = None, **kwargs) -> DetailedResponse:
-        """
-        Set cache level setting for a specific zone.
-
-        The `basic` setting will cache most static resources (i.e., css, images, and
-        JavaScript). The `simplified` setting will ignore the query string when delivering
-        a cached resource. The `aggressive` setting will cache all static resources,
-        including ones with a query string.
-
-        :param str value: (optional) cache level.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `CacheLevelResponse` object
-        """
-
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='update_cache_level')
-        headers.update(sdk_headers)
-
-        data = {
-            'value': value
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/settings/cache_level'.format(*self.encode_path_vars(self.crn, self.zone_id))
-        request = self.prepare_request(method='PATCH',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Browser-Cache-TTL
-    #########################
 
 
     def get_browser_cache_ttl(self, **kwargs) -> DetailedResponse:
@@ -387,10 +301,6 @@ class CachingApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Development-Mode
-    #########################
-
 
     def get_development_mode(self, **kwargs) -> DetailedResponse:
         """
@@ -454,10 +364,6 @@ class CachingApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Enable-Query-String-Sort
-    #########################
-
 
     def get_query_string_sort(self, **kwargs) -> DetailedResponse:
         """
@@ -513,6 +419,76 @@ class CachingApiV1(BaseService):
             headers.update(kwargs.get('headers'))
 
         url = '/v1/{0}/zones/{1}/settings/sort_query_string_for_cache'.format(*self.encode_path_vars(self.crn, self.zone_id))
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # cacheLevel
+    #########################
+
+
+    def get_cache_level(self, **kwargs) -> DetailedResponse:
+        """
+        Get cache level setting of a specific zone.
+
+        Get cache level setting of a specific zone.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CacheLevelResponse` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_cache_level')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/settings/cache_level'.format(*self.encode_path_vars(self.crn, self.zone_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def update_cache_level(self, *, value: str = None, **kwargs) -> DetailedResponse:
+        """
+        Set cache level setting for a specific zone.
+
+        The `basic` setting will cache most static resources (i.e., css, images, and
+        JavaScript). The `simplified` setting will ignore the query string when delivering
+        a cached resource. The `aggressive` setting will cache all static resources,
+        including ones with a query string.
+
+        :param str value: (optional) cache level.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CacheLevelResponse` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='update_cache_level')
+        headers.update(sdk_headers)
+
+        data = {
+            'value': value
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/settings/cache_level'.format(*self.encode_path_vars(self.crn, self.zone_id))
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,

@@ -99,7 +99,7 @@ class ZonesSettingsV1(BaseService):
 
 
     #########################
-    # Get zone DNSSEC
+    # Zones Settings
     #########################
 
 
@@ -128,10 +128,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update zone DNSSEC
-    #########################
 
 
     def update_zone_dnssec(self, *, accept: str = None, status: str = None, **kwargs) -> DetailedResponse:
@@ -173,10 +169,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get zone CNAME flattening
-    #########################
-
 
     def get_zone_cname_flattening(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -207,10 +199,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update zone CNAME flattening
-    #########################
 
 
     def update_zone_cname_flattening(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -255,10 +243,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get opportunistic encryption setting
-    #########################
-
 
     def get_opportunistic_encryption(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -289,10 +273,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update opportunistic encryption setting
-    #########################
 
 
     def update_opportunistic_encryption(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -334,10 +314,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get challenge TTL setting
-    #########################
-
 
     def get_challenge_ttl(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -368,10 +344,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update challenge TTL setting
-    #########################
 
 
     def update_challenge_ttl(self, *, accept: str = None, value: int = None, **kwargs) -> DetailedResponse:
@@ -413,10 +385,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get automatic https rewrites setting
-    #########################
-
 
     def get_automatic_https_rewrites(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -447,10 +415,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update automatic https rewrites setting
-    #########################
 
 
     def update_automatic_https_rewrites(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -492,10 +456,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get true client IP setting
-    #########################
-
 
     def get_ture_client_ip(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -526,10 +486,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update true client IP setting
-    #########################
 
 
     def update_true_client_ip(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -571,10 +527,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get always use https setting
-    #########################
-
 
     def get_always_use_https(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -605,10 +557,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update always use https setting
-    #########################
 
 
     def update_always_use_https(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -650,10 +598,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get image size optimization setting
-    #########################
-
 
     def get_image_size_optimization(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -684,10 +628,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update image size optimization setting
-    #########################
 
 
     def update_image_size_optimization(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -733,10 +673,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get script load optimization setting
-    #########################
-
 
     def get_script_load_optimization(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -767,10 +703,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update script load optimization setting
-    #########################
 
 
     def update_script_load_optimization(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -812,10 +744,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get image load optimizationn setting
-    #########################
-
 
     def get_image_load_optimization(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -846,10 +774,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update image load optimizationn setting
-    #########################
 
 
     def update_image_load_optimization(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -891,10 +815,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get minify setting
-    #########################
-
 
     def get_minify(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -926,9 +846,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update minify setting
-    #########################
 
 
     def update_minify(self, *, accept: str = None, css: str = None, html: str = None, js: str = None, **kwargs) -> DetailedResponse:
@@ -939,10 +856,7 @@ class ZonesSettingsV1(BaseService):
 
         :param str accept: (optional) The type of the response: *_/_* or
                application/json.
-        :param str css: (optional) Automatically minify all CSS for your website.
-        :param str html: (optional) Automatically minify all HTML for your website.
-        :param str js: (optional) Automatically minify all JavaScript for your
-               website.
+        :param MinifySettingValue value: (optional) Value.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `MinifyResp` object
@@ -975,10 +889,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get minimum TLS version setting
-    #########################
-
 
     def get_min_tls_version(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1009,10 +919,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update minimum TLS version setting
-    #########################
 
 
     def update_min_tls_version(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1054,10 +960,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get IP geolocation setting
-    #########################
-
 
     def get_ip_geolocation(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1088,10 +990,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update IP geolocation setting
-    #########################
 
 
     def update_ip_geolocation(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1133,10 +1031,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get server side exclude setting
-    #########################
-
 
     def get_server_side_exclude(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1167,10 +1061,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update server side exclude setting
-    #########################
 
 
     def update_server_side_exclude(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1212,10 +1102,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get HTTP strict transport security setting
-    #########################
-
 
     def get_security_header(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1246,10 +1132,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update HTTP strict transport security setting
-    #########################
 
 
     def update_security_header(self, *, accept: str = None, value: 'SecurityHeaderSettingValue' = None, **kwargs) -> DetailedResponse:
@@ -1293,10 +1175,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get mobile redirect setting
-    #########################
-
 
     def get_mobile_redirect(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1327,10 +1205,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update mobile redirect setting
-    #########################
 
 
     def update_mobile_redirect(self, *, accept: str = None, value: 'MobileRedirecSettingValue' = None, **kwargs) -> DetailedResponse:
@@ -1374,10 +1248,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get prefetch URLs from header setting
-    #########################
-
 
     def get_prefetch_preload(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1408,10 +1278,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update prefetch URLs from header setting
-    #########################
 
 
     def update_prefetch_preload(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1453,10 +1319,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get http/2 setting
-    #########################
-
 
     def get_http2(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1487,10 +1349,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update http/2 setting
-    #########################
 
 
     def update_http2(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1532,10 +1390,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get IPv6 compatibility setting
-    #########################
-
 
     def get_ipv6(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1566,10 +1420,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update IPv6 compatibility setting
-    #########################
 
 
     def update_ipv6(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1611,10 +1461,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get web sockets setting
-    #########################
-
 
     def get_web_sockets(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1645,10 +1491,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update web sockets setting
-    #########################
 
 
     def update_web_sockets(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1690,10 +1532,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get pseudo IPv4 setting
-    #########################
-
 
     def get_pseudo_ipv4(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1724,10 +1562,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update pseudo IPv4 setting
-    #########################
 
 
     def update_pseudo_ipv4(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1769,10 +1603,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get response buffering setting
-    #########################
-
 
     def get_response_buffering(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1803,10 +1633,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update response buffering setting
-    #########################
 
 
     def update_response_buffering(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1848,10 +1674,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get hotlink protection setting
-    #########################
-
 
     def get_hotlink_protection(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1882,10 +1704,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update hotlink protection setting
-    #########################
 
 
     def update_hotlink_protection(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -1927,10 +1745,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get maximum upload size setting
-    #########################
-
 
     def get_max_upload(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -1961,10 +1775,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update maximum upload size setting
-    #########################
 
 
     def update_max_upload(self, *, accept: str = None, value: int = None, **kwargs) -> DetailedResponse:
@@ -2009,10 +1819,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get TLS Client Auth setting
-    #########################
-
 
     def get_tls_client_auth(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -2043,10 +1849,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update TLS Client Auth setting
-    #########################
 
 
     def update_tls_client_auth(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -2088,10 +1890,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get Browser Check setting
-    #########################
-
 
     def get_browser_check(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -2122,10 +1920,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update Browser Check setting
-    #########################
 
 
     def update_browser_check(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -2167,10 +1961,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get Enable Error Pages On setting
-    #########################
-
 
     def get_enable_error_pages_on(self, **kwargs) -> DetailedResponse:
         """
@@ -2197,10 +1987,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update Enable Error Pages On setting
-    #########################
 
 
     def update_enable_error_pages_on(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -2242,10 +2028,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get Web Application Firewall setting
-    #########################
-
 
     def get_web_application_firewall(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -2276,10 +2058,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update Web Application Firewall setting
-    #########################
 
 
     def update_web_application_firewall(self, *, accept: str = None, value: str = None, **kwargs) -> DetailedResponse:
@@ -2321,10 +2099,6 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get Ciphers setting
-    #########################
-
 
     def get_ciphers(self, *, accept: str = None, **kwargs) -> DetailedResponse:
         """
@@ -2355,10 +2129,6 @@ class ZonesSettingsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update Ciphers setting
-    #########################
 
 
     def update_ciphers(self, *, accept: str = None, value: List[List[str]] = None, **kwargs) -> DetailedResponse:

@@ -19,7 +19,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import GlobalLoadBalancerEventsV1
+from ibm_cloud_networking_services.global_load_balancer_events_v1 import *
 
 crn = 'testString'
 
@@ -32,7 +32,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: GetLoadBalancerEvents
+# Start of Service: GlobalLoadBalancerEvents
 ##############################################################################
 # region
 
@@ -89,6 +89,6 @@ class TestGetLoadBalancerEvents():
 
 # endregion
 ##############################################################################
-# End of Service: GetLoadBalancerEvents
+# End of Service: GlobalLoadBalancerEvents
 ##############################################################################
 

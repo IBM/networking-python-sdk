@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import CisIpApiV1
+from ibm_cloud_networking_services.cis_ip_api_v1 import *
 
 
 service = CisIpApiV1(

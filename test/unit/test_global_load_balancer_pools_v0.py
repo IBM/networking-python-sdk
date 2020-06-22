@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import GlobalLoadBalancerPoolsV0
+from ibm_cloud_networking_services.global_load_balancer_pools_v0 import *
 
 crn = 'testString'
 
@@ -31,7 +31,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListPools
+# Start of Service: GlobalLoadBalancerPool
 ##############################################################################
 # region
 
@@ -85,16 +85,6 @@ class TestListAllLoadBalancerPools():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListPools
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateANewPool
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_load_balancer_pool
@@ -182,16 +172,6 @@ class TestCreateLoadBalancerPool():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: CreateANewPool
-##############################################################################
-
-##############################################################################
-# Start of Service: GetAPool
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for get_load_balancer_pool
 #-----------------------------------------------------------------------------
@@ -251,16 +231,6 @@ class TestGetLoadBalancerPool():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: GetAPool
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteAPool
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for delete_load_balancer_pool
 #-----------------------------------------------------------------------------
@@ -319,16 +289,6 @@ class TestDeleteLoadBalancerPool():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: DeleteAPool
-##############################################################################
-
-##############################################################################
-# Start of Service: EditAPool
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for edit_load_balancer_pool
@@ -424,6 +384,6 @@ class TestEditLoadBalancerPool():
 
 # endregion
 ##############################################################################
-# End of Service: EditAPool
+# End of Service: GlobalLoadBalancerPool
 ##############################################################################
 

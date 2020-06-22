@@ -96,7 +96,7 @@ class PageRuleApiV1(BaseService):
 
 
     #########################
-    # Page-Rules
+    # Page Rules
     #########################
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright 2016 IBM All Rights Reserved.
+# Copyright 2020 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -71,7 +71,7 @@ setup(name=PACKAGE_NAME.replace('_', '-'),
       author_email='devexdev@us.ibm.com',
       long_description=readme,
       long_description_content_type='text/markdown',
-      url='https://github.com/IBM/networking-services-python-sdk',
+      url='https://github.com/IBM/networking-python-sdk',
       packages=[PACKAGE_NAME],
       include_package_data=True,
       keywords=PACKAGE_NAME,

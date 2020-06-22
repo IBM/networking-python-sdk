@@ -82,7 +82,7 @@ class GlobalLoadBalancerMonitorV1(BaseService):
 
 
     #########################
-    # List all load balancer monitors
+    # Global Load Balancer Monitor
     #########################
 
 
@@ -112,50 +112,12 @@ class GlobalLoadBalancerMonitorV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get a load balancer monitor
-    #########################
-
-
-    def get_load_balancer_monitor(self, monitor_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        get a load balancer monitor.
-
-        For a given user and load balancer monitor id, get the monitor details.
-
-        :param str monitor_identifier: monitor identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `MonitorResp` object
-        """
-
-        if monitor_identifier is None:
-            raise ValueError('monitor_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_load_balancer_monitor')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/load_balancers/monitors/{1}'.format(*self.encode_path_vars(self.crn, monitor_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a load balancer monitor
-    #########################
-
 
     def create_load_balancer_monitor(self, *, expected_codes: str = None, type: str = None, description: str = None, method: str = None, port: int = None, path: str = None, timeout: int = None, retries: int = None, interval: int = None, follow_redirects: bool = None, expected_body: str = None, allow_insecure: bool = None, **kwargs) -> DetailedResponse:
         """
         Create a load balancer monitor.
 
-        Create a load balancer monitor for a given user.
+        Create a load balancer monitor for a given service instance.
 
         :param str expected_codes: (optional) expected codes.
         :param str type: (optional) http type.
@@ -207,10 +169,6 @@ class GlobalLoadBalancerMonitorV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Edit a load balancer monitor
-    #########################
 
 
     def edit_load_balancer_monitor(self, monitor_identifier: str, *, expected_codes: str = None, type: str = None, description: str = None, method: str = None, port: int = None, path: str = None, timeout: int = None, retries: int = None, interval: int = None, follow_redirects: bool = None, expected_body: str = None, allow_insecure: bool = None, **kwargs) -> DetailedResponse:
@@ -273,10 +231,6 @@ class GlobalLoadBalancerMonitorV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a load balancer monitor
-    #########################
-
 
     def delete_load_balancer_monitor(self, monitor_identifier: str, **kwargs) -> DetailedResponse:
         """
@@ -301,6 +255,37 @@ class GlobalLoadBalancerMonitorV1(BaseService):
 
         url = '/v1/{0}/load_balancers/monitors/{1}'.format(*self.encode_path_vars(self.crn, monitor_identifier))
         request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_load_balancer_monitor(self, monitor_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        get a load balancer monitor.
+
+        For a given service instance and load balancer monitor id, get the monitor
+        details.
+
+        :param str monitor_identifier: monitor identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `MonitorResp` object
+        """
+
+        if monitor_identifier is None:
+            raise ValueError('monitor_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_load_balancer_monitor')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/load_balancers/monitors/{1}'.format(*self.encode_path_vars(self.crn, monitor_identifier))
+        request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
 

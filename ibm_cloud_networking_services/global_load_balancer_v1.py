@@ -95,7 +95,7 @@ class GlobalLoadBalancerV1(BaseService):
 
 
     #########################
-    # List load balancers
+    # Global Load Balancer
     #########################
 
 
@@ -124,44 +124,6 @@ class GlobalLoadBalancerV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Get a load balancer
-    #########################
-
-
-    def get_load_balancer_settings(self, load_balancer_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        get a load balancer.
-
-        For a given zone identifier and load balancer id, get the load balancer settings.
-
-        :param str load_balancer_identifier: load balancer identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `LoadBalancersResp` object
-        """
-
-        if load_balancer_identifier is None:
-            raise ValueError('load_balancer_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_load_balancer_settings')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/load_balancers/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, load_balancer_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a load balancer
-    #########################
 
 
     def create_load_balancer(self, *, name: str = None, fallback_pool: str = None, default_pools: List[str] = None, description: str = None, ttl: int = None, region_pools: List[object] = None, pop_pools: List[object] = None, proxied: bool = None, enabled: bool = None, session_affinity: str = None, steering_policy: str = None, **kwargs) -> DetailedResponse:
@@ -220,44 +182,6 @@ class GlobalLoadBalancerV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a load balancer
-    #########################
-
-
-    def delete_load_balancer(self, load_balancer_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete a load balancer.
-
-        Delete a load balancer.
-
-        :param str load_balancer_identifier: load balancer identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteLoadBalancersResp` object
-        """
-
-        if load_balancer_identifier is None:
-            raise ValueError('load_balancer_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_load_balancer')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/load_balancers/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, load_balancer_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Edit a load balancer
-    #########################
-
 
     def edit_load_balancer(self, load_balancer_identifier: str, *, name: str = None, fallback_pool: str = None, default_pools: List[str] = None, description: str = None, ttl: int = None, region_pools: List[object] = None, pop_pools: List[object] = None, proxied: bool = None, enabled: bool = None, session_affinity: str = None, steering_policy: str = None, **kwargs) -> DetailedResponse:
         """
@@ -313,6 +237,66 @@ class GlobalLoadBalancerV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def delete_load_balancer(self, load_balancer_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a load balancer.
+
+        Delete a load balancer.
+
+        :param str load_balancer_identifier: load balancer identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteLoadBalancersResp` object
+        """
+
+        if load_balancer_identifier is None:
+            raise ValueError('load_balancer_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_load_balancer')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/load_balancers/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, load_balancer_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_load_balancer_settings(self, load_balancer_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        get a load balancer.
+
+        For a given zone identifier and load balancer id, get the load balancer settings.
+
+        :param str load_balancer_identifier: load balancer identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LoadBalancersResp` object
+        """
+
+        if load_balancer_identifier is None:
+            raise ValueError('load_balancer_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_load_balancer_settings')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/load_balancers/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, load_balancer_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
 
         response = self.send(request)
         return response

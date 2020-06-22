@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import CachingApiV1
+from ibm_cloud_networking_services.caching_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'
@@ -33,7 +33,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: PurgeAll
+# Start of Service: CacheSettings
 ##############################################################################
 # region
 
@@ -87,16 +87,6 @@ class TestPurgeAll():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: PurgeAll
-##############################################################################
-
-##############################################################################
-# Start of Service: PurgeByURLs
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for purge_by_urls
@@ -156,16 +146,6 @@ class TestPurgeByUrls():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: PurgeByURLs
-##############################################################################
-
-##############################################################################
-# Start of Service: PurgeByTags
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for purge_by_cache_tags
 #-----------------------------------------------------------------------------
@@ -223,16 +203,6 @@ class TestPurgeByCacheTags():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: PurgeByTags
-##############################################################################
-
-##############################################################################
-# Start of Service: PurgeByHosts
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for purge_by_hosts
@@ -292,9 +262,336 @@ class TestPurgeByHosts():
         assert response.status_code == 200
 
 
+#-----------------------------------------------------------------------------
+# Test Class for get_browser_cache_ttl
+#-----------------------------------------------------------------------------
+class TestGetBrowserCacheTtl():
+
+    #--------------------------------------------------------
+    # get_browser_cache_ttl()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_browser_cache_ttl_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.get_browser_cache_ttl()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_browser_cache_ttl_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_browser_cache_ttl_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.get_browser_cache_ttl()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_browser_cache_ttl
+#-----------------------------------------------------------------------------
+class TestUpdateBrowserCacheTtl():
+
+    #--------------------------------------------------------
+    # update_browser_cache_ttl()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_browser_cache_ttl_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        value = 14400
+
+        # Invoke method
+        response = service.update_browser_cache_ttl(
+            value=value,
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['value'] == value
+
+
+    #--------------------------------------------------------
+    # test_update_browser_cache_ttl_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_browser_cache_ttl_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.update_browser_cache_ttl()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_development_mode
+#-----------------------------------------------------------------------------
+class TestGetDevelopmentMode():
+
+    #--------------------------------------------------------
+    # get_development_mode()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_development_mode_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.get_development_mode()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_development_mode_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_development_mode_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.get_development_mode()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_development_mode
+#-----------------------------------------------------------------------------
+class TestUpdateDevelopmentMode():
+
+    #--------------------------------------------------------
+    # update_development_mode()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_development_mode_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        value = 'false'
+
+        # Invoke method
+        response = service.update_development_mode(
+            value=value,
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['value'] == value
+
+
+    #--------------------------------------------------------
+    # test_update_development_mode_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_development_mode_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.update_development_mode()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_query_string_sort
+#-----------------------------------------------------------------------------
+class TestGetQueryStringSort():
+
+    #--------------------------------------------------------
+    # get_query_string_sort()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_query_string_sort_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.get_query_string_sort()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_query_string_sort_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_query_string_sort_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.get_query_string_sort()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_query_string_sort
+#-----------------------------------------------------------------------------
+class TestUpdateQueryStringSort():
+
+    #--------------------------------------------------------
+    # update_query_string_sort()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_query_string_sort_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        value = 'false'
+
+        # Invoke method
+        response = service.update_query_string_sort(
+            value=value,
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['value'] == value
+
+
+    #--------------------------------------------------------
+    # test_update_query_string_sort_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_query_string_sort_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.update_query_string_sort()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
 # endregion
 ##############################################################################
-# End of Service: PurgeByHosts
+# End of Service: CacheSettings
 ##############################################################################
 
 ##############################################################################
@@ -414,362 +711,5 @@ class TestUpdateCacheLevel():
 # endregion
 ##############################################################################
 # End of Service: CacheLevel
-##############################################################################
-
-##############################################################################
-# Start of Service: BrowserCacheTTL
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_browser_cache_ttl
-#-----------------------------------------------------------------------------
-class TestGetBrowserCacheTtl():
-
-    #--------------------------------------------------------
-    # get_browser_cache_ttl()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_browser_cache_ttl_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_browser_cache_ttl()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_browser_cache_ttl_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_browser_cache_ttl_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_browser_cache_ttl()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-#-----------------------------------------------------------------------------
-# Test Class for update_browser_cache_ttl
-#-----------------------------------------------------------------------------
-class TestUpdateBrowserCacheTtl():
-
-    #--------------------------------------------------------
-    # update_browser_cache_ttl()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_browser_cache_ttl_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        value = 14400
-
-        # Invoke method
-        response = service.update_browser_cache_ttl(
-            value=value,
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['value'] == value
-
-
-    #--------------------------------------------------------
-    # test_update_browser_cache_ttl_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_browser_cache_ttl_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/browser_cache_ttl'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "browser_cache_ttl", "value": 14400, "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.update_browser_cache_ttl()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: BrowserCacheTTL
-##############################################################################
-
-##############################################################################
-# Start of Service: DevelopmentMode
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_development_mode
-#-----------------------------------------------------------------------------
-class TestGetDevelopmentMode():
-
-    #--------------------------------------------------------
-    # get_development_mode()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_development_mode_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_development_mode()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_development_mode_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_development_mode_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_development_mode()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-#-----------------------------------------------------------------------------
-# Test Class for update_development_mode
-#-----------------------------------------------------------------------------
-class TestUpdateDevelopmentMode():
-
-    #--------------------------------------------------------
-    # update_development_mode()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_development_mode_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        value = 'false'
-
-        # Invoke method
-        response = service.update_development_mode(
-            value=value,
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['value'] == value
-
-
-    #--------------------------------------------------------
-    # test_update_development_mode_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_development_mode_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/development_mode'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "development_mode", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.update_development_mode()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DevelopmentMode
-##############################################################################
-
-##############################################################################
-# Start of Service: EnableQueryStringSort
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_query_string_sort
-#-----------------------------------------------------------------------------
-class TestGetQueryStringSort():
-
-    #--------------------------------------------------------
-    # get_query_string_sort()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_query_string_sort_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_query_string_sort()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_query_string_sort_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_query_string_sort_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_query_string_sort()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-#-----------------------------------------------------------------------------
-# Test Class for update_query_string_sort
-#-----------------------------------------------------------------------------
-class TestUpdateQueryStringSort():
-
-    #--------------------------------------------------------
-    # update_query_string_sort()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_query_string_sort_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        value = 'false'
-
-        # Invoke method
-        response = service.update_query_string_sort(
-            value=value,
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['value'] == value
-
-
-    #--------------------------------------------------------
-    # test_update_query_string_sort_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_query_string_sort_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/settings/sort_query_string_for_cache'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "sort_query_string_for_cache", "value": "false", "editable": true, "modified_on": "2014-01-01T05:20:00.12345Z"}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.update_query_string_sort()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: EnableQueryStringSort
 ##############################################################################
 

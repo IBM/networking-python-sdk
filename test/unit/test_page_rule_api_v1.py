@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services import PageRuleApiV1
+from ibm_cloud_networking_services.page_rule_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'

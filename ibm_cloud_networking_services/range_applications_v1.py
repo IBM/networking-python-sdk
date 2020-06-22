@@ -99,7 +99,7 @@ class RangeApplicationsV1(BaseService):
 
 
     #########################
-    # List Range Applications
+    # Range Applications
     #########################
 
 
@@ -143,44 +143,6 @@ class RangeApplicationsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Get Range Application
-    #########################
-
-
-    def get_range_app(self, app_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Get the application configuration of a specific application inside a zone.
-
-        Get the application configuration of a specific application inside a zone.
-
-        :param str app_identifier: application identifier.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RangeApplicationObject` object
-        """
-
-        if app_identifier is None:
-            raise ValueError('app_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_range_app')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/range/apps/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, app_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a Range Application
-    #########################
 
 
     def create_range_app(self, protocol: str, dns: 'RangeAppReqDns', *, origin_direct: List[str] = None, origin_dns: 'RangeAppReqOriginDns' = None, origin_port: int = None, ip_firewall: bool = None, proxy_protocol: str = None, edge_ips: 'RangeAppReqEdgeIps' = None, traffic_type: str = None, tls: str = None, **kwargs) -> DetailedResponse:
@@ -262,9 +224,35 @@ class RangeApplicationsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update a Range Application
-    #########################
+
+    def get_range_app(self, app_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Get the application configuration of a specific application inside a zone.
+
+        Get the application configuration of a specific application inside a zone.
+
+        :param str app_identifier: application identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `RangeApplicationObject` object
+        """
+
+        if app_identifier is None:
+            raise ValueError('app_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_range_app')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/range/apps/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, app_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def update_range_app(self, app_identifier: str, protocol: str, dns: 'RangeAppReqDns', *, origin_direct: List[str] = None, origin_dns: 'RangeAppReqOriginDns' = None, origin_port: int = None, ip_firewall: bool = None, proxy_protocol: str = None, edge_ips: 'RangeAppReqEdgeIps' = None, traffic_type: str = None, tls: str = None, **kwargs) -> DetailedResponse:
@@ -349,10 +337,6 @@ class RangeApplicationsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a Range Application
-    #########################
-
 
     def delete_range_app(self, app_identifier: str, **kwargs) -> DetailedResponse:
         """
@@ -382,4 +366,26 @@ class RangeApplicationsV1(BaseService):
 
         response = self.send(request)
         return response
+
+
+class ListRangeAppsEnums:
+    """
+    Enums for list_range_apps parameters.
+    """
+
+    class Order(Enum):
+        """
+        Field by which to order the list of Range applications.
+        """
+        PROTOCOL = 'protocol'
+        APP_ID = 'app_id'
+        CREATED_ON = 'created_on'
+        MODIFIED_ON = 'modified_on'
+        DNS = 'dns'
+    class Direction(Enum):
+        """
+        Direction in which to order results [ascending/descending order].
+        """
+        ASC = 'asc'
+        DESC = 'desc'
 

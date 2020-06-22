@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services import DnsRecordsV1
+from ibm_cloud_networking_services.dns_records_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllDNSRecords
+# Start of Service: DNSRecords
 ##############################################################################
 # region
 
@@ -118,85 +118,6 @@ class TestListAllDnsRecords():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: ListAllDNSRecords
-##############################################################################
-
-##############################################################################
-# Start of Service: GetADNSRecord
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_dns_record
-#-----------------------------------------------------------------------------
-class TestGetDnsRecord():
-
-    #--------------------------------------------------------
-    # get_dns_record()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_dns_record_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": "unknown property type: data"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        dnsrecord_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_dns_record(
-            dnsrecord_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_dns_record_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_dns_record_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": "unknown property type: data"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        dnsrecord_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_dns_record(
-            dnsrecord_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetADNSRecord
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateADNSRecord
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for create_dns_record
 #-----------------------------------------------------------------------------
@@ -267,15 +188,123 @@ class TestCreateDnsRecord():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: CreateADNSRecord
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for delete_dns_record
+#-----------------------------------------------------------------------------
+class TestDeleteDnsRecord():
 
-##############################################################################
-# Start of Service: UpdateADNSRecord
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # delete_dns_record()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_dns_record_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        dnsrecord_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_dns_record(
+            dnsrecord_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_dns_record_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_dns_record_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        dnsrecord_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_dns_record(
+            dnsrecord_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_dns_record
+#-----------------------------------------------------------------------------
+class TestGetDnsRecord():
+
+    #--------------------------------------------------------
+    # get_dns_record()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_dns_record_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": "unknown property type: data"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        dnsrecord_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_dns_record(
+            dnsrecord_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_dns_record_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_dns_record_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "host-1.test-example.com", "type": "A", "content": "169.154.10.10", "zone_id": "023e105f4ecef8ad9ca31a8372d0c353", "zone_name": "test-example.com", "proxiable": true, "proxied": false, "ttl": 120, "priority": 5, "data": "unknown property type: data"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        dnsrecord_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_dns_record(
+            dnsrecord_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for update_dns_record
@@ -358,75 +387,6 @@ class TestUpdateDnsRecord():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateADNSRecord
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteADNSRecord
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_dns_record
-#-----------------------------------------------------------------------------
-class TestDeleteDnsRecord():
-
-    #--------------------------------------------------------
-    # delete_dns_record()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_dns_record_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        dnsrecord_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_dns_record(
-            dnsrecord_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_dns_record_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_dns_record_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/dns_records/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        dnsrecord_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_dns_record(
-            dnsrecord_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteADNSRecord
+# End of Service: DNSRecords
 ##############################################################################
 

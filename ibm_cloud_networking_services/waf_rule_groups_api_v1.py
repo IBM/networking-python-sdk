@@ -95,7 +95,7 @@ class WafRuleGroupsApiV1(BaseService):
 
 
     #########################
-    # List WAF Rule Groups
+    # WAF Rule Groups
     #########################
 
 
@@ -151,10 +151,6 @@ class WafRuleGroupsApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get single WAF rule group
-    #########################
-
 
     def get_waf_rule_group(self, pkg_id: str, group_id: str, **kwargs) -> DetailedResponse:
         """
@@ -187,10 +183,6 @@ class WafRuleGroupsApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update WAF rule group
-    #########################
 
 
     def update_waf_rule_group(self, pkg_id: str, group_id: str, *, mode: str = None, **kwargs) -> DetailedResponse:

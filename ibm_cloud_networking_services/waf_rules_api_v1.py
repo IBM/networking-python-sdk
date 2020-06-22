@@ -96,7 +96,7 @@ class WafRulesApiV1(BaseService):
 
 
     #########################
-    # List WAF Rules
+    # WAF Rules
     #########################
 
 
@@ -158,10 +158,6 @@ class WafRulesApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get WAF Rule
-    #########################
-
 
     def get_waf_rule(self, package_id: str, identifier: str, **kwargs) -> DetailedResponse:
         """
@@ -194,10 +190,6 @@ class WafRulesApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update WAF Rule
-    #########################
 
 
     def update_waf_rule(self, package_id: str, identifier: str, *, cis: 'WafRuleBodyCis' = None, owasp: 'WafRuleBodyOwasp' = None, **kwargs) -> DetailedResponse:

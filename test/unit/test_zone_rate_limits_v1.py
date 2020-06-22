@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services import ZoneRateLimitsV1
+from ibm_cloud_networking_services.zone_rate_limits_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllRateLimits
+# Start of Service: ZoneRateLimits
 ##############################################################################
 # region
 
@@ -99,16 +99,6 @@ class TestListAllZoneRateLimits():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListAllRateLimits
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateANewRateLimit
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_zone_rate_limits
@@ -233,15 +223,123 @@ class TestCreateZoneRateLimits():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: CreateANewRateLimit
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for delete_zone_rate_limit
+#-----------------------------------------------------------------------------
+class TestDeleteZoneRateLimit():
 
-##############################################################################
-# Start of Service: UpdateARateLimit
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # delete_zone_rate_limit()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_rate_limit_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
+        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        rate_limit_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_rate_limit(
+            rate_limit_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_zone_rate_limit_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_rate_limit_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
+        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        rate_limit_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_rate_limit(
+            rate_limit_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_rate_limit
+#-----------------------------------------------------------------------------
+class TestGetRateLimit():
+
+    #--------------------------------------------------------
+    # get_rate_limit()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_rate_limit_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
+        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "disabled": false, "description": "Prevent multiple login failures to mitigate brute force attacks", "bypass": [{"name": "url", "value": "example.com/*"}], "threshold": 1000, "period": 60, "correlate": {"by": "nat"}, "action": {"mode": "simulate", "timeout": 60, "response": {"content_type": "text/plain", "body": "This request has been rate-limited."}}, "match": {"request": {"methods": ["_ALL_"], "schemes": ["_ALL_"], "url": "*.example.org/path*"}, "response": {"status": [403], "headers": [{"name": "Cf-Cache-Status", "op": "ne", "value": "HIT"}], "origin_traffic": false}}}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        rate_limit_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_rate_limit(
+            rate_limit_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_rate_limit_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_rate_limit_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
+        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "disabled": false, "description": "Prevent multiple login failures to mitigate brute force attacks", "bypass": [{"name": "url", "value": "example.com/*"}], "threshold": 1000, "period": 60, "correlate": {"by": "nat"}, "action": {"mode": "simulate", "timeout": 60, "response": {"content_type": "text/plain", "body": "This request has been rate-limited."}}, "match": {"request": {"methods": ["_ALL_"], "schemes": ["_ALL_"], "url": "*.example.org/path*"}, "response": {"status": [403], "headers": [{"name": "Cf-Cache-Status", "op": "ne", "value": "HIT"}], "origin_traffic": false}}}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        rate_limit_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_rate_limit(
+            rate_limit_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for update_rate_limit
@@ -374,144 +472,6 @@ class TestUpdateRateLimit():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateARateLimit
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteARateLimit
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_zone_rate_limit
-#-----------------------------------------------------------------------------
-class TestDeleteZoneRateLimit():
-
-    #--------------------------------------------------------
-    # delete_zone_rate_limit()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_rate_limit_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
-        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        rate_limit_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_rate_limit(
-            rate_limit_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_zone_rate_limit_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_rate_limit_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
-        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        rate_limit_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_rate_limit(
-            rate_limit_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteARateLimit
-##############################################################################
-
-##############################################################################
-# Start of Service: GetARateLimit
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_rate_limit
-#-----------------------------------------------------------------------------
-class TestGetRateLimit():
-
-    #--------------------------------------------------------
-    # get_rate_limit()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_rate_limit_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
-        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "disabled": false, "description": "Prevent multiple login failures to mitigate brute force attacks", "bypass": [{"name": "url", "value": "example.com/*"}], "threshold": 1000, "period": 60, "correlate": {"by": "nat"}, "action": {"mode": "simulate", "timeout": 60, "response": {"content_type": "text/plain", "body": "This request has been rate-limited."}}, "match": {"request": {"methods": ["_ALL_"], "schemes": ["_ALL_"], "url": "*.example.org/path*"}, "response": {"status": [403], "headers": [{"name": "Cf-Cache-Status", "op": "ne", "value": "HIT"}], "origin_traffic": false}}}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        rate_limit_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_rate_limit(
-            rate_limit_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_rate_limit_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_rate_limit_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/rate_limits/testString'
-        mock_response = '{"success": true, "errors": [["[]"]], "messages": [["[]"]], "result": {"id": "92f17202ed8bd63d69a66b86a49a8f6b", "disabled": false, "description": "Prevent multiple login failures to mitigate brute force attacks", "bypass": [{"name": "url", "value": "example.com/*"}], "threshold": 1000, "period": 60, "correlate": {"by": "nat"}, "action": {"mode": "simulate", "timeout": 60, "response": {"content_type": "text/plain", "body": "This request has been rate-limited."}}, "match": {"request": {"methods": ["_ALL_"], "schemes": ["_ALL_"], "url": "*.example.org/path*"}, "response": {"status": [403], "headers": [{"name": "Cf-Cache-Status", "op": "ne", "value": "HIT"}], "origin_traffic": false}}}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        rate_limit_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_rate_limit(
-            rate_limit_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetARateLimit
+# End of Service: ZoneRateLimits
 ##############################################################################
 

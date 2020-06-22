@@ -85,7 +85,7 @@ class FirewallAccessRulesV1(BaseService):
 
 
     #########################
-    # List all instance level access rules
+    # Instance Level Firewall Access Rules
     #########################
 
 
@@ -111,7 +111,7 @@ class FirewallAccessRulesV1(BaseService):
                search parameter (any).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ListAccessrulesResp` object
+        :rtype: DetailedResponse with `dict` result representing a `ListAccountAccessRulesResp` object
         """
 
         headers = {}
@@ -142,48 +142,8 @@ class FirewallAccessRulesV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get an instance level access rule
-    #########################
 
-
-    def get_account_access_rule(self, accessrule_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Get an details of an instance level access rule by id.
-
-        Get the details of an instance level firewall access rule for a given  service
-        instance.
-
-        :param str accessrule_identifier: Identifier of firewall access rule for
-               the given zone.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `AccessruleResp` object
-        """
-
-        if accessrule_identifier is None:
-            raise ValueError('accessrule_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_account_access_rule')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/firewall/access_rules/rules/{1}'.format(*self.encode_path_vars(self.crn, accessrule_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create an instance level access rule
-    #########################
-
-
-    def create_account_access_rule(self, *, mode: str = None, notes: str = None, configuration: 'AccessruleInputConfiguration' = None, **kwargs) -> DetailedResponse:
+    def create_account_access_rule(self, *, mode: str = None, notes: str = None, configuration: 'AccountAccessRuleInputConfiguration' = None, **kwargs) -> DetailedResponse:
         """
         Create an instance level firewall access rule.
 
@@ -192,11 +152,11 @@ class FirewallAccessRulesV1(BaseService):
         :param str mode: (optional) The action to apply to a matched request.
         :param str notes: (optional) A personal note about the rule. Typically used
                as a reminder or explanation for the rule.
-        :param AccessruleInputConfiguration configuration: (optional) Configuration
-               object specifying access rule.
+        :param AccountAccessRuleInputConfiguration configuration: (optional)
+               Configuration object specifying access rule.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `AccessruleResp` object
+        :rtype: DetailedResponse with `dict` result representing a `AccountAccessRuleResp` object
         """
 
         if configuration is not None:
@@ -226,9 +186,68 @@ class FirewallAccessRulesV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update an instance level access rule
-    #########################
+
+    def delete_account_access_rule(self, accessrule_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete an instance level access rule.
+
+        Delete an instance level access rule given its id.
+
+        :param str accessrule_identifier: Identifier of the access rule to be
+               deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteAccountAccessRuleResp` object
+        """
+
+        if accessrule_identifier is None:
+            raise ValueError('accessrule_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_account_access_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/firewall/access_rules/rules/{1}'.format(*self.encode_path_vars(self.crn, accessrule_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_account_access_rule(self, accessrule_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Get the details of an instance level.
+
+        Get the details of an instance level firewall access rule for a given  service
+        instance.
+
+        :param str accessrule_identifier: Identifier of firewall access rule for
+               the given zone.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AccountAccessRuleResp` object
+        """
+
+        if accessrule_identifier is None:
+            raise ValueError('accessrule_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_account_access_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/firewall/access_rules/rules/{1}'.format(*self.encode_path_vars(self.crn, accessrule_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def update_account_access_rule(self, accessrule_identifier: str, *, mode: str = None, notes: str = None, **kwargs) -> DetailedResponse:
@@ -244,7 +263,7 @@ class FirewallAccessRulesV1(BaseService):
                as a reminder or explanation for the rule.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `AccessruleResp` object
+        :rtype: DetailedResponse with `dict` result representing a `AccountAccessRuleResp` object
         """
 
         if accessrule_identifier is None:
@@ -269,41 +288,6 @@ class FirewallAccessRulesV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        data=data)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Delete an instance level access rule
-    #########################
-
-
-    def delete_account_access_rule(self, accessrule_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete an instance level access rule.
-
-        Delete an instance level access rule given its id.
-
-        :param str accessrule_identifier: Identifier of the access rule to be
-               deleted.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteAccessruleResp` object
-        """
-
-        if accessrule_identifier is None:
-            raise ValueError('accessrule_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_account_access_rule')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/firewall/access_rules/rules/{1}'.format(*self.encode_path_vars(self.crn, accessrule_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
 
         response = self.send(request)
         return response

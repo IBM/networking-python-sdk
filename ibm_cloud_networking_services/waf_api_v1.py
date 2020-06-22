@@ -32,7 +32,7 @@ from .common import get_sdk_headers
 ##############################################################################
 
 class WafApiV1(BaseService):
-    """The WAF  API V1 service."""
+    """The WAF API V1 service."""
 
     DEFAULT_SERVICE_URL = 'https://api.cis.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'waf_api'
@@ -44,7 +44,7 @@ class WafApiV1(BaseService):
                      service_name: str = DEFAULT_SERVICE_NAME,
                     ) -> 'WafApiV1':
         """
-        Return a new client for the WAF  API service using the specified parameters
+        Return a new client for the WAF API service using the specified parameters
                and external configuration.
 
         :param str crn: cloud resource name.
@@ -71,7 +71,7 @@ class WafApiV1(BaseService):
                  authenticator: Authenticator = None,
                 ) -> None:
         """
-        Construct a new client for the WAF  API service.
+        Construct a new client for the WAF API service.
 
         :param str crn: cloud resource name.
 

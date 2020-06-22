@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services.waf_rule_packages_api_v1 import WafRulePackagesApiV1
+from ibm_cloud_networking_services.waf_rule_packages_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'

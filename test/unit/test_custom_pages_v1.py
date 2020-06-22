@@ -19,7 +19,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import CustomPagesV1
+from ibm_cloud_networking_services.custom_pages_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListInstanceCustomPages
+# Start of Service: CustomPages
 ##############################################################################
 # region
 
@@ -88,16 +88,6 @@ class TestListInstanceCustomPages():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListInstanceCustomPages
-##############################################################################
-
-##############################################################################
-# Start of Service: GetACustomPageForAGivenInstance
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for get_instance_custom_page
@@ -157,16 +147,6 @@ class TestGetInstanceCustomPage():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetACustomPageForAGivenInstance
-##############################################################################
-
-##############################################################################
-# Start of Service: UpdateACustomPageForAGivenInstance
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for update_instance_custom_page
@@ -235,16 +215,6 @@ class TestUpdateInstanceCustomPage():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: UpdateACustomPageForAGivenInstance
-##############################################################################
-
-##############################################################################
-# Start of Service: ListZoneCustomPages
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for list_zone_custom_pages
 #-----------------------------------------------------------------------------
@@ -295,16 +265,6 @@ class TestListZoneCustomPages():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListZoneCustomPages
-##############################################################################
-
-##############################################################################
-# Start of Service: GetACustomPageForAGivenZone
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for get_zone_custom_page
@@ -364,16 +324,6 @@ class TestGetZoneCustomPage():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetACustomPageForAGivenZone
-##############################################################################
-
-##############################################################################
-# Start of Service: UpdateACustomPageForAGivenZone
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for update_zone_custom_page
@@ -444,6 +394,6 @@ class TestUpdateZoneCustomPage():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateACustomPageForAGivenZone
+# End of Service: CustomPages
 ##############################################################################
 

@@ -96,7 +96,7 @@ class ZoneLockdownV1(BaseService):
 
 
     #########################
-    # List all lockdown rules
+    # Zone Lockdown Rules
     #########################
 
 
@@ -133,46 +133,6 @@ class ZoneLockdownV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Get an lockdown rule
-    #########################
-
-
-    def get_lockdown(self, lockdown_rule_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Get a lockdown rule's details by id.
-
-        For a given service instance, zone id and lockdown rule id, get the lockdown rule
-        details.
-
-        :param str lockdown_rule_identifier: Identifier of lockdown rule for the
-               given zone.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `LockdownResp` object
-        """
-
-        if lockdown_rule_identifier is None:
-            raise ValueError('lockdown_rule_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_lockdown')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/firewall/lockdowns/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, lockdown_rule_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a new lockdown rule
-    #########################
 
 
     def create_zone_lockdown_rule(self, *, urls: List[str] = None, configurations: List['LockdownInputConfigurationsItem'] = None, id: str = None, paused: bool = None, description: str = None, **kwargs) -> DetailedResponse:
@@ -227,9 +187,68 @@ class ZoneLockdownV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update a lockdown rule
-    #########################
+
+    def delete_zone_lockdown_rule(self, lockdown_rule_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a lockdown rule.
+
+        Delete a lockdown rule for a particular zone, given its id.
+
+        :param str lockdown_rule_identifier: Identifier of the lockdown rule to be
+               deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteLockdownResp` object
+        """
+
+        if lockdown_rule_identifier is None:
+            raise ValueError('lockdown_rule_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone_lockdown_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/firewall/lockdowns/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, lockdown_rule_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_lockdown(self, lockdown_rule_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Get a lockdown rule's details by id.
+
+        For a given service instance, zone id and lockdown rule id, get the lockdown rule
+        details.
+
+        :param str lockdown_rule_identifier: Identifier of lockdown rule for the
+               given zone.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LockdownResp` object
+        """
+
+        if lockdown_rule_identifier is None:
+            raise ValueError('lockdown_rule_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_lockdown')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/firewall/lockdowns/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, lockdown_rule_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def update_lockdown_rule(self, lockdown_rule_identifier: str, *, urls: List[str] = None, configurations: List['LockdownInputConfigurationsItem'] = None, id: str = None, paused: bool = None, description: str = None, **kwargs) -> DetailedResponse:
@@ -286,39 +305,3 @@ class ZoneLockdownV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Delete a lockdown rule
-    #########################
-
-
-    def delete_zone_lockdown_rule(self, lockdown_rule_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete a lockdown rule.
-
-        Delete a lockdown rule for a particular zone, given its id.
-
-        :param str lockdown_rule_identifier: Identifier of the lockdown rule to be
-               deleted.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteLockdownResp` object
-        """
-
-        if lockdown_rule_identifier is None:
-            raise ValueError('lockdown_rule_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone_lockdown_rule')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/firewall/lockdowns/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, lockdown_rule_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-

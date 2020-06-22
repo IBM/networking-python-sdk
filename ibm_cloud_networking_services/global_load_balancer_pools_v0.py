@@ -83,7 +83,7 @@ class GlobalLoadBalancerPoolsV0(BaseService):
 
 
     #########################
-    # List pools
+    # Global Load Balancer Pool
     #########################
 
 
@@ -112,10 +112,6 @@ class GlobalLoadBalancerPoolsV0(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Create a new pool
-    #########################
 
 
     def create_load_balancer_pool(self, *, name: str = None, check_regions: List[str] = None, origins: List['LoadBalancerPoolReqOriginsItem'] = None, description: str = None, minimum_origins: int = None, enabled: bool = None, monitor: str = None, notification_email: str = None, **kwargs) -> DetailedResponse:
@@ -170,10 +166,6 @@ class GlobalLoadBalancerPoolsV0(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get a pool
-    #########################
-
 
     def get_load_balancer_pool(self, pool_identifier: str, **kwargs) -> DetailedResponse:
         """
@@ -204,10 +196,6 @@ class GlobalLoadBalancerPoolsV0(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a pool
-    #########################
-
 
     def delete_load_balancer_pool(self, pool_identifier: str, **kwargs) -> DetailedResponse:
         """
@@ -237,10 +225,6 @@ class GlobalLoadBalancerPoolsV0(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Edit a pool
-    #########################
 
 
     def edit_load_balancer_pool(self, pool_identifier: str, *, name: str = None, check_regions: List[str] = None, origins: List['LoadBalancerPoolReqOriginsItem'] = None, description: str = None, minimum_origins: int = None, enabled: bool = None, monitor: str = None, notification_email: str = None, **kwargs) -> DetailedResponse:

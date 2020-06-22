@@ -96,7 +96,7 @@ class ZoneRateLimitsV1(BaseService):
 
 
     #########################
-    # List all rate limits
+    # Zone Rate Limits
     #########################
 
 
@@ -133,10 +133,6 @@ class ZoneRateLimitsV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Create a new rate limit
-    #########################
 
 
     def create_zone_rate_limits(self, *, threshold: int = None, period: int = None, action: 'RatelimitInputAction' = None, match: 'RatelimitInputMatch' = None, disabled: bool = None, description: str = None, bypass: List['RatelimitInputBypassItem'] = None, correlate: 'RatelimitInputCorrelate' = None, **kwargs) -> DetailedResponse:
@@ -206,9 +202,67 @@ class ZoneRateLimitsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update a rate limit
-    #########################
+
+    def delete_zone_rate_limit(self, rate_limit_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a rate limit.
+
+        Delete a rate limit given its id.
+
+        :param str rate_limit_identifier: Identifier of the rate limit to be
+               deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteRateLimitResp` object
+        """
+
+        if rate_limit_identifier is None:
+            raise ValueError('rate_limit_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone_rate_limit')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/rate_limits/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, rate_limit_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_rate_limit(self, rate_limit_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Get a rate limit.
+
+        Get the details of a rate limit for a given zone under a given service instance.
+
+        :param str rate_limit_identifier: Identifier of rate limit for the given
+               zone.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `RatelimitResp` object
+        """
+
+        if rate_limit_identifier is None:
+            raise ValueError('rate_limit_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_rate_limit')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/rate_limits/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, rate_limit_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def update_rate_limit(self, rate_limit_identifier: str, *, threshold: int = None, period: int = None, action: 'RatelimitInputAction' = None, match: 'RatelimitInputMatch' = None, disabled: bool = None, description: str = None, bypass: List['RatelimitInputBypassItem'] = None, correlate: 'RatelimitInputCorrelate' = None, **kwargs) -> DetailedResponse:
@@ -277,76 +331,6 @@ class ZoneRateLimitsV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        data=data)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Delete a rate limit
-    #########################
-
-
-    def delete_zone_rate_limit(self, rate_limit_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete a rate limit.
-
-        Delete a rate limit given its id.
-
-        :param str rate_limit_identifier: Identifier of the rate limit to be
-               deleted.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteRateLimitResp` object
-        """
-
-        if rate_limit_identifier is None:
-            raise ValueError('rate_limit_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone_rate_limit')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/rate_limits/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, rate_limit_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # getARateLimit
-    #########################
-
-
-    def get_rate_limit(self, rate_limit_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Get a rate limit's details by id.
-
-        Get the details of a rate limit for a given zone under a given service instance.
-
-        :param str rate_limit_identifier: Identifier of rate limit for the given
-               zone.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RatelimitResp` object
-        """
-
-        if rate_limit_identifier is None:
-            raise ValueError('rate_limit_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_rate_limit')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/rate_limits/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, rate_limit_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
 
         response = self.send(request)
         return response

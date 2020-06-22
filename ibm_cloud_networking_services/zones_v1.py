@@ -82,7 +82,7 @@ class ZonesV1(BaseService):
 
 
     #########################
-    # List all zones
+    # CIS Zones
     #########################
 
 
@@ -112,9 +112,71 @@ class ZonesV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get a zone
-    #########################
+
+    def create_zone(self, *, name: str = None, **kwargs) -> DetailedResponse:
+        """
+        Create a zone.
+
+        Add a new zone for a given service instance.
+
+        :param str name: (optional) name.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ZoneResp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='create_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'name': name
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones'.format(*self.encode_path_vars(self.crn))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def delete_zone(self, zone_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a zone.
+
+        Delete a zone given its id.
+
+        :param str zone_identifier: Identifier of zone.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteZoneResp` object
+        """
+
+        if zone_identifier is None:
+            raise ValueError('zone_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}'.format(*self.encode_path_vars(self.crn, zone_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def get_zone(self, zone_identifier: str, **kwargs) -> DetailedResponse:
@@ -145,10 +207,6 @@ class ZonesV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update a zone
-    #########################
 
 
     def update_zone(self, zone_identifier: str, *, paused: bool = None, **kwargs) -> DetailedResponse:
@@ -189,10 +247,6 @@ class ZonesV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Zone Activation check.
-    #########################
-
 
     def zone_activation_check(self, zone_identifier: str, **kwargs) -> DetailedResponse:
         """
@@ -217,80 +271,6 @@ class ZonesV1(BaseService):
 
         url = '/v1/{0}/zones/{1}/activation_check'.format(*self.encode_path_vars(self.crn, zone_identifier))
         request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a zone
-    #########################
-
-
-    def create_zone(self, *, name: str = None, **kwargs) -> DetailedResponse:
-        """
-        Create a zone.
-
-        Add a new zone for a given service instance.
-
-        :param str name: (optional) name.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ZoneResp` object
-        """
-
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='create_zone')
-        headers.update(sdk_headers)
-
-        data = {
-            'name': name
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones'.format(*self.encode_path_vars(self.crn))
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Delete a zone
-    #########################
-
-
-    def delete_zone(self, zone_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete a zone.
-
-        Delete a zone given its id.
-
-        :param str zone_identifier: Identifier of zone.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteZoneResp` object
-        """
-
-        if zone_identifier is None:
-            raise ValueError('zone_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}'.format(*self.encode_path_vars(self.crn, zone_identifier))
-        request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
 

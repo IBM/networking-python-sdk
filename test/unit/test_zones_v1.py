@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services.zones_v1 import ZonesV1
+from ibm_cloud_networking_services.zones_v1 import *
 
 crn = 'testString'
 
@@ -31,7 +31,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllZones
+# Start of Service: CISZones
 ##############################################################################
 # region
 
@@ -86,15 +86,122 @@ class TestListZones():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: ListAllZones
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for create_zone
+#-----------------------------------------------------------------------------
+class TestCreateZone():
 
-##############################################################################
-# Start of Service: GetAZone
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # create_zone()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_zone_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        name = 'test-example.com'
+
+        # Invoke method
+        response = service.create_zone(
+            name=name,
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['name'] == name
+
+
+    #--------------------------------------------------------
+    # test_create_zone_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_zone_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.create_zone()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_zone
+#-----------------------------------------------------------------------------
+class TestDeleteZone():
+
+    #--------------------------------------------------------
+    # delete_zone()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        zone_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone(
+            zone_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_zone_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        zone_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone(
+            zone_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for get_zone
@@ -154,16 +261,6 @@ class TestGetZone():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetAZone
-##############################################################################
-
-##############################################################################
-# Start of Service: UpdateAZone
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for update_zone
@@ -229,16 +326,6 @@ class TestUpdateZone():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: UpdateAZone
-##############################################################################
-
-##############################################################################
-# Start of Service: ZoneActivationCheck
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for zone_activation_check
 #-----------------------------------------------------------------------------
@@ -300,143 +387,6 @@ class TestZoneActivationCheck():
 
 # endregion
 ##############################################################################
-# End of Service: ZoneActivationCheck
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateAZone
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for create_zone
-#-----------------------------------------------------------------------------
-class TestCreateZone():
-
-    #--------------------------------------------------------
-    # create_zone()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_zone_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        name = 'test-example.com'
-
-        # Invoke method
-        response = service.create_zone(
-            name=name,
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['name'] == name
-
-
-    #--------------------------------------------------------
-    # test_create_zone_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_zone_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.create_zone()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: CreateAZone
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteAZone
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_zone
-#-----------------------------------------------------------------------------
-class TestDeleteZone():
-
-    #--------------------------------------------------------
-    # delete_zone()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        zone_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone(
-            zone_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_zone_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        zone_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone(
-            zone_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteAZone
+# End of Service: CISZones
 ##############################################################################
 

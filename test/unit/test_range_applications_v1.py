@@ -35,7 +35,7 @@ base_url = 'https://api.cis.cloud.ibm.com/'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListRangeApplications
+# Start of Service: RangeApplications
 ##############################################################################
 # region
 
@@ -106,85 +106,6 @@ class TestListRangeApps():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListRangeApplications
-##############################################################################
-
-##############################################################################
-# Start of Service: GetRangeApplication
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_range_app
-#-----------------------------------------------------------------------------
-class TestGetRangeApp():
-
-    #--------------------------------------------------------
-    # get_range_app()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_range_app_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/range/apps/testString'
-        mock_response = '{"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["origin_direct"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        app_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_range_app(
-            app_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_range_app_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_range_app_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/range/apps/testString'
-        mock_response = '{"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["origin_direct"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        app_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_range_app(
-            app_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetRangeApplication
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateARangeApplication
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_range_app
@@ -335,15 +256,64 @@ class TestCreateRangeApp():
         assert req_body['tls'] == tls
 
 
-# endregion
-##############################################################################
-# End of Service: CreateARangeApplication
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for get_range_app
+#-----------------------------------------------------------------------------
+class TestGetRangeApp():
 
-##############################################################################
-# Start of Service: UpdateARangeApplication
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # get_range_app()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_range_app_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/range/apps/testString'
+        mock_response = '{"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["origin_direct"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        app_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_range_app(
+            app_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_range_app_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_range_app_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/range/apps/testString'
+        mock_response = '{"id": "ea95132c15732412d22c1476fa83f27a", "protocol": "tcp/22", "dns": {"type": "CNAME", "name": "ssh.example.com"}, "origin_direct": ["origin_direct"], "ip_firewall": true, "proxy_protocol": "v1", "edge_ips": {"type": "dynamic", "connectivity": "ipv4"}, "tls": "flexible", "traffic_type": "direct", "created_on": "2019-01-01T12:00:00", "modified_on": "2019-01-01T12:00:00"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        app_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_range_app(
+            app_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for update_range_app
@@ -498,16 +468,6 @@ class TestUpdateRangeApp():
         assert req_body['tls'] == tls
 
 
-# endregion
-##############################################################################
-# End of Service: UpdateARangeApplication
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteARangeApplication
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for delete_range_app
 #-----------------------------------------------------------------------------
@@ -569,6 +529,6 @@ class TestDeleteRangeApp():
 
 # endregion
 ##############################################################################
-# End of Service: DeleteARangeApplication
+# End of Service: RangeApplications
 ##############################################################################
 

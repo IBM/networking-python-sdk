@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services.waf_rule_groups_api_v1 import WafRuleGroupsApiV1
+from ibm_cloud_networking_services.waf_rule_groups_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListWAFRuleGroups
+# Start of Service: WAFRuleGroups
 ##############################################################################
 # region
 
@@ -124,16 +124,6 @@ class TestListWafRuleGroups():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: ListWAFRuleGroups
-##############################################################################
-
-##############################################################################
-# Start of Service: GetSingleWAFRuleGroup
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for get_waf_rule_group
 #-----------------------------------------------------------------------------
@@ -196,16 +186,6 @@ class TestGetWafRuleGroup():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetSingleWAFRuleGroup
-##############################################################################
-
-##############################################################################
-# Start of Service: UpdateWAFRuleGroup
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for update_waf_rule_group
@@ -277,6 +257,6 @@ class TestUpdateWafRuleGroup():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateWAFRuleGroup
+# End of Service: WAFRuleGroups
 ##############################################################################
 

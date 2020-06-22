@@ -100,7 +100,7 @@ class UserAgentBlockingRulesV1(BaseService):
 
 
     #########################
-    # List all user-agent blocking rules
+    # User-Agent Blocking Rules
     #########################
 
 
@@ -138,46 +138,6 @@ class UserAgentBlockingRulesV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Get a user-agent blocking rule
-    #########################
-
-
-    def get_user_agent_rule(self, useragent_rule_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Get a user-agent blocking rule's details by id.
-
-        For a given service instance, zone id and user-agent rule id, get the user-agent
-        blocking rule details.
-
-        :param str useragent_rule_identifier: Identifier of user-agent blocking
-               rule for the given zone.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `UseragentRuleResp` object
-        """
-
-        if useragent_rule_identifier is None:
-            raise ValueError('useragent_rule_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_user_agent_rule')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/firewall/ua_rules/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, useragent_rule_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a new user-agent blocking rule
-    #########################
 
 
     def create_zone_user_agent_rule(self, *, mode: str = None, configuration: 'UseragentRuleInputConfiguration' = None, paused: bool = None, description: str = None, **kwargs) -> DetailedResponse:
@@ -227,9 +187,68 @@ class UserAgentBlockingRulesV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update a user-agent blocking rule
-    #########################
+
+    def delete_zone_user_agent_rule(self, useragent_rule_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a user-agent blocking rule.
+
+        Delete a user-agent blocking rule for a particular zone, given its id.
+
+        :param str useragent_rule_identifier: Identifier of the user-agent rule to
+               be deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteUseragentRuleResp` object
+        """
+
+        if useragent_rule_identifier is None:
+            raise ValueError('useragent_rule_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone_user_agent_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/firewall/ua_rules/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, useragent_rule_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_user_agent_rule(self, useragent_rule_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Get a user-agent blocking rule's details by id.
+
+        For a given service instance, zone id and user-agent rule id, get the user-agent
+        blocking rule details.
+
+        :param str useragent_rule_identifier: Identifier of user-agent blocking
+               rule for the given zone.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `UseragentRuleResp` object
+        """
+
+        if useragent_rule_identifier is None:
+            raise ValueError('useragent_rule_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_user_agent_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/firewall/ua_rules/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, useragent_rule_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def update_user_agent_rule(self, useragent_rule_identifier: str, *, mode: str = None, configuration: 'UseragentRuleInputConfiguration' = None, paused: bool = None, description: str = None, **kwargs) -> DetailedResponse:
@@ -279,41 +298,6 @@ class UserAgentBlockingRulesV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        data=data)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Delete a user-agent blocking rule
-    #########################
-
-
-    def delete_zone_user_agent_rule(self, useragent_rule_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete a user-agent blocking rule.
-
-        Delete a user-agent blocking rule for a particular zone, given its id.
-
-        :param str useragent_rule_identifier: Identifier of the user-agent rule to
-               be deleted.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteUseragentRuleResp` object
-        """
-
-        if useragent_rule_identifier is None:
-            raise ValueError('useragent_rule_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_zone_user_agent_rule')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/firewall/ua_rules/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, useragent_rule_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
 
         response = self.send(request)
         return response

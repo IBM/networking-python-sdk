@@ -95,7 +95,7 @@ class DnsRecordsV1(BaseService):
 
 
     #########################
-    # List all DNS records
+    # DNS Records
     #########################
 
 
@@ -147,44 +147,6 @@ class DnsRecordsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get a DNS record
-    #########################
-
-
-    def get_dns_record(self, dnsrecord_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Get a DNS record.
-
-        Get the details of a DNS record for a given zone under a given service instance.
-
-        :param str dnsrecord_identifier: Identifier of DNS record.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DnsrecordResp` object
-        """
-
-        if dnsrecord_identifier is None:
-            raise ValueError('dnsrecord_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_dns_record')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/dns_records/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, dnsrecord_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
-    #########################
-    # Create a DNS record
-    #########################
-
 
     def create_dns_record(self, *, type: str = None, name: str = None, content: str = None, priority: int = None, data: object = None, **kwargs) -> DetailedResponse:
         """
@@ -229,9 +191,65 @@ class DnsRecordsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update a DNS record
-    #########################
+
+    def delete_dns_record(self, dnsrecord_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Delete a DNS record.
+
+        Delete a DNS record given its id.
+
+        :param str dnsrecord_identifier: Identifier of DNS record.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteDnsrecordResp` object
+        """
+
+        if dnsrecord_identifier is None:
+            raise ValueError('dnsrecord_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_dns_record')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/dns_records/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, dnsrecord_identifier))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_dns_record(self, dnsrecord_identifier: str, **kwargs) -> DetailedResponse:
+        """
+        Get a DNS record.
+
+        Get the details of a DNS record for a given zone under a given service instance.
+
+        :param str dnsrecord_identifier: Identifier of DNS record.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DnsrecordResp` object
+        """
+
+        if dnsrecord_identifier is None:
+            raise ValueError('dnsrecord_identifier must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_dns_record')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/dns_records/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, dnsrecord_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def update_dns_record(self, dnsrecord_identifier: str, *, type: str = None, name: str = None, content: str = None, priority: int = None, proxied: bool = None, data: object = None, **kwargs) -> DetailedResponse:
@@ -282,40 +300,6 @@ class DnsRecordsV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a DNS record
-    #########################
-
-
-    def delete_dns_record(self, dnsrecord_identifier: str, **kwargs) -> DetailedResponse:
-        """
-        Delete a DNS record.
-
-        Delete a DNS record given its id.
-
-        :param str dnsrecord_identifier: Identifier of DNS record.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DeleteDnsrecordResp` object
-        """
-
-        if dnsrecord_identifier is None:
-            raise ValueError('dnsrecord_identifier must be provided')
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='delete_dns_record')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/dns_records/{2}'.format(*self.encode_path_vars(self.crn, self.zone_identifier, dnsrecord_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-
 
 class ListAllDnsRecordsEnums:
     """
@@ -343,4 +327,3 @@ class ListAllDnsRecordsEnums:
         """
         ANY = 'any'
         ALL = 'all'
-

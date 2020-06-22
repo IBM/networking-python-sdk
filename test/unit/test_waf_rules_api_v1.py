@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services.waf_rules_api_v1 import WafRulesApiV1
+from ibm_cloud_networking_services.waf_rules_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListWAFRules
+# Start of Service: WAFRules
 ##############################################################################
 # region
 
@@ -127,16 +127,6 @@ class TestListWafRules():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: ListWAFRules
-##############################################################################
-
-##############################################################################
-# Start of Service: GetWAFRule
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for get_waf_rule
 #-----------------------------------------------------------------------------
@@ -199,16 +189,6 @@ class TestGetWafRule():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetWAFRule
-##############################################################################
-
-##############################################################################
-# Start of Service: UpdateWAFRule
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for update_waf_rule
@@ -292,6 +272,6 @@ class TestUpdateWafRule():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateWAFRule
+# End of Service: WAFRules
 ##############################################################################
 

@@ -94,8 +94,35 @@ class DnsRecordBulkV1(BaseService):
 
 
     #########################
-    # Import zone files
+    # dNSRecords
     #########################
+
+
+    def get_dns_records_bulk(self, **kwargs) -> DetailedResponse:
+        """
+        Export zone file.
+
+        Export zone file.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `BinaryIO` result
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_dns_records_bulk')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/{0}/zones/{1}/dns_records_bulk'.format(*self.encode_path_vars(self.crn, self.zone_identifier))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
 
 
     def post_dns_records_bulk(self, *, file: BinaryIO = None, file_content_type: str = None, **kwargs) -> DetailedResponse:
@@ -130,35 +157,3 @@ class DnsRecordBulkV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Export zone files
-    #########################
-
-
-    def get_dns_records_bulk(self, **kwargs) -> DetailedResponse:
-        """
-        Export zone file.
-
-        Export zone file.
-
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `BinaryIO` result
-        """
-
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_dns_records_bulk')
-        headers.update(sdk_headers)
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-
-        url = '/v1/{0}/zones/{1}/dns_records_bulk'.format(*self.encode_path_vars(self.crn, self.zone_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
-
-        response = self.send(request)
-        return response
-

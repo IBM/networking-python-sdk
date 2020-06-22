@@ -19,7 +19,7 @@ import json
 import pytest
 import requests
 import responses
-from ibm_cloud_networking_services.zone_lockdown_v1 import ZoneLockdownV1
+from ibm_cloud_networking_services.zone_lockdown_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -34,7 +34,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllLockdownRules
+# Start of Service: ZoneLockdownRules
 ##############################################################################
 # region
 
@@ -99,85 +99,6 @@ class TestListAllZoneLockownRules():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListAllLockdownRules
-##############################################################################
-
-##############################################################################
-# Start of Service: GetAnLockdownRule
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_lockdown
-#-----------------------------------------------------------------------------
-class TestGetLockdown():
-
-    #--------------------------------------------------------
-    # get_lockdown()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_lockdown_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        lockdown_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_lockdown(
-            lockdown_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_lockdown_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_lockdown_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        lockdown_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_lockdown(
-            lockdown_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetAnLockdownRule
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateANewLockdownRule
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_zone_lockdown_rule
@@ -255,15 +176,123 @@ class TestCreateZoneLockdownRule():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: CreateANewLockdownRule
-##############################################################################
+#-----------------------------------------------------------------------------
+# Test Class for delete_zone_lockdown_rule
+#-----------------------------------------------------------------------------
+class TestDeleteZoneLockdownRule():
 
-##############################################################################
-# Start of Service: UpdateALockdownRule
-##############################################################################
-# region
+    #--------------------------------------------------------
+    # delete_zone_lockdown_rule()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_lockdown_rule_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        lockdown_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_lockdown_rule(
+            lockdown_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_delete_zone_lockdown_rule_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_zone_lockdown_rule_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        lockdown_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.delete_zone_lockdown_rule(
+            lockdown_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_lockdown
+#-----------------------------------------------------------------------------
+class TestGetLockdown():
+
+    #--------------------------------------------------------
+    # get_lockdown()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_lockdown_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        lockdown_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_lockdown(
+            lockdown_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_lockdown_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_lockdown_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        lockdown_rule_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_lockdown(
+            lockdown_rule_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for update_lockdown_rule
@@ -349,75 +378,6 @@ class TestUpdateLockdownRule():
 
 # endregion
 ##############################################################################
-# End of Service: UpdateALockdownRule
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteALockdownRule
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for delete_zone_lockdown_rule
-#-----------------------------------------------------------------------------
-class TestDeleteZoneLockdownRule():
-
-    #--------------------------------------------------------
-    # delete_zone_lockdown_rule()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_lockdown_rule_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        lockdown_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_lockdown_rule(
-            lockdown_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_delete_zone_lockdown_rule_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_zone_lockdown_rule_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        lockdown_rule_identifier = 'testString'
-
-        # Invoke method
-        response = service.delete_zone_lockdown_rule(
-            lockdown_rule_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: DeleteALockdownRule
+# End of Service: ZoneLockdownRules
 ##############################################################################
 

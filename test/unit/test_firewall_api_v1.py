@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import FirewallApiV1
+from ibm_cloud_networking_services.firewall_api_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -33,7 +33,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: GetSecurityLevelSetting
+# Start of Service: SecurityLevelSetting
 ##############################################################################
 # region
 
@@ -87,16 +87,6 @@ class TestGetSecurityLevelSetting():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: GetSecurityLevelSetting
-##############################################################################
-
-##############################################################################
-# Start of Service: SetSecurityLevelSetting
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for set_security_level_setting
@@ -158,6 +148,6 @@ class TestSetSecurityLevelSetting():
 
 # endregion
 ##############################################################################
-# End of Service: SetSecurityLevelSetting
+# End of Service: SecurityLevelSetting
 ##############################################################################
 

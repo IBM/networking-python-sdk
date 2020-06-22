@@ -20,7 +20,7 @@ import json
 import pytest
 import responses
 import tempfile
-from ibm_cloud_networking_services import DnsRecordBulkV1
+from ibm_cloud_networking_services.dns_record_bulk_v1 import *
 
 crn = 'testString'
 zone_identifier = 'testString'
@@ -35,9 +35,60 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ImportZoneFiles
+# Start of Service: DNSRecords
 ##############################################################################
 # region
+
+#-----------------------------------------------------------------------------
+# Test Class for get_dns_records_bulk
+#-----------------------------------------------------------------------------
+class TestGetDnsRecordsBulk():
+
+    #--------------------------------------------------------
+    # get_dns_records_bulk()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_dns_records_bulk_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/dns_records_bulk'
+        mock_response = 'Contents of response byte-stream...'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='text/plain; charset=utf-8',
+                      status=200)
+
+        # Invoke method
+        response = service.get_dns_records_bulk()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_dns_records_bulk_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_dns_records_bulk_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/zones/testString/dns_records_bulk'
+        mock_response = 'Contents of response byte-stream...'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='text/plain; charset=utf-8',
+                      status=200)
+
+        # Invoke method
+        response = service.get_dns_records_bulk()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
 
 #-----------------------------------------------------------------------------
 # Test Class for post_dns_records_bulk
@@ -98,67 +149,6 @@ class TestPostDnsRecordsBulk():
 
 # endregion
 ##############################################################################
-# End of Service: ImportZoneFiles
-##############################################################################
-
-##############################################################################
-# Start of Service: ExportZoneFiles
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_dns_records_bulk
-#-----------------------------------------------------------------------------
-class TestGetDnsRecordsBulk():
-
-    #--------------------------------------------------------
-    # get_dns_records_bulk()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_dns_records_bulk_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/dns_records_bulk'
-        mock_response = 'Contents of response byte-stream...'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='text/plain; charset=utf-8',
-                      status=200)
-
-        # Invoke method
-        response = service.get_dns_records_bulk()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_dns_records_bulk_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_dns_records_bulk_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/zones/testString/dns_records_bulk'
-        mock_response = 'Contents of response byte-stream...'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='text/plain; charset=utf-8',
-                      status=200)
-
-        # Invoke method
-        response = service.get_dns_records_bulk()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: ExportZoneFiles
+# End of Service: DNSRecords
 ##############################################################################
 

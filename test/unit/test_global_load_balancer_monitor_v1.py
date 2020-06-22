@@ -18,7 +18,7 @@ import inspect
 import json
 import pytest
 import responses
-from ibm_cloud_networking_services import GlobalLoadBalancerMonitorV1
+from ibm_cloud_networking_services.global_load_balancer_monitor_v1 import *
 
 crn = 'testString'
 
@@ -31,7 +31,7 @@ base_url = 'https://api.cis.cloud.ibm.com'
 service.set_service_url(base_url)
 
 ##############################################################################
-# Start of Service: ListAllLoadBalancerMonitors
+# Start of Service: GlobalLoadBalancerMonitor
 ##############################################################################
 # region
 
@@ -85,85 +85,6 @@ class TestListAllLoadBalancerMonitors():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: ListAllLoadBalancerMonitors
-##############################################################################
-
-##############################################################################
-# Start of Service: GetALoadBalancerMonitor
-##############################################################################
-# region
-
-#-----------------------------------------------------------------------------
-# Test Class for get_load_balancer_monitor
-#-----------------------------------------------------------------------------
-class TestGetLoadBalancerMonitor():
-
-    #--------------------------------------------------------
-    # get_load_balancer_monitor()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_load_balancer_monitor_all_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/load_balancers/monitors/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        monitor_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_load_balancer_monitor(
-            monitor_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    #--------------------------------------------------------
-    # test_get_load_balancer_monitor_required_params()
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_load_balancer_monitor_required_params(self):
-        # Set up mock
-        url = base_url + '/v1/testString/load_balancers/monitors/testString'
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        monitor_identifier = 'testString'
-
-        # Invoke method
-        response = service.get_load_balancer_monitor(
-            monitor_identifier
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-# endregion
-##############################################################################
-# End of Service: GetALoadBalancerMonitor
-##############################################################################
-
-##############################################################################
-# Start of Service: CreateALoadBalancerMonitor
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for create_load_balancer_monitor
@@ -255,16 +176,6 @@ class TestCreateLoadBalancerMonitor():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
-
-# endregion
-##############################################################################
-# End of Service: CreateALoadBalancerMonitor
-##############################################################################
-
-##############################################################################
-# Start of Service: EditALoadBalancerMonitor
-##############################################################################
-# region
 
 #-----------------------------------------------------------------------------
 # Test Class for edit_load_balancer_monitor
@@ -363,16 +274,6 @@ class TestEditLoadBalancerMonitor():
         assert response.status_code == 200
 
 
-# endregion
-##############################################################################
-# End of Service: EditALoadBalancerMonitor
-##############################################################################
-
-##############################################################################
-# Start of Service: DeleteALoadBalancerMonitor
-##############################################################################
-# region
-
 #-----------------------------------------------------------------------------
 # Test Class for delete_load_balancer_monitor
 #-----------------------------------------------------------------------------
@@ -432,8 +333,67 @@ class TestDeleteLoadBalancerMonitor():
         assert response.status_code == 200
 
 
+#-----------------------------------------------------------------------------
+# Test Class for get_load_balancer_monitor
+#-----------------------------------------------------------------------------
+class TestGetLoadBalancerMonitor():
+
+    #--------------------------------------------------------
+    # get_load_balancer_monitor()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_load_balancer_monitor_all_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/load_balancers/monitors/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        monitor_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_load_balancer_monitor(
+            monitor_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_get_load_balancer_monitor_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_load_balancer_monitor_required_params(self):
+        # Set up mock
+        url = base_url + '/v1/testString/load_balancers/monitors/testString'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        monitor_identifier = 'testString'
+
+        # Invoke method
+        response = service.get_load_balancer_monitor(
+            monitor_identifier
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
 # endregion
 ##############################################################################
-# End of Service: DeleteALoadBalancerMonitor
+# End of Service: GlobalLoadBalancerMonitor
 ##############################################################################
 

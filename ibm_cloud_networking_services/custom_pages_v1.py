@@ -97,7 +97,7 @@ class CustomPagesV1(BaseService):
 
 
     #########################
-    # List instance custom pages
+    # Custom Pages
     #########################
 
 
@@ -126,10 +126,6 @@ class CustomPagesV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Get a custom page for a given instance
-    #########################
 
 
     def get_instance_custom_page(self, page_identifier: str, **kwargs) -> DetailedResponse:
@@ -160,10 +156,6 @@ class CustomPagesV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update a custom page for a given instance
-    #########################
 
 
     def update_instance_custom_page(self, page_identifier: str, *, url: str = None, state: str = None, **kwargs) -> DetailedResponse:
@@ -206,10 +198,6 @@ class CustomPagesV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # List zone custom pages
-    #########################
-
 
     def list_zone_custom_pages(self, **kwargs) -> DetailedResponse:
         """
@@ -236,10 +224,6 @@ class CustomPagesV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Get a custom page for a given zone
-    #########################
 
 
     def get_zone_custom_page(self, page_identifier: str, **kwargs) -> DetailedResponse:
@@ -270,10 +254,6 @@ class CustomPagesV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update a custom page for a given zone
-    #########################
 
 
     def update_zone_custom_page(self, page_identifier: str, *, url: str = None, state: str = None, **kwargs) -> DetailedResponse:

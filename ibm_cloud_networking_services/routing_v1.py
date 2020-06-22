@@ -98,7 +98,7 @@ class RoutingV1(BaseService):
 
 
     #########################
-    # Get Routing feature smart routing setting
+    # Routing
     #########################
 
 
@@ -110,7 +110,7 @@ class RoutingV1(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RoutingSmartRoutingResp` object
+        :rtype: DetailedResponse with `dict` result representing a `SmartRoutingResp` object
         """
 
         headers = {}
@@ -128,21 +128,17 @@ class RoutingV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Update Routing feature smart routing setting
-    #########################
-
 
     def update_smart_routing(self, *, value: str = None, **kwargs) -> DetailedResponse:
         """
-        Update Routing feature smart routing setting.
+        Update Routing feature smart route setting.
 
-        Update Routing feature smart routing setting for a zone.
+        Update Routing feature smart route setting for a zone.
 
         :param str value: (optional) Value.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RoutingSmartRoutingResp` object
+        :rtype: DetailedResponse with `dict` result representing a `SmartRoutingResp` object
         """
 
         headers = {}

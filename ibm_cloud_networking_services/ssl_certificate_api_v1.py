@@ -97,7 +97,7 @@ class SslCertificateApiV1(BaseService):
 
 
     #########################
-    # List certificates
+    # SSL Certificate
     #########################
 
 
@@ -132,10 +132,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Order a certificate
-    #########################
 
 
     def order_certificate(self, *, type: str = None, hosts: List[str] = None, x_correlation_id: str = None, **kwargs) -> DetailedResponse:
@@ -179,10 +175,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a certificate
-    #########################
-
 
     def delete_certificate(self, cert_identifier: str, *, x_correlation_id: str = None, **kwargs) -> DetailedResponse:
         """
@@ -216,10 +208,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get SSL setting
-    #########################
-
 
     def get_ssl_setting(self, **kwargs) -> DetailedResponse:
         """
@@ -246,10 +234,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Change SSL setting
-    #########################
 
 
     def change_ssl_setting(self, *, value: str = None, **kwargs) -> DetailedResponse:
@@ -287,10 +271,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # List custom certificates
-    #########################
-
 
     def list_custom_certificates(self, **kwargs) -> DetailedResponse:
         """
@@ -317,10 +297,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Upload a custom certificate
-    #########################
 
 
     def upload_custom_certificate(self, *, certificate: str = None, private_key: str = None, bundle_method: str = None, geo_restrictions: 'CustomCertReqGeoRestrictions' = None, **kwargs) -> DetailedResponse:
@@ -368,10 +344,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get a custom certificate
-    #########################
-
 
     def get_custom_certificate(self, custom_cert_id: str, **kwargs) -> DetailedResponse:
         """
@@ -401,10 +373,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Update custom certificate
-    #########################
 
 
     def update_custom_certificate(self, custom_cert_id: str, *, certificate: str = None, private_key: str = None, bundle_method: str = None, geo_restrictions: 'CustomCertReqGeoRestrictions' = None, **kwargs) -> DetailedResponse:
@@ -455,10 +423,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Delete a custom certificate
-    #########################
-
 
     def delete_custom_certificate(self, custom_cert_id: str, **kwargs) -> DetailedResponse:
         """
@@ -488,10 +452,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Set certificate priority
-    #########################
 
 
     def change_certificate_priority(self, *, certificates: List['CertPriorityReqCertificatesItem'] = None, **kwargs) -> DetailedResponse:
@@ -532,10 +492,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get universal certificate
-    #########################
-
 
     def get_universal_certificate_setting(self, **kwargs) -> DetailedResponse:
         """
@@ -562,10 +518,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Set universal certificate
-    #########################
 
 
     def change_universal_certificate_setting(self, *, enabled: bool = None, **kwargs) -> DetailedResponse:
@@ -603,10 +555,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get tls_1_2_only setting
-    #########################
-
 
     def get_tls12_setting(self, **kwargs) -> DetailedResponse:
         """
@@ -633,10 +581,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Set tls_1_2_only setting
-    #########################
 
 
     def change_tls12_setting(self, *, value: str = None, **kwargs) -> DetailedResponse:
@@ -674,10 +618,6 @@ class SslCertificateApiV1(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # Get tls_1_3 setting
-    #########################
-
 
     def get_tls13_setting(self, **kwargs) -> DetailedResponse:
         """
@@ -704,10 +644,6 @@ class SslCertificateApiV1(BaseService):
 
         response = self.send(request)
         return response
-
-    #########################
-    # Set tls_1_3 setting
-    #########################
 
 
     def change_tls13_setting(self, *, value: str = None, **kwargs) -> DetailedResponse:

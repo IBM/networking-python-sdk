@@ -74,9 +74,9 @@ class CisIpApiV1(BaseService):
 
     def list_ips(self, **kwargs) -> DetailedResponse:
         """
-        List all IPs.
+        List of all IP addresses used by the CIS proxy.
 
-        List of all IP addresses.
+        List of all IP addresses used by the CIS proxy.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
