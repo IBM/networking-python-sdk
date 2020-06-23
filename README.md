@@ -68,20 +68,6 @@ IBM Cloud services:
 | [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis/zonesettings)                           | ZonesSettingsV1             |
 | [CIS: Zones](https://cloud.ibm.com/apidocs/cis/zones)                                          | ZonesV1                     |
 
-| PDNS Service Name                                                                | Imported Class Name            |
-| -------------------------------------------------------------------------------- | ------------------------------ |
-| [PDNS: Zones API](https://cloud.ibm.com/apidocs/dns-svcs)                        | DnsZonesV1                     |
-| [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ResourceRecordsV1              |
-| [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | PermittedNetworksForDnsZonesV1 |
-
-| Direct Link Service                                      | Imported Class Name            |
-| ---------------------------------------------------------| ------------------------------ |
-| [Direct Link](https://cloud.ibm.com/apidocs/direct_link) | DirectLinkApisV1               |
-
-| Transit Service                                                  | Imported Class Name            |
-| ---------------------------------------------------------------- | ------------------------------ |
-| [Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway) | TransitGatewayApisV1           |
-
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration
