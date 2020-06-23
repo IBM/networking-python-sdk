@@ -48,14 +48,3 @@ from .zone_lockdown_v1 import ZoneLockdownV1
 from .zone_rate_limits_v1 import ZoneRateLimitsV1
 from .zones_settings_v1 import ZonesSettingsV1
 from .zones_v1 import ZonesV1
-
-# Private DNS Service Packages
-from .dns_zones_v1 import DnsZonesV1
-from .resource_records_v1 import ResourceRecordsV1
-from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
-
-# Directlink Service Packages
-from .direct_link_apis_v1 import DirectLinkApisV1
-
-#Transit Service Packages
-from .transit_gateway_apis_v1 import TransitGatewayApisV1
