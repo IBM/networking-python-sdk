@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# Copyright 2020 IBM All Rights Reserved.
 
 """
 
