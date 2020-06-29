@@ -27,7 +27,6 @@ class TestZonesV1(unittest.TestCase):
         self._clean_dns_zones()
         print("Clean up complete")
 
-
     def _clean_dns_zones(self):
         response = self.zone.list_dnszones(instance_id=self.instance_id)
         assert response is not None
@@ -37,7 +36,8 @@ class TestZonesV1(unittest.TestCase):
             zones = result.get("dnszones")
             for zone in zones:
                 print(zone.get("id"))
-                self.zone.delete_dnszone(instance_id=self.instance_id, dnszone_id=zone.get("id"))
+                self.zone.delete_dnszone(
+                    instance_id=self.instance_id, dnszone_id=zone.get("id"))
 
     def test_1_pdns_zone_action(self):
         """ test private dns zone create/delete/update/get functionality """
@@ -48,7 +48,8 @@ class TestZonesV1(unittest.TestCase):
         assert resp.status_code == 200
 
         # create dns zone
-        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        resp = self.zone.create_dnszone(
+            instance_id=self.instance_id, name=name, label=label)
         assert resp is not None
         assert resp.status_code == 200
         assert resp.get_result().get("instance_id") == self.instance_id
@@ -57,17 +58,18 @@ class TestZonesV1(unittest.TestCase):
         zone_id = resp.get_result().get("id")
 
         # get dns zone
-        resp = self.zone.get_dnszone(instance_id=self.instance_id, dnszone_id=zone_id)
+        resp = self.zone.get_dnszone(
+            instance_id=self.instance_id, dnszone_id=zone_id)
         assert resp.status_code == 200
         assert resp.get_result().get("instance_id") == self.instance_id
         assert resp.get_result().get("name") == name
         assert resp.get_result().get("label") == label
 
-
         # update dns zone
         label = "us-south-1"
         desc = "test instance"
-        resp = self.zone.update_dnszone(instance_id=self.instance_id, dnszone_id=zone_id, description=desc, label=label)
+        resp = self.zone.update_dnszone(
+            instance_id=self.instance_id, dnszone_id=zone_id, description=desc, label=label)
         assert resp is not None
         assert resp.status_code == 200
         assert resp.get_result().get("instance_id") == self.instance_id
@@ -75,9 +77,9 @@ class TestZonesV1(unittest.TestCase):
         assert resp.get_result().get("label") == label
         assert resp.get_result().get("description") == desc
 
-
         # delete dns zone
-        resp = self.zone.delete_dnszone(instance_id=self.instance_id, dnszone_id=zone_id)
+        resp = self.zone.delete_dnszone(
+            instance_id=self.instance_id, dnszone_id=zone_id)
         assert resp is not None
         assert resp.status_code == 204
 
@@ -87,32 +89,88 @@ class TestZonesV1(unittest.TestCase):
         name = "test.example34.com"
         label = "us-south"
         # create dns zone
-        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        resp = self.zone.create_dnszone(
+            instance_id=self.instance_id, name=name, label=label)
         assert resp is not None
         assert resp.status_code == 200
 
         name = "test.example35.com"
         # create dns zone
-        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        resp = self.zone.create_dnszone(
+            instance_id=self.instance_id, name=name, label=label)
         assert resp is not None
         assert resp.status_code == 200
 
         name = "test.example36.com"
         # create dns zone
-        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        resp = self.zone.create_dnszone(
+            instance_id=self.instance_id, name=name, label=label)
         assert resp is not None
         assert resp.status_code == 200
 
         name = "test.example37.com"
         # create dns zone
-        resp = self.zone.create_dnszone(instance_id=self.instance_id, name=name, label=label)
+        resp = self.zone.create_dnszone(
+            instance_id=self.instance_id, name=name, label=label)
         assert resp is not None
         assert resp.status_code == 200
 
-
-        resp = self.zone.list_dnszones(instance_id=self.instance_id, offset=1, limit=2)
+        resp = self.zone.list_dnszones(
+            instance_id=self.instance_id, offset=1, limit=2)
         assert resp is not None
         assert resp.status_code == 200
+
+    def test_1_pdns_zone_negative(self):
+        name = "test.example36.com"
+        label = "us-south"
+        instance_id = None
+        with self.assertRaises(ValueError) as val:
+            self.zone.create_dnszone(instance_id=instance_id,
+                                     name=name, label=label)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        desc = "this is a test"
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.zone.update_dnszone(instance_id=instance_id,
+                                     dnszone_id=dnszone_id, description=desc, label=label)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.zone.update_dnszone(instance_id=instance_id,
+                                     dnszone_id=dnszone_id, description=desc, label=label)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.zone.delete_dnszone(instance_id=instance_id,
+                                     dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123545"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.zone.delete_dnszone(instance_id=instance_id,
+                                     dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.zone.get_dnszone(instance_id=instance_id,
+                                  dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123545"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.zone.get_dnszone(instance_id=instance_id,
+                                  dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        with self.assertRaises(ValueError) as val:
+            self.zone.list_dnszones(instance_id=instance_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
 
 
 if __name__ == '__main__':

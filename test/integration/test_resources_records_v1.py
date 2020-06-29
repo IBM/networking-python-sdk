@@ -373,6 +373,91 @@ class TestResourceRecordsV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 204
 
+    def test_1_resource_records_negative(self):
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.create_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.create_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.update_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.update_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = "123456"
+        dnszone_id = "12345"
+        with self.assertRaises(ValueError) as val:
+            self.record.update_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'record_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.delete_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.delete_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+        instance_id = "123456"
+        dnszone_id = "12345"
+        with self.assertRaises(ValueError) as val:
+            self.record.delete_resource_record(instance_id=instance_id,
+                                               dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'record_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.get_resource_record(instance_id=instance_id,
+                                            dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.get_resource_record(instance_id=instance_id,
+                                            dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+        instance_id = "123456"
+        dnszone_id = "12345"
+        with self.assertRaises(ValueError) as val:
+            self.record.get_resource_record(instance_id=instance_id,
+                                            dnszone_id=dnszone_id, record_id=None)
+            self.assertEqual(val.exception.msg, 'record_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.list_resource_records(instance_id=instance_id,
+                                              dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.list_resource_records(instance_id=instance_id,
+                                              dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
 
 if __name__ == '__main__':
     unittest.main()

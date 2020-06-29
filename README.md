@@ -81,6 +81,7 @@ IBM Cloud services:
 | Transit Service                                                  | Imported Class Name            |
 | ---------------------------------------------------------------- | ------------------------------ |
 | [Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway) | TransitGatewayApisV1           |
+
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration

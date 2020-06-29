@@ -76,3 +76,60 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
             instance_id=self.instance_id, dnszone_id=self.zone_id, permitted_network_id=network_id)
         assert resp is not None
         assert resp.status_code == 202
+
+    def test_1_permitted_network_negative(self):
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.nw.create_permitted_network(instance_id=instance_id,
+                                             dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.nw.create_permitted_network(instance_id=instance_id,
+                                             dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.nw.delete_permitted_network(instance_id=instance_id,
+                                             dnszone_id=dnszone_id, permitted_network_id=None)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.nw.delete_permitted_network(instance_id=instance_id,
+                                             dnszone_id=dnszone_id, permitted_network_id=None)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.nw.get_permitted_network(instance_id=instance_id,
+                                          dnszone_id=dnszone_id, permitted_network_id=None)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.nw.get_permitted_network(instance_id=instance_id,
+                                          dnszone_id=dnszone_id, permitted_network_id=None)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.nw.list_permitted_networks(instance_id=instance_id,
+                                            dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.nw.list_permitted_networks(instance_id=instance_id,
+                                            dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+
+if __name__ == '__main__':
+    unittest.main()
