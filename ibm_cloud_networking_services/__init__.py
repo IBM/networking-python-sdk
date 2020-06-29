@@ -49,3 +49,8 @@ from .zone_lockdown_v1 import ZoneLockdownV1
 from .zone_rate_limits_v1 import ZoneRateLimitsV1
 from .zones_settings_v1 import ZonesSettingsV1
 from .zones_v1 import ZonesV1
+
+# PDNS Service packages
+from .dns_zones_v1 import DnsZonesV1
+from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
+from .resource_records_v1 import ResourceRecordsV1

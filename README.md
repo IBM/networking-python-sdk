@@ -68,6 +68,12 @@ IBM Cloud services:
 | [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis/zonesettings)                           | ZonesSettingsV1             |
 | [CIS: Zones](https://cloud.ibm.com/apidocs/cis/zones)                                          | ZonesV1                     |
 
+| PDNS Service Name                                                                | Imported Class Name            |
+| -------------------------------------------------------------------------------- | ------------------------------ |
+| [PDNS: Zones API](https://cloud.ibm.com/apidocs/dns-svcs)                        | DnsZonesV1                     |
+| [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ResourceRecordsV1              |
+| [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | PermittedNetworksForDnsZonesV1 |
+
 | Direct Link Service                                      | Imported Class Name            |
 | ---------------------------------------------------------| ------------------------------ |
 | [Direct Link](https://cloud.ibm.com/apidocs/direct_link) | DirectLinkApisV1               |
@@ -88,13 +94,13 @@ IBM Cloud services:
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade "ibm-cloud-networking-services>=0.0.1"
+pip install --upgrade "ibm-cloud-networking-services"
 ```
 
 or
 
 ```bash
-easy_install --upgrade "ibm-cloud-networking-servies>=0.0.1"
+easy_install --upgrade "ibm-cloud-networking-servies"
 ```
 
 ## Using the SDK
