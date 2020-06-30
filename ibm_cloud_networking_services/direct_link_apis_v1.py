@@ -355,15 +355,19 @@ class DirectLinkApisV1(BaseService):
 
         :param str id: Direct Link Connect gateway identifier.
         :param str action: Action request.
-        :param bool global_: (optional) Set for create_gateway_approve requests to
-               select the gateway's routing option.  Gateways with global routing (`true`)
-               can connect to networks outside of their associated region.
-        :param bool metered: (optional) Set for create_gateway_approve requests to
-               select the gateway's metered billing option.  When `true` gateway usage is
-               billed per gigabyte.  When `false` there is no per gigabyte usage charge,
-               instead a flat rate is charged for the gateway.
+        :param bool global_: (optional) Required for create_gateway_approve
+               requests to select the gateway's routing option.  Gateways with global
+               routing (`true`) can connect to networks outside of their associated
+               region.
+        :param bool metered: (optional) Required for create_gateway_approve
+               requests to select the gateway's metered billing option.  When `true`
+               gateway usage is billed per gigabyte.  When `false` there is no per
+               gigabyte usage charge, instead a flat rate is charged for the gateway.
         :param ResourceGroupIdentity resource_group: (optional) Set for
-               create_gateway_approve requests to select the gateway's resource group.
+               create_gateway_approve requests to select the gateway's resource group.  If
+               unspecified on create_gateway_approve, the account's [default resource
+               group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
+               used.
         :param List[object] updates: (optional) Specify attribute updates being
                approved or rejected, update_attributes_approve and
                update_attributes_reject actions must provide an updates field that matches
@@ -1095,31 +1099,31 @@ class CrossConnectRouter():
     """
     Cross Connect Router details.
 
-    :attr str name: (optional) The name of the Router.
+    :attr str router_name: (optional) The name of the Router.
     :attr int total_connections: (optional) Count of existing Direct Link Dedicated
           gateways on this router for this account.
     """
 
     def __init__(self,
                  *,
-                 name: str = None,
+                 router_name: str = None,
                  total_connections: int = None) -> None:
         """
         Initialize a CrossConnectRouter object.
 
-        :param str name: (optional) The name of the Router.
+        :param str router_name: (optional) The name of the Router.
         :param int total_connections: (optional) Count of existing Direct Link
                Dedicated gateways on this router for this account.
         """
-        self.name = name
+        self.router_name = router_name
         self.total_connections = total_connections
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'CrossConnectRouter':
         """Initialize a CrossConnectRouter object from a json dictionary."""
         args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
+        if 'router_name' in _dict:
+            args['router_name'] = _dict.get('router_name')
         if 'total_connections' in _dict:
             args['total_connections'] = _dict.get('total_connections')
         return cls(**args)
@@ -1132,8 +1136,8 @@ class CrossConnectRouter():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
+        if hasattr(self, 'router_name') and self.router_name is not None:
+            _dict['router_name'] = self.router_name
         if hasattr(self, 'total_connections') and self.total_connections is not None:
             _dict['total_connections'] = self.total_connections
         return _dict
@@ -1508,6 +1512,7 @@ class Gateway():
         AWAITING_COMPLETION_NOTICE = 'awaiting_completion_notice'
         AWAITING_LOA = 'awaiting_loa'
         CREATE_PENDING = 'create_pending'
+        CREATE_REJECTED = 'create_rejected'
         COMPLETION_NOTICE_APPROVED = 'completion_notice_approved'
         COMPLETION_NOTICE_RECEIVED = 'completion_notice_received'
         COMPLETION_NOTICE_REJECTED = 'completion_notice_rejected'
@@ -1731,8 +1736,7 @@ class GatewayTemplate():
     :attr str name: The unique user-defined name for this gateway.
     :attr ResourceGroupIdentity resource_group: (optional) Resource group for this
           resource. If unspecified, the account's [default resource
-          group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
-          used.
+          group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
     :attr int speed_mbps: Gateway speed in megabits per second.
     :attr str type: Gateway type.
     """
@@ -1770,8 +1774,8 @@ class GatewayTemplate():
                ommitted and a CIDR will be selected automatically.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
-               group](https://console.bluemix.net/apidocs/resource-manager#introduction)
-               is used.
+               group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
+               used.
         """
         msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
                   ", ".join(['GatewayTemplateGatewayTypeDedicatedTemplate', 'GatewayTemplateGatewayTypeConnectTemplate']))
@@ -2120,45 +2124,59 @@ class LocationOutput():
     """
     location.
 
-    :attr str billing_location: Billing location.
+    :attr str billing_location: (optional) Billing location.  Only present for
+          locations where provisioning is enabled.
     :attr str building_colocation_owner: (optional) Building colocation owner.  Only
-          present for offering_type=dedicated locations.
+          present for offering_type=dedicated locations where provisioning is enabled.
     :attr str display_name: Location long name.
     :attr str location_type: Location type.
     :attr str market: Location market.
-    :attr str market_geography: Location geography.
-    :attr bool mzr: Is location a multi-zone region (MZR).
+    :attr str market_geography: (optional) Location geography.  Only present for
+          locations where provisioning is enabled.
+    :attr bool mzr: (optional) Is location a multi-zone region (MZR).  Only present
+          for locations where provisioning is enabled.
     :attr str name: Location short name.
     :attr str offering_type: Location offering type.
-    :attr str vpc_region: (optional) Location's VPC region.
+    :attr bool provision_enabled: Indicates for the specific offering_type whether
+          this location supports gateway provisioning.
+    :attr str vpc_region: (optional) Location's VPC region.  Only present for
+          locations where provisioning is enabled.
     """
 
     def __init__(self,
-                 billing_location: str,
                  display_name: str,
                  location_type: str,
                  market: str,
-                 market_geography: str,
-                 mzr: bool,
                  name: str,
                  offering_type: str,
+                 provision_enabled: bool,
                  *,
+                 billing_location: str = None,
                  building_colocation_owner: str = None,
+                 market_geography: str = None,
+                 mzr: bool = None,
                  vpc_region: str = None) -> None:
         """
         Initialize a LocationOutput object.
 
-        :param str billing_location: Billing location.
         :param str display_name: Location long name.
         :param str location_type: Location type.
         :param str market: Location market.
-        :param str market_geography: Location geography.
-        :param bool mzr: Is location a multi-zone region (MZR).
         :param str name: Location short name.
         :param str offering_type: Location offering type.
+        :param bool provision_enabled: Indicates for the specific offering_type
+               whether this location supports gateway provisioning.
+        :param str billing_location: (optional) Billing location.  Only present for
+               locations where provisioning is enabled.
         :param str building_colocation_owner: (optional) Building colocation owner.
-                Only present for offering_type=dedicated locations.
-        :param str vpc_region: (optional) Location's VPC region.
+                Only present for offering_type=dedicated locations where provisioning is
+               enabled.
+        :param str market_geography: (optional) Location geography.  Only present
+               for locations where provisioning is enabled.
+        :param bool mzr: (optional) Is location a multi-zone region (MZR).  Only
+               present for locations where provisioning is enabled.
+        :param str vpc_region: (optional) Location's VPC region.  Only present for
+               locations where provisioning is enabled.
         """
         self.billing_location = billing_location
         self.building_colocation_owner = building_colocation_owner
@@ -2169,6 +2187,7 @@ class LocationOutput():
         self.mzr = mzr
         self.name = name
         self.offering_type = offering_type
+        self.provision_enabled = provision_enabled
         self.vpc_region = vpc_region
 
     @classmethod
@@ -2177,8 +2196,6 @@ class LocationOutput():
         args = {}
         if 'billing_location' in _dict:
             args['billing_location'] = _dict.get('billing_location')
-        else:
-            raise ValueError('Required property \'billing_location\' not present in LocationOutput JSON')
         if 'building_colocation_owner' in _dict:
             args['building_colocation_owner'] = _dict.get('building_colocation_owner')
         if 'display_name' in _dict:
@@ -2195,12 +2212,8 @@ class LocationOutput():
             raise ValueError('Required property \'market\' not present in LocationOutput JSON')
         if 'market_geography' in _dict:
             args['market_geography'] = _dict.get('market_geography')
-        else:
-            raise ValueError('Required property \'market_geography\' not present in LocationOutput JSON')
         if 'mzr' in _dict:
             args['mzr'] = _dict.get('mzr')
-        else:
-            raise ValueError('Required property \'mzr\' not present in LocationOutput JSON')
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -2209,6 +2222,10 @@ class LocationOutput():
             args['offering_type'] = _dict.get('offering_type')
         else:
             raise ValueError('Required property \'offering_type\' not present in LocationOutput JSON')
+        if 'provision_enabled' in _dict:
+            args['provision_enabled'] = _dict.get('provision_enabled')
+        else:
+            raise ValueError('Required property \'provision_enabled\' not present in LocationOutput JSON')
         if 'vpc_region' in _dict:
             args['vpc_region'] = _dict.get('vpc_region')
         return cls(**args)
@@ -2239,6 +2256,8 @@ class LocationOutput():
             _dict['name'] = self.name
         if hasattr(self, 'offering_type') and self.offering_type is not None:
             _dict['offering_type'] = self.offering_type
+        if hasattr(self, 'provision_enabled') and self.provision_enabled is not None:
+            _dict['provision_enabled'] = self.provision_enabled
         if hasattr(self, 'vpc_region') and self.vpc_region is not None:
             _dict['vpc_region'] = self.vpc_region
         return _dict
@@ -2717,7 +2736,7 @@ class PortsPaginatedCollectionNext():
 class ResourceGroupIdentity():
     """
     Resource group for this resource. If unspecified, the account's [default resource
-    group](https://console.bluemix.net/apidocs/resource-manager#introduction) is used.
+    group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
 
     :attr str id: Resource group identifier.
     """
@@ -3049,8 +3068,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     :attr str name: The unique user-defined name for this gateway.
     :attr ResourceGroupIdentity resource_group: (optional) Resource group for this
           resource. If unspecified, the account's [default resource
-          group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
-          used.
+          group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
     :attr int speed_mbps: Gateway speed in megabits per second.
     :attr str type: Gateway type.
     :attr GatewayPortIdentity port: Select Port Label for new type=connect gateway.
@@ -3092,8 +3110,8 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                ommitted and a CIDR will be selected automatically.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
-               group](https://console.bluemix.net/apidocs/resource-manager#introduction)
-               is used.
+               group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
+               used.
         """
         # pylint: disable=super-init-not-called
         self.bgp_asn = bgp_asn
@@ -3230,8 +3248,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     :attr str name: The unique user-defined name for this gateway.
     :attr ResourceGroupIdentity resource_group: (optional) Resource group for this
           resource. If unspecified, the account's [default resource
-          group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
-          used.
+          group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
     :attr int speed_mbps: Gateway speed in megabits per second.
     :attr str type: Gateway type.
     :attr str carrier_name: Carrier name.
@@ -3285,8 +3302,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                ommitted and a CIDR will be selected automatically.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
-               group](https://console.bluemix.net/apidocs/resource-manager#introduction)
-               is used.
+               group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
+               used.
         :param str dedicated_hosting_id: (optional) The unique identifier of the
                dedicated hosting instance for this gateway. Valid only for Dedicated
                Hosting Offering.
