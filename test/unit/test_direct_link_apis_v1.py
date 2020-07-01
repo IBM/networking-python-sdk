@@ -557,7 +557,7 @@ class TestListGatewayCompletionNotice():
     def test_list_gateway_completion_notice_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
-        mock_response = '"unknown property type: operation_response"'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -585,7 +585,7 @@ class TestListGatewayCompletionNotice():
     def test_list_gateway_completion_notice_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
-        mock_response = '"unknown property type: operation_response"'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -716,7 +716,7 @@ class TestListGatewayLetterOfAuthorization():
     def test_list_gateway_letter_of_authorization_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/gateways/testString/letter_of_authorization')
-        mock_response = '"unknown property type: operation_response"'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -744,7 +744,7 @@ class TestListGatewayLetterOfAuthorization():
     def test_list_gateway_letter_of_authorization_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/gateways/testString/letter_of_authorization')
-        mock_response = '"unknown property type: operation_response"'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -794,7 +794,7 @@ class TestListOfferingTypeLocations():
     def test_list_offering_type_locations_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/offering_types/dedicated/locations')
-        mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}'
+        mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "vpc_region": "us-south"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -822,7 +822,7 @@ class TestListOfferingTypeLocations():
     def test_list_offering_type_locations_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/offering_types/dedicated/locations')
-        mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}'
+        mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "vpc_region": "us-south"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -862,7 +862,7 @@ class TestListOfferingTypeLocationCrossConnectRouters():
     def test_list_offering_type_location_cross_connect_routers_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/offering_types/dedicated/locations/testString/cross_connect_routers')
-        mock_response = '{"cross_connect_routers": [{"router_name": "xcr01.dal03", "total_connections": 1}]}'
+        mock_response = '{"cross_connect_routers": [{"name": "xcr01.dal03", "total_connections": 1}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -892,7 +892,7 @@ class TestListOfferingTypeLocationCrossConnectRouters():
     def test_list_offering_type_location_cross_connect_routers_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/offering_types/dedicated/locations/testString/cross_connect_routers')
-        mock_response = '{"cross_connect_routers": [{"router_name": "xcr01.dal03", "total_connections": 1}]}'
+        mock_response = '{"cross_connect_routers": [{"name": "xcr01.dal03", "total_connections": 1}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1021,7 +1021,7 @@ class TestListPorts():
 
         # Set up parameter values
         start = 'testString'
-        limit = 1
+        limit = 38
         location_name = 'testString'
 
         # Invoke method
@@ -1562,7 +1562,7 @@ class TestCrossConnectRouter():
 
         # Construct a json representation of a CrossConnectRouter model
         cross_connect_router_model_json = {}
-        cross_connect_router_model_json['router_name'] = 'xcr01.dal03'
+        cross_connect_router_model_json['name'] = 'xcr01.dal03'
         cross_connect_router_model_json['total_connections'] = 1
 
         # Construct a model instance of CrossConnectRouter by calling from_dict on the json representation
@@ -1868,7 +1868,6 @@ class TestLocationCollection():
         location_output_model['mzr'] = True
         location_output_model['name'] = 'dal03'
         location_output_model['offering_type'] = 'dedicated'
-        location_output_model['provision_enabled'] = True
         location_output_model['vpc_region'] = 'us-south'
 
         # Construct a json representation of a LocationCollection model
@@ -1903,7 +1902,7 @@ class TestLocationCrossConnectRouterCollection():
         # Construct dict forms of any model objects needed in order to build this model.
 
         cross_connect_router_model = {} # CrossConnectRouter
-        cross_connect_router_model['router_name'] = 'xcr01.dal03'
+        cross_connect_router_model['name'] = 'xcr01.dal03'
         cross_connect_router_model['total_connections'] = 1
 
         # Construct a json representation of a LocationCrossConnectRouterCollection model
@@ -1946,7 +1945,6 @@ class TestLocationOutput():
         location_output_model_json['mzr'] = True
         location_output_model_json['name'] = 'dal03'
         location_output_model_json['offering_type'] = 'dedicated'
-        location_output_model_json['provision_enabled'] = True
         location_output_model_json['vpc_region'] = 'us-south'
 
         # Construct a model instance of LocationOutput by calling from_dict on the json representation
