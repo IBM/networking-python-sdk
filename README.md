@@ -1,12 +1,9 @@
 [![Build Status](https://travis.ibm.com/CloudEngineering/python-sdk-template.svg?token=eW5FVD71iyte6tTby8gr&branch=master)](https://travis.ibm.com/ibmcloud/networking-python-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud Networking Services Python SDK Version 0.0.1
+# IBM Cloud Networking Services Python SDK Version 0.0.2
 
 Python client library to interact with various [IBM Cloud Networking Service APIs](https://cloud.ibm.com/apidocs?category=network).
-
-Disclaimer: this SDK is being released initially as a **pre-release** version.
-Changes might occur which impact applications that use this SDK.
 
 ## Table of Contents
 
@@ -74,13 +71,13 @@ IBM Cloud services:
 | [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ResourceRecordsV1              |
 | [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | PermittedNetworksForDnsZonesV1 |
 
-| Direct Link Service                                      | Imported Class Name            |
-| ---------------------------------------------------------| ------------------------------ |
-| [Direct Link](https://cloud.ibm.com/apidocs/direct_link) | DirectLinkApisV1               |
+| Direct Link Service                                      | Imported Class Name |
+| -------------------------------------------------------- | ------------------- |
+| [Direct Link](https://cloud.ibm.com/apidocs/direct_link) | DirectLinkApisV1    |
 
-| Transit Service                                                  | Imported Class Name            |
-| ---------------------------------------------------------------- | ------------------------------ |
-| [Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway) | TransitGatewayApisV1           |
+| Transit Service                                                  | Imported Class Name  |
+| ---------------------------------------------------------------- | -------------------- |
+| [Transit Gateway](https://cloud.ibm.com/apidocs/transit-gateway) | TransitGatewayApisV1 |
 
 ## Prerequisites
 
@@ -95,13 +92,13 @@ IBM Cloud services:
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade "ibm-cloud-networking-services"
+pip install --upgrade "ibm-cloud-networking-services==0.0.2"
 ```
 
 or
 
 ```bash
-easy_install --upgrade "ibm-cloud-networking-servies"
+easy_install --upgrade "ibm-cloud-networking-servies==0.0.2"
 ```
 
 ## Using the SDK
