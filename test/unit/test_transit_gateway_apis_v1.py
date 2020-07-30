@@ -15,15 +15,15 @@
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
-from ibm_cloud_sdk_core.utils import date_to_string
 import inspect
 import json
 import pytest
+import re
 import requests
 import responses
 from ibm_cloud_networking_services.transit_gateway_apis_v1 import *
 
-version = date.fromtimestamp(1580236840.123456)
+version = 'testString'
 
 service = TransitGatewayApisV1(
     authenticator=NoAuthAuthenticator(),
@@ -43,14 +43,21 @@ service.set_service_url(base_url)
 #-----------------------------------------------------------------------------
 class TestListTransitGateways():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # list_transit_gateways()
     #--------------------------------------------------------
     @responses.activate
     def test_list_transit_gateways_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways'
-        mock_response = '{"transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(base_url + '/transit_gateways')
+        mock_response = '{"transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -72,8 +79,8 @@ class TestListTransitGateways():
     @responses.activate
     def test_list_transit_gateways_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways'
-        mock_response = '{"transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(base_url + '/transit_gateways')
+        mock_response = '{"transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -95,14 +102,21 @@ class TestListTransitGateways():
 #-----------------------------------------------------------------------------
 class TestCreateTransitGateway():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # create_transit_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_create_transit_gateway_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways'
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -111,7 +125,7 @@ class TestCreateTransitGateway():
 
         # Construct a dict representation of a ResourceGroupIdentity model
         resource_group_identity_model = {}
-        resource_group_identity_model['id'] = '56969d60-43e9-465c-883c-b9f7363e78e8'
+        resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         # Set up parameter values
         location = 'us-south'
@@ -145,8 +159,8 @@ class TestCreateTransitGateway():
     @responses.activate
     def test_create_transit_gateway_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways'
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -155,7 +169,7 @@ class TestCreateTransitGateway():
 
         # Construct a dict representation of a ResourceGroupIdentity model
         resource_group_identity_model = {}
-        resource_group_identity_model['id'] = '56969d60-43e9-465c-883c-b9f7363e78e8'
+        resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         # Set up parameter values
         location = 'us-south'
@@ -180,13 +194,20 @@ class TestCreateTransitGateway():
 #-----------------------------------------------------------------------------
 class TestDeleteTransitGateway():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # delete_transit_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_delete_transit_gateway_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -211,7 +232,7 @@ class TestDeleteTransitGateway():
     @responses.activate
     def test_delete_transit_gateway_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -231,18 +252,25 @@ class TestDeleteTransitGateway():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for detail_transit_gateway
+# Test Class for get_transit_gateway
 #-----------------------------------------------------------------------------
-class TestDetailTransitGateway():
+class TestGetTransitGateway():
+
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
 
     #--------------------------------------------------------
-    # detail_transit_gateway()
+    # get_transit_gateway()
     #--------------------------------------------------------
     @responses.activate
-    def test_detail_transit_gateway_all_params(self):
+    def test_get_transit_gateway_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString'
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -253,7 +281,7 @@ class TestDetailTransitGateway():
         id = 'testString'
 
         # Invoke method
-        response = service.detail_transit_gateway(
+        response = service.get_transit_gateway(
             id,
             headers={}
         )
@@ -264,13 +292,13 @@ class TestDetailTransitGateway():
 
 
     #--------------------------------------------------------
-    # test_detail_transit_gateway_value_error()
+    # test_get_transit_gateway_value_error()
     #--------------------------------------------------------
     @responses.activate
-    def test_detail_transit_gateway_value_error(self):
+    def test_get_transit_gateway_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString'
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -287,7 +315,7 @@ class TestDetailTransitGateway():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.detail_transit_gateway(**req_copy)
+                service.get_transit_gateway(**req_copy)
 
 
 
@@ -296,14 +324,21 @@ class TestDetailTransitGateway():
 #-----------------------------------------------------------------------------
 class TestUpdateTransitGateway():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # update_transit_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_update_transit_gateway_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString'
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -338,8 +373,8 @@ class TestUpdateTransitGateway():
     @responses.activate
     def test_update_transit_gateway_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString'
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "global": true, "location": "us-south", "created_at": "2019-01-01T12:00:00", "resource_group": {"id": "56969d60-43e9-465c-883c-b9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -377,14 +412,21 @@ class TestUpdateTransitGateway():
 #-----------------------------------------------------------------------------
 class TestListTransitGatewayConnections():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # list_transit_gateway_connections()
     #--------------------------------------------------------
     @responses.activate
     def test_list_transit_gateway_connections_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections'
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -411,8 +453,8 @@ class TestListTransitGatewayConnections():
     @responses.activate
     def test_list_transit_gateway_connections_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections'
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -438,14 +480,21 @@ class TestListTransitGatewayConnections():
 #-----------------------------------------------------------------------------
 class TestCreateTransitGatewayConnection():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # create_transit_gateway_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_create_transit_gateway_connection_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections'
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -457,6 +506,7 @@ class TestCreateTransitGatewayConnection():
         network_type = 'vpc'
         name = 'Transit_Service_BWTN_SJ_DL'
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
 
         # Invoke method
         response = service.create_transit_gateway_connection(
@@ -464,6 +514,7 @@ class TestCreateTransitGatewayConnection():
             network_type,
             name=name,
             network_id=network_id,
+            network_account_id=network_account_id,
             headers={}
         )
 
@@ -475,6 +526,7 @@ class TestCreateTransitGatewayConnection():
         assert req_body['network_type'] == 'vpc'
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
         assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        assert req_body['network_account_id'] == '28e4d90ac7504be694471ee66e70d0d5'
 
 
     #--------------------------------------------------------
@@ -483,8 +535,8 @@ class TestCreateTransitGatewayConnection():
     @responses.activate
     def test_create_transit_gateway_connection_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections'
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -496,6 +548,7 @@ class TestCreateTransitGatewayConnection():
         network_type = 'vpc'
         name = 'Transit_Service_BWTN_SJ_DL'
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -514,13 +567,20 @@ class TestCreateTransitGatewayConnection():
 #-----------------------------------------------------------------------------
 class TestDeleteTransitGatewayConnection():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # delete_transit_gateway_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_delete_transit_gateway_connection_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections/testString'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -547,7 +607,7 @@ class TestDeleteTransitGatewayConnection():
     @responses.activate
     def test_delete_transit_gateway_connection_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections/testString'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -569,18 +629,25 @@ class TestDeleteTransitGatewayConnection():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for detail_transit_gateway_connection
+# Test Class for get_transit_gateway_connection
 #-----------------------------------------------------------------------------
-class TestDetailTransitGatewayConnection():
+class TestGetTransitGatewayConnection():
+
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
 
     #--------------------------------------------------------
-    # detail_transit_gateway_connection()
+    # get_transit_gateway_connection()
     #--------------------------------------------------------
     @responses.activate
-    def test_detail_transit_gateway_connection_all_params(self):
+    def test_get_transit_gateway_connection_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections/testString'
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -592,7 +659,7 @@ class TestDetailTransitGatewayConnection():
         id = 'testString'
 
         # Invoke method
-        response = service.detail_transit_gateway_connection(
+        response = service.get_transit_gateway_connection(
             transit_gateway_id,
             id,
             headers={}
@@ -604,13 +671,13 @@ class TestDetailTransitGatewayConnection():
 
 
     #--------------------------------------------------------
-    # test_detail_transit_gateway_connection_value_error()
+    # test_get_transit_gateway_connection_value_error()
     #--------------------------------------------------------
     @responses.activate
-    def test_detail_transit_gateway_connection_value_error(self):
+    def test_get_transit_gateway_connection_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections/testString'
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -629,7 +696,7 @@ class TestDetailTransitGatewayConnection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.detail_transit_gateway_connection(**req_copy)
+                service.get_transit_gateway_connection(**req_copy)
 
 
 
@@ -638,14 +705,21 @@ class TestDetailTransitGatewayConnection():
 #-----------------------------------------------------------------------------
 class TestUpdateTransitGatewayConnection():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # update_transit_gateway_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_update_transit_gateway_connection_all_params(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections/testString'
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -679,8 +753,8 @@ class TestUpdateTransitGatewayConnection():
     @responses.activate
     def test_update_transit_gateway_connection_value_error(self):
         # Set up mock
-        url = base_url + '/transit_gateways/testString/connections/testString'
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id", "created_at": "2019-01-01T12:00:00", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -704,6 +778,79 @@ class TestUpdateTransitGatewayConnection():
 
 
 
+#-----------------------------------------------------------------------------
+# Test Class for create_transit_gateway_connection_actions
+#-----------------------------------------------------------------------------
+class TestCreateTransitGatewayConnectionActions():
+
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    #--------------------------------------------------------
+    # create_transit_gateway_connection_actions()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_transit_gateway_connection_actions_all_params(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString/actions')
+        responses.add(responses.POST,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        action = 'approve'
+
+        # Invoke method
+        response = service.create_transit_gateway_connection_actions(
+            transit_gateway_id,
+            id,
+            action,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['action'] == 'approve'
+
+
+    #--------------------------------------------------------
+    # test_create_transit_gateway_connection_actions_value_error()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_transit_gateway_connection_actions_value_error(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString/actions')
+        responses.add(responses.POST,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        action = 'approve'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "action": action,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.create_transit_gateway_connection_actions(**req_copy)
+
+
+
 # endregion
 ##############################################################################
 # End of Service: TransitGatewaysNetworkConnections
@@ -719,13 +866,20 @@ class TestUpdateTransitGatewayConnection():
 #-----------------------------------------------------------------------------
 class TestListGatewayLocations():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # list_gateway_locations()
     #--------------------------------------------------------
     @responses.activate
     def test_list_gateway_locations_all_params(self):
         # Set up mock
-        url = base_url + '/locations'
+        url = self.preprocess_url(base_url + '/locations')
         mock_response = '{"locations": [{"billing_location": "us", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -748,7 +902,7 @@ class TestListGatewayLocations():
     @responses.activate
     def test_list_gateway_locations_value_error(self):
         # Set up mock
-        url = base_url + '/locations'
+        url = self.preprocess_url(base_url + '/locations')
         mock_response = '{"locations": [{"billing_location": "us", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -767,17 +921,24 @@ class TestListGatewayLocations():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for detail_gateway_location
+# Test Class for get_gateway_location
 #-----------------------------------------------------------------------------
-class TestDetailGatewayLocation():
+class TestGetGatewayLocation():
+
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
 
     #--------------------------------------------------------
-    # detail_gateway_location()
+    # get_gateway_location()
     #--------------------------------------------------------
     @responses.activate
-    def test_detail_gateway_location_all_params(self):
+    def test_get_gateway_location_all_params(self):
         # Set up mock
-        url = base_url + '/locations/testString'
+        url = self.preprocess_url(base_url + '/locations/testString')
         mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -789,7 +950,7 @@ class TestDetailGatewayLocation():
         name = 'testString'
 
         # Invoke method
-        response = service.detail_gateway_location(
+        response = service.get_gateway_location(
             name,
             headers={}
         )
@@ -800,12 +961,12 @@ class TestDetailGatewayLocation():
 
 
     #--------------------------------------------------------
-    # test_detail_gateway_location_value_error()
+    # test_get_gateway_location_value_error()
     #--------------------------------------------------------
     @responses.activate
-    def test_detail_gateway_location_value_error(self):
+    def test_get_gateway_location_value_error(self):
         # Set up mock
-        url = base_url + '/locations/testString'
+        url = self.preprocess_url(base_url + '/locations/testString')
         mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -823,7 +984,7 @@ class TestDetailGatewayLocation():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.detail_gateway_location(**req_copy)
+                service.get_gateway_location(**req_copy)
 
 
 
@@ -849,7 +1010,7 @@ class TestResourceGroupIdentity():
 
         # Construct a json representation of a ResourceGroupIdentity model
         resource_group_identity_model_json = {}
-        resource_group_identity_model_json['id'] = '56969d60-43e9-465c-883c-b9f7363e78e8'
+        resource_group_identity_model_json['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         # Construct a model instance of ResourceGroupIdentity by calling from_dict on the json representation
         resource_group_identity_model = ResourceGroupIdentity.from_dict(resource_group_identity_model_json)
@@ -878,8 +1039,8 @@ class TestResourceGroupReference():
 
         # Construct a json representation of a ResourceGroupReference model
         resource_group_reference_model_json = {}
-        resource_group_reference_model_json['id'] = '56969d60-43e9-465c-883c-b9f7363e78e8'
-        resource_group_reference_model_json['href'] = 'https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8'
+        resource_group_reference_model_json['id'] = '56969d6043e9465c883cb9f7363e78e8'
+        resource_group_reference_model_json['href'] = 'https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8'
 
         # Construct a model instance of ResourceGroupReference by calling from_dict on the json representation
         resource_group_reference_model = ResourceGroupReference.from_dict(resource_group_reference_model_json)
@@ -1046,17 +1207,17 @@ class TestTransitGateway():
         # Construct dict forms of any model objects needed in order to build this model.
 
         resource_group_reference_model = {} # ResourceGroupReference
-        resource_group_reference_model['id'] = '56969d60-43e9-465c-883c-b9f7363e78e8'
-        resource_group_reference_model['href'] = 'https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8'
+        resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
+        resource_group_reference_model['href'] = 'https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8'
 
         # Construct a json representation of a TransitGateway model
         transit_gateway_model_json = {}
         transit_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model_json['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model_json['name'] = 'my-transit-gateway-in-TransitGateway'
-        transit_gateway_model_json['global'] = True
         transit_gateway_model_json['location'] = 'us-south'
         transit_gateway_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_model_json['global'] = True
         transit_gateway_model_json['resource_group'] = resource_group_reference_model
         transit_gateway_model_json['status'] = 'available'
         transit_gateway_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
@@ -1089,16 +1250,16 @@ class TestTransitGatewayCollection():
         # Construct dict forms of any model objects needed in order to build this model.
 
         resource_group_reference_model = {} # ResourceGroupReference
-        resource_group_reference_model['id'] = '56969d60-43e9-465c-883c-b9f7363e78e8'
-        resource_group_reference_model['href'] = 'https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8'
+        resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
+        resource_group_reference_model['href'] = 'https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8'
 
         transit_gateway_model = {} # TransitGateway
         transit_gateway_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model['name'] = 'my-transit-gateway-in-TransitGateway'
-        transit_gateway_model['global'] = True
         transit_gateway_model['location'] = 'us-south'
         transit_gateway_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_model['global'] = True
         transit_gateway_model['resource_group'] = resource_group_reference_model
         transit_gateway_model['status'] = 'available'
         transit_gateway_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
@@ -1138,8 +1299,10 @@ class TestTransitGatewayConnectionCollection():
         transit_gateway_connection_cust_model['name'] = 'Transit_Service_BWTN_SJ_DL'
         transit_gateway_connection_cust_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_gateway_connection_cust_model['network_type'] = 'vpc'
-        transit_gateway_connection_cust_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id'
+        transit_gateway_connection_cust_model['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_gateway_connection_cust_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
         transit_gateway_connection_cust_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model['request_status'] = 'pending'
         transit_gateway_connection_cust_model['status'] = 'attached'
         transit_gateway_connection_cust_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
 
@@ -1177,8 +1340,10 @@ class TestTransitGatewayConnectionCust():
         transit_gateway_connection_cust_model_json['name'] = 'Transit_Service_BWTN_SJ_DL'
         transit_gateway_connection_cust_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_gateway_connection_cust_model_json['network_type'] = 'vpc'
-        transit_gateway_connection_cust_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id'
+        transit_gateway_connection_cust_model_json['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_gateway_connection_cust_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
         transit_gateway_connection_cust_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model_json['request_status'] = 'pending'
         transit_gateway_connection_cust_model_json['status'] = 'attached'
         transit_gateway_connection_cust_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
 
