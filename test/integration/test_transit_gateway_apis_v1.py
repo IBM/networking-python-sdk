@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2020 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2020.
 
 """
 
@@ -83,7 +83,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         while count < 24:
             response = None
             try:
-                response = self.tg.detail_transit_gateway(id=gateway_id)
+                response = self.tg.get_transit_gateway(id=gateway_id)
             except ApiException as e:
                 if e.code == 404:
                     break
@@ -106,7 +106,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         while count < 24:
             response = None
             try:
-                response = self.tg.detail_transit_gateway_connection(
+                response = self.tg.get_transit_gateway_connection(
                     transit_gateway_id=gateway_id, id=conn_id)
             except ApiException as e:
                 if e.code == 404:
@@ -126,7 +126,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         name = response.get_result().get("locations")[0].get("name")
 
         # get a location
-        response = self.tg.detail_gateway_location(name=name)
+        response = self.tg.get_gateway_location(name=name)
         assert response.get_status_code() == 200
 
     ################## Transit Gateways ######################################
@@ -142,11 +142,10 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_status_code() == 201
         gateway_id = response.get_result().get("id")
 
-
         # check gateway status until available using get api
         count = 0
         while count < 24:
-            response = self.tg.detail_transit_gateway(id=gateway_id)
+            response = self.tg.get_transit_gateway(id=gateway_id)
             status = response.get_result().get("status")
             ret_id = response.get_result().get("id")
             assert ret_id == gateway_id
@@ -195,7 +194,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         # check gateway status until available using get api
         count = 0
         while count < 24:
-            response = self.tg.detail_transit_gateway(id=gateway_id)
+            response = self.tg.get_transit_gateway(id=gateway_id)
             status = response.get_result()["status"]
             ret_id = response.get_result()["id"]
             assert ret_id == gateway_id
@@ -219,7 +218,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         # check connection status until attached using get api
         count = 0
         while count < 24:
-            response = self.tg.detail_transit_gateway_connection(
+            response = self.tg.get_transit_gateway_connection(
                 transit_gateway_id=gateway_id, id=conn_id)
             status = response.get_result()["status"]
             ret_id = response.get_result()["id"]
