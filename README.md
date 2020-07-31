@@ -1,4 +1,10 @@
-[![Build Status](https://travis.ibm.com/CloudEngineering/python-sdk-template.svg?token=eW5FVD71iyte6tTby8gr&branch=master)](https://travis.ibm.com/ibmcloud/networking-python-sdk)
+[![Build Status](https://travis-ci.com/IBM/networking-python-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-python-sdk)
+[![Release](https://img.shields.io/github/v/release/IBM/networking-python-sdk)](https://github.com/IBM/networking-python-sdk/releases/latest)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ibm-cloud-networking-services)](https://pypi.org/project/ibm-cloud-networking-services/)
+[![PyPI](https://img.shields.io/pypi/v/ibm-cloud-networking-services)](https://pypi.org/project/ibm-cloud-networking-services/)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/ibm-cloud-networking-services)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![codecov](https://codecov.io/gh/IBM/networking-python-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/IBM/networking-python-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 # IBM Cloud Networking Services Python SDK Version 0.0.2
@@ -73,7 +79,7 @@ IBM Cloud services:
 
 | Direct Link Service                                      | Imported Class Name |
 | -------------------------------------------------------- | ------------------- |
-| [Direct Link](https://cloud.ibm.com/apidocs/direct_link) | DirectLinkApisV1    |
+| [Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=python) | DirectLinkV1    |
 
 | Transit Service                                                  | Imported Class Name  |
 | ---------------------------------------------------------------- | -------------------- |
