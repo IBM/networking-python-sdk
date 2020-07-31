@@ -15,20 +15,18 @@
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
-from ibm_cloud_sdk_core.utils import date_to_string
 import inspect
 import io
 import json
 import pytest
-import re
 import requests
 import responses
 import tempfile
-from ibm_cloud_networking_services.direct_link_apis_v1 import *
+from ibm_cloud_networking_services.direct_link_v1 import *
 
-version = date.fromtimestamp(1580236840.123456)
+version = 'testString'
 
-service = DirectLinkApisV1(
+service = DirectLinkV1(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
@@ -46,21 +44,14 @@ service.set_service_url(base_url)
 #-----------------------------------------------------------------------------
 class TestListGateways():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_gateways()
     #--------------------------------------------------------
     @responses.activate
     def test_list_gateways_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways')
-        mock_response = '{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
+        url = base_url + '/gateways'
+        mock_response = '{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -82,8 +73,8 @@ class TestListGateways():
     @responses.activate
     def test_list_gateways_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways')
-        mock_response = '{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
+        url = base_url + '/gateways'
+        mock_response = '{"gateways": [{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -105,21 +96,14 @@ class TestListGateways():
 #-----------------------------------------------------------------------------
 class TestCreateGateway():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # create_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_create_gateway_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -145,7 +129,6 @@ class TestCreateGateway():
         gateway_template_model['carrier_name'] = 'myCarrierName'
         gateway_template_model['cross_connect_router'] = 'xcr01.dal03'
         gateway_template_model['customer_name'] = 'newCustomerName'
-        gateway_template_model['dedicated_hosting_id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_template_model['location_name'] = 'dal03'
 
         # Set up parameter values
@@ -171,8 +154,8 @@ class TestCreateGateway():
     @responses.activate
     def test_create_gateway_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -198,7 +181,6 @@ class TestCreateGateway():
         gateway_template_model['carrier_name'] = 'myCarrierName'
         gateway_template_model['cross_connect_router'] = 'xcr01.dal03'
         gateway_template_model['customer_name'] = 'newCustomerName'
-        gateway_template_model['dedicated_hosting_id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_template_model['location_name'] = 'dal03'
 
         # Set up parameter values
@@ -220,20 +202,13 @@ class TestCreateGateway():
 #-----------------------------------------------------------------------------
 class TestDeleteGateway():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # delete_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_delete_gateway_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString')
+        url = base_url + '/gateways/testString'
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -258,7 +233,7 @@ class TestDeleteGateway():
     @responses.activate
     def test_delete_gateway_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString')
+        url = base_url + '/gateways/testString'
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -282,21 +257,14 @@ class TestDeleteGateway():
 #-----------------------------------------------------------------------------
 class TestGetGateway():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # get_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_get_gateway_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways/testString'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -323,8 +291,8 @@ class TestGetGateway():
     @responses.activate
     def test_get_gateway_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways/testString'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -350,21 +318,14 @@ class TestGetGateway():
 #-----------------------------------------------------------------------------
 class TestUpdateGateway():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # update_gateway()
     #--------------------------------------------------------
     @responses.activate
     def test_update_gateway_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways/testString'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -411,8 +372,8 @@ class TestUpdateGateway():
     @responses.activate
     def test_update_gateway_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways/testString'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -444,21 +405,14 @@ class TestUpdateGateway():
 #-----------------------------------------------------------------------------
 class TestCreateGatewayAction():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # create_gateway_action()
     #--------------------------------------------------------
     @responses.activate
     def test_create_gateway_action_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/actions')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways/testString/actions'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -506,8 +460,8 @@ class TestCreateGatewayAction():
     @responses.activate
     def test_create_gateway_action_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/actions')
-        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "dedicated_hosting_id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        url = base_url + '/gateways/testString/actions'
+        mock_response = '{"bgp_asn": 64999, "bgp_base_cidr": "10.254.30.76/30", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "location_display_name": "Dallas 03", "location_name": "dal03", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -543,21 +497,14 @@ class TestCreateGatewayAction():
 #-----------------------------------------------------------------------------
 class TestListGatewayCompletionNotice():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_gateway_completion_notice()
     #--------------------------------------------------------
     @responses.activate
     def test_list_gateway_completion_notice_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
-        mock_response = '"unknown property type: operation_response"'
+        url = base_url + '/gateways/testString/completion_notice'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -584,8 +531,8 @@ class TestListGatewayCompletionNotice():
     @responses.activate
     def test_list_gateway_completion_notice_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
-        mock_response = '"unknown property type: operation_response"'
+        url = base_url + '/gateways/testString/completion_notice'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -611,20 +558,13 @@ class TestListGatewayCompletionNotice():
 #-----------------------------------------------------------------------------
 class TestCreateGatewayCompletionNotice():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # create_gateway_completion_notice()
     #--------------------------------------------------------
     @responses.activate
     def test_create_gateway_completion_notice_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
+        url = base_url + '/gateways/testString/completion_notice'
         responses.add(responses.PUT,
                       url,
                       status=204)
@@ -653,7 +593,7 @@ class TestCreateGatewayCompletionNotice():
     @responses.activate
     def test_create_gateway_completion_notice_required_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
+        url = base_url + '/gateways/testString/completion_notice'
         responses.add(responses.PUT,
                       url,
                       status=204)
@@ -678,7 +618,7 @@ class TestCreateGatewayCompletionNotice():
     @responses.activate
     def test_create_gateway_completion_notice_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/completion_notice')
+        url = base_url + '/gateways/testString/completion_notice'
         responses.add(responses.PUT,
                       url,
                       status=204)
@@ -702,21 +642,14 @@ class TestCreateGatewayCompletionNotice():
 #-----------------------------------------------------------------------------
 class TestListGatewayLetterOfAuthorization():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_gateway_letter_of_authorization()
     #--------------------------------------------------------
     @responses.activate
     def test_list_gateway_letter_of_authorization_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/letter_of_authorization')
-        mock_response = '"unknown property type: operation_response"'
+        url = base_url + '/gateways/testString/letter_of_authorization'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -743,8 +676,8 @@ class TestListGatewayLetterOfAuthorization():
     @responses.activate
     def test_list_gateway_letter_of_authorization_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/letter_of_authorization')
-        mock_response = '"unknown property type: operation_response"'
+        url = base_url + '/gateways/testString/letter_of_authorization'
+        mock_response = 'Contents of response byte-stream...'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -780,20 +713,13 @@ class TestListGatewayLetterOfAuthorization():
 #-----------------------------------------------------------------------------
 class TestListOfferingTypeLocations():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_offering_type_locations()
     #--------------------------------------------------------
     @responses.activate
     def test_list_offering_type_locations_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/offering_types/dedicated/locations')
+        url = base_url + '/offering_types/dedicated/locations'
         mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}'
         responses.add(responses.GET,
                       url,
@@ -821,7 +747,7 @@ class TestListOfferingTypeLocations():
     @responses.activate
     def test_list_offering_type_locations_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/offering_types/dedicated/locations')
+        url = base_url + '/offering_types/dedicated/locations'
         mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}'
         responses.add(responses.GET,
                       url,
@@ -848,20 +774,13 @@ class TestListOfferingTypeLocations():
 #-----------------------------------------------------------------------------
 class TestListOfferingTypeLocationCrossConnectRouters():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_offering_type_location_cross_connect_routers()
     #--------------------------------------------------------
     @responses.activate
     def test_list_offering_type_location_cross_connect_routers_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/offering_types/dedicated/locations/testString/cross_connect_routers')
+        url = base_url + '/offering_types/dedicated/locations/testString/cross_connect_routers'
         mock_response = '{"cross_connect_routers": [{"router_name": "xcr01.dal03", "total_connections": 1}]}'
         responses.add(responses.GET,
                       url,
@@ -891,7 +810,7 @@ class TestListOfferingTypeLocationCrossConnectRouters():
     @responses.activate
     def test_list_offering_type_location_cross_connect_routers_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/offering_types/dedicated/locations/testString/cross_connect_routers')
+        url = base_url + '/offering_types/dedicated/locations/testString/cross_connect_routers'
         mock_response = '{"cross_connect_routers": [{"router_name": "xcr01.dal03", "total_connections": 1}]}'
         responses.add(responses.GET,
                       url,
@@ -920,20 +839,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
 #-----------------------------------------------------------------------------
 class TestListOfferingTypeSpeeds():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_offering_type_speeds()
     #--------------------------------------------------------
     @responses.activate
     def test_list_offering_type_speeds_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/offering_types/dedicated/speeds')
+        url = base_url + '/offering_types/dedicated/speeds'
         mock_response = '{"speeds": [{"link_speed": 2000}]}'
         responses.add(responses.GET,
                       url,
@@ -961,7 +873,7 @@ class TestListOfferingTypeSpeeds():
     @responses.activate
     def test_list_offering_type_speeds_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/offering_types/dedicated/speeds')
+        url = base_url + '/offering_types/dedicated/speeds'
         mock_response = '{"speeds": [{"link_speed": 2000}]}'
         responses.add(responses.GET,
                       url,
@@ -998,20 +910,13 @@ class TestListOfferingTypeSpeeds():
 #-----------------------------------------------------------------------------
 class TestListPorts():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_ports()
     #--------------------------------------------------------
     @responses.activate
     def test_list_ports_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/ports')
+        url = base_url + '/ports'
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
         responses.add(responses.GET,
                       url,
@@ -1021,7 +926,7 @@ class TestListPorts():
 
         # Set up parameter values
         start = 'testString'
-        limit = 1
+        limit = 38
         location_name = 'testString'
 
         # Invoke method
@@ -1049,7 +954,7 @@ class TestListPorts():
     @responses.activate
     def test_list_ports_required_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/ports')
+        url = base_url + '/ports'
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
         responses.add(responses.GET,
                       url,
@@ -1072,7 +977,7 @@ class TestListPorts():
     @responses.activate
     def test_list_ports_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/ports')
+        url = base_url + '/ports'
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
         responses.add(responses.GET,
                       url,
@@ -1095,20 +1000,13 @@ class TestListPorts():
 #-----------------------------------------------------------------------------
 class TestGetPort():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # get_port()
     #--------------------------------------------------------
     @responses.activate
     def test_get_port_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/ports/testString')
+        url = base_url + '/ports/testString'
         mock_response = '{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}'
         responses.add(responses.GET,
                       url,
@@ -1136,7 +1034,7 @@ class TestGetPort():
     @responses.activate
     def test_get_port_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/ports/testString')
+        url = base_url + '/ports/testString'
         mock_response = '{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}'
         responses.add(responses.GET,
                       url,
@@ -1173,20 +1071,13 @@ class TestGetPort():
 #-----------------------------------------------------------------------------
 class TestListGatewayVirtualConnections():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # list_gateway_virtual_connections()
     #--------------------------------------------------------
     @responses.activate
     def test_list_gateway_virtual_connections_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections')
+        url = base_url + '/gateways/testString/virtual_connections'
         mock_response = '{"virtual_connections": [{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}]}'
         responses.add(responses.GET,
                       url,
@@ -1214,7 +1105,7 @@ class TestListGatewayVirtualConnections():
     @responses.activate
     def test_list_gateway_virtual_connections_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections')
+        url = base_url + '/gateways/testString/virtual_connections'
         mock_response = '{"virtual_connections": [{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}]}'
         responses.add(responses.GET,
                       url,
@@ -1241,20 +1132,13 @@ class TestListGatewayVirtualConnections():
 #-----------------------------------------------------------------------------
 class TestCreateGatewayVirtualConnection():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # create_gateway_virtual_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_create_gateway_virtual_connection_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections')
+        url = base_url + '/gateways/testString/virtual_connections'
         mock_response = '{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
         responses.add(responses.POST,
                       url,
@@ -1293,7 +1177,7 @@ class TestCreateGatewayVirtualConnection():
     @responses.activate
     def test_create_gateway_virtual_connection_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections')
+        url = base_url + '/gateways/testString/virtual_connections'
         mock_response = '{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
         responses.add(responses.POST,
                       url,
@@ -1325,20 +1209,13 @@ class TestCreateGatewayVirtualConnection():
 #-----------------------------------------------------------------------------
 class TestDeleteGatewayVirtualConnection():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # delete_gateway_virtual_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_delete_gateway_virtual_connection_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections/testString')
+        url = base_url + '/gateways/testString/virtual_connections/testString'
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1365,7 +1242,7 @@ class TestDeleteGatewayVirtualConnection():
     @responses.activate
     def test_delete_gateway_virtual_connection_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections/testString')
+        url = base_url + '/gateways/testString/virtual_connections/testString'
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1391,20 +1268,13 @@ class TestDeleteGatewayVirtualConnection():
 #-----------------------------------------------------------------------------
 class TestGetGatewayVirtualConnection():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # get_gateway_virtual_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_get_gateway_virtual_connection_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections/testString')
+        url = base_url + '/gateways/testString/virtual_connections/testString'
         mock_response = '{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
         responses.add(responses.GET,
                       url,
@@ -1434,7 +1304,7 @@ class TestGetGatewayVirtualConnection():
     @responses.activate
     def test_get_gateway_virtual_connection_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections/testString')
+        url = base_url + '/gateways/testString/virtual_connections/testString'
         mock_response = '{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
         responses.add(responses.GET,
                       url,
@@ -1463,20 +1333,13 @@ class TestGetGatewayVirtualConnection():
 #-----------------------------------------------------------------------------
 class TestUpdateGatewayVirtualConnection():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     #--------------------------------------------------------
     # update_gateway_virtual_connection()
     #--------------------------------------------------------
     @responses.activate
     def test_update_gateway_virtual_connection_all_params(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections/testString')
+        url = base_url + '/gateways/testString/virtual_connections/testString'
         mock_response = '{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
         responses.add(responses.PATCH,
                       url,
@@ -1514,7 +1377,7 @@ class TestUpdateGatewayVirtualConnection():
     @responses.activate
     def test_update_gateway_virtual_connection_value_error(self):
         # Set up mock
-        url = self.preprocess_url(base_url + '/gateways/testString/virtual_connections/testString')
+        url = base_url + '/gateways/testString/virtual_connections/testString'
         mock_response = '{"created_at": "2019-01-01T12:00:00", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
         responses.add(responses.PATCH,
                       url,
@@ -1614,7 +1477,6 @@ class TestGateway():
         gateway_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
         gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_model_json['cross_connect_router'] = 'xcr01.dal03'
-        gateway_model_json['dedicated_hosting_id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_model_json['global'] = True
         gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_model_json['link_status'] = 'up'
@@ -1678,7 +1540,6 @@ class TestGatewayCollection():
         gateway_model['created_at'] = '2020-01-28T18:40:40.123456Z'
         gateway_model['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_model['cross_connect_router'] = 'xcr01.dal03'
-        gateway_model['dedicated_hosting_id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_model['global'] = True
         gateway_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_model['link_status'] = 'up'
@@ -2395,7 +2256,6 @@ class TestGatewayTemplateGatewayTypeDedicatedTemplate():
         gateway_template_gateway_type_dedicated_template_model_json['carrier_name'] = 'myCarrierName'
         gateway_template_gateway_type_dedicated_template_model_json['cross_connect_router'] = 'xcr01.dal03'
         gateway_template_gateway_type_dedicated_template_model_json['customer_name'] = 'newCustomerName'
-        gateway_template_gateway_type_dedicated_template_model_json['dedicated_hosting_id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_template_gateway_type_dedicated_template_model_json['location_name'] = 'dal03'
 
         # Construct a model instance of GatewayTemplateGatewayTypeDedicatedTemplate by calling from_dict on the json representation

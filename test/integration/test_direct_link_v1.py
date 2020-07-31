@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2020 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2020.
 
 """
 Integration test code to execute DirectLink client functions
@@ -10,8 +10,8 @@ import time
 import unittest
 from ibm_cloud_sdk_core import ApiException
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_cloud_networking_services import DirectLinkApisV1
-from ibm_cloud_networking_services.direct_link_apis_v1 import (
+from ibm_cloud_networking_services import DirectLinkV1
+from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateGatewayTypeDedicatedTemplate)
 
 from dotenv import load_dotenv, find_dotenv
@@ -22,7 +22,7 @@ try:
 except:
     print('warning: no .dl_env file loaded')
 
-class TestDirectLinkApisV1(unittest.TestCase):
+class TestDirectLinkV1(unittest.TestCase):
     """ Test class for DirectLink sdk functions """
 
     def setUp(self):
@@ -36,18 +36,18 @@ class TestDirectLinkApisV1(unittest.TestCase):
         authenticator = IAMAuthenticator(apikey=os.getenv("DL_SERVICES_APIKEY"),
                                          url=os.getenv("DL_SERVICES_IAM_URL"))
         # create DirectLink class object
-        self.dl = DirectLinkApisV1.new_instance(
+        self.dl = DirectLinkV1.new_instance(
             version=self.version, service_name="dl_services")
         self.dl.set_service_url(self.endpoint)
         self.dl.authenticator = authenticator
-        self._clean_tg_records()
+        self._clean_dl_records()
 
     def tearDown(self):
         """ tear down """
         # Delete the resources
         print("Clean up complete")
 
-    def _clean_tg_records(self):
+    def _clean_dl_records(self):
         response = self.dl.list_gateways()
         assert response is not None
         assert response.get_status_code() == 200
