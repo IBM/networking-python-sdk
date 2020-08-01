@@ -20,7 +20,7 @@ from dotenv import load_dotenv, find_dotenv
 try:
     load_dotenv(find_dotenv(filename=".dl_env"))
 except:
-    print('warning: no .dl_env file loaded')
+    raise unittest.SkipTest('no .dl_env file loaded, skipping...')
 
 class TestDirectLinkV1(unittest.TestCase):
     """ Test class for DirectLink sdk functions """
