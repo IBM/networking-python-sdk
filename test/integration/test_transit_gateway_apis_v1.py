@@ -19,7 +19,7 @@ from dotenv import load_dotenv, find_dotenv
 try:
     load_dotenv(find_dotenv(filename=".transit_env"))
 except:
-    print('warning: no .transit_env file loaded')
+    raise unittest.SkipTest('no .transit_env file loaded, skipping...')
 
 class TestTransitGatewayApisV1(unittest.TestCase):
     """ Test class for Transit Gateway sdk functions """
