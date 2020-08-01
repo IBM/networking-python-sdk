@@ -7,9 +7,6 @@ cache: pip
 matrix:
   include:
     - python: 3.5
-    - python: 3.6
-    - python: 3.7
-    - python: 3.8
       before_script:
       - >-
             [ -z "${TRAVIS_TAG}" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ]
@@ -17,6 +14,9 @@ matrix:
             && openssl aes-256-cbc -K $encrypted_16de86179301_key -iv $encrypted_16de86179301_iv -in .transit_env.enc -out .transit_env -d
             && openssl aes-256-cbc -K $encrypted_b4d7fa377f59_key -iv $encrypted_b4d7fa377f59_iv -in .dl_env.enc -out .dl_env -d
             || true
+    - python: 3.6
+    - python: 3.7
+    - python: 3.8
 
 before_install:
   - npm install npm@latest -g
