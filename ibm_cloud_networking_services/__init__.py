@@ -26,7 +26,6 @@ from .cis_ip_api_v1 import CisIpApiV1
 from .custom_pages_v1 import CustomPagesV1
 from .dns_record_bulk_v1 import DnsRecordBulkV1
 from .dns_records_v1 import DnsRecordsV1
-from .direct_link_v1 import DirectLinkV1
 from .firewall_access_rules_v1 import FirewallAccessRulesV1
 from .firewall_api_v1 import FirewallApiV1
 from .global_load_balancer_events_v1 import GlobalLoadBalancerEventsV1
@@ -38,7 +37,6 @@ from .range_applications_v1 import RangeApplicationsV1
 from .routing_v1 import RoutingV1
 from .security_events_api_v1 import SecurityEventsApiV1
 from .ssl_certificate_api_v1 import SslCertificateApiV1
-from .transit_gateway_apis_v1 import TransitGatewayApisV1
 from .user_agent_blocking_rules_v1 import UserAgentBlockingRulesV1
 from .waf_api_v1 import WafApiV1
 from .waf_rule_groups_api_v1 import WafRuleGroupsApiV1
@@ -50,7 +48,13 @@ from .zone_rate_limits_v1 import ZoneRateLimitsV1
 from .zones_settings_v1 import ZonesSettingsV1
 from .zones_v1 import ZonesV1
 
-# PDNS Service packages
+# Private DNS Service Packages
 from .dns_zones_v1 import DnsZonesV1
-from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
 from .resource_records_v1 import ResourceRecordsV1
+from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
+
+# Directlink Service Packages
+from .direct_link_v1 import DirectLinkV1
+
+# Transit Service Packages
+from .transit_gateway_apis_v1 import TransitGatewayApisV1

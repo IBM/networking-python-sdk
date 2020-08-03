@@ -8,8 +8,17 @@ Integration test code to execute zones functions
 import os
 import unittest
 import uuid
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_sdk_core.api_exception import ApiException
 from ibm_cloud_networking_services.zones_v1 import ZonesV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestZonesV1(unittest.TestCase):
@@ -17,10 +26,15 @@ class TestZonesV1(unittest.TestCase):
 
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.endpoint = os.getenv("API_ENDPOINT")
         # create zones record class object
-        self.zones = ZonesV1.new_instance(crn=self.crn, service_name="cis_services")
+        self.zones = ZonesV1.new_instance(
+            crn=self.crn, service_name="cis_services")
         self.zones.set_service_url(self.endpoint)
         self._cleanup_zones()
 
@@ -44,7 +58,8 @@ class TestZonesV1(unittest.TestCase):
     ################## zones integration test ###################
     def test_1_zones(self):
         """ create a zone """
-        self.zone_name = "uuid-" + str(uuid.uuid1())[1:6] + ".sdk.cistest-load.com"
+        self.zone_name = "uuid-" + \
+            str(uuid.uuid1())[1:6] + ".sdk.cistest-load.com"
         response = self.zones.create_zone(
             name=self.zone_name).get_result()
         assert response is not None and response.get('success') is True
@@ -87,7 +102,6 @@ class TestZonesV1(unittest.TestCase):
 
     ################## Negative test cases ###################
     def test_2_zones(self):
-
         """ get zone method without zone identifier """
         with self.assertRaises(ValueError) as val:
             self.zones.get_zone(

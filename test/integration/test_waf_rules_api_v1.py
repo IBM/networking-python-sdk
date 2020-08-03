@@ -5,13 +5,26 @@ Integration test code to execute waf rules api functions
 """
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.waf_rules_api_v1 import WafRulesApiV1
 from ibm_cloud_networking_services.waf_rule_packages_api_v1 import WafRulePackagesApiV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestWafRulesApiV1 (unittest.TestCase):
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.endpoint = os.getenv("API_ENDPOINT")
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")

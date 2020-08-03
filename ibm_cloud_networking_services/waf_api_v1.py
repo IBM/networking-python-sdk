@@ -98,9 +98,11 @@ class WafApiV1(BaseService):
     #########################
 
 
-    def get_waf_settings(self, **kwargs) -> DetailedResponse:
+    def get_waf_settings(self,
+        **kwargs
+    ) -> DetailedResponse:
         """
-        Get WAF setting of a specific zone.
+        Get WAF setting.
 
         Get WAF of a specific zone.
 
@@ -110,13 +112,16 @@ class WafApiV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_waf_settings')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_waf_settings')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/v1/{0}/zones/{1}/settings/waf'.format(*self.encode_path_vars(self.crn, self.zone_id))
+        url = '/v1/{0}/zones/{1}/settings/waf'.format(
+            *self.encode_path_vars(self.crn, self.zone_id))
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -125,9 +130,13 @@ class WafApiV1(BaseService):
         return response
 
 
-    def update_waf_settings(self, *, value: str = None, **kwargs) -> DetailedResponse:
+    def update_waf_settings(self,
+        *,
+        value: str = None,
+        **kwargs
+    ) -> DetailedResponse:
         """
-        Set WAF setting for a specific zone.
+        Set WAF setting.
 
         Set WAF (on | off) for a specific zone.
 
@@ -138,7 +147,9 @@ class WafApiV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='update_waf_settings')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_waf_settings')
         headers.update(sdk_headers)
 
         data = {
@@ -151,7 +162,8 @@ class WafApiV1(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/v1/{0}/zones/{1}/settings/waf'.format(*self.encode_path_vars(self.crn, self.zone_id))
+        url = '/v1/{0}/zones/{1}/settings/waf'.format(
+            *self.encode_path_vars(self.crn, self.zone_id))
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -160,3 +172,173 @@ class WafApiV1(BaseService):
         response = self.send(request)
         return response
 
+
+##############################################################################
+# Models
+##############################################################################
+
+
+class WafResponseResult():
+    """
+    result.
+
+    :attr str id: (optional) id.
+    :attr str value: (optional) value.
+    :attr bool editable: (optional) editable.
+    :attr str modified_on: (optional) modified date.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 value: str = None,
+                 editable: bool = None,
+                 modified_on: str = None) -> None:
+        """
+        Initialize a WafResponseResult object.
+
+        :param str id: (optional) id.
+        :param str value: (optional) value.
+        :param bool editable: (optional) editable.
+        :param str modified_on: (optional) modified date.
+        """
+        self.id = id
+        self.value = value
+        self.editable = editable
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'WafResponseResult':
+        """Initialize a WafResponseResult object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'editable' in _dict:
+            args['editable'] = _dict.get('editable')
+        if 'modified_on' in _dict:
+            args['modified_on'] = _dict.get('modified_on')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WafResponseResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'editable') and self.editable is not None:
+            _dict['editable'] = self.editable
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = self.modified_on
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this WafResponseResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'WafResponseResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'WafResponseResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class WafResponse():
+    """
+    waf response.
+
+    :attr bool success: success.
+    :attr List[List[str]] errors: errors.
+    :attr List[List[str]] messages: messages.
+    :attr WafResponseResult result: result.
+    """
+
+    def __init__(self,
+                 success: bool,
+                 errors: List[List[str]],
+                 messages: List[List[str]],
+                 result: 'WafResponseResult') -> None:
+        """
+        Initialize a WafResponse object.
+
+        :param bool success: success.
+        :param List[List[str]] errors: errors.
+        :param List[List[str]] messages: messages.
+        :param WafResponseResult result: result.
+        """
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+        self.result = result
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'WafResponse':
+        """Initialize a WafResponse object from a json dictionary."""
+        args = {}
+        if 'success' in _dict:
+            args['success'] = _dict.get('success')
+        else:
+            raise ValueError('Required property \'success\' not present in WafResponse JSON')
+        if 'errors' in _dict:
+            args['errors'] = _dict.get('errors')
+        else:
+            raise ValueError('Required property \'errors\' not present in WafResponse JSON')
+        if 'messages' in _dict:
+            args['messages'] = _dict.get('messages')
+        else:
+            raise ValueError('Required property \'messages\' not present in WafResponse JSON')
+        if 'result' in _dict:
+            args['result'] = WafResponseResult.from_dict(_dict.get('result'))
+        else:
+            raise ValueError('Required property \'result\' not present in WafResponse JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WafResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = self.messages
+        if hasattr(self, 'result') and self.result is not None:
+            _dict['result'] = self.result.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this WafResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'WafResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'WafResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other

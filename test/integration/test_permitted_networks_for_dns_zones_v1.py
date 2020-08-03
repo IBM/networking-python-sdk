@@ -7,8 +7,17 @@ Integration test code to execute dns permitted networks api
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services import DnsZonesV1
 from ibm_cloud_networking_services import PermittedNetworksForDnsZonesV1
+
+configFile = "pdns.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="pdns.env"))
+except:
+    print('warning: no pdns.env file loaded')
 
 
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
@@ -16,6 +25,10 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
 
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.instance_id = os.getenv("INSTANCE_ID")
         self.vpc_crn = os.getenv("VPC_CRN")
         self.zone_id = ""

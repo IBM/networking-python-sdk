@@ -7,12 +7,25 @@ Integration test code to execute user agent blocking rules functions
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.user_agent_blocking_rules_v1 import UserAgentBlockingRulesV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestUserAgentBlockingRulesV1 (unittest.TestCase):
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.endpoint = os.getenv("API_ENDPOINT")
         self.crn = os.getenv("CRN")
         self.zone_identifier = os.getenv("ZONE_ID")

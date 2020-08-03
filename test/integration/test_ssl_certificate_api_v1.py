@@ -8,8 +8,17 @@ Integration test code to execute ssl certificate client functions
 import os
 import unittest
 import time
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services import SslCertificateApiV1
 from ibm_cloud_sdk_core import ApiException
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestSSLCertV1(unittest.TestCase):
@@ -17,6 +26,10 @@ class TestSSLCertV1(unittest.TestCase):
 
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")
@@ -44,7 +57,7 @@ class TestSSLCertV1(unittest.TestCase):
             try:
                 self.ssl.delete_certificate(cert.get("id"))
             except ApiException:
-                print ('Error: Bad response certificate service, Code: 400')
+                print('Error: Bad response certificate service, Code: 400')
                 # deleting ssl certificate will be pending state for a while.
                 # So, wait for 60 sec and re-run the test.
                 time.sleep(60)

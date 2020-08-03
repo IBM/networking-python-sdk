@@ -7,13 +7,26 @@ Integration test code for Routing
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.routing_v1 import RoutingV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestRoutingApiV1(unittest.TestCase):
     """ Routing API test class """
 
     def setUp(self):
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")
@@ -46,6 +59,7 @@ class TestRoutingApiV1(unittest.TestCase):
         assert resp.status_code == 200
         assert resp.get_result().get("result")["id"] == "smart_routing"
         assert resp.get_result().get("result")["value"] == value
+
 
 if __name__ == '__main__':
     unittest.main()

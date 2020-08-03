@@ -7,13 +7,26 @@ Integration test code to execute zone firewall access rules api
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.zone_firewall_access_rules_v1 import ZoneFirewallAccessRulesV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestZoneFirewallAccessRules(unittest.TestCase):
     """ Test class to call Zone Firewall Access Rules API functions """
 
     def setUp(self):
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.endpoint = os.getenv("API_ENDPOINT")
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")

@@ -8,15 +8,28 @@ Integration test code to execute global load balancer functions
 import os
 import unittest
 import uuid
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.global_load_balancer_v1 import GlobalLoadBalancerV1
 from ibm_cloud_networking_services.global_load_balancer_pools_v0 import GlobalLoadBalancerPoolsV0
 from ibm_cloud_networking_services.global_load_balancer_monitor_v1 import GlobalLoadBalancerMonitorV1
 from ibm_cloud_networking_services.zones_v1 import ZonesV1
 
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
+
 
 class TestGlobalLoadBalancerV1 (unittest.TestCase):
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.endpoint = os.getenv("API_ENDPOINT")
         self.crn = os.getenv("CRN")
 
@@ -26,7 +39,8 @@ class TestGlobalLoadBalancerV1 (unittest.TestCase):
         self.zones.set_service_url(self.endpoint)
 
         # create zone
-        self.zone_name = "uuid-" + str(uuid.uuid1())[1:6] + ".sdk.cistest-load.com"
+        self.zone_name = "uuid-" + \
+            str(uuid.uuid1())[1:6] + ".sdk.cistest-load.com"
         response = self.zones.create_zone(
             name=self.zone_name).get_result()
         assert response is not None and response.get('success') is True
@@ -92,7 +106,8 @@ class TestGlobalLoadBalancerV1 (unittest.TestCase):
         assert response is not None and response.get('success') is True
 
         """ tear down zone """
-        response = self.zones.delete_zone(zone_identifier=self.zone_identifier).get_result()
+        response = self.zones.delete_zone(
+            zone_identifier=self.zone_identifier).get_result()
         assert response is not None and response.get('success') is True
 
         # Delete the resources

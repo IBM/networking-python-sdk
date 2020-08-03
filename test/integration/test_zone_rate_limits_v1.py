@@ -7,13 +7,26 @@ Integration test code for Rate Limit Service
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.zone_rate_limits_v1 import ZoneRateLimitsV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestRateLimitsApiV1(unittest.TestCase):
     """ Rate Limits API test class """
 
     def setUp(self):
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")
@@ -202,7 +215,8 @@ class TestRateLimitsApiV1(unittest.TestCase):
             assert resp.get_result().get("result").get("action").get("mode") == mode_update
 
             # delete rate limits
-            resp = self.rate_limit.delete_zone_rate_limit(rate_limit_identifier=id)
+            resp = self.rate_limit.delete_zone_rate_limit(
+                rate_limit_identifier=id)
             assert resp is not None
             assert resp.status_code == 200
 
@@ -503,6 +517,7 @@ class TestRateLimitsApiV1(unittest.TestCase):
                 # delete zone rate limit
                 self.rate_limit.delete_zone_rate_limit(
                     rate_limit_identifier=id.get("id"))
+
 
 if __name__ == '__main__':
     unittest.main()
