@@ -18,9 +18,10 @@ from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthen
 import inspect
 import json
 import pytest
+import re
 import requests
 import responses
-from ibm_cloud_networking_services.security_events_api_v1 import SecurityEventsApiV1
+from ibm_cloud_networking_services.security_events_api_v1 import *
 
 crn = 'testString'
 zone_id = 'testString'
@@ -44,14 +45,21 @@ service.set_service_url(base_url)
 #-----------------------------------------------------------------------------
 class TestSecurityEvents():
 
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     #--------------------------------------------------------
     # security_events()
     #--------------------------------------------------------
     @responses.activate
     def test_security_events_all_params(self):
         # Set up mock
-        url = base_url + '/v1/testString/zones/testString/security/events'
-        mock_response = '{"result": [{"ray_id": "4c6392789858b224", "kind": "firewall", "source": "rateLimit", "action": "drop", "rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "ip": "192.168.1.1", "ip_class": "noRecord", "country": "CN", "colo": "HKG", "host": "www.example.com", "method": "GET", "proto": "HTTP/2", "scheme": "https", "ua": "curl/7.61.1", "uri": "/", "occurred_at": "2019-01-01T12:00:00", "matches": [{"rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "source": "rateLimit", "action": "drop", "metadata": "unknown property type: metadata"}]}], "result_info": {"cursors": {"after": "bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44", "before": "dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX"}, "scanned_range": {"since": "2019-01-01T12:00:00", "until": "2019-01-01T12:00:00"}}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/security/events')
+        mock_response = '{"result": [{"ray_id": "4c6392789858b224", "kind": "firewall", "source": "rateLimit", "action": "drop", "rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "ip": "192.168.1.1", "ip_class": "noRecord", "country": "CN", "colo": "HKG", "host": "www.example.com", "method": "GET", "proto": "HTTP/2", "scheme": "https", "ua": "curl/7.61.1", "uri": "/", "occurred_at": "2019-01-01T12:00:00", "matches": [{"rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "source": "rateLimit", "action": "drop", "metadata": {"anyKey": "anyValue"}}]}], "result_info": {"cursors": {"after": "bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44", "before": "dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX"}, "scanned_range": {"since": "2019-04-12 07:44:18", "until": "2019-04-12 07:44:18"}}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -75,7 +83,7 @@ class TestSecurityEvents():
         country = 'testString'
         since = datetime.fromtimestamp(1580236840.123456, timezone.utc)
         source = 'unknown'
-        limit = 38
+        limit = 10
         rule_id = 'testString'
         until = datetime.fromtimestamp(1580236840.123456, timezone.utc)
 
@@ -99,7 +107,8 @@ class TestSecurityEvents():
             source=source,
             limit=limit,
             rule_id=rule_id,
-            until=until
+            until=until,
+            headers={}
         )
 
         # Check for correct operation
@@ -133,8 +142,8 @@ class TestSecurityEvents():
     @responses.activate
     def test_security_events_required_params(self):
         # Set up mock
-        url = base_url + '/v1/testString/zones/testString/security/events'
-        mock_response = '{"result": [{"ray_id": "4c6392789858b224", "kind": "firewall", "source": "rateLimit", "action": "drop", "rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "ip": "192.168.1.1", "ip_class": "noRecord", "country": "CN", "colo": "HKG", "host": "www.example.com", "method": "GET", "proto": "HTTP/2", "scheme": "https", "ua": "curl/7.61.1", "uri": "/", "occurred_at": "2019-01-01T12:00:00", "matches": [{"rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "source": "rateLimit", "action": "drop", "metadata": "unknown property type: metadata"}]}], "result_info": {"cursors": {"after": "bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44", "before": "dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX"}, "scanned_range": {"since": "2019-01-01T12:00:00", "until": "2019-01-01T12:00:00"}}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/security/events')
+        mock_response = '{"result": [{"ray_id": "4c6392789858b224", "kind": "firewall", "source": "rateLimit", "action": "drop", "rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "ip": "192.168.1.1", "ip_class": "noRecord", "country": "CN", "colo": "HKG", "host": "www.example.com", "method": "GET", "proto": "HTTP/2", "scheme": "https", "ua": "curl/7.61.1", "uri": "/", "occurred_at": "2019-01-01T12:00:00", "matches": [{"rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "source": "rateLimit", "action": "drop", "metadata": {"anyKey": "anyValue"}}]}], "result_info": {"cursors": {"after": "bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44", "before": "dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX"}, "scanned_range": {"since": "2019-04-12 07:44:18", "until": "2019-04-12 07:44:18"}}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -150,8 +159,299 @@ class TestSecurityEvents():
         assert response.status_code == 200
 
 
+    #--------------------------------------------------------
+    # test_security_events_value_error()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_security_events_value_error(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/security/events')
+        mock_response = '{"result": [{"ray_id": "4c6392789858b224", "kind": "firewall", "source": "rateLimit", "action": "drop", "rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "ip": "192.168.1.1", "ip_class": "noRecord", "country": "CN", "colo": "HKG", "host": "www.example.com", "method": "GET", "proto": "HTTP/2", "scheme": "https", "ua": "curl/7.61.1", "uri": "/", "occurred_at": "2019-01-01T12:00:00", "matches": [{"rule_id": "fe38bd35ca284de69b5ecbaa6db87dc3", "source": "rateLimit", "action": "drop", "metadata": {"anyKey": "anyValue"}}]}], "result_info": {"cursors": {"after": "bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44", "before": "dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX"}, "scanned_range": {"since": "2019-04-12 07:44:18", "until": "2019-04-12 07:44:18"}}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.security_events(**req_copy)
+
+
+
 # endregion
 ##############################################################################
 # End of Service: SecurityEvents
 ##############################################################################
 
+
+##############################################################################
+# Start of Model Tests
+##############################################################################
+# region
+#-----------------------------------------------------------------------------
+# Test Class for ResultInfoCursors
+#-----------------------------------------------------------------------------
+class TestResultInfoCursors():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for ResultInfoCursors
+    #--------------------------------------------------------
+    def test_result_info_cursors_serialization(self):
+
+        # Construct a json representation of a ResultInfoCursors model
+        result_info_cursors_model_json = {}
+        result_info_cursors_model_json['after'] = 'bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44'
+        result_info_cursors_model_json['before'] = 'dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX'
+
+        # Construct a model instance of ResultInfoCursors by calling from_dict on the json representation
+        result_info_cursors_model = ResultInfoCursors.from_dict(result_info_cursors_model_json)
+        assert result_info_cursors_model != False
+
+        # Construct a model instance of ResultInfoCursors by calling from_dict on the json representation
+        result_info_cursors_model_dict = ResultInfoCursors.from_dict(result_info_cursors_model_json).__dict__
+        result_info_cursors_model2 = ResultInfoCursors(**result_info_cursors_model_dict)
+
+        # Verify the model instances are equivalent
+        assert result_info_cursors_model == result_info_cursors_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        result_info_cursors_model_json2 = result_info_cursors_model.to_dict()
+        assert result_info_cursors_model_json2 == result_info_cursors_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for ResultInfoScannedRange
+#-----------------------------------------------------------------------------
+class TestResultInfoScannedRange():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for ResultInfoScannedRange
+    #--------------------------------------------------------
+    def test_result_info_scanned_range_serialization(self):
+
+        # Construct a json representation of a ResultInfoScannedRange model
+        result_info_scanned_range_model_json = {}
+        result_info_scanned_range_model_json['since'] = '2019-04-12 07:44:18'
+        result_info_scanned_range_model_json['until'] = '2019-04-12 07:44:18'
+
+        # Construct a model instance of ResultInfoScannedRange by calling from_dict on the json representation
+        result_info_scanned_range_model = ResultInfoScannedRange.from_dict(result_info_scanned_range_model_json)
+        assert result_info_scanned_range_model != False
+
+        # Construct a model instance of ResultInfoScannedRange by calling from_dict on the json representation
+        result_info_scanned_range_model_dict = ResultInfoScannedRange.from_dict(result_info_scanned_range_model_json).__dict__
+        result_info_scanned_range_model2 = ResultInfoScannedRange(**result_info_scanned_range_model_dict)
+
+        # Verify the model instances are equivalent
+        assert result_info_scanned_range_model == result_info_scanned_range_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        result_info_scanned_range_model_json2 = result_info_scanned_range_model.to_dict()
+        assert result_info_scanned_range_model_json2 == result_info_scanned_range_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for SecurityEventObjectMatchesItem
+#-----------------------------------------------------------------------------
+class TestSecurityEventObjectMatchesItem():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for SecurityEventObjectMatchesItem
+    #--------------------------------------------------------
+    def test_security_event_object_matches_item_serialization(self):
+
+        # Construct a json representation of a SecurityEventObjectMatchesItem model
+        security_event_object_matches_item_model_json = {}
+        security_event_object_matches_item_model_json['rule_id'] = 'fe38bd35ca284de69b5ecbaa6db87dc3'
+        security_event_object_matches_item_model_json['source'] = 'rateLimit'
+        security_event_object_matches_item_model_json['action'] = 'drop'
+        security_event_object_matches_item_model_json['metadata'] = { 'foo': 'bar' }
+
+        # Construct a model instance of SecurityEventObjectMatchesItem by calling from_dict on the json representation
+        security_event_object_matches_item_model = SecurityEventObjectMatchesItem.from_dict(security_event_object_matches_item_model_json)
+        assert security_event_object_matches_item_model != False
+
+        # Construct a model instance of SecurityEventObjectMatchesItem by calling from_dict on the json representation
+        security_event_object_matches_item_model_dict = SecurityEventObjectMatchesItem.from_dict(security_event_object_matches_item_model_json).__dict__
+        security_event_object_matches_item_model2 = SecurityEventObjectMatchesItem(**security_event_object_matches_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert security_event_object_matches_item_model == security_event_object_matches_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        security_event_object_matches_item_model_json2 = security_event_object_matches_item_model.to_dict()
+        assert security_event_object_matches_item_model_json2 == security_event_object_matches_item_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for ResultInfo
+#-----------------------------------------------------------------------------
+class TestResultInfo():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for ResultInfo
+    #--------------------------------------------------------
+    def test_result_info_serialization(self):
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        result_info_cursors_model = {} # ResultInfoCursors
+        result_info_cursors_model['after'] = 'bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44'
+        result_info_cursors_model['before'] = 'dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX'
+
+        result_info_scanned_range_model = {} # ResultInfoScannedRange
+        result_info_scanned_range_model['since'] = '2019-04-12 07:44:18'
+        result_info_scanned_range_model['until'] = '2019-04-12 07:44:18'
+
+        # Construct a json representation of a ResultInfo model
+        result_info_model_json = {}
+        result_info_model_json['cursors'] = result_info_cursors_model
+        result_info_model_json['scanned_range'] = result_info_scanned_range_model
+
+        # Construct a model instance of ResultInfo by calling from_dict on the json representation
+        result_info_model = ResultInfo.from_dict(result_info_model_json)
+        assert result_info_model != False
+
+        # Construct a model instance of ResultInfo by calling from_dict on the json representation
+        result_info_model_dict = ResultInfo.from_dict(result_info_model_json).__dict__
+        result_info_model2 = ResultInfo(**result_info_model_dict)
+
+        # Verify the model instances are equivalent
+        assert result_info_model == result_info_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        result_info_model_json2 = result_info_model.to_dict()
+        assert result_info_model_json2 == result_info_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for SecurityEventObject
+#-----------------------------------------------------------------------------
+class TestSecurityEventObject():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for SecurityEventObject
+    #--------------------------------------------------------
+    def test_security_event_object_serialization(self):
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        security_event_object_matches_item_model = {} # SecurityEventObjectMatchesItem
+        security_event_object_matches_item_model['rule_id'] = 'fe38bd35ca284de69b5ecbaa6db87dc3'
+        security_event_object_matches_item_model['source'] = 'rateLimit'
+        security_event_object_matches_item_model['action'] = 'drop'
+        security_event_object_matches_item_model['metadata'] = { 'foo': 'bar' }
+
+        # Construct a json representation of a SecurityEventObject model
+        security_event_object_model_json = {}
+        security_event_object_model_json['ray_id'] = '4c6392789858b224'
+        security_event_object_model_json['kind'] = 'firewall'
+        security_event_object_model_json['source'] = 'rateLimit'
+        security_event_object_model_json['action'] = 'drop'
+        security_event_object_model_json['rule_id'] = 'fe38bd35ca284de69b5ecbaa6db87dc3'
+        security_event_object_model_json['ip'] = '192.168.1.1'
+        security_event_object_model_json['ip_class'] = 'noRecord'
+        security_event_object_model_json['country'] = 'CN'
+        security_event_object_model_json['colo'] = 'HKG'
+        security_event_object_model_json['host'] = 'www.example.com'
+        security_event_object_model_json['method'] = 'GET'
+        security_event_object_model_json['proto'] = 'HTTP/2'
+        security_event_object_model_json['scheme'] = 'https'
+        security_event_object_model_json['ua'] = 'curl/7.61.1'
+        security_event_object_model_json['uri'] = '/'
+        security_event_object_model_json['occurred_at'] = '2020-01-28T18:40:40.123456Z'
+        security_event_object_model_json['matches'] = [security_event_object_matches_item_model]
+
+        # Construct a model instance of SecurityEventObject by calling from_dict on the json representation
+        security_event_object_model = SecurityEventObject.from_dict(security_event_object_model_json)
+        assert security_event_object_model != False
+
+        # Construct a model instance of SecurityEventObject by calling from_dict on the json representation
+        security_event_object_model_dict = SecurityEventObject.from_dict(security_event_object_model_json).__dict__
+        security_event_object_model2 = SecurityEventObject(**security_event_object_model_dict)
+
+        # Verify the model instances are equivalent
+        assert security_event_object_model == security_event_object_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        security_event_object_model_json2 = security_event_object_model.to_dict()
+        assert security_event_object_model_json2 == security_event_object_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for SecurityEvents
+#-----------------------------------------------------------------------------
+class TestSecurityEvents():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for SecurityEvents
+    #--------------------------------------------------------
+    def test_security_events_serialization(self):
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        result_info_cursors_model = {} # ResultInfoCursors
+        result_info_cursors_model['after'] = 'bnRIiaU-14b2YBxIefX28h7Zqw50XXPA4Vu4Sa-DPa4qaGH-z47uwtOR0Hm2Y3cSh56raQb1POqaBwGXD44'
+        result_info_cursors_model['before'] = 'dmmGxcD665xj3RiQ8eRqclts94GF3M4KpHEJ7AVekLtOUsHLHssfGaV_d8nZgLszk_iElB9LckPhFgmkTXHX'
+
+        result_info_scanned_range_model = {} # ResultInfoScannedRange
+        result_info_scanned_range_model['since'] = '2019-04-12 07:44:18'
+        result_info_scanned_range_model['until'] = '2019-04-12 07:44:18'
+
+        security_event_object_matches_item_model = {} # SecurityEventObjectMatchesItem
+        security_event_object_matches_item_model['rule_id'] = 'fe38bd35ca284de69b5ecbaa6db87dc3'
+        security_event_object_matches_item_model['source'] = 'rateLimit'
+        security_event_object_matches_item_model['action'] = 'drop'
+        security_event_object_matches_item_model['metadata'] = { 'foo': 'bar' }
+
+        result_info_model = {} # ResultInfo
+        result_info_model['cursors'] = result_info_cursors_model
+        result_info_model['scanned_range'] = result_info_scanned_range_model
+
+        security_event_object_model = {} # SecurityEventObject
+        security_event_object_model['ray_id'] = '4c6392789858b224'
+        security_event_object_model['kind'] = 'firewall'
+        security_event_object_model['source'] = 'rateLimit'
+        security_event_object_model['action'] = 'drop'
+        security_event_object_model['rule_id'] = 'fe38bd35ca284de69b5ecbaa6db87dc3'
+        security_event_object_model['ip'] = '192.168.1.1'
+        security_event_object_model['ip_class'] = 'noRecord'
+        security_event_object_model['country'] = 'CN'
+        security_event_object_model['colo'] = 'HKG'
+        security_event_object_model['host'] = 'www.example.com'
+        security_event_object_model['method'] = 'GET'
+        security_event_object_model['proto'] = 'HTTP/2'
+        security_event_object_model['scheme'] = 'https'
+        security_event_object_model['ua'] = 'curl/7.61.1'
+        security_event_object_model['uri'] = '/'
+        security_event_object_model['occurred_at'] = '2020-01-28T18:40:40.123456Z'
+        security_event_object_model['matches'] = [security_event_object_matches_item_model]
+
+        # Construct a json representation of a SecurityEvents model
+        security_events_model_json = {}
+        security_events_model_json['result'] = [security_event_object_model]
+        security_events_model_json['result_info'] = result_info_model
+        security_events_model_json['success'] = True
+        security_events_model_json['errors'] = [['testString']]
+        security_events_model_json['messages'] = [['testString']]
+
+        # Construct a model instance of SecurityEvents by calling from_dict on the json representation
+        security_events_model = SecurityEvents.from_dict(security_events_model_json)
+        assert security_events_model != False
+
+        # Construct a model instance of SecurityEvents by calling from_dict on the json representation
+        security_events_model_dict = SecurityEvents.from_dict(security_events_model_json).__dict__
+        security_events_model2 = SecurityEvents(**security_events_model_dict)
+
+        # Verify the model instances are equivalent
+        assert security_events_model == security_events_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        security_events_model_json2 = security_events_model.to_dict()
+        assert security_events_model_json2 == security_events_model_json
+
+
+# endregion
+##############################################################################
+# End of Model Tests
+##############################################################################

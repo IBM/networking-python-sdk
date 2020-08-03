@@ -5,7 +5,16 @@ Integration test code to execute zones settings functions
 """
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.zones_settings_v1 import ZonesSettingsV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestZonesSettingsV1(unittest.TestCase):
@@ -13,6 +22,10 @@ class TestZonesSettingsV1(unittest.TestCase):
 
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.endpoint = os.getenv("API_ENDPOINT")
         self.zone_id = os.getenv("ZONE_ID")
@@ -88,7 +101,7 @@ class TestZonesSettingsV1(unittest.TestCase):
 
     def test_1_true_client_ip_setting(self):
         """ Get true client IP setting """
-        response = self.zonesSettings.get_ture_client_ip().get_result()
+        response = self.zonesSettings.get_true_client_ip().get_result()
         assert response is not None and response.get('success') is True
         result = response.get('result')
         if result.get('value') == 'off':

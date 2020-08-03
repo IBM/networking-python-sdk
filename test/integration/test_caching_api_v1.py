@@ -7,13 +7,25 @@ Integration test code to execute caching api
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.caching_api_v1 import CachingApiV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestCachingApiV1(unittest.TestCase):
     """ Test class to call Caching API functions """
 
     def setUp(self):
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")

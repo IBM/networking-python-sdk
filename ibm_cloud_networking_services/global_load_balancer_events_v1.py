@@ -90,7 +90,9 @@ class GlobalLoadBalancerEventsV1(BaseService):
     #########################
 
 
-    def get_load_balancer_events(self, **kwargs) -> DetailedResponse:
+    def get_load_balancer_events(self,
+        **kwargs
+    ) -> DetailedResponse:
         """
         List all load balancer events.
 
@@ -102,13 +104,16 @@ class GlobalLoadBalancerEventsV1(BaseService):
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME, service_version='V1', operation_id='get_load_balancer_events')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_load_balancer_events')
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/v1/{0}/load_balancers/events'.format(*self.encode_path_vars(self.crn))
+        url = '/v1/{0}/load_balancers/events'.format(
+            *self.encode_path_vars(self.crn))
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -132,7 +137,11 @@ class ListEventsRespResultInfo():
     :attr int total_count: Total number of results.
     """
 
-    def __init__(self, page: int, per_page: int, count: int, total_count: int) -> None:
+    def __init__(self,
+                 page: int,
+                 per_page: int,
+                 count: int,
+                 total_count: int) -> None:
         """
         Initialize a ListEventsRespResultInfo object.
 
@@ -204,7 +213,6 @@ class ListEventsRespResultInfo():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class ListEventsRespResultItem():
     """
     ListEventsRespResultItem.
@@ -216,7 +224,12 @@ class ListEventsRespResultItem():
           balancer origins.
     """
 
-    def __init__(self, *, id: str = None, timestamp: datetime = None, pool: List['ListEventsRespResultItemPoolItem'] = None, origins: List['ListEventsRespResultItemOriginsItem'] = None) -> None:
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 timestamp: datetime = None,
+                 pool: List['ListEventsRespResultItemPoolItem'] = None,
+                 origins: List['ListEventsRespResultItemOriginsItem'] = None) -> None:
         """
         Initialize a ListEventsRespResultItem object.
 
@@ -282,7 +295,6 @@ class ListEventsRespResultItem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class ListEventsRespResultItemOriginsItem():
     """
     ListEventsRespResultItemOriginsItem.
@@ -296,7 +308,15 @@ class ListEventsRespResultItemOriginsItem():
     :attr bool changed: (optional) Origin changed.
     """
 
-    def __init__(self, *, name: str = None, address: str = None, ip: str = None, enabled: bool = None, healthy: bool = None, failure_reason: str = None, changed: bool = None) -> None:
+    def __init__(self,
+                 *,
+                 name: str = None,
+                 address: str = None,
+                 ip: str = None,
+                 enabled: bool = None,
+                 healthy: bool = None,
+                 failure_reason: str = None,
+                 changed: bool = None) -> None:
         """
         Initialize a ListEventsRespResultItemOriginsItem object.
 
@@ -378,7 +398,6 @@ class ListEventsRespResultItemOriginsItem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class ListEventsRespResultItemPoolItem():
     """
     ListEventsRespResultItemPoolItem.
@@ -390,7 +409,13 @@ class ListEventsRespResultItemPoolItem():
     :attr int minimum_origins: (optional) Minimum origins.
     """
 
-    def __init__(self, *, id: str = None, name: str = None, healthy: bool = None, changed: bool = None, minimum_origins: int = None) -> None:
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 name: str = None,
+                 healthy: bool = None,
+                 changed: bool = None,
+                 minimum_origins: int = None) -> None:
         """
         Initialize a ListEventsRespResultItemPoolItem object.
 
@@ -460,7 +485,6 @@ class ListEventsRespResultItemPoolItem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
 class ListEventsResp():
     """
     events list response object.
@@ -472,7 +496,12 @@ class ListEventsResp():
     :attr List[List[str]] messages: Array of messages returned.
     """
 
-    def __init__(self, success: bool, result: List['ListEventsRespResultItem'], result_info: 'ListEventsRespResultInfo', errors: List[List[str]], messages: List[List[str]]) -> None:
+    def __init__(self,
+                 success: bool,
+                 result: List['ListEventsRespResultItem'],
+                 result_info: 'ListEventsRespResultInfo',
+                 errors: List[List[str]],
+                 messages: List[List[str]]) -> None:
         """
         Initialize a ListEventsResp object.
 
@@ -551,5 +580,3 @@ class ListEventsResp():
     def __ne__(self, other: 'ListEventsResp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-

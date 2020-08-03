@@ -7,13 +7,26 @@ Integration test code for Range App Services
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.range_applications_v1 import RangeApplicationsV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestRangeApplicationsApiV1(unittest.TestCase):
     """ Range Application API test class """
 
     def setUp(self):
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")

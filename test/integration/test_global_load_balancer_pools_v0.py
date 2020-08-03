@@ -7,13 +7,26 @@ Integration test code to execute global load balancer pools functions
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.global_load_balancer_pools_v0 import GlobalLoadBalancerPoolsV0
 from ibm_cloud_networking_services.global_load_balancer_monitor_v1 import GlobalLoadBalancerMonitorV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestGlobalLoadBalancerPoolsV0 (unittest.TestCase):
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.endpoint = os.getenv("API_ENDPOINT")
         self.crn = os.getenv("CRN")
         self.globalLoadBalancerPools = GlobalLoadBalancerPoolsV0.new_instance(
@@ -51,7 +64,7 @@ class TestGlobalLoadBalancerPoolsV0 (unittest.TestCase):
         pools = response.get_result().get("result")
         for pool in pools:
             self.globalLoadBalancerPools.delete_load_balancer_pool(
-            pool_identifier=pool.get("id"))
+                pool_identifier=pool.get("id"))
 
     ################## load_balancer_pools integration test cases ###################
 

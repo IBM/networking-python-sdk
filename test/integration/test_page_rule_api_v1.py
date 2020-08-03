@@ -7,13 +7,26 @@ Integration test code for page rule service
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.page_rule_api_v1 import PageRuleApiV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestPageRuleApiV1(unittest.TestCase):
     """ Page Rule API test class """
 
     def setUp(self):
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.url = os.getenv("URL_MATCH")

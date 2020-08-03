@@ -7,7 +7,16 @@ Integration test code to execute dns zones
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services import DnsZonesV1
+
+configFile = "pdns.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="pdns.env"))
+except:
+    print('warning: no pdns.env file loaded')
 
 
 class TestZonesV1(unittest.TestCase):
@@ -15,6 +24,9 @@ class TestZonesV1(unittest.TestCase):
 
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
         self.instance_id = os.getenv("INSTANCE_ID")
         # create zone class object
         self.zone = DnsZonesV1.new_instance(service_name="pdns_services")

@@ -7,7 +7,16 @@ Integration test code to execute firewall security level setting
 
 import os
 import unittest
+from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services import FirewallApiV1
+
+configFile = "cis.env"
+
+# load the .env file containing your environment variables
+try:
+    load_dotenv(find_dotenv(filename="cis.env"))
+except:
+    print('warning: no cis.env file loaded')
 
 
 class TestFirewallApiV1(unittest.TestCase):
@@ -15,6 +24,10 @@ class TestFirewallApiV1(unittest.TestCase):
 
     def setUp(self):
         """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest(
+                'External configuration not available, skipping...')
+
         self.crn = os.getenv("CRN")
         self.zone_id = os.getenv("ZONE_ID")
         self.endpoint = os.getenv("API_ENDPOINT")
