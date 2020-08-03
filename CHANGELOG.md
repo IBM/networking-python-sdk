@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/IBM/networking-python-sdk/compare/v0.1.0...v0.1.1) (2020-08-03)
+
+
+### Bug Fixes
+
+* run integration tests on Python 3.5 ([fdb0eb7](https://github.com/IBM/networking-python-sdk/commit/fdb0eb7658d1a5300c2eef8f8684c2272f7fb921))
+
 # [0.1.0](https://github.com/IBM/networking-python-sdk/compare/v0.0.2...v0.1.0) (2020-08-01)
 
 
