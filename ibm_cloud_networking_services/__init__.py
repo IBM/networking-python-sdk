@@ -26,7 +26,6 @@ from .cis_ip_api_v1 import CisIpApiV1
 from .custom_pages_v1 import CustomPagesV1
 from .dns_record_bulk_v1 import DnsRecordBulkV1
 from .dns_records_v1 import DnsRecordsV1
-from .direct_link_v1 import DirectLinkV1
 from .firewall_access_rules_v1 import FirewallAccessRulesV1
 from .firewall_api_v1 import FirewallApiV1
 from .global_load_balancer_events_v1 import GlobalLoadBalancerEventsV1
@@ -55,7 +54,7 @@ from .resource_records_v1 import ResourceRecordsV1
 from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
 
 # Directlink Service Packages
-from .direct_link_apis_v1 import DirectLinkApisV1
+from .direct_link_v1 import DirectLinkV1
 
-#Transit Service Packages
+# Transit Service Packages
 from .transit_gateway_apis_v1 import TransitGatewayApisV1
