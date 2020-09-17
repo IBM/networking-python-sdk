@@ -82,9 +82,8 @@ class TestDirectLinkProviderV2(unittest.TestCase):
             for record in resp:
                 gateway_id = record.get("id")
                 if ("SDK-PY" in record.get("name")) and (
-                    "delet" not in record.get("operational_status")):
+                    ("delet" not in record.get("operational_status")) and ("progress" not in record.get("operational_status"))):
                     self.delete_gateway(gateway_id=gateway_id)
-        
 
     def delete_gateway(self, gateway_id):
         response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
