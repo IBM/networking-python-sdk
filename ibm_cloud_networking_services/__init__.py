@@ -55,6 +55,7 @@ from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
 
 # Directlink Service Packages
 from .direct_link_v1 import DirectLinkV1
+from .direct_link_provider_v2 import DirectLinkProviderV2
 
 # Transit Service Packages
 from .transit_gateway_apis_v1 import TransitGatewayApisV1

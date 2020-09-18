@@ -80,6 +80,7 @@ IBM Cloud services:
 | Direct Link Service                                      | Imported Class Name |
 | -------------------------------------------------------- | ------------------- |
 | [Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=python) | DirectLinkV1    |
+| [Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=python) | DirectLinkProviderV2    |
 
 | Transit Service                                                  | Imported Class Name  |
 | ---------------------------------------------------------------- | -------------------- |
