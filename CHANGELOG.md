@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/IBM/networking-python-sdk/compare/v0.1.1...v0.2.0) (2020-09-18)
+
+
+### Features
+
+* added direct link provider sdk support ([172094d](https://github.com/IBM/networking-python-sdk/commit/172094d2111062a9e7d91d588db7195c594c8d9a))
+
 ## [0.1.1](https://github.com/IBM/networking-python-sdk/compare/v0.1.0...v0.1.1) (2020-08-03)
 
 
