@@ -209,7 +209,7 @@ class TestSSLCertV1(unittest.TestCase):
 
         # change tls 1.2 only setting
         resp = self.ssl.change_tls13_setting(
-            value="on")
+            value="off")
         assert resp is not None
         assert resp.status_code == 200
 

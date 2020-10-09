@@ -52,6 +52,7 @@ from .zones_v1 import ZonesV1
 from .dns_zones_v1 import DnsZonesV1
 from .resource_records_v1 import ResourceRecordsV1
 from .permitted_networks_for_dns_zones_v1 import PermittedNetworksForDnsZonesV1
+from .global_load_balancers_v1 import GlobalLoadBalancersV1
 
 # Directlink Service Packages
 from .direct_link_v1 import DirectLinkV1
