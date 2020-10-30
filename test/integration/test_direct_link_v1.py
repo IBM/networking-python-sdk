@@ -13,7 +13,14 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateGatewayTypeDedicatedTemplate)
-
+# from ibm_cloud_networking_services.direct_link_v1 import (
+#     GatewayMacsecConfigTemplate)
+# from ibm_cloud_networking_services.direct_link_v1 import (
+#     GatewayMacsecConfigTemplatePrimaryCak)
+# from ibm_cloud_networking_services.direct_link_v1 import (
+#     GatewayMacsecConfigPatchTemplate)
+# from ibm_cloud_networking_services.direct_link_v1 import (
+#     GatewayMacsecConfigPatchTemplateFallbackCak)
 from dotenv import load_dotenv, find_dotenv
 
 # load the .env file containing your environment variables
@@ -166,7 +173,51 @@ class TestDirectLinkV1(unittest.TestCase):
 
         # delete gateway
         self.delete_gateway(gateway_id)
+    
+    # def test_2_macsec_gateway_actions(self):
+        # bgpAsn = 64999
+        # bgpBaseCidr = "169.254.0.0/16"
+        # crossConnectRouter = "LAB-xcr01.lab0907"
+        # global_bool = True
+        # locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        # speedMbps = 10000
+        # metered = False
+        # carrierName = "carrier1"
+        # customerName = "customer1"
+        # gatewayType = "dedicated"
+        # macsec_active_bool = True
+        # macsecActiveCak = os.getenv("DL_SERVICES_PRIMARY_CAK")
+        # macsecFallbackCak = os.getenv("DL_SERVICES_FALLBACK_CAK")
 
+        # """ test create/get/update/delete gateway success """
+        # # create gateway
+        # name = os.getenv("DL_SERVICES_GW_NAME")
+        # primary_cak_template = GatewayMacsecConfigTemplatePrimaryCak(crn=macsecActiveCak)
+        # macsec_template = GatewayMacsecConfigTemplate(active=macsec_active_bool, primary_cak=primary_cak_template)
+        # gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+        #     type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+        #     bgp_asn=bgpAsn, bgp_base_cidr=bgpBaseCidr, metered=metered, 
+        #     carrier_name=carrierName, cross_connect_router=crossConnectRouter,
+        #     customer_name=customerName, location_name=locationName, macsec_config=macsec_template)
+        # response = self.dl.create_gateway(gateway_template=gtw_template)
+        # assert response is not None
+        # assert response.get_status_code() == 201
+        # assert response.get_result().get("macsec_config") is not None
+        # gateway_id = response.get_result().get("id")
+
+        # # update gateway name
+        # update_name = os.getenv("DL_SERVICES_GW_NAME")+"-PATCH"
+        # fallback_cak_template = GatewayMacsecConfigPatchTemplateFallbackCak(crn=macsecFallbackCak)
+        # macsec_patch_template = GatewayMacsecConfigPatchTemplate(fallback_cak=fallback_cak_template)
+        # response = self.dl.update_gateway(id=gateway_id,macsec_config=macsec_patch_template )
+        # assert response is not None
+        # assert response.get_status_code() == 200
+        # assert response.get_result().get("macsec_config") is not None
+        # assert response.get_result()["name"] == update_name
+
+        # # delete gateway
+        # self.delete_gateway(gateway_id)
+        
 ################### Ports ############################
     def test_1_list_get_ports(self):
         response = self.dl.list_ports()

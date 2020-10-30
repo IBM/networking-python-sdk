@@ -264,6 +264,7 @@ class DirectLinkV1(BaseService):
         *,
         global_: bool = None,
         loa_reject_reason: str = None,
+        macsec_config: 'GatewayMacsecConfigPatchTemplate' = None,
         metered: bool = None,
         name: str = None,
         operational_status: str = None,
@@ -281,6 +282,11 @@ class DirectLinkV1(BaseService):
         :param str loa_reject_reason: (optional) Use this field during LOA
                rejection to provide the reason for the rejection.
                Only allowed for type=dedicated gateways.
+        :param GatewayMacsecConfigPatchTemplate macsec_config: (optional) MACsec
+               configuration information.  When patching any macsec_config fields, no
+               other fields may be specified in the patch request.  Contact IBM support
+               for access to MACsec.
+               A MACsec config cannot be added to a gateway created without MACsec.
         :param bool metered: (optional) Metered billing option.  When `true`
                gateway usage is billed per gigabyte.  When `false` there is no per
                gigabyte usage charge, instead a flat rate is charged for the gateway.
@@ -298,6 +304,8 @@ class DirectLinkV1(BaseService):
 
         if id is None:
             raise ValueError('id must be provided')
+        if macsec_config is not None:
+            macsec_config = convert_model(macsec_config)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
@@ -311,6 +319,7 @@ class DirectLinkV1(BaseService):
         data = {
             'global': global_,
             'loa_reject_reason': loa_reject_reason,
+            'macsec_config': macsec_config,
             'metered': metered,
             'name': name,
             'operational_status': operational_status,
@@ -541,6 +550,54 @@ class DirectLinkV1(BaseService):
             headers.update(kwargs.get('headers'))
 
         url = '/gateways/{0}/letter_of_authorization'.format(
+            *self.encode_path_vars(id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
+    def get_gateway_statistics(self,
+        id: str,
+        type: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Gateway statistics.
+
+        Retrieve gateway statistics.  Specify statistic to retrieve using required `type`
+        query parameter.  Currently data retrieval is only supported for MACsec
+        configurations.
+
+        :param str id: Direct Link Dedicated gateway identifier.
+        :param str type: specify statistic to retrieve.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `GatewayStatisticCollection` object
+        """
+
+        if id is None:
+            raise ValueError('id must be provided')
+        if type is None:
+            raise ValueError('type must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_gateway_statistics')
+        headers.update(sdk_headers)
+
+        params = {
+            'type': type,
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/gateways/{0}/statistics'.format(
             *self.encode_path_vars(id))
         request = self.prepare_request(method='GET',
                                        url=url,
@@ -1048,6 +1105,19 @@ class DirectLinkV1(BaseService):
         return response
 
 
+class GetGatewayStatisticsEnums:
+    """
+    Enums for get_gateway_statistics parameters.
+    """
+
+    class Type(Enum):
+        """
+        specify statistic to retrieve.
+        """
+        MACSEC_MKA = 'macsec_mka'
+        MACSEC_SECURITY = 'macsec_security'
+
+
 class ListOfferingTypeLocationsEnums:
     """
     Enums for list_offering_type_locations parameters.
@@ -1189,6 +1259,9 @@ class Gateway():
           and processes using this field  must tolerate unexpected values.
     :attr str location_display_name: Gateway location long name.
     :attr str location_name: Gateway location.
+    :attr GatewayMacsecConfig macsec_config: (optional) MACsec configuration
+          information.  For Dedicated Gateways with MACsec configured, return
+          configuration information.  Contact IBM support for access to MACsec.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
           per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
           flat rate is charged for the gateway.
@@ -1232,6 +1305,7 @@ class Gateway():
                  completion_notice_reject_reason: str = None,
                  cross_connect_router: str = None,
                  link_status: str = None,
+                 macsec_config: 'GatewayMacsecConfig' = None,
                  port: 'GatewayPort' = None,
                  provider_api_managed: bool = None,
                  resource_group: 'ResourceGroupReference' = None,
@@ -1276,6 +1350,9 @@ class Gateway():
                type=dedicated gateways.
                The list of enumerated values for this property may expand in the future.
                Code and processes using this field  must tolerate unexpected values.
+        :param GatewayMacsecConfig macsec_config: (optional) MACsec configuration
+               information.  For Dedicated Gateways with MACsec configured, return
+               configuration information.  Contact IBM support for access to MACsec.
         :param GatewayPort port: (optional) gateway port for type=connect gateways.
         :param bool provider_api_managed: (optional) Indicates whether gateway
                changes must be made via a provider portal.
@@ -1300,6 +1377,7 @@ class Gateway():
         self.link_status = link_status
         self.location_display_name = location_display_name
         self.location_name = location_name
+        self.macsec_config = macsec_config
         self.metered = metered
         self.name = name
         self.operational_status = operational_status
@@ -1360,6 +1438,8 @@ class Gateway():
             args['location_name'] = _dict.get('location_name')
         else:
             raise ValueError('Required property \'location_name\' not present in Gateway JSON')
+        if 'macsec_config' in _dict:
+            args['macsec_config'] = GatewayMacsecConfig.from_dict(_dict.get('macsec_config'))
         if 'metered' in _dict:
             args['metered'] = _dict.get('metered')
         else:
@@ -1430,6 +1510,8 @@ class Gateway():
             _dict['location_display_name'] = self.location_display_name
         if hasattr(self, 'location_name') and self.location_name is not None:
             _dict['location_name'] = self.location_name
+        if hasattr(self, 'macsec_config') and self.macsec_config is not None:
+            _dict['macsec_config'] = self.macsec_config.to_dict()
         if hasattr(self, 'metered') and self.metered is not None:
             _dict['metered'] = self.metered
         if hasattr(self, 'name') and self.name is not None:
@@ -1498,6 +1580,7 @@ class Gateway():
         """
         AWAITING_COMPLETION_NOTICE = "awaiting_completion_notice"
         AWAITING_LOA = "awaiting_loa"
+        CONFIGURING = "configuring"
         CREATE_PENDING = "create_pending"
         CREATE_REJECTED = "create_rejected"
         COMPLETION_NOTICE_APPROVED = "completion_notice_approved"
@@ -1588,6 +1671,890 @@ class GatewayCollection():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'GatewayCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfig():
+    """
+    MACsec configuration information.  For Dedicated Gateways with MACsec configured,
+    return configuration information.  Contact IBM support for access to MACsec.
+
+    :attr bool active: Indicate whether MACsec should currently be active (true) or
+          inactive (false) for a MACsec enabled gateway.   To be MACsec enabled a
+          `macsec_config` must be specified at gateway create time.
+    :attr GatewayMacsecConfigActiveCak active_cak: (optional) Active connectivity
+          association key.
+          During normal operation `active_cak` will match the desired `primary_cak`.
+          During CAK changes this field can be used to indicate which key is currently
+          active on the gateway.
+    :attr str cipher_suite: (optional) SAK cipher suite.
+    :attr int confidentiality_offset: (optional) confidentiality offset.
+    :attr str cryptographic_algorithm: (optional) cryptographic algorithm.
+    :attr GatewayMacsecConfigFallbackCak fallback_cak: (optional) fallback
+          connectivity association key.
+    :attr int key_server_priority: (optional) key server priority.
+    :attr GatewayMacsecConfigPrimaryCak primary_cak: desired primary connectivity
+          association key.
+    :attr int sak_expiry_time: (optional) Secure Association Key (SAK) expiry time
+          in seconds.
+    :attr str security_policy: (optional) Packets without MACsec headers are not
+          dropped when security_policy is `should_secure`.
+    :attr str status: Current status of MACsec on the device for this gateway.
+          Status 'unknown' is returned during gateway creation and deletion. Status
+          `key_error` indicates Direct Link was unable to retrieve key materials for one
+          of the specified. This usually due to inadequate service to service
+          authorization.   Verify the key exists and verify a service to service policy
+          exists authorization the Direct Link service to access its key material. Correct
+          any problems and respecify the desired key.  If the problem persists contact IBM
+          support.
+    :attr int window_size: (optional) replay protection window size.
+    """
+
+    def __init__(self,
+                 active: bool,
+                 primary_cak: 'GatewayMacsecConfigPrimaryCak',
+                 status: str,
+                 *,
+                 active_cak: 'GatewayMacsecConfigActiveCak' = None,
+                 cipher_suite: str = None,
+                 confidentiality_offset: int = None,
+                 cryptographic_algorithm: str = None,
+                 fallback_cak: 'GatewayMacsecConfigFallbackCak' = None,
+                 key_server_priority: int = None,
+                 sak_expiry_time: int = None,
+                 security_policy: str = None,
+                 window_size: int = None) -> None:
+        """
+        Initialize a GatewayMacsecConfig object.
+
+        :param bool active: Indicate whether MACsec should currently be active
+               (true) or inactive (false) for a MACsec enabled gateway.   To be MACsec
+               enabled a `macsec_config` must be specified at gateway create time.
+        :param GatewayMacsecConfigPrimaryCak primary_cak: desired primary
+               connectivity association key.
+        :param str status: Current status of MACsec on the device for this gateway.
+                Status 'unknown' is returned during gateway creation and deletion. Status
+               `key_error` indicates Direct Link was unable to retrieve key materials for
+               one of the specified. This usually due to inadequate service to service
+               authorization.   Verify the key exists and verify a service to service
+               policy exists authorization the Direct Link service to access its key
+               material. Correct any problems and respecify the desired key.  If the
+               problem persists contact IBM support.
+        :param GatewayMacsecConfigActiveCak active_cak: (optional) Active
+               connectivity association key.
+               During normal operation `active_cak` will match the desired `primary_cak`.
+               During CAK changes this field can be used to indicate which key is
+               currently active on the gateway.
+        :param str cipher_suite: (optional) SAK cipher suite.
+        :param int confidentiality_offset: (optional) confidentiality offset.
+        :param str cryptographic_algorithm: (optional) cryptographic algorithm.
+        :param GatewayMacsecConfigFallbackCak fallback_cak: (optional) fallback
+               connectivity association key.
+        :param int key_server_priority: (optional) key server priority.
+        :param int sak_expiry_time: (optional) Secure Association Key (SAK) expiry
+               time in seconds.
+        :param str security_policy: (optional) Packets without MACsec headers are
+               not dropped when security_policy is `should_secure`.
+        :param int window_size: (optional) replay protection window size.
+        """
+        self.active = active
+        self.active_cak = active_cak
+        self.cipher_suite = cipher_suite
+        self.confidentiality_offset = confidentiality_offset
+        self.cryptographic_algorithm = cryptographic_algorithm
+        self.fallback_cak = fallback_cak
+        self.key_server_priority = key_server_priority
+        self.primary_cak = primary_cak
+        self.sak_expiry_time = sak_expiry_time
+        self.security_policy = security_policy
+        self.status = status
+        self.window_size = window_size
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfig':
+        """Initialize a GatewayMacsecConfig object from a json dictionary."""
+        args = {}
+        if 'active' in _dict:
+            args['active'] = _dict.get('active')
+        else:
+            raise ValueError('Required property \'active\' not present in GatewayMacsecConfig JSON')
+        if 'active_cak' in _dict:
+            args['active_cak'] = GatewayMacsecConfigActiveCak.from_dict(_dict.get('active_cak'))
+        if 'cipher_suite' in _dict:
+            args['cipher_suite'] = _dict.get('cipher_suite')
+        if 'confidentiality_offset' in _dict:
+            args['confidentiality_offset'] = _dict.get('confidentiality_offset')
+        if 'cryptographic_algorithm' in _dict:
+            args['cryptographic_algorithm'] = _dict.get('cryptographic_algorithm')
+        if 'fallback_cak' in _dict:
+            args['fallback_cak'] = GatewayMacsecConfigFallbackCak.from_dict(_dict.get('fallback_cak'))
+        if 'key_server_priority' in _dict:
+            args['key_server_priority'] = _dict.get('key_server_priority')
+        if 'primary_cak' in _dict:
+            args['primary_cak'] = GatewayMacsecConfigPrimaryCak.from_dict(_dict.get('primary_cak'))
+        else:
+            raise ValueError('Required property \'primary_cak\' not present in GatewayMacsecConfig JSON')
+        if 'sak_expiry_time' in _dict:
+            args['sak_expiry_time'] = _dict.get('sak_expiry_time')
+        if 'security_policy' in _dict:
+            args['security_policy'] = _dict.get('security_policy')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in GatewayMacsecConfig JSON')
+        if 'window_size' in _dict:
+            args['window_size'] = _dict.get('window_size')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfig object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'active') and self.active is not None:
+            _dict['active'] = self.active
+        if hasattr(self, 'active_cak') and self.active_cak is not None:
+            _dict['active_cak'] = self.active_cak.to_dict()
+        if hasattr(self, 'cipher_suite') and self.cipher_suite is not None:
+            _dict['cipher_suite'] = self.cipher_suite
+        if hasattr(self, 'confidentiality_offset') and self.confidentiality_offset is not None:
+            _dict['confidentiality_offset'] = self.confidentiality_offset
+        if hasattr(self, 'cryptographic_algorithm') and self.cryptographic_algorithm is not None:
+            _dict['cryptographic_algorithm'] = self.cryptographic_algorithm
+        if hasattr(self, 'fallback_cak') and self.fallback_cak is not None:
+            _dict['fallback_cak'] = self.fallback_cak.to_dict()
+        if hasattr(self, 'key_server_priority') and self.key_server_priority is not None:
+            _dict['key_server_priority'] = self.key_server_priority
+        if hasattr(self, 'primary_cak') and self.primary_cak is not None:
+            _dict['primary_cak'] = self.primary_cak.to_dict()
+        if hasattr(self, 'sak_expiry_time') and self.sak_expiry_time is not None:
+            _dict['sak_expiry_time'] = self.sak_expiry_time
+        if hasattr(self, 'security_policy') and self.security_policy is not None:
+            _dict['security_policy'] = self.security_policy
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'window_size') and self.window_size is not None:
+            _dict['window_size'] = self.window_size
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfig object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfig') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfig') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class CipherSuiteEnum(Enum):
+        """
+        SAK cipher suite.
+        """
+        GCM_AES_XPN_256 = "gcm_aes_xpn_256"
+
+
+    class CryptographicAlgorithmEnum(Enum):
+        """
+        cryptographic algorithm.
+        """
+        AES_256_CMAC = "aes_256_cmac"
+
+
+    class SecurityPolicyEnum(Enum):
+        """
+        Packets without MACsec headers are not dropped when security_policy is
+        `should_secure`.
+        """
+        SHOULD_SECURE = "should_secure"
+
+
+    class StatusEnum(Enum):
+        """
+        Current status of MACsec on the device for this gateway.  Status 'unknown' is
+        returned during gateway creation and deletion. Status `key_error` indicates Direct
+        Link was unable to retrieve key materials for one of the specified. This usually
+        due to inadequate service to service authorization.   Verify the key exists and
+        verify a service to service policy exists authorization the Direct Link service to
+        access its key material. Correct any problems and respecify the desired key.  If
+        the problem persists contact IBM support.
+        """
+        INIT = "init"
+        KEY_ERROR = "key_error"
+        PENDING = "pending"
+        SECURED = "secured"
+        UNKNOWN = "unknown"
+
+
+class GatewayMacsecConfigActiveCak():
+    """
+    Active connectivity association key.
+    During normal operation `active_cak` will match the desired `primary_cak`.  During CAK
+    changes this field can be used to indicate which key is currently active on the
+    gateway.
+
+    :attr str crn: connectivity association key crn.
+    :attr str status: connectivity association key status.
+    """
+
+    def __init__(self,
+                 crn: str,
+                 status: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigActiveCak object.
+
+        :param str crn: connectivity association key crn.
+        :param str status: connectivity association key status.
+        """
+        self.crn = crn
+        self.status = status
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigActiveCak':
+        """Initialize a GatewayMacsecConfigActiveCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigActiveCak JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in GatewayMacsecConfigActiveCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigActiveCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigActiveCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigActiveCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigActiveCak') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigFallbackCak():
+    """
+    fallback connectivity association key.
+
+    :attr str crn: connectivity association key crn.
+    :attr str status: connectivity association key status.
+    """
+
+    def __init__(self,
+                 crn: str,
+                 status: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigFallbackCak object.
+
+        :param str crn: connectivity association key crn.
+        :param str status: connectivity association key status.
+        """
+        self.crn = crn
+        self.status = status
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigFallbackCak':
+        """Initialize a GatewayMacsecConfigFallbackCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigFallbackCak JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in GatewayMacsecConfigFallbackCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigFallbackCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigFallbackCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigFallbackCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigFallbackCak') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigPatchTemplate():
+    """
+    MACsec configuration information.  When patching any macsec_config fields, no other
+    fields may be specified in the patch request.  Contact IBM support for access to
+    MACsec.
+    A MACsec config cannot be added to a gateway created without MACsec.
+
+    :attr bool active: (optional) Indicate whether MACsec protection should be
+          active (true) or inactive (false) for this MACsec enabled gateway.
+    :attr GatewayMacsecConfigPatchTemplateFallbackCak fallback_cak: (optional)
+          Fallback connectivity association key.
+          The `fallback_cak` crn cannot match the `primary_cak` crn.
+          MACsec keys must be type=standard with key name lengths between 2 to 64
+          inclusive and contain only characters [a-fA-F0-9].
+          The key material must be exactly 64 characters in length and contain only
+          [a-fA-F0-9].
+          To clear the optional `fallback_cak` field patch its crn to `""`.
+          A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+    :attr GatewayMacsecConfigPatchTemplatePrimaryCak primary_cak: (optional) Desired
+          primary connectivity association key.
+          MACsec keys must be type=standard with key name lengths between 2 to 64
+          inclusive and contain only characters [a-fA-F0-9].
+          The key material must be exactly 64 characters in length and contain only
+          [a-fA-F0-9].
+          A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+    :attr int window_size: (optional) replay protection window size.
+    """
+
+    def __init__(self,
+                 *,
+                 active: bool = None,
+                 fallback_cak: 'GatewayMacsecConfigPatchTemplateFallbackCak' = None,
+                 primary_cak: 'GatewayMacsecConfigPatchTemplatePrimaryCak' = None,
+                 window_size: int = None) -> None:
+        """
+        Initialize a GatewayMacsecConfigPatchTemplate object.
+
+        :param bool active: (optional) Indicate whether MACsec protection should be
+               active (true) or inactive (false) for this MACsec enabled gateway.
+        :param GatewayMacsecConfigPatchTemplateFallbackCak fallback_cak: (optional)
+               Fallback connectivity association key.
+               The `fallback_cak` crn cannot match the `primary_cak` crn.
+               MACsec keys must be type=standard with key name lengths between 2 to 64
+               inclusive and contain only characters [a-fA-F0-9].
+               The key material must be exactly 64 characters in length and contain only
+               [a-fA-F0-9].
+               To clear the optional `fallback_cak` field patch its crn to `""`.
+               A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+        :param GatewayMacsecConfigPatchTemplatePrimaryCak primary_cak: (optional)
+               Desired primary connectivity association key.
+               MACsec keys must be type=standard with key name lengths between 2 to 64
+               inclusive and contain only characters [a-fA-F0-9].
+               The key material must be exactly 64 characters in length and contain only
+               [a-fA-F0-9].
+               A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+        :param int window_size: (optional) replay protection window size.
+        """
+        self.active = active
+        self.fallback_cak = fallback_cak
+        self.primary_cak = primary_cak
+        self.window_size = window_size
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigPatchTemplate':
+        """Initialize a GatewayMacsecConfigPatchTemplate object from a json dictionary."""
+        args = {}
+        if 'active' in _dict:
+            args['active'] = _dict.get('active')
+        if 'fallback_cak' in _dict:
+            args['fallback_cak'] = GatewayMacsecConfigPatchTemplateFallbackCak.from_dict(_dict.get('fallback_cak'))
+        if 'primary_cak' in _dict:
+            args['primary_cak'] = GatewayMacsecConfigPatchTemplatePrimaryCak.from_dict(_dict.get('primary_cak'))
+        if 'window_size' in _dict:
+            args['window_size'] = _dict.get('window_size')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigPatchTemplate object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'active') and self.active is not None:
+            _dict['active'] = self.active
+        if hasattr(self, 'fallback_cak') and self.fallback_cak is not None:
+            _dict['fallback_cak'] = self.fallback_cak.to_dict()
+        if hasattr(self, 'primary_cak') and self.primary_cak is not None:
+            _dict['primary_cak'] = self.primary_cak.to_dict()
+        if hasattr(self, 'window_size') and self.window_size is not None:
+            _dict['window_size'] = self.window_size
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigPatchTemplate object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigPatchTemplate') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigPatchTemplate') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigPatchTemplateFallbackCak():
+    """
+    Fallback connectivity association key.
+    The `fallback_cak` crn cannot match the `primary_cak` crn.
+    MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and
+    contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in
+    length and contain only [a-fA-F0-9].
+    To clear the optional `fallback_cak` field patch its crn to `""`.
+    A gateway's `fallback_cak` crn cannot match its `primary_cak` crn.
+
+    :attr str crn: connectivity association key crn.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigPatchTemplateFallbackCak object.
+
+        :param str crn: connectivity association key crn.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigPatchTemplateFallbackCak':
+        """Initialize a GatewayMacsecConfigPatchTemplateFallbackCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigPatchTemplateFallbackCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigPatchTemplateFallbackCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigPatchTemplateFallbackCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigPatchTemplateFallbackCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigPatchTemplateFallbackCak') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigPatchTemplatePrimaryCak():
+    """
+    Desired primary connectivity association key.
+    MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and
+    contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in
+    length and contain only [a-fA-F0-9].
+    A gateway's `primary_cak` crn cannot match its `fallback_cak` crn.
+
+    :attr str crn: connectivity association key crn.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigPatchTemplatePrimaryCak object.
+
+        :param str crn: connectivity association key crn.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigPatchTemplatePrimaryCak':
+        """Initialize a GatewayMacsecConfigPatchTemplatePrimaryCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigPatchTemplatePrimaryCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigPatchTemplatePrimaryCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigPatchTemplatePrimaryCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigPatchTemplatePrimaryCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigPatchTemplatePrimaryCak') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigPrimaryCak():
+    """
+    desired primary connectivity association key.
+
+    :attr str crn: connectivity association key crn.
+    :attr str status: connectivity association key status.
+    """
+
+    def __init__(self,
+                 crn: str,
+                 status: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigPrimaryCak object.
+
+        :param str crn: connectivity association key crn.
+        :param str status: connectivity association key status.
+        """
+        self.crn = crn
+        self.status = status
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigPrimaryCak':
+        """Initialize a GatewayMacsecConfigPrimaryCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigPrimaryCak JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in GatewayMacsecConfigPrimaryCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigPrimaryCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigPrimaryCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigPrimaryCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigPrimaryCak') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigTemplate():
+    """
+    MACsec configuration information.  Contact IBM support for access to MACsec.
+
+    :attr bool active: Indicate whether MACsec protection should be active (true) or
+          inactive (false) for this MACsec enabled gateway.
+    :attr GatewayMacsecConfigTemplateFallbackCak fallback_cak: (optional) Fallback
+          connectivity association key.
+          The `fallback_cak` crn cannot match the `primary_cak` crn.
+          MACsec keys must be type=standard with key name lengths between 2 to 64
+          inclusive and contain only characters [a-fA-F0-9].
+          The key material must be exactly 64 characters in length and contain only
+          [a-fA-F0-9].
+    :attr GatewayMacsecConfigTemplatePrimaryCak primary_cak: Desired primary
+          connectivity association key.
+          MACsec keys must be type=standard with key name lengths between 2 to 64
+          inclusive and contain only characters [a-fA-F0-9].
+          The key material must be exactly 64 characters in length and contain only
+          [a-fA-F0-9].
+    :attr int window_size: (optional) replay protection window size.
+    """
+
+    def __init__(self,
+                 active: bool,
+                 primary_cak: 'GatewayMacsecConfigTemplatePrimaryCak',
+                 *,
+                 fallback_cak: 'GatewayMacsecConfigTemplateFallbackCak' = None,
+                 window_size: int = None) -> None:
+        """
+        Initialize a GatewayMacsecConfigTemplate object.
+
+        :param bool active: Indicate whether MACsec protection should be active
+               (true) or inactive (false) for this MACsec enabled gateway.
+        :param GatewayMacsecConfigTemplatePrimaryCak primary_cak: Desired primary
+               connectivity association key.
+               MACsec keys must be type=standard with key name lengths between 2 to 64
+               inclusive and contain only characters [a-fA-F0-9].
+               The key material must be exactly 64 characters in length and contain only
+               [a-fA-F0-9].
+        :param GatewayMacsecConfigTemplateFallbackCak fallback_cak: (optional)
+               Fallback connectivity association key.
+               The `fallback_cak` crn cannot match the `primary_cak` crn.
+               MACsec keys must be type=standard with key name lengths between 2 to 64
+               inclusive and contain only characters [a-fA-F0-9].
+               The key material must be exactly 64 characters in length and contain only
+               [a-fA-F0-9].
+        :param int window_size: (optional) replay protection window size.
+        """
+        self.active = active
+        self.fallback_cak = fallback_cak
+        self.primary_cak = primary_cak
+        self.window_size = window_size
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigTemplate':
+        """Initialize a GatewayMacsecConfigTemplate object from a json dictionary."""
+        args = {}
+        if 'active' in _dict:
+            args['active'] = _dict.get('active')
+        else:
+            raise ValueError('Required property \'active\' not present in GatewayMacsecConfigTemplate JSON')
+        if 'fallback_cak' in _dict:
+            args['fallback_cak'] = GatewayMacsecConfigTemplateFallbackCak.from_dict(_dict.get('fallback_cak'))
+        if 'primary_cak' in _dict:
+            args['primary_cak'] = GatewayMacsecConfigTemplatePrimaryCak.from_dict(_dict.get('primary_cak'))
+        else:
+            raise ValueError('Required property \'primary_cak\' not present in GatewayMacsecConfigTemplate JSON')
+        if 'window_size' in _dict:
+            args['window_size'] = _dict.get('window_size')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigTemplate object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'active') and self.active is not None:
+            _dict['active'] = self.active
+        if hasattr(self, 'fallback_cak') and self.fallback_cak is not None:
+            _dict['fallback_cak'] = self.fallback_cak.to_dict()
+        if hasattr(self, 'primary_cak') and self.primary_cak is not None:
+            _dict['primary_cak'] = self.primary_cak.to_dict()
+        if hasattr(self, 'window_size') and self.window_size is not None:
+            _dict['window_size'] = self.window_size
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigTemplate object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigTemplate') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigTemplate') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigTemplateFallbackCak():
+    """
+    Fallback connectivity association key.
+    The `fallback_cak` crn cannot match the `primary_cak` crn. MACsec keys must be
+    type=standard with key name lengths between 2 to 64 inclusive and contain only
+    characters [a-fA-F0-9]. The key material must be exactly 64 characters in length and
+    contain only [a-fA-F0-9].
+
+    :attr str crn: connectivity association key crn.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigTemplateFallbackCak object.
+
+        :param str crn: connectivity association key crn.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigTemplateFallbackCak':
+        """Initialize a GatewayMacsecConfigTemplateFallbackCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigTemplateFallbackCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigTemplateFallbackCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigTemplateFallbackCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigTemplateFallbackCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigTemplateFallbackCak') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayMacsecConfigTemplatePrimaryCak():
+    """
+    Desired primary connectivity association key.
+    MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and
+    contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in
+    length and contain only [a-fA-F0-9].
+
+    :attr str crn: connectivity association key crn.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayMacsecConfigTemplatePrimaryCak object.
+
+        :param str crn: connectivity association key crn.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayMacsecConfigTemplatePrimaryCak':
+        """Initialize a GatewayMacsecConfigTemplatePrimaryCak object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayMacsecConfigTemplatePrimaryCak JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayMacsecConfigTemplatePrimaryCak object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayMacsecConfigTemplatePrimaryCak object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayMacsecConfigTemplatePrimaryCak') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayMacsecConfigTemplatePrimaryCak') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1700,6 +2667,148 @@ class GatewayPortIdentity():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'GatewayPortIdentity') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayStatistic():
+    """
+    Gateway statistics.  Currently data retrieval is only supported for MACsec
+    configurations.
+
+    :attr datetime created_at: Date and time data was collected.
+    :attr str data: statistics output.
+    :attr str type: statistic type.
+    """
+
+    def __init__(self,
+                 created_at: datetime,
+                 data: str,
+                 type: str) -> None:
+        """
+        Initialize a GatewayStatistic object.
+
+        :param datetime created_at: Date and time data was collected.
+        :param str data: statistics output.
+        :param str type: statistic type.
+        """
+        self.created_at = created_at
+        self.data = data
+        self.type = type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayStatistic':
+        """Initialize a GatewayStatistic object from a json dictionary."""
+        args = {}
+        if 'created_at' in _dict:
+            args['created_at'] = string_to_datetime(_dict.get('created_at'))
+        else:
+            raise ValueError('Required property \'created_at\' not present in GatewayStatistic JSON')
+        if 'data' in _dict:
+            args['data'] = _dict.get('data')
+        else:
+            raise ValueError('Required property \'data\' not present in GatewayStatistic JSON')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError('Required property \'type\' not present in GatewayStatistic JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayStatistic object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'data') and self.data is not None:
+            _dict['data'] = self.data
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayStatistic object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayStatistic') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayStatistic') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        statistic type.
+        """
+        MACSEC_MKA_SESSION = "macsec_mka_session"
+        MACSEC_POLICY = "macsec_policy"
+        MACSEC_MKA_STATISTICS = "macsec_mka_statistics"
+
+
+class GatewayStatisticCollection():
+    """
+    gateway statistics.
+
+    :attr List[GatewayStatistic] statistics: Collection of gateway statistics.
+    """
+
+    def __init__(self,
+                 statistics: List['GatewayStatistic']) -> None:
+        """
+        Initialize a GatewayStatisticCollection object.
+
+        :param List[GatewayStatistic] statistics: Collection of gateway statistics.
+        """
+        self.statistics = statistics
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayStatisticCollection':
+        """Initialize a GatewayStatisticCollection object from a json dictionary."""
+        args = {}
+        if 'statistics' in _dict:
+            args['statistics'] = [GatewayStatistic.from_dict(x) for x in _dict.get('statistics')]
+        else:
+            raise ValueError('Required property \'statistics\' not present in GatewayStatisticCollection JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayStatisticCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'statistics') and self.statistics is not None:
+            _dict['statistics'] = [x.to_dict() for x in self.statistics]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayStatisticCollection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayStatisticCollection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayStatisticCollection') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2117,6 +3226,9 @@ class LocationOutput():
           present for offering_type=dedicated locations where provisioning is enabled.
     :attr str display_name: Location long name.
     :attr str location_type: Location type.
+    :attr bool macsec_enabled: (optional) Indicate whether location supports MACsec.
+           Only returned for gateway type=dedicated locations.  Contact IBM support for
+          access to MACsec.
     :attr str market: Location market.
     :attr str market_geography: (optional) Location geography.  Only present for
           locations where provisioning is enabled.
@@ -2140,6 +3252,7 @@ class LocationOutput():
                  *,
                  billing_location: str = None,
                  building_colocation_owner: str = None,
+                 macsec_enabled: bool = None,
                  market_geography: str = None,
                  mzr: bool = None,
                  vpc_region: str = None) -> None:
@@ -2158,6 +3271,9 @@ class LocationOutput():
         :param str building_colocation_owner: (optional) Building colocation owner.
                 Only present for offering_type=dedicated locations where provisioning is
                enabled.
+        :param bool macsec_enabled: (optional) Indicate whether location supports
+               MACsec.  Only returned for gateway type=dedicated locations.  Contact IBM
+               support for access to MACsec.
         :param str market_geography: (optional) Location geography.  Only present
                for locations where provisioning is enabled.
         :param bool mzr: (optional) Is location a multi-zone region (MZR).  Only
@@ -2169,6 +3285,7 @@ class LocationOutput():
         self.building_colocation_owner = building_colocation_owner
         self.display_name = display_name
         self.location_type = location_type
+        self.macsec_enabled = macsec_enabled
         self.market = market
         self.market_geography = market_geography
         self.mzr = mzr
@@ -2193,6 +3310,8 @@ class LocationOutput():
             args['location_type'] = _dict.get('location_type')
         else:
             raise ValueError('Required property \'location_type\' not present in LocationOutput JSON')
+        if 'macsec_enabled' in _dict:
+            args['macsec_enabled'] = _dict.get('macsec_enabled')
         if 'market' in _dict:
             args['market'] = _dict.get('market')
         else:
@@ -2233,6 +3352,8 @@ class LocationOutput():
             _dict['display_name'] = self.display_name
         if hasattr(self, 'location_type') and self.location_type is not None:
             _dict['location_type'] = self.location_type
+        if hasattr(self, 'macsec_enabled') and self.macsec_enabled is not None:
+            _dict['macsec_enabled'] = self.macsec_enabled
         if hasattr(self, 'market') and self.market is not None:
             _dict['market'] = self.market
         if hasattr(self, 'market_geography') and self.market_geography is not None:
@@ -2272,16 +3393,25 @@ class OfferingSpeed():
     Speed.
 
     :attr int link_speed: Link speed in megabits per second.
+    :attr bool macsec_enabled: (optional) Indicate whether speed supports MACsec.
+          Only returned for gateway type=dedicated speeds.  Contact IBM support for access
+          to MACsec.
     """
 
     def __init__(self,
-                 link_speed: int) -> None:
+                 link_speed: int,
+                 *,
+                 macsec_enabled: bool = None) -> None:
         """
         Initialize a OfferingSpeed object.
 
         :param int link_speed: Link speed in megabits per second.
+        :param bool macsec_enabled: (optional) Indicate whether speed supports
+               MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM
+               support for access to MACsec.
         """
         self.link_speed = link_speed
+        self.macsec_enabled = macsec_enabled
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'OfferingSpeed':
@@ -2291,6 +3421,8 @@ class OfferingSpeed():
             args['link_speed'] = _dict.get('link_speed')
         else:
             raise ValueError('Required property \'link_speed\' not present in OfferingSpeed JSON')
+        if 'macsec_enabled' in _dict:
+            args['macsec_enabled'] = _dict.get('macsec_enabled')
         return cls(**args)
 
     @classmethod
@@ -2303,6 +3435,8 @@ class OfferingSpeed():
         _dict = {}
         if hasattr(self, 'link_speed') and self.link_speed is not None:
             _dict['link_speed'] = self.link_speed
+        if hasattr(self, 'macsec_enabled') and self.macsec_enabled is not None:
+            _dict['macsec_enabled'] = self.macsec_enabled
         return _dict
 
     def _to_dict(self):
@@ -3242,6 +4376,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     :attr str cross_connect_router: Cross connect router.
     :attr str customer_name: Customer name.
     :attr str location_name: Gateway location.
+    :attr GatewayMacsecConfigTemplate macsec_config: (optional) MACsec configuration
+          information.  Contact IBM support for access to MACsec.
     """
 
     def __init__(self,
@@ -3259,7 +4395,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                  *,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
-                 resource_group: 'ResourceGroupIdentity' = None) -> None:
+                 resource_group: 'ResourceGroupIdentity' = None,
+                 macsec_config: 'GatewayMacsecConfigTemplate' = None) -> None:
         """
         Initialize a GatewayTemplateGatewayTypeDedicatedTemplate object.
 
@@ -3287,6 +4424,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
                used.
+        :param GatewayMacsecConfigTemplate macsec_config: (optional) MACsec
+               configuration information.  Contact IBM support for access to MACsec.
         """
         # pylint: disable=super-init-not-called
         self.bgp_asn = bgp_asn
@@ -3303,6 +4442,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
         self.cross_connect_router = cross_connect_router
         self.customer_name = customer_name
         self.location_name = location_name
+        self.macsec_config = macsec_config
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeDedicatedTemplate':
@@ -3358,6 +4498,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
             args['location_name'] = _dict.get('location_name')
         else:
             raise ValueError('Required property \'location_name\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
+        if 'macsec_config' in _dict:
+            args['macsec_config'] = GatewayMacsecConfigTemplate.from_dict(_dict.get('macsec_config'))
         return cls(**args)
 
     @classmethod
@@ -3396,6 +4538,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
             _dict['customer_name'] = self.customer_name
         if hasattr(self, 'location_name') and self.location_name is not None:
             _dict['location_name'] = self.location_name
+        if hasattr(self, 'macsec_config') and self.macsec_config is not None:
+            _dict['macsec_config'] = self.macsec_config.to_dict()
         return _dict
 
     def _to_dict(self):
