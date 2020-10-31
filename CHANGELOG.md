@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/networking-python-sdk/compare/v0.2.0...v0.3.0) (2020-10-31)
+
+
+### Features
+
+* added the support for macsec enabled gateway for direct link ([d92cecd](https://github.com/IBM/networking-python-sdk/commit/d92cecdb0a1daade61ea6c557c625bc32efdc8da))
+
 # [0.2.0](https://github.com/IBM/networking-python-sdk/compare/v0.1.1...v0.2.0) (2020-09-18)
 
 
