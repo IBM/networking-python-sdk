@@ -71,16 +71,17 @@ IBM Cloud services:
 | [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis/zonesettings)                           | ZonesSettingsV1             |
 | [CIS: Zones](https://cloud.ibm.com/apidocs/cis/zones)                                          | ZonesV1                     |
 
-| PDNS Service Name                                                                | Imported Class Name            |
-| -------------------------------------------------------------------------------- | ------------------------------ |
-| [PDNS: Zones API](https://cloud.ibm.com/apidocs/dns-svcs)                        | DnsZonesV1                     |
-| [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ResourceRecordsV1              |
-| [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | PermittedNetworksForDnsZonesV1 |
+| PDNS Service Name                                                                | Imported Class Name                                     |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [PDNS: Zones API](https://cloud.ibm.com/apidocs/dns-svcs)                        | DnsZonesV1                                              |
+| [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ~ResourceRecordsV1~ DnsResourceRecordsV1                |
+| [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | ~PermittedNetworksForDnsZonesV1~ DnsPermittedNetworksV1 |
+| [PDNS: Global Load Balancers API](https://cloud.ibm.com/apidocs/dns-svcs)        | ~GlobalLoadBalancersV1~ DnsGlobalLoadBalancersV1        |
 
-| Direct Link Service                                      | Imported Class Name |
-| -------------------------------------------------------- | ------------------- |
-| [Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=python) | DirectLinkV1    |
-| [Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=python) | DirectLinkProviderV2    |
+| Direct Link Service                                                                        | Imported Class Name  |
+| ------------------------------------------------------------------------------------------ | -------------------- |
+| [Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=python)                       | DirectLinkV1         |
+| [Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=python) | DirectLinkProviderV2 |
 
 | Transit Service                                                  | Imported Class Name  |
 | ---------------------------------------------------------------- | -------------------- |
@@ -123,6 +124,10 @@ please ask a question
 If you encounter an issue with the project, you are welcome to submit a
 [bug report](<github-repo-url>/issues).
 Before that, please search for similar issues. It's possible that someone has already reported the problem.
+
+## Deprecation Notice
+
+For deprecation notice, please see [this link](https://github.com/IBM/networking-python-sdk/blob/master/DEPRECATION-NOTICE.md)
 
 ## Open source @ IBM
 
