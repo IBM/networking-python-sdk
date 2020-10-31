@@ -1,3 +1,11 @@
+## [0.3.1](https://github.com/IBM/networking-python-sdk/compare/v0.3.0...v0.3.1) (2020-10-31)
+
+
+### Bug Fixes
+
+* PDNS - Added renamed-sdk and deprecation notice ([37b4f09](https://github.com/IBM/networking-python-sdk/commit/37b4f09a22c9bfc0a6754d5b5e8feb4bfb309695))
+* PDNS - Added renamed-sdk and deprecation notice ([1622ec3](https://github.com/IBM/networking-python-sdk/commit/1622ec3916053a7a45b8e8da43fb0101884213e7))
+
 # [0.3.0](https://github.com/IBM/networking-python-sdk/compare/v0.2.0...v0.3.0) (2020-10-31)
 
 
