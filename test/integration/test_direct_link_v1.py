@@ -74,8 +74,8 @@ class TestDirectLinkV1(unittest.TestCase):
                             self.delete_connection(gateway_id=gateway_id,
                                 conn_id=conn_record.get("id"))
 
-                if ("SDK-PY" in record.get("name")) and (
-                    "delet" not in record.get("operational_status")):
+                if ("SDK-PY" in record.get("name") and "PROVIDER" not in record.get("name")) and (
+                    ("delet" not in record.get("operational_status")) and ("progress" not in record.get("operational_status"))):
                     self.delete_gateway(gateway_id=gateway_id)
 
     def delete_gateway(self, gateway_id):

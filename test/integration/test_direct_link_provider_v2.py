@@ -68,11 +68,11 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         if resp is not None:
             for record in resp:
                 gateway_id = record.get("id")
-                if ("SDK-PY" in record.get("name")) and (
-                    "delet" not in record.get("operational_status")):
+                if ("SDK-PY-DL-PROVIDER" in record.get("name")) and (
+                    ("delet" not in record.get("operational_status")) and ("progress" not in record.get("operational_status"))):
                     self.delete_provider_gateway(gateway_id=gateway_id)
         
-        #clean up records in client account
+        #clean up the above deleted records in client account
         print("Clean dl records")
         response = self.dl.list_gateways()
         assert response is not None
@@ -81,9 +81,9 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         if resp is not None:
             for record in resp:
                 gateway_id = record.get("id")
-                if ("SDK-PY" in record.get("name")) and (
+                if ("SDK-PY-DL-PROVIDER" in record.get("name")) and (
                     ("delet" not in record.get("operational_status")) and ("progress" not in record.get("operational_status"))):
-                    self.delete_gateway(gateway_id=gateway_id)
+                    self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
 
     def delete_gateway(self, gateway_id):
         response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
