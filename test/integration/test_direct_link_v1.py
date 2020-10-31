@@ -192,7 +192,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # """ test create/get/update/delete gateway success """
         # # create gateway
         # name = os.getenv("DL_SERVICES_GW_NAME")
-        # primary_cak_template = GatewayMacsecConfigTemplatePrimaryCak(crn=macsecActiveCak)
+        primary_cak_template = GatewayMacsecConfigTemplatePrimaryCak(crn=macsecActiveCak)
         # macsec_template = GatewayMacsecConfigTemplate(active=macsec_active_bool, primary_cak=primary_cak_template)
         # gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
         #     type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
