@@ -315,6 +315,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
                 break
 
             if count > 24:
+                print ("The result is - ", response.get_result().get("operational_status"))
                 assert response.get_result().get("operational_status") == "provisioned"
             else:
                 time.sleep(10)
