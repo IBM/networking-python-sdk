@@ -1,3 +1,10 @@
+## [0.3.2](https://github.com/IBM/networking-python-sdk/compare/v0.3.1...v0.3.2) (2020-11-01)
+
+
+### Bug Fixes
+
+* release the macsec feature for direct link ([438624d](https://github.com/IBM/networking-python-sdk/commit/438624d951a0743c7286b487aebd5e9a0fa473f3))
+
 ## [0.3.1](https://github.com/IBM/networking-python-sdk/compare/v0.3.0...v0.3.1) (2020-10-31)
 
 
