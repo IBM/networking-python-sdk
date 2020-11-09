@@ -321,6 +321,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
                 count += 1
 
         #successfully request delete using provider account
+        time.sleep(10)
         response = self.dl_provider.delete_provider_gateway(id=gateway_id)
         assert response is not None
         assert response.get_status_code() == 202
