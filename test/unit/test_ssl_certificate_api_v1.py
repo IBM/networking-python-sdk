@@ -58,7 +58,7 @@ class TestListCertificates():
     def test_list_certificates_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/ssl/certificate_packs')
-        mock_response = '{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": "436627", "hosts": ["example.com"], "status": "active"}], "primary_certificate": 0, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
+        mock_response = '{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -86,7 +86,7 @@ class TestListCertificates():
     def test_list_certificates_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/ssl/certificate_packs')
-        mock_response = '{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": "436627", "hosts": ["example.com"], "status": "active"}], "primary_certificate": 0, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
+        mock_response = '{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -109,7 +109,7 @@ class TestListCertificates():
     def test_list_certificates_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/ssl/certificate_packs')
-        mock_response = '{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": "436627", "hosts": ["example.com"], "status": "active"}], "primary_certificate": 0, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
+        mock_response = '{"result": [{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -145,7 +145,7 @@ class TestOrderCertificate():
     def test_order_certificate_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/ssl/certificate_packs')
-        mock_response = '{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": "436627", "hosts": ["example.com"], "status": "active"}], "primary_certificate": 0, "status": "active"}'
+        mock_response = '{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -181,7 +181,7 @@ class TestOrderCertificate():
     def test_order_certificate_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/ssl/certificate_packs')
-        mock_response = '{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": "436627", "hosts": ["example.com"], "status": "active"}], "primary_certificate": 0, "status": "active"}'
+        mock_response = '{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -204,7 +204,7 @@ class TestOrderCertificate():
     def test_order_certificate_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/ssl/certificate_packs')
-        mock_response = '{"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": "436627", "hosts": ["example.com"], "status": "active"}], "primary_certificate": 0, "status": "active"}'
+        mock_response = '{"result": {"id": "0f405ba2-8c18-49eb-a30b-28b85427780f", "type": "dedicated", "hosts": ["example.com"], "certificates": [{"id": {"anyKey": "anyValue"}, "hosts": ["example.com"], "status": "active"}], "primary_certificate": {"anyKey": "anyValue"}, "status": "active"}, "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}, "success": true, "errors": [["errors"]], "messages": [{"status": "OK"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1592,7 +1592,7 @@ class TestCertificate():
 
         # Construct a json representation of a Certificate model
         certificate_model_json = {}
-        certificate_model_json['id'] = '436627'
+        certificate_model_json['id'] = { 'foo': 'bar' }
         certificate_model_json['hosts'] = ['example.com']
         certificate_model_json['status'] = 'active'
 
@@ -1713,7 +1713,7 @@ class TestDedicatedCertificatePack():
         # Construct dict forms of any model objects needed in order to build this model.
 
         certificate_model = {} # Certificate
-        certificate_model['id'] = '436627'
+        certificate_model['id'] = { 'foo': 'bar' }
         certificate_model['hosts'] = ['example.com']
         certificate_model['status'] = 'active'
 
@@ -1723,7 +1723,7 @@ class TestDedicatedCertificatePack():
         dedicated_certificate_pack_model_json['type'] = 'dedicated'
         dedicated_certificate_pack_model_json['hosts'] = ['example.com']
         dedicated_certificate_pack_model_json['certificates'] = [certificate_model]
-        dedicated_certificate_pack_model_json['primary_certificate'] = 0
+        dedicated_certificate_pack_model_json['primary_certificate'] = { 'foo': 'bar' }
         dedicated_certificate_pack_model_json['status'] = 'active'
 
         # Construct a model instance of DedicatedCertificatePack by calling from_dict on the json representation
@@ -1742,6 +1742,63 @@ class TestDedicatedCertificatePack():
         assert dedicated_certificate_pack_model_json2 == dedicated_certificate_pack_model_json
 
 #-----------------------------------------------------------------------------
+# Test Class for DedicatedCertificateResp
+#-----------------------------------------------------------------------------
+class TestDedicatedCertificateResp():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for DedicatedCertificateResp
+    #--------------------------------------------------------
+    def test_dedicated_certificate_resp_serialization(self):
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        certificate_model = {} # Certificate
+        certificate_model['id'] = { 'foo': 'bar' }
+        certificate_model['hosts'] = ['example.com']
+        certificate_model['status'] = 'active'
+
+        dedicated_certificate_pack_model = {} # DedicatedCertificatePack
+        dedicated_certificate_pack_model['id'] = '0f405ba2-8c18-49eb-a30b-28b85427780f'
+        dedicated_certificate_pack_model['type'] = 'dedicated'
+        dedicated_certificate_pack_model['hosts'] = ['example.com']
+        dedicated_certificate_pack_model['certificates'] = [certificate_model]
+        dedicated_certificate_pack_model['primary_certificate'] = { 'foo': 'bar' }
+        dedicated_certificate_pack_model['status'] = 'active'
+
+        result_info_model = {} # ResultInfo
+        result_info_model['page'] = 1
+        result_info_model['per_page'] = 2
+        result_info_model['count'] = 1
+        result_info_model['total_count'] = 200
+
+        tls12_setting_resp_messages_item_model = {} # Tls12SettingRespMessagesItem
+        tls12_setting_resp_messages_item_model['status'] = 'OK'
+
+        # Construct a json representation of a DedicatedCertificateResp model
+        dedicated_certificate_resp_model_json = {}
+        dedicated_certificate_resp_model_json['result'] = dedicated_certificate_pack_model
+        dedicated_certificate_resp_model_json['result_info'] = result_info_model
+        dedicated_certificate_resp_model_json['success'] = True
+        dedicated_certificate_resp_model_json['errors'] = [['testString']]
+        dedicated_certificate_resp_model_json['messages'] = [tls12_setting_resp_messages_item_model]
+
+        # Construct a model instance of DedicatedCertificateResp by calling from_dict on the json representation
+        dedicated_certificate_resp_model = DedicatedCertificateResp.from_dict(dedicated_certificate_resp_model_json)
+        assert dedicated_certificate_resp_model != False
+
+        # Construct a model instance of DedicatedCertificateResp by calling from_dict on the json representation
+        dedicated_certificate_resp_model_dict = DedicatedCertificateResp.from_dict(dedicated_certificate_resp_model_json).__dict__
+        dedicated_certificate_resp_model2 = DedicatedCertificateResp(**dedicated_certificate_resp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert dedicated_certificate_resp_model == dedicated_certificate_resp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        dedicated_certificate_resp_model_json2 = dedicated_certificate_resp_model.to_dict()
+        assert dedicated_certificate_resp_model_json2 == dedicated_certificate_resp_model_json
+
+#-----------------------------------------------------------------------------
 # Test Class for ListCertificateResp
 #-----------------------------------------------------------------------------
 class TestListCertificateResp():
@@ -1754,7 +1811,7 @@ class TestListCertificateResp():
         # Construct dict forms of any model objects needed in order to build this model.
 
         certificate_model = {} # Certificate
-        certificate_model['id'] = '436627'
+        certificate_model['id'] = { 'foo': 'bar' }
         certificate_model['hosts'] = ['example.com']
         certificate_model['status'] = 'active'
 
@@ -1763,7 +1820,7 @@ class TestListCertificateResp():
         dedicated_certificate_pack_model['type'] = 'dedicated'
         dedicated_certificate_pack_model['hosts'] = ['example.com']
         dedicated_certificate_pack_model['certificates'] = [certificate_model]
-        dedicated_certificate_pack_model['primary_certificate'] = 0
+        dedicated_certificate_pack_model['primary_certificate'] = { 'foo': 'bar' }
         dedicated_certificate_pack_model['status'] = 'active'
 
         result_info_model = {} # ResultInfo

@@ -150,6 +150,7 @@ class ZoneLockdownV1(BaseService):
         id: str = None,
         paused: bool = None,
         description: str = None,
+        priority: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -169,6 +170,7 @@ class ZoneLockdownV1(BaseService):
                paused.
         :param str description: (optional) A note that you can use to describe the
                reason for a Lockdown rule.
+        :param int priority: (optional) firewall priority.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LockdownResp` object
@@ -187,7 +189,8 @@ class ZoneLockdownV1(BaseService):
             'configurations': configurations,
             'id': id,
             'paused': paused,
-            'description': description
+            'description': description,
+            'priority': priority
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -290,6 +293,7 @@ class ZoneLockdownV1(BaseService):
         id: str = None,
         paused: bool = None,
         description: str = None,
+        priority: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -310,6 +314,7 @@ class ZoneLockdownV1(BaseService):
                paused.
         :param str description: (optional) A note that you can use to describe the
                reason for a Lockdown rule.
+        :param int priority: (optional) firewall priority.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `LockdownResp` object
@@ -330,7 +335,8 @@ class ZoneLockdownV1(BaseService):
             'configurations': configurations,
             'id': id,
             'paused': paused,
-            'description': description
+            'description': description,
+            'priority': priority
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -836,6 +842,7 @@ class LockdownObject():
     lockdown object.
 
     :attr str id: Lockdown rule identifier.
+    :attr int priority: (optional) firewall priority.
     :attr bool paused: Whether this zone lockdown is currently paused.
     :attr str description: A note that you can use to describe the reason for a
           Lockdown rule.
@@ -852,7 +859,9 @@ class LockdownObject():
                  paused: bool,
                  description: str,
                  urls: List[str],
-                 configurations: List['LockdownObjectConfigurationsItem']) -> None:
+                 configurations: List['LockdownObjectConfigurationsItem'],
+                 *,
+                 priority: int = None) -> None:
         """
         Initialize a LockdownObject object.
 
@@ -866,8 +875,10 @@ class LockdownObject():
         :param List[LockdownObjectConfigurationsItem] configurations: List of IP
                addresses or CIDR ranges to use for this rule. This can include any number
                of ip or ip_range configurations that can access the provided URLs.
+        :param int priority: (optional) firewall priority.
         """
         self.id = id
+        self.priority = priority
         self.paused = paused
         self.description = description
         self.urls = urls
@@ -881,6 +892,8 @@ class LockdownObject():
             args['id'] = _dict.get('id')
         else:
             raise ValueError('Required property \'id\' not present in LockdownObject JSON')
+        if 'priority' in _dict:
+            args['priority'] = _dict.get('priority')
         if 'paused' in _dict:
             args['paused'] = _dict.get('paused')
         else:
@@ -909,6 +922,8 @@ class LockdownObject():
         _dict = {}
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
+        if hasattr(self, 'priority') and self.priority is not None:
+            _dict['priority'] = self.priority
         if hasattr(self, 'paused') and self.paused is not None:
             _dict['paused'] = self.paused
         if hasattr(self, 'description') and self.description is not None:
