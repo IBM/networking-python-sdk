@@ -1,3 +1,10 @@
+## [0.3.3](https://github.com/IBM/networking-python-sdk/compare/v0.3.2...v0.3.3) (2020-11-10)
+
+
+### Bug Fixes
+
+* CIS - multiple service update ([4e5d577](https://github.com/IBM/networking-python-sdk/commit/4e5d577dde72831b57967d494205ace839c38cad))
+
 ## [0.3.2](https://github.com/IBM/networking-python-sdk/compare/v0.3.1...v0.3.2) (2020-11-01)
 
 
