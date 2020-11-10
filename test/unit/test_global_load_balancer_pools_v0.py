@@ -55,7 +55,7 @@ class TestListAllLoadBalancerPools():
     def test_list_all_load_balancer_pools_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -78,7 +78,7 @@ class TestListAllLoadBalancerPools():
     def test_list_all_load_balancer_pools_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -114,7 +114,7 @@ class TestCreateLoadBalancerPool():
     def test_create_load_balancer_pool_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -126,6 +126,7 @@ class TestCreateLoadBalancerPool():
         load_balancer_pool_req_origins_item_model['name'] = 'app-server-1'
         load_balancer_pool_req_origins_item_model['address'] = '0.0.0.0'
         load_balancer_pool_req_origins_item_model['enabled'] = True
+        load_balancer_pool_req_origins_item_model['weight'] = 1
 
         # Set up parameter values
         name = 'primary-dc-1'
@@ -172,7 +173,7 @@ class TestCreateLoadBalancerPool():
     def test_create_load_balancer_pool_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -195,7 +196,7 @@ class TestCreateLoadBalancerPool():
     def test_create_load_balancer_pool_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -231,7 +232,7 @@ class TestGetLoadBalancerPool():
     def test_get_load_balancer_pool_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -259,7 +260,7 @@ class TestGetLoadBalancerPool():
     def test_get_load_balancer_pool_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -367,7 +368,7 @@ class TestEditLoadBalancerPool():
     def test_edit_load_balancer_pool_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -379,6 +380,7 @@ class TestEditLoadBalancerPool():
         load_balancer_pool_req_origins_item_model['name'] = 'app-server-1'
         load_balancer_pool_req_origins_item_model['address'] = '0.0.0.0'
         load_balancer_pool_req_origins_item_model['enabled'] = True
+        load_balancer_pool_req_origins_item_model['weight'] = 1
 
         # Set up parameter values
         pool_identifier = 'testString'
@@ -427,7 +429,7 @@ class TestEditLoadBalancerPool():
     def test_edit_load_balancer_pool_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -455,7 +457,7 @@ class TestEditLoadBalancerPool():
     def test_edit_load_balancer_pool_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/pools/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "17b5962d775c646f3f9725cbc7a53df4", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "description": "Primary data center - Provider XYZ", "name": "primary-dc-1", "enabled": true, "healthy": true, "monitor": "f1aba936b94213e5b8dca0c0dbf1f9cc", "minimum_origins": 1, "check_regions": ["WNAM"], "origins": [{"name": "app-server-1", "address": "0.0.0.0", "enabled": true, "healthy": true, "weight": 1, "disabled_at": "2014-01-01T05:20:00.12345Z", "failure_reason": "HTTP Timeout occured"}], "notification_email": "someone@example.com"}, "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -531,6 +533,9 @@ class TestLoadBalancerPoolPackOriginsItem():
         load_balancer_pool_pack_origins_item_model_json['address'] = '0.0.0.0'
         load_balancer_pool_pack_origins_item_model_json['enabled'] = True
         load_balancer_pool_pack_origins_item_model_json['healthy'] = True
+        load_balancer_pool_pack_origins_item_model_json['weight'] = 1
+        load_balancer_pool_pack_origins_item_model_json['disabled_at'] = '2014-01-01T05:20:00.12345Z'
+        load_balancer_pool_pack_origins_item_model_json['failure_reason'] = 'HTTP Timeout occured'
 
         # Construct a model instance of LoadBalancerPoolPackOriginsItem by calling from_dict on the json representation
         load_balancer_pool_pack_origins_item_model = LoadBalancerPoolPackOriginsItem.from_dict(load_balancer_pool_pack_origins_item_model_json)
@@ -562,6 +567,7 @@ class TestLoadBalancerPoolReqOriginsItem():
         load_balancer_pool_req_origins_item_model_json['name'] = 'app-server-1'
         load_balancer_pool_req_origins_item_model_json['address'] = '0.0.0.0'
         load_balancer_pool_req_origins_item_model_json['enabled'] = True
+        load_balancer_pool_req_origins_item_model_json['weight'] = 1
 
         # Construct a model instance of LoadBalancerPoolReqOriginsItem by calling from_dict on the json representation
         load_balancer_pool_req_origins_item_model = LoadBalancerPoolReqOriginsItem.from_dict(load_balancer_pool_req_origins_item_model_json)
@@ -632,6 +638,9 @@ class TestListLoadBalancerPoolsResp():
         load_balancer_pool_pack_origins_item_model['address'] = '0.0.0.0'
         load_balancer_pool_pack_origins_item_model['enabled'] = True
         load_balancer_pool_pack_origins_item_model['healthy'] = True
+        load_balancer_pool_pack_origins_item_model['weight'] = 1
+        load_balancer_pool_pack_origins_item_model['disabled_at'] = '2014-01-01T05:20:00.12345Z'
+        load_balancer_pool_pack_origins_item_model['failure_reason'] = 'HTTP Timeout occured'
 
         load_balancer_pool_pack_model = {} # LoadBalancerPoolPack
         load_balancer_pool_pack_model['id'] = '17b5962d775c646f3f9725cbc7a53df4'
@@ -642,6 +651,8 @@ class TestListLoadBalancerPoolsResp():
         load_balancer_pool_pack_model['enabled'] = True
         load_balancer_pool_pack_model['healthy'] = True
         load_balancer_pool_pack_model['monitor'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
+        load_balancer_pool_pack_model['minimum_origins'] = 1
+        load_balancer_pool_pack_model['check_regions'] = ['WNAM']
         load_balancer_pool_pack_model['origins'] = [load_balancer_pool_pack_origins_item_model]
         load_balancer_pool_pack_model['notification_email'] = 'someone@example.com'
 
@@ -691,6 +702,9 @@ class TestLoadBalancerPoolPack():
         load_balancer_pool_pack_origins_item_model['address'] = '0.0.0.0'
         load_balancer_pool_pack_origins_item_model['enabled'] = True
         load_balancer_pool_pack_origins_item_model['healthy'] = True
+        load_balancer_pool_pack_origins_item_model['weight'] = 1
+        load_balancer_pool_pack_origins_item_model['disabled_at'] = '2014-01-01T05:20:00.12345Z'
+        load_balancer_pool_pack_origins_item_model['failure_reason'] = 'HTTP Timeout occured'
 
         # Construct a json representation of a LoadBalancerPoolPack model
         load_balancer_pool_pack_model_json = {}
@@ -702,6 +716,8 @@ class TestLoadBalancerPoolPack():
         load_balancer_pool_pack_model_json['enabled'] = True
         load_balancer_pool_pack_model_json['healthy'] = True
         load_balancer_pool_pack_model_json['monitor'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
+        load_balancer_pool_pack_model_json['minimum_origins'] = 1
+        load_balancer_pool_pack_model_json['check_regions'] = ['WNAM']
         load_balancer_pool_pack_model_json['origins'] = [load_balancer_pool_pack_origins_item_model]
         load_balancer_pool_pack_model_json['notification_email'] = 'someone@example.com'
 
@@ -737,6 +753,9 @@ class TestLoadBalancerPoolResp():
         load_balancer_pool_pack_origins_item_model['address'] = '0.0.0.0'
         load_balancer_pool_pack_origins_item_model['enabled'] = True
         load_balancer_pool_pack_origins_item_model['healthy'] = True
+        load_balancer_pool_pack_origins_item_model['weight'] = 1
+        load_balancer_pool_pack_origins_item_model['disabled_at'] = '2014-01-01T05:20:00.12345Z'
+        load_balancer_pool_pack_origins_item_model['failure_reason'] = 'HTTP Timeout occured'
 
         load_balancer_pool_pack_model = {} # LoadBalancerPoolPack
         load_balancer_pool_pack_model['id'] = '17b5962d775c646f3f9725cbc7a53df4'
@@ -747,6 +766,8 @@ class TestLoadBalancerPoolResp():
         load_balancer_pool_pack_model['enabled'] = True
         load_balancer_pool_pack_model['healthy'] = True
         load_balancer_pool_pack_model['monitor'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
+        load_balancer_pool_pack_model['minimum_origins'] = 1
+        load_balancer_pool_pack_model['check_regions'] = ['WNAM']
         load_balancer_pool_pack_model['origins'] = [load_balancer_pool_pack_origins_item_model]
         load_balancer_pool_pack_model['notification_email'] = 'someone@example.com'
 

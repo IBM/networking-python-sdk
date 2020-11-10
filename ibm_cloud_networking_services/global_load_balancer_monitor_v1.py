@@ -132,6 +132,7 @@ class GlobalLoadBalancerMonitorV1(BaseService):
         follow_redirects: bool = None,
         expected_body: str = None,
         allow_insecure: bool = None,
+        header: dict = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -151,6 +152,7 @@ class GlobalLoadBalancerMonitorV1(BaseService):
         :param bool follow_redirects: (optional) follow redirects.
         :param str expected_body: (optional) expected body.
         :param bool allow_insecure: (optional) allow insecure.
+        :param dict header: (optional) header.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `MonitorResp` object
@@ -174,7 +176,8 @@ class GlobalLoadBalancerMonitorV1(BaseService):
             'interval': interval,
             'follow_redirects': follow_redirects,
             'expected_body': expected_body,
-            'allow_insecure': allow_insecure
+            'allow_insecure': allow_insecure,
+            'header': header
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -209,6 +212,7 @@ class GlobalLoadBalancerMonitorV1(BaseService):
         follow_redirects: bool = None,
         expected_body: str = None,
         allow_insecure: bool = None,
+        header: dict = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -229,6 +233,7 @@ class GlobalLoadBalancerMonitorV1(BaseService):
         :param bool follow_redirects: (optional) follow redirects.
         :param str expected_body: (optional) expected body.
         :param bool allow_insecure: (optional) allow insecure.
+        :param dict header: (optional) header.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `MonitorResp` object
@@ -254,7 +259,8 @@ class GlobalLoadBalancerMonitorV1(BaseService):
             'interval': interval,
             'follow_redirects': follow_redirects,
             'expected_body': expected_body,
-            'allow_insecure': allow_insecure
+            'allow_insecure': allow_insecure,
+            'header': header
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -609,6 +615,7 @@ class MonitorPack():
     :attr str expected_codes: expected codes.
     :attr bool follow_redirects: (optional) follow redirects.
     :attr bool allow_insecure: (optional) allow insecure.
+    :attr dict header: (optional) header.
     """
 
     def __init__(self,
@@ -627,7 +634,8 @@ class MonitorPack():
                  retries: int = None,
                  interval: int = None,
                  follow_redirects: bool = None,
-                 allow_insecure: bool = None) -> None:
+                 allow_insecure: bool = None,
+                 header: dict = None) -> None:
         """
         Initialize a MonitorPack object.
 
@@ -646,6 +654,7 @@ class MonitorPack():
         :param int interval: (optional) interval.
         :param bool follow_redirects: (optional) follow redirects.
         :param bool allow_insecure: (optional) allow insecure.
+        :param dict header: (optional) header.
         """
         self.id = id
         self.created_on = created_on
@@ -662,6 +671,7 @@ class MonitorPack():
         self.expected_codes = expected_codes
         self.follow_redirects = follow_redirects
         self.allow_insecure = allow_insecure
+        self.header = header
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MonitorPack':
@@ -701,6 +711,8 @@ class MonitorPack():
             args['follow_redirects'] = _dict.get('follow_redirects')
         if 'allow_insecure' in _dict:
             args['allow_insecure'] = _dict.get('allow_insecure')
+        if 'header' in _dict:
+            args['header'] = _dict.get('header')
         return cls(**args)
 
     @classmethod
@@ -741,6 +753,8 @@ class MonitorPack():
             _dict['follow_redirects'] = self.follow_redirects
         if hasattr(self, 'allow_insecure') and self.allow_insecure is not None:
             _dict['allow_insecure'] = self.allow_insecure
+        if hasattr(self, 'header') and self.header is not None:
+            _dict['header'] = self.header
         return _dict
 
     def _to_dict(self):

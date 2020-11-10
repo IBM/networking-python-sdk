@@ -55,7 +55,7 @@ class TestListAllLoadBalancerMonitors():
     def test_list_all_load_balancer_monitors_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -78,7 +78,7 @@ class TestListAllLoadBalancerMonitors():
     def test_list_all_load_balancer_monitors_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -114,7 +114,7 @@ class TestCreateLoadBalancerMonitor():
     def test_create_load_balancer_monitor_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -134,6 +134,7 @@ class TestCreateLoadBalancerMonitor():
         follow_redirects = True
         expected_body = 'alive'
         allow_insecure = True
+        header = {}
 
         # Invoke method
         response = service.create_load_balancer_monitor(
@@ -149,6 +150,7 @@ class TestCreateLoadBalancerMonitor():
             follow_redirects=follow_redirects,
             expected_body=expected_body,
             allow_insecure=allow_insecure,
+            header=header,
             headers={}
         )
 
@@ -169,6 +171,7 @@ class TestCreateLoadBalancerMonitor():
         assert req_body['follow_redirects'] == True
         assert req_body['expected_body'] == 'alive'
         assert req_body['allow_insecure'] == True
+        assert req_body['header'] == {}
 
 
     #--------------------------------------------------------
@@ -178,7 +181,7 @@ class TestCreateLoadBalancerMonitor():
     def test_create_load_balancer_monitor_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -201,7 +204,7 @@ class TestCreateLoadBalancerMonitor():
     def test_create_load_balancer_monitor_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -237,7 +240,7 @@ class TestEditLoadBalancerMonitor():
     def test_edit_load_balancer_monitor_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -258,6 +261,7 @@ class TestEditLoadBalancerMonitor():
         follow_redirects = True
         expected_body = 'alive'
         allow_insecure = True
+        header = {}
 
         # Invoke method
         response = service.edit_load_balancer_monitor(
@@ -274,6 +278,7 @@ class TestEditLoadBalancerMonitor():
             follow_redirects=follow_redirects,
             expected_body=expected_body,
             allow_insecure=allow_insecure,
+            header=header,
             headers={}
         )
 
@@ -294,6 +299,7 @@ class TestEditLoadBalancerMonitor():
         assert req_body['follow_redirects'] == True
         assert req_body['expected_body'] == 'alive'
         assert req_body['allow_insecure'] == True
+        assert req_body['header'] == {}
 
 
     #--------------------------------------------------------
@@ -303,7 +309,7 @@ class TestEditLoadBalancerMonitor():
     def test_edit_load_balancer_monitor_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -331,7 +337,7 @@ class TestEditLoadBalancerMonitor():
     def test_edit_load_balancer_monitor_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -439,7 +445,7 @@ class TestGetLoadBalancerMonitor():
     def test_get_load_balancer_monitor_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -467,7 +473,7 @@ class TestGetLoadBalancerMonitor():
     def test_get_load_balancer_monitor_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/load_balancers/monitors/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "type": "http", "description": "Login page monitor", "method": "GET", "port": 8080, "path": "/", "timeout": 5, "retries": 2, "interval": 60, "expected_body": "alive", "expected_codes": "2xx", "follow_redirects": true, "allow_insecure": true, "header": {"mapKey": ["inner"]}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -592,6 +598,7 @@ class TestListMonitorResp():
         monitor_pack_model['expected_codes'] = '2xx'
         monitor_pack_model['follow_redirects'] = True
         monitor_pack_model['allow_insecure'] = True
+        monitor_pack_model['header'] = {}
 
         result_info_model = {} # ResultInfo
         result_info_model['page'] = 1
@@ -649,6 +656,7 @@ class TestMonitorPack():
         monitor_pack_model_json['expected_codes'] = '2xx'
         monitor_pack_model_json['follow_redirects'] = True
         monitor_pack_model_json['allow_insecure'] = True
+        monitor_pack_model_json['header'] = {}
 
         # Construct a model instance of MonitorPack by calling from_dict on the json representation
         monitor_pack_model = MonitorPack.from_dict(monitor_pack_model_json)
@@ -693,6 +701,7 @@ class TestMonitorResp():
         monitor_pack_model['expected_codes'] = '2xx'
         monitor_pack_model['follow_redirects'] = True
         monitor_pack_model['allow_insecure'] = True
+        monitor_pack_model['header'] = {}
 
         # Construct a json representation of a MonitorResp model
         monitor_resp_model_json = {}

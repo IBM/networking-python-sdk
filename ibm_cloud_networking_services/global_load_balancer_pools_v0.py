@@ -398,6 +398,9 @@ class LoadBalancerPoolPackOriginsItem():
     :attr str address: (optional) address.
     :attr bool enabled: (optional) enabled/disabled.
     :attr bool healthy: (optional) healthy.
+    :attr float weight: (optional) weight.
+    :attr str disabled_at: (optional) Pool origin disabled date.
+    :attr str failure_reason: (optional) Reason for failure.
     """
 
     def __init__(self,
@@ -405,7 +408,10 @@ class LoadBalancerPoolPackOriginsItem():
                  name: str = None,
                  address: str = None,
                  enabled: bool = None,
-                 healthy: bool = None) -> None:
+                 healthy: bool = None,
+                 weight: float = None,
+                 disabled_at: str = None,
+                 failure_reason: str = None) -> None:
         """
         Initialize a LoadBalancerPoolPackOriginsItem object.
 
@@ -413,11 +419,17 @@ class LoadBalancerPoolPackOriginsItem():
         :param str address: (optional) address.
         :param bool enabled: (optional) enabled/disabled.
         :param bool healthy: (optional) healthy.
+        :param float weight: (optional) weight.
+        :param str disabled_at: (optional) Pool origin disabled date.
+        :param str failure_reason: (optional) Reason for failure.
         """
         self.name = name
         self.address = address
         self.enabled = enabled
         self.healthy = healthy
+        self.weight = weight
+        self.disabled_at = disabled_at
+        self.failure_reason = failure_reason
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'LoadBalancerPoolPackOriginsItem':
@@ -431,6 +443,12 @@ class LoadBalancerPoolPackOriginsItem():
             args['enabled'] = _dict.get('enabled')
         if 'healthy' in _dict:
             args['healthy'] = _dict.get('healthy')
+        if 'weight' in _dict:
+            args['weight'] = _dict.get('weight')
+        if 'disabled_at' in _dict:
+            args['disabled_at'] = _dict.get('disabled_at')
+        if 'failure_reason' in _dict:
+            args['failure_reason'] = _dict.get('failure_reason')
         return cls(**args)
 
     @classmethod
@@ -449,6 +467,12 @@ class LoadBalancerPoolPackOriginsItem():
             _dict['enabled'] = self.enabled
         if hasattr(self, 'healthy') and self.healthy is not None:
             _dict['healthy'] = self.healthy
+        if hasattr(self, 'weight') and self.weight is not None:
+            _dict['weight'] = self.weight
+        if hasattr(self, 'disabled_at') and self.disabled_at is not None:
+            _dict['disabled_at'] = self.disabled_at
+        if hasattr(self, 'failure_reason') and self.failure_reason is not None:
+            _dict['failure_reason'] = self.failure_reason
         return _dict
 
     def _to_dict(self):
@@ -476,23 +500,27 @@ class LoadBalancerPoolReqOriginsItem():
     :attr str name: (optional) name.
     :attr str address: (optional) address.
     :attr bool enabled: (optional) enabled/disabled.
+    :attr float weight: (optional) weight.
     """
 
     def __init__(self,
                  *,
                  name: str = None,
                  address: str = None,
-                 enabled: bool = None) -> None:
+                 enabled: bool = None,
+                 weight: float = None) -> None:
         """
         Initialize a LoadBalancerPoolReqOriginsItem object.
 
         :param str name: (optional) name.
         :param str address: (optional) address.
         :param bool enabled: (optional) enabled/disabled.
+        :param float weight: (optional) weight.
         """
         self.name = name
         self.address = address
         self.enabled = enabled
+        self.weight = weight
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'LoadBalancerPoolReqOriginsItem':
@@ -504,6 +532,8 @@ class LoadBalancerPoolReqOriginsItem():
             args['address'] = _dict.get('address')
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
+        if 'weight' in _dict:
+            args['weight'] = _dict.get('weight')
         return cls(**args)
 
     @classmethod
@@ -520,6 +550,8 @@ class LoadBalancerPoolReqOriginsItem():
             _dict['address'] = self.address
         if hasattr(self, 'enabled') and self.enabled is not None:
             _dict['enabled'] = self.enabled
+        if hasattr(self, 'weight') and self.weight is not None:
+            _dict['weight'] = self.weight
         return _dict
 
     def _to_dict(self):
@@ -734,6 +766,8 @@ class LoadBalancerPoolPack():
     :attr bool enabled: (optional) enabled/disabled.
     :attr bool healthy: (optional) healthy.
     :attr str monitor: (optional) monitor.
+    :attr int minimum_origins: (optional) Minimum origin count.
+    :attr List[str] check_regions: (optional) regions check.
     :attr List[LoadBalancerPoolPackOriginsItem] origins: original.
     :attr str notification_email: (optional) notification email.
     """
@@ -749,6 +783,8 @@ class LoadBalancerPoolPack():
                  enabled: bool = None,
                  healthy: bool = None,
                  monitor: str = None,
+                 minimum_origins: int = None,
+                 check_regions: List[str] = None,
                  notification_email: str = None) -> None:
         """
         Initialize a LoadBalancerPoolPack object.
@@ -762,6 +798,8 @@ class LoadBalancerPoolPack():
         :param bool enabled: (optional) enabled/disabled.
         :param bool healthy: (optional) healthy.
         :param str monitor: (optional) monitor.
+        :param int minimum_origins: (optional) Minimum origin count.
+        :param List[str] check_regions: (optional) regions check.
         :param str notification_email: (optional) notification email.
         """
         self.id = id
@@ -772,6 +810,8 @@ class LoadBalancerPoolPack():
         self.enabled = enabled
         self.healthy = healthy
         self.monitor = monitor
+        self.minimum_origins = minimum_origins
+        self.check_regions = check_regions
         self.origins = origins
         self.notification_email = notification_email
 
@@ -797,6 +837,10 @@ class LoadBalancerPoolPack():
             args['healthy'] = _dict.get('healthy')
         if 'monitor' in _dict:
             args['monitor'] = _dict.get('monitor')
+        if 'minimum_origins' in _dict:
+            args['minimum_origins'] = _dict.get('minimum_origins')
+        if 'check_regions' in _dict:
+            args['check_regions'] = _dict.get('check_regions')
         if 'origins' in _dict:
             args['origins'] = [LoadBalancerPoolPackOriginsItem.from_dict(x) for x in _dict.get('origins')]
         else:
@@ -829,6 +873,10 @@ class LoadBalancerPoolPack():
             _dict['healthy'] = self.healthy
         if hasattr(self, 'monitor') and self.monitor is not None:
             _dict['monitor'] = self.monitor
+        if hasattr(self, 'minimum_origins') and self.minimum_origins is not None:
+            _dict['minimum_origins'] = self.minimum_origins
+        if hasattr(self, 'check_regions') and self.check_regions is not None:
+            _dict['check_regions'] = self.check_regions
         if hasattr(self, 'origins') and self.origins is not None:
             _dict['origins'] = [x.to_dict() for x in self.origins]
         if hasattr(self, 'notification_email') and self.notification_email is not None:

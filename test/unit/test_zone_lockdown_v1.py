@@ -58,7 +58,7 @@ class TestListAllZoneLockownRules():
     def test_list_all_zone_lockown_rules_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -93,7 +93,7 @@ class TestListAllZoneLockownRules():
     def test_list_all_zone_lockown_rules_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -116,7 +116,7 @@ class TestListAllZoneLockownRules():
     def test_list_all_zone_lockown_rules_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}], "result_info": {"page": 1, "per_page": 2, "count": 1, "total_count": 200}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -152,7 +152,7 @@ class TestCreateZoneLockdownRule():
     def test_create_zone_lockdown_rule_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -170,6 +170,7 @@ class TestCreateZoneLockdownRule():
         id = '372e67954025e0ba6aaa6d586b9e0b59'
         paused = False
         description = 'Restrict access to these endpoints to requests from a known IP address'
+        priority = 5
 
         # Invoke method
         response = service.create_zone_lockdown_rule(
@@ -178,6 +179,7 @@ class TestCreateZoneLockdownRule():
             id=id,
             paused=paused,
             description=description,
+            priority=priority,
             headers={}
         )
 
@@ -191,6 +193,7 @@ class TestCreateZoneLockdownRule():
         assert req_body['id'] == '372e67954025e0ba6aaa6d586b9e0b59'
         assert req_body['paused'] == False
         assert req_body['description'] == 'Restrict access to these endpoints to requests from a known IP address'
+        assert req_body['priority'] == 5
 
 
     #--------------------------------------------------------
@@ -200,7 +203,7 @@ class TestCreateZoneLockdownRule():
     def test_create_zone_lockdown_rule_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -223,7 +226,7 @@ class TestCreateZoneLockdownRule():
     def test_create_zone_lockdown_rule_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -327,7 +330,7 @@ class TestGetLockdown():
     def test_get_lockdown_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -355,7 +358,7 @@ class TestGetLockdown():
     def test_get_lockdown_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -395,7 +398,7 @@ class TestUpdateLockdownRule():
     def test_update_lockdown_rule_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -414,6 +417,7 @@ class TestUpdateLockdownRule():
         id = '372e67954025e0ba6aaa6d586b9e0b59'
         paused = False
         description = 'Restrict access to these endpoints to requests from a known IP address'
+        priority = 5
 
         # Invoke method
         response = service.update_lockdown_rule(
@@ -423,6 +427,7 @@ class TestUpdateLockdownRule():
             id=id,
             paused=paused,
             description=description,
+            priority=priority,
             headers={}
         )
 
@@ -436,6 +441,7 @@ class TestUpdateLockdownRule():
         assert req_body['id'] == '372e67954025e0ba6aaa6d586b9e0b59'
         assert req_body['paused'] == False
         assert req_body['description'] == 'Restrict access to these endpoints to requests from a known IP address'
+        assert req_body['priority'] == 5
 
 
     #--------------------------------------------------------
@@ -445,7 +451,7 @@ class TestUpdateLockdownRule():
     def test_update_lockdown_rule_required_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -473,7 +479,7 @@ class TestUpdateLockdownRule():
     def test_update_lockdown_rule_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/v1/testString/zones/testString/firewall/lockdowns/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "372e67954025e0ba6aaa6d586b9e0b59", "priority": 5, "paused": false, "description": "Restrict access to these endpoints to requests from a known IP address", "urls": ["api.mysite.com/some/endpoint*"], "configurations": [{"target": "ip", "value": "198.51.100.4 if target=ip, 2.2.2.0/24 if target=ip_range"}]}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -686,6 +692,7 @@ class TestListLockdownResp():
 
         lockdown_object_model = {} # LockdownObject
         lockdown_object_model['id'] = '372e67954025e0ba6aaa6d586b9e0b59'
+        lockdown_object_model['priority'] = 5
         lockdown_object_model['paused'] = False
         lockdown_object_model['description'] = 'Restrict access to these endpoints to requests from a known IP address'
         lockdown_object_model['urls'] = ['api.mysite.com/some/endpoint*']
@@ -733,6 +740,7 @@ class TestLockdownObject():
         # Construct a json representation of a LockdownObject model
         lockdown_object_model_json = {}
         lockdown_object_model_json['id'] = '372e67954025e0ba6aaa6d586b9e0b59'
+        lockdown_object_model_json['priority'] = 5
         lockdown_object_model_json['paused'] = False
         lockdown_object_model_json['description'] = 'Restrict access to these endpoints to requests from a known IP address'
         lockdown_object_model_json['urls'] = ['api.mysite.com/some/endpoint*']
@@ -771,6 +779,7 @@ class TestLockdownResp():
 
         lockdown_object_model = {} # LockdownObject
         lockdown_object_model['id'] = '372e67954025e0ba6aaa6d586b9e0b59'
+        lockdown_object_model['priority'] = 5
         lockdown_object_model['paused'] = False
         lockdown_object_model['description'] = 'Restrict access to these endpoints to requests from a known IP address'
         lockdown_object_model['urls'] = ['api.mysite.com/some/endpoint*']

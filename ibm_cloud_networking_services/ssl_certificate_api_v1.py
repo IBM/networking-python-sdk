@@ -159,7 +159,7 @@ class SslCertificateApiV1(BaseService):
         :param str x_correlation_id: (optional) uuid, identify a session.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `DedicatedCertificatePack` object
+        :rtype: DetailedResponse with `dict` result representing a `DedicatedCertificateResp` object
         """
 
         headers = {
@@ -1236,19 +1236,19 @@ class Certificate():
     """
     certificate.
 
-    :attr str id: identifier.
+    :attr object id: identifier.
     :attr List[str] hosts: host name.
     :attr str status: status.
     """
 
     def __init__(self,
-                 id: str,
+                 id: object,
                  hosts: List[str],
                  status: str) -> None:
         """
         Initialize a Certificate object.
 
-        :param str id: identifier.
+        :param object id: identifier.
         :param List[str] hosts: host name.
         :param str status: status.
         """
@@ -1558,7 +1558,7 @@ class DedicatedCertificatePack():
     :attr str type: certificate type.
     :attr List[str] hosts: host name.
     :attr List[Certificate] certificates: certificates.
-    :attr int primary_certificate: primary certificate.
+    :attr object primary_certificate: primary certificate.
     :attr str status: status.
     """
 
@@ -1567,7 +1567,7 @@ class DedicatedCertificatePack():
                  type: str,
                  hosts: List[str],
                  certificates: List['Certificate'],
-                 primary_certificate: int,
+                 primary_certificate: object,
                  status: str) -> None:
         """
         Initialize a DedicatedCertificatePack object.
@@ -1576,7 +1576,7 @@ class DedicatedCertificatePack():
         :param str type: certificate type.
         :param List[str] hosts: host name.
         :param List[Certificate] certificates: certificates.
-        :param int primary_certificate: primary certificate.
+        :param object primary_certificate: primary certificate.
         :param str status: status.
         """
         self.id = id
@@ -1653,6 +1653,102 @@ class DedicatedCertificatePack():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'DedicatedCertificatePack') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class DedicatedCertificateResp():
+    """
+    certificate response.
+
+    :attr DedicatedCertificatePack result: dedicated certificate packs.
+    :attr ResultInfo result_info: result information.
+    :attr bool success: success.
+    :attr List[List[str]] errors: errors.
+    :attr List[Tls12SettingRespMessagesItem] messages: messages.
+    """
+
+    def __init__(self,
+                 result: 'DedicatedCertificatePack',
+                 result_info: 'ResultInfo',
+                 success: bool,
+                 errors: List[List[str]],
+                 messages: List['Tls12SettingRespMessagesItem']) -> None:
+        """
+        Initialize a DedicatedCertificateResp object.
+
+        :param DedicatedCertificatePack result: dedicated certificate packs.
+        :param ResultInfo result_info: result information.
+        :param bool success: success.
+        :param List[List[str]] errors: errors.
+        :param List[Tls12SettingRespMessagesItem] messages: messages.
+        """
+        self.result = result
+        self.result_info = result_info
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DedicatedCertificateResp':
+        """Initialize a DedicatedCertificateResp object from a json dictionary."""
+        args = {}
+        if 'result' in _dict:
+            args['result'] = DedicatedCertificatePack.from_dict(_dict.get('result'))
+        else:
+            raise ValueError('Required property \'result\' not present in DedicatedCertificateResp JSON')
+        if 'result_info' in _dict:
+            args['result_info'] = ResultInfo.from_dict(_dict.get('result_info'))
+        else:
+            raise ValueError('Required property \'result_info\' not present in DedicatedCertificateResp JSON')
+        if 'success' in _dict:
+            args['success'] = _dict.get('success')
+        else:
+            raise ValueError('Required property \'success\' not present in DedicatedCertificateResp JSON')
+        if 'errors' in _dict:
+            args['errors'] = _dict.get('errors')
+        else:
+            raise ValueError('Required property \'errors\' not present in DedicatedCertificateResp JSON')
+        if 'messages' in _dict:
+            args['messages'] = [Tls12SettingRespMessagesItem.from_dict(x) for x in _dict.get('messages')]
+        else:
+            raise ValueError('Required property \'messages\' not present in DedicatedCertificateResp JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DedicatedCertificateResp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'result') and self.result is not None:
+            _dict['result'] = self.result.to_dict()
+        if hasattr(self, 'result_info') and self.result_info is not None:
+            _dict['result_info'] = self.result_info.to_dict()
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = [x.to_dict() for x in self.messages]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DedicatedCertificateResp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'DedicatedCertificateResp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DedicatedCertificateResp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
