@@ -1234,13 +1234,19 @@ class Gateway():
     gateway.
 
     :attr int bgp_asn: Customer BGP ASN.
-    :attr str bgp_base_cidr: (optional) BGP base CIDR.
+    :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR is deprecated and
+          no longer recognized the Direct Link APIs.
+          See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
+          Deprecated field bgp_base_cidr will be removed from the API specificiation after
+          15-MAR-2021.
     :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
     :attr int bgp_ibm_asn: (optional) IBM BGP ASN.
     :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
-    :attr str bgp_status: (optional) Gateway BGP status.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
+    :attr str bgp_status: (optional) Gateway BGP status. The list of enumerated
+          values for this property may expand in the future. Code and processes using this
+          field  must tolerate unexpected values.
+    :attr str carrier_name: (optional) Carrier name.  Only set for type=dedicated
+          gateways.
     :attr GatewayChangeRequest change_request: (optional) Changes pending approval
           for provider managed Direct Link Connect gateways.
     :attr str completion_notice_reject_reason: (optional) Reason for completion
@@ -1250,13 +1256,15 @@ class Gateway():
     :attr str crn: The CRN (Cloud Resource Name) of this gateway.
     :attr str cross_connect_router: (optional) Cross connect router.  Only included
           on type=dedicated gateways.
+    :attr str customer_name: (optional) Customer name.  Only set for type=dedicated
+          gateways.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr str id: The unique identifier of this gateway.
     :attr str link_status: (optional) Gateway link status.  Only included on
-          type=dedicated gateways.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
+          type=dedicated gateways. The list of enumerated values for this property may
+          expand in the future. Code and processes using this field  must tolerate
+          unexpected values.
     :attr str location_display_name: Gateway location long name.
     :attr str location_name: Gateway location.
     :attr GatewayMacsecConfig macsec_config: (optional) MACsec configuration
@@ -1266,18 +1274,18 @@ class Gateway():
           per gigabyte.  When `false` there is no per gigabyte usage charge, instead a
           flat rate is charged for the gateway.
     :attr str name: The unique user-defined name for this gateway.
-    :attr str operational_status: Gateway operational status.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
+    :attr str operational_status: Gateway operational status. The list of enumerated
+          values for this property may expand in the future. Code and processes using this
+          field  must tolerate unexpected values.
     :attr GatewayPort port: (optional) gateway port for type=connect gateways.
     :attr bool provider_api_managed: (optional) Indicates whether gateway changes
           must be made via a provider portal.
     :attr ResourceGroupReference resource_group: (optional) Resource group
           reference.
     :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr str type: Gateway type.
-          The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
+    :attr str type: Gateway type. The list of enumerated values for this property
+          may expand in the future. Code and processes using this field  must tolerate
+          unexpected values.
     :attr int vlan: (optional) VLAN allocated for this gateway.  Only set for
           type=connect gateways.
     """
@@ -1301,9 +1309,11 @@ class Gateway():
                  bgp_ibm_asn: int = None,
                  bgp_ibm_cidr: str = None,
                  bgp_status: str = None,
+                 carrier_name: str = None,
                  change_request: 'GatewayChangeRequest' = None,
                  completion_notice_reject_reason: str = None,
                  cross_connect_router: str = None,
+                 customer_name: str = None,
                  link_status: str = None,
                  macsec_config: 'GatewayMacsecConfig' = None,
                  port: 'GatewayPort' = None,
@@ -1325,20 +1335,27 @@ class Gateway():
                billed per gigabyte.  When `false` there is no per gigabyte usage charge,
                instead a flat rate is charged for the gateway.
         :param str name: The unique user-defined name for this gateway.
-        :param str operational_status: Gateway operational status.
-               The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
+        :param str operational_status: Gateway operational status. The list of
+               enumerated values for this property may expand in the future. Code and
+               processes using this field  must tolerate unexpected values.
         :param int speed_mbps: Gateway speed in megabits per second.
-        :param str type: Gateway type.
-               The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
-        :param str bgp_base_cidr: (optional) BGP base CIDR.
+        :param str type: Gateway type. The list of enumerated values for this
+               property may expand in the future. Code and processes using this field
+               must tolerate unexpected values.
+        :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR is
+               deprecated and no longer recognized the Direct Link APIs.
+               See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related
+               information.
+               Deprecated field bgp_base_cidr will be removed from the API specificiation
+               after 15-MAR-2021.
         :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
         :param int bgp_ibm_asn: (optional) IBM BGP ASN.
         :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
-        :param str bgp_status: (optional) Gateway BGP status.
-               The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
+        :param str bgp_status: (optional) Gateway BGP status. The list of
+               enumerated values for this property may expand in the future. Code and
+               processes using this field  must tolerate unexpected values.
+        :param str carrier_name: (optional) Carrier name.  Only set for
+               type=dedicated gateways.
         :param GatewayChangeRequest change_request: (optional) Changes pending
                approval for provider managed Direct Link Connect gateways.
         :param str completion_notice_reject_reason: (optional) Reason for
@@ -1346,10 +1363,12 @@ class Gateway():
                a rejected completion notice.
         :param str cross_connect_router: (optional) Cross connect router.  Only
                included on type=dedicated gateways.
-        :param str link_status: (optional) Gateway link status.  Only included on
+        :param str customer_name: (optional) Customer name.  Only set for
                type=dedicated gateways.
-               The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
+        :param str link_status: (optional) Gateway link status.  Only included on
+               type=dedicated gateways. The list of enumerated values for this property
+               may expand in the future. Code and processes using this field  must
+               tolerate unexpected values.
         :param GatewayMacsecConfig macsec_config: (optional) MACsec configuration
                information.  For Dedicated Gateways with MACsec configured, return
                configuration information.  Contact IBM support for access to MACsec.
@@ -1367,11 +1386,13 @@ class Gateway():
         self.bgp_ibm_asn = bgp_ibm_asn
         self.bgp_ibm_cidr = bgp_ibm_cidr
         self.bgp_status = bgp_status
+        self.carrier_name = carrier_name
         self.change_request = change_request
         self.completion_notice_reject_reason = completion_notice_reject_reason
         self.created_at = created_at
         self.crn = crn
         self.cross_connect_router = cross_connect_router
+        self.customer_name = customer_name
         self.global_ = global_
         self.id = id
         self.link_status = link_status
@@ -1406,6 +1427,8 @@ class Gateway():
             args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
         if 'bgp_status' in _dict:
             args['bgp_status'] = _dict.get('bgp_status')
+        if 'carrier_name' in _dict:
+            args['carrier_name'] = _dict.get('carrier_name')
         if 'change_request' in _dict:
             args['change_request'] = _dict.get('change_request')
         if 'completion_notice_reject_reason' in _dict:
@@ -1420,6 +1443,8 @@ class Gateway():
             raise ValueError('Required property \'crn\' not present in Gateway JSON')
         if 'cross_connect_router' in _dict:
             args['cross_connect_router'] = _dict.get('cross_connect_router')
+        if 'customer_name' in _dict:
+            args['customer_name'] = _dict.get('customer_name')
         if 'global' in _dict:
             args['global_'] = _dict.get('global')
         else:
@@ -1490,6 +1515,8 @@ class Gateway():
             _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
         if hasattr(self, 'bgp_status') and self.bgp_status is not None:
             _dict['bgp_status'] = self.bgp_status
+        if hasattr(self, 'carrier_name') and self.carrier_name is not None:
+            _dict['carrier_name'] = self.carrier_name
         if hasattr(self, 'change_request') and self.change_request is not None:
             _dict['change_request'] = self.change_request
         if hasattr(self, 'completion_notice_reject_reason') and self.completion_notice_reject_reason is not None:
@@ -1500,6 +1527,8 @@ class Gateway():
             _dict['crn'] = self.crn
         if hasattr(self, 'cross_connect_router') and self.cross_connect_router is not None:
             _dict['cross_connect_router'] = self.cross_connect_router
+        if hasattr(self, 'customer_name') and self.customer_name is not None:
+            _dict['customer_name'] = self.customer_name
         if hasattr(self, 'global_') and self.global_ is not None:
             _dict['global'] = self.global_
         if hasattr(self, 'id') and self.id is not None:
@@ -1552,9 +1581,8 @@ class Gateway():
 
     class BgpStatusEnum(Enum):
         """
-        Gateway BGP status.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
+        Gateway BGP status. The list of enumerated values for this property may expand in
+        the future. Code and processes using this field  must tolerate unexpected values.
         """
         ACTIVE = "active"
         CONNECT = "connect"
@@ -1564,9 +1592,9 @@ class Gateway():
 
     class LinkStatusEnum(Enum):
         """
-        Gateway link status.  Only included on type=dedicated gateways.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
+        Gateway link status.  Only included on type=dedicated gateways. The list of
+        enumerated values for this property may expand in the future. Code and processes
+        using this field  must tolerate unexpected values.
         """
         DOWN = "down"
         UP = "up"
@@ -1574,9 +1602,9 @@ class Gateway():
 
     class OperationalStatusEnum(Enum):
         """
-        Gateway operational status.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
+        Gateway operational status. The list of enumerated values for this property may
+        expand in the future. Code and processes using this field  must tolerate
+        unexpected values.
         """
         AWAITING_COMPLETION_NOTICE = "awaiting_completion_notice"
         AWAITING_LOA = "awaiting_loa"
@@ -1595,9 +1623,8 @@ class Gateway():
 
     class TypeEnum(Enum):
         """
-        Gateway type.
-        The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
+        Gateway type. The list of enumerated values for this property may expand in the
+        future. Code and processes using this field  must tolerate unexpected values.
         """
         CONNECT = "connect"
         DEDICATED = "dedicated"
@@ -1699,14 +1726,8 @@ class GatewayMacsecConfig():
           in seconds.
     :attr str security_policy: (optional) Packets without MACsec headers are not
           dropped when security_policy is `should_secure`.
-    :attr str status: Current status of MACsec on the device for this gateway.
-          Status 'unknown' is returned during gateway creation and deletion. Status
-          `key_error` indicates Direct Link was unable to retrieve key materials for one
-          of the specified. This usually due to inadequate service to service
-          authorization.   Verify the key exists and verify a service to service policy
-          exists authorization the Direct Link service to access its key material. Correct
-          any problems and respecify the desired key.  If the problem persists contact IBM
-          support.
+    :attr str status: Current status of MACsec on this gateway.
+          Status 'unknown' is returned during gateway creation and deletion.
     :attr int window_size: (optional) replay protection window size.
     """
 
@@ -1732,14 +1753,8 @@ class GatewayMacsecConfig():
                enabled a `macsec_config` must be specified at gateway create time.
         :param GatewayMacsecConfigPrimaryCak primary_cak: desired primary
                connectivity association key.
-        :param str status: Current status of MACsec on the device for this gateway.
-                Status 'unknown' is returned during gateway creation and deletion. Status
-               `key_error` indicates Direct Link was unable to retrieve key materials for
-               one of the specified. This usually due to inadequate service to service
-               authorization.   Verify the key exists and verify a service to service
-               policy exists authorization the Direct Link service to access its key
-               material. Correct any problems and respecify the desired key.  If the
-               problem persists contact IBM support.
+        :param str status: Current status of MACsec on this gateway.
+               Status 'unknown' is returned during gateway creation and deletion.
         :param GatewayMacsecConfigActiveCak active_cak: (optional) Active
                connectivity association key.
                During normal operation `active_cak` will match the desired `primary_cak`.
@@ -1882,16 +1897,10 @@ class GatewayMacsecConfig():
 
     class StatusEnum(Enum):
         """
-        Current status of MACsec on the device for this gateway.  Status 'unknown' is
-        returned during gateway creation and deletion. Status `key_error` indicates Direct
-        Link was unable to retrieve key materials for one of the specified. This usually
-        due to inadequate service to service authorization.   Verify the key exists and
-        verify a service to service policy exists authorization the Direct Link service to
-        access its key material. Correct any problems and respecify the desired key.  If
-        the problem persists contact IBM support.
+        Current status of MACsec on this gateway.
+        Status 'unknown' is returned during gateway creation and deletion.
         """
         INIT = "init"
-        KEY_ERROR = "key_error"
         PENDING = "pending"
         SECURED = "secured"
         UNKNOWN = "unknown"
@@ -2043,7 +2052,6 @@ class GatewayMacsecConfigPatchTemplate():
           active (true) or inactive (false) for this MACsec enabled gateway.
     :attr GatewayMacsecConfigPatchTemplateFallbackCak fallback_cak: (optional)
           Fallback connectivity association key.
-          The `fallback_cak` crn cannot match the `primary_cak` crn.
           MACsec keys must be type=standard with key name lengths between 2 to 64
           inclusive and contain only characters [a-fA-F0-9].
           The key material must be exactly 64 characters in length and contain only
@@ -2073,7 +2081,6 @@ class GatewayMacsecConfigPatchTemplate():
                active (true) or inactive (false) for this MACsec enabled gateway.
         :param GatewayMacsecConfigPatchTemplateFallbackCak fallback_cak: (optional)
                Fallback connectivity association key.
-               The `fallback_cak` crn cannot match the `primary_cak` crn.
                MACsec keys must be type=standard with key name lengths between 2 to 64
                inclusive and contain only characters [a-fA-F0-9].
                The key material must be exactly 64 characters in length and contain only
@@ -2147,7 +2154,6 @@ class GatewayMacsecConfigPatchTemplate():
 class GatewayMacsecConfigPatchTemplateFallbackCak():
     """
     Fallback connectivity association key.
-    The `fallback_cak` crn cannot match the `primary_cak` crn.
     MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and
     contain only characters [a-fA-F0-9]. The key material must be exactly 64 characters in
     length and contain only [a-fA-F0-9].
@@ -2817,13 +2823,26 @@ class GatewayTemplate():
     Create gateway template.
 
     :attr int bgp_asn: BGP ASN.
-    :attr str bgp_base_cidr: BGP base CIDR.
-    :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify a
-          value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field
-          can  be ommitted and a CIDR will be selected automatically.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-          ommitted and a CIDR will be selected automatically.
+    :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
+          Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to
+          create a gateway using either automatic or explicit IP assignment.  Any
+          bgp_base_cidr value set will be ignored.
+          Deprecated field bgp_base_cidr will be removed from the API specificiation after
+          15-MAR-2021.
+    :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
+          For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+          automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+          For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+          value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+          "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
+          have matching network and subnet mask values.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
+          For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+          automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+          For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+          value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+          "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
+          have matching network and subnet mask values.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
@@ -2839,13 +2858,13 @@ class GatewayTemplate():
 
     def __init__(self,
                  bgp_asn: int,
-                 bgp_base_cidr: str,
                  global_: bool,
                  metered: bool,
                  name: str,
                  speed_mbps: int,
                  type: str,
                  *,
+                 bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
                  resource_group: 'ResourceGroupIdentity' = None) -> None:
@@ -2853,7 +2872,6 @@ class GatewayTemplate():
         Initialize a GatewayTemplate object.
 
         :param int bgp_asn: BGP ASN.
-        :param str bgp_base_cidr: BGP base CIDR.
         :param bool global_: Gateways with global routing (`true`) can connect to
                networks outside their associated region.
         :param bool metered: Metered billing option.  When `true` gateway usage is
@@ -2862,12 +2880,26 @@ class GatewayTemplate():
         :param str name: The unique user-defined name for this gateway.
         :param int speed_mbps: Gateway speed in megabits per second.
         :param str type: Gateway type.
-        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify
-               a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
-               field can  be ommitted and a CIDR will be selected automatically.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-               ommitted and a CIDR will be selected automatically.
+        :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
+               Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
+               to create a gateway using either automatic or explicit IP assignment.  Any
+               bgp_base_cidr value set will be ignored.
+               Deprecated field bgp_base_cidr will be removed from the API specificiation
+               after 15-MAR-2021.
+        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
+               For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+               automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+               For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
+               For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+               automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+               For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
@@ -4174,13 +4206,26 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     Gateway fields specific to type=connect gateway create.
 
     :attr int bgp_asn: BGP ASN.
-    :attr str bgp_base_cidr: BGP base CIDR.
-    :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify a
-          value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field
-          can  be ommitted and a CIDR will be selected automatically.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-          ommitted and a CIDR will be selected automatically.
+    :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
+          Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to
+          create a gateway using either automatic or explicit IP assignment.  Any
+          bgp_base_cidr value set will be ignored.
+          Deprecated field bgp_base_cidr will be removed from the API specificiation after
+          15-MAR-2021.
+    :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
+          For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+          automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+          For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+          value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+          "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
+          have matching network and subnet mask values.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
+          For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+          automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+          For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+          value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+          "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
+          have matching network and subnet mask values.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
@@ -4197,7 +4242,6 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
 
     def __init__(self,
                  bgp_asn: int,
-                 bgp_base_cidr: str,
                  global_: bool,
                  metered: bool,
                  name: str,
@@ -4205,6 +4249,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                  type: str,
                  port: 'GatewayPortIdentity',
                  *,
+                 bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
                  resource_group: 'ResourceGroupIdentity' = None) -> None:
@@ -4212,7 +4257,6 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
         Initialize a GatewayTemplateGatewayTypeConnectTemplate object.
 
         :param int bgp_asn: BGP ASN.
-        :param str bgp_base_cidr: BGP base CIDR.
         :param bool global_: Gateways with global routing (`true`) can connect to
                networks outside their associated region.
         :param bool metered: Metered billing option.  When `true` gateway usage is
@@ -4223,12 +4267,26 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
         :param str type: Gateway type.
         :param GatewayPortIdentity port: Select Port Label for new type=connect
                gateway.
-        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify
-               a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
-               field can  be ommitted and a CIDR will be selected automatically.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-               ommitted and a CIDR will be selected automatically.
+        :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
+               Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
+               to create a gateway using either automatic or explicit IP assignment.  Any
+               bgp_base_cidr value set will be ignored.
+               Deprecated field bgp_base_cidr will be removed from the API specificiation
+               after 15-MAR-2021.
+        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
+               For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+               automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+               For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
+               For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+               automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+               For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
@@ -4257,8 +4315,6 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
             raise ValueError('Required property \'bgp_asn\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
         if 'bgp_base_cidr' in _dict:
             args['bgp_base_cidr'] = _dict.get('bgp_base_cidr')
-        else:
-            raise ValueError('Required property \'bgp_base_cidr\' not present in GatewayTemplateGatewayTypeConnectTemplate JSON')
         if 'bgp_cer_cidr' in _dict:
             args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
         if 'bgp_ibm_cidr' in _dict:
@@ -4354,13 +4410,26 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     Gateway fields specific to type=dedicated gateway create.
 
     :attr int bgp_asn: BGP ASN.
-    :attr str bgp_base_cidr: BGP base CIDR.
-    :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify a
-          value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field
-          can  be ommitted and a CIDR will be selected automatically.
-    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-          `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-          ommitted and a CIDR will be selected automatically.
+    :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
+          Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to
+          create a gateway using either automatic or explicit IP assignment.  Any
+          bgp_base_cidr value set will be ignored.
+          Deprecated field bgp_base_cidr will be removed from the API specificiation after
+          15-MAR-2021.
+    :attr str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
+          For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+          automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+          For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+          value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+          "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
+          have matching network and subnet mask values.
+    :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
+          For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+          automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+          For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+          value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
+          "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
+          have matching network and subnet mask values.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
@@ -4382,7 +4451,6 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
 
     def __init__(self,
                  bgp_asn: int,
-                 bgp_base_cidr: str,
                  global_: bool,
                  metered: bool,
                  name: str,
@@ -4393,6 +4461,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                  customer_name: str,
                  location_name: str,
                  *,
+                 bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
                  resource_group: 'ResourceGroupIdentity' = None,
@@ -4401,7 +4470,6 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
         Initialize a GatewayTemplateGatewayTypeDedicatedTemplate object.
 
         :param int bgp_asn: BGP ASN.
-        :param str bgp_base_cidr: BGP base CIDR.
         :param bool global_: Gateways with global routing (`true`) can connect to
                networks outside their associated region.
         :param bool metered: Metered billing option.  When `true` gateway usage is
@@ -4414,12 +4482,26 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
         :param str cross_connect_router: Cross connect router.
         :param str customer_name: Customer name.
         :param str location_name: Gateway location.
-        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.  Specify
-               a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
-               field can  be ommitted and a CIDR will be selected automatically.
-        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.  Specify a value within
-               `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-               ommitted and a CIDR will be selected automatically.
+        :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
+               Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
+               to create a gateway using either automatic or explicit IP assignment.  Any
+               bgp_base_cidr value set will be ignored.
+               Deprecated field bgp_base_cidr will be removed from the API specificiation
+               after 15-MAR-2021.
+        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR.
+               For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+               automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+               For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
+               For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will
+               automatically select values for bgp_cer_cidr and bgp_ibm_cidr.
+               For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
@@ -4454,8 +4536,6 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
             raise ValueError('Required property \'bgp_asn\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
         if 'bgp_base_cidr' in _dict:
             args['bgp_base_cidr'] = _dict.get('bgp_base_cidr')
-        else:
-            raise ValueError('Required property \'bgp_base_cidr\' not present in GatewayTemplateGatewayTypeDedicatedTemplate JSON')
         if 'bgp_cer_cidr' in _dict:
             args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
         if 'bgp_ibm_cidr' in _dict:
