@@ -19,7 +19,7 @@ import os
 import sys
 import pkg_resources
 
-__version__ = '0.3.3'
+__version__ = '0.3.4'
 PACKAGE_NAME = 'ibm_cloud_networking_services'
 PACKAGE_DESC = 'Python client library for IBM Cloud Networking Services'
 
