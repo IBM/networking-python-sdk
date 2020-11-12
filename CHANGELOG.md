@@ -1,3 +1,10 @@
+## [0.3.4](https://github.com/IBM/networking-python-sdk/compare/v0.3.3...v0.3.4) (2020-11-12)
+
+
+### Bug Fixes
+
+* deprecated the bgp_base_cidr in direct link ([d661dc5](https://github.com/IBM/networking-python-sdk/commit/d661dc55868d75658ff147f05a90b106eff2206d))
+
 ## [0.3.3](https://github.com/IBM/networking-python-sdk/compare/v0.3.2...v0.3.3) (2020-11-10)
 
 
