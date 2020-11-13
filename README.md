@@ -71,12 +71,12 @@ IBM Cloud services:
 | [CIS: Zone Settings](https://cloud.ibm.com/apidocs/cis/zonesettings)                           | ZonesSettingsV1             |
 | [CIS: Zones](https://cloud.ibm.com/apidocs/cis/zones)                                          | ZonesV1                     |
 
-| PDNS Service Name                                                                | Imported Class Name                                     |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| [PDNS: Zones API](https://cloud.ibm.com/apidocs/dns-svcs)                        | DnsZonesV1                                              |
-| [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ~ResourceRecordsV1~ DnsResourceRecordsV1                |
-| [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | ~PermittedNetworksForDnsZonesV1~ DnsPermittedNetworksV1 |
-| [PDNS: Global Load Balancers API](https://cloud.ibm.com/apidocs/dns-svcs)        | ~GlobalLoadBalancersV1~ DnsGlobalLoadBalancersV1        |
+| PDNS Service Name                                                                | Imported Class Name                        |
+| -------------------------------------------------------------------------------- | ------------------------------------------ |
+| [PDNS: Zones API](https://cloud.ibm.com/apidocs/dns-svcs)                        | ~DnsZonesV1~ DnsSvcsV1                     |
+| [PDNS: Resource Records API](https://cloud.ibm.com/apidocs/dns-svcs)             | ~ResourceRecordsV1~ DnsSvcsV1              |
+| [PDNS: Permitted Networks for Zones API](https://cloud.ibm.com/apidocs/dns-svcs) | ~PermittedNetworksForDnsZonesV1~ DnsSvcsV1 |
+| [PDNS: Global Load Balancers API](https://cloud.ibm.com/apidocs/dns-svcs)        | ~GlobalLoadBalancersV1~ DnsSvcsV1          |
 
 | Direct Link Service                                                                        | Imported Class Name  |
 | ------------------------------------------------------------------------------------------ | -------------------- |
