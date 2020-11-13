@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/IBM/networking-python-sdk/compare/v0.3.4...v0.4.0) (2020-11-13)
+
+
+### Features
+
+* DNS Services update ([907f141](https://github.com/IBM/networking-python-sdk/commit/907f141bf24aa605031c9eda602af68c61639967))
+
 ## [0.3.4](https://github.com/IBM/networking-python-sdk/compare/v0.3.3...v0.3.4) (2020-11-12)
 
 
