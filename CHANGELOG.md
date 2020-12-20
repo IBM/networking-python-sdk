@@ -1,3 +1,10 @@
+## [0.4.1](https://github.com/IBM/networking-python-sdk/compare/v0.4.0...v0.4.1) (2020-12-20)
+
+
+### Bug Fixes
+
+* Private DNS Global Load Balancer Pools Health Check VSIs feature ([8ae67a9](https://github.com/IBM/networking-python-sdk/commit/8ae67a9747497b2eedca11f994c2c8c3613a4f0e))
+
 # [0.4.0](https://github.com/IBM/networking-python-sdk/compare/v0.3.4...v0.4.0) (2020-11-13)
 
 
