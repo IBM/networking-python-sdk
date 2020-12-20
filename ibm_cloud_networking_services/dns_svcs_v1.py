@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+ 
 """
 DNS Services API
 """
@@ -115,9 +117,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones'.format(
-            *self.encode_path_vars(instance_id))
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -173,9 +178,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones'.format(
-            *self.encode_path_vars(instance_id))
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -220,8 +228,10 @@ class DnsSvcsV1(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/instances/{0}/dnszones/{1}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -264,9 +274,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -322,9 +335,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -383,9 +399,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/resource_records'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -456,9 +475,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/resource_records'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -507,8 +529,10 @@ class DnsSvcsV1(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/instances/{0}/dnszones/{1}/resource_records/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, record_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'record_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, record_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -555,9 +579,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/resource_records/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, record_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'record_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, record_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -628,9 +655,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/resource_records/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, record_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'record_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, record_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -689,9 +719,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/permitted_networks'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -750,9 +783,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/permitted_networks'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -801,9 +837,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/permitted_networks/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, permitted_network_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'permitted_network_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, permitted_network_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -851,9 +890,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/permitted_networks/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, permitted_network_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'permitted_network_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, permitted_network_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -900,9 +942,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/load_balancers'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -978,9 +1023,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/load_balancers'.format(
-            *self.encode_path_vars(instance_id, dnszone_id))
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1029,8 +1077,10 @@ class DnsSvcsV1(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/instances/{0}/dnszones/{1}/load_balancers/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, lb_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'lb_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, lb_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -1077,9 +1127,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/load_balancers/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, lb_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'lb_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, lb_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1159,9 +1212,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/dnszones/{1}/load_balancers/{2}'.format(
-            *self.encode_path_vars(instance_id, dnszone_id, lb_id))
+        path_param_keys = ['instance_id', 'dnszone_id', 'lb_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, lb_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -1205,9 +1261,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/pools'.format(
-            *self.encode_path_vars(instance_id))
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/pools'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1252,8 +1311,7 @@ class DnsSvcsV1(BaseService):
                associated to this pool.
         :param str notification_channel: (optional) The notification channel.
         :param str healthcheck_region: (optional) Health check region of VSIs.
-        :param List[str] healthcheck_subnets: (optional) Health check subnet IDs of
-               VSIs.
+        :param List[str] healthcheck_subnets: (optional) Health check subnet CRN.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1289,9 +1347,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/pools'.format(
-            *self.encode_path_vars(instance_id))
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/pools'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1336,8 +1397,10 @@ class DnsSvcsV1(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/instances/{0}/pools/{1}'.format(
-            *self.encode_path_vars(instance_id, pool_id))
+        path_param_keys = ['instance_id', 'pool_id']
+        path_param_values = self.encode_path_vars(instance_id, pool_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/pools/{pool_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -1380,9 +1443,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/pools/{1}'.format(
-            *self.encode_path_vars(instance_id, pool_id))
+        path_param_keys = ['instance_id', 'pool_id']
+        path_param_values = self.encode_path_vars(instance_id, pool_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/pools/{pool_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1429,8 +1495,7 @@ class DnsSvcsV1(BaseService):
                associated to this pool.
         :param str notification_channel: (optional) The notification channel.
         :param str healthcheck_region: (optional) Health check region of VSIs.
-        :param List[str] healthcheck_subnets: (optional) Health check subnet IDs of
-               VSIs.
+        :param List[str] healthcheck_subnets: (optional) Health check subnet CRNs.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1468,9 +1533,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/pools/{1}'.format(
-            *self.encode_path_vars(instance_id, pool_id))
+        path_param_keys = ['instance_id', 'pool_id']
+        path_param_values = self.encode_path_vars(instance_id, pool_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/pools/{pool_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -1514,9 +1582,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/monitors'.format(
-            *self.encode_path_vars(instance_id))
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/monitors'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1623,9 +1694,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/monitors'.format(
-            *self.encode_path_vars(instance_id))
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/monitors'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1670,8 +1744,10 @@ class DnsSvcsV1(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        url = '/instances/{0}/monitors/{1}'.format(
-            *self.encode_path_vars(instance_id, monitor_id))
+        path_param_keys = ['instance_id', 'monitor_id']
+        path_param_values = self.encode_path_vars(instance_id, monitor_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/monitors/{monitor_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -1714,9 +1790,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/monitors/{1}'.format(
-            *self.encode_path_vars(instance_id, monitor_id))
+        path_param_keys = ['instance_id', 'monitor_id']
+        path_param_values = self.encode_path_vars(instance_id, monitor_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/monitors/{monitor_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1827,9 +1906,12 @@ class DnsSvcsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/instances/{0}/monitors/{1}'.format(
-            *self.encode_path_vars(instance_id, monitor_id))
+        path_param_keys = ['instance_id', 'monitor_id']
+        path_param_values = self.encode_path_vars(instance_id, monitor_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/monitors/{monitor_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -1904,6 +1986,85 @@ class LoadBalancerAzPoolsItem():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'LoadBalancerAzPoolsItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class PoolHealthcheckVsisItem():
+    """
+    PoolHealthcheckVsisItem.
+
+    :attr str subnet: (optional) Health check VSI subnet CRN.
+    :attr str ipv4_address: (optional) healthcheck VSI ip address.
+    :attr str ipv4_cidr_block: (optional) ipv4 cidr block.
+    :attr str vpc: (optional) vpc crn.
+    """
+
+    def __init__(self,
+                 *,
+                 subnet: str = None,
+                 ipv4_address: str = None,
+                 ipv4_cidr_block: str = None,
+                 vpc: str = None) -> None:
+        """
+        Initialize a PoolHealthcheckVsisItem object.
+
+        :param str subnet: (optional) Health check VSI subnet CRN.
+        :param str ipv4_address: (optional) healthcheck VSI ip address.
+        :param str ipv4_cidr_block: (optional) ipv4 cidr block.
+        :param str vpc: (optional) vpc crn.
+        """
+        self.subnet = subnet
+        self.ipv4_address = ipv4_address
+        self.ipv4_cidr_block = ipv4_cidr_block
+        self.vpc = vpc
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PoolHealthcheckVsisItem':
+        """Initialize a PoolHealthcheckVsisItem object from a json dictionary."""
+        args = {}
+        if 'subnet' in _dict:
+            args['subnet'] = _dict.get('subnet')
+        if 'ipv4_address' in _dict:
+            args['ipv4_address'] = _dict.get('ipv4_address')
+        if 'ipv4_cidr_block' in _dict:
+            args['ipv4_cidr_block'] = _dict.get('ipv4_cidr_block')
+        if 'vpc' in _dict:
+            args['vpc'] = _dict.get('vpc')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PoolHealthcheckVsisItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'subnet') and self.subnet is not None:
+            _dict['subnet'] = self.subnet
+        if hasattr(self, 'ipv4_address') and self.ipv4_address is not None:
+            _dict['ipv4_address'] = self.ipv4_address
+        if hasattr(self, 'ipv4_cidr_block') and self.ipv4_cidr_block is not None:
+            _dict['ipv4_cidr_block'] = self.ipv4_cidr_block
+        if hasattr(self, 'vpc') and self.vpc is not None:
+            _dict['vpc'] = self.vpc
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PoolHealthcheckVsisItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PoolHealthcheckVsisItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PoolHealthcheckVsisItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3666,7 +3827,9 @@ class Pool():
     :attr str notification_channel: (optional) The notification channel.
     :attr str health: (optional) Healthy state of the load balancer pool.
     :attr str healthcheck_region: (optional) Health check region of VSIs.
-    :attr List[str] healthcheck_subnets: (optional) Health check subnet IDs of VSIs.
+    :attr List[str] healthcheck_subnets: (optional) Health check subnet CRNs.
+    :attr List[PoolHealthcheckVsisItem] healthcheck_vsis: (optional) Health check
+          VSI information.
     :attr str created_on: (optional) the time when a load balancer pool is created.
     :attr str modified_on: (optional) the recent time when a load balancer pool is
           modified.
@@ -3685,6 +3848,7 @@ class Pool():
                  health: str = None,
                  healthcheck_region: str = None,
                  healthcheck_subnets: List[str] = None,
+                 healthcheck_vsis: List['PoolHealthcheckVsisItem'] = None,
                  created_on: str = None,
                  modified_on: str = None) -> None:
         """
@@ -3707,8 +3871,9 @@ class Pool():
         :param str notification_channel: (optional) The notification channel.
         :param str health: (optional) Healthy state of the load balancer pool.
         :param str healthcheck_region: (optional) Health check region of VSIs.
-        :param List[str] healthcheck_subnets: (optional) Health check subnet IDs of
-               VSIs.
+        :param List[str] healthcheck_subnets: (optional) Health check subnet CRNs.
+        :param List[PoolHealthcheckVsisItem] healthcheck_vsis: (optional) Health
+               check VSI information.
         :param str created_on: (optional) the time when a load balancer pool is
                created.
         :param str modified_on: (optional) the recent time when a load balancer
@@ -3725,6 +3890,7 @@ class Pool():
         self.health = health
         self.healthcheck_region = healthcheck_region
         self.healthcheck_subnets = healthcheck_subnets
+        self.healthcheck_vsis = healthcheck_vsis
         self.created_on = created_on
         self.modified_on = modified_on
 
@@ -3754,6 +3920,8 @@ class Pool():
             args['healthcheck_region'] = _dict.get('healthcheck_region')
         if 'healthcheck_subnets' in _dict:
             args['healthcheck_subnets'] = _dict.get('healthcheck_subnets')
+        if 'healthcheck_vsis' in _dict:
+            args['healthcheck_vsis'] = [PoolHealthcheckVsisItem.from_dict(x) for x in _dict.get('healthcheck_vsis')]
         if 'created_on' in _dict:
             args['created_on'] = _dict.get('created_on')
         if 'modified_on' in _dict:
@@ -3790,6 +3958,8 @@ class Pool():
             _dict['healthcheck_region'] = self.healthcheck_region
         if hasattr(self, 'healthcheck_subnets') and self.healthcheck_subnets is not None:
             _dict['healthcheck_subnets'] = self.healthcheck_subnets
+        if hasattr(self, 'healthcheck_vsis') and self.healthcheck_vsis is not None:
+            _dict['healthcheck_vsis'] = [x.to_dict() for x in self.healthcheck_vsis]
         if hasattr(self, 'created_on') and self.created_on is not None:
             _dict['created_on'] = self.created_on
         if hasattr(self, 'modified_on') and self.modified_on is not None:
