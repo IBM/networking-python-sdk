@@ -46,7 +46,6 @@ class TestDNSSvcsV1(unittest.TestCase):
         if result is not None:
             zones = result.get("dnszones")
             for zone in zones:
-                print(zone.get("id"))
                 self.zone.delete_dnszone(
                     instance_id=self.instance_id, dnszone_id=zone.get("id"))
 
@@ -769,6 +768,8 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
                 'External configuration not available, skipping...')
 
         self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
+        self.vpc_crn = os.getenv("DNS_SVCS_VPC_CRN")
+        self.subnet_crn = os.getenv("DNS_SVCS_SUBNET_CRN")
         self.zone_id = ""
 
         # create zone class object
@@ -846,7 +847,7 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
         description = 'Creating testmonitor1'
         port = 8080
         interval = 60
-        retries = 0
+        retries = 2
         timeout = 5
         method = 'GET'
         path = "helth"
@@ -868,6 +869,7 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
             instance_id=self.instance_id, monitor_id=self.monitor_id)
         assert response is not None
         assert response.status_code == 200
+
         # Update monitor
         lbtype = 'HTTPS'
         description = 'Updating testmonitor1'
@@ -889,8 +891,13 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
         description = "create testpool"
         enabled = True
         healthy_origins_threshold = 1
+        subnets = []
+        subnets.append(self.subnet_crn)
         response = self.globalLoadBalancers.create_pool(instance_id=self.instance_id, name=name, origins=origins,
-                                                        description=description, enabled=enabled, healthy_origins_threshold=healthy_origins_threshold)
+                                                        description=description, enabled=enabled,
+                                                        healthy_origins_threshold=healthy_origins_threshold,
+                                                        monitor=self.monitor_id, healthcheck_region='us-south',
+                                                        healthcheck_subnets=subnets)
         assert response is not None
         assert response.status_code == 200
         self.pool_id = response.get_result().get("id")
@@ -904,15 +911,29 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
             instance_id=self.instance_id, pool_id=self.pool_id)
         assert response is not None
         assert response.status_code == 200
+        assert response.get_result().get("healthcheck_subnets")[
+            0] == self.subnet_crn
+        assert response.get_result().get("healthcheck_vsis")[
+            0].get("subnet") == self.subnet_crn
+        assert response.get_result().get("healthcheck_vsis")[
+            0].get("vpc") == self.vpc_crn
+
         # Update pool
         name = "updatetestPool"
         description = "update testpool"
         response = self.globalLoadBalancers.update_pool(
-            instance_id=self.instance_id, pool_id=self.pool_id, name=name, description=description)
+            instance_id=self.instance_id, pool_id=self.pool_id, name=name, description=description,
+            healthcheck_region='us-south', monitor=self.monitor_id, healthcheck_subnets=subnets)
         assert response is not None
         assert response.status_code == 200
         assert name == response.get_result().get("name")
         assert description == response.get_result().get("description")
+        assert response.get_result().get("healthcheck_subnets")[
+            0] == self.subnet_crn
+        assert response.get_result().get("healthcheck_vsis")[
+            0].get("subnet") == self.subnet_crn
+        assert response.get_result().get("healthcheck_vsis")[
+            0].get("vpc") == self.vpc_crn
 
         """ create,get,update,list,delete GLB LB """
 
