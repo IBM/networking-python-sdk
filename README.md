@@ -93,7 +93,7 @@ IBM Cloud services:
 
 - An [IBM Cloud][ibm-cloud-onboarding] account.
 - An IAM API key to allow the SDK to access your account. Create one [here](https://cloud.ibm.com/iam/apikeys).
-- Python 3.5.3 or above.
+- Python 3.6 or above.
 
 ## Installation
 

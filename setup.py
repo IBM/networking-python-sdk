@@ -24,7 +24,9 @@ PACKAGE_NAME = 'ibm_cloud_networking_services'
 PACKAGE_DESC = 'Python client library for IBM Cloud Networking Services'
 
 with open('requirements.txt') as f:
-    install_requires = [str(req) for req in pkg_resources.parse_requirements(f)]
+    install_requires = [
+        str(req) for req in pkg_resources.parse_requirements(f)
+    ]
 with open('requirements-dev.txt') as f:
     tests_require = [str(req) for req in pkg_resources.parse_requirements(f)]
 
@@ -38,35 +40,16 @@ if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload -r pypi')
     sys.exit()
 
-class PyTest(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test']
-        self.test_suite = True
-
-    def run_tests(self):
-        import pytest
-        errcode = pytest.main(self.test_args)
-        sys.exit(errcode)
-
-class PyTestUnit(PyTest):
-    def finalize_options(self):
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test/unit']
-
-class PyTestIntegration(PyTest):
-    def finalize_options(self):
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test/integration']
-
 with open("README.md", "r") as fh:
     readme = fh.read()
 
-setup(name=PACKAGE_NAME.replace('_', '-'),
+setup(
+      name=PACKAGE_NAME.replace('_', '-'),
       version=__version__,
       description=PACKAGE_DESC,
       license='Apache 2.0',
       install_requires=install_requires,
       tests_require=tests_require,
-      cmdclass={'test': PyTest, 'test_unit': PyTestUnit, 'test_integration': PyTestIntegration},
       author='IBM',
       author_email='devexdev@us.ibm.com',
       long_description=readme,
@@ -89,5 +72,4 @@ setup(name=PACKAGE_NAME.replace('_', '-'),
           'Topic :: Software Development :: Libraries :: Python Modules',
           'Topic :: Software Development :: Libraries :: Application Frameworks',
       ],
-      zip_safe=True
-     )
+      zip_safe=True)
