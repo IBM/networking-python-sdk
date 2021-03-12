@@ -8,6 +8,7 @@ Integration test code to execute ssl certificate client functions
 import os
 import unittest
 import time
+import pytest
 from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services import SslCertificateApiV1
 from ibm_cloud_sdk_core import ApiException
@@ -99,6 +100,7 @@ class TestSSLCertV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
+    @pytest.mark.skip(reason="No need to run this test case")
     def test_1_custom_certificate_actions(self):
         """ test method upload/delete/update/get given customized ssl certificate """
 
@@ -155,6 +157,7 @@ class TestSSLCertV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
+    @pytest.mark.skip(reason="No need to run this test case")
     def test_1_universal_certificate_setting_actions(self):
         """ test method get/set custom ssl certificate settings """
 

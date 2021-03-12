@@ -18,9 +18,9 @@ from dotenv import load_dotenv, find_dotenv
 
 # load the .env file containing your environment variables
 try:
-    load_dotenv(find_dotenv(filename=".dl_env"))
+    load_dotenv(find_dotenv(filename="dl.env"))
 except:
-    raise unittest.SkipTest('no .dl_env file loaded, skipping...')
+    raise unittest.SkipTest('no dl.env file loaded, skipping...')
 
 class TestDirectLinkProviderV2(unittest.TestCase):
     """ Test class for DirectLink Provider sdk functions """
