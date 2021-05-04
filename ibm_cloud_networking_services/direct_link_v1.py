@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -1168,6 +1168,7 @@ class CrossConnectRouter():
     """
     Cross Connect Router details.
 
+    :attr List[str] capabilities: (optional) Array of capabilities for this router.
     :attr str router_name: (optional) The name of the Router.
     :attr int total_connections: (optional) Count of existing Direct Link Dedicated
           gateways on this router for this account.
@@ -1175,15 +1176,19 @@ class CrossConnectRouter():
 
     def __init__(self,
                  *,
+                 capabilities: List[str] = None,
                  router_name: str = None,
                  total_connections: int = None) -> None:
         """
         Initialize a CrossConnectRouter object.
 
+        :param List[str] capabilities: (optional) Array of capabilities for this
+               router.
         :param str router_name: (optional) The name of the Router.
         :param int total_connections: (optional) Count of existing Direct Link
                Dedicated gateways on this router for this account.
         """
+        self.capabilities = capabilities
         self.router_name = router_name
         self.total_connections = total_connections
 
@@ -1191,6 +1196,8 @@ class CrossConnectRouter():
     def from_dict(cls, _dict: Dict) -> 'CrossConnectRouter':
         """Initialize a CrossConnectRouter object from a json dictionary."""
         args = {}
+        if 'capabilities' in _dict:
+            args['capabilities'] = _dict.get('capabilities')
         if 'router_name' in _dict:
             args['router_name'] = _dict.get('router_name')
         if 'total_connections' in _dict:
@@ -1205,6 +1212,8 @@ class CrossConnectRouter():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'capabilities') and self.capabilities is not None:
+            _dict['capabilities'] = self.capabilities
         if hasattr(self, 'router_name') and self.router_name is not None:
             _dict['router_name'] = self.router_name
         if hasattr(self, 'total_connections') and self.total_connections is not None:
@@ -1235,7 +1244,7 @@ class Gateway():
 
     :attr int bgp_asn: Customer BGP ASN.
     :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR is deprecated and
-          no longer recognized the Direct Link APIs.
+          no longer recognized by the Direct Link APIs.
           See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
           Deprecated field bgp_base_cidr will be removed from the API specificiation after
           15-MAR-2021.
@@ -1343,7 +1352,7 @@ class Gateway():
                property may expand in the future. Code and processes using this field
                must tolerate unexpected values.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR is
-               deprecated and no longer recognized the Direct Link APIs.
+               deprecated and no longer recognized by the Direct Link APIs.
                See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related
                information.
                Deprecated field bgp_base_cidr will be removed from the API specificiation
@@ -1724,10 +1733,10 @@ class GatewayMacsecConfig():
           association key.
     :attr int sak_expiry_time: (optional) Secure Association Key (SAK) expiry time
           in seconds.
-    :attr str security_policy: (optional) Packets without MACsec headers are not
-          dropped when security_policy is `should_secure`.
+    :attr str security_policy: (optional) Packets without MACsec headers are dropped
+          when security_policy is `must_secure`.
     :attr str status: Current status of MACsec on this gateway.
-          Status 'unknown' is returned during gateway creation and deletion.
+          Status 'offline' is returned during gateway creation and deletion.
     :attr int window_size: (optional) replay protection window size.
     """
 
@@ -1754,7 +1763,7 @@ class GatewayMacsecConfig():
         :param GatewayMacsecConfigPrimaryCak primary_cak: desired primary
                connectivity association key.
         :param str status: Current status of MACsec on this gateway.
-               Status 'unknown' is returned during gateway creation and deletion.
+               Status 'offline' is returned during gateway creation and deletion.
         :param GatewayMacsecConfigActiveCak active_cak: (optional) Active
                connectivity association key.
                During normal operation `active_cak` will match the desired `primary_cak`.
@@ -1769,7 +1778,7 @@ class GatewayMacsecConfig():
         :param int sak_expiry_time: (optional) Secure Association Key (SAK) expiry
                time in seconds.
         :param str security_policy: (optional) Packets without MACsec headers are
-               not dropped when security_policy is `should_secure`.
+               dropped when security_policy is `must_secure`.
         :param int window_size: (optional) replay protection window size.
         """
         self.active = active
@@ -1889,21 +1898,20 @@ class GatewayMacsecConfig():
 
     class SecurityPolicyEnum(Enum):
         """
-        Packets without MACsec headers are not dropped when security_policy is
-        `should_secure`.
+        Packets without MACsec headers are dropped when security_policy is `must_secure`.
         """
-        SHOULD_SECURE = "should_secure"
+        MUST_SECURE = "must_secure"
 
 
     class StatusEnum(Enum):
         """
         Current status of MACsec on this gateway.
-        Status 'unknown' is returned during gateway creation and deletion.
+        Status 'offline' is returned during gateway creation and deletion.
         """
         INIT = "init"
         PENDING = "pending"
+        OFFLINE = "offline"
         SECURED = "secured"
-        UNKNOWN = "unknown"
 
 
 class GatewayMacsecConfigActiveCak():
@@ -3424,6 +3432,7 @@ class OfferingSpeed():
     """
     Speed.
 
+    :attr List[str] capabilities: Array of capabilities for billing option.
     :attr int link_speed: Link speed in megabits per second.
     :attr bool macsec_enabled: (optional) Indicate whether speed supports MACsec.
           Only returned for gateway type=dedicated speeds.  Contact IBM support for access
@@ -3431,17 +3440,20 @@ class OfferingSpeed():
     """
 
     def __init__(self,
+                 capabilities: List[str],
                  link_speed: int,
                  *,
                  macsec_enabled: bool = None) -> None:
         """
         Initialize a OfferingSpeed object.
 
+        :param List[str] capabilities: Array of capabilities for billing option.
         :param int link_speed: Link speed in megabits per second.
         :param bool macsec_enabled: (optional) Indicate whether speed supports
                MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM
                support for access to MACsec.
         """
+        self.capabilities = capabilities
         self.link_speed = link_speed
         self.macsec_enabled = macsec_enabled
 
@@ -3449,6 +3461,10 @@ class OfferingSpeed():
     def from_dict(cls, _dict: Dict) -> 'OfferingSpeed':
         """Initialize a OfferingSpeed object from a json dictionary."""
         args = {}
+        if 'capabilities' in _dict:
+            args['capabilities'] = _dict.get('capabilities')
+        else:
+            raise ValueError('Required property \'capabilities\' not present in OfferingSpeed JSON')
         if 'link_speed' in _dict:
             args['link_speed'] = _dict.get('link_speed')
         else:
@@ -3465,6 +3481,8 @@ class OfferingSpeed():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'capabilities') and self.capabilities is not None:
+            _dict['capabilities'] = self.capabilities
         if hasattr(self, 'link_speed') and self.link_speed is not None:
             _dict['link_speed'] = self.link_speed
         if hasattr(self, 'macsec_enabled') and self.macsec_enabled is not None:
