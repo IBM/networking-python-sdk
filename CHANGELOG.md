@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/IBM/networking-python-sdk/compare/v0.4.2...v0.5.0) (2021-05-04)
+
+
+### Features
+
+* added the following changes to DL SDK ([6dc1996](https://github.com/IBM/networking-python-sdk/commit/6dc1996c67b8f8709560e68f9b52e25f57238891))
+
 ## [0.4.2](https://github.com/IBM/networking-python-sdk/compare/v0.4.1...v0.4.2) (2021-05-04)
 
 
