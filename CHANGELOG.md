@@ -1,3 +1,10 @@
+## [0.4.2](https://github.com/IBM/networking-python-sdk/compare/v0.4.1...v0.4.2) (2021-05-04)
+
+
+### Bug Fixes
+
+* Fix for ssl_certificate and zone_firewall_acess_rules integration tests ([a4e77b5](https://github.com/IBM/networking-python-sdk/commit/a4e77b5f41d881a4a7d946e5960350fd7e52edaa))
+
 ## [0.4.1](https://github.com/IBM/networking-python-sdk/compare/v0.4.0...v0.4.1) (2020-12-20)
 
 
