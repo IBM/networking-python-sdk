@@ -75,7 +75,7 @@ class TestSSLCertV1(unittest.TestCase):
         resp = self.ssl.order_certificate(
             x_correlation_id="1234", type="dedicated", hosts=[self.url])
         assert resp is not None
-        assert resp.status_code == 200
+        assert resp.status_code == 200 or resp.status_code == 201
         cert_id = resp.get_result().get("result")["id"]
 
         # delete certificate

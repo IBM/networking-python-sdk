@@ -34,10 +34,25 @@ class TestZoneFirewallAccessRules(unittest.TestCase):
             crn=self.crn, zone_identifier=self.zone_id, service_name="cis_services")
         self.rule.set_service_url(self.endpoint)
 
+        # list all rules and delete the same for clean up
+        self._clean_zone_firewall_rules()
+
     def tearDown(self):
         """ tear down """
         # Delete the resources
+        self._clean_zone_firewall_rules()
         print("Clean up complete")
+
+    def _clean_zone_firewall_rules(self):
+        resp = self.rule.list_all_zone_access_rules()
+        assert resp is not None
+        assert resp.status_code == 200
+        for result in resp.get_result().get("result"):
+            rule_id = result['id']
+            resp = self.rule.delete_zone_access_rule(
+                accessrule_identifier=rule_id)
+            assert resp is not None
+            assert resp.status_code == 200
 
     def test_1_zone_firewall_rule_mode_action(self):
         i = 0
