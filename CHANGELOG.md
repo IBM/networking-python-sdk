@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/IBM/networking-python-sdk/compare/v0.5.0...v0.6.0) (2021-06-02)
+
+
+### Features
+
+* add the authentication_key for BGP MD5 authentication in directlink service ([66ae69c](https://github.com/IBM/networking-python-sdk/commit/66ae69c01a44359f1a82f8ec5588a971fede2c56))
+
 # [0.5.0](https://github.com/IBM/networking-python-sdk/compare/v0.4.2...v0.5.0) (2021-05-04)
 
 
