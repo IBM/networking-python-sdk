@@ -13,6 +13,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services import DirectLinkProviderV2
 from ibm_cloud_networking_services.direct_link_provider_v2 import ProviderGatewayPortIdentity
+from ibm_cloud_networking_services.direct_link_v1 import GatewayActionTemplateAuthenticationKey
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -57,10 +58,24 @@ class TestDirectLinkProviderV2(unittest.TestCase):
     def tearDown(self):
         """ tear down """
         # Delete the resources
+        self._clean_dl_records()
         print("Clean up complete")
 
     def _clean_dl_records(self):
-        #clean up accounts in provider account
+        #clean up SDK Created gateways for which delete request is pending
+        response=self.dl.list_gateways()
+        assert response is not None
+        assert response.get_status_code() == 200
+        resp = response.get_result().get("gateways")
+        if resp is not None:
+            for record in resp:
+                gateway_id = record.get("id")
+                if ("sdk-py-dl-provider" in record.get("name").lower() and "provisioned" in record.get('operational_status') and 'change_request' in record ):
+                    changeRequest = record['change_request']['type']
+                    if(changeRequest == "delete_gateway"):
+                        self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
+
+        #clean up SDK created gateways in provider account
         response = self.dl_provider.list_provider_gateways()  
         assert response is not None
         assert response.get_status_code() == 200
@@ -68,8 +83,8 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         if resp is not None:
             for record in resp:
                 gateway_id = record.get("id")
-                if ("SDK-PY-DL-PROVIDER" in record.get("name")) and (
-                    ("delet" not in record.get("operational_status")) and ("progress" not in record.get("operational_status"))):
+                if ("sdk-py-dl-provider" in record.get("name").lower()) and (
+                    ("delet" not in record.get("operational_status") and "progress" not in record.get("operational_status") and "configuring" not in record.get("operational_status"))):
                     self.delete_provider_gateway(gateway_id=gateway_id)
         
         #clean up the above deleted records in client account
@@ -81,8 +96,8 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         if resp is not None:
             for record in resp:
                 gateway_id = record.get("id")
-                if ("SDK-PY-DL-PROVIDER" in record.get("name")) and (
-                    ("delet" not in record.get("operational_status")) and ("progress" not in record.get("operational_status"))):
+                if ("sdk-py-dl-provider" in record.get("name").lower()) and (
+                    ("delet" not in record.get("operational_status") and "progress" not in record.get("operational_status") and "configuring" not in record.get("operational_status"))):
                     self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
 
     def delete_gateway(self, gateway_id):
@@ -114,7 +129,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
 
     ################## Direct Link Provider Ports ######################################
 
-    def test_1_list_get_provider_ports(self):
+    def test_list_get_provider_ports(self):
         """ test list/get ports success """
         response = self.dl_provider.list_provider_ports()
         assert response is not None
@@ -127,11 +142,9 @@ class TestDirectLinkProviderV2(unittest.TestCase):
 
     ################## Direct Link Provider Gateways ######################################
 
-    def test_1_provider_gateway_actions(self):
+    def test_provider_gateway_actions(self):
         timestamp = time.time()
         name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-" + str(int(timestamp))
-        print("NAME:")
-        print(name)
         bgpAsn = 64999
         customerAccount = os.getenv("DL_PROVIDER_SERVICES_CUSTOMER_ACCT_ID")
         speedMbps = 1000
@@ -189,7 +202,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
 
     ################## Direct Link Provider Gateways with Client API ############################
 
-    def test_1_provider_gateway_actions_with_client_api(self):
+    def test_provider_gateway_actions_with_client_api(self):
         timestamp = time.time()
         name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-" + str(int(timestamp))
         updatedName = os.getenv("DL_PROVIDER_SERVICES_UPDATED_GW_NAME") + "-" + str(int(timestamp))
@@ -301,7 +314,6 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         while True:
             response = None
             response = self.dl_provider.get_provider_gateway(id=gateway_id)
-            operationalStatus = response.get_result().get("operational_status")
                     
             if (response is not None) and (response.get_result().get("operational_status") == "provisioned"):
                 assert response is not None
@@ -369,6 +381,78 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
         assert response is not None
         assert response.get_status_code() == 204
+    
+     ################## Direct Link Provider Gateways with Client API MD5 Auth ############################
+
+    # Commenting the test key till Key Protect instance is ready in INT environment
+    # def test_provider_gateway_actions_with_client_api_md5(self):
+    #     timestamp = time.time()
+    #     name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-" + str(int(timestamp))
+    #     bgpAsn = 64999
+    #     customerAccount = os.getenv("DL_PROVIDER_SERVICES_CUSTOMER_ACCT_ID")
+    #     speedMbps = 1000
+    #     authenticationKeyCRN = os.getenv("DL_SERVICES_AUTHENTICATION_KEY")
+    #     authenticationKey = GatewayActionTemplateAuthenticationKey(authenticationKeyCRN)
+
+    #     """ successfully get a provider port id """
+    #     response = self.dl_provider.list_provider_ports()
+    #     assert response is not None
+
+    #     port_id = response.get_result().get("ports")[0].get("id")
+    #     port = ProviderGatewayPortIdentity(id=port_id)
+
+    #     #created provider gateway
+    #     response =  self.dl_provider.create_provider_gateway(bgp_asn=bgpAsn,
+    #                                                          customer_account_id=customerAccount,
+    #                                                          name=name,
+    #                                                          port=port,
+    #                                                          speed_mbps=speedMbps)
+    #     assert response is not None
+    #     assert response.get_status_code() == 201
+    #     gateway_id = response.get_result().get("id")
+
+    #     #verfiy client account can see the provider created gateway
+    #     response = self.dl.get_gateway(id=gateway_id)
+    #     assert response is not None
+    #     assert response.get_status_code() == 200
+    #     assert response.get_result().get("id") == gateway_id
+    #     assert response.get_result().get("name") == name
+    #     assert response.get_result().get("speed_mbps") == speedMbps
+    #     assert response.get_result().get("provider_api_managed") == True
+    #     assert response.get_result().get("operational_status") == "create_pending"
+    #     assert response.get_result().get("type") == "connect"
+    #     assert "change_request" in response.get_result()
+
+    #     #successfully approve the gateway create using client account
+    #     response = self.dl.create_gateway_action(id=gateway_id,
+    #                                              action="create_gateway_approve",
+    #                                              metered=False,
+    #                                              global_=False,
+    #                                              authentication_key=authenticationKey)
+    #     assert response is not None
+    #     assert response.get_status_code() == 200
+    #     result = response.get_result()
+    #     assert result['id'] == gateway_id
+    #     assert result['name'] == name
+    #     assert result['authentication_key']['crn'] == authenticationKeyCRN
+
+    #     #verfiy client account can see the authentication key
+    #     response = self.dl.get_gateway(id=gateway_id)
+    #     assert response is not None
+    #     assert response.get_status_code() == 200
+    #     assert result['id'] == gateway_id
+    #     assert result['name'] == name
+    #     assert result['authentication_key']['crn'] == authenticationKeyCRN
+        
+    #     #successfully re-request delete using provider account
+    #     response = self.dl_provider.delete_provider_gateway(id=gateway_id)
+    #     assert response is not None
+    #     assert response.get_status_code() == 202
+
+    #     #successfully approve delete gateway using client account
+    #     response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
+    #     assert response is not None
+    #     assert response.get_status_code() == 204
 
 if __name__ == '__main__':
     unittest.main()
