@@ -348,6 +348,7 @@ class DirectLinkV1(BaseService):
         id: str,
         action: str,
         *,
+        authentication_key: 'GatewayActionTemplateAuthenticationKey' = None,
         global_: bool = None,
         metered: bool = None,
         resource_group: 'ResourceGroupIdentity' = None,
@@ -363,6 +364,12 @@ class DirectLinkV1(BaseService):
 
         :param str id: Direct Link Connect gateway identifier.
         :param str action: Action request.
+        :param GatewayActionTemplateAuthenticationKey authentication_key:
+               (optional) BGP MD5 authentication key.
+               BGP MD5 keys must be type=standard.
+               The key material that you provide must be base64 encoded and original
+               string must be maximum 126 ASCII characters in length.
+               To clear the optional `authentication_key` field patch its crn to `""`.
         :param bool global_: (optional) Required for create_gateway_approve
                requests to select the gateway's routing option.  Gateways with global
                routing (`true`) can connect to networks outside of their associated
@@ -389,6 +396,8 @@ class DirectLinkV1(BaseService):
             raise ValueError('id must be provided')
         if action is None:
             raise ValueError('action must be provided')
+        if authentication_key is not None:
+            authentication_key = convert_model(authentication_key)
         if resource_group is not None:
             resource_group = convert_model(resource_group)
         headers = {}
@@ -403,6 +412,7 @@ class DirectLinkV1(BaseService):
 
         data = {
             'action': action,
+            'authentication_key': authentication_key,
             'global': global_,
             'metered': metered,
             'resource_group': resource_group,
@@ -1242,6 +1252,12 @@ class Gateway():
     """
     gateway.
 
+    :attr GatewayAuthenticationKey authentication_key: (optional) BGP MD5
+          authentication key.
+          BGP MD5 keys must be type=standard.
+          The key material that you provide must be base64 encoded and original string
+          must be maximum 126 ASCII characters in length.
+          To clear the optional `authentication_key` field patch its crn to `""`.
     :attr int bgp_asn: Customer BGP ASN.
     :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR is deprecated and
           no longer recognized by the Direct Link APIs.
@@ -1292,7 +1308,7 @@ class Gateway():
     :attr ResourceGroupReference resource_group: (optional) Resource group
           reference.
     :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr str type: Gateway type. The list of enumerated values for this property
+    :attr str type: Offering type. The list of enumerated values for this property
           may expand in the future. Code and processes using this field  must tolerate
           unexpected values.
     :attr int vlan: (optional) VLAN allocated for this gateway.  Only set for
@@ -1313,6 +1329,7 @@ class Gateway():
                  speed_mbps: int,
                  type: str,
                  *,
+                 authentication_key: 'GatewayAuthenticationKey' = None,
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_asn: int = None,
@@ -1348,9 +1365,15 @@ class Gateway():
                enumerated values for this property may expand in the future. Code and
                processes using this field  must tolerate unexpected values.
         :param int speed_mbps: Gateway speed in megabits per second.
-        :param str type: Gateway type. The list of enumerated values for this
+        :param str type: Offering type. The list of enumerated values for this
                property may expand in the future. Code and processes using this field
                must tolerate unexpected values.
+        :param GatewayAuthenticationKey authentication_key: (optional) BGP MD5
+               authentication key.
+               BGP MD5 keys must be type=standard.
+               The key material that you provide must be base64 encoded and original
+               string must be maximum 126 ASCII characters in length.
+               To clear the optional `authentication_key` field patch its crn to `""`.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR is
                deprecated and no longer recognized by the Direct Link APIs.
                See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related
@@ -1389,6 +1412,7 @@ class Gateway():
         :param int vlan: (optional) VLAN allocated for this gateway.  Only set for
                type=connect gateways.
         """
+        self.authentication_key = authentication_key
         self.bgp_asn = bgp_asn
         self.bgp_base_cidr = bgp_base_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
@@ -1422,6 +1446,8 @@ class Gateway():
     def from_dict(cls, _dict: Dict) -> 'Gateway':
         """Initialize a Gateway object from a json dictionary."""
         args = {}
+        if 'authentication_key' in _dict:
+            args['authentication_key'] = GatewayAuthenticationKey.from_dict(_dict.get('authentication_key'))
         if 'bgp_asn' in _dict:
             args['bgp_asn'] = _dict.get('bgp_asn')
         else:
@@ -1512,6 +1538,8 @@ class Gateway():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'authentication_key') and self.authentication_key is not None:
+            _dict['authentication_key'] = self.authentication_key.to_dict()
         if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
             _dict['bgp_asn'] = self.bgp_asn
         if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
@@ -1632,12 +1660,132 @@ class Gateway():
 
     class TypeEnum(Enum):
         """
-        Gateway type. The list of enumerated values for this property may expand in the
+        Offering type. The list of enumerated values for this property may expand in the
         future. Code and processes using this field  must tolerate unexpected values.
         """
         CONNECT = "connect"
         DEDICATED = "dedicated"
 
+
+class GatewayActionTemplateAuthenticationKey():
+    """
+    BGP MD5 authentication key.
+    BGP MD5 keys must be type=standard.
+    The key material that you provide must be base64 encoded and original string must be
+    maximum 126 ASCII characters in length.
+    To clear the optional `authentication_key` field patch its crn to `""`.
+
+    :attr str crn: connectivity association key crn.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayActionTemplateAuthenticationKey object.
+
+        :param str crn: connectivity association key crn.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayActionTemplateAuthenticationKey':
+        """Initialize a GatewayActionTemplateAuthenticationKey object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayActionTemplateAuthenticationKey JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayActionTemplateAuthenticationKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayActionTemplateAuthenticationKey object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayActionTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayActionTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayAuthenticationKey():
+    """
+    BGP MD5 authentication key.
+    BGP MD5 keys must be type=standard.
+    The key material that you provide must be base64 encoded and original string must be
+    maximum 126 ASCII characters in length.
+    To clear the optional `authentication_key` field patch its crn to `""`.
+
+    :attr str crn: connectivity association key crn.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayAuthenticationKey object.
+
+        :param str crn: connectivity association key crn.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayAuthenticationKey':
+        """Initialize a GatewayAuthenticationKey object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayAuthenticationKey JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayAuthenticationKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayAuthenticationKey object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayAuthenticationKey') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayAuthenticationKey') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class GatewayChangeRequest():
     """
@@ -2861,7 +3009,7 @@ class GatewayTemplate():
           resource. If unspecified, the account's [default resource
           group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
     :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr str type: Gateway type.
+    :attr str type: Offering type.
     """
 
     def __init__(self,
@@ -2887,7 +3035,7 @@ class GatewayTemplate():
                instead a flat rate is charged for the gateway.
         :param str name: The unique user-defined name for this gateway.
         :param int speed_mbps: Gateway speed in megabits per second.
-        :param str type: Gateway type.
+        :param str type: Offering type.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
                Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
                to create a gateway using either automatic or explicit IP assignment.  Any
@@ -2919,7 +3067,7 @@ class GatewayTemplate():
 
     class TypeEnum(Enum):
         """
-        Gateway type.
+        Offering type.
         """
         CONNECT = "connect"
         DEDICATED = "dedicated"
@@ -4254,7 +4402,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
           resource. If unspecified, the account's [default resource
           group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
     :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr str type: Gateway type.
+    :attr str type: Offering type.
     :attr GatewayPortIdentity port: Select Port Label for new type=connect gateway.
     """
 
@@ -4282,7 +4430,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                instead a flat rate is charged for the gateway.
         :param str name: The unique user-defined name for this gateway.
         :param int speed_mbps: Gateway speed in megabits per second.
-        :param str type: Gateway type.
+        :param str type: Offering type.
         :param GatewayPortIdentity port: Select Port Label for new type=connect
                gateway.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
@@ -4417,7 +4565,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
 
     class TypeEnum(Enum):
         """
-        Gateway type.
+        Offering type.
         """
         CONNECT = "connect"
         DEDICATED = "dedicated"
@@ -4458,7 +4606,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
           resource. If unspecified, the account's [default resource
           group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is used.
     :attr int speed_mbps: Gateway speed in megabits per second.
-    :attr str type: Gateway type.
+    :attr str type: Offering type.
     :attr str carrier_name: Carrier name.
     :attr str cross_connect_router: Cross connect router.
     :attr str customer_name: Customer name.
@@ -4495,7 +4643,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                instead a flat rate is charged for the gateway.
         :param str name: The unique user-defined name for this gateway.
         :param int speed_mbps: Gateway speed in megabits per second.
-        :param str type: Gateway type.
+        :param str type: Offering type.
         :param str carrier_name: Carrier name.
         :param str cross_connect_router: Cross connect router.
         :param str customer_name: Customer name.
@@ -4660,7 +4808,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
 
     class TypeEnum(Enum):
         """
-        Gateway type.
+        Offering type.
         """
         CONNECT = "connect"
         DEDICATED = "dedicated"
