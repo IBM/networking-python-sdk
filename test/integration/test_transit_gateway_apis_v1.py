@@ -17,9 +17,9 @@ from dotenv import load_dotenv, find_dotenv
 
 # load the .env file containing your environment variables for the required
 try:
-    load_dotenv(find_dotenv(filename=".transit_env"))
+    load_dotenv(find_dotenv(filename="transit.env"))
 except:
-    raise unittest.SkipTest('no .transit_env file loaded, skipping...')
+    raise unittest.SkipTest('no transit.env file loaded, skipping...')
 
 class TestTransitGatewayApisV1(unittest.TestCase):
     """ Test class for Transit Gateway sdk functions """
