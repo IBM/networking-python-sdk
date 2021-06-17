@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import pytest
 import re
 import requests
 import responses
+import urllib
 from ibm_cloud_networking_services.transit_gateway_apis_v1 import *
 
 version = 'testString'
@@ -34,6 +35,114 @@ base_url = 'https://transit.cloud.ibm.com/v1'
 service.set_service_url(base_url)
 
 ##############################################################################
+# Start of Service: TransitConnections
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_connections
+#-----------------------------------------------------------------------------
+class TestListConnections():
+
+    # Preprocess the request URL to ensure the mock response will be found.
+    def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    #--------------------------------------------------------
+    # list_connections()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_connections_all_params(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        limit = 1
+        start = 'testString'
+        network_id = 'testString'
+
+        # Invoke method
+        response = service.list_connections(
+            limit=limit,
+            start=start,
+            network_id=network_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = requests.utils.unquote(query_string)
+        assert 'limit={}'.format(limit) in query_string
+        assert 'start={}'.format(start) in query_string
+        assert 'network_id={}'.format(network_id) in query_string
+
+
+    #--------------------------------------------------------
+    # test_list_connections_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_connections_required_params(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.list_connections()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    #--------------------------------------------------------
+    # test_list_connections_value_error()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_connections_value_error(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.list_connections(**req_copy)
+
+
+
+# endregion
+##############################################################################
+# End of Service: TransitConnections
+##############################################################################
+
+##############################################################################
 # Start of Service: TransitGateways
 ##############################################################################
 # region
@@ -45,6 +154,7 @@ class TestListTransitGateways():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -57,7 +167,42 @@ class TestListTransitGateways():
     def test_list_transit_gateways_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        limit = 1
+        start = 'testString'
+
+        # Invoke method
+        response = service.list_transit_gateways(
+            limit=limit,
+            start=start,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = requests.utils.unquote(query_string)
+        assert 'limit={}'.format(limit) in query_string
+        assert 'start={}'.format(start) in query_string
+
+
+    #--------------------------------------------------------
+    # test_list_transit_gateways_required_params()
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_transit_gateways_required_params(self):
+        # Set up mock
+        url = self.preprocess_url(base_url + '/transit_gateways')
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -80,7 +225,7 @@ class TestListTransitGateways():
     def test_list_transit_gateways_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -104,6 +249,7 @@ class TestCreateTransitGateway():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -196,6 +342,7 @@ class TestDeleteTransitGateway():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -258,6 +405,7 @@ class TestGetTransitGateway():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -326,6 +474,7 @@ class TestUpdateTransitGateway():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -414,6 +563,7 @@ class TestListTransitGatewayConnections():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -426,7 +576,7 @@ class TestListTransitGatewayConnections():
     def test_list_transit_gateway_connections_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}]}'
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -454,7 +604,7 @@ class TestListTransitGatewayConnections():
     def test_list_transit_gateway_connections_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}]}'
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -482,6 +632,7 @@ class TestCreateTransitGatewayConnection():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -494,27 +645,45 @@ class TestCreateTransitGatewayConnection():
     def test_create_transit_gateway_connection_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
 
+        # Construct a dict representation of a ZoneIdentityByName model
+        zone_identity_model = {}
+        zone_identity_model['name'] = 'us-south-1'
+
         # Set up parameter values
         transit_gateway_id = 'testString'
         network_type = 'vpc'
+        base_connection_id = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        local_gateway_ip = '192.168.100.1'
+        local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
-        network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
+        network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        remote_bgp_asn = '65010'
+        remote_gateway_ip = '10.242.63.12'
+        remote_tunnel_ip = '192.168.129.1'
+        zone = zone_identity_model
 
         # Invoke method
         response = service.create_transit_gateway_connection(
             transit_gateway_id,
             network_type,
+            base_connection_id=base_connection_id,
+            local_gateway_ip=local_gateway_ip,
+            local_tunnel_ip=local_tunnel_ip,
             name=name,
-            network_id=network_id,
             network_account_id=network_account_id,
+            network_id=network_id,
+            remote_bgp_asn=remote_bgp_asn,
+            remote_gateway_ip=remote_gateway_ip,
+            remote_tunnel_ip=remote_tunnel_ip,
+            zone=zone,
             headers={}
         )
 
@@ -524,9 +693,16 @@ class TestCreateTransitGatewayConnection():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['network_type'] == 'vpc'
+        assert req_body['base_connection_id'] == '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        assert req_body['local_gateway_ip'] == '192.168.100.1'
+        assert req_body['local_tunnel_ip'] == '192.168.129.2'
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
-        assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         assert req_body['network_account_id'] == '28e4d90ac7504be694471ee66e70d0d5'
+        assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        assert req_body['remote_bgp_asn'] == '65010'
+        assert req_body['remote_gateway_ip'] == '10.242.63.12'
+        assert req_body['remote_tunnel_ip'] == '192.168.129.1'
+        assert req_body['zone'] == zone_identity_model
 
 
     #--------------------------------------------------------
@@ -536,19 +712,30 @@ class TestCreateTransitGatewayConnection():
     def test_create_transit_gateway_connection_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
 
+        # Construct a dict representation of a ZoneIdentityByName model
+        zone_identity_model = {}
+        zone_identity_model['name'] = 'us-south-1'
+
         # Set up parameter values
         transit_gateway_id = 'testString'
         network_type = 'vpc'
+        base_connection_id = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        local_gateway_ip = '192.168.100.1'
+        local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
-        network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
+        network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        remote_bgp_asn = '65010'
+        remote_gateway_ip = '10.242.63.12'
+        remote_tunnel_ip = '192.168.129.1'
+        zone = zone_identity_model
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -569,6 +756,7 @@ class TestDeleteTransitGatewayConnection():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -635,6 +823,7 @@ class TestGetTransitGatewayConnection():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -647,7 +836,7 @@ class TestGetTransitGatewayConnection():
     def test_get_transit_gateway_connection_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -677,7 +866,7 @@ class TestGetTransitGatewayConnection():
     def test_get_transit_gateway_connection_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -707,6 +896,7 @@ class TestUpdateTransitGatewayConnection():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -719,7 +909,7 @@ class TestUpdateTransitGatewayConnection():
     def test_update_transit_gateway_connection_all_params(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -754,7 +944,7 @@ class TestUpdateTransitGatewayConnection():
     def test_update_transit_gateway_connection_value_error(self):
         # Set up mock
         url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "created_at": "2019-01-01T12:00:00", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00"}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -785,6 +975,7 @@ class TestCreateTransitGatewayConnectionActions():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -868,6 +1059,7 @@ class TestListGatewayLocations():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -927,6 +1119,7 @@ class TestGetGatewayLocation():
 
     # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1195,6 +1388,192 @@ class TestTSLocationBasic():
         assert ts_location_basic_model_json2 == ts_location_basic_model_json
 
 #-----------------------------------------------------------------------------
+# Test Class for TransitConnection
+#-----------------------------------------------------------------------------
+class TestTransitConnection():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitConnection
+    #--------------------------------------------------------
+    def test_transit_connection_serialization(self):
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        transit_gateway_reference_model = {} # TransitGatewayReference
+        transit_gateway_reference_model['crn'] = 'crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44'
+        transit_gateway_reference_model['id'] = '456f58c1-afe7-123a-0a0a-7f3d720f1a44'
+        transit_gateway_reference_model['name'] = 'my-transit-gw100'
+
+        zone_reference_model = {} # ZoneReference
+        zone_reference_model['name'] = 'us-south-1'
+
+        # Construct a json representation of a TransitConnection model
+        transit_connection_model_json = {}
+        transit_connection_model_json['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        transit_connection_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
+        transit_connection_model_json['local_bgp_asn'] = 64490
+        transit_connection_model_json['local_gateway_ip'] = '192.168.100.1'
+        transit_connection_model_json['local_tunnel_ip'] = '192.168.129.2'
+        transit_connection_model_json['mtu'] = 9000
+        transit_connection_model_json['name'] = 'Transit_Service_SJ_DL'
+        transit_connection_model_json['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_connection_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        transit_connection_model_json['network_type'] = 'vpc'
+        transit_connection_model_json['remote_bgp_asn'] = 65010
+        transit_connection_model_json['remote_gateway_ip'] = '10.242.63.12'
+        transit_connection_model_json['remote_tunnel_ip'] = '192.168.129.1'
+        transit_connection_model_json['request_status'] = 'pending'
+        transit_connection_model_json['status'] = 'attached'
+        transit_connection_model_json['transit_gateway'] = transit_gateway_reference_model
+        transit_connection_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model_json['zone'] = zone_reference_model
+
+        # Construct a model instance of TransitConnection by calling from_dict on the json representation
+        transit_connection_model = TransitConnection.from_dict(transit_connection_model_json)
+        assert transit_connection_model != False
+
+        # Construct a model instance of TransitConnection by calling from_dict on the json representation
+        transit_connection_model_dict = TransitConnection.from_dict(transit_connection_model_json).__dict__
+        transit_connection_model2 = TransitConnection(**transit_connection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_connection_model == transit_connection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_connection_model_json2 = transit_connection_model.to_dict()
+        assert transit_connection_model_json2 == transit_connection_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for TransitConnectionCollection
+#-----------------------------------------------------------------------------
+class TestTransitConnectionCollection():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitConnectionCollection
+    #--------------------------------------------------------
+    def test_transit_connection_collection_serialization(self):
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        transit_gateway_reference_model = {} # TransitGatewayReference
+        transit_gateway_reference_model['crn'] = 'crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44'
+        transit_gateway_reference_model['id'] = '456f58c1-afe7-123a-0a0a-7f3d720f1a44'
+        transit_gateway_reference_model['name'] = 'my-transit-gw100'
+
+        zone_reference_model = {} # ZoneReference
+        zone_reference_model['name'] = 'us-south-1'
+
+        transit_connection_model = {} # TransitConnection
+        transit_connection_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        transit_connection_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
+        transit_connection_model['local_bgp_asn'] = 64490
+        transit_connection_model['local_gateway_ip'] = '192.168.100.1'
+        transit_connection_model['local_tunnel_ip'] = '192.168.129.2'
+        transit_connection_model['mtu'] = 9000
+        transit_connection_model['name'] = 'Transit_Service_SJ_DL'
+        transit_connection_model['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_connection_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        transit_connection_model['network_type'] = 'vpc'
+        transit_connection_model['remote_bgp_asn'] = 65010
+        transit_connection_model['remote_gateway_ip'] = '10.242.63.12'
+        transit_connection_model['remote_tunnel_ip'] = '192.168.129.1'
+        transit_connection_model['request_status'] = 'pending'
+        transit_connection_model['status'] = 'attached'
+        transit_connection_model['transit_gateway'] = transit_gateway_reference_model
+        transit_connection_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model['zone'] = zone_reference_model
+
+        transit_connection_collection_first_model = {} # TransitConnectionCollectionFirst
+        transit_connection_collection_first_model['href'] = 'https://transit.cloud.ibm.com/v1/connections?limit=50'
+
+        transit_connection_collection_next_model = {} # TransitConnectionCollectionNext
+        transit_connection_collection_next_model['href'] = 'https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50'
+        transit_connection_collection_next_model['start'] = 'MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa'
+
+        # Construct a json representation of a TransitConnectionCollection model
+        transit_connection_collection_model_json = {}
+        transit_connection_collection_model_json['connections'] = [transit_connection_model]
+        transit_connection_collection_model_json['first'] = transit_connection_collection_first_model
+        transit_connection_collection_model_json['limit'] = 50
+        transit_connection_collection_model_json['next'] = transit_connection_collection_next_model
+
+        # Construct a model instance of TransitConnectionCollection by calling from_dict on the json representation
+        transit_connection_collection_model = TransitConnectionCollection.from_dict(transit_connection_collection_model_json)
+        assert transit_connection_collection_model != False
+
+        # Construct a model instance of TransitConnectionCollection by calling from_dict on the json representation
+        transit_connection_collection_model_dict = TransitConnectionCollection.from_dict(transit_connection_collection_model_json).__dict__
+        transit_connection_collection_model2 = TransitConnectionCollection(**transit_connection_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_connection_collection_model == transit_connection_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_connection_collection_model_json2 = transit_connection_collection_model.to_dict()
+        assert transit_connection_collection_model_json2 == transit_connection_collection_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for TransitConnectionCollectionFirst
+#-----------------------------------------------------------------------------
+class TestTransitConnectionCollectionFirst():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitConnectionCollectionFirst
+    #--------------------------------------------------------
+    def test_transit_connection_collection_first_serialization(self):
+
+        # Construct a json representation of a TransitConnectionCollectionFirst model
+        transit_connection_collection_first_model_json = {}
+        transit_connection_collection_first_model_json['href'] = 'https://transit.cloud.ibm.com/v1/connections?limit=50'
+
+        # Construct a model instance of TransitConnectionCollectionFirst by calling from_dict on the json representation
+        transit_connection_collection_first_model = TransitConnectionCollectionFirst.from_dict(transit_connection_collection_first_model_json)
+        assert transit_connection_collection_first_model != False
+
+        # Construct a model instance of TransitConnectionCollectionFirst by calling from_dict on the json representation
+        transit_connection_collection_first_model_dict = TransitConnectionCollectionFirst.from_dict(transit_connection_collection_first_model_json).__dict__
+        transit_connection_collection_first_model2 = TransitConnectionCollectionFirst(**transit_connection_collection_first_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_connection_collection_first_model == transit_connection_collection_first_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_connection_collection_first_model_json2 = transit_connection_collection_first_model.to_dict()
+        assert transit_connection_collection_first_model_json2 == transit_connection_collection_first_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for TransitConnectionCollectionNext
+#-----------------------------------------------------------------------------
+class TestTransitConnectionCollectionNext():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitConnectionCollectionNext
+    #--------------------------------------------------------
+    def test_transit_connection_collection_next_serialization(self):
+
+        # Construct a json representation of a TransitConnectionCollectionNext model
+        transit_connection_collection_next_model_json = {}
+        transit_connection_collection_next_model_json['href'] = 'https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50'
+        transit_connection_collection_next_model_json['start'] = 'MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa'
+
+        # Construct a model instance of TransitConnectionCollectionNext by calling from_dict on the json representation
+        transit_connection_collection_next_model = TransitConnectionCollectionNext.from_dict(transit_connection_collection_next_model_json)
+        assert transit_connection_collection_next_model != False
+
+        # Construct a model instance of TransitConnectionCollectionNext by calling from_dict on the json representation
+        transit_connection_collection_next_model_dict = TransitConnectionCollectionNext.from_dict(transit_connection_collection_next_model_json).__dict__
+        transit_connection_collection_next_model2 = TransitConnectionCollectionNext(**transit_connection_collection_next_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_connection_collection_next_model == transit_connection_collection_next_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_connection_collection_next_model_json2 = transit_connection_collection_next_model.to_dict()
+        assert transit_connection_collection_next_model_json2 == transit_connection_collection_next_model_json
+
+#-----------------------------------------------------------------------------
 # Test Class for TransitGateway
 #-----------------------------------------------------------------------------
 class TestTransitGateway():
@@ -1264,8 +1643,18 @@ class TestTransitGatewayCollection():
         transit_gateway_model['status'] = 'available'
         transit_gateway_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
 
+        transit_gateway_collection_first_model = {} # TransitGatewayCollectionFirst
+        transit_gateway_collection_first_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?limit=50'
+
+        transit_gateway_collection_next_model = {} # TransitGatewayCollectionNext
+        transit_gateway_collection_next_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50'
+        transit_gateway_collection_next_model['start'] = 'MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa'
+
         # Construct a json representation of a TransitGatewayCollection model
         transit_gateway_collection_model_json = {}
+        transit_gateway_collection_model_json['first'] = transit_gateway_collection_first_model
+        transit_gateway_collection_model_json['limit'] = 50
+        transit_gateway_collection_model_json['next'] = transit_gateway_collection_next_model
         transit_gateway_collection_model_json['transit_gateways'] = [transit_gateway_model]
 
         # Construct a model instance of TransitGatewayCollection by calling from_dict on the json representation
@@ -1284,6 +1673,65 @@ class TestTransitGatewayCollection():
         assert transit_gateway_collection_model_json2 == transit_gateway_collection_model_json
 
 #-----------------------------------------------------------------------------
+# Test Class for TransitGatewayCollectionFirst
+#-----------------------------------------------------------------------------
+class TestTransitGatewayCollectionFirst():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitGatewayCollectionFirst
+    #--------------------------------------------------------
+    def test_transit_gateway_collection_first_serialization(self):
+
+        # Construct a json representation of a TransitGatewayCollectionFirst model
+        transit_gateway_collection_first_model_json = {}
+        transit_gateway_collection_first_model_json['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?limit=50'
+
+        # Construct a model instance of TransitGatewayCollectionFirst by calling from_dict on the json representation
+        transit_gateway_collection_first_model = TransitGatewayCollectionFirst.from_dict(transit_gateway_collection_first_model_json)
+        assert transit_gateway_collection_first_model != False
+
+        # Construct a model instance of TransitGatewayCollectionFirst by calling from_dict on the json representation
+        transit_gateway_collection_first_model_dict = TransitGatewayCollectionFirst.from_dict(transit_gateway_collection_first_model_json).__dict__
+        transit_gateway_collection_first_model2 = TransitGatewayCollectionFirst(**transit_gateway_collection_first_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_gateway_collection_first_model == transit_gateway_collection_first_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_gateway_collection_first_model_json2 = transit_gateway_collection_first_model.to_dict()
+        assert transit_gateway_collection_first_model_json2 == transit_gateway_collection_first_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for TransitGatewayCollectionNext
+#-----------------------------------------------------------------------------
+class TestTransitGatewayCollectionNext():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitGatewayCollectionNext
+    #--------------------------------------------------------
+    def test_transit_gateway_collection_next_serialization(self):
+
+        # Construct a json representation of a TransitGatewayCollectionNext model
+        transit_gateway_collection_next_model_json = {}
+        transit_gateway_collection_next_model_json['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50'
+        transit_gateway_collection_next_model_json['start'] = 'MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa'
+
+        # Construct a model instance of TransitGatewayCollectionNext by calling from_dict on the json representation
+        transit_gateway_collection_next_model = TransitGatewayCollectionNext.from_dict(transit_gateway_collection_next_model_json)
+        assert transit_gateway_collection_next_model != False
+
+        # Construct a model instance of TransitGatewayCollectionNext by calling from_dict on the json representation
+        transit_gateway_collection_next_model_dict = TransitGatewayCollectionNext.from_dict(transit_gateway_collection_next_model_json).__dict__
+        transit_gateway_collection_next_model2 = TransitGatewayCollectionNext(**transit_gateway_collection_next_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_gateway_collection_next_model == transit_gateway_collection_next_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_gateway_collection_next_model_json2 = transit_gateway_collection_next_model.to_dict()
+        assert transit_gateway_collection_next_model_json2 == transit_gateway_collection_next_model_json
+
+#-----------------------------------------------------------------------------
 # Test Class for TransitGatewayConnectionCollection
 #-----------------------------------------------------------------------------
 class TestTransitGatewayConnectionCollection():
@@ -1295,16 +1743,28 @@ class TestTransitGatewayConnectionCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        transit_gateway_connection_cust_zone_model = {} # TransitGatewayConnectionCustZone
+        transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
+
         transit_gateway_connection_cust_model = {} # TransitGatewayConnectionCust
         transit_gateway_connection_cust_model['name'] = 'Transit_Service_BWTN_SJ_DL'
         transit_gateway_connection_cust_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_gateway_connection_cust_model['network_type'] = 'vpc'
-        transit_gateway_connection_cust_model['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
         transit_gateway_connection_cust_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
+        transit_gateway_connection_cust_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
         transit_gateway_connection_cust_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model['local_bgp_asn'] = 64490
+        transit_gateway_connection_cust_model['local_gateway_ip'] = '192.168.100.1'
+        transit_gateway_connection_cust_model['local_tunnel_ip'] = '192.168.129.2'
+        transit_gateway_connection_cust_model['mtu'] = 9000
+        transit_gateway_connection_cust_model['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_gateway_connection_cust_model['remote_bgp_asn'] = 65010
+        transit_gateway_connection_cust_model['remote_gateway_ip'] = '10.242.63.12'
+        transit_gateway_connection_cust_model['remote_tunnel_ip'] = '192.168.129.1'
         transit_gateway_connection_cust_model['request_status'] = 'pending'
         transit_gateway_connection_cust_model['status'] = 'attached'
         transit_gateway_connection_cust_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model['zone'] = transit_gateway_connection_cust_zone_model
 
         # Construct a json representation of a TransitGatewayConnectionCollection model
         transit_gateway_connection_collection_model_json = {}
@@ -1335,17 +1795,31 @@ class TestTransitGatewayConnectionCust():
     #--------------------------------------------------------
     def test_transit_gateway_connection_cust_serialization(self):
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        transit_gateway_connection_cust_zone_model = {} # TransitGatewayConnectionCustZone
+        transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
+
         # Construct a json representation of a TransitGatewayConnectionCust model
         transit_gateway_connection_cust_model_json = {}
         transit_gateway_connection_cust_model_json['name'] = 'Transit_Service_BWTN_SJ_DL'
         transit_gateway_connection_cust_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_gateway_connection_cust_model_json['network_type'] = 'vpc'
-        transit_gateway_connection_cust_model_json['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
         transit_gateway_connection_cust_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
+        transit_gateway_connection_cust_model_json['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
         transit_gateway_connection_cust_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model_json['local_bgp_asn'] = 64490
+        transit_gateway_connection_cust_model_json['local_gateway_ip'] = '192.168.100.1'
+        transit_gateway_connection_cust_model_json['local_tunnel_ip'] = '192.168.129.2'
+        transit_gateway_connection_cust_model_json['mtu'] = 9000
+        transit_gateway_connection_cust_model_json['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_gateway_connection_cust_model_json['remote_bgp_asn'] = 65010
+        transit_gateway_connection_cust_model_json['remote_gateway_ip'] = '10.242.63.12'
+        transit_gateway_connection_cust_model_json['remote_tunnel_ip'] = '192.168.129.1'
         transit_gateway_connection_cust_model_json['request_status'] = 'pending'
         transit_gateway_connection_cust_model_json['status'] = 'attached'
         transit_gateway_connection_cust_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model_json['zone'] = transit_gateway_connection_cust_zone_model
 
         # Construct a model instance of TransitGatewayConnectionCust by calling from_dict on the json representation
         transit_gateway_connection_cust_model = TransitGatewayConnectionCust.from_dict(transit_gateway_connection_cust_model_json)
@@ -1361,6 +1835,124 @@ class TestTransitGatewayConnectionCust():
         # Convert model instance back to dict and verify no loss of data
         transit_gateway_connection_cust_model_json2 = transit_gateway_connection_cust_model.to_dict()
         assert transit_gateway_connection_cust_model_json2 == transit_gateway_connection_cust_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for TransitGatewayConnectionCustZone
+#-----------------------------------------------------------------------------
+class TestTransitGatewayConnectionCustZone():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitGatewayConnectionCustZone
+    #--------------------------------------------------------
+    def test_transit_gateway_connection_cust_zone_serialization(self):
+
+        # Construct a json representation of a TransitGatewayConnectionCustZone model
+        transit_gateway_connection_cust_zone_model_json = {}
+        transit_gateway_connection_cust_zone_model_json['name'] = 'us-south-1'
+
+        # Construct a model instance of TransitGatewayConnectionCustZone by calling from_dict on the json representation
+        transit_gateway_connection_cust_zone_model = TransitGatewayConnectionCustZone.from_dict(transit_gateway_connection_cust_zone_model_json)
+        assert transit_gateway_connection_cust_zone_model != False
+
+        # Construct a model instance of TransitGatewayConnectionCustZone by calling from_dict on the json representation
+        transit_gateway_connection_cust_zone_model_dict = TransitGatewayConnectionCustZone.from_dict(transit_gateway_connection_cust_zone_model_json).__dict__
+        transit_gateway_connection_cust_zone_model2 = TransitGatewayConnectionCustZone(**transit_gateway_connection_cust_zone_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_gateway_connection_cust_zone_model == transit_gateway_connection_cust_zone_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_gateway_connection_cust_zone_model_json2 = transit_gateway_connection_cust_zone_model.to_dict()
+        assert transit_gateway_connection_cust_zone_model_json2 == transit_gateway_connection_cust_zone_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for TransitGatewayReference
+#-----------------------------------------------------------------------------
+class TestTransitGatewayReference():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for TransitGatewayReference
+    #--------------------------------------------------------
+    def test_transit_gateway_reference_serialization(self):
+
+        # Construct a json representation of a TransitGatewayReference model
+        transit_gateway_reference_model_json = {}
+        transit_gateway_reference_model_json['crn'] = 'crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44'
+        transit_gateway_reference_model_json['id'] = '456f58c1-afe7-123a-0a0a-7f3d720f1a44'
+        transit_gateway_reference_model_json['name'] = 'my-transit-gw100'
+
+        # Construct a model instance of TransitGatewayReference by calling from_dict on the json representation
+        transit_gateway_reference_model = TransitGatewayReference.from_dict(transit_gateway_reference_model_json)
+        assert transit_gateway_reference_model != False
+
+        # Construct a model instance of TransitGatewayReference by calling from_dict on the json representation
+        transit_gateway_reference_model_dict = TransitGatewayReference.from_dict(transit_gateway_reference_model_json).__dict__
+        transit_gateway_reference_model2 = TransitGatewayReference(**transit_gateway_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_gateway_reference_model == transit_gateway_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_gateway_reference_model_json2 = transit_gateway_reference_model.to_dict()
+        assert transit_gateway_reference_model_json2 == transit_gateway_reference_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for ZoneReference
+#-----------------------------------------------------------------------------
+class TestZoneReference():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for ZoneReference
+    #--------------------------------------------------------
+    def test_zone_reference_serialization(self):
+
+        # Construct a json representation of a ZoneReference model
+        zone_reference_model_json = {}
+        zone_reference_model_json['name'] = 'us-south-1'
+
+        # Construct a model instance of ZoneReference by calling from_dict on the json representation
+        zone_reference_model = ZoneReference.from_dict(zone_reference_model_json)
+        assert zone_reference_model != False
+
+        # Construct a model instance of ZoneReference by calling from_dict on the json representation
+        zone_reference_model_dict = ZoneReference.from_dict(zone_reference_model_json).__dict__
+        zone_reference_model2 = ZoneReference(**zone_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert zone_reference_model == zone_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        zone_reference_model_json2 = zone_reference_model.to_dict()
+        assert zone_reference_model_json2 == zone_reference_model_json
+
+#-----------------------------------------------------------------------------
+# Test Class for ZoneIdentityByName
+#-----------------------------------------------------------------------------
+class TestZoneIdentityByName():
+
+    #--------------------------------------------------------
+    # Test serialization/deserialization for ZoneIdentityByName
+    #--------------------------------------------------------
+    def test_zone_identity_by_name_serialization(self):
+
+        # Construct a json representation of a ZoneIdentityByName model
+        zone_identity_by_name_model_json = {}
+        zone_identity_by_name_model_json['name'] = 'us-south-1'
+
+        # Construct a model instance of ZoneIdentityByName by calling from_dict on the json representation
+        zone_identity_by_name_model = ZoneIdentityByName.from_dict(zone_identity_by_name_model_json)
+        assert zone_identity_by_name_model != False
+
+        # Construct a model instance of ZoneIdentityByName by calling from_dict on the json representation
+        zone_identity_by_name_model_dict = ZoneIdentityByName.from_dict(zone_identity_by_name_model_json).__dict__
+        zone_identity_by_name_model2 = ZoneIdentityByName(**zone_identity_by_name_model_dict)
+
+        # Verify the model instances are equivalent
+        assert zone_identity_by_name_model == zone_identity_by_name_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        zone_identity_by_name_model_json2 = zone_identity_by_name_model.to_dict()
+        assert zone_identity_by_name_model_json2 == zone_identity_by_name_model_json
 
 
 # endregion
