@@ -317,6 +317,21 @@ class TestZonesSettingsV1(unittest.TestCase):
             value=self.value).get_result()
         assert response is not None and response.get('success') is True
 
+    def test_1_http3_setting(self):
+        """ Get http3 setting """
+        response = self.zonesSettings.get_http3().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 'off':
+            self.value = 'on'
+        else:
+            self.value = 'off'
+
+        """ Update http3 setting """
+        response = self.zonesSettings.update_http3(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
     def test_1_ipv6_setting(self):
         """ Get ipv6 setting """
         response = self.zonesSettings.get_ipv6().get_result()
