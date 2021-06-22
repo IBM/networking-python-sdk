@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright 2020 IBM All Rights Reserved.
+# Copyright 2021 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ from .cis_ip_api_v1 import CisIpApiV1
 from .custom_pages_v1 import CustomPagesV1
 from .dns_record_bulk_v1 import DnsRecordBulkV1
 from .dns_records_v1 import DnsRecordsV1
+from .filters_v1 import FiltersV1
 from .firewall_access_rules_v1 import FirewallAccessRulesV1
 from .firewall_api_v1 import FirewallApiV1
 from .global_load_balancer_events_v1 import GlobalLoadBalancerEventsV1
