@@ -25,7 +25,10 @@ from ibm_cloud_sdk_core import ApiException
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services.direct_link_v1 import (
-    GatewayTemplateGatewayTypeDedicatedTemplate)
+    GatewayTemplateGatewayTypeDedicatedTemplate,
+    GatewayTemplateAuthenticationKey,
+    GatewayPatchTemplateAuthenticationKey
+    )
 # from ibm_cloud_networking_services.direct_link_v1 import (
 #     GatewayMacsecConfigTemplate)
 # from ibm_cloud_networking_services.direct_link_v1 import (
@@ -139,7 +142,7 @@ class TestDirectLinkV1(unittest.TestCase):
 
     ################## DirectLink Gateways ######################################
 
-    def test_1_gateway_actions(self):
+    def test_gateway_crud_actions(self):
         bgpAsn = 64999
         bgpBaseCidr = "169.254.0.0/16"
         crossConnectRouter = "LAB-xcr01.dal09"
@@ -232,7 +235,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # self.delete_gateway(gateway_id)
         
 ################### Ports ############################
-    def test_1_list_get_ports(self):
+    def test_list_get_ports(self):
         response = self.dl.list_ports()
         assert response is not None
 
@@ -244,7 +247,7 @@ class TestDirectLinkV1(unittest.TestCase):
 
 
 ################## Offering Types ###########################################
-    def test1_offering_type_locations(self):
+    def test_offering_type_locations(self):
         """ test getting all locations by offering type """
         response = self.dl.list_offering_type_locations(
             offering_type="dedicated")
@@ -252,7 +255,7 @@ class TestDirectLinkV1(unittest.TestCase):
         assert response.get_status_code() == 200
         assert response.get_result() is not None
 
-    def test1_offering_type_locations_cross_connect_router(self):
+    def test_offering_type_locations_cross_connect_router_short_name(self):
         """ test getting location info by short name """
         locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
         response = self.dl.list_offering_type_location_cross_connect_routers(
@@ -261,7 +264,7 @@ class TestDirectLinkV1(unittest.TestCase):
         assert response.get_status_code() == 200
         assert response.get_result() is not None
 
-    def test2_offering_type_locations_cross_connect_router(self):
+    def test_offering_type_locations_cross_connect_router_long_name(self):
         """ test getting location info by long name """
         locationLongName = os.getenv("DL_SERVICES_LOCATION_LONG_NAME")
         response = self.dl.list_offering_type_location_cross_connect_routers(
@@ -270,7 +273,7 @@ class TestDirectLinkV1(unittest.TestCase):
         assert response.get_status_code() == 200
         assert response.get_result() is not None
 
-    def test1_offering_type_speeds(self):
+    def test_offering_type_speeds(self):
         """ test getting all sppeds by offering type """
         response = self.dl.list_offering_type_speeds(
             offering_type="dedicated")
@@ -283,7 +286,7 @@ class TestDirectLinkV1(unittest.TestCase):
 
 
 ################## Virtual Connections ######################################
-    def test_1_gateway_vc_actions(self):
+    def test_gateway_vc_actions(self):
         """ test create/get/update/delete gateway connections success """
         bgpAsn = 64999
         bgpBaseCidr = "169.254.0.0/16"
@@ -354,7 +357,7 @@ class TestDirectLinkV1(unittest.TestCase):
 #  - PUT a completion notice to the gw.  It will fail with a 412 error because the GH issue and GW status are in the wrong state due to no manual interaction
 #  - GET CN for a gw.  It will expect a 404 since the CN could not be uploaded
 
-    def test_1_loa_and_completion(self):
+    def test_loa_and_completion(self):
         bgpAsn = 64999
         bgpBaseCidr = "169.254.0.0/16"
         crossConnectRouter = "LAB-xcr01.dal09"
@@ -401,6 +404,53 @@ class TestDirectLinkV1(unittest.TestCase):
         with self.assertRaises(ApiException) as ex:
             response = self.dl.list_gateway_completion_notice(id=gateway_id)
         assert ex.exception.code == 404
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+    
+    ################## Direct Link Gateways with Customer API MD5 Auth ############################
+
+    def test_gateway_with_md5(self):
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+        authKeyCrn = os.getenv("DL_SERVICES_AUTHENTICATION_KEY")
+        authKey = GatewayTemplateAuthenticationKey(crn= authKeyCrn)
+
+        """ test create/update/delete gateway with authentication ket success """
+        # create gateway with authentication key
+        name = os.getenv("DL_SERVICES_GW_NAME") + str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, 
+            carrier_name=carrierName, cross_connect_router=crossConnectRouter,
+            customer_name=customerName, location_name=locationName,
+            authentication_key=authKey)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+        assert res["authentication_key"]["crn"] == authKeyCrn
+        assert response.get_result().get("authentication_key") is not None
+
+        # clear the authentication for the created gateway\
+        updAuthKey = GatewayPatchTemplateAuthenticationKey(crn="")
+        response = self.dl.update_gateway(id=gateway_id,
+            authentication_key=updAuthKey)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result().get("authentication_key") is None
 
         # delete gateway
         self.delete_gateway(gateway_id)

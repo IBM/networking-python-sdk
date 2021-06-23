@@ -262,6 +262,7 @@ class DirectLinkV1(BaseService):
     def update_gateway(self,
         id: str,
         *,
+        authentication_key: 'GatewayPatchTemplateAuthenticationKey' = None,
         global_: bool = None,
         loa_reject_reason: str = None,
         macsec_config: 'GatewayMacsecConfigPatchTemplate' = None,
@@ -277,6 +278,11 @@ class DirectLinkV1(BaseService):
         Update a Direct Link gateway.
 
         :param str id: Direct Link gateway identifier.
+        :param GatewayPatchTemplateAuthenticationKey authentication_key: (optional)
+               The identity of the standard key to use for BGP MD5 authentication key.
+               The key material that you provide must be base64 encoded and original
+               string must be maximum 126 ASCII characters in length.
+               To clear the optional `authentication_key` field patch its crn to `""`.
         :param bool global_: (optional) Gateways with global routing (`true`) can
                connect to networks outside of their associated region.
         :param str loa_reject_reason: (optional) Use this field during LOA
@@ -304,6 +310,8 @@ class DirectLinkV1(BaseService):
 
         if id is None:
             raise ValueError('id must be provided')
+        if authentication_key is not None:
+            authentication_key = convert_model(authentication_key)
         if macsec_config is not None:
             macsec_config = convert_model(macsec_config)
         headers = {}
@@ -317,6 +325,7 @@ class DirectLinkV1(BaseService):
         }
 
         data = {
+            'authentication_key': authentication_key,
             'global': global_,
             'loa_reject_reason': loa_reject_reason,
             'macsec_config': macsec_config,
@@ -365,8 +374,8 @@ class DirectLinkV1(BaseService):
         :param str id: Direct Link Connect gateway identifier.
         :param str action: Action request.
         :param GatewayActionTemplateAuthenticationKey authentication_key:
-               (optional) BGP MD5 authentication key.
-               BGP MD5 keys must be type=standard.
+               (optional) The identity of the standard key to use for BGP MD5
+               authentication key.
                The key material that you provide must be base64 encoded and original
                string must be maximum 126 ASCII characters in length.
                To clear the optional `authentication_key` field patch its crn to `""`.
@@ -1252,9 +1261,8 @@ class Gateway():
     """
     gateway.
 
-    :attr GatewayAuthenticationKey authentication_key: (optional) BGP MD5
-          authentication key.
-          BGP MD5 keys must be type=standard.
+    :attr GatewayAuthenticationKey authentication_key: (optional) The identity of
+          the standard key to use for BGP MD5 authentication key.
           The key material that you provide must be base64 encoded and original string
           must be maximum 126 ASCII characters in length.
           To clear the optional `authentication_key` field patch its crn to `""`.
@@ -1368,9 +1376,8 @@ class Gateway():
         :param str type: Offering type. The list of enumerated values for this
                property may expand in the future. Code and processes using this field
                must tolerate unexpected values.
-        :param GatewayAuthenticationKey authentication_key: (optional) BGP MD5
-               authentication key.
-               BGP MD5 keys must be type=standard.
+        :param GatewayAuthenticationKey authentication_key: (optional) The identity
+               of the standard key to use for BGP MD5 authentication key.
                The key material that you provide must be base64 encoded and original
                string must be maximum 126 ASCII characters in length.
                To clear the optional `authentication_key` field patch its crn to `""`.
@@ -1669,13 +1676,16 @@ class Gateway():
 
 class GatewayActionTemplateAuthenticationKey():
     """
-    BGP MD5 authentication key.
-    BGP MD5 keys must be type=standard.
-    The key material that you provide must be base64 encoded and original string must be
-    maximum 126 ASCII characters in length.
-    To clear the optional `authentication_key` field patch its crn to `""`.
+    The identity of the standard key to use for BGP MD5 authentication key. The key
+    material that you provide must be base64 encoded and original string must be maximum
+    126 ASCII characters in length. To clear the optional `authentication_key` field patch
+    its crn to `""`.
 
-    :attr str crn: connectivity association key crn.
+    :attr str crn: The CRN of the [Key Protect Standard
+          Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+          or [Hyper Protect Crypto Service Standard
+          Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this
+          resource.
     """
 
     def __init__(self,
@@ -1683,7 +1693,11 @@ class GatewayActionTemplateAuthenticationKey():
         """
         Initialize a GatewayActionTemplateAuthenticationKey object.
 
-        :param str crn: connectivity association key crn.
+        :param str crn: The CRN of the [Key Protect Standard
+               Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+               or [Hyper Protect Crypto Service Standard
+               Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for
+               this resource.
         """
         self.crn = crn
 
@@ -1729,13 +1743,16 @@ class GatewayActionTemplateAuthenticationKey():
 
 class GatewayAuthenticationKey():
     """
-    BGP MD5 authentication key.
-    BGP MD5 keys must be type=standard.
-    The key material that you provide must be base64 encoded and original string must be
-    maximum 126 ASCII characters in length.
-    To clear the optional `authentication_key` field patch its crn to `""`.
+    The identity of the standard key to use for BGP MD5 authentication key. The key
+    material that you provide must be base64 encoded and original string must be maximum
+    126 ASCII characters in length. To clear the optional `authentication_key` field patch
+    its crn to `""`.
 
-    :attr str crn: connectivity association key crn.
+    :attr str crn: The CRN of the [Key Protect Standard
+          Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+          or [Hyper Protect Crypto Service Standard
+          Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this
+          resource.
     """
 
     def __init__(self,
@@ -1743,7 +1760,11 @@ class GatewayAuthenticationKey():
         """
         Initialize a GatewayAuthenticationKey object.
 
-        :param str crn: connectivity association key crn.
+        :param str crn: The CRN of the [Key Protect Standard
+               Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+               or [Hyper Protect Crypto Service Standard
+               Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for
+               this resource.
         """
         self.crn = crn
 
@@ -2720,6 +2741,73 @@ class GatewayMacsecConfigTemplatePrimaryCak():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class GatewayPatchTemplateAuthenticationKey():
+    """
+    The identity of the standard key to use for BGP MD5 authentication key. The key
+    material that you provide must be base64 encoded and original string must be maximum
+    126 ASCII characters in length. To clear the optional `authentication_key` field patch
+    its crn to `""`.
+
+    :attr str crn: The CRN of the [Key Protect Standard
+          Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+          or [Hyper Protect Crypto Service Standard
+          Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this
+          resource.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayPatchTemplateAuthenticationKey object.
+
+        :param str crn: The CRN of the [Key Protect Standard
+               Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+               or [Hyper Protect Crypto Service Standard
+               Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for
+               this resource.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayPatchTemplateAuthenticationKey':
+        """Initialize a GatewayPatchTemplateAuthenticationKey object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayPatchTemplateAuthenticationKey JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayPatchTemplateAuthenticationKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayPatchTemplateAuthenticationKey object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayPatchTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayPatchTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class GatewayPort():
     """
     gateway port for type=connect gateways.
@@ -2978,6 +3066,11 @@ class GatewayTemplate():
     """
     Create gateway template.
 
+    :attr GatewayTemplateAuthenticationKey authentication_key: (optional) The
+          identity of the standard key to use for BGP MD5 authentication key.
+          The key material that you provide must be base64 encoded and original string
+          must be maximum 126 ASCII characters in length.
+          To clear the optional `authentication_key` field patch its crn to `""`.
     :attr int bgp_asn: BGP ASN.
     :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
           Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to
@@ -3020,6 +3113,7 @@ class GatewayTemplate():
                  speed_mbps: int,
                  type: str,
                  *,
+                 authentication_key: 'GatewayTemplateAuthenticationKey' = None,
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
@@ -3036,6 +3130,11 @@ class GatewayTemplate():
         :param str name: The unique user-defined name for this gateway.
         :param int speed_mbps: Gateway speed in megabits per second.
         :param str type: Offering type.
+        :param GatewayTemplateAuthenticationKey authentication_key: (optional) The
+               identity of the standard key to use for BGP MD5 authentication key.
+               The key material that you provide must be base64 encoded and original
+               string must be maximum 126 ASCII characters in length.
+               To clear the optional `authentication_key` field patch its crn to `""`.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
                Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
                to create a gateway using either automatic or explicit IP assignment.  Any
@@ -3072,6 +3171,207 @@ class GatewayTemplate():
         CONNECT = "connect"
         DEDICATED = "dedicated"
 
+
+class GatewayTemplateAuthenticationKey():
+    """
+    The identity of the standard key to use for BGP MD5 authentication key. The key
+    material that you provide must be base64 encoded and original string must be maximum
+    126 ASCII characters in length. To clear the optional `authentication_key` field patch
+    its crn to `""`.
+
+    :attr str crn: The CRN of the [Key Protect Standard
+          Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+          or [Hyper Protect Crypto Service Standard
+          Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this
+          resource.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayTemplateAuthenticationKey object.
+
+        :param str crn: The CRN of the [Key Protect Standard
+               Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+               or [Hyper Protect Crypto Service Standard
+               Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for
+               this resource.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayTemplateAuthenticationKey':
+        """Initialize a GatewayTemplateAuthenticationKey object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayTemplateAuthenticationKey JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayTemplateAuthenticationKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayTemplateAuthenticationKey object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey():
+    """
+    The identity of the standard key to use for BGP MD5 authentication key. The key
+    material that you provide must be base64 encoded and original string must be maximum
+    126 ASCII characters in length. To clear the optional `authentication_key` field patch
+    its crn to `""`.
+
+    :attr str crn: The CRN of the [Key Protect Standard
+          Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+          or [Hyper Protect Crypto Service Standard
+          Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this
+          resource.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey object.
+
+        :param str crn: The CRN of the [Key Protect Standard
+               Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+               or [Hyper Protect Crypto Service Standard
+               Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for
+               this resource.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey':
+        """Initialize a GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey():
+    """
+    The identity of the standard key to use for BGP MD5 authentication key. The key
+    material that you provide must be base64 encoded and original string must be maximum
+    126 ASCII characters in length. To clear the optional `authentication_key` field patch
+    its crn to `""`.
+
+    :attr str crn: The CRN of the [Key Protect Standard
+          Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+          or [Hyper Protect Crypto Service Standard
+          Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this
+          resource.
+    """
+
+    def __init__(self,
+                 crn: str) -> None:
+        """
+        Initialize a GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey object.
+
+        :param str crn: The CRN of the [Key Protect Standard
+               Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)
+               or [Hyper Protect Crypto Service Standard
+               Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for
+               this resource.
+        """
+        self.crn = crn
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey':
+        """Initialize a GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey object from a json dictionary."""
+        args = {}
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
+        else:
+            raise ValueError('Required property \'crn\' not present in GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class GatewayVirtualConnection():
     """
@@ -4371,6 +4671,12 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     """
     Gateway fields specific to type=connect gateway create.
 
+    :attr GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey
+          authentication_key: (optional) The identity of the standard key to use for BGP
+          MD5 authentication key.
+          The key material that you provide must be base64 encoded and original string
+          must be maximum 126 ASCII characters in length.
+          To clear the optional `authentication_key` field patch its crn to `""`.
     :attr int bgp_asn: BGP ASN.
     :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
           Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to
@@ -4415,6 +4721,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                  type: str,
                  port: 'GatewayPortIdentity',
                  *,
+                 authentication_key: 'GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey' = None,
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
@@ -4433,6 +4740,12 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
         :param str type: Offering type.
         :param GatewayPortIdentity port: Select Port Label for new type=connect
                gateway.
+        :param GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey
+               authentication_key: (optional) The identity of the standard key to use for
+               BGP MD5 authentication key.
+               The key material that you provide must be base64 encoded and original
+               string must be maximum 126 ASCII characters in length.
+               To clear the optional `authentication_key` field patch its crn to `""`.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
                Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
                to create a gateway using either automatic or explicit IP assignment.  Any
@@ -4459,6 +4772,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                used.
         """
         # pylint: disable=super-init-not-called
+        self.authentication_key = authentication_key
         self.bgp_asn = bgp_asn
         self.bgp_base_cidr = bgp_base_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
@@ -4475,6 +4789,8 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeConnectTemplate':
         """Initialize a GatewayTemplateGatewayTypeConnectTemplate object from a json dictionary."""
         args = {}
+        if 'authentication_key' in _dict:
+            args['authentication_key'] = GatewayTemplateGatewayTypeConnectTemplateAuthenticationKey.from_dict(_dict.get('authentication_key'))
         if 'bgp_asn' in _dict:
             args['bgp_asn'] = _dict.get('bgp_asn')
         else:
@@ -4521,6 +4837,8 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'authentication_key') and self.authentication_key is not None:
+            _dict['authentication_key'] = self.authentication_key.to_dict()
         if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
             _dict['bgp_asn'] = self.bgp_asn
         if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
@@ -4575,6 +4893,12 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     """
     Gateway fields specific to type=dedicated gateway create.
 
+    :attr GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey
+          authentication_key: (optional) The identity of the standard key to use for BGP
+          MD5 authentication key.
+          The key material that you provide must be base64 encoded and original string
+          must be maximum 126 ASCII characters in length.
+          To clear the optional `authentication_key` field patch its crn to `""`.
     :attr int bgp_asn: BGP ASN.
     :attr str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
           Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to
@@ -4627,6 +4951,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                  customer_name: str,
                  location_name: str,
                  *,
+                 authentication_key: 'GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey' = None,
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
@@ -4648,6 +4973,12 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
         :param str cross_connect_router: Cross connect router.
         :param str customer_name: Customer name.
         :param str location_name: Gateway location.
+        :param GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey
+               authentication_key: (optional) The identity of the standard key to use for
+               BGP MD5 authentication key.
+               The key material that you provide must be base64 encoded and original
+               string must be maximum 126 ASCII characters in length.
+               To clear the optional `authentication_key` field patch its crn to `""`.
         :param str bgp_base_cidr: (optional) (DEPRECATED) BGP base CIDR.
                Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how
                to create a gateway using either automatic or explicit IP assignment.  Any
@@ -4676,6 +5007,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                configuration information.  Contact IBM support for access to MACsec.
         """
         # pylint: disable=super-init-not-called
+        self.authentication_key = authentication_key
         self.bgp_asn = bgp_asn
         self.bgp_base_cidr = bgp_base_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
@@ -4696,6 +5028,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     def from_dict(cls, _dict: Dict) -> 'GatewayTemplateGatewayTypeDedicatedTemplate':
         """Initialize a GatewayTemplateGatewayTypeDedicatedTemplate object from a json dictionary."""
         args = {}
+        if 'authentication_key' in _dict:
+            args['authentication_key'] = GatewayTemplateGatewayTypeDedicatedTemplateAuthenticationKey.from_dict(_dict.get('authentication_key'))
         if 'bgp_asn' in _dict:
             args['bgp_asn'] = _dict.get('bgp_asn')
         else:
@@ -4756,6 +5090,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'authentication_key') and self.authentication_key is not None:
+            _dict['authentication_key'] = self.authentication_key.to_dict()
         if hasattr(self, 'bgp_asn') and self.bgp_asn is not None:
             _dict['bgp_asn'] = self.bgp_asn
         if hasattr(self, 'bgp_base_cidr') and self.bgp_base_cidr is not None:
