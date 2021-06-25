@@ -1,3 +1,11 @@
+# [0.7.0](https://github.com/IBM/networking-python-sdk/compare/v0.6.0...v0.7.0) (2021-06-25)
+
+
+### Features
+
+* **DirectLink:** implement the BGP MD5 changes for Direct Link gateway ([6df0093](https://github.com/IBM/networking-python-sdk/commit/6df0093064f5c92eefbbfd55e059508b5e7b53e7))
+* GRE tunnel support for Transit Gateway ([#27](https://github.com/IBM/networking-python-sdk/issues/27)) ([87e6bf1](https://github.com/IBM/networking-python-sdk/commit/87e6bf1238558df54e58e3cde52e5bda717c8379))
+
 # [0.6.0](https://github.com/IBM/networking-python-sdk/compare/v0.5.0...v0.6.0) (2021-06-02)
 
 
