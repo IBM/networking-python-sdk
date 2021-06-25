@@ -23,6 +23,8 @@ except:
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
     """The Permitted Networks for DNS V1 service test class."""
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):

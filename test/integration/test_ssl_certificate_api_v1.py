@@ -25,6 +25,8 @@ except:
 class TestSSLCertV1(unittest.TestCase):
     """ Test class to call SSL sdk functions """
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):

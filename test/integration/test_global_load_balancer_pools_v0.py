@@ -21,6 +21,7 @@ except:
 
 
 class TestGlobalLoadBalancerPoolsV0 (unittest.TestCase):
+    @unittest.skip("skipping")
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
