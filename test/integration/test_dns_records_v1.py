@@ -22,6 +22,8 @@ except:
 class TestDnsRecordV1(unittest.TestCase):
     """ Test class to call dns record sdk functions """
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):

@@ -24,6 +24,8 @@ except:
 class TestZonesV1(unittest.TestCase):
     """ Sample function to call zones sdk functions """
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
