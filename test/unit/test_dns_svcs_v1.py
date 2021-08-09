@@ -745,7 +745,7 @@ class TestCreateResourceRecord():
         name = 'test.example.com'
         rdata = resource_record_input_rdata_model
         ttl = 120
-        service = '_sip'
+        service_sip = '_sip'
         protocol = 'udp'
         x_correlation_id = 'testString'
 
@@ -757,7 +757,7 @@ class TestCreateResourceRecord():
             name=name,
             rdata=rdata,
             ttl=ttl,
-            service=service,
+            service=service_sip,
             protocol=protocol,
             x_correlation_id=x_correlation_id,
             headers={}
@@ -1090,7 +1090,7 @@ class TestUpdateResourceRecord():
         name = 'test.example.com'
         rdata = resource_record_update_input_rdata_model
         ttl = 120
-        service = '_sip'
+        service_sip = '_sip'
         protocol = 'udp'
         x_correlation_id = 'testString'
 
@@ -1102,7 +1102,7 @@ class TestUpdateResourceRecord():
             name=name,
             rdata=rdata,
             ttl=ttl,
-            service=service,
+            service=service_sip,
             protocol=protocol,
             x_correlation_id=x_correlation_id,
             headers={}
