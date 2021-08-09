@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,20 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
+# IBM OpenAPI SDK Code Generator Version: 3.32.0-4c6a3129-20210514-210323
  
 """
 DNS Services API
 """
 
+from datetime import datetime
 from enum import Enum
-from typing import Dict, List
+from typing import BinaryIO, Dict, List
 import json
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from ibm_cloud_sdk_core.utils import convert_model
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
 
 from .common import get_sdk_headers
 
@@ -142,7 +143,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Create a DNS zone.
+        Create DNS zone.
 
         Create a DNS zone for a given service instance.
 
@@ -201,7 +202,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Delete a DNS zone.
+        Delete DNS zone.
 
         Delete a DNS zone.
 
@@ -248,7 +249,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Get a DNS zone.
+        Get DNS zone.
 
         Get details of a DNS zone.
 
@@ -298,7 +299,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a DNS zone.
+        Update DNS zone.
 
         Update the properties of a DNS zone.
 
@@ -364,7 +365,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        List Resource Records.
+        List resource records.
 
         List the Resource Records for a given DNS zone.
 
@@ -428,7 +429,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Create a resource record.
+        Create resource record.
 
         Create a resource record for a given DNS zone.
 
@@ -499,7 +500,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Delete a resource record.
+        Delete resource record.
 
         Delete a resource record.
 
@@ -550,7 +551,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Get a resource record.
+        Get resource record.
 
         Get details of a resource record.
 
@@ -607,7 +608,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a resource record.
+        Update resource record.
 
         Update the properties of a resource record.
 
@@ -665,6 +666,111 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def export_resource_records(self,
+        instance_id: str,
+        dnszone_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Export resource records to a zone file.
+
+        Export resource records to a zone file.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str dnszone_id: The unique identifier of a DNS zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `BinaryIO` result
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if dnszone_id is None:
+            raise ValueError('dnszone_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='export_resource_records')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'text/plain; charset=utf-8'
+
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/export_resource_records'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def import_resource_records(self,
+        instance_id: str,
+        dnszone_id: str,
+        *,
+        file: BinaryIO = None,
+        file_content_type: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Import resource records from a zone file.
+
+        Import resource records from a zone file.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str dnszone_id: The unique identifier of a DNS zone.
+        :param BinaryIO file: (optional) file to upload.
+        :param str file_content_type: (optional) The content type of file.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ImportResourceRecordsResp` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if dnszone_id is None:
+            raise ValueError('dnszone_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='import_resource_records')
+        headers.update(sdk_headers)
+
+        form_data = []
+        if file:
+            form_data.append(('file', (None, file, file_content_type or 'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/import_resource_records'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       files=form_data)
 
         response = self.send(request)
         return response
@@ -744,7 +850,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Create a permitted network.
+        Create permitted network.
 
         Create a permitted network for a given DNS zone.
 
@@ -807,7 +913,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Remove a permitted network.
+        Remove permitted network.
 
         Remove a permitted network.
 
@@ -860,7 +966,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Get a permitted network.
+        Get permitted network.
 
         Get details of a permitted network.
 
@@ -971,7 +1077,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Create a load balancer.
+        Create load balancer.
 
         Create a load balancer for a given DNS zone.
 
@@ -1047,7 +1153,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Delete a load balancer.
+        Delete load balancer.
 
         Delete a load balancer.
 
@@ -1098,7 +1204,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Get a load balancer.
+        Get load balancer.
 
         Get details of a load balancer.
 
@@ -1157,7 +1263,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a load balancer.
+        Update load balancer.
 
         Update the properties of a load balancer.
 
@@ -1291,7 +1397,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Create a load balancer pool.
+        Create load balancer pool.
 
         Create a load balancer pool.
 
@@ -1370,7 +1476,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Delete a load balancer pool.
+        Delete load balancer pool.
 
         Delete a load balancer pool.
 
@@ -1417,7 +1523,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Get a load balancer pool.
+        Get load balancer pool.
 
         Get details of a load balancer pool.
 
@@ -1474,7 +1580,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a load balancer pool.
+        Update load balancer pool.
 
         Update the properties of a load balancer pool.
 
@@ -1616,7 +1722,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Create a load balancer monitor.
+        Create load balancer monitor.
 
         Create a load balancer monitor.
 
@@ -1717,7 +1823,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Delete a load balancer monitor.
+        Delete load balancer monitor.
 
         Delete a load balancer monitor.
 
@@ -1764,7 +1870,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Get a load balancer monitor.
+        Get load balancer monitor.
 
         Get details of a load balancer monitor.
 
@@ -1825,7 +1931,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a load balancer monitor.
+        Update load balancer monitor.
 
         Update the properties of a load balancer monitor.
 
@@ -1913,6 +2019,749 @@ class DnsSvcsV1(BaseService):
         path_param_dict = dict(zip(path_param_keys, path_param_values))
         url = '/instances/{instance_id}/monitors/{monitor_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Custom Resolvers
+    #########################
+
+
+    def list_custom_resolvers(self,
+        instance_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List custom resolvers.
+
+        List the custom resolvers.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CustomResolverList` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_custom_resolvers')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def create_custom_resolver(self,
+        instance_id: str,
+        *,
+        name: str = None,
+        locations: List['LocationInput'] = None,
+        description: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create a custom resolver.
+
+        Create a custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str name: (optional) Name of the custom resolver.
+        :param List[LocationInput] locations: (optional) Locations on which the
+               custom resolver will be running.
+        :param str description: (optional) Descriptive text of the custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CustomResolver` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if locations is not None:
+            locations = [convert_model(x) for x in locations]
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_custom_resolver')
+        headers.update(sdk_headers)
+
+        data = {
+            'name': name,
+            'locations': locations,
+            'description': description
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def delete_custom_resolver(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete a custom resolver.
+
+        Delete a custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_custom_resolver')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_custom_resolver(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get a custom resolver.
+
+        Get details of a custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CustomResolver` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_custom_resolver')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def update_custom_resolver(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        name: str = None,
+        description: str = None,
+        enabled: bool = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update the properties of a custom resolver.
+
+        Update the properties of a custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str name: (optional) Name of the custom resolver.
+        :param str description: (optional) Descriptive text of the custom resolver.
+        :param bool enabled: (optional) Whether the custom resolver is enabled.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CustomResolver` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_custom_resolver')
+        headers.update(sdk_headers)
+
+        data = {
+            'name': name,
+            'description': description,
+            'enabled': enabled
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Custom Resolver Locations
+    #########################
+
+
+    def add_custom_resolver_location(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        subnet_crn: str = None,
+        enabled: bool = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Add custom resolver location.
+
+        Add custom resolver location.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str subnet_crn: (optional) Custom resolver location, subnet CRN.
+        :param bool enabled: (optional) Enable/Disable custom resolver location.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Location` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_custom_resolver_location')
+        headers.update(sdk_headers)
+
+        data = {
+            'subnet_crn': subnet_crn,
+            'enabled': enabled
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def update_custom_resolver_location(self,
+        instance_id: str,
+        resolver_id: str,
+        location_id: str,
+        *,
+        enabled: bool = None,
+        subnet_crn: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update custom resolver location.
+
+        Update custom resolver location.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str location_id: Custom resolver location ID.
+        :param bool enabled: (optional) Enable/Disable custom resolver location.
+        :param str subnet_crn: (optional) Subnet CRN.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Location` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if location_id is None:
+            raise ValueError('location_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_custom_resolver_location')
+        headers.update(sdk_headers)
+
+        data = {
+            'enabled': enabled,
+            'subnet_crn': subnet_crn
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'location_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, location_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def delete_custom_resolver_location(self,
+        instance_id: str,
+        resolver_id: str,
+        location_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete custom resolver location.
+
+        Delete custom resolver location.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str location_id: Custom resolver location ID.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if location_id is None:
+            raise ValueError('location_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_custom_resolver_location')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['instance_id', 'resolver_id', 'location_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, location_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Forwarding Rules
+    #########################
+
+
+    def list_forwarding_rules(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List forwarding rules.
+
+        List the forwarding rules of the given custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ForwardingRuleList` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_forwarding_rules')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def create_forwarding_rule(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        type: str = None,
+        match: str = None,
+        forward_to: List[str] = None,
+        description: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create a forwarding rule.
+
+        Create a forwarding rule for the given custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str type: (optional) Type of the forwarding rule.
+        :param str match: (optional) The matching zone or hostname.
+        :param List[str] forward_to: (optional) The upstream DNS servers will be
+               forwarded to.
+        :param str description: (optional) Descriptive text of the forwarding rule.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ForwardingRule` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_forwarding_rule')
+        headers.update(sdk_headers)
+
+        data = {
+            'type': type,
+            'match': match,
+            'forward_to': forward_to,
+            'description': description
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def delete_forwarding_rule(self,
+        instance_id: str,
+        resolver_id: str,
+        rule_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete a forwarding rule.
+
+        Delete a forwarding rule on the given custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str rule_id: The unique identifier of a forwarding rule.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if rule_id is None:
+            raise ValueError('rule_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_forwarding_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['instance_id', 'resolver_id', 'rule_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, rule_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def get_forwarding_rule(self,
+        instance_id: str,
+        resolver_id: str,
+        rule_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get a forwarding rule.
+
+        Get details of a forwarding rule on the given custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str rule_id: The unique identifier of a forwarding rule.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ForwardingRule` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if rule_id is None:
+            raise ValueError('rule_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_forwarding_rule')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'rule_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, rule_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def update_forwarding_rule(self,
+        instance_id: str,
+        resolver_id: str,
+        rule_id: str,
+        *,
+        description: str = None,
+        match: str = None,
+        forward_to: List[str] = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update the properties of a forwarding rule.
+
+        Update the properties of a forwarding rule on the given custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str rule_id: The unique identifier of a forwarding rule.
+        :param str description: (optional) Descriptive text of the forwarding rule.
+        :param str match: (optional) The matching zone or hostname.
+        :param List[str] forward_to: (optional) The upstream DNS servers will be
+               forwarded to.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ForwardingRule` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if rule_id is None:
+            raise ValueError('rule_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_forwarding_rule')
+        headers.update(sdk_headers)
+
+        data = {
+            'description': description,
+            'match': match,
+            'forward_to': forward_to
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'rule_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, rule_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
                                        data=data)
@@ -2068,6 +2917,74 @@ class PoolHealthcheckVsisItem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class RecordsImportErrorModelError():
+    """
+    RecordsImportErrorModelError.
+
+    :attr str code: Internal service error when DNS resource created fails by
+          internal error.
+    :attr str message: An internal error occurred. Try again later.
+    """
+
+    def __init__(self,
+                 code: str,
+                 message: str) -> None:
+        """
+        Initialize a RecordsImportErrorModelError object.
+
+        :param str code: Internal service error when DNS resource created fails by
+               internal error.
+        :param str message: An internal error occurred. Try again later.
+        """
+        self.code = code
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RecordsImportErrorModelError':
+        """Initialize a RecordsImportErrorModelError object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError('Required property \'code\' not present in RecordsImportErrorModelError JSON')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        else:
+            raise ValueError('Required property \'message\' not present in RecordsImportErrorModelError JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RecordsImportErrorModelError object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RecordsImportErrorModelError object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RecordsImportErrorModelError') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RecordsImportErrorModelError') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class ResourceRecordInputRdata():
     """
     Content of the resource record.
@@ -2097,6 +3014,189 @@ class ResourceRecordUpdateInputRdata():
         msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
                   ", ".join(['ResourceRecordUpdateInputRdataRdataARecord', 'ResourceRecordUpdateInputRdataRdataAaaaRecord', 'ResourceRecordUpdateInputRdataRdataCnameRecord', 'ResourceRecordUpdateInputRdataRdataMxRecord', 'ResourceRecordUpdateInputRdataRdataSrvRecord', 'ResourceRecordUpdateInputRdataRdataTxtRecord', 'ResourceRecordUpdateInputRdataRdataPtrRecord']))
         raise Exception(msg)
+
+class CustomResolver():
+    """
+    custom resolver details.
+
+    :attr str id: (optional) Identifier of the custom resolver.
+    :attr str name: (optional) Name of the custom resolver.
+    :attr str description: (optional) Descriptive text of the custom resolver.
+    :attr bool enabled: (optional) Whether the custom resolver is enabled.
+    :attr str health: (optional) Healthy state of the custom resolver.
+    :attr List[Location] locations: (optional) Locations on which the custom
+          resolver will be running.
+    :attr datetime created_on: (optional) the time when a custom resolver is
+          created, RFC3339 format.
+    :attr datetime modified_on: (optional) the recent time when a custom resolver is
+          modified, RFC3339 format.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 name: str = None,
+                 description: str = None,
+                 enabled: bool = None,
+                 health: str = None,
+                 locations: List['Location'] = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
+        """
+        Initialize a CustomResolver object.
+
+        :param str id: (optional) Identifier of the custom resolver.
+        :param str name: (optional) Name of the custom resolver.
+        :param str description: (optional) Descriptive text of the custom resolver.
+        :param bool enabled: (optional) Whether the custom resolver is enabled.
+        :param str health: (optional) Healthy state of the custom resolver.
+        :param List[Location] locations: (optional) Locations on which the custom
+               resolver will be running.
+        :param datetime created_on: (optional) the time when a custom resolver is
+               created, RFC3339 format.
+        :param datetime modified_on: (optional) the recent time when a custom
+               resolver is modified, RFC3339 format.
+        """
+        self.id = id
+        self.name = name
+        self.description = description
+        self.enabled = enabled
+        self.health = health
+        self.locations = locations
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CustomResolver':
+        """Initialize a CustomResolver object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'health' in _dict:
+            args['health'] = _dict.get('health')
+        if 'locations' in _dict:
+            args['locations'] = [Location.from_dict(x) for x in _dict.get('locations')]
+        if 'created_on' in _dict:
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
+        if 'modified_on' in _dict:
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CustomResolver object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'health') and self.health is not None:
+            _dict['health'] = self.health
+        if hasattr(self, 'locations') and self.locations is not None:
+            _dict['locations'] = [x.to_dict() for x in self.locations]
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = datetime_to_string(self.created_on)
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CustomResolver object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CustomResolver') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CustomResolver') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class HealthEnum(str, Enum):
+        """
+        Healthy state of the custom resolver.
+        """
+        HEALTHY = 'HEALTHY'
+        DEGRADED = 'DEGRADED'
+        CRITICAL = 'CRITICAL'
+
+
+class CustomResolverList():
+    """
+    List custom resolvers response.
+
+    :attr List[CustomResolver] custom_resolvers: (optional) An array of custom
+          resolvers.
+    """
+
+    def __init__(self,
+                 *,
+                 custom_resolvers: List['CustomResolver'] = None) -> None:
+        """
+        Initialize a CustomResolverList object.
+
+        :param List[CustomResolver] custom_resolvers: (optional) An array of custom
+               resolvers.
+        """
+        self.custom_resolvers = custom_resolvers
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CustomResolverList':
+        """Initialize a CustomResolverList object from a json dictionary."""
+        args = {}
+        if 'custom_resolvers' in _dict:
+            args['custom_resolvers'] = [CustomResolver.from_dict(x) for x in _dict.get('custom_resolvers')]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CustomResolverList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'custom_resolvers') and self.custom_resolvers is not None:
+            _dict['custom_resolvers'] = [x.to_dict() for x in self.custom_resolvers]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CustomResolverList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CustomResolverList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CustomResolverList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class Dnszone():
     """
@@ -2277,6 +3377,178 @@ class FirstHref():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class ForwardingRule():
+    """
+    forwarding rule details.
+
+    :attr str id: (optional) Identifier of the forwarding rule.
+    :attr str description: (optional) Descriptive text of the forwarding rule.
+    :attr str type: (optional) Type of the forwarding rule.
+    :attr str match: (optional) The matching zone or hostname.
+    :attr List[str] forward_to: (optional) The upstream DNS servers will be
+          forwarded to.
+    :attr datetime created_on: (optional) the time when a forwarding rule is
+          created, RFC3339 format.
+    :attr datetime modified_on: (optional) the recent time when a forwarding rule is
+          modified, RFC3339 format.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 description: str = None,
+                 type: str = None,
+                 match: str = None,
+                 forward_to: List[str] = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
+        """
+        Initialize a ForwardingRule object.
+
+        :param str id: (optional) Identifier of the forwarding rule.
+        :param str description: (optional) Descriptive text of the forwarding rule.
+        :param str type: (optional) Type of the forwarding rule.
+        :param str match: (optional) The matching zone or hostname.
+        :param List[str] forward_to: (optional) The upstream DNS servers will be
+               forwarded to.
+        :param datetime created_on: (optional) the time when a forwarding rule is
+               created, RFC3339 format.
+        :param datetime modified_on: (optional) the recent time when a forwarding
+               rule is modified, RFC3339 format.
+        """
+        self.id = id
+        self.description = description
+        self.type = type
+        self.match = match
+        self.forward_to = forward_to
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ForwardingRule':
+        """Initialize a ForwardingRule object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'match' in _dict:
+            args['match'] = _dict.get('match')
+        if 'forward_to' in _dict:
+            args['forward_to'] = _dict.get('forward_to')
+        if 'created_on' in _dict:
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
+        if 'modified_on' in _dict:
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ForwardingRule object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'match') and self.match is not None:
+            _dict['match'] = self.match
+        if hasattr(self, 'forward_to') and self.forward_to is not None:
+            _dict['forward_to'] = self.forward_to
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = datetime_to_string(self.created_on)
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ForwardingRule object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ForwardingRule') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ForwardingRule') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(str, Enum):
+        """
+        Type of the forwarding rule.
+        """
+        ZONE = 'zone'
+        DEFAULT = 'default'
+
+
+class ForwardingRuleList():
+    """
+    An array of forwarding rules.
+
+    :attr List[ForwardingRule] forwarding_rules: (optional)
+    """
+
+    def __init__(self,
+                 *,
+                 forwarding_rules: List['ForwardingRule'] = None) -> None:
+        """
+        Initialize a ForwardingRuleList object.
+
+        :param List[ForwardingRule] forwarding_rules: (optional)
+        """
+        self.forwarding_rules = forwarding_rules
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ForwardingRuleList':
+        """Initialize a ForwardingRuleList object from a json dictionary."""
+        args = {}
+        if 'forwarding_rules' in _dict:
+            args['forwarding_rules'] = [ForwardingRule.from_dict(x) for x in _dict.get('forwarding_rules')]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ForwardingRuleList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'forwarding_rules') and self.forwarding_rules is not None:
+            _dict['forwarding_rules'] = [x.to_dict() for x in self.forwarding_rules]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ForwardingRuleList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ForwardingRuleList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ForwardingRuleList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class HealthcheckHeader():
     """
     The HTTP header of health check request.
@@ -2340,6 +3612,126 @@ class HealthcheckHeader():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'HealthcheckHeader') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class ImportResourceRecordsResp():
+    """
+    Import DNS records response.
+
+    :attr int total_records_parsed: Number of records parsed from the zone file.
+    :attr int records_added: Number of records imported successfully.
+    :attr int records_failed: Number of records failed import.
+    :attr RecordStatsByType records_added_by_type: Number of records classified by
+          type.
+    :attr RecordStatsByType records_failed_by_type: Number of records classified by
+          type.
+    :attr List[RecordsImportMessageModel] messages: (optional) Error messages.
+    :attr List[RecordsImportErrorModel] errors: (optional) Number of records parsed
+          from the zone file.
+    """
+
+    def __init__(self,
+                 total_records_parsed: int,
+                 records_added: int,
+                 records_failed: int,
+                 records_added_by_type: 'RecordStatsByType',
+                 records_failed_by_type: 'RecordStatsByType',
+                 *,
+                 messages: List['RecordsImportMessageModel'] = None,
+                 errors: List['RecordsImportErrorModel'] = None) -> None:
+        """
+        Initialize a ImportResourceRecordsResp object.
+
+        :param int total_records_parsed: Number of records parsed from the zone
+               file.
+        :param int records_added: Number of records imported successfully.
+        :param int records_failed: Number of records failed import.
+        :param RecordStatsByType records_added_by_type: Number of records
+               classified by type.
+        :param RecordStatsByType records_failed_by_type: Number of records
+               classified by type.
+        :param List[RecordsImportMessageModel] messages: (optional) Error messages.
+        :param List[RecordsImportErrorModel] errors: (optional) Number of records
+               parsed from the zone file.
+        """
+        self.total_records_parsed = total_records_parsed
+        self.records_added = records_added
+        self.records_failed = records_failed
+        self.records_added_by_type = records_added_by_type
+        self.records_failed_by_type = records_failed_by_type
+        self.messages = messages
+        self.errors = errors
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ImportResourceRecordsResp':
+        """Initialize a ImportResourceRecordsResp object from a json dictionary."""
+        args = {}
+        if 'total_records_parsed' in _dict:
+            args['total_records_parsed'] = _dict.get('total_records_parsed')
+        else:
+            raise ValueError('Required property \'total_records_parsed\' not present in ImportResourceRecordsResp JSON')
+        if 'records_added' in _dict:
+            args['records_added'] = _dict.get('records_added')
+        else:
+            raise ValueError('Required property \'records_added\' not present in ImportResourceRecordsResp JSON')
+        if 'records_failed' in _dict:
+            args['records_failed'] = _dict.get('records_failed')
+        else:
+            raise ValueError('Required property \'records_failed\' not present in ImportResourceRecordsResp JSON')
+        if 'records_added_by_type' in _dict:
+            args['records_added_by_type'] = RecordStatsByType.from_dict(_dict.get('records_added_by_type'))
+        else:
+            raise ValueError('Required property \'records_added_by_type\' not present in ImportResourceRecordsResp JSON')
+        if 'records_failed_by_type' in _dict:
+            args['records_failed_by_type'] = RecordStatsByType.from_dict(_dict.get('records_failed_by_type'))
+        else:
+            raise ValueError('Required property \'records_failed_by_type\' not present in ImportResourceRecordsResp JSON')
+        if 'messages' in _dict:
+            args['messages'] = [RecordsImportMessageModel.from_dict(x) for x in _dict.get('messages')]
+        if 'errors' in _dict:
+            args['errors'] = [RecordsImportErrorModel.from_dict(x) for x in _dict.get('errors')]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ImportResourceRecordsResp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'total_records_parsed') and self.total_records_parsed is not None:
+            _dict['total_records_parsed'] = self.total_records_parsed
+        if hasattr(self, 'records_added') and self.records_added is not None:
+            _dict['records_added'] = self.records_added
+        if hasattr(self, 'records_failed') and self.records_failed is not None:
+            _dict['records_failed'] = self.records_failed
+        if hasattr(self, 'records_added_by_type') and self.records_added_by_type is not None:
+            _dict['records_added_by_type'] = self.records_added_by_type.to_dict()
+        if hasattr(self, 'records_failed_by_type') and self.records_failed_by_type is not None:
+            _dict['records_failed_by_type'] = self.records_failed_by_type.to_dict()
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = [x.to_dict() for x in self.messages]
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = [x.to_dict() for x in self.errors]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ImportResourceRecordsResp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ImportResourceRecordsResp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ImportResourceRecordsResp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3174,6 +4566,162 @@ class LoadBalancer():
         CRITICAL = 'CRITICAL'
 
 
+class Location():
+    """
+    Custom resolver location.
+
+    :attr str id: (optional) Location ID.
+    :attr str subnet_crn: (optional) Subnet CRN.
+    :attr bool enabled: (optional) Whether the location is enabled for the custom
+          resolver.
+    :attr bool healthy: (optional) Whether the DNS server in this location is
+          healthy or not.
+    :attr str dns_server_ip: (optional) The ip address of this dns server.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 subnet_crn: str = None,
+                 enabled: bool = None,
+                 healthy: bool = None,
+                 dns_server_ip: str = None) -> None:
+        """
+        Initialize a Location object.
+
+        :param str id: (optional) Location ID.
+        :param str subnet_crn: (optional) Subnet CRN.
+        :param bool enabled: (optional) Whether the location is enabled for the
+               custom resolver.
+        :param bool healthy: (optional) Whether the DNS server in this location is
+               healthy or not.
+        :param str dns_server_ip: (optional) The ip address of this dns server.
+        """
+        self.id = id
+        self.subnet_crn = subnet_crn
+        self.enabled = enabled
+        self.healthy = healthy
+        self.dns_server_ip = dns_server_ip
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Location':
+        """Initialize a Location object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'subnet_crn' in _dict:
+            args['subnet_crn'] = _dict.get('subnet_crn')
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'healthy' in _dict:
+            args['healthy'] = _dict.get('healthy')
+        if 'dns_server_ip' in _dict:
+            args['dns_server_ip'] = _dict.get('dns_server_ip')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Location object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'subnet_crn') and self.subnet_crn is not None:
+            _dict['subnet_crn'] = self.subnet_crn
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'healthy') and self.healthy is not None:
+            _dict['healthy'] = self.healthy
+        if hasattr(self, 'dns_server_ip') and self.dns_server_ip is not None:
+            _dict['dns_server_ip'] = self.dns_server_ip
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Location object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Location') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Location') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class LocationInput():
+    """
+    Request to add custom resolver location.
+
+    :attr str subnet_crn: Custom resolver location, subnet CRN.
+    :attr bool enabled: (optional) Enable/Disable custom resolver location.
+    """
+
+    def __init__(self,
+                 subnet_crn: str,
+                 *,
+                 enabled: bool = None) -> None:
+        """
+        Initialize a LocationInput object.
+
+        :param str subnet_crn: Custom resolver location, subnet CRN.
+        :param bool enabled: (optional) Enable/Disable custom resolver location.
+        """
+        self.subnet_crn = subnet_crn
+        self.enabled = enabled
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LocationInput':
+        """Initialize a LocationInput object from a json dictionary."""
+        args = {}
+        if 'subnet_crn' in _dict:
+            args['subnet_crn'] = _dict.get('subnet_crn')
+        else:
+            raise ValueError('Required property \'subnet_crn\' not present in LocationInput JSON')
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LocationInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'subnet_crn') and self.subnet_crn is not None:
+            _dict['subnet_crn'] = self.subnet_crn
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LocationInput object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LocationInput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LocationInput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class Monitor():
     """
     Load balancer monitor details.
@@ -4004,6 +5552,254 @@ class Pool():
         AU_SYD = 'au-syd'
         JP_TOK = 'jp-tok'
 
+
+class RecordStatsByType():
+    """
+    Number of records classified by type.
+
+    :attr int a: Number of records, type A.
+    :attr int aaaa: Number of records, type AAAA.
+    :attr int cname: Number of records, type CNAME.
+    :attr int srv: Number of records, type SRV.
+    :attr int txt: Number of records, type TXT.
+    :attr int mx: Number of records, type MX.
+    :attr int ptr: Number of records, type PTR.
+    """
+
+    def __init__(self,
+                 a: int,
+                 aaaa: int,
+                 cname: int,
+                 srv: int,
+                 txt: int,
+                 mx: int,
+                 ptr: int) -> None:
+        """
+        Initialize a RecordStatsByType object.
+
+        :param int a: Number of records, type A.
+        :param int aaaa: Number of records, type AAAA.
+        :param int cname: Number of records, type CNAME.
+        :param int srv: Number of records, type SRV.
+        :param int txt: Number of records, type TXT.
+        :param int mx: Number of records, type MX.
+        :param int ptr: Number of records, type PTR.
+        """
+        self.a = a
+        self.aaaa = aaaa
+        self.cname = cname
+        self.srv = srv
+        self.txt = txt
+        self.mx = mx
+        self.ptr = ptr
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RecordStatsByType':
+        """Initialize a RecordStatsByType object from a json dictionary."""
+        args = {}
+        if 'A' in _dict:
+            args['a'] = _dict.get('A')
+        else:
+            raise ValueError('Required property \'A\' not present in RecordStatsByType JSON')
+        if 'AAAA' in _dict:
+            args['aaaa'] = _dict.get('AAAA')
+        else:
+            raise ValueError('Required property \'AAAA\' not present in RecordStatsByType JSON')
+        if 'CNAME' in _dict:
+            args['cname'] = _dict.get('CNAME')
+        else:
+            raise ValueError('Required property \'CNAME\' not present in RecordStatsByType JSON')
+        if 'SRV' in _dict:
+            args['srv'] = _dict.get('SRV')
+        else:
+            raise ValueError('Required property \'SRV\' not present in RecordStatsByType JSON')
+        if 'TXT' in _dict:
+            args['txt'] = _dict.get('TXT')
+        else:
+            raise ValueError('Required property \'TXT\' not present in RecordStatsByType JSON')
+        if 'MX' in _dict:
+            args['mx'] = _dict.get('MX')
+        else:
+            raise ValueError('Required property \'MX\' not present in RecordStatsByType JSON')
+        if 'PTR' in _dict:
+            args['ptr'] = _dict.get('PTR')
+        else:
+            raise ValueError('Required property \'PTR\' not present in RecordStatsByType JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RecordStatsByType object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'a') and self.a is not None:
+            _dict['A'] = self.a
+        if hasattr(self, 'aaaa') and self.aaaa is not None:
+            _dict['AAAA'] = self.aaaa
+        if hasattr(self, 'cname') and self.cname is not None:
+            _dict['CNAME'] = self.cname
+        if hasattr(self, 'srv') and self.srv is not None:
+            _dict['SRV'] = self.srv
+        if hasattr(self, 'txt') and self.txt is not None:
+            _dict['TXT'] = self.txt
+        if hasattr(self, 'mx') and self.mx is not None:
+            _dict['MX'] = self.mx
+        if hasattr(self, 'ptr') and self.ptr is not None:
+            _dict['PTR'] = self.ptr
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RecordStatsByType object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RecordStatsByType') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RecordStatsByType') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class RecordsImportErrorModel():
+    """
+    RecordsImportErrorModel.
+
+    :attr str resource_record: resource record content in zone file.
+    :attr RecordsImportErrorModelError error:
+    """
+
+    def __init__(self,
+                 resource_record: str,
+                 error: 'RecordsImportErrorModelError') -> None:
+        """
+        Initialize a RecordsImportErrorModel object.
+
+        :param str resource_record: resource record content in zone file.
+        :param RecordsImportErrorModelError error:
+        """
+        self.resource_record = resource_record
+        self.error = error
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RecordsImportErrorModel':
+        """Initialize a RecordsImportErrorModel object from a json dictionary."""
+        args = {}
+        if 'resource_record' in _dict:
+            args['resource_record'] = _dict.get('resource_record')
+        else:
+            raise ValueError('Required property \'resource_record\' not present in RecordsImportErrorModel JSON')
+        if 'error' in _dict:
+            args['error'] = RecordsImportErrorModelError.from_dict(_dict.get('error'))
+        else:
+            raise ValueError('Required property \'error\' not present in RecordsImportErrorModel JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RecordsImportErrorModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'resource_record') and self.resource_record is not None:
+            _dict['resource_record'] = self.resource_record
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RecordsImportErrorModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RecordsImportErrorModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RecordsImportErrorModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class RecordsImportMessageModel():
+    """
+    RecordsImportMessageModel.
+
+    :attr str code: Code to classify import DNS records error.
+    :attr str message: Message to describe import DNS records error.
+    """
+
+    def __init__(self,
+                 code: str,
+                 message: str) -> None:
+        """
+        Initialize a RecordsImportMessageModel object.
+
+        :param str code: Code to classify import DNS records error.
+        :param str message: Message to describe import DNS records error.
+        """
+        self.code = code
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RecordsImportMessageModel':
+        """Initialize a RecordsImportMessageModel object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError('Required property \'code\' not present in RecordsImportMessageModel JSON')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        else:
+            raise ValueError('Required property \'message\' not present in RecordsImportMessageModel JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RecordsImportMessageModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RecordsImportMessageModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RecordsImportMessageModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RecordsImportMessageModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class ResourceRecord():
     """

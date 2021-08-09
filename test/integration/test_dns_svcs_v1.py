@@ -548,6 +548,46 @@ class TestResourceRecordsV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 204
 
+    def test_8_import_resource_records_actions(self):
+        """ DNS record import actions """
+        """ Write a DSN record into tmp file """
+        wFile = open("/tmp/records.txt", "w+")
+        wFile.write("example.sdk.cistest-load.com. 1 IN A 1.1.1.1")
+        wFile.close()
+        f = open("/tmp/records.txt", "rb")
+        file_content_type = 'testString'
+        x_correlation_id = 'testString'
+        headers = {}
+        resp = self.record.import_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id,
+                                                   file=f, file_content_type=file_content_type,x_correlation_id=x_correlation_id, headers=headers)
+        f.close()
+        assert resp is not None
+        assert resp.status_code == 200
+        assert resp.get_result().get("total_records_parsed") == 1
+        try:
+            os.remove("/tmp/records.txt")
+        except:
+            pass
+
+    def test_9_export_resource_records_actions(self):
+        """ DNS record import actions """
+        """ Create resource record to export """
+        record_type = 'TXT'
+        name = 'test.example76.com'
+        ttl = 60
+        rdata = {
+            'text': 'this a text record'
+        }
+        resp = self.record.create_resource_record(instance_id=self.instance_id, dnszone_id=self.zone_id, type=record_type,
+                ttl=ttl, name=name, rdata=rdata)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        resp = self.record.export_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, x_correlation_id="test")
+        assert resp is not None
+        assert resp.status_code == 200
+
+
     def test_1_resource_records_negative(self):
         instance_id = None
         dnszone_id = "123456"
@@ -632,6 +672,31 @@ class TestResourceRecordsV1(unittest.TestCase):
             self.record.list_resource_records(instance_id=instance_id,
                                               dnszone_id=dnszone_id)
             self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.import_resource_records(instance_id=instance_id,
+                                                  dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.import_resource_records(instance_id=instance_id,
+                                              dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
+        instance_id = "123456"
+        dnszone_id = None
+        with self.assertRaises(ValueError) as val:
+            self.record.export_resource_records(instance_id=instance_id,
+                                                dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
+        instance_id = None
+        dnszone_id = "123456"
+        with self.assertRaises(ValueError) as val:
+            self.record.export_resource_records(instance_id=instance_id,
+                                                dnszone_id=dnszone_id)
+            self.assertEqual(val.exception.msg, 'instance_id must be provided')
 
 
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
@@ -1018,5 +1083,110 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
         assert response.status_code == 200
 
 
+class TestCustomResolversV1(unittest.TestCase):
+    """Custom Resolvers for DNS V1 service test class."""
+
+    def setUp(self):
+        """ test case setup """
+
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest('External configuration not available, skipping...')
+        self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
+        self.subnet_crn = os.getenv("DNS_SVCS_SUBNET_CRN")
+       # self.subnet_crn_location = os.getenv("DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN")
+
+        # Create Custom Resolver class object
+        self.cr = DnsSvcsV1.new_instance(service_name="dns_svcs")
+
+    def tearDown(self):
+        """ tear down """
+        # Delete the resources
+        self._clean_dns_custom_resolver()
+        print("Clean up complete")
+
+    def _clean_dns_custom_resolver(self):
+        # Delete Custom Resolver
+        response = self.cr.list_custom_resolvers(instance_id=self.instance_id)
+        assert response is not None
+        assert response.status_code == 200
+        result = response.get_result().get("custom_resolvers")
+        for crs in result:
+            self.cr.delete_custom_resolver(instance_id=self.instance_id, resolver_id=crs.get("id"))
+
+    def test_1_dns_customresolvers(self):
+        """ create,get,update,list Custom Resolvers """
+
+        name = 'testcustomresolvers'
+        description = "Creating Custom Resolvers"
+        locations = [{"subnet_crn": self.subnet_crn, "enabled": False}]
+
+        # Create Custom Resolvers
+        resp = self.cr.create_custom_resolver(instance_id=self.instance_id, name=name, locations=locations,
+                                              description=description)
+        assert resp is not None
+        assert resp.status_code == 200
+        resolver_id = resp.get_result().get("id")
+
+        # Get Custom Resolver
+        resp = self.cr.get_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Update Custom Resolver
+        name = 'updatecustomresolvers'
+        description = "Updating Custom Resolvers"
+        resp = self.cr.update_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id, 
+                                              name=name, description=description)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # List Custom Resolver
+        resp = self.cr.list_custom_resolvers(instance_id=self.instance_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        """ create,get,update,list Forwarding rules """
+        # Create Forwarding rules
+        type1 = 'zone'
+        match = "test.example.com"
+        forward_to = ["168.20.22.122"]
+        resp = self.cr.create_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id,
+                                              type=type1, match=match, forward_to=forward_to)
+        assert resp is not None
+        assert resp.status_code == 200
+        rule_id = resp.get_result().get("id")
+
+        # Get Forwarding rules
+        resp = self.cr.get_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Update Forwarding rules 
+        description = "Updating Forwarding rules"
+        match = "test.updateexample.com"
+        forward_to = ["168.20.22.122", "190.20.22.134"]
+
+        resp = self.cr.update_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id,
+                                              description=description, match=match, forward_to=forward_to)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # List Forwarding rules
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        """ Delete Custom Resolver,  Locations, Forwarding rules """ 
+        # Delete Forwarding rules
+        resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)
+        assert resp is not None
+        assert resp.status_code == 204
+        
+         # Delete Custom Resolver
+        resp = self.cr.delete_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id)
+        assert resp is not None
+        assert resp.status_code == 204
+
+        
 if __name__ == '__main__':
     unittest.main()
