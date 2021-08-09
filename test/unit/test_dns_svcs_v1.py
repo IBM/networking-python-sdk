@@ -29,15 +29,15 @@ import requests
 import responses
 import tempfile
 import urllib
-from github.com/IBM/networking-python-sdk.dns_svcs_v1 import *
+from ibm_cloud_networking_services.dns_svcs_v1 import *
 
 
-_service = DnsSvcsV1(
+service = DnsSvcsV1(
     authenticator=NoAuthAuthenticator()
     )
 
-_base_url = 'https://api.dns-svcs.cloud.ibm.com/v1'
-_service.set_service_url(_base_url)
+base_url = 'https://api.dns-svcs.cloud.ibm.com/v1'
+service.set_service_url(base_url)
 
 ##############################################################################
 # Start of Service: DNSZones
@@ -64,7 +64,7 @@ class TestListDnszones():
         list_dnszones()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones')
         mock_response = '{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -79,7 +79,7 @@ class TestListDnszones():
         limit = 200
 
         # Invoke method
-        response = _service.list_dnszones(
+        response = service.list_dnszones(
             instance_id,
             x_correlation_id=x_correlation_id,
             offset=offset,
@@ -103,7 +103,7 @@ class TestListDnszones():
         test_list_dnszones_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones')
         mock_response = '{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -115,7 +115,7 @@ class TestListDnszones():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.list_dnszones(
+        response = service.list_dnszones(
             instance_id,
             headers={}
         )
@@ -131,7 +131,7 @@ class TestListDnszones():
         test_list_dnszones_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones')
         mock_response = '{"dnszones": [{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}], "offset": 0, "limit": 10, "total_count": 10, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -149,7 +149,7 @@ class TestListDnszones():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_dnszones(**req_copy)
+                service.list_dnszones(**req_copy)
 
 
 
@@ -173,7 +173,7 @@ class TestCreateDnszone():
         create_dnszone()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.POST,
                       url,
@@ -189,7 +189,7 @@ class TestCreateDnszone():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_dnszone(
+        response = service.create_dnszone(
             instance_id,
             name=name,
             description=description,
@@ -214,7 +214,7 @@ class TestCreateDnszone():
         test_create_dnszone_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.POST,
                       url,
@@ -226,7 +226,7 @@ class TestCreateDnszone():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.create_dnszone(
+        response = service.create_dnszone(
             instance_id,
             headers={}
         )
@@ -242,7 +242,7 @@ class TestCreateDnszone():
         test_create_dnszone_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.POST,
                       url,
@@ -260,7 +260,7 @@ class TestCreateDnszone():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_dnszone(**req_copy)
+                service.create_dnszone(**req_copy)
 
 
 
@@ -284,7 +284,7 @@ class TestDeleteDnszone():
         delete_dnszone()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -295,7 +295,7 @@ class TestDeleteDnszone():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_dnszone(
+        response = service.delete_dnszone(
             instance_id,
             dnszone_id,
             x_correlation_id=x_correlation_id,
@@ -313,7 +313,7 @@ class TestDeleteDnszone():
         test_delete_dnszone_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -323,7 +323,7 @@ class TestDeleteDnszone():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.delete_dnszone(
+        response = service.delete_dnszone(
             instance_id,
             dnszone_id,
             headers={}
@@ -340,7 +340,7 @@ class TestDeleteDnszone():
         test_delete_dnszone_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -357,7 +357,7 @@ class TestDeleteDnszone():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_dnszone(**req_copy)
+                service.delete_dnszone(**req_copy)
 
 
 
@@ -381,7 +381,7 @@ class TestGetDnszone():
         get_dnszone()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.GET,
                       url,
@@ -395,7 +395,7 @@ class TestGetDnszone():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_dnszone(
+        response = service.get_dnszone(
             instance_id,
             dnszone_id,
             x_correlation_id=x_correlation_id,
@@ -413,7 +413,7 @@ class TestGetDnszone():
         test_get_dnszone_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.GET,
                       url,
@@ -426,7 +426,7 @@ class TestGetDnszone():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.get_dnszone(
+        response = service.get_dnszone(
             instance_id,
             dnszone_id,
             headers={}
@@ -443,7 +443,7 @@ class TestGetDnszone():
         test_get_dnszone_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.GET,
                       url,
@@ -463,7 +463,7 @@ class TestGetDnszone():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_dnszone(**req_copy)
+                service.get_dnszone(**req_copy)
 
 
 
@@ -487,7 +487,7 @@ class TestUpdateDnszone():
         update_dnszone()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.PATCH,
                       url,
@@ -503,7 +503,7 @@ class TestUpdateDnszone():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_dnszone(
+        response = service.update_dnszone(
             instance_id,
             dnszone_id,
             description=description,
@@ -527,7 +527,7 @@ class TestUpdateDnszone():
         test_update_dnszone_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.PATCH,
                       url,
@@ -540,7 +540,7 @@ class TestUpdateDnszone():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.update_dnszone(
+        response = service.update_dnszone(
             instance_id,
             dnszone_id,
             headers={}
@@ -557,7 +557,7 @@ class TestUpdateDnszone():
         test_update_dnszone_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString')
         mock_response = '{"id": "example.com:2d0f862b-67cc-41f3-b6a2-59860d0aa90e", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "instance_id": "1407a753-a93f-4bb0-9784-bcfc269ee1b3", "name": "example.com", "description": "The DNS zone is used for VPCs in us-east region", "state": "pending_network_add", "label": "us-east"}'
         responses.add(responses.PATCH,
                       url,
@@ -577,7 +577,7 @@ class TestUpdateDnszone():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_dnszone(**req_copy)
+                service.update_dnszone(**req_copy)
 
 
 
@@ -611,7 +611,7 @@ class TestListResourceRecords():
         list_resource_records()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records')
         mock_response = '{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -627,7 +627,7 @@ class TestListResourceRecords():
         limit = 200
 
         # Invoke method
-        response = _service.list_resource_records(
+        response = service.list_resource_records(
             instance_id,
             dnszone_id,
             x_correlation_id=x_correlation_id,
@@ -652,7 +652,7 @@ class TestListResourceRecords():
         test_list_resource_records_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records')
         mock_response = '{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -665,7 +665,7 @@ class TestListResourceRecords():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.list_resource_records(
+        response = service.list_resource_records(
             instance_id,
             dnszone_id,
             headers={}
@@ -682,7 +682,7 @@ class TestListResourceRecords():
         test_list_resource_records_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records')
         mock_response = '{"resource_records": [{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}], "offset": 0, "limit": 20, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -702,7 +702,7 @@ class TestListResourceRecords():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_resource_records(**req_copy)
+                service.list_resource_records(**req_copy)
 
 
 
@@ -726,7 +726,7 @@ class TestCreateResourceRecord():
         create_resource_record()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.POST,
                       url,
@@ -750,7 +750,7 @@ class TestCreateResourceRecord():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_resource_record(
+        response = service.create_resource_record(
             instance_id,
             dnszone_id,
             type=type,
@@ -782,7 +782,7 @@ class TestCreateResourceRecord():
         test_create_resource_record_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.POST,
                       url,
@@ -795,7 +795,7 @@ class TestCreateResourceRecord():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.create_resource_record(
+        response = service.create_resource_record(
             instance_id,
             dnszone_id,
             headers={}
@@ -812,7 +812,7 @@ class TestCreateResourceRecord():
         test_create_resource_record_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.POST,
                       url,
@@ -832,7 +832,7 @@ class TestCreateResourceRecord():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_resource_record(**req_copy)
+                service.create_resource_record(**req_copy)
 
 
 
@@ -856,7 +856,7 @@ class TestDeleteResourceRecord():
         delete_resource_record()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -868,7 +868,7 @@ class TestDeleteResourceRecord():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_resource_record(
+        response = service.delete_resource_record(
             instance_id,
             dnszone_id,
             record_id,
@@ -887,7 +887,7 @@ class TestDeleteResourceRecord():
         test_delete_resource_record_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -898,7 +898,7 @@ class TestDeleteResourceRecord():
         record_id = 'testString'
 
         # Invoke method
-        response = _service.delete_resource_record(
+        response = service.delete_resource_record(
             instance_id,
             dnszone_id,
             record_id,
@@ -916,7 +916,7 @@ class TestDeleteResourceRecord():
         test_delete_resource_record_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -935,7 +935,7 @@ class TestDeleteResourceRecord():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_resource_record(**req_copy)
+                service.delete_resource_record(**req_copy)
 
 
 
@@ -959,7 +959,7 @@ class TestGetResourceRecord():
         get_resource_record()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.GET,
                       url,
@@ -974,7 +974,7 @@ class TestGetResourceRecord():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_resource_record(
+        response = service.get_resource_record(
             instance_id,
             dnszone_id,
             record_id,
@@ -993,7 +993,7 @@ class TestGetResourceRecord():
         test_get_resource_record_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.GET,
                       url,
@@ -1007,7 +1007,7 @@ class TestGetResourceRecord():
         record_id = 'testString'
 
         # Invoke method
-        response = _service.get_resource_record(
+        response = service.get_resource_record(
             instance_id,
             dnszone_id,
             record_id,
@@ -1025,7 +1025,7 @@ class TestGetResourceRecord():
         test_get_resource_record_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.GET,
                       url,
@@ -1047,7 +1047,7 @@ class TestGetResourceRecord():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_resource_record(**req_copy)
+                service.get_resource_record(**req_copy)
 
 
 
@@ -1071,7 +1071,7 @@ class TestUpdateResourceRecord():
         update_resource_record()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.PUT,
                       url,
@@ -1095,7 +1095,7 @@ class TestUpdateResourceRecord():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_resource_record(
+        response = service.update_resource_record(
             instance_id,
             dnszone_id,
             record_id,
@@ -1126,7 +1126,7 @@ class TestUpdateResourceRecord():
         test_update_resource_record_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.PUT,
                       url,
@@ -1140,7 +1140,7 @@ class TestUpdateResourceRecord():
         record_id = 'testString'
 
         # Invoke method
-        response = _service.update_resource_record(
+        response = service.update_resource_record(
             instance_id,
             dnszone_id,
             record_id,
@@ -1158,7 +1158,7 @@ class TestUpdateResourceRecord():
         test_update_resource_record_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/resource_records/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/resource_records/testString')
         mock_response = '{"id": "SRV:5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "name": "_sip._udp.test.example.com", "type": "SRV", "ttl": 120, "rdata": {"anyKey": "anyValue"}, "service": "_sip", "protocol": "udp"}'
         responses.add(responses.PUT,
                       url,
@@ -1180,7 +1180,7 @@ class TestUpdateResourceRecord():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_resource_record(**req_copy)
+                service.update_resource_record(**req_copy)
 
 
 
@@ -1204,7 +1204,7 @@ class TestExportResourceRecords():
         export_resource_records()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/export_resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/export_resource_records')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1218,7 +1218,7 @@ class TestExportResourceRecords():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.export_resource_records(
+        response = service.export_resource_records(
             instance_id,
             dnszone_id,
             x_correlation_id=x_correlation_id,
@@ -1236,7 +1236,7 @@ class TestExportResourceRecords():
         test_export_resource_records_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/export_resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/export_resource_records')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1249,7 +1249,7 @@ class TestExportResourceRecords():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.export_resource_records(
+        response = service.export_resource_records(
             instance_id,
             dnszone_id,
             headers={}
@@ -1266,7 +1266,7 @@ class TestExportResourceRecords():
         test_export_resource_records_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/export_resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/export_resource_records')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1286,7 +1286,7 @@ class TestExportResourceRecords():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.export_resource_records(**req_copy)
+                service.export_resource_records(**req_copy)
 
 
 
@@ -1310,7 +1310,7 @@ class TestImportResourceRecords():
         import_resource_records()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/import_resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/import_resource_records')
         mock_response = '{"total_records_parsed": 10, "records_added": 2, "records_failed": 0, "records_added_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "records_failed_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "messages": [{"code": "conflict", "message": "A type record conflict with other records"}], "errors": [{"resource_record": "test.example.com A 1.1.1.1", "error": {"code": "internal_server_error", "message": "An internal error occurred. Try again later."}}]}'
         responses.add(responses.POST,
                       url,
@@ -1326,7 +1326,7 @@ class TestImportResourceRecords():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.import_resource_records(
+        response = service.import_resource_records(
             instance_id,
             dnszone_id,
             file=file,
@@ -1346,7 +1346,7 @@ class TestImportResourceRecords():
         test_import_resource_records_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/import_resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/import_resource_records')
         mock_response = '{"total_records_parsed": 10, "records_added": 2, "records_failed": 0, "records_added_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "records_failed_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "messages": [{"code": "conflict", "message": "A type record conflict with other records"}], "errors": [{"resource_record": "test.example.com A 1.1.1.1", "error": {"code": "internal_server_error", "message": "An internal error occurred. Try again later."}}]}'
         responses.add(responses.POST,
                       url,
@@ -1359,7 +1359,7 @@ class TestImportResourceRecords():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.import_resource_records(
+        response = service.import_resource_records(
             instance_id,
             dnszone_id,
             headers={}
@@ -1376,7 +1376,7 @@ class TestImportResourceRecords():
         test_import_resource_records_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/import_resource_records')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/import_resource_records')
         mock_response = '{"total_records_parsed": 10, "records_added": 2, "records_failed": 0, "records_added_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "records_failed_by_type": {"A": 10, "AAAA": 10, "CNAME": 10, "SRV": 10, "TXT": 10, "MX": 10, "PTR": 10}, "messages": [{"code": "conflict", "message": "A type record conflict with other records"}], "errors": [{"resource_record": "test.example.com A 1.1.1.1", "error": {"code": "internal_server_error", "message": "An internal error occurred. Try again later."}}]}'
         responses.add(responses.POST,
                       url,
@@ -1396,7 +1396,7 @@ class TestImportResourceRecords():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.import_resource_records(**req_copy)
+                service.import_resource_records(**req_copy)
 
 
 
@@ -1430,7 +1430,7 @@ class TestListPermittedNetworks():
         list_permitted_networks()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks')
         mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -1446,7 +1446,7 @@ class TestListPermittedNetworks():
         limit = 200
 
         # Invoke method
-        response = _service.list_permitted_networks(
+        response = service.list_permitted_networks(
             instance_id,
             dnszone_id,
             x_correlation_id=x_correlation_id,
@@ -1471,7 +1471,7 @@ class TestListPermittedNetworks():
         test_list_permitted_networks_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks')
         mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -1484,7 +1484,7 @@ class TestListPermittedNetworks():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.list_permitted_networks(
+        response = service.list_permitted_networks(
             instance_id,
             dnszone_id,
             headers={}
@@ -1501,7 +1501,7 @@ class TestListPermittedNetworks():
         test_list_permitted_networks_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks')
         mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}], "offset": 0, "limit": 10, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -1521,7 +1521,7 @@ class TestListPermittedNetworks():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_permitted_networks(**req_copy)
+                service.list_permitted_networks(**req_copy)
 
 
 
@@ -1545,7 +1545,7 @@ class TestCreatePermittedNetwork():
         create_permitted_network()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.POST,
                       url,
@@ -1565,7 +1565,7 @@ class TestCreatePermittedNetwork():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_permitted_network(
+        response = service.create_permitted_network(
             instance_id,
             dnszone_id,
             type=type,
@@ -1589,7 +1589,7 @@ class TestCreatePermittedNetwork():
         test_create_permitted_network_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.POST,
                       url,
@@ -1602,7 +1602,7 @@ class TestCreatePermittedNetwork():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.create_permitted_network(
+        response = service.create_permitted_network(
             instance_id,
             dnszone_id,
             headers={}
@@ -1619,7 +1619,7 @@ class TestCreatePermittedNetwork():
         test_create_permitted_network_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.POST,
                       url,
@@ -1639,7 +1639,7 @@ class TestCreatePermittedNetwork():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_permitted_network(**req_copy)
+                service.create_permitted_network(**req_copy)
 
 
 
@@ -1663,7 +1663,7 @@ class TestDeletePermittedNetwork():
         delete_permitted_network()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.DELETE,
                       url,
@@ -1678,7 +1678,7 @@ class TestDeletePermittedNetwork():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_permitted_network(
+        response = service.delete_permitted_network(
             instance_id,
             dnszone_id,
             permitted_network_id,
@@ -1697,7 +1697,7 @@ class TestDeletePermittedNetwork():
         test_delete_permitted_network_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.DELETE,
                       url,
@@ -1711,7 +1711,7 @@ class TestDeletePermittedNetwork():
         permitted_network_id = 'testString'
 
         # Invoke method
-        response = _service.delete_permitted_network(
+        response = service.delete_permitted_network(
             instance_id,
             dnszone_id,
             permitted_network_id,
@@ -1729,7 +1729,7 @@ class TestDeletePermittedNetwork():
         test_delete_permitted_network_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.DELETE,
                       url,
@@ -1751,7 +1751,7 @@ class TestDeletePermittedNetwork():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_permitted_network(**req_copy)
+                service.delete_permitted_network(**req_copy)
 
 
 
@@ -1775,7 +1775,7 @@ class TestGetPermittedNetwork():
         get_permitted_network()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.GET,
                       url,
@@ -1790,7 +1790,7 @@ class TestGetPermittedNetwork():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_permitted_network(
+        response = service.get_permitted_network(
             instance_id,
             dnszone_id,
             permitted_network_id,
@@ -1809,7 +1809,7 @@ class TestGetPermittedNetwork():
         test_get_permitted_network_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.GET,
                       url,
@@ -1823,7 +1823,7 @@ class TestGetPermittedNetwork():
         permitted_network_id = 'testString'
 
         # Invoke method
-        response = _service.get_permitted_network(
+        response = service.get_permitted_network(
             instance_id,
             dnszone_id,
             permitted_network_id,
@@ -1841,7 +1841,7 @@ class TestGetPermittedNetwork():
         test_get_permitted_network_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/permitted_networks/testString')
         mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
         responses.add(responses.GET,
                       url,
@@ -1863,7 +1863,7 @@ class TestGetPermittedNetwork():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_permitted_network(**req_copy)
+                service.get_permitted_network(**req_copy)
 
 
 
@@ -1897,7 +1897,7 @@ class TestListLoadBalancers():
         list_load_balancers()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers')
         mock_response = '{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -1911,7 +1911,7 @@ class TestListLoadBalancers():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.list_load_balancers(
+        response = service.list_load_balancers(
             instance_id,
             dnszone_id,
             x_correlation_id=x_correlation_id,
@@ -1929,7 +1929,7 @@ class TestListLoadBalancers():
         test_list_load_balancers_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers')
         mock_response = '{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -1942,7 +1942,7 @@ class TestListLoadBalancers():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.list_load_balancers(
+        response = service.list_load_balancers(
             instance_id,
             dnszone_id,
             headers={}
@@ -1959,7 +1959,7 @@ class TestListLoadBalancers():
         test_list_load_balancers_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers')
         mock_response = '{"load_balancers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -1979,7 +1979,7 @@ class TestListLoadBalancers():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_load_balancers(**req_copy)
+                service.list_load_balancers(**req_copy)
 
 
 
@@ -2003,7 +2003,7 @@ class TestCreateLoadBalancer():
         create_load_balancer()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -2029,7 +2029,7 @@ class TestCreateLoadBalancer():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_load_balancer(
+        response = service.create_load_balancer(
             instance_id,
             dnszone_id,
             name=name,
@@ -2063,7 +2063,7 @@ class TestCreateLoadBalancer():
         test_create_load_balancer_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -2076,7 +2076,7 @@ class TestCreateLoadBalancer():
         dnszone_id = 'testString'
 
         # Invoke method
-        response = _service.create_load_balancer(
+        response = service.create_load_balancer(
             instance_id,
             dnszone_id,
             headers={}
@@ -2093,7 +2093,7 @@ class TestCreateLoadBalancer():
         test_create_load_balancer_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -2113,7 +2113,7 @@ class TestCreateLoadBalancer():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_load_balancer(**req_copy)
+                service.create_load_balancer(**req_copy)
 
 
 
@@ -2137,7 +2137,7 @@ class TestDeleteLoadBalancer():
         delete_load_balancer()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2149,7 +2149,7 @@ class TestDeleteLoadBalancer():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_load_balancer(
+        response = service.delete_load_balancer(
             instance_id,
             dnszone_id,
             lb_id,
@@ -2168,7 +2168,7 @@ class TestDeleteLoadBalancer():
         test_delete_load_balancer_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2179,7 +2179,7 @@ class TestDeleteLoadBalancer():
         lb_id = 'testString'
 
         # Invoke method
-        response = _service.delete_load_balancer(
+        response = service.delete_load_balancer(
             instance_id,
             dnszone_id,
             lb_id,
@@ -2197,7 +2197,7 @@ class TestDeleteLoadBalancer():
         test_delete_load_balancer_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2216,7 +2216,7 @@ class TestDeleteLoadBalancer():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_load_balancer(**req_copy)
+                service.delete_load_balancer(**req_copy)
 
 
 
@@ -2240,7 +2240,7 @@ class TestGetLoadBalancer():
         get_load_balancer()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -2255,7 +2255,7 @@ class TestGetLoadBalancer():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_load_balancer(
+        response = service.get_load_balancer(
             instance_id,
             dnszone_id,
             lb_id,
@@ -2274,7 +2274,7 @@ class TestGetLoadBalancer():
         test_get_load_balancer_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -2288,7 +2288,7 @@ class TestGetLoadBalancer():
         lb_id = 'testString'
 
         # Invoke method
-        response = _service.get_load_balancer(
+        response = service.get_load_balancer(
             instance_id,
             dnszone_id,
             lb_id,
@@ -2306,7 +2306,7 @@ class TestGetLoadBalancer():
         test_get_load_balancer_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -2328,7 +2328,7 @@ class TestGetLoadBalancer():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_load_balancer(**req_copy)
+                service.get_load_balancer(**req_copy)
 
 
 
@@ -2352,7 +2352,7 @@ class TestUpdateLoadBalancer():
         update_load_balancer()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -2379,7 +2379,7 @@ class TestUpdateLoadBalancer():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_load_balancer(
+        response = service.update_load_balancer(
             instance_id,
             dnszone_id,
             lb_id,
@@ -2414,7 +2414,7 @@ class TestUpdateLoadBalancer():
         test_update_load_balancer_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -2428,7 +2428,7 @@ class TestUpdateLoadBalancer():
         lb_id = 'testString'
 
         # Invoke method
-        response = _service.update_load_balancer(
+        response = service.update_load_balancer(
             instance_id,
             dnszone_id,
             lb_id,
@@ -2446,7 +2446,7 @@ class TestUpdateLoadBalancer():
         test_update_load_balancer_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/dnszones/testString/load_balancers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "glb.example.com", "description": "Load balancer for glb.example.com.", "enabled": true, "ttl": 120, "health": "DEGRADED", "fallback_pool": "24ccf79a-4ae0-4769-b4c8-17f8f230072e", "default_pools": ["default_pools"], "az_pools": [{"availability_zone": "us-south-1", "pools": ["0fc0bb7c-2fab-476e-8b9b-40fa14bf8e3d"]}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -2468,7 +2468,7 @@ class TestUpdateLoadBalancer():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_load_balancer(**req_copy)
+                service.update_load_balancer(**req_copy)
 
 
 
@@ -2502,7 +2502,7 @@ class TestListPools():
         list_pools()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools')
+        url = self.preprocess_url(base_url + '/instances/testString/pools')
         mock_response = '{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -2515,7 +2515,7 @@ class TestListPools():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.list_pools(
+        response = service.list_pools(
             instance_id,
             x_correlation_id=x_correlation_id,
             headers={}
@@ -2532,7 +2532,7 @@ class TestListPools():
         test_list_pools_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools')
+        url = self.preprocess_url(base_url + '/instances/testString/pools')
         mock_response = '{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -2544,7 +2544,7 @@ class TestListPools():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.list_pools(
+        response = service.list_pools(
             instance_id,
             headers={}
         )
@@ -2560,7 +2560,7 @@ class TestListPools():
         test_list_pools_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools')
+        url = self.preprocess_url(base_url + '/instances/testString/pools')
         mock_response = '{"pools": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -2578,7 +2578,7 @@ class TestListPools():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_pools(**req_copy)
+                service.list_pools(**req_copy)
 
 
 
@@ -2602,7 +2602,7 @@ class TestCreatePool():
         create_pool()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools')
+        url = self.preprocess_url(base_url + '/instances/testString/pools')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -2631,7 +2631,7 @@ class TestCreatePool():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_pool(
+        response = service.create_pool(
             instance_id,
             name=name,
             origins=origins,
@@ -2668,7 +2668,7 @@ class TestCreatePool():
         test_create_pool_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools')
+        url = self.preprocess_url(base_url + '/instances/testString/pools')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -2680,7 +2680,7 @@ class TestCreatePool():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.create_pool(
+        response = service.create_pool(
             instance_id,
             headers={}
         )
@@ -2696,7 +2696,7 @@ class TestCreatePool():
         test_create_pool_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools')
+        url = self.preprocess_url(base_url + '/instances/testString/pools')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -2714,7 +2714,7 @@ class TestCreatePool():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_pool(**req_copy)
+                service.create_pool(**req_copy)
 
 
 
@@ -2738,7 +2738,7 @@ class TestDeletePool():
         delete_pool()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2749,7 +2749,7 @@ class TestDeletePool():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_pool(
+        response = service.delete_pool(
             instance_id,
             pool_id,
             x_correlation_id=x_correlation_id,
@@ -2767,7 +2767,7 @@ class TestDeletePool():
         test_delete_pool_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2777,7 +2777,7 @@ class TestDeletePool():
         pool_id = 'testString'
 
         # Invoke method
-        response = _service.delete_pool(
+        response = service.delete_pool(
             instance_id,
             pool_id,
             headers={}
@@ -2794,7 +2794,7 @@ class TestDeletePool():
         test_delete_pool_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2811,7 +2811,7 @@ class TestDeletePool():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_pool(**req_copy)
+                service.delete_pool(**req_copy)
 
 
 
@@ -2835,7 +2835,7 @@ class TestGetPool():
         get_pool()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -2849,7 +2849,7 @@ class TestGetPool():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_pool(
+        response = service.get_pool(
             instance_id,
             pool_id,
             x_correlation_id=x_correlation_id,
@@ -2867,7 +2867,7 @@ class TestGetPool():
         test_get_pool_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -2880,7 +2880,7 @@ class TestGetPool():
         pool_id = 'testString'
 
         # Invoke method
-        response = _service.get_pool(
+        response = service.get_pool(
             instance_id,
             pool_id,
             headers={}
@@ -2897,7 +2897,7 @@ class TestGetPool():
         test_get_pool_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -2917,7 +2917,7 @@ class TestGetPool():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_pool(**req_copy)
+                service.get_pool(**req_copy)
 
 
 
@@ -2941,7 +2941,7 @@ class TestUpdatePool():
         update_pool()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -2971,7 +2971,7 @@ class TestUpdatePool():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_pool(
+        response = service.update_pool(
             instance_id,
             pool_id,
             name=name,
@@ -3009,7 +3009,7 @@ class TestUpdatePool():
         test_update_pool_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -3022,7 +3022,7 @@ class TestUpdatePool():
         pool_id = 'testString'
 
         # Invoke method
-        response = _service.update_pool(
+        response = service.update_pool(
             instance_id,
             pool_id,
             headers={}
@@ -3039,7 +3039,7 @@ class TestUpdatePool():
         test_update_pool_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/pools/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/pools/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "dal10-az-pool", "description": "Load balancer pool for dal10 availability zone.", "enabled": true, "healthy_origins_threshold": 1, "origins": [{"name": "app-server-1", "description": "description of the origin server", "address": "10.10.16.8", "enabled": true, "health": true, "health_failure_reason": "health_failure_reason"}], "monitor": "7dd6841c-264e-11ea-88df-062967242a6a", "notification_channel": "https://mywebsite.com/dns/webhook", "health": "HEALTHY", "healthcheck_region": "us-south", "healthcheck_subnets": ["crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"], "healthcheck_vsis": [{"subnet": "crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "ipv4_address": "10.10.16.8", "ipv4_cidr_block": "10.10.16.0/24", "vpc": "crn:v1:staging:public:is:us-south:a/01652b251c3ae2787110a995d8db0135::vpc:r134-8c426a0a-ec74-4c97-9c02-f6194c224d8a"}], "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -3059,7 +3059,7 @@ class TestUpdatePool():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_pool(**req_copy)
+                service.update_pool(**req_copy)
 
 
 
@@ -3093,7 +3093,7 @@ class TestListMonitors():
         list_monitors()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors')
         mock_response = '{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -3106,7 +3106,7 @@ class TestListMonitors():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.list_monitors(
+        response = service.list_monitors(
             instance_id,
             x_correlation_id=x_correlation_id,
             headers={}
@@ -3123,7 +3123,7 @@ class TestListMonitors():
         test_list_monitors_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors')
         mock_response = '{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -3135,7 +3135,7 @@ class TestListMonitors():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.list_monitors(
+        response = service.list_monitors(
             instance_id,
             headers={}
         )
@@ -3151,7 +3151,7 @@ class TestListMonitors():
         test_list_monitors_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors')
         mock_response = '{"monitors": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}], "offset": 1, "limit": 20, "count": 1, "total_count": 200, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?limit=20"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones/example.com:d04d3a7a-7f6d-47d4-b811-08c5478fa1a4/resource_records?offset=20&limit=20"}}'
         responses.add(responses.GET,
                       url,
@@ -3169,7 +3169,7 @@ class TestListMonitors():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_monitors(**req_copy)
+                service.list_monitors(**req_copy)
 
 
 
@@ -3193,7 +3193,7 @@ class TestCreateMonitor():
         create_monitor()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -3224,7 +3224,7 @@ class TestCreateMonitor():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_monitor(
+        response = service.create_monitor(
             instance_id,
             name=name,
             type=type,
@@ -3269,7 +3269,7 @@ class TestCreateMonitor():
         test_create_monitor_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -3281,7 +3281,7 @@ class TestCreateMonitor():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.create_monitor(
+        response = service.create_monitor(
             instance_id,
             headers={}
         )
@@ -3297,7 +3297,7 @@ class TestCreateMonitor():
         test_create_monitor_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.POST,
                       url,
@@ -3315,7 +3315,7 @@ class TestCreateMonitor():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_monitor(**req_copy)
+                service.create_monitor(**req_copy)
 
 
 
@@ -3339,7 +3339,7 @@ class TestDeleteMonitor():
         delete_monitor()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3350,7 +3350,7 @@ class TestDeleteMonitor():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_monitor(
+        response = service.delete_monitor(
             instance_id,
             monitor_id,
             x_correlation_id=x_correlation_id,
@@ -3368,7 +3368,7 @@ class TestDeleteMonitor():
         test_delete_monitor_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3378,7 +3378,7 @@ class TestDeleteMonitor():
         monitor_id = 'testString'
 
         # Invoke method
-        response = _service.delete_monitor(
+        response = service.delete_monitor(
             instance_id,
             monitor_id,
             headers={}
@@ -3395,7 +3395,7 @@ class TestDeleteMonitor():
         test_delete_monitor_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3412,7 +3412,7 @@ class TestDeleteMonitor():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_monitor(**req_copy)
+                service.delete_monitor(**req_copy)
 
 
 
@@ -3436,7 +3436,7 @@ class TestGetMonitor():
         get_monitor()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -3450,7 +3450,7 @@ class TestGetMonitor():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_monitor(
+        response = service.get_monitor(
             instance_id,
             monitor_id,
             x_correlation_id=x_correlation_id,
@@ -3468,7 +3468,7 @@ class TestGetMonitor():
         test_get_monitor_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -3481,7 +3481,7 @@ class TestGetMonitor():
         monitor_id = 'testString'
 
         # Invoke method
-        response = _service.get_monitor(
+        response = service.get_monitor(
             instance_id,
             monitor_id,
             headers={}
@@ -3498,7 +3498,7 @@ class TestGetMonitor():
         test_get_monitor_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.GET,
                       url,
@@ -3518,7 +3518,7 @@ class TestGetMonitor():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_monitor(**req_copy)
+                service.get_monitor(**req_copy)
 
 
 
@@ -3542,7 +3542,7 @@ class TestUpdateMonitor():
         update_monitor()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -3574,7 +3574,7 @@ class TestUpdateMonitor():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_monitor(
+        response = service.update_monitor(
             instance_id,
             monitor_id,
             name=name,
@@ -3620,7 +3620,7 @@ class TestUpdateMonitor():
         test_update_monitor_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -3633,7 +3633,7 @@ class TestUpdateMonitor():
         monitor_id = 'testString'
 
         # Invoke method
-        response = _service.update_monitor(
+        response = service.update_monitor(
             instance_id,
             monitor_id,
             headers={}
@@ -3650,7 +3650,7 @@ class TestUpdateMonitor():
         test_update_monitor_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/monitors/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/monitors/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "healthcheck-monitor", "description": "Load balancer monitor for glb.example.com.", "type": "HTTPS", "port": 8080, "interval": 60, "retries": 2, "timeout": 5, "method": "GET", "path": "/health", "headers": [{"name": "Host", "value": ["origin.example.com"]}], "allow_insecure": false, "expected_codes": "200", "expected_body": "alive", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z"}'
         responses.add(responses.PUT,
                       url,
@@ -3670,7 +3670,7 @@ class TestUpdateMonitor():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_monitor(**req_copy)
+                service.update_monitor(**req_copy)
 
 
 
@@ -3704,7 +3704,7 @@ class TestListCustomResolvers():
         list_custom_resolvers()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers')
         mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3717,7 +3717,7 @@ class TestListCustomResolvers():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.list_custom_resolvers(
+        response = service.list_custom_resolvers(
             instance_id,
             x_correlation_id=x_correlation_id,
             headers={}
@@ -3734,7 +3734,7 @@ class TestListCustomResolvers():
         test_list_custom_resolvers_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers')
         mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3746,7 +3746,7 @@ class TestListCustomResolvers():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.list_custom_resolvers(
+        response = service.list_custom_resolvers(
             instance_id,
             headers={}
         )
@@ -3762,7 +3762,7 @@ class TestListCustomResolvers():
         test_list_custom_resolvers_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers')
         mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -3780,7 +3780,7 @@ class TestListCustomResolvers():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_custom_resolvers(**req_copy)
+                service.list_custom_resolvers(**req_copy)
 
 
 
@@ -3804,7 +3804,7 @@ class TestCreateCustomResolver():
         create_custom_resolver()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -3825,7 +3825,7 @@ class TestCreateCustomResolver():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_custom_resolver(
+        response = service.create_custom_resolver(
             instance_id,
             name=name,
             locations=locations,
@@ -3850,7 +3850,7 @@ class TestCreateCustomResolver():
         test_create_custom_resolver_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -3862,7 +3862,7 @@ class TestCreateCustomResolver():
         instance_id = 'testString'
 
         # Invoke method
-        response = _service.create_custom_resolver(
+        response = service.create_custom_resolver(
             instance_id,
             headers={}
         )
@@ -3878,7 +3878,7 @@ class TestCreateCustomResolver():
         test_create_custom_resolver_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -3896,7 +3896,7 @@ class TestCreateCustomResolver():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_custom_resolver(**req_copy)
+                service.create_custom_resolver(**req_copy)
 
 
 
@@ -3920,7 +3920,7 @@ class TestDeleteCustomResolver():
         delete_custom_resolver()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3931,7 +3931,7 @@ class TestDeleteCustomResolver():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_custom_resolver(
+        response = service.delete_custom_resolver(
             instance_id,
             resolver_id,
             x_correlation_id=x_correlation_id,
@@ -3949,7 +3949,7 @@ class TestDeleteCustomResolver():
         test_delete_custom_resolver_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3959,7 +3959,7 @@ class TestDeleteCustomResolver():
         resolver_id = 'testString'
 
         # Invoke method
-        response = _service.delete_custom_resolver(
+        response = service.delete_custom_resolver(
             instance_id,
             resolver_id,
             headers={}
@@ -3976,7 +3976,7 @@ class TestDeleteCustomResolver():
         test_delete_custom_resolver_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -3993,7 +3993,7 @@ class TestDeleteCustomResolver():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_custom_resolver(**req_copy)
+                service.delete_custom_resolver(**req_copy)
 
 
 
@@ -4017,7 +4017,7 @@ class TestGetCustomResolver():
         get_custom_resolver()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4031,7 +4031,7 @@ class TestGetCustomResolver():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_custom_resolver(
+        response = service.get_custom_resolver(
             instance_id,
             resolver_id,
             x_correlation_id=x_correlation_id,
@@ -4049,7 +4049,7 @@ class TestGetCustomResolver():
         test_get_custom_resolver_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4062,7 +4062,7 @@ class TestGetCustomResolver():
         resolver_id = 'testString'
 
         # Invoke method
-        response = _service.get_custom_resolver(
+        response = service.get_custom_resolver(
             instance_id,
             resolver_id,
             headers={}
@@ -4079,7 +4079,7 @@ class TestGetCustomResolver():
         test_get_custom_resolver_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4099,7 +4099,7 @@ class TestGetCustomResolver():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_custom_resolver(**req_copy)
+                service.get_custom_resolver(**req_copy)
 
 
 
@@ -4123,7 +4123,7 @@ class TestUpdateCustomResolver():
         update_custom_resolver()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.PATCH,
                       url,
@@ -4140,7 +4140,7 @@ class TestUpdateCustomResolver():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_custom_resolver(
+        response = service.update_custom_resolver(
             instance_id,
             resolver_id,
             name=name,
@@ -4166,7 +4166,7 @@ class TestUpdateCustomResolver():
         test_update_custom_resolver_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.PATCH,
                       url,
@@ -4179,7 +4179,7 @@ class TestUpdateCustomResolver():
         resolver_id = 'testString'
 
         # Invoke method
-        response = _service.update_custom_resolver(
+        response = service.update_custom_resolver(
             instance_id,
             resolver_id,
             headers={}
@@ -4196,7 +4196,7 @@ class TestUpdateCustomResolver():
         test_update_custom_resolver_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.PATCH,
                       url,
@@ -4216,7 +4216,7 @@ class TestUpdateCustomResolver():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_custom_resolver(**req_copy)
+                service.update_custom_resolver(**req_copy)
 
 
 
@@ -4250,7 +4250,7 @@ class TestAddCustomResolverLocation():
         add_custom_resolver_location()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations')
         mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}'
         responses.add(responses.POST,
                       url,
@@ -4266,7 +4266,7 @@ class TestAddCustomResolverLocation():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.add_custom_resolver_location(
+        response = service.add_custom_resolver_location(
             instance_id,
             resolver_id,
             subnet_crn=subnet_crn,
@@ -4290,7 +4290,7 @@ class TestAddCustomResolverLocation():
         test_add_custom_resolver_location_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations')
         mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}'
         responses.add(responses.POST,
                       url,
@@ -4303,7 +4303,7 @@ class TestAddCustomResolverLocation():
         resolver_id = 'testString'
 
         # Invoke method
-        response = _service.add_custom_resolver_location(
+        response = service.add_custom_resolver_location(
             instance_id,
             resolver_id,
             headers={}
@@ -4320,7 +4320,7 @@ class TestAddCustomResolverLocation():
         test_add_custom_resolver_location_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations')
         mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}'
         responses.add(responses.POST,
                       url,
@@ -4340,7 +4340,7 @@ class TestAddCustomResolverLocation():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.add_custom_resolver_location(**req_copy)
+                service.add_custom_resolver_location(**req_copy)
 
 
 
@@ -4364,7 +4364,7 @@ class TestUpdateCustomResolverLocation():
         update_custom_resolver_location()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
         mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}'
         responses.add(responses.PATCH,
                       url,
@@ -4381,7 +4381,7 @@ class TestUpdateCustomResolverLocation():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_custom_resolver_location(
+        response = service.update_custom_resolver_location(
             instance_id,
             resolver_id,
             location_id,
@@ -4406,7 +4406,7 @@ class TestUpdateCustomResolverLocation():
         test_update_custom_resolver_location_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
         mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}'
         responses.add(responses.PATCH,
                       url,
@@ -4420,7 +4420,7 @@ class TestUpdateCustomResolverLocation():
         location_id = 'testString'
 
         # Invoke method
-        response = _service.update_custom_resolver_location(
+        response = service.update_custom_resolver_location(
             instance_id,
             resolver_id,
             location_id,
@@ -4438,7 +4438,7 @@ class TestUpdateCustomResolverLocation():
         test_update_custom_resolver_location_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
         mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}'
         responses.add(responses.PATCH,
                       url,
@@ -4460,7 +4460,7 @@ class TestUpdateCustomResolverLocation():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_custom_resolver_location(**req_copy)
+                service.update_custom_resolver_location(**req_copy)
 
 
 
@@ -4484,7 +4484,7 @@ class TestDeleteCustomResolverLocation():
         delete_custom_resolver_location()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4496,7 +4496,7 @@ class TestDeleteCustomResolverLocation():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_custom_resolver_location(
+        response = service.delete_custom_resolver_location(
             instance_id,
             resolver_id,
             location_id,
@@ -4515,7 +4515,7 @@ class TestDeleteCustomResolverLocation():
         test_delete_custom_resolver_location_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4526,7 +4526,7 @@ class TestDeleteCustomResolverLocation():
         location_id = 'testString'
 
         # Invoke method
-        response = _service.delete_custom_resolver_location(
+        response = service.delete_custom_resolver_location(
             instance_id,
             resolver_id,
             location_id,
@@ -4544,7 +4544,7 @@ class TestDeleteCustomResolverLocation():
         test_delete_custom_resolver_location_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/locations/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4563,7 +4563,7 @@ class TestDeleteCustomResolverLocation():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_custom_resolver_location(**req_copy)
+                service.delete_custom_resolver_location(**req_copy)
 
 
 
@@ -4597,7 +4597,7 @@ class TestListForwardingRules():
         list_forwarding_rules()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
         mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -4611,7 +4611,7 @@ class TestListForwardingRules():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.list_forwarding_rules(
+        response = service.list_forwarding_rules(
             instance_id,
             resolver_id,
             x_correlation_id=x_correlation_id,
@@ -4629,7 +4629,7 @@ class TestListForwardingRules():
         test_list_forwarding_rules_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
         mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -4642,7 +4642,7 @@ class TestListForwardingRules():
         resolver_id = 'testString'
 
         # Invoke method
-        response = _service.list_forwarding_rules(
+        response = service.list_forwarding_rules(
             instance_id,
             resolver_id,
             headers={}
@@ -4659,7 +4659,7 @@ class TestListForwardingRules():
         test_list_forwarding_rules_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
         mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
         responses.add(responses.GET,
                       url,
@@ -4679,7 +4679,7 @@ class TestListForwardingRules():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.list_forwarding_rules(**req_copy)
+                service.list_forwarding_rules(**req_copy)
 
 
 
@@ -4703,7 +4703,7 @@ class TestCreateForwardingRule():
         create_forwarding_rule()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4721,7 +4721,7 @@ class TestCreateForwardingRule():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.create_forwarding_rule(
+        response = service.create_forwarding_rule(
             instance_id,
             resolver_id,
             type=type,
@@ -4749,7 +4749,7 @@ class TestCreateForwardingRule():
         test_create_forwarding_rule_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4762,7 +4762,7 @@ class TestCreateForwardingRule():
         resolver_id = 'testString'
 
         # Invoke method
-        response = _service.create_forwarding_rule(
+        response = service.create_forwarding_rule(
             instance_id,
             resolver_id,
             headers={}
@@ -4779,7 +4779,7 @@ class TestCreateForwardingRule():
         test_create_forwarding_rule_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.POST,
                       url,
@@ -4799,7 +4799,7 @@ class TestCreateForwardingRule():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.create_forwarding_rule(**req_copy)
+                service.create_forwarding_rule(**req_copy)
 
 
 
@@ -4823,7 +4823,7 @@ class TestDeleteForwardingRule():
         delete_forwarding_rule()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4835,7 +4835,7 @@ class TestDeleteForwardingRule():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.delete_forwarding_rule(
+        response = service.delete_forwarding_rule(
             instance_id,
             resolver_id,
             rule_id,
@@ -4854,7 +4854,7 @@ class TestDeleteForwardingRule():
         test_delete_forwarding_rule_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4865,7 +4865,7 @@ class TestDeleteForwardingRule():
         rule_id = 'testString'
 
         # Invoke method
-        response = _service.delete_forwarding_rule(
+        response = service.delete_forwarding_rule(
             instance_id,
             resolver_id,
             rule_id,
@@ -4883,7 +4883,7 @@ class TestDeleteForwardingRule():
         test_delete_forwarding_rule_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -4902,7 +4902,7 @@ class TestDeleteForwardingRule():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.delete_forwarding_rule(**req_copy)
+                service.delete_forwarding_rule(**req_copy)
 
 
 
@@ -4926,7 +4926,7 @@ class TestGetForwardingRule():
         get_forwarding_rule()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4941,7 +4941,7 @@ class TestGetForwardingRule():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.get_forwarding_rule(
+        response = service.get_forwarding_rule(
             instance_id,
             resolver_id,
             rule_id,
@@ -4960,7 +4960,7 @@ class TestGetForwardingRule():
         test_get_forwarding_rule_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -4974,7 +4974,7 @@ class TestGetForwardingRule():
         rule_id = 'testString'
 
         # Invoke method
-        response = _service.get_forwarding_rule(
+        response = service.get_forwarding_rule(
             instance_id,
             resolver_id,
             rule_id,
@@ -4992,7 +4992,7 @@ class TestGetForwardingRule():
         test_get_forwarding_rule_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.GET,
                       url,
@@ -5014,7 +5014,7 @@ class TestGetForwardingRule():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.get_forwarding_rule(**req_copy)
+                service.get_forwarding_rule(**req_copy)
 
 
 
@@ -5038,7 +5038,7 @@ class TestUpdateForwardingRule():
         update_forwarding_rule()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.PATCH,
                       url,
@@ -5056,7 +5056,7 @@ class TestUpdateForwardingRule():
         x_correlation_id = 'testString'
 
         # Invoke method
-        response = _service.update_forwarding_rule(
+        response = service.update_forwarding_rule(
             instance_id,
             resolver_id,
             rule_id,
@@ -5083,7 +5083,7 @@ class TestUpdateForwardingRule():
         test_update_forwarding_rule_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.PATCH,
                       url,
@@ -5097,7 +5097,7 @@ class TestUpdateForwardingRule():
         rule_id = 'testString'
 
         # Invoke method
-        response = _service.update_forwarding_rule(
+        response = service.update_forwarding_rule(
             instance_id,
             resolver_id,
             rule_id,
@@ -5115,7 +5115,7 @@ class TestUpdateForwardingRule():
         test_update_forwarding_rule_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
+        url = self.preprocess_url(base_url + '/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
         mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
         responses.add(responses.PATCH,
                       url,
@@ -5137,7 +5137,7 @@ class TestUpdateForwardingRule():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                _service.update_forwarding_rule(**req_copy)
+                service.update_forwarding_rule(**req_copy)
 
 
 
