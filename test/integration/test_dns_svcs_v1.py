@@ -1145,20 +1145,6 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
-        """ add,update,Custom Resolver Locations """
-        # Add Custom Resolver Locations
-        resp = self.cr.add_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
-                                                    subnet_crn=self.subnet_crn_location,enable=True)
-        assert resp is not None
-        assert resp.status_code == 200
-        location_id = resp.get_result().get("id")
-
-        # Update Custom Resolver Locations
-        resp = self.cr.update_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
-                                                       location_id=location_id, enable=True)
-        assert resp is not None
-        assert resp.status_code == 200
-
         """ create,get,update,list Forwarding rules """
         # Create Forwarding rules
         type1 = 'zone'
@@ -1193,12 +1179,6 @@ class TestCustomResolversV1(unittest.TestCase):
         """ Delete Custom Resolver,  Locations, Forwarding rules """ 
         # Delete Forwarding rules
         resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)
-        assert resp is not None
-        assert resp.status_code == 204
-
-        # Delete Custom resolver locations
-        resp = self.cr.delete_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
-                                                       location_id=location_id)
         assert resp is not None
         assert resp.status_code == 204
         
