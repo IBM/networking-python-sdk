@@ -29,7 +29,8 @@ import requests
 import responses
 import tempfile
 import urllib
-from github.com/IBM/networking-python-sdk.dns_svcs_v1 import *
+#from github.com/IBM/networking-python-sdk.dns_svcs_v1 import *
+from ibm_cloud_networking_services.dns_svcs_v1 import *
 
 
 _service = DnsSvcsV1(
