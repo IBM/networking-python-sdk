@@ -24,6 +24,7 @@ except:
     raise unittest.SkipTest('no dl.env file loaded, skipping...')
 
 class TestDirectLinkProviderV2(unittest.TestCase):
+    unittest.SkipTest('skipping...')
     """ Test class for DirectLink Provider sdk functions """
 
     def setUp(self):
