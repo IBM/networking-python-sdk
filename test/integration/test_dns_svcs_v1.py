@@ -822,8 +822,9 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
 
 
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
+    
     """The Global Load Balancers for DNS V1 service test class."""
-
+    @unittest.skip('skipping...')
     def setUp(self):
         """ test case setup """
 
