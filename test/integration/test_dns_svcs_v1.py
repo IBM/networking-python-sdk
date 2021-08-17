@@ -822,8 +822,9 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
 
 
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
+    
     """The Global Load Balancers for DNS V1 service test class."""
-
+   
     def setUp(self):
         """ test case setup """
 
@@ -903,6 +904,7 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
                 instance_id=self.instance_id, dnszone_id=zone.get("id"))
 
     ################## global load balancers integration test cases ##################
+    @unittest.skip('skipping...')
     def test_1_dns_globalloadbalancers(self):
         """ create,get,update,delete GLB monitor """
 
