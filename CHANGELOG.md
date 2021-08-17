@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/IBM/networking-python-sdk/compare/v0.7.0...v0.8.0) (2021-08-17)
+
+
+### Features
+
+* **custom resolver:** Adding SDK and envs ([9810f5f](https://github.com/IBM/networking-python-sdk/commit/9810f5f2aebd2af1d64ad9c2647bc3d28e914078))
+
 # [0.7.0](https://github.com/IBM/networking-python-sdk/compare/v0.6.0...v0.7.0) (2021-06-25)
 
 
