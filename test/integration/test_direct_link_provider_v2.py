@@ -25,8 +25,6 @@ except:
 
 class TestDirectLinkProviderV2(unittest.TestCase):
     """ Test class for DirectLink Provider sdk functions """
-
-    @unittest.skip('skipping...')
     def setUp(self):
         """ test case setup """
         self.dl_endpoint = os.getenv("DL_SERVICES_SERVICE_URL")
@@ -128,8 +126,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response is not None
 
 
-    ################## Direct Link Provider Ports ######################################
-
+    ################## Direct Link Provider Ports #####################################
     def test_list_get_provider_ports(self):
         """ test list/get ports success """
         response = self.dl_provider.list_provider_ports()
