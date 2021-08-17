@@ -409,7 +409,7 @@ class TestDirectLinkV1(unittest.TestCase):
         self.delete_gateway(gateway_id)
     
     ################## Direct Link Gateways with Customer API MD5 Auth ############################
-
+    @unittest.skip('skipping...')
     def test_gateway_with_md5(self):
         bgpAsn = 64999
         crossConnectRouter = "LAB-xcr01.dal09"

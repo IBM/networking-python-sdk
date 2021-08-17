@@ -199,7 +199,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response.get_status_code() == 204
 
     ################## Direct Link Provider Gateways with Client API ############################
-
+    @unittest.skip('skipping...')
     def test_provider_gateway_actions_with_client_api(self):
         timestamp = time.time()
         name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-" + str(int(timestamp))
@@ -381,7 +381,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response.get_status_code() == 204
     
      ################## Direct Link Provider Gateways with Client API MD5 Auth ############################
-
+    @unittest.skip('skipping...')
     def test_provider_gateway_actions_with_client_api_md5(self):
         timestamp = time.time()
         name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-md5-" + str(int(timestamp))
