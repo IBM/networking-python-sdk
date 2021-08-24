@@ -86,7 +86,6 @@ class TestZonesSettingsV1(unittest.TestCase):
             value=self.value).get_result()
         assert response is not None and response.get('success') is True
 
-    @unittest.skip("skipping")    
     def test_1_automatic_https_rewrites(self):
         """ Get automatic https rewrites setting """
         response = self.zonesSettings.get_automatic_https_rewrites().get_result()
@@ -197,7 +196,6 @@ class TestZonesSettingsV1(unittest.TestCase):
             value=self.minfy).get_result()
         assert response is not None and response.get('success') is True
 
-    @unittest.skip("skipping")    
     def test_1_min_tls_setting(self):
         """ Get min tls setting """
         response = self.zonesSettings.get_min_tls_version().get_result()
@@ -266,8 +264,6 @@ class TestZonesSettingsV1(unittest.TestCase):
             value=strict_transport_security).get_result()
         assert response is not None and response.get('success') is True
 
-    
-    @unittest.skip("skipping")    
     def test_1_mobile_redirect_setting(self):
         """ Get mobile redirect setting """
         response = self.zonesSettings.get_mobile_redirect().get_result()
