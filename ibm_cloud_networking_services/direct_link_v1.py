@@ -263,6 +263,7 @@ class DirectLinkV1(BaseService):
         id: str,
         *,
         authentication_key: 'GatewayPatchTemplateAuthenticationKey' = None,
+        connection_mode: str = None,
         global_: bool = None,
         loa_reject_reason: str = None,
         macsec_config: 'GatewayMacsecConfigPatchTemplate' = None,
@@ -283,6 +284,12 @@ class DirectLinkV1(BaseService):
                The key material that you provide must be base64 encoded and original
                string must be maximum 126 ASCII characters in length.
                To clear the optional `authentication_key` field patch its crn to `""`.
+        :param str connection_mode: (optional) Type of services this Gateway is
+               attached to. Mode transit means this Gateway will be attached to Transit
+               Gateway Service and direct means this Gateway will be attached to vpc or
+               classic connection. The list of enumerated values for this property may
+               expand in the future. Code and processes using this field  must tolerate
+               unexpected values.
         :param bool global_: (optional) Gateways with global routing (`true`) can
                connect to networks outside of their associated region.
         :param str loa_reject_reason: (optional) Use this field during LOA
@@ -326,6 +333,7 @@ class DirectLinkV1(BaseService):
 
         data = {
             'authentication_key': authentication_key,
+            'connection_mode': connection_mode,
             'global': global_,
             'loa_reject_reason': loa_reject_reason,
             'macsec_config': macsec_config,
@@ -358,6 +366,7 @@ class DirectLinkV1(BaseService):
         action: str,
         *,
         authentication_key: 'GatewayActionTemplateAuthenticationKey' = None,
+        connection_mode: str = None,
         global_: bool = None,
         metered: bool = None,
         resource_group: 'ResourceGroupIdentity' = None,
@@ -379,6 +388,12 @@ class DirectLinkV1(BaseService):
                The key material that you provide must be base64 encoded and original
                string must be maximum 126 ASCII characters in length.
                To clear the optional `authentication_key` field patch its crn to `""`.
+        :param str connection_mode: (optional) Type of services this Gateway is
+               attached to. Mode transit means this Gateway will be attached to Transit
+               Gateway Service and direct means this Gateway will be attached to vpc or
+               classic connection. The list of enumerated values for this property may
+               expand in the future. Code and processes using this field  must tolerate
+               unexpected values.
         :param bool global_: (optional) Required for create_gateway_approve
                requests to select the gateway's routing option.  Gateways with global
                routing (`true`) can connect to networks outside of their associated
@@ -422,6 +437,7 @@ class DirectLinkV1(BaseService):
         data = {
             'action': action,
             'authentication_key': authentication_key,
+            'connection_mode': connection_mode,
             'global': global_,
             'metered': metered,
             'resource_group': resource_group,
@@ -1285,6 +1301,11 @@ class Gateway():
     :attr str completion_notice_reject_reason: (optional) Reason for completion
           notice rejection.  Only included on type=dedicated gateways with a rejected
           completion notice.
+    :attr str connection_mode: (optional) Type of services this Gateway is attached
+          to. Mode transit means this Gateway will be attached to Transit Gateway Service
+          and direct means this Gateway will be attached to vpc or classic connection. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field  must tolerate unexpected values.
     :attr datetime created_at: The date and time resource was created.
     :attr str crn: The CRN (Cloud Resource Name) of this gateway.
     :attr str cross_connect_router: (optional) Cross connect router.  Only included
@@ -1346,6 +1367,7 @@ class Gateway():
                  carrier_name: str = None,
                  change_request: 'GatewayChangeRequest' = None,
                  completion_notice_reject_reason: str = None,
+                 connection_mode: str = None,
                  cross_connect_router: str = None,
                  customer_name: str = None,
                  link_status: str = None,
@@ -1400,6 +1422,12 @@ class Gateway():
         :param str completion_notice_reject_reason: (optional) Reason for
                completion notice rejection.  Only included on type=dedicated gateways with
                a rejected completion notice.
+        :param str connection_mode: (optional) Type of services this Gateway is
+               attached to. Mode transit means this Gateway will be attached to Transit
+               Gateway Service and direct means this Gateway will be attached to vpc or
+               classic connection. The list of enumerated values for this property may
+               expand in the future. Code and processes using this field  must tolerate
+               unexpected values.
         :param str cross_connect_router: (optional) Cross connect router.  Only
                included on type=dedicated gateways.
         :param str customer_name: (optional) Customer name.  Only set for
@@ -1429,6 +1457,7 @@ class Gateway():
         self.carrier_name = carrier_name
         self.change_request = change_request
         self.completion_notice_reject_reason = completion_notice_reject_reason
+        self.connection_mode = connection_mode
         self.created_at = created_at
         self.crn = crn
         self.cross_connect_router = cross_connect_router
@@ -1475,6 +1504,8 @@ class Gateway():
             args['change_request'] = _dict.get('change_request')
         if 'completion_notice_reject_reason' in _dict:
             args['completion_notice_reject_reason'] = _dict.get('completion_notice_reject_reason')
+        if 'connection_mode' in _dict:
+            args['connection_mode'] = _dict.get('connection_mode')
         if 'created_at' in _dict:
             args['created_at'] = string_to_datetime(_dict.get('created_at'))
         else:
@@ -1565,6 +1596,8 @@ class Gateway():
             _dict['change_request'] = self.change_request
         if hasattr(self, 'completion_notice_reject_reason') and self.completion_notice_reject_reason is not None:
             _dict['completion_notice_reject_reason'] = self.completion_notice_reject_reason
+        if hasattr(self, 'connection_mode') and self.connection_mode is not None:
+            _dict['connection_mode'] = self.connection_mode
         if hasattr(self, 'created_at') and self.created_at is not None:
             _dict['created_at'] = datetime_to_string(self.created_at)
         if hasattr(self, 'crn') and self.crn is not None:
@@ -1632,6 +1665,18 @@ class Gateway():
         CONNECT = "connect"
         ESTABLISHED = "established"
         IDLE = "idle"
+
+
+    class ConnectionModeEnum(Enum):
+        """
+        Type of services this Gateway is attached to. Mode transit means this Gateway will
+        be attached to Transit Gateway Service and direct means this Gateway will be
+        attached to vpc or classic connection. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field  must
+        tolerate unexpected values.
+        """
+        DIRECT = "direct"
+        TRANSIT = "transit"
 
 
     class LinkStatusEnum(Enum):
@@ -3092,6 +3137,11 @@ class GatewayTemplate():
           value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
           "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
           have matching network and subnet mask values.
+    :attr str connection_mode: (optional) Type of services this Gateway is attached
+          to. Mode transit means this Gateway will be attached to Transit Gateway Service
+          and direct means this Gateway will be attached to vpc or classic connection. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field  must tolerate unexpected values.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
@@ -3117,6 +3167,7 @@ class GatewayTemplate():
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
+                 connection_mode: str = None,
                  resource_group: 'ResourceGroupIdentity' = None) -> None:
         """
         Initialize a GatewayTemplate object.
@@ -3155,6 +3206,12 @@ class GatewayTemplate():
                the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
                "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
                and bgp_ibm_cidr must have matching network and subnet mask values.
+        :param str connection_mode: (optional) Type of services this Gateway is
+               attached to. Mode transit means this Gateway will be attached to Transit
+               Gateway Service and direct means this Gateway will be attached to vpc or
+               classic connection. The list of enumerated values for this property may
+               expand in the future. Code and processes using this field  must tolerate
+               unexpected values.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
@@ -3163,6 +3220,18 @@ class GatewayTemplate():
         msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
                   ", ".join(['GatewayTemplateGatewayTypeDedicatedTemplate', 'GatewayTemplateGatewayTypeConnectTemplate']))
         raise Exception(msg)
+
+    class ConnectionModeEnum(Enum):
+        """
+        Type of services this Gateway is attached to. Mode transit means this Gateway will
+        be attached to Transit Gateway Service and direct means this Gateway will be
+        attached to vpc or classic connection. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field  must
+        tolerate unexpected values.
+        """
+        DIRECT = "direct"
+        TRANSIT = "transit"
+
 
     class TypeEnum(Enum):
         """
@@ -4698,6 +4767,11 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
           value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
           "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
           have matching network and subnet mask values.
+    :attr str connection_mode: (optional) Type of services this Gateway is attached
+          to. Mode transit means this Gateway will be attached to Transit Gateway Service
+          and direct means this Gateway will be attached to vpc or classic connection. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field  must tolerate unexpected values.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
@@ -4725,6 +4799,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
+                 connection_mode: str = None,
                  resource_group: 'ResourceGroupIdentity' = None) -> None:
         """
         Initialize a GatewayTemplateGatewayTypeConnectTemplate object.
@@ -4766,6 +4841,12 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
                the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
                "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
                and bgp_ibm_cidr must have matching network and subnet mask values.
+        :param str connection_mode: (optional) Type of services this Gateway is
+               attached to. Mode transit means this Gateway will be attached to Transit
+               Gateway Service and direct means this Gateway will be attached to vpc or
+               classic connection. The list of enumerated values for this property may
+               expand in the future. Code and processes using this field  must tolerate
+               unexpected values.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
@@ -4777,6 +4858,7 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
         self.bgp_base_cidr = bgp_base_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
         self.bgp_ibm_cidr = bgp_ibm_cidr
+        self.connection_mode = connection_mode
         self.global_ = global_
         self.metered = metered
         self.name = name
@@ -4801,6 +4883,8 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
             args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
         if 'bgp_ibm_cidr' in _dict:
             args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
+        if 'connection_mode' in _dict:
+            args['connection_mode'] = _dict.get('connection_mode')
         if 'global' in _dict:
             args['global_'] = _dict.get('global')
         else:
@@ -4847,6 +4931,8 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
             _dict['bgp_cer_cidr'] = self.bgp_cer_cidr
         if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
             _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
+        if hasattr(self, 'connection_mode') and self.connection_mode is not None:
+            _dict['connection_mode'] = self.connection_mode
         if hasattr(self, 'global_') and self.global_ is not None:
             _dict['global'] = self.global_
         if hasattr(self, 'metered') and self.metered is not None:
@@ -4880,6 +4966,18 @@ class GatewayTemplateGatewayTypeConnectTemplate(GatewayTemplate):
     def __ne__(self, other: 'GatewayTemplateGatewayTypeConnectTemplate') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class ConnectionModeEnum(Enum):
+        """
+        Type of services this Gateway is attached to. Mode transit means this Gateway will
+        be attached to Transit Gateway Service and direct means this Gateway will be
+        attached to vpc or classic connection. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field  must
+        tolerate unexpected values.
+        """
+        DIRECT = "direct"
+        TRANSIT = "transit"
+
 
     class TypeEnum(Enum):
         """
@@ -4920,6 +5018,11 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
           value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16",
           "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must
           have matching network and subnet mask values.
+    :attr str connection_mode: (optional) Type of services this Gateway is attached
+          to. Mode transit means this Gateway will be attached to Transit Gateway Service
+          and direct means this Gateway will be attached to vpc or classic connection. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field  must tolerate unexpected values.
     :attr bool global_: Gateways with global routing (`true`) can connect to
           networks outside their associated region.
     :attr bool metered: Metered billing option.  When `true` gateway usage is billed
@@ -4955,6 +5058,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                  bgp_base_cidr: str = None,
                  bgp_cer_cidr: str = None,
                  bgp_ibm_cidr: str = None,
+                 connection_mode: str = None,
                  resource_group: 'ResourceGroupIdentity' = None,
                  macsec_config: 'GatewayMacsecConfigTemplate' = None) -> None:
         """
@@ -4999,6 +5103,12 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
                the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
                "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
                and bgp_ibm_cidr must have matching network and subnet mask values.
+        :param str connection_mode: (optional) Type of services this Gateway is
+               attached to. Mode transit means this Gateway will be attached to Transit
+               Gateway Service and direct means this Gateway will be attached to vpc or
+               classic connection. The list of enumerated values for this property may
+               expand in the future. Code and processes using this field  must tolerate
+               unexpected values.
         :param ResourceGroupIdentity resource_group: (optional) Resource group for
                this resource. If unspecified, the account's [default resource
                group](https://cloud.ibm.com/apidocs/resource-manager#introduction) is
@@ -5012,6 +5122,7 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
         self.bgp_base_cidr = bgp_base_cidr
         self.bgp_cer_cidr = bgp_cer_cidr
         self.bgp_ibm_cidr = bgp_ibm_cidr
+        self.connection_mode = connection_mode
         self.global_ = global_
         self.metered = metered
         self.name = name
@@ -5040,6 +5151,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
             args['bgp_cer_cidr'] = _dict.get('bgp_cer_cidr')
         if 'bgp_ibm_cidr' in _dict:
             args['bgp_ibm_cidr'] = _dict.get('bgp_ibm_cidr')
+        if 'connection_mode' in _dict:
+            args['connection_mode'] = _dict.get('connection_mode')
         if 'global' in _dict:
             args['global_'] = _dict.get('global')
         else:
@@ -5100,6 +5213,8 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
             _dict['bgp_cer_cidr'] = self.bgp_cer_cidr
         if hasattr(self, 'bgp_ibm_cidr') and self.bgp_ibm_cidr is not None:
             _dict['bgp_ibm_cidr'] = self.bgp_ibm_cidr
+        if hasattr(self, 'connection_mode') and self.connection_mode is not None:
+            _dict['connection_mode'] = self.connection_mode
         if hasattr(self, 'global_') and self.global_ is not None:
             _dict['global'] = self.global_
         if hasattr(self, 'metered') and self.metered is not None:
@@ -5141,6 +5256,18 @@ class GatewayTemplateGatewayTypeDedicatedTemplate(GatewayTemplate):
     def __ne__(self, other: 'GatewayTemplateGatewayTypeDedicatedTemplate') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class ConnectionModeEnum(Enum):
+        """
+        Type of services this Gateway is attached to. Mode transit means this Gateway will
+        be attached to Transit Gateway Service and direct means this Gateway will be
+        attached to vpc or classic connection. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field  must
+        tolerate unexpected values.
+        """
+        DIRECT = "direct"
+        TRANSIT = "transit"
+
 
     class TypeEnum(Enum):
         """
