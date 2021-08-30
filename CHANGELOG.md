@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/IBM/networking-python-sdk/compare/v0.8.0...v0.9.0) (2021-08-30)
+
+
+### Features
+
+* **DirectLink:** implement the DLaaS changes for Direct link gateway ([e6f7b27](https://github.com/IBM/networking-python-sdk/commit/e6f7b27ed1cb5916e25f306630390a3fd20b0ab7))
+
 # [0.8.0](https://github.com/IBM/networking-python-sdk/compare/v0.7.0...v0.8.0) (2021-08-17)
 
 
