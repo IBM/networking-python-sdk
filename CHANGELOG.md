@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/IBM/networking-python-sdk/compare/v0.9.0...v0.10.0) (2021-08-30)
+
+
+### Features
+
+* support for directlink tgw connection type ([#36](https://github.com/IBM/networking-python-sdk/issues/36)) ([701b11d](https://github.com/IBM/networking-python-sdk/commit/701b11d7c0054794593e87a06a2a2401e272ee65))
+
 # [0.9.0](https://github.com/IBM/networking-python-sdk/compare/v0.8.0...v0.9.0) (2021-08-30)
 
 
