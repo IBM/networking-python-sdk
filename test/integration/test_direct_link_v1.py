@@ -27,7 +27,9 @@ from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateGatewayTypeDedicatedTemplate,
     GatewayTemplateAuthenticationKey,
-    GatewayPatchTemplateAuthenticationKey
+    GatewayPatchTemplateAuthenticationKey,
+    GatewayTemplateGatewayTypeConnectTemplate,
+    GatewayPortIdentity
     )
 # from ibm_cloud_networking_services.direct_link_v1 import (
 #     GatewayMacsecConfigTemplate)
@@ -409,7 +411,7 @@ class TestDirectLinkV1(unittest.TestCase):
         self.delete_gateway(gateway_id)
     
     ################## Direct Link Gateways with Customer API MD5 Auth ############################
-    @unittest.skip('skipping...')
+
     def test_gateway_with_md5(self):
         bgpAsn = 64999
         crossConnectRouter = "LAB-xcr01.dal09"
@@ -455,6 +457,135 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
+    ################## Direct Link Dedicated Gateways with Connection Mode ############################
+
+    def test_dedicated_gateway_with_connection_mode(self):
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+        connectionMode = "transit"
+
+        """ test create/update/delete gateway with connection_mode success """
+        # create gateway with connection_mode as transit
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-DLAAS-") +str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, 
+            carrier_name=carrierName, cross_connect_router=crossConnectRouter,
+            customer_name=customerName, location_name=locationName,
+            connection_mode=connectionMode)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+        assert res["connection_mode"] == connectionMode
+
+        # update the connection_mode to direct
+        response = self.dl.update_gateway(id=gateway_id,
+            connection_mode="direct")
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result()["connection_mode"] == "direct"
+
+         # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+    ################## Direct Link Connect Gateways with Connection Mode ############################
+
+    def test_connect_gateway_with_connection_mode(self):
+        bgpAsn = 64999
+        global_bool = True
+        speedMbps = 1000
+        metered = False
+        gatewayType = "connect"
+        connectionMode = "direct"
+
+        """ test create/update/delete gateway with connection_mode success """
+        # FEtch the list of ports and use a port to create a connect gateway
+        response = self.dl.list_ports()
+        assert response is not None
+
+        port_id = response.get_result().get("ports")[0].get("id")
+
+        # create gateway with connection_mode as transit
+        gwPort = GatewayPortIdentity(id= port_id)
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-CONNECT-DLAAS-") +str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeConnectTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, connection_mode=connectionMode, port=gwPort)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+        assert res["connection_mode"] == connectionMode
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # update the connection_mode to direct
+        response = self.dl.update_gateway(id=gateway_id,
+            connection_mode="transit")
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result()["connection_mode"] == "transit"
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
 
 if __name__ == '__main__':
     unittest.main()
