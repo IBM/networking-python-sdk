@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# IBM OpenAPI SDK Code Generator Version: 3.29.1-b338fb38-20210313-010605
+ 
 """
 CIS Zones Settings
 """
@@ -124,9 +126,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/dnssec'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/dnssec'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -166,9 +171,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/dnssec'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/dnssec'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -199,9 +207,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/cname_flattening'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/cname_flattening'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -244,9 +255,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/cname_flattening'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/cname_flattening'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -277,9 +291,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/opportunistic_encryption'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_encryption'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -319,9 +336,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/opportunistic_encryption'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_encryption'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -352,9 +372,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/challenge_ttl'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/challenge_ttl'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -394,9 +417,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/challenge_ttl'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/challenge_ttl'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -427,9 +453,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/automatic_https_rewrites'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/automatic_https_rewrites'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -469,9 +498,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/automatic_https_rewrites'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/automatic_https_rewrites'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -502,9 +534,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/true_client_ip_header'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/true_client_ip_header'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -544,9 +579,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/true_client_ip_header'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/true_client_ip_header'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -577,9 +615,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/always_use_https'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/always_use_https'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -619,9 +660,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/always_use_https'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/always_use_https'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -652,9 +696,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/image_size_optimization'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/image_size_optimization'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -698,9 +745,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/image_size_optimization'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/image_size_optimization'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -731,9 +781,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/script_load_optimization'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/script_load_optimization'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -773,9 +826,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/script_load_optimization'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/script_load_optimization'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -806,9 +862,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/image_load_optimization'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/image_load_optimization'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -848,9 +907,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/image_load_optimization'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/image_load_optimization'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -881,9 +943,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/minify'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/minify'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -925,9 +990,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/minify'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/minify'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -958,9 +1026,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/min_tls_version'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/min_tls_version'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1000,9 +1071,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/min_tls_version'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/min_tls_version'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1033,9 +1107,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/ip_geolocation'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/ip_geolocation'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1075,9 +1152,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/ip_geolocation'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/ip_geolocation'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1108,9 +1188,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/server_side_exclude'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/server_side_exclude'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1150,9 +1233,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/server_side_exclude'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/server_side_exclude'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1183,9 +1269,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/security_header'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/security_header'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1227,9 +1316,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/security_header'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/security_header'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1260,9 +1352,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/mobile_redirect'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/mobile_redirect'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1304,9 +1399,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/mobile_redirect'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/mobile_redirect'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1337,9 +1435,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/prefetch_preload'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/prefetch_preload'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1379,9 +1480,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/prefetch_preload'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/prefetch_preload'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1412,9 +1516,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/http2'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/http2'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1454,9 +1561,93 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/http2'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/http2'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+
+    def get_http3(self,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get http/3 setting.
+
+        Get http/3 setting for a zone.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Http3Resp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_http3')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/http3'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request)
+        return response
+
+
+    def update_http3(self,
+        *,
+        value: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update http/3 setting.
+
+        Update http/3 setting for a zone.
+
+        :param str value: (optional) Value.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `Http3Resp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_http3')
+        headers.update(sdk_headers)
+
+        data = {
+            'value': value
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/http3'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1487,9 +1678,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/ipv6'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/ipv6'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1529,9 +1723,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/ipv6'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/ipv6'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1562,9 +1759,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/websockets'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/websockets'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1604,9 +1804,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/websockets'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/websockets'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1637,9 +1840,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/pseudo_ipv4'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/pseudo_ipv4'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1679,9 +1885,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/pseudo_ipv4'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/pseudo_ipv4'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1712,9 +1921,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/response_buffering'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/response_buffering'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1754,9 +1966,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/response_buffering'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/response_buffering'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1787,9 +2002,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/hotlink_protection'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/hotlink_protection'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1829,9 +2047,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/hotlink_protection'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/hotlink_protection'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1862,9 +2083,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/max_upload'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/max_upload'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1907,9 +2131,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/max_upload'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/max_upload'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -1940,9 +2167,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/tls_client_auth'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/tls_client_auth'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -1982,9 +2212,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/tls_client_auth'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/tls_client_auth'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -2015,9 +2248,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/browser_check'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/browser_check'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -2057,9 +2293,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/browser_check'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/browser_check'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -2090,9 +2329,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/origin_error_page_pass_thru'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/origin_error_page_pass_thru'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -2132,9 +2374,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/origin_error_page_pass_thru'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/origin_error_page_pass_thru'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -2165,9 +2410,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/waf'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/waf'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -2207,9 +2455,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/waf'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/waf'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -2240,9 +2491,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/ciphers'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/ciphers'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers)
@@ -2282,9 +2536,12 @@ class ZonesSettingsV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/settings/ciphers'.format(
-            *self.encode_path_vars(self.crn, self.zone_identifier))
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/ciphers'.format(**path_param_dict)
         request = self.prepare_request(method='PATCH',
                                        url=url,
                                        headers=headers,
@@ -2898,6 +3155,92 @@ class Http2RespResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'Http2RespResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class Http3RespResult():
+    """
+    Container for response information.
+
+    :attr str id: ID.
+    :attr str value: Value.
+    :attr bool editable: Editable.
+    :attr datetime modified_on: Modified date.
+    """
+
+    def __init__(self,
+                 id: str,
+                 value: str,
+                 editable: bool,
+                 modified_on: datetime) -> None:
+        """
+        Initialize a Http3RespResult object.
+
+        :param str id: ID.
+        :param str value: Value.
+        :param bool editable: Editable.
+        :param datetime modified_on: Modified date.
+        """
+        self.id = id
+        self.value = value
+        self.editable = editable
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Http3RespResult':
+        """Initialize a Http3RespResult object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in Http3RespResult JSON')
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        else:
+            raise ValueError('Required property \'value\' not present in Http3RespResult JSON')
+        if 'editable' in _dict:
+            args['editable'] = _dict.get('editable')
+        else:
+            raise ValueError('Required property \'editable\' not present in Http3RespResult JSON')
+        if 'modified_on' in _dict:
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
+        else:
+            raise ValueError('Required property \'modified_on\' not present in Http3RespResult JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Http3RespResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'editable') and self.editable is not None:
+            _dict['editable'] = self.editable
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Http3RespResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Http3RespResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Http3RespResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6088,6 +6431,92 @@ class Http2Resp():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'Http2Resp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class Http3Resp():
+    """
+    HTTP3 Response.
+
+    :attr Http3RespResult result: Container for response information.
+    :attr bool success: Was the get successful.
+    :attr List[List[str]] errors: Array of errors encountered.
+    :attr List[List[str]] messages: Array of messages returned.
+    """
+
+    def __init__(self,
+                 result: 'Http3RespResult',
+                 success: bool,
+                 errors: List[List[str]],
+                 messages: List[List[str]]) -> None:
+        """
+        Initialize a Http3Resp object.
+
+        :param Http3RespResult result: Container for response information.
+        :param bool success: Was the get successful.
+        :param List[List[str]] errors: Array of errors encountered.
+        :param List[List[str]] messages: Array of messages returned.
+        """
+        self.result = result
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Http3Resp':
+        """Initialize a Http3Resp object from a json dictionary."""
+        args = {}
+        if 'result' in _dict:
+            args['result'] = Http3RespResult.from_dict(_dict.get('result'))
+        else:
+            raise ValueError('Required property \'result\' not present in Http3Resp JSON')
+        if 'success' in _dict:
+            args['success'] = _dict.get('success')
+        else:
+            raise ValueError('Required property \'success\' not present in Http3Resp JSON')
+        if 'errors' in _dict:
+            args['errors'] = _dict.get('errors')
+        else:
+            raise ValueError('Required property \'errors\' not present in Http3Resp JSON')
+        if 'messages' in _dict:
+            args['messages'] = _dict.get('messages')
+        else:
+            raise ValueError('Required property \'messages\' not present in Http3Resp JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Http3Resp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'result') and self.result is not None:
+            _dict['result'] = self.result.to_dict()
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = self.messages
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Http3Resp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Http3Resp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Http3Resp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
