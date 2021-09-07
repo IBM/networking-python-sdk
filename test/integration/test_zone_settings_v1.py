@@ -20,7 +20,7 @@ except:
 class TestZonesSettingsV1(unittest.TestCase):
     """ Sample function to call zones sdk functions """
 
-    # @unittest.skip("skipping")
+    @unittest.skip("skipping")
 
     def setUp(self):
         """ test case setup """
@@ -270,7 +270,7 @@ class TestZonesSettingsV1(unittest.TestCase):
         assert response is not None and response.get('success') is True
         result = response.get('result')
         print(result)
-        domain = 'mobile'
+        domain = self.url.split('.')[0]
         if result.get('value').get('status') == 'on':
             self.value = {
                 "status": "off",
@@ -316,21 +316,6 @@ class TestZonesSettingsV1(unittest.TestCase):
 
         """ Update http2 setting """
         response = self.zonesSettings.update_http2(
-            value=self.value).get_result()
-        assert response is not None and response.get('success') is True
-
-    def test_1_http3_setting(self):
-        """ Get http3 setting """
-        response = self.zonesSettings.get_http3().get_result()
-        assert response is not None and response.get('success') is True
-        result = response.get('result')
-        if result.get('value') == 'off':
-            self.value = 'on'
-        else:
-            self.value = 'off'
-
-        """ Update http3 setting """
-        response = self.zonesSettings.update_http3(
             value=self.value).get_result()
         assert response is not None and response.get('success') is True
 

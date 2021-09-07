@@ -2743,164 +2743,6 @@ class TestUpdateHttp2():
                 service.update_http2(**req_copy)
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_http3
-#-----------------------------------------------------------------------------
-class TestGetHttp3():
-    """
-    Test Class for get_http3
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_http3_all_params(self):
-        """
-        get_http3()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/settings/http3')
-        mock_response = '{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.get_http3()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_get_http3_value_error(self):
-        """
-        test_get_http3_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/settings/http3')
-        mock_response = '{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                service.get_http3(**req_copy)
-
-
-
-#-----------------------------------------------------------------------------
-# Test Class for update_http3
-#-----------------------------------------------------------------------------
-class TestUpdateHttp3():
-    """
-    Test Class for update_http3
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_update_http3_all_params(self):
-        """
-        update_http3()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/settings/http3')
-        mock_response = '{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        value = 'on'
-
-        # Invoke method
-        response = service.update_http3(
-            value=value,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['value'] == 'on'
-
-
-    @responses.activate
-    def test_update_http3_required_params(self):
-        """
-        test_update_http3_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/settings/http3')
-        mock_response = '{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = service.update_http3()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_update_http3_value_error(self):
-        """
-        test_update_http3_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/settings/http3')
-        mock_response = '{"result": {"id": "http3", "value": "off", "editable": true, "modified_on": "2018-09-14T09:49:19.524Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                service.update_http3(**req_copy)
-
-
 
 #-----------------------------------------------------------------------------
 # Test Class for get_ipv6
@@ -4775,43 +4617,6 @@ class TestHttp2RespResult():
         http2_resp_result_model_json2 = http2_resp_result_model.to_dict()
         assert http2_resp_result_model_json2 == http2_resp_result_model_json
 
-
-#-----------------------------------------------------------------------------
-# Test Class for Http3RespResult
-#-----------------------------------------------------------------------------
-class TestHttp3RespResult():
-    """
-    Test Class for Http3RespResult
-    """
-
-    def test_http3_resp_result_serialization(self):
-        """
-        Test serialization/deserialization for Http3RespResult
-        """
-
-        # Construct a json representation of a Http3RespResult model
-        http3_resp_result_model_json = {}
-        http3_resp_result_model_json['id'] = 'http3'
-        http3_resp_result_model_json['value'] = 'off'
-        http3_resp_result_model_json['editable'] = True
-        http3_resp_result_model_json['modified_on'] = '2015-03-14T09:26:53.123456Z'
-
-        # Construct a model instance of Http3RespResult by calling from_dict on the json representation
-        http3_resp_result_model = Http3RespResult.from_dict(http3_resp_result_model_json)
-        assert http3_resp_result_model != False
-
-        # Construct a model instance of Http3RespResult by calling from_dict on the json representation
-        http3_resp_result_model_dict = Http3RespResult.from_dict(http3_resp_result_model_json).__dict__
-        http3_resp_result_model2 = Http3RespResult(**http3_resp_result_model_dict)
-
-        # Verify the model instances are equivalent
-        assert http3_resp_result_model == http3_resp_result_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        http3_resp_result_model_json2 = http3_resp_result_model.to_dict()
-        assert http3_resp_result_model_json2 == http3_resp_result_model_json
-
-
 #-----------------------------------------------------------------------------
 # Test Class for ImageLoadOptimizationRespResult
 #-----------------------------------------------------------------------------
@@ -6089,50 +5894,6 @@ class TestHttp2Resp():
         http2_resp_model_json2 = http2_resp_model.to_dict()
         assert http2_resp_model_json2 == http2_resp_model_json
 
-
-#-----------------------------------------------------------------------------
-# Test Class for Http2Resp
-#-----------------------------------------------------------------------------
-class TestHttp3Resp():
-    """
-    Test Class for Http3Resp
-    """
-
-    def test_http3_resp_serialization(self):
-        """
-        Test serialization/deserialization for Http3Resp
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        http3_resp_result_model = {} # Http3RespResult
-        http3_resp_result_model['id'] = 'http3'
-        http3_resp_result_model['value'] = 'off'
-        http3_resp_result_model['editable'] = True
-        http3_resp_result_model['modified_on'] = '2015-03-14T09:26:53.123456Z'
-
-        # Construct a json representation of a Http3Resp model
-        http3_resp_model_json = {}
-        http3_resp_model_json['result'] = http3_resp_result_model
-        http3_resp_model_json['success'] = True
-        http3_resp_model_json['errors'] = [['testString']]
-        http3_resp_model_json['messages'] = [['testString']]
-
-        # Construct a model instance of Http3Resp by calling from_dict on the json representation
-        http3_resp_model = Http3Resp.from_dict(http3_resp_model_json)
-        assert http3_resp_model != False
-
-        # Construct a model instance of Http3Resp by calling from_dict on the json representation
-        http3_resp_model_dict = Http3Resp.from_dict(http3_resp_model_json).__dict__
-        http3_resp_model2 = Http3Resp(**http3_resp_model_dict)
-
-        # Verify the model instances are equivalent
-        assert http3_resp_model == http3_resp_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        http3_resp_model_json2 = http3_resp_model.to_dict()
-        assert http3_resp_model_json2 == http3_resp_model_json
-
 #-----------------------------------------------------------------------------
 # Test Class for ImageLoadOptimizationResp
 #-----------------------------------------------------------------------------
@@ -6432,7 +6193,7 @@ class TestMobileRedirectResp():
 
         mobile_redirect_resp_result_value_model = {} # MobileRedirectRespResultValue
         mobile_redirect_resp_result_value_model['status'] = 'true'
-        mobile_redirect_resp_result_value_model['mobile_subdomain'] = 'mobile'
+        mobile_redirect_resp_result_value_model['mobile_subdomain'] = 'm'
         mobile_redirect_resp_result_value_model['strip_uri'] = False
 
         mobile_redirect_resp_result_model = {} # MobileRedirectRespResult
