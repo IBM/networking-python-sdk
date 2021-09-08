@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/IBM/networking-python-sdk/compare/v0.10.0...v0.11.0) (2021-09-08)
+
+
+### Features
+
+* **http3:** added http3 setting ([6428e21](https://github.com/IBM/networking-python-sdk/commit/6428e2174b24ee70238230e0155b559cae6f2642))
+
 # [0.10.0](https://github.com/IBM/networking-python-sdk/compare/v0.9.0...v0.10.0) (2021-08-30)
 
 
