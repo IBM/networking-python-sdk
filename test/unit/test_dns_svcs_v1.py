@@ -23,14 +23,14 @@ from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
+import os
 import pytest
 import re
 import requests
 import responses
 import tempfile
 import urllib
-#from github.com/IBM/networking-python-sdk.dns_svcs_v1 import *
-from ibm_cloud_networking_services.dns_svcs_v1 import *
+from ibm_cloud.dns_svcs_v1 import *
 
 
 _service = DnsSvcsV1(
@@ -45,6 +45,32 @@ _service.set_service_url(_base_url)
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListDnszones():
     """
     Test Class for list_dnszones
@@ -54,6 +80,8 @@ class TestListDnszones():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -163,6 +191,8 @@ class TestCreateDnszone():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -274,6 +304,8 @@ class TestDeleteDnszone():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -371,6 +403,8 @@ class TestGetDnszone():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -477,6 +511,8 @@ class TestUpdateDnszone():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -592,6 +628,32 @@ class TestUpdateDnszone():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListResourceRecords():
     """
     Test Class for list_resource_records
@@ -601,6 +663,8 @@ class TestListResourceRecords():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -716,6 +780,8 @@ class TestCreateResourceRecord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -846,6 +912,8 @@ class TestDeleteResourceRecord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -949,6 +1017,8 @@ class TestGetResourceRecord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1061,6 +1131,8 @@ class TestUpdateResourceRecord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1194,6 +1266,8 @@ class TestExportResourceRecords():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1300,6 +1374,8 @@ class TestImportResourceRecords():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1411,6 +1487,32 @@ class TestImportResourceRecords():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListPermittedNetworks():
     """
     Test Class for list_permitted_networks
@@ -1420,6 +1522,8 @@ class TestListPermittedNetworks():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1535,6 +1639,8 @@ class TestCreatePermittedNetwork():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1653,6 +1759,8 @@ class TestDeletePermittedNetwork():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1765,6 +1873,8 @@ class TestGetPermittedNetwork():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1878,6 +1988,32 @@ class TestGetPermittedNetwork():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListLoadBalancers():
     """
     Test Class for list_load_balancers
@@ -1887,6 +2023,8 @@ class TestListLoadBalancers():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1993,6 +2131,8 @@ class TestCreateLoadBalancer():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2127,6 +2267,8 @@ class TestDeleteLoadBalancer():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2230,6 +2372,8 @@ class TestGetLoadBalancer():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2342,6 +2486,8 @@ class TestUpdateLoadBalancer():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2483,6 +2629,32 @@ class TestUpdateLoadBalancer():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListPools():
     """
     Test Class for list_pools
@@ -2492,6 +2664,8 @@ class TestListPools():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2592,6 +2766,8 @@ class TestCreatePool():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2728,6 +2904,8 @@ class TestDeletePool():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2825,6 +3003,8 @@ class TestGetPool():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2931,6 +3111,8 @@ class TestUpdatePool():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3074,6 +3256,32 @@ class TestUpdatePool():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListMonitors():
     """
     Test Class for list_monitors
@@ -3083,6 +3291,8 @@ class TestListMonitors():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3183,6 +3393,8 @@ class TestCreateMonitor():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3329,6 +3541,8 @@ class TestDeleteMonitor():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3426,6 +3640,8 @@ class TestGetMonitor():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3532,6 +3748,8 @@ class TestUpdateMonitor():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3685,6 +3903,32 @@ class TestUpdateMonitor():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListCustomResolvers():
     """
     Test Class for list_custom_resolvers
@@ -3694,6 +3938,8 @@ class TestListCustomResolvers():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3794,6 +4040,8 @@ class TestCreateCustomResolver():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3910,6 +4158,8 @@ class TestDeleteCustomResolver():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4007,6 +4257,8 @@ class TestGetCustomResolver():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4113,6 +4365,8 @@ class TestUpdateCustomResolver():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4231,6 +4485,32 @@ class TestUpdateCustomResolver():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestAddCustomResolverLocation():
     """
     Test Class for add_custom_resolver_location
@@ -4240,6 +4520,8 @@ class TestAddCustomResolverLocation():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4354,6 +4636,8 @@ class TestUpdateCustomResolverLocation():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4474,6 +4758,8 @@ class TestDeleteCustomResolverLocation():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4578,6 +4864,32 @@ class TestDeleteCustomResolverLocation():
 ##############################################################################
 # region
 
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+            )
+
 class TestListForwardingRules():
     """
     Test Class for list_forwarding_rules
@@ -4587,6 +4899,8 @@ class TestListForwardingRules():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4693,6 +5007,8 @@ class TestCreateForwardingRule():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4813,6 +5129,8 @@ class TestDeleteForwardingRule():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4916,6 +5234,8 @@ class TestGetForwardingRule():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5028,6 +5348,8 @@ class TestUpdateForwardingRule():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5152,7 +5474,7 @@ class TestUpdateForwardingRule():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestLoadBalancerAzPoolsItem():
+class TestModel_LoadBalancerAzPoolsItem():
     """
     Test Class for LoadBalancerAzPoolsItem
     """
@@ -5182,7 +5504,7 @@ class TestLoadBalancerAzPoolsItem():
         load_balancer_az_pools_item_model_json2 = load_balancer_az_pools_item_model.to_dict()
         assert load_balancer_az_pools_item_model_json2 == load_balancer_az_pools_item_model_json
 
-class TestPoolHealthcheckVsisItem():
+class TestModel_PoolHealthcheckVsisItem():
     """
     Test Class for PoolHealthcheckVsisItem
     """
@@ -5214,7 +5536,7 @@ class TestPoolHealthcheckVsisItem():
         pool_healthcheck_vsis_item_model_json2 = pool_healthcheck_vsis_item_model.to_dict()
         assert pool_healthcheck_vsis_item_model_json2 == pool_healthcheck_vsis_item_model_json
 
-class TestRecordsImportErrorModelError():
+class TestModel_RecordsImportErrorModelError():
     """
     Test Class for RecordsImportErrorModelError
     """
@@ -5244,7 +5566,7 @@ class TestRecordsImportErrorModelError():
         records_import_error_model_error_model_json2 = records_import_error_model_error_model.to_dict()
         assert records_import_error_model_error_model_json2 == records_import_error_model_error_model_json
 
-class TestCustomResolver():
+class TestModel_CustomResolver():
     """
     Test Class for CustomResolver
     """
@@ -5289,7 +5611,7 @@ class TestCustomResolver():
         custom_resolver_model_json2 = custom_resolver_model.to_dict()
         assert custom_resolver_model_json2 == custom_resolver_model_json
 
-class TestCustomResolverList():
+class TestModel_CustomResolverList():
     """
     Test Class for CustomResolverList
     """
@@ -5337,7 +5659,7 @@ class TestCustomResolverList():
         custom_resolver_list_model_json2 = custom_resolver_list_model.to_dict()
         assert custom_resolver_list_model_json2 == custom_resolver_list_model_json
 
-class TestDnszone():
+class TestModel_Dnszone():
     """
     Test Class for Dnszone
     """
@@ -5373,7 +5695,7 @@ class TestDnszone():
         dnszone_model_json2 = dnszone_model.to_dict()
         assert dnszone_model_json2 == dnszone_model_json
 
-class TestFirstHref():
+class TestModel_FirstHref():
     """
     Test Class for FirstHref
     """
@@ -5402,7 +5724,7 @@ class TestFirstHref():
         first_href_model_json2 = first_href_model.to_dict()
         assert first_href_model_json2 == first_href_model_json
 
-class TestForwardingRule():
+class TestModel_ForwardingRule():
     """
     Test Class for ForwardingRule
     """
@@ -5437,7 +5759,7 @@ class TestForwardingRule():
         forwarding_rule_model_json2 = forwarding_rule_model.to_dict()
         assert forwarding_rule_model_json2 == forwarding_rule_model_json
 
-class TestForwardingRuleList():
+class TestModel_ForwardingRuleList():
     """
     Test Class for ForwardingRuleList
     """
@@ -5477,7 +5799,7 @@ class TestForwardingRuleList():
         forwarding_rule_list_model_json2 = forwarding_rule_list_model.to_dict()
         assert forwarding_rule_list_model_json2 == forwarding_rule_list_model_json
 
-class TestHealthcheckHeader():
+class TestModel_HealthcheckHeader():
     """
     Test Class for HealthcheckHeader
     """
@@ -5507,7 +5829,7 @@ class TestHealthcheckHeader():
         healthcheck_header_model_json2 = healthcheck_header_model.to_dict()
         assert healthcheck_header_model_json2 == healthcheck_header_model_json
 
-class TestImportResourceRecordsResp():
+class TestModel_ImportResourceRecordsResp():
     """
     Test Class for ImportResourceRecordsResp
     """
@@ -5565,7 +5887,7 @@ class TestImportResourceRecordsResp():
         import_resource_records_resp_model_json2 = import_resource_records_resp_model.to_dict()
         assert import_resource_records_resp_model_json2 == import_resource_records_resp_model_json
 
-class TestListDnszones():
+class TestModel_ListDnszones():
     """
     Test Class for ListDnszones
     """
@@ -5617,7 +5939,7 @@ class TestListDnszones():
         list_dnszones_model_json2 = list_dnszones_model.to_dict()
         assert list_dnszones_model_json2 == list_dnszones_model_json
 
-class TestListLoadBalancers():
+class TestModel_ListLoadBalancers():
     """
     Test Class for ListLoadBalancers
     """
@@ -5677,7 +5999,7 @@ class TestListLoadBalancers():
         list_load_balancers_model_json2 = list_load_balancers_model.to_dict()
         assert list_load_balancers_model_json2 == list_load_balancers_model_json
 
-class TestListMonitors():
+class TestModel_ListMonitors():
     """
     Test Class for ListMonitors
     """
@@ -5742,7 +6064,7 @@ class TestListMonitors():
         list_monitors_model_json2 = list_monitors_model.to_dict()
         assert list_monitors_model_json2 == list_monitors_model_json
 
-class TestListPermittedNetworks():
+class TestModel_ListPermittedNetworks():
     """
     Test Class for ListPermittedNetworks
     """
@@ -5795,7 +6117,7 @@ class TestListPermittedNetworks():
         list_permitted_networks_model_json2 = list_permitted_networks_model.to_dict()
         assert list_permitted_networks_model_json2 == list_permitted_networks_model_json
 
-class TestListPools():
+class TestModel_ListPools():
     """
     Test Class for ListPools
     """
@@ -5868,7 +6190,7 @@ class TestListPools():
         list_pools_model_json2 = list_pools_model.to_dict()
         assert list_pools_model_json2 == list_pools_model_json
 
-class TestListResourceRecords():
+class TestModel_ListResourceRecords():
     """
     Test Class for ListResourceRecords
     """
@@ -5921,7 +6243,7 @@ class TestListResourceRecords():
         list_resource_records_model_json2 = list_resource_records_model.to_dict()
         assert list_resource_records_model_json2 == list_resource_records_model_json
 
-class TestLoadBalancer():
+class TestModel_LoadBalancer():
     """
     Test Class for LoadBalancer
     """
@@ -5966,7 +6288,7 @@ class TestLoadBalancer():
         load_balancer_model_json2 = load_balancer_model.to_dict()
         assert load_balancer_model_json2 == load_balancer_model_json
 
-class TestLocation():
+class TestModel_Location():
     """
     Test Class for Location
     """
@@ -5999,7 +6321,7 @@ class TestLocation():
         location_model_json2 = location_model.to_dict()
         assert location_model_json2 == location_model_json
 
-class TestLocationInput():
+class TestModel_LocationInput():
     """
     Test Class for LocationInput
     """
@@ -6029,7 +6351,7 @@ class TestLocationInput():
         location_input_model_json2 = location_input_model.to_dict()
         assert location_input_model_json2 == location_input_model_json
 
-class TestMonitor():
+class TestModel_Monitor():
     """
     Test Class for Monitor
     """
@@ -6079,7 +6401,7 @@ class TestMonitor():
         monitor_model_json2 = monitor_model.to_dict()
         assert monitor_model_json2 == monitor_model_json
 
-class TestNextHref():
+class TestModel_NextHref():
     """
     Test Class for NextHref
     """
@@ -6108,7 +6430,7 @@ class TestNextHref():
         next_href_model_json2 = next_href_model.to_dict()
         assert next_href_model_json2 == next_href_model_json
 
-class TestOrigin():
+class TestModel_Origin():
     """
     Test Class for Origin
     """
@@ -6142,7 +6464,7 @@ class TestOrigin():
         origin_model_json2 = origin_model.to_dict()
         assert origin_model_json2 == origin_model_json
 
-class TestOriginInput():
+class TestModel_OriginInput():
     """
     Test Class for OriginInput
     """
@@ -6174,7 +6496,7 @@ class TestOriginInput():
         origin_input_model_json2 = origin_input_model.to_dict()
         assert origin_input_model_json2 == origin_input_model_json
 
-class TestPermittedNetwork():
+class TestModel_PermittedNetwork():
     """
     Test Class for PermittedNetwork
     """
@@ -6213,7 +6535,7 @@ class TestPermittedNetwork():
         permitted_network_model_json2 = permitted_network_model.to_dict()
         assert permitted_network_model_json2 == permitted_network_model_json
 
-class TestPermittedNetworkVpc():
+class TestModel_PermittedNetworkVpc():
     """
     Test Class for PermittedNetworkVpc
     """
@@ -6242,7 +6564,7 @@ class TestPermittedNetworkVpc():
         permitted_network_vpc_model_json2 = permitted_network_vpc_model.to_dict()
         assert permitted_network_vpc_model_json2 == permitted_network_vpc_model_json
 
-class TestPool():
+class TestModel_Pool():
     """
     Test Class for Pool
     """
@@ -6300,7 +6622,7 @@ class TestPool():
         pool_model_json2 = pool_model.to_dict()
         assert pool_model_json2 == pool_model_json
 
-class TestRecordStatsByType():
+class TestModel_RecordStatsByType():
     """
     Test Class for RecordStatsByType
     """
@@ -6335,7 +6657,7 @@ class TestRecordStatsByType():
         record_stats_by_type_model_json2 = record_stats_by_type_model.to_dict()
         assert record_stats_by_type_model_json2 == record_stats_by_type_model_json
 
-class TestRecordsImportErrorModel():
+class TestModel_RecordsImportErrorModel():
     """
     Test Class for RecordsImportErrorModel
     """
@@ -6371,7 +6693,7 @@ class TestRecordsImportErrorModel():
         records_import_error_model_model_json2 = records_import_error_model_model.to_dict()
         assert records_import_error_model_model_json2 == records_import_error_model_model_json
 
-class TestRecordsImportMessageModel():
+class TestModel_RecordsImportMessageModel():
     """
     Test Class for RecordsImportMessageModel
     """
@@ -6401,7 +6723,7 @@ class TestRecordsImportMessageModel():
         records_import_message_model_model_json2 = records_import_message_model_model.to_dict()
         assert records_import_message_model_model_json2 == records_import_message_model_model_json
 
-class TestResourceRecord():
+class TestModel_ResourceRecord():
     """
     Test Class for ResourceRecord
     """
@@ -6438,7 +6760,7 @@ class TestResourceRecord():
         resource_record_model_json2 = resource_record_model.to_dict()
         assert resource_record_model_json2 == resource_record_model_json
 
-class TestResourceRecordInputRdataRdataARecord():
+class TestModel_ResourceRecordInputRdataRdataARecord():
     """
     Test Class for ResourceRecordInputRdataRdataARecord
     """
@@ -6467,7 +6789,7 @@ class TestResourceRecordInputRdataRdataARecord():
         resource_record_input_rdata_rdata_a_record_model_json2 = resource_record_input_rdata_rdata_a_record_model.to_dict()
         assert resource_record_input_rdata_rdata_a_record_model_json2 == resource_record_input_rdata_rdata_a_record_model_json
 
-class TestResourceRecordInputRdataRdataAaaaRecord():
+class TestModel_ResourceRecordInputRdataRdataAaaaRecord():
     """
     Test Class for ResourceRecordInputRdataRdataAaaaRecord
     """
@@ -6496,7 +6818,7 @@ class TestResourceRecordInputRdataRdataAaaaRecord():
         resource_record_input_rdata_rdata_aaaa_record_model_json2 = resource_record_input_rdata_rdata_aaaa_record_model.to_dict()
         assert resource_record_input_rdata_rdata_aaaa_record_model_json2 == resource_record_input_rdata_rdata_aaaa_record_model_json
 
-class TestResourceRecordInputRdataRdataCnameRecord():
+class TestModel_ResourceRecordInputRdataRdataCnameRecord():
     """
     Test Class for ResourceRecordInputRdataRdataCnameRecord
     """
@@ -6525,7 +6847,7 @@ class TestResourceRecordInputRdataRdataCnameRecord():
         resource_record_input_rdata_rdata_cname_record_model_json2 = resource_record_input_rdata_rdata_cname_record_model.to_dict()
         assert resource_record_input_rdata_rdata_cname_record_model_json2 == resource_record_input_rdata_rdata_cname_record_model_json
 
-class TestResourceRecordInputRdataRdataMxRecord():
+class TestModel_ResourceRecordInputRdataRdataMxRecord():
     """
     Test Class for ResourceRecordInputRdataRdataMxRecord
     """
@@ -6555,7 +6877,7 @@ class TestResourceRecordInputRdataRdataMxRecord():
         resource_record_input_rdata_rdata_mx_record_model_json2 = resource_record_input_rdata_rdata_mx_record_model.to_dict()
         assert resource_record_input_rdata_rdata_mx_record_model_json2 == resource_record_input_rdata_rdata_mx_record_model_json
 
-class TestResourceRecordInputRdataRdataPtrRecord():
+class TestModel_ResourceRecordInputRdataRdataPtrRecord():
     """
     Test Class for ResourceRecordInputRdataRdataPtrRecord
     """
@@ -6584,7 +6906,7 @@ class TestResourceRecordInputRdataRdataPtrRecord():
         resource_record_input_rdata_rdata_ptr_record_model_json2 = resource_record_input_rdata_rdata_ptr_record_model.to_dict()
         assert resource_record_input_rdata_rdata_ptr_record_model_json2 == resource_record_input_rdata_rdata_ptr_record_model_json
 
-class TestResourceRecordInputRdataRdataSrvRecord():
+class TestModel_ResourceRecordInputRdataRdataSrvRecord():
     """
     Test Class for ResourceRecordInputRdataRdataSrvRecord
     """
@@ -6616,7 +6938,7 @@ class TestResourceRecordInputRdataRdataSrvRecord():
         resource_record_input_rdata_rdata_srv_record_model_json2 = resource_record_input_rdata_rdata_srv_record_model.to_dict()
         assert resource_record_input_rdata_rdata_srv_record_model_json2 == resource_record_input_rdata_rdata_srv_record_model_json
 
-class TestResourceRecordInputRdataRdataTxtRecord():
+class TestModel_ResourceRecordInputRdataRdataTxtRecord():
     """
     Test Class for ResourceRecordInputRdataRdataTxtRecord
     """
@@ -6645,7 +6967,7 @@ class TestResourceRecordInputRdataRdataTxtRecord():
         resource_record_input_rdata_rdata_txt_record_model_json2 = resource_record_input_rdata_rdata_txt_record_model.to_dict()
         assert resource_record_input_rdata_rdata_txt_record_model_json2 == resource_record_input_rdata_rdata_txt_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataARecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataARecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataARecord
     """
@@ -6674,7 +6996,7 @@ class TestResourceRecordUpdateInputRdataRdataARecord():
         resource_record_update_input_rdata_rdata_a_record_model_json2 = resource_record_update_input_rdata_rdata_a_record_model.to_dict()
         assert resource_record_update_input_rdata_rdata_a_record_model_json2 == resource_record_update_input_rdata_rdata_a_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataAaaaRecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataAaaaRecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataAaaaRecord
     """
@@ -6703,7 +7025,7 @@ class TestResourceRecordUpdateInputRdataRdataAaaaRecord():
         resource_record_update_input_rdata_rdata_aaaa_record_model_json2 = resource_record_update_input_rdata_rdata_aaaa_record_model.to_dict()
         assert resource_record_update_input_rdata_rdata_aaaa_record_model_json2 == resource_record_update_input_rdata_rdata_aaaa_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataCnameRecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataCnameRecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataCnameRecord
     """
@@ -6732,7 +7054,7 @@ class TestResourceRecordUpdateInputRdataRdataCnameRecord():
         resource_record_update_input_rdata_rdata_cname_record_model_json2 = resource_record_update_input_rdata_rdata_cname_record_model.to_dict()
         assert resource_record_update_input_rdata_rdata_cname_record_model_json2 == resource_record_update_input_rdata_rdata_cname_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataMxRecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataMxRecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataMxRecord
     """
@@ -6762,7 +7084,7 @@ class TestResourceRecordUpdateInputRdataRdataMxRecord():
         resource_record_update_input_rdata_rdata_mx_record_model_json2 = resource_record_update_input_rdata_rdata_mx_record_model.to_dict()
         assert resource_record_update_input_rdata_rdata_mx_record_model_json2 == resource_record_update_input_rdata_rdata_mx_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataPtrRecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataPtrRecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataPtrRecord
     """
@@ -6791,7 +7113,7 @@ class TestResourceRecordUpdateInputRdataRdataPtrRecord():
         resource_record_update_input_rdata_rdata_ptr_record_model_json2 = resource_record_update_input_rdata_rdata_ptr_record_model.to_dict()
         assert resource_record_update_input_rdata_rdata_ptr_record_model_json2 == resource_record_update_input_rdata_rdata_ptr_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataSrvRecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataSrvRecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataSrvRecord
     """
@@ -6823,7 +7145,7 @@ class TestResourceRecordUpdateInputRdataRdataSrvRecord():
         resource_record_update_input_rdata_rdata_srv_record_model_json2 = resource_record_update_input_rdata_rdata_srv_record_model.to_dict()
         assert resource_record_update_input_rdata_rdata_srv_record_model_json2 == resource_record_update_input_rdata_rdata_srv_record_model_json
 
-class TestResourceRecordUpdateInputRdataRdataTxtRecord():
+class TestModel_ResourceRecordUpdateInputRdataRdataTxtRecord():
     """
     Test Class for ResourceRecordUpdateInputRdataRdataTxtRecord
     """
