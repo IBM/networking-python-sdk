@@ -30,7 +30,7 @@ import requests
 import responses
 import tempfile
 import urllib
-from ibm_cloud.dns_svcs_v1 import *
+from ibm_cloud_networking_services.dns_svcs_v1 import *
 
 
 _service = DnsSvcsV1(
