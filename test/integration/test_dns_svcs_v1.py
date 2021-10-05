@@ -17,10 +17,10 @@ try:
 except:
     raise unittest.SkipTest('no dns.env file loaded, skipping...')
 
-@unittest.skip("skipping class till failures are resolved")
 class TestDNSSvcsV1(unittest.TestCase):
     """The DNS V1 service test class."""
 
+    @unittest.skip("skipping")
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
