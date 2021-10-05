@@ -21,6 +21,7 @@ class TestDNSSvcsV1(unittest.TestCase):
     """The DNS V1 service test class."""
 
     @unittest.skip("skipping")
+    
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
