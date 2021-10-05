@@ -187,6 +187,8 @@ class TestDNSSvcsV1(unittest.TestCase):
 class TestResourceRecordsV1(unittest.TestCase):
     """The Resourse records V1 service test class."""
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -702,6 +704,8 @@ class TestResourceRecordsV1(unittest.TestCase):
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
     """The Permitted Networks for DNS V1 service test class."""
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -825,6 +829,8 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
     
     """The Global Load Balancers for DNS V1 service test class."""
+
+    @unittest.skip("skipping")
    
     def setUp(self):
         """ test case setup """
@@ -1086,6 +1092,8 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
 
 class TestCustomResolversV1(unittest.TestCase):
     """Custom Resolvers for DNS V1 service test class."""
+
+    @unittest.skip("skipping")
 
     def setUp(self):
         """ test case setup """
