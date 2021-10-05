@@ -1,3 +1,11 @@
+# [0.12.0](https://github.com/IBM/networking-python-sdk/compare/v0.11.0...v0.12.0) (2021-10-05)
+
+
+### Features
+
+* **DirectLink:** implement the changes to edit BGP Parameters - IP and ASN, enable/update the bfd config ([cc15644](https://github.com/IBM/networking-python-sdk/commit/cc156446de944c888dd25316c4d62d9f86573584))
+* **filters:** added filters ([5269b44](https://github.com/IBM/networking-python-sdk/commit/5269b4421076d2a565cb377138a79f233c5a4a60))
+
 # [0.11.0](https://github.com/IBM/networking-python-sdk/compare/v0.10.0...v0.11.0) (2021-09-08)
 
 
