@@ -27,7 +27,9 @@ from .custom_pages_v1 import CustomPagesV1
 from .dns_record_bulk_v1 import DnsRecordBulkV1
 from .dns_records_v1 import DnsRecordsV1
 from .firewall_access_rules_v1 import FirewallAccessRulesV1
+from .filters_v1 import FiltersV1
 from .firewall_api_v1 import FirewallApiV1
+from .firewall_rules_v1 import FirewallRulesV1
 from .global_load_balancer_events_v1 import GlobalLoadBalancerEventsV1
 from .global_load_balancer_monitor_v1 import GlobalLoadBalancerMonitorV1
 from .global_load_balancer_pools_v0 import GlobalLoadBalancerPoolsV0
