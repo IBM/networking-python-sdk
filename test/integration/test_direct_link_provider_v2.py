@@ -13,7 +13,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services import DirectLinkProviderV2
 from ibm_cloud_networking_services.direct_link_provider_v2 import ProviderGatewayPortIdentity
-from ibm_cloud_networking_services.direct_link_v1 import GatewayActionTemplateAuthenticationKey
+from ibm_cloud_networking_services.direct_link_v1 import (GatewayActionTemplateAuthenticationKey, GatewayBfdConfigActionTemplate)
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -382,7 +382,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response is not None
         assert response.get_status_code() == 204
     
-     ################## Direct Link Provider Gateways with Client API MD5 Auth ############################
+    ################## Direct Link Provider Gateways with Client API MD5 Auth ############################
 
     def test_provider_gateway_actions_with_client_api_md5(self):
         timestamp = time.time()
@@ -479,5 +479,225 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response is not None
         assert response.get_status_code() == 204
 
+    ################## Direct Link Provider Gateways with BGP IP Update ############################
+
+    def test_provider_gateway_actions_with_client_api_bgp_ip_update(self):
+        timestamp = time.time()
+        name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-BGP-IP-UPD-" + str(int(timestamp))
+        bgpAsn = 64999
+        customerAccount = os.getenv("DL_PROVIDER_SERVICES_CUSTOMER_ACCT_ID")
+        speedMbps = 1000
+
+        """ successfully get a provider port id """
+        response = self.dl_provider.list_provider_ports()
+        assert response is not None
+
+        port_id = response.get_result().get("ports")[0].get("id")
+        port = ProviderGatewayPortIdentity(id=port_id)
+
+        #created provider gateway
+        response =  self.dl_provider.create_provider_gateway(bgp_asn=bgpAsn,
+                                                             customer_account_id=customerAccount,
+                                                             name=name,
+                                                             port=port,
+                                                             speed_mbps=speedMbps)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        #verfiy client account can see the provider created gateway
+        response = self.dl.get_gateway(id=gateway_id)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == gateway_id
+        assert response.get_result().get("name") == name
+        assert response.get_result().get("speed_mbps") == speedMbps
+        assert response.get_result().get("provider_api_managed") == True
+        assert response.get_result().get("operational_status") == "create_pending"
+        assert response.get_result().get("type") == "connect"
+        assert "change_request" in response.get_result()
+
+        #successfully approve the gateway create using client account
+        response = self.dl.create_gateway_action(id=gateway_id,
+                                                 action="create_gateway_approve",
+                                                 metered=False,
+                                                 global_=False)
+        assert response is not None
+        assert response.get_status_code() == 200
+        result = response.get_result()
+        assert result['id'] == gateway_id
+        assert result['name'] == name
+
+        # wait until gateway moves to provisioned state
+        count = 0
+        while True:
+            response = None
+            response = self.dl.get_gateway(id=gateway_id)
+            operationalStatus = response.get_result().get("operational_status")
+                    
+            if (response is not None) and (response.get_result().get("operational_status") == "provisioned"):
+                assert response is not None
+                assert response.get_status_code() == 200
+                assert response.get_result().get("id") == gateway_id
+                assert response.get_result().get("name") == name
+                assert response.get_result().get("speed_mbps") == speedMbps
+                assert response.get_result().get("provider_api_managed") == True
+                assert response.get_result().get("operational_status") == "provisioned"
+                assert response.get_result().get("type") == "connect"
+                break
+
+            if count > 24:
+                assert response.get_result().get("operational_status") == "provisioned"
+            else:
+                time.sleep(10)
+                count += 1
+
+        #update the bgp asn and bgp ip
+        updatedBgpAsn = 63999
+        updatedBgpCerCidr = "172.17.252.2/29"
+        updatedBgpIbmCidr = "172.17.252.1/29"
+        try:
+            response = self.dl_provider.update_provider_gateway(id=gateway_id,
+            bgp_cer_cidr=updatedBgpCerCidr, bgp_ibm_cidr=updatedBgpIbmCidr, bgp_asn=updatedBgpAsn)
+            assert response.get_status_code() == 200
+            assert response.get_result()["name"] == name
+            assert response.get_result()["id"] == gateway_id
+            assert response.get_result()["change_request"] is not None
+        except ApiException as e:
+            assert e.code == 400
+            assert e.detail == "Please make sure localIP and remoteIP are not in use"
+        
+        #approve BGP changes request using client account
+        bgpAsnObject = {"bgp_asn": updatedBgpAsn}
+        bgpIpObject = {"bgp_cer_cidr": updatedBgpCerCidr, "bgp_ibm_cidr": updatedBgpIbmCidr}
+        updateAttributes = [bgpAsnObject, bgpIpObject]
+        response = self.dl.create_gateway_action(id=gateway_id, 
+                                                 action="update_attributes_approve",
+                                                 updates=updateAttributes)
+        assert response is not None
+        assert response.get_status_code() == 200
+
+        # wait until gateway moves to provisioned state
+        count = 0
+        while True:
+            response = None
+            response = self.dl.get_gateway(id=gateway_id)
+            operationalStatus = response.get_result().get("operational_status")
+                    
+            if (response is not None) and (response.get_result().get("operational_status") == "provisioned"):
+                assert response is not None
+                assert response.get_status_code() == 200
+                assert response.get_result().get("id") == gateway_id
+                assert response.get_result().get("name") == name
+                assert response.get_result().get("bgp_asn") == updatedBgpAsn
+                assert response.get_result().get("bgp_cer_cidr") == updatedBgpCerCidr
+                assert response.get_result().get("bgp_ibm_cidr") == updatedBgpIbmCidr
+                assert response.get_result().get("provider_api_managed") == True
+                assert response.get_result().get("operational_status") == "provisioned"
+                assert response.get_result().get("type") == "connect"
+                break
+
+            if count > 24:
+                assert response.get_result().get("operational_status") == "provisioned"
+            else:
+                time.sleep(10)
+                count += 1
+
+        #successfully request delete using provider account
+        response = self.dl_provider.delete_provider_gateway(id=gateway_id)
+        assert response is not None
+        assert response.get_status_code() == 202
+
+        #successfully approve delete gateway using client account
+        response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
+        assert response is not None
+        assert response.get_status_code() == 204
+
+################## Direct Link Provider Gateways with BFD Config ############################
+
+    def test_provider_gateway_actions_with_client_api_bfd_config(self):
+        timestamp = time.time()
+        name = os.getenv("DL_PROVIDER_SERVICES_GW_NAME") + "-BFD-CONFIG-" + str(int(timestamp))
+        bgpAsn = 64999
+        customerAccount = os.getenv("DL_PROVIDER_SERVICES_CUSTOMER_ACCT_ID")
+        speedMbps = 1000
+
+        """ successfully get a provider port id """
+        response = self.dl_provider.list_provider_ports()
+        assert response is not None
+
+        port_id = response.get_result().get("ports")[0].get("id")
+        port = ProviderGatewayPortIdentity(id=port_id)
+
+        #created provider gateway
+        response =  self.dl_provider.create_provider_gateway(bgp_asn=bgpAsn,
+                                                             customer_account_id=customerAccount,
+                                                             name=name,
+                                                             port=port,
+                                                             speed_mbps=speedMbps)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        #verfiy client account can see the provider created gateway
+        response = self.dl.get_gateway(id=gateway_id)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == gateway_id
+        assert response.get_result().get("name") == name
+        assert response.get_result().get("speed_mbps") == speedMbps
+        assert response.get_result().get("provider_api_managed") == True
+        assert response.get_result().get("operational_status") == "create_pending"
+        assert response.get_result().get("type") == "connect"
+        assert "change_request" in response.get_result()
+
+        #successfully approve the gateway create using client account
+        bfdConfig = GatewayBfdConfigActionTemplate(interval=1000, multiplier=2)
+        response = self.dl.create_gateway_action(id=gateway_id,
+                                                 action="create_gateway_approve",
+                                                 metered=False,
+                                                 global_=False,
+                                                 bfd_config=bfdConfig)
+        assert response is not None
+        assert response.get_status_code() == 200
+        result = response.get_result()
+        assert result['id'] == gateway_id
+        assert result['name'] == name
+        assert result['bfd_config'] is not None
+
+        # wait until gateway moves to provisioned state
+        count = 0
+        while True:
+            response = None
+            response = self.dl.get_gateway(id=gateway_id)
+            operationalStatus = response.get_result().get("operational_status")
+                    
+            if (response is not None) and (response.get_result().get("operational_status") == "provisioned"):
+                assert response is not None
+                assert response.get_status_code() == 200
+                assert response.get_result().get("id") == gateway_id
+                assert response.get_result().get("name") == name
+                assert response.get_result().get("speed_mbps") == speedMbps
+                assert response.get_result().get("provider_api_managed") == True
+                assert response.get_result().get("operational_status") == "provisioned"
+                assert response.get_result().get("type") == "connect"
+                assert response.get_result().get('bfd_config') is not None
+                break
+
+            if count > 24:
+                assert response.get_result().get("operational_status") == "provisioned"
+            else:
+                time.sleep(10)
+                count += 1
+
+        #successfully request delete using provider account
+        response = self.dl_provider.delete_provider_gateway(id=gateway_id)
+        assert response is not None
+        assert response.get_status_code() == 202
+
+        #successfully approve delete gateway using client account
+        response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
+        assert response is not None
+        assert response.get_status_code() == 204
 if __name__ == '__main__':
     unittest.main()
