@@ -48,7 +48,7 @@ deploy:
   skip_cleanup: true
   on:
     python: '3.6'
-    branch: main
+    branch: master
 - provider: pypi
   user: __token__
   password: $PYPI_TOKEN
