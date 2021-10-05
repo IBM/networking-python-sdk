@@ -1,8 +1,11 @@
 language: python
 
-dist: xenial
+dist: bionic
 
 cache: pip
+
+notifications:
+  email: true
 
 matrix:
   include:
@@ -20,10 +23,10 @@ matrix:
     - python: 3.9
 
 before_install:
-  - npm install npm@latest -g
-  - sudo apt-get update
-  - sudo apt-get install pandoc
-  - pip install pypandoc
+- sudo apt-get update
+- sudo apt-get install pandoc
+- pip install pypandoc
+- echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
 
 install:
   - pip install tox-travis
@@ -31,12 +34,13 @@ install:
 script: tox
 
 before_deploy:
-- pip install bump2version
-- nvm install 12
+- nvm install 14
+- npm install npm@latest -g
 - npm install @semantic-release/changelog
 - npm install @semantic-release/exec
 - npm install @semantic-release/git
 - npm install @semantic-release/github
+- pip install bump2version
 
 deploy:
 - provider: script
@@ -45,7 +49,6 @@ deploy:
   on:
     python: '3.6'
     branch: master
-
 - provider: pypi
   user: __token__
   password: $PYPI_TOKEN
