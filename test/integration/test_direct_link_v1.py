@@ -29,7 +29,10 @@ from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateAuthenticationKey,
     GatewayPatchTemplateAuthenticationKey,
     GatewayTemplateGatewayTypeConnectTemplate,
-    GatewayPortIdentity
+    GatewayPortIdentity,
+    Gateway,
+    GatewayBfdConfigTemplate,
+    GatewayBfdPatchTemplate
     )
 # from ibm_cloud_networking_services.direct_link_v1 import (
 #     GatewayMacsecConfigTemplate)
@@ -498,20 +501,6 @@ class TestDirectLinkV1(unittest.TestCase):
         assert response.get_result()["id"] == gateway_id
         assert response.get_result()["connection_mode"] == "direct"
 
-         # check gateway status until provisioned
-        count = 0
-        while count < 24:
-            response = self.dl.get_gateway(id=gateway_id)
-            status = response.get_result()["operational_status"]
-            ret_id = response.get_result()["id"]
-            assert ret_id == gateway_id
-            assert response.get_status_code() == 200
-            if status == "provisioned":
-                break
-            else:
-                time.sleep(5)
-                count += 1
-
         # delete gateway
         self.delete_gateway(gateway_id)
 
@@ -587,5 +576,328 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
+    ################## Direct Link Dedicated Gateways with BGP IP Update ############################
+
+    def test_dedicated_gateway_with_bgp_ip_update(self):
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+
+        """ test create/update/delete gateway with bgp_asn bgp_cer_cidr bgp_ibm_cidr success """
+        # create a dedicated gateway
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-BGP-IP-UPDATE-") +str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, 
+            carrier_name=carrierName, cross_connect_router=crossConnectRouter,
+            customer_name=customerName, location_name=locationName)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+
+        # update the bgp_asn
+        response = self.dl.update_gateway(id=gateway_id,
+            bgp_asn=63999)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result()["bgp_asn"] == 63999
+
+        #update the bgp ip cer and ibm cidr
+        try:
+            response = self.dl.update_gateway(id=gateway_id,
+            bgp_cer_cidr="172.17.252.2/29", bgp_ibm_cidr="172.17.252.1/29")
+            assert response.get_status_code() == 200
+            assert response.get_result()["name"] == name
+            assert response.get_result()["id"] == gateway_id
+            assert response.get_result()["bgp_asn"] == 63999
+        except ApiException as e:
+            assert e.code == 400
+            assert e.detail == "Please make sure localIP and remoteIP are not in use"
+           
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+################## Direct Link Connect Gateways with Connection Mode ############################
+
+    def test_connect_gateway_with_bgp_ip_update(self):
+        bgpAsn = 64999
+        global_bool = True
+        speedMbps = 1000
+        metered = False
+        gatewayType = "connect"
+
+        """ test create/update/delete gateway with bgp_asn bgp_cer_cidr bgp_ibm_cidr success """
+        # Fetch the list of ports and use a port to create a connect gateway
+        response = self.dl.list_ports()
+        assert response is not None
+
+        port_id = response.get_result().get("ports")[0].get("id")
+
+        # create a connect gateway
+        gwPort = GatewayPortIdentity(id= port_id)
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-BGP-IP-UPDATE-") +str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeConnectTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, port=gwPort)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # update the bgp_asn
+        response = self.dl.update_gateway(id=gateway_id,
+            bgp_asn=63999)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result()["bgp_asn"] == 63999
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        #update the bgp ip cer and ibm cidr
+        try:
+            response = self.dl.update_gateway(id=gateway_id,
+            bgp_cer_cidr="172.17.252.2/29", bgp_ibm_cidr="172.17.252.1/29")
+            assert response.get_status_code() == 200
+            assert response.get_result()["name"] == name
+            assert response.get_result()["id"] == gateway_id
+            assert response.get_result()["bgp_cer_cidr"] == "172.17.252.2/29"
+            assert response.get_result()["bgp_ibm_cidr"] == "172.17.252.1/29"
+        except ApiException as e:
+            assert e.code == 400
+            assert e.detail == "Please make sure localIP and remoteIP are not in use"
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+################## Direct Link Dedicated Gateways with BFD Config ############################
+
+    def test_dedicated_gateway_with_bfd_config(self):
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+
+        bfdInterval = 1000
+        bfdMultiplier = 2
+        bfdConfig = GatewayBfdConfigTemplate(interval=bfdInterval, multiplier=bfdMultiplier)
+    
+        """ test create/update/delete gateway with bfd_config """
+        # create a dedicated gateway
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-BFD-") +str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, 
+            carrier_name=carrierName, cross_connect_router=crossConnectRouter,
+            customer_name=customerName, location_name=locationName, bfd_config=bfdConfig)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        assert response.get_result()["bfd_config"]["interval"] == bfdInterval
+        assert response.get_result()["bfd_config"]["multiplier"] == bfdMultiplier
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+
+        # update the bfd_config
+        updatedBfdInterval = 700
+        updatedBfdMultiplier = 10
+        updatedBfdConfig = GatewayBfdPatchTemplate(interval=updatedBfdInterval, multiplier=updatedBfdMultiplier)
+        response = self.dl.update_gateway(id=gateway_id,
+            bfd_config=updatedBfdConfig)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result()["bfd_config"]["interval"] == updatedBfdInterval
+        assert response.get_result()["bfd_config"]["multiplier"] == updatedBfdMultiplier
+           
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+################## Direct Link Connect Gateways BFD Config ############################
+
+    def test_connect_gateway_with_bfd_config(self):
+        bgpAsn = 64999
+        global_bool = True
+        speedMbps = 1000
+        metered = False
+        gatewayType = "connect"
+
+        """ test create/update/delete gateway with bfd_config """
+        # Fetch the list of ports and use a port to create a connect gateway
+        response = self.dl.list_ports()
+        assert response is not None
+
+        port_id = response.get_result().get("ports")[0].get("id")
+
+        # create a connect gateway
+        gwPort = GatewayPortIdentity(id= port_id)
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-BFD-CONFIG-") +str(int(time.time()))
+
+        bfdInterval = 1000
+        bfdMultiplier = 2
+        bfdConfig = GatewayBfdConfigTemplate(interval=bfdInterval, multiplier=bfdMultiplier)
+
+        gtw_template = GatewayTemplateGatewayTypeConnectTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, port=gwPort, bfd_config=bfdConfig)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # update the bfd_config
+        updatedBfdInterval = 700
+        updatedBfdMultiplier = 10
+        updatedBfdConfig = GatewayBfdPatchTemplate(interval=updatedBfdInterval, multiplier=updatedBfdMultiplier)
+        response = self.dl.update_gateway(id=gateway_id,
+            bfd_config=updatedBfdConfig)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["name"] == name
+        assert response.get_result()["id"] == gateway_id
+        assert response.get_result()["bfd_config"]["interval"] == updatedBfdInterval
+        assert response.get_result()["bfd_config"]["multiplier"] == updatedBfdMultiplier
+
+        # check gateway status until provisioned
+        count = 0
+        while count < 24:
+            response = self.dl.get_gateway(id=gateway_id)
+            status = response.get_result()["operational_status"]
+            ret_id = response.get_result()["id"]
+            assert ret_id == gateway_id
+            assert response.get_status_code() == 200
+            if status == "provisioned":
+                break
+            else:
+                time.sleep(5)
+                count += 1
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+################## Direct Link Dedicated Gateways Status ############################
+
+    def test_dedicated_gateway_with_status(self):
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+
+        bfdInterval = 1000
+        bfdMultiplier = 2
+        bfdConfig = GatewayBfdConfigTemplate(interval=bfdInterval, multiplier=bfdMultiplier)
+    
+        """ test create/update/delete gateway with get gateway status """
+        # create a dedicated gateway
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-GW-STATUS") +str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, 
+            carrier_name=carrierName, cross_connect_router=crossConnectRouter,
+            customer_name=customerName, location_name=locationName, bfd_config=bfdConfig)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        assert response is not None
+        assert response.get_status_code() == 201
+        assert response.get_result()["bfd_config"]["interval"] == bfdInterval
+        assert response.get_result()["bfd_config"]["multiplier"] == bfdMultiplier
+        gateway_id = response.get_result().get("id")
+
+        res = response.get_result()
+        assert res["name"] == name
+
+        # get the gateway status
+        response = self.dl.get_gateway_status(id=gateway_id, type="link")
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result()["status"] is not None
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ class TestListProviderGateways():
     def test_list_provider_gateways_all_params(self):
         # Set up mock
         url = base_url + '/gateways'
-        mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
+        mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -84,7 +84,7 @@ class TestListProviderGateways():
     def test_list_provider_gateways_required_params(self):
         # Set up mock
         url = base_url + '/gateways'
-        mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
+        mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -107,7 +107,7 @@ class TestListProviderGateways():
     def test_list_provider_gateways_value_error(self):
         # Set up mock
         url = base_url + '/gateways'
-        mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
+        mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -136,7 +136,7 @@ class TestCreateProviderGateway():
     def test_create_provider_gateway_all_params(self):
         # Set up mock
         url = base_url + '/gateways'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -149,7 +149,7 @@ class TestCreateProviderGateway():
 
         # Set up parameter values
         bgp_asn = 64999
-        customer_account_id = '57a7d05f36894e3cb9b46a43556d903e'
+        customer_account_id = '4111d05f36894e3cb9b46a43556d9000'
         name = 'myGateway'
         port = provider_gateway_port_identity_model
         speed_mbps = 1000
@@ -180,7 +180,7 @@ class TestCreateProviderGateway():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['bgp_asn'] == 64999
-        assert req_body['customer_account_id'] == '57a7d05f36894e3cb9b46a43556d903e'
+        assert req_body['customer_account_id'] == '4111d05f36894e3cb9b46a43556d9000'
         assert req_body['name'] == 'myGateway'
         assert req_body['port'] == provider_gateway_port_identity_model
         assert req_body['speed_mbps'] == 1000
@@ -195,7 +195,7 @@ class TestCreateProviderGateway():
     def test_create_provider_gateway_required_params(self):
         # Set up mock
         url = base_url + '/gateways'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -208,7 +208,7 @@ class TestCreateProviderGateway():
 
         # Set up parameter values
         bgp_asn = 64999
-        customer_account_id = '57a7d05f36894e3cb9b46a43556d903e'
+        customer_account_id = '4111d05f36894e3cb9b46a43556d9000'
         name = 'myGateway'
         port = provider_gateway_port_identity_model
         speed_mbps = 1000
@@ -233,7 +233,7 @@ class TestCreateProviderGateway():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['bgp_asn'] == 64999
-        assert req_body['customer_account_id'] == '57a7d05f36894e3cb9b46a43556d903e'
+        assert req_body['customer_account_id'] == '4111d05f36894e3cb9b46a43556d9000'
         assert req_body['name'] == 'myGateway'
         assert req_body['port'] == provider_gateway_port_identity_model
         assert req_body['speed_mbps'] == 1000
@@ -248,7 +248,7 @@ class TestCreateProviderGateway():
     def test_create_provider_gateway_value_error(self):
         # Set up mock
         url = base_url + '/gateways'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -261,7 +261,7 @@ class TestCreateProviderGateway():
 
         # Set up parameter values
         bgp_asn = 64999
-        customer_account_id = '57a7d05f36894e3cb9b46a43556d903e'
+        customer_account_id = '4111d05f36894e3cb9b46a43556d9000'
         name = 'myGateway'
         port = provider_gateway_port_identity_model
         speed_mbps = 1000
@@ -295,7 +295,7 @@ class TestDeleteProviderGateway():
     def test_delete_provider_gateway_all_params(self):
         # Set up mock
         url = base_url + '/gateways/testString'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.DELETE,
                       url,
                       body=mock_response,
@@ -323,7 +323,7 @@ class TestDeleteProviderGateway():
     def test_delete_provider_gateway_value_error(self):
         # Set up mock
         url = base_url + '/gateways/testString'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.DELETE,
                       url,
                       body=mock_response,
@@ -356,7 +356,7 @@ class TestGetProviderGateway():
     def test_get_provider_gateway_all_params(self):
         # Set up mock
         url = base_url + '/gateways/testString'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -384,7 +384,7 @@ class TestGetProviderGateway():
     def test_get_provider_gateway_value_error(self):
         # Set up mock
         url = base_url + '/gateways/testString'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -417,7 +417,7 @@ class TestUpdateProviderGateway():
     def test_update_provider_gateway_all_params(self):
         # Set up mock
         url = base_url + '/gateways/testString'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -426,12 +426,18 @@ class TestUpdateProviderGateway():
 
         # Set up parameter values
         id = 'testString'
+        bgp_asn = 64999
+        bgp_cer_cidr = '169.254.0.10/30'
+        bgp_ibm_cidr = '169.254.0.9/30'
         name = 'myNewGateway'
         speed_mbps = 1000
 
         # Invoke method
         response = service.update_provider_gateway(
             id,
+            bgp_asn=bgp_asn,
+            bgp_cer_cidr=bgp_cer_cidr,
+            bgp_ibm_cidr=bgp_ibm_cidr,
             name=name,
             speed_mbps=speed_mbps,
             headers={}
@@ -442,6 +448,9 @@ class TestUpdateProviderGateway():
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['bgp_asn'] == 64999
+        assert req_body['bgp_cer_cidr'] == '169.254.0.10/30'
+        assert req_body['bgp_ibm_cidr'] == '169.254.0.9/30'
         assert req_body['name'] == 'myNewGateway'
         assert req_body['speed_mbps'] == 1000
 
@@ -453,7 +462,7 @@ class TestUpdateProviderGateway():
     def test_update_provider_gateway_value_error(self):
         # Set up mock
         url = base_url + '/gateways/testString'
-        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "57a7d05f36894e3cb9b46a43556d903e", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "create_pending", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
+        mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -462,6 +471,9 @@ class TestUpdateProviderGateway():
 
         # Set up parameter values
         id = 'testString'
+        bgp_asn = 64999
+        bgp_cer_cidr = '169.254.0.10/30'
+        bgp_ibm_cidr = '169.254.0.9/30'
         name = 'myNewGateway'
         speed_mbps = 1000
 
@@ -661,11 +673,11 @@ class TestProviderGateway():
         provider_gateway_model_json['bgp_status'] = 'active'
         provider_gateway_model_json['change_request'] = provider_gateway_change_request_model
         provider_gateway_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
-        provider_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        provider_gateway_model_json['customer_account_id'] = '57a7d05f36894e3cb9b46a43556d903e'
+        provider_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        provider_gateway_model_json['customer_account_id'] = '4111d05f36894e3cb9b46a43556d9000'
         provider_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         provider_gateway_model_json['name'] = 'myGateway'
-        provider_gateway_model_json['operational_status'] = 'create_pending'
+        provider_gateway_model_json['operational_status'] = 'configuring'
         provider_gateway_model_json['port'] = provider_gateway_port_reference_model
         provider_gateway_model_json['provider_api_managed'] = True
         provider_gateway_model_json['speed_mbps'] = 1000
@@ -713,11 +725,11 @@ class TestProviderGatewayCollection():
         provider_gateway_model['bgp_status'] = 'active'
         provider_gateway_model['change_request'] = provider_gateway_change_request_model
         provider_gateway_model['created_at'] = '2020-01-28T18:40:40.123456Z'
-        provider_gateway_model['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        provider_gateway_model['customer_account_id'] = '57a7d05f36894e3cb9b46a43556d903e'
+        provider_gateway_model['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        provider_gateway_model['customer_account_id'] = '4111d05f36894e3cb9b46a43556d9000'
         provider_gateway_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         provider_gateway_model['name'] = 'myGateway'
-        provider_gateway_model['operational_status'] = 'create_pending'
+        provider_gateway_model['operational_status'] = 'configuring'
         provider_gateway_model['port'] = provider_gateway_port_reference_model
         provider_gateway_model['provider_api_managed'] = True
         provider_gateway_model['speed_mbps'] = 1000

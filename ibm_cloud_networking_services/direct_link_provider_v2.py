@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -324,6 +324,9 @@ class DirectLinkProviderV2(BaseService):
     def update_provider_gateway(self,
         id: str,
         *,
+        bgp_asn: int = None,
+        bgp_cer_cidr: str = None,
+        bgp_ibm_cidr: str = None,
         name: str = None,
         speed_mbps: int = None,
         **kwargs
@@ -336,6 +339,26 @@ class DirectLinkProviderV2(BaseService):
         change_request and require approval from the client.
 
         :param str id: Direct Link Connect gateway identifier.
+        :param int bgp_asn: (optional) The autonomous system number (ASN) of Border
+               Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0
+               gateway.
+        :param str bgp_cer_cidr: (optional) BGP customer edge router CIDR is the
+               new CIDR (Classless Inter-Domain Routing) value to be updated on customer
+               edge router for the DL 2.0 gateway. Customer edge IP and IBM IP should be
+               in the same network. Updating customer edge router CIDR should be
+               accompanied with IBM CIDR in the request. Update customer edge router IP to
+               a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
+               "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an
+               owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching
+               network and subnet mask values.
+        :param str bgp_ibm_cidr: (optional) BGP IBM CIDR is the new CIDR (Classless
+               Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+               gateway. IBM IP and customer edge IP should be in the same network.
+               Updating IBM CIDR should be accompanied with customer edge router CIDR in
+               the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR,
+               the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+               "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr
+               and bgp_ibm_cidr must have matching network and subnet mask values.
         :param str name: (optional) The unique user-defined name for this gateway.
         :param int speed_mbps: (optional) Gateway speed in megabits per second.
         :param dict headers: A `dict` containing the request headers
@@ -356,6 +379,9 @@ class DirectLinkProviderV2(BaseService):
         }
 
         data = {
+            'bgp_asn': bgp_asn,
+            'bgp_cer_cidr': bgp_cer_cidr,
+            'bgp_ibm_cidr': bgp_ibm_cidr,
             'name': name,
             'speed_mbps': speed_mbps
         }
@@ -481,7 +507,7 @@ class ProviderGateway():
     :attr str bgp_ibm_cidr: (optional) BGP IBM CIDR.
     :attr str bgp_status: (optional) Gateway BGP status.
           The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
+          and processes using this field must tolerate unexpected values.
     :attr ProviderGatewayChangeRequest change_request: (optional)
     :attr datetime created_at: The date and time resource was created.
     :attr str crn: (optional) The CRN (Cloud Resource Name) of this gateway.
@@ -490,7 +516,7 @@ class ProviderGateway():
     :attr str name: The unique user-defined name for this gateway.
     :attr str operational_status: Gateway operational status.
           The list of enumerated values for this property may expand in the future. Code
-          and processes using this field  must tolerate unexpected values.
+          and processes using this field must tolerate unexpected values.
     :attr ProviderGatewayPortReference port: Port identifier for the gateway.
     :attr bool provider_api_managed: Set to `true` for gateways created through the
           Direct Link Provider APIs.
@@ -534,7 +560,7 @@ class ProviderGateway():
         :param str name: The unique user-defined name for this gateway.
         :param str operational_status: Gateway operational status.
                The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
+               Code and processes using this field must tolerate unexpected values.
         :param ProviderGatewayPortReference port: Port identifier for the gateway.
         :param bool provider_api_managed: Set to `true` for gateways created
                through the Direct Link Provider APIs.
@@ -546,7 +572,7 @@ class ProviderGateway():
         :param str bgp_ibm_cidr: (optional) BGP IBM CIDR.
         :param str bgp_status: (optional) Gateway BGP status.
                The list of enumerated values for this property may expand in the future.
-               Code and processes using this field  must tolerate unexpected values.
+               Code and processes using this field must tolerate unexpected values.
         :param ProviderGatewayChangeRequest change_request: (optional)
         :param str crn: (optional) The CRN (Cloud Resource Name) of this gateway.
         :param int vlan: (optional) VLAN allocated for this gateway.
@@ -697,7 +723,7 @@ class ProviderGateway():
         """
         Gateway BGP status.
         The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
+        processes using this field must tolerate unexpected values.
         """
         ACTIVE = "active"
         CONNECT = "connect"
@@ -709,8 +735,9 @@ class ProviderGateway():
         """
         Gateway operational status.
         The list of enumerated values for this property may expand in the future. Code and
-        processes using this field  must tolerate unexpected values.
+        processes using this field must tolerate unexpected values.
         """
+        CONFIGURING = "configuring"
         CREATE_PENDING = "create_pending"
         CREATE_REJECTED = "create_rejected"
         DELETE_PENDING = "delete_pending"
