@@ -145,6 +145,21 @@ class TestDirectLinkV1(unittest.TestCase):
                 time.sleep(10)
                 count += 1
 
+    def get_port_id(self):
+        # Fetch the list of ports and use a port to create a connect gateway
+        response = self.dl.list_ports()
+        assert response is not None
+
+        ports = response.get_result().get("ports")
+        port_id = ""
+        provider_to_be_used = "DL2-TEST"
+        for port in ports:
+            if provider_to_be_used in port.get("provider_name"):
+                port_id = port.get("id")
+                break
+
+        return port_id
+
     ################## DirectLink Gateways ######################################
 
     def test_gateway_crud_actions(self):
@@ -515,11 +530,8 @@ class TestDirectLinkV1(unittest.TestCase):
         connectionMode = "direct"
 
         """ test create/update/delete gateway with connection_mode success """
-        # FEtch the list of ports and use a port to create a connect gateway
-        response = self.dl.list_ports()
-        assert response is not None
-
-        port_id = response.get_result().get("ports")[0].get("id")
+        # Get the port id to create a connect gateway
+        port_id = self.get_port_id()
 
         # create gateway with connection_mode as transit
         gwPort = GatewayPortIdentity(id= port_id)
@@ -639,11 +651,8 @@ class TestDirectLinkV1(unittest.TestCase):
         gatewayType = "connect"
 
         """ test create/update/delete gateway with bgp_asn bgp_cer_cidr bgp_ibm_cidr success """
-        # Fetch the list of ports and use a port to create a connect gateway
-        response = self.dl.list_ports()
-        assert response is not None
-
-        port_id = response.get_result().get("ports")[0].get("id")
+        # Get the port id to create a connect gateway
+        port_id = self.get_port_id()
 
         # create a connect gateway
         gwPort = GatewayPortIdentity(id= port_id)
@@ -787,11 +796,8 @@ class TestDirectLinkV1(unittest.TestCase):
         gatewayType = "connect"
 
         """ test create/update/delete gateway with bfd_config """
-        # Fetch the list of ports and use a port to create a connect gateway
-        response = self.dl.list_ports()
-        assert response is not None
-
-        port_id = response.get_result().get("ports")[0].get("id")
+        # Get the port id to create a connect gateway
+        port_id = self.get_port_id()
 
         # create a connect gateway
         gwPort = GatewayPortIdentity(id= port_id)
