@@ -26,6 +26,8 @@ except:
 class TestDirectLinkProviderV2(unittest.TestCase):
     """ Test class for DirectLink Provider sdk functions """
 
+    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
         self.dl_endpoint = os.getenv("DL_SERVICES_SERVICE_URL")
@@ -699,5 +701,6 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         response = self.dl.create_gateway_action(id=gateway_id, action="delete_gateway_approve")
         assert response is not None
         assert response.get_status_code() == 204
+
 if __name__ == '__main__':
     unittest.main()
