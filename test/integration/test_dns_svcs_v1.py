@@ -9,11 +9,18 @@ from ibm_cloud_networking_services.dns_svcs_v1 import DnsSvcsV1
 import os
 import unittest
 
+
+import os
+import unittest
+from dotenv import load_dotenv, find_dotenv
+from ibm_cloud_networking_services.zones_settings_v1 import ZonesSettingsV1
+
+
 from dotenv import load_dotenv, find_dotenv
 configFile = "dns.env"
 # load the .env file containing your environment variables
 try:
-    load_dotenv(find_dotenv(filename=configFile))
+    load_dotenv(find_dotenv(filename="dns.env"))
 except:
     raise unittest.SkipTest('no dns.env file loaded, skipping...')
 
