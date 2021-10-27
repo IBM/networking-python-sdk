@@ -2296,6 +2296,65 @@ class DnsSvcsV1(BaseService):
         response = self.send(request)
         return response
 
+
+    def update_cr_locations_order(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        locations: List[str] = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update the locations order of a custom resolver.
+
+        Update the locations order of a custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param List[str] locations: (optional) Array of custom resolver location
+               ID.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CustomResolver` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_cr_locations_order')
+        headers.update(sdk_headers)
+
+        data = {
+            'locations': locations
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/locations_order'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
     #########################
     # Custom Resolver Locations
     #########################

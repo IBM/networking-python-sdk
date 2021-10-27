@@ -19,8 +19,6 @@ except:
 
 class TestDNSSvcsV1(unittest.TestCase):
     """The DNS V1 service test class."""
-
-    @unittest.skip("skipping")
     
     def setUp(self):
         """ test case setup """
@@ -186,8 +184,6 @@ class TestDNSSvcsV1(unittest.TestCase):
 
 class TestResourceRecordsV1(unittest.TestCase):
     """The Resourse records V1 service test class."""
-
-    @unittest.skip("skipping")
 
     def setUp(self):
         """ test case setup """
@@ -704,8 +700,6 @@ class TestResourceRecordsV1(unittest.TestCase):
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
     """The Permitted Networks for DNS V1 service test class."""
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -829,8 +823,6 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
     
     """The Global Load Balancers for DNS V1 service test class."""
-
-    @unittest.skip("skipping")
    
     def setUp(self):
         """ test case setup """
@@ -911,7 +903,6 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
                 instance_id=self.instance_id, dnszone_id=zone.get("id"))
 
     ################## global load balancers integration test cases ##################
-    @unittest.skip('skipping...')
     def test_1_dns_globalloadbalancers(self):
         """ create,get,update,delete GLB monitor """
 
@@ -1092,12 +1083,10 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
 
 class TestCustomResolversV1(unittest.TestCase):
     """Custom Resolvers for DNS V1 service test class."""
-
-    @unittest.skip("skipping")
+    
 
     def setUp(self):
         """ test case setup """
-
         if not os.path.exists(configFile):
             raise unittest.SkipTest('External configuration not available, skipping...')
         self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
@@ -1121,19 +1110,14 @@ class TestCustomResolversV1(unittest.TestCase):
         result = response.get_result().get("custom_resolvers")
         for crs in result:
             self.cr.delete_custom_resolver(instance_id=self.instance_id, resolver_id=crs.get("id"))
-
+        
     def test_1_dns_customresolvers(self):
         """ create,get,update,list Custom Resolvers """
 
         name = 'testcustomresolvers'
         description = "Creating Custom Resolvers"
-        locations = [{"subnet_crn": self.subnet_crn, "enabled": False}]
-    
-        # Create Custom Resolvers
-        resp = self.cr.create_custom_resolver(instance_id=self.instance_id, name=name, locations=locations,
+        resp = self.cr.create_custom_resolver(instance_id=self.instance_id, name=name,
                                               description=description)
-
-
         assert resp is not None
         assert resp.status_code == 200
         resolver_id = resp.get_result().get("id")
@@ -1153,6 +1137,21 @@ class TestCustomResolversV1(unittest.TestCase):
 
         # List Custom Resolver
         resp = self.cr.list_custom_resolvers(instance_id=self.instance_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        """ add,update,Custom Resolver Locations """
+        # Add Custom Resolver Locations
+        resp = self.cr.add_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
+                                                    subnet_crn=self.subnet_crn_location, enabled=True)
+        assert resp is not None
+        assert resp.status_code == 200
+        location_id = resp.get_result().get("id")
+
+
+        # Update Custom Resolver Locations
+        resp = self.cr.update_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
+                                                       location_id=location_id, enabled=False)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1192,11 +1191,18 @@ class TestCustomResolversV1(unittest.TestCase):
         resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)
         assert resp is not None
         assert resp.status_code == 204
+
+        # Delete Custom resolver locations
+        resp = self.cr.delete_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
+                                                       location_id=location_id)
+        assert resp is not None
+        assert resp.status_code == 204
         
-         # Delete Custom Resolver
+        # Delete Custom Resolver
         resp = self.cr.delete_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id)
         assert resp is not None
         assert resp.status_code == 204
+        
 
 if __name__ == '__main__':
     unittest.main()
