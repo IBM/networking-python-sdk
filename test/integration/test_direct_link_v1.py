@@ -53,8 +53,6 @@ except:
 class TestDirectLinkV1(unittest.TestCase):
     """ Test class for DirectLink sdk functions """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         """ test case setup """
         self.endpoint = os.getenv("DL_SERVICES_SERVICE_URL")
