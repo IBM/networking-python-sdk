@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/IBM/networking-python-sdk/compare/v0.12.0...v0.13.0) (2021-11-16)
+
+
+### Features
+
+* **location opt:** added cr location as opt ([1ef4cf9](https://github.com/IBM/networking-python-sdk/commit/1ef4cf96ef2d092089717b76c51b3c4dab91ffe3))
+
 # [0.12.0](https://github.com/IBM/networking-python-sdk/compare/v0.11.0...v0.12.0) (2021-10-05)
 
 
