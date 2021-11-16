@@ -4221,6 +4221,117 @@ class TestUpdateCustomResolver():
 
 
 
+class TestUpdateCrLocationsOrder():
+    """
+    Test Class for update_cr_locations_order
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_cr_locations_order_all_params(self):
+        """
+        update_cr_locations_order()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations_order')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        locations = ['9a234ede-c2b6-4c39-bc27-d39ec139ecdb']
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.update_cr_locations_order(
+            instance_id,
+            resolver_id,
+            locations=locations,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['locations'] == ['9a234ede-c2b6-4c39-bc27-d39ec139ecdb']
+
+
+    @responses.activate
+    def test_update_cr_locations_order_required_params(self):
+        """
+        test_update_cr_locations_order_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations_order')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+
+        # Invoke method
+        response = _service.update_cr_locations_order(
+            instance_id,
+            resolver_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_cr_locations_order_value_error(self):
+        """
+        test_update_cr_locations_order_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/instances/testString/custom_resolvers/testString/locations_order')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_cr_locations_order(**req_copy)
+
+
+
 # endregion
 ##############################################################################
 # End of Service: CustomResolvers
@@ -5271,8 +5382,8 @@ class TestCustomResolver():
         custom_resolver_model_json['enabled'] = False
         custom_resolver_model_json['health'] = 'HEALTHY'
         custom_resolver_model_json['locations'] = [location_model]
-        custom_resolver_model_json['created_on'] = "2021-04-21T08:18:25Z"
-        custom_resolver_model_json['modified_on'] = "2021-04-21T08:18:25Z"
+        custom_resolver_model_json['created_on'] = '2015-03-14T09:26:53.123456Z'
+        custom_resolver_model_json['modified_on'] = '2015-03-14T09:26:53.123456Z'
 
         # Construct a model instance of CustomResolver by calling from_dict on the json representation
         custom_resolver_model = CustomResolver.from_dict(custom_resolver_model_json)
@@ -5315,8 +5426,8 @@ class TestCustomResolverList():
         custom_resolver_model['enabled'] = False
         custom_resolver_model['health'] = 'HEALTHY'
         custom_resolver_model['locations'] = [location_model]
-        custom_resolver_model['created_on'] = "2021-04-21T08:18:25Z"
-        custom_resolver_model['modified_on'] = "2021-04-21T08:18:25Z"
+        custom_resolver_model['created_on'] = '2015-03-14T09:26:53.123456Z'
+        custom_resolver_model['modified_on'] = '2015-03-14T09:26:53.123456Z'
 
         # Construct a json representation of a CustomResolverList model
         custom_resolver_list_model_json = {}
@@ -5419,8 +5530,8 @@ class TestForwardingRule():
         forwarding_rule_model_json['type'] = 'zone'
         forwarding_rule_model_json['match'] = 'example.com'
         forwarding_rule_model_json['forward_to'] = ['161.26.0.7']
-        forwarding_rule_model_json['created_on'] = "2021-04-21T08:18:25Z"
-        forwarding_rule_model_json['modified_on'] = "2021-04-21T08:18:25Z"
+        forwarding_rule_model_json['created_on'] = '2015-03-14T09:26:53.123456Z'
+        forwarding_rule_model_json['modified_on'] = '2015-03-14T09:26:53.123456Z'
 
         # Construct a model instance of ForwardingRule by calling from_dict on the json representation
         forwarding_rule_model = ForwardingRule.from_dict(forwarding_rule_model_json)
@@ -5455,8 +5566,8 @@ class TestForwardingRuleList():
         forwarding_rule_model['type'] = 'zone'
         forwarding_rule_model['match'] = 'example.com'
         forwarding_rule_model['forward_to'] = ['161.26.0.7']
-        forwarding_rule_model['created_on'] = "2021-04-21T08:18:25Z"
-        forwarding_rule_model['modified_on'] = "2021-04-21T08:18:25Z"
+        forwarding_rule_model['created_on'] = '2015-03-14T09:26:53.123456Z'
+        forwarding_rule_model['modified_on'] = '2015-03-14T09:26:53.123456Z'
 
         # Construct a json representation of a ForwardingRuleList model
         forwarding_rule_list_model_json = {}
