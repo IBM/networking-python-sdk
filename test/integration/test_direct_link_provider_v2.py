@@ -26,7 +26,7 @@ except:
 class TestDirectLinkProviderV2(unittest.TestCase):
     """ Test class for DirectLink Provider sdk functions """
 
-    @unittest.skip("skipping failing tests")
+    @unittest.skip("skipping")
 
     def setUp(self):
         """ test case setup """
