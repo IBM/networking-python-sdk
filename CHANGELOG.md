@@ -1,3 +1,10 @@
+# [0.14.0](https://github.com/IBM/networking-python-sdk/compare/v0.13.0...v0.14.0) (2021-11-16)
+
+
+### Features
+
+* Added Gateway Route Reports Integration tests for PYTHON-SDK. ([c1bee9a](https://github.com/IBM/networking-python-sdk/commit/c1bee9ad44f5d7f560154e824d795ed75264f5bc))
+
 # [0.13.0](https://github.com/IBM/networking-python-sdk/compare/v0.12.0...v0.13.0) (2021-11-16)
 
 
