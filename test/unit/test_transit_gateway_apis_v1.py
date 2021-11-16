@@ -13,10 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Unit Tests for TransitGatewayApisV1
+"""
+
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import json
+import os
 import pytest
 import re
 import requests
@@ -26,40 +32,86 @@ from ibm_cloud_networking_services.transit_gateway_apis_v1 import *
 
 version = 'testString'
 
-service = TransitGatewayApisV1(
+_service = TransitGatewayApisV1(
     authenticator=NoAuthAuthenticator(),
     version=version
-    )
+)
 
-base_url = 'https://transit.cloud.ibm.com/v1'
-service.set_service_url(base_url)
+_base_url = 'https://transit.cloud.ibm.com/v1'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: TransitConnections
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for list_connections
-#-----------------------------------------------------------------------------
-class TestListConnections():
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListConnections():
+    """
+    Test Class for list_connections
+    """
+
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # list_connections()
-    #--------------------------------------------------------
     @responses.activate
     def test_list_connections_all_params(self):
+        """
+        list_connections()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        url = self.preprocess_url(_base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -72,7 +124,7 @@ class TestListConnections():
         network_id = 'testString'
 
         # Invoke method
-        response = service.list_connections(
+        response = _service.list_connections(
             limit=limit,
             start=start,
             network_id=network_id,
@@ -84,20 +136,28 @@ class TestListConnections():
         assert response.status_code == 200
         # Validate query params
         query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = requests.utils.unquote(query_string)
+        query_string = urllib.parse.unquote_plus(query_string)
         assert 'limit={}'.format(limit) in query_string
         assert 'start={}'.format(start) in query_string
         assert 'network_id={}'.format(network_id) in query_string
 
+    def test_list_connections_all_params_with_retries(self):
+        # Enable retries and run test_list_connections_all_params.
+        _service.enable_retries()
+        self.test_list_connections_all_params()
 
-    #--------------------------------------------------------
-    # test_list_connections_required_params()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_connections_all_params.
+        _service.disable_retries()
+        self.test_list_connections_all_params()
+
     @responses.activate
     def test_list_connections_required_params(self):
+        """
+        test_list_connections_required_params()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        url = self.preprocess_url(_base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -105,22 +165,30 @@ class TestListConnections():
                       status=200)
 
         # Invoke method
-        response = service.list_connections()
+        response = _service.list_connections()
 
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_connections_required_params_with_retries(self):
+        # Enable retries and run test_list_connections_required_params.
+        _service.enable_retries()
+        self.test_list_connections_required_params()
 
-    #--------------------------------------------------------
-    # test_list_connections_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_connections_required_params.
+        _service.disable_retries()
+        self.test_list_connections_required_params()
+
     @responses.activate
     def test_list_connections_value_error(self):
+        """
+        test_list_connections_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        url = self.preprocess_url(_base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -133,9 +201,17 @@ class TestListConnections():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_connections(**req_copy)
+                _service.list_connections(**req_copy)
 
 
+    def test_list_connections_value_error_with_retries(self):
+        # Enable retries and run test_list_connections_value_error.
+        _service.enable_retries()
+        self.test_list_connections_value_error()
+
+        # Disable retries and run test_list_connections_value_error.
+        _service.disable_retries()
+        self.test_list_connections_value_error()
 
 # endregion
 ##############################################################################
@@ -143,31 +219,484 @@ class TestListConnections():
 ##############################################################################
 
 ##############################################################################
-# Start of Service: TransitGateways
+# Start of Service: TransitGatewayRouteReports
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for list_transit_gateways
-#-----------------------------------------------------------------------------
-class TestListTransitGateways():
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListTransitGatewayRouteReports():
+    """
+    Test Class for list_transit_gateway_route_reports
+    """
+
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # list_transit_gateways()
-    #--------------------------------------------------------
+    @responses.activate
+    def test_list_transit_gateway_route_reports_all_params(self):
+        """
+        list_transit_gateway_route_reports()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Invoke method
+        response = _service.list_transit_gateway_route_reports(
+            transit_gateway_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_transit_gateway_route_reports_all_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_route_reports_all_params.
+        _service.enable_retries()
+        self.test_list_transit_gateway_route_reports_all_params()
+
+        # Disable retries and run test_list_transit_gateway_route_reports_all_params.
+        _service.disable_retries()
+        self.test_list_transit_gateway_route_reports_all_params()
+
+    @responses.activate
+    def test_list_transit_gateway_route_reports_value_error(self):
+        """
+        test_list_transit_gateway_route_reports_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_transit_gateway_route_reports(**req_copy)
+
+
+    def test_list_transit_gateway_route_reports_value_error_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_route_reports_value_error.
+        _service.enable_retries()
+        self.test_list_transit_gateway_route_reports_value_error()
+
+        # Disable retries and run test_list_transit_gateway_route_reports_value_error.
+        _service.disable_retries()
+        self.test_list_transit_gateway_route_reports_value_error()
+
+class TestCreateTransitGatewayRouteReport():
+    """
+    Test Class for create_transit_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_transit_gateway_route_report_all_params(self):
+        """
+        create_transit_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Invoke method
+        response = _service.create_transit_gateway_route_report(
+            transit_gateway_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_create_transit_gateway_route_report_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_route_report_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_route_report_all_params()
+
+        # Disable retries and run test_create_transit_gateway_route_report_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_create_transit_gateway_route_report_value_error(self):
+        """
+        test_create_transit_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_transit_gateway_route_report(**req_copy)
+
+
+    def test_create_transit_gateway_route_report_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_route_report_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_route_report_value_error()
+
+        # Disable retries and run test_create_transit_gateway_route_report_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_route_report_value_error()
+
+class TestDeleteTransitGatewayRouteReport():
+    """
+    Test Class for delete_transit_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_transit_gateway_route_report_all_params(self):
+        """
+        delete_transit_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.delete_transit_gateway_route_report(
+            transit_gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_transit_gateway_route_report_all_params_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_route_report_all_params.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_route_report_all_params()
+
+        # Disable retries and run test_delete_transit_gateway_route_report_all_params.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_delete_transit_gateway_route_report_value_error(self):
+        """
+        test_delete_transit_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_transit_gateway_route_report(**req_copy)
+
+
+    def test_delete_transit_gateway_route_report_value_error_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_route_report_value_error.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_route_report_value_error()
+
+        # Disable retries and run test_delete_transit_gateway_route_report_value_error.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_route_report_value_error()
+
+class TestGetTransitGatewayRouteReport():
+    """
+    Test Class for get_transit_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_transit_gateway_route_report_all_params(self):
+        """
+        get_transit_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.get_transit_gateway_route_report(
+            transit_gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_transit_gateway_route_report_all_params_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_route_report_all_params.
+        _service.enable_retries()
+        self.test_get_transit_gateway_route_report_all_params()
+
+        # Disable retries and run test_get_transit_gateway_route_report_all_params.
+        _service.disable_retries()
+        self.test_get_transit_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_get_transit_gateway_route_report_value_error(self):
+        """
+        test_get_transit_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_transit_gateway_route_report(**req_copy)
+
+
+    def test_get_transit_gateway_route_report_value_error_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_route_report_value_error.
+        _service.enable_retries()
+        self.test_get_transit_gateway_route_report_value_error()
+
+        # Disable retries and run test_get_transit_gateway_route_report_value_error.
+        _service.disable_retries()
+        self.test_get_transit_gateway_route_report_value_error()
+
+# endregion
+##############################################################################
+# End of Service: TransitGatewayRouteReports
+##############################################################################
+
+##############################################################################
+# Start of Service: TransitGateways
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListTransitGateways():
+    """
+    Test Class for list_transit_gateways
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
     def test_list_transit_gateways_all_params(self):
+        """
+        list_transit_gateways()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/transit_gateways')
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -179,7 +708,7 @@ class TestListTransitGateways():
         start = 'testString'
 
         # Invoke method
-        response = service.list_transit_gateways(
+        response = _service.list_transit_gateways(
             limit=limit,
             start=start,
             headers={}
@@ -190,19 +719,27 @@ class TestListTransitGateways():
         assert response.status_code == 200
         # Validate query params
         query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = requests.utils.unquote(query_string)
+        query_string = urllib.parse.unquote_plus(query_string)
         assert 'limit={}'.format(limit) in query_string
         assert 'start={}'.format(start) in query_string
 
+    def test_list_transit_gateways_all_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateways_all_params.
+        _service.enable_retries()
+        self.test_list_transit_gateways_all_params()
 
-    #--------------------------------------------------------
-    # test_list_transit_gateways_required_params()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_transit_gateways_all_params.
+        _service.disable_retries()
+        self.test_list_transit_gateways_all_params()
+
     @responses.activate
     def test_list_transit_gateways_required_params(self):
+        """
+        test_list_transit_gateways_required_params()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/transit_gateways')
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -210,22 +747,30 @@ class TestListTransitGateways():
                       status=200)
 
         # Invoke method
-        response = service.list_transit_gateways()
+        response = _service.list_transit_gateways()
 
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_transit_gateways_required_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateways_required_params.
+        _service.enable_retries()
+        self.test_list_transit_gateways_required_params()
 
-    #--------------------------------------------------------
-    # test_list_transit_gateways_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_transit_gateways_required_params.
+        _service.disable_retries()
+        self.test_list_transit_gateways_required_params()
+
     @responses.activate
     def test_list_transit_gateways_value_error(self):
+        """
+        test_list_transit_gateways_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/transit_gateways')
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -238,31 +783,42 @@ class TestListTransitGateways():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_transit_gateways(**req_copy)
+                _service.list_transit_gateways(**req_copy)
 
 
+    def test_list_transit_gateways_value_error_with_retries(self):
+        # Enable retries and run test_list_transit_gateways_value_error.
+        _service.enable_retries()
+        self.test_list_transit_gateways_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for create_transit_gateway
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_list_transit_gateways_value_error.
+        _service.disable_retries()
+        self.test_list_transit_gateways_value_error()
+
 class TestCreateTransitGateway():
+    """
+    Test Class for create_transit_gateway
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # create_transit_gateway()
-    #--------------------------------------------------------
     @responses.activate
     def test_create_transit_gateway_all_params(self):
+        """
+        create_transit_gateway()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/transit_gateways')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -280,7 +836,7 @@ class TestCreateTransitGateway():
         resource_group = resource_group_identity_model
 
         # Invoke method
-        response = service.create_transit_gateway(
+        response = _service.create_transit_gateway(
             location,
             name,
             global_=global_,
@@ -298,15 +854,23 @@ class TestCreateTransitGateway():
         assert req_body['global'] == True
         assert req_body['resource_group'] == resource_group_identity_model
 
+    def test_create_transit_gateway_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_all_params()
 
-    #--------------------------------------------------------
-    # test_create_transit_gateway_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_create_transit_gateway_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_all_params()
+
     @responses.activate
     def test_create_transit_gateway_value_error(self):
+        """
+        test_create_transit_gateway_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/transit_gateways')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -331,30 +895,41 @@ class TestCreateTransitGateway():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_transit_gateway(**req_copy)
+                _service.create_transit_gateway(**req_copy)
 
 
+    def test_create_transit_gateway_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_transit_gateway
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_create_transit_gateway_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_value_error()
+
 class TestDeleteTransitGateway():
+    """
+    Test Class for delete_transit_gateway
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # delete_transit_gateway()
-    #--------------------------------------------------------
     @responses.activate
     def test_delete_transit_gateway_all_params(self):
+        """
+        delete_transit_gateway()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString')
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -363,7 +938,7 @@ class TestDeleteTransitGateway():
         id = 'testString'
 
         # Invoke method
-        response = service.delete_transit_gateway(
+        response = _service.delete_transit_gateway(
             id,
             headers={}
         )
@@ -372,14 +947,22 @@ class TestDeleteTransitGateway():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_transit_gateway_all_params_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_all_params.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_all_params()
 
-    #--------------------------------------------------------
-    # test_delete_transit_gateway_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_delete_transit_gateway_all_params.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_all_params()
+
     @responses.activate
     def test_delete_transit_gateway_value_error(self):
+        """
+        test_delete_transit_gateway_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString')
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -394,31 +977,42 @@ class TestDeleteTransitGateway():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_transit_gateway(**req_copy)
+                _service.delete_transit_gateway(**req_copy)
 
 
+    def test_delete_transit_gateway_value_error_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_value_error.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for get_transit_gateway
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_delete_transit_gateway_value_error.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_value_error()
+
 class TestGetTransitGateway():
+    """
+    Test Class for get_transit_gateway
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # get_transit_gateway()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_transit_gateway_all_params(self):
+        """
+        get_transit_gateway()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -429,7 +1023,7 @@ class TestGetTransitGateway():
         id = 'testString'
 
         # Invoke method
-        response = service.get_transit_gateway(
+        response = _service.get_transit_gateway(
             id,
             headers={}
         )
@@ -438,15 +1032,23 @@ class TestGetTransitGateway():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_transit_gateway_all_params_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_all_params.
+        _service.enable_retries()
+        self.test_get_transit_gateway_all_params()
 
-    #--------------------------------------------------------
-    # test_get_transit_gateway_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_get_transit_gateway_all_params.
+        _service.disable_retries()
+        self.test_get_transit_gateway_all_params()
+
     @responses.activate
     def test_get_transit_gateway_value_error(self):
+        """
+        test_get_transit_gateway_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -463,31 +1065,42 @@ class TestGetTransitGateway():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_transit_gateway(**req_copy)
+                _service.get_transit_gateway(**req_copy)
 
 
+    def test_get_transit_gateway_value_error_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_value_error.
+        _service.enable_retries()
+        self.test_get_transit_gateway_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for update_transit_gateway
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_get_transit_gateway_value_error.
+        _service.disable_retries()
+        self.test_get_transit_gateway_value_error()
+
 class TestUpdateTransitGateway():
+    """
+    Test Class for update_transit_gateway
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # update_transit_gateway()
-    #--------------------------------------------------------
     @responses.activate
     def test_update_transit_gateway_all_params(self):
+        """
+        update_transit_gateway()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -500,7 +1113,7 @@ class TestUpdateTransitGateway():
         name = 'my-transit-gateway'
 
         # Invoke method
-        response = service.update_transit_gateway(
+        response = _service.update_transit_gateway(
             id,
             global_=global_,
             name=name,
@@ -515,15 +1128,23 @@ class TestUpdateTransitGateway():
         assert req_body['global'] == True
         assert req_body['name'] == 'my-transit-gateway'
 
+    def test_update_transit_gateway_all_params_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_all_params.
+        _service.enable_retries()
+        self.test_update_transit_gateway_all_params()
 
-    #--------------------------------------------------------
-    # test_update_transit_gateway_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_update_transit_gateway_all_params.
+        _service.disable_retries()
+        self.test_update_transit_gateway_all_params()
+
     @responses.activate
     def test_update_transit_gateway_value_error(self):
+        """
+        test_update_transit_gateway_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString')
+        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8", "href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -542,9 +1163,17 @@ class TestUpdateTransitGateway():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_transit_gateway(**req_copy)
+                _service.update_transit_gateway(**req_copy)
 
 
+    def test_update_transit_gateway_value_error_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_value_error.
+        _service.enable_retries()
+        self.test_update_transit_gateway_value_error()
+
+        # Disable retries and run test_update_transit_gateway_value_error.
+        _service.disable_retries()
+        self.test_update_transit_gateway_value_error()
 
 # endregion
 ##############################################################################
@@ -556,27 +1185,73 @@ class TestUpdateTransitGateway():
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for list_transit_gateway_connections
-#-----------------------------------------------------------------------------
-class TestListTransitGatewayConnections():
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListTransitGatewayConnections():
+    """
+    Test Class for list_transit_gateway_connections
+    """
+
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # list_transit_gateway_connections()
-    #--------------------------------------------------------
     @responses.activate
     def test_list_transit_gateway_connections_all_params(self):
+        """
+        list_transit_gateway_connections()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}]}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -587,7 +1262,7 @@ class TestListTransitGatewayConnections():
         transit_gateway_id = 'testString'
 
         # Invoke method
-        response = service.list_transit_gateway_connections(
+        response = _service.list_transit_gateway_connections(
             transit_gateway_id,
             headers={}
         )
@@ -596,15 +1271,23 @@ class TestListTransitGatewayConnections():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_transit_gateway_connections_all_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_connections_all_params.
+        _service.enable_retries()
+        self.test_list_transit_gateway_connections_all_params()
 
-    #--------------------------------------------------------
-    # test_list_transit_gateway_connections_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_transit_gateway_connections_all_params.
+        _service.disable_retries()
+        self.test_list_transit_gateway_connections_all_params()
+
     @responses.activate
     def test_list_transit_gateway_connections_value_error(self):
+        """
+        test_list_transit_gateway_connections_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}]}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -621,31 +1304,42 @@ class TestListTransitGatewayConnections():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_transit_gateway_connections(**req_copy)
+                _service.list_transit_gateway_connections(**req_copy)
 
 
+    def test_list_transit_gateway_connections_value_error_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_connections_value_error.
+        _service.enable_retries()
+        self.test_list_transit_gateway_connections_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for create_transit_gateway_connection
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_list_transit_gateway_connections_value_error.
+        _service.disable_retries()
+        self.test_list_transit_gateway_connections_value_error()
+
 class TestCreateTransitGatewayConnection():
+    """
+    Test Class for create_transit_gateway_connection
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # create_transit_gateway_connection()
-    #--------------------------------------------------------
     @responses.activate
     def test_create_transit_gateway_connection_all_params(self):
+        """
+        create_transit_gateway_connection()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -671,7 +1365,7 @@ class TestCreateTransitGatewayConnection():
         zone = zone_identity_model
 
         # Invoke method
-        response = service.create_transit_gateway_connection(
+        response = _service.create_transit_gateway_connection(
             transit_gateway_id,
             network_type,
             base_connection_id=base_connection_id,
@@ -704,15 +1398,23 @@ class TestCreateTransitGatewayConnection():
         assert req_body['remote_tunnel_ip'] == '192.168.129.1'
         assert req_body['zone'] == zone_identity_model
 
+    def test_create_transit_gateway_connection_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_all_params()
 
-    #--------------------------------------------------------
-    # test_create_transit_gateway_connection_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_create_transit_gateway_connection_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_all_params()
+
     @responses.activate
     def test_create_transit_gateway_connection_value_error(self):
+        """
+        test_create_transit_gateway_connection_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -745,30 +1447,41 @@ class TestCreateTransitGatewayConnection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_transit_gateway_connection(**req_copy)
+                _service.create_transit_gateway_connection(**req_copy)
 
 
+    def test_create_transit_gateway_connection_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_transit_gateway_connection
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_create_transit_gateway_connection_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_value_error()
+
 class TestDeleteTransitGatewayConnection():
+    """
+    Test Class for delete_transit_gateway_connection
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # delete_transit_gateway_connection()
-    #--------------------------------------------------------
     @responses.activate
     def test_delete_transit_gateway_connection_all_params(self):
+        """
+        delete_transit_gateway_connection()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -778,7 +1491,7 @@ class TestDeleteTransitGatewayConnection():
         id = 'testString'
 
         # Invoke method
-        response = service.delete_transit_gateway_connection(
+        response = _service.delete_transit_gateway_connection(
             transit_gateway_id,
             id,
             headers={}
@@ -788,14 +1501,22 @@ class TestDeleteTransitGatewayConnection():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_transit_gateway_connection_all_params_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_connection_all_params.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_connection_all_params()
 
-    #--------------------------------------------------------
-    # test_delete_transit_gateway_connection_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_delete_transit_gateway_connection_all_params.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_connection_all_params()
+
     @responses.activate
     def test_delete_transit_gateway_connection_value_error(self):
+        """
+        test_delete_transit_gateway_connection_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -812,31 +1533,42 @@ class TestDeleteTransitGatewayConnection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_transit_gateway_connection(**req_copy)
+                _service.delete_transit_gateway_connection(**req_copy)
 
 
+    def test_delete_transit_gateway_connection_value_error_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_connection_value_error.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_connection_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for get_transit_gateway_connection
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_delete_transit_gateway_connection_value_error.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_connection_value_error()
+
 class TestGetTransitGatewayConnection():
+    """
+    Test Class for get_transit_gateway_connection
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # get_transit_gateway_connection()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_transit_gateway_connection_all_params(self):
+        """
+        get_transit_gateway_connection()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -848,7 +1580,7 @@ class TestGetTransitGatewayConnection():
         id = 'testString'
 
         # Invoke method
-        response = service.get_transit_gateway_connection(
+        response = _service.get_transit_gateway_connection(
             transit_gateway_id,
             id,
             headers={}
@@ -858,15 +1590,23 @@ class TestGetTransitGatewayConnection():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_transit_gateway_connection_all_params_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_connection_all_params.
+        _service.enable_retries()
+        self.test_get_transit_gateway_connection_all_params()
 
-    #--------------------------------------------------------
-    # test_get_transit_gateway_connection_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_get_transit_gateway_connection_all_params.
+        _service.disable_retries()
+        self.test_get_transit_gateway_connection_all_params()
+
     @responses.activate
     def test_get_transit_gateway_connection_value_error(self):
+        """
+        test_get_transit_gateway_connection_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -885,31 +1625,42 @@ class TestGetTransitGatewayConnection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_transit_gateway_connection(**req_copy)
+                _service.get_transit_gateway_connection(**req_copy)
 
 
+    def test_get_transit_gateway_connection_value_error_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_connection_value_error.
+        _service.enable_retries()
+        self.test_get_transit_gateway_connection_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for update_transit_gateway_connection
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_get_transit_gateway_connection_value_error.
+        _service.disable_retries()
+        self.test_get_transit_gateway_connection_value_error()
+
 class TestUpdateTransitGatewayConnection():
+    """
+    Test Class for update_transit_gateway_connection
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # update_transit_gateway_connection()
-    #--------------------------------------------------------
     @responses.activate
     def test_update_transit_gateway_connection_all_params(self):
+        """
+        update_transit_gateway_connection()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -922,7 +1673,7 @@ class TestUpdateTransitGatewayConnection():
         name = 'Transit_Service_BWTN_SJ_DL'
 
         # Invoke method
-        response = service.update_transit_gateway_connection(
+        response = _service.update_transit_gateway_connection(
             transit_gateway_id,
             id,
             name=name,
@@ -936,15 +1687,23 @@ class TestUpdateTransitGatewayConnection():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
 
+    def test_update_transit_gateway_connection_all_params_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_connection_all_params.
+        _service.enable_retries()
+        self.test_update_transit_gateway_connection_all_params()
 
-    #--------------------------------------------------------
-    # test_update_transit_gateway_connection_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_update_transit_gateway_connection_all_params.
+        _service.disable_retries()
+        self.test_update_transit_gateway_connection_all_params()
+
     @responses.activate
     def test_update_transit_gateway_connection_value_error(self):
+        """
+        test_update_transit_gateway_connection_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00", "zone": {"name": "us-south-1"}}'
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -964,30 +1723,41 @@ class TestUpdateTransitGatewayConnection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_transit_gateway_connection(**req_copy)
+                _service.update_transit_gateway_connection(**req_copy)
 
 
+    def test_update_transit_gateway_connection_value_error_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_connection_value_error.
+        _service.enable_retries()
+        self.test_update_transit_gateway_connection_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for create_transit_gateway_connection_actions
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_update_transit_gateway_connection_value_error.
+        _service.disable_retries()
+        self.test_update_transit_gateway_connection_value_error()
+
 class TestCreateTransitGatewayConnectionActions():
+    """
+    Test Class for create_transit_gateway_connection_actions
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # create_transit_gateway_connection_actions()
-    #--------------------------------------------------------
     @responses.activate
     def test_create_transit_gateway_connection_actions_all_params(self):
+        """
+        create_transit_gateway_connection_actions()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString/actions')
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/actions')
         responses.add(responses.POST,
                       url,
                       status=204)
@@ -998,7 +1768,7 @@ class TestCreateTransitGatewayConnectionActions():
         action = 'approve'
 
         # Invoke method
-        response = service.create_transit_gateway_connection_actions(
+        response = _service.create_transit_gateway_connection_actions(
             transit_gateway_id,
             id,
             action,
@@ -1012,14 +1782,22 @@ class TestCreateTransitGatewayConnectionActions():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['action'] == 'approve'
 
+    def test_create_transit_gateway_connection_actions_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_actions_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_actions_all_params()
 
-    #--------------------------------------------------------
-    # test_create_transit_gateway_connection_actions_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_create_transit_gateway_connection_actions_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_actions_all_params()
+
     @responses.activate
     def test_create_transit_gateway_connection_actions_value_error(self):
+        """
+        test_create_transit_gateway_connection_actions_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/transit_gateways/testString/connections/testString/actions')
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/actions')
         responses.add(responses.POST,
                       url,
                       status=204)
@@ -1038,9 +1816,17 @@ class TestCreateTransitGatewayConnectionActions():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_transit_gateway_connection_actions(**req_copy)
+                _service.create_transit_gateway_connection_actions(**req_copy)
 
 
+    def test_create_transit_gateway_connection_actions_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_actions_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_actions_value_error()
+
+        # Disable retries and run test_create_transit_gateway_connection_actions_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_actions_value_error()
 
 # endregion
 ##############################################################################
@@ -1052,26 +1838,72 @@ class TestCreateTransitGatewayConnectionActions():
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for list_gateway_locations
-#-----------------------------------------------------------------------------
-class TestListGatewayLocations():
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListGatewayLocations():
+    """
+    Test Class for list_gateway_locations
+    """
+
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # list_gateway_locations()
-    #--------------------------------------------------------
     @responses.activate
     def test_list_gateway_locations_all_params(self):
+        """
+        list_gateway_locations()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/locations')
+        url = self.preprocess_url(_base_url + '/locations')
         mock_response = '{"locations": [{"billing_location": "us", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -1080,21 +1912,29 @@ class TestListGatewayLocations():
                       status=200)
 
         # Invoke method
-        response = service.list_gateway_locations()
+        response = _service.list_gateway_locations()
 
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_gateway_locations_all_params_with_retries(self):
+        # Enable retries and run test_list_gateway_locations_all_params.
+        _service.enable_retries()
+        self.test_list_gateway_locations_all_params()
 
-    #--------------------------------------------------------
-    # test_list_gateway_locations_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_gateway_locations_all_params.
+        _service.disable_retries()
+        self.test_list_gateway_locations_all_params()
+
     @responses.activate
     def test_list_gateway_locations_value_error(self):
+        """
+        test_list_gateway_locations_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/locations')
+        url = self.preprocess_url(_base_url + '/locations')
         mock_response = '{"locations": [{"billing_location": "us", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -1108,30 +1948,41 @@ class TestListGatewayLocations():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_gateway_locations(**req_copy)
+                _service.list_gateway_locations(**req_copy)
 
 
+    def test_list_gateway_locations_value_error_with_retries(self):
+        # Enable retries and run test_list_gateway_locations_value_error.
+        _service.enable_retries()
+        self.test_list_gateway_locations_value_error()
 
-#-----------------------------------------------------------------------------
-# Test Class for get_gateway_location
-#-----------------------------------------------------------------------------
+        # Disable retries and run test_list_gateway_locations_value_error.
+        _service.disable_retries()
+        self.test_list_gateway_locations_value_error()
+
 class TestGetGatewayLocation():
+    """
+    Test Class for get_gateway_location
+    """
 
-    # Preprocess the request URL to ensure the mock response will be found.
     def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
         request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
             return re.compile(request_url.rstrip('/') + '/+')
 
-    #--------------------------------------------------------
-    # get_gateway_location()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_gateway_location_all_params(self):
+        """
+        get_gateway_location()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/locations/testString')
+        url = self.preprocess_url(_base_url + '/locations/testString')
         mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -1143,7 +1994,7 @@ class TestGetGatewayLocation():
         name = 'testString'
 
         # Invoke method
-        response = service.get_gateway_location(
+        response = _service.get_gateway_location(
             name,
             headers={}
         )
@@ -1152,14 +2003,22 @@ class TestGetGatewayLocation():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_gateway_location_all_params_with_retries(self):
+        # Enable retries and run test_get_gateway_location_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_location_all_params()
 
-    #--------------------------------------------------------
-    # test_get_gateway_location_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_get_gateway_location_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_location_all_params()
+
     @responses.activate
     def test_get_gateway_location_value_error(self):
+        """
+        test_get_gateway_location_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/locations/testString')
+        url = self.preprocess_url(_base_url + '/locations/testString')
         mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "type": "region"}]}'
         responses.add(responses.GET,
                       url,
@@ -1177,9 +2036,17 @@ class TestGetGatewayLocation():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_gateway_location(**req_copy)
+                _service.get_gateway_location(**req_copy)
 
 
+    def test_get_gateway_location_value_error_with_retries(self):
+        # Enable retries and run test_get_gateway_location_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_location_value_error()
+
+        # Disable retries and run test_get_gateway_location_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_location_value_error()
 
 # endregion
 ##############################################################################
@@ -1191,15 +2058,15 @@ class TestGetGatewayLocation():
 # Start of Model Tests
 ##############################################################################
 # region
-#-----------------------------------------------------------------------------
-# Test Class for ResourceGroupIdentity
-#-----------------------------------------------------------------------------
-class TestResourceGroupIdentity():
+class TestModel_ResourceGroupIdentity():
+    """
+    Test Class for ResourceGroupIdentity
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ResourceGroupIdentity
-    #--------------------------------------------------------
     def test_resource_group_identity_serialization(self):
+        """
+        Test serialization/deserialization for ResourceGroupIdentity
+        """
 
         # Construct a json representation of a ResourceGroupIdentity model
         resource_group_identity_model_json = {}
@@ -1220,15 +2087,15 @@ class TestResourceGroupIdentity():
         resource_group_identity_model_json2 = resource_group_identity_model.to_dict()
         assert resource_group_identity_model_json2 == resource_group_identity_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ResourceGroupReference
-#-----------------------------------------------------------------------------
-class TestResourceGroupReference():
+class TestModel_ResourceGroupReference():
+    """
+    Test Class for ResourceGroupReference
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ResourceGroupReference
-    #--------------------------------------------------------
     def test_resource_group_reference_serialization(self):
+        """
+        Test serialization/deserialization for ResourceGroupReference
+        """
 
         # Construct a json representation of a ResourceGroupReference model
         resource_group_reference_model_json = {}
@@ -1250,15 +2117,306 @@ class TestResourceGroupReference():
         resource_group_reference_model_json2 = resource_group_reference_model.to_dict()
         assert resource_group_reference_model_json2 == resource_group_reference_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TSCollection
-#-----------------------------------------------------------------------------
-class TestTSCollection():
+class TestModel_RouteReport():
+    """
+    Test Class for RouteReport
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TSCollection
-    #--------------------------------------------------------
+    def test_route_report_serialization(self):
+        """
+        Test serialization/deserialization for RouteReport
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_connection_bgp_model = {} # RouteReportConnectionBgp
+        route_report_connection_bgp_model['as_path'] = '(65201 4201065544) 4203065544'
+        route_report_connection_bgp_model['is_used'] = True
+        route_report_connection_bgp_model['local_preference'] = '190'
+        route_report_connection_bgp_model['prefix'] = '172.17.0.0/16'
+
+        route_report_connection_route_model = {} # RouteReportConnectionRoute
+        route_report_connection_route_model['prefix'] = '192.168.0.0/16'
+
+        route_report_connection_model = {} # RouteReportConnection
+        route_report_connection_model['bgps'] = [route_report_connection_bgp_model]
+        route_report_connection_model['id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
+        route_report_connection_model['name'] = 'transit-connection-vpc1'
+        route_report_connection_model['routes'] = [route_report_connection_route_model]
+        route_report_connection_model['type'] = 'vpc'
+
+        route_report_overlapping_route_model = {} # RouteReportOverlappingRoute
+        route_report_overlapping_route_model['connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+        route_report_overlapping_route_model['prefix'] = 'testString'
+
+        route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
+        route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
+
+        # Construct a json representation of a RouteReport model
+        route_report_model_json = {}
+        route_report_model_json['connections'] = [route_report_connection_model]
+        route_report_model_json['created_at'] = "2019-01-01T12:00:00Z"
+        route_report_model_json['id'] = '1a15dcab-7e26-45e1-b7c5-bc690eaa9724'
+        route_report_model_json['overlapping_routes'] = [route_report_overlapping_route_group_model]
+        route_report_model_json['status'] = 'complete'
+        route_report_model_json['updated_at'] = "2019-01-01T12:00:00Z"
+
+        # Construct a model instance of RouteReport by calling from_dict on the json representation
+        route_report_model = RouteReport.from_dict(route_report_model_json)
+        assert route_report_model != False
+
+        # Construct a model instance of RouteReport by calling from_dict on the json representation
+        route_report_model_dict = RouteReport.from_dict(route_report_model_json).__dict__
+        route_report_model2 = RouteReport(**route_report_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_model == route_report_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_model_json2 = route_report_model.to_dict()
+        assert route_report_model_json2 == route_report_model_json
+
+class TestModel_RouteReportCollection():
+    """
+    Test Class for RouteReportCollection
+    """
+
+    def test_route_report_collection_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportCollection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_connection_bgp_model = {} # RouteReportConnectionBgp
+        route_report_connection_bgp_model['as_path'] = '(65201 4201065544) 4203065544'
+        route_report_connection_bgp_model['is_used'] = True
+        route_report_connection_bgp_model['local_preference'] = '190'
+        route_report_connection_bgp_model['prefix'] = '172.17.0.0/16'
+
+        route_report_connection_route_model = {} # RouteReportConnectionRoute
+        route_report_connection_route_model['prefix'] = '192.168.0.0/16'
+
+        route_report_connection_model = {} # RouteReportConnection
+        route_report_connection_model['bgps'] = [route_report_connection_bgp_model]
+        route_report_connection_model['id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
+        route_report_connection_model['name'] = 'transit-connection-vpc1'
+        route_report_connection_model['routes'] = [route_report_connection_route_model]
+        route_report_connection_model['type'] = 'vpc'
+
+        route_report_overlapping_route_model = {} # RouteReportOverlappingRoute
+        route_report_overlapping_route_model['connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+        route_report_overlapping_route_model['prefix'] = 'testString'
+
+        route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
+        route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
+
+        route_report_model = {} # RouteReport
+        route_report_model['connections'] = [route_report_connection_model]
+        route_report_model['created_at'] = "2019-01-01T12:00:00Z"
+        route_report_model['id'] = '1a15dcab-7e26-45e1-b7c5-bc690eaa9724'
+        route_report_model['overlapping_routes'] = [route_report_overlapping_route_group_model]
+        route_report_model['status'] = 'complete'
+        route_report_model['updated_at'] = "2019-01-01T12:00:00Z"
+
+        # Construct a json representation of a RouteReportCollection model
+        route_report_collection_model_json = {}
+        route_report_collection_model_json['route_reports'] = [route_report_model]
+
+        # Construct a model instance of RouteReportCollection by calling from_dict on the json representation
+        route_report_collection_model = RouteReportCollection.from_dict(route_report_collection_model_json)
+        assert route_report_collection_model != False
+
+        # Construct a model instance of RouteReportCollection by calling from_dict on the json representation
+        route_report_collection_model_dict = RouteReportCollection.from_dict(route_report_collection_model_json).__dict__
+        route_report_collection_model2 = RouteReportCollection(**route_report_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_collection_model == route_report_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_collection_model_json2 = route_report_collection_model.to_dict()
+        assert route_report_collection_model_json2 == route_report_collection_model_json
+
+class TestModel_RouteReportConnection():
+    """
+    Test Class for RouteReportConnection
+    """
+
+    def test_route_report_connection_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportConnection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_connection_bgp_model = {} # RouteReportConnectionBgp
+        route_report_connection_bgp_model['as_path'] = '(65201 4201065544) 4203065544'
+        route_report_connection_bgp_model['is_used'] = True
+        route_report_connection_bgp_model['local_preference'] = '190'
+        route_report_connection_bgp_model['prefix'] = '172.17.0.0/16'
+
+        route_report_connection_route_model = {} # RouteReportConnectionRoute
+        route_report_connection_route_model['prefix'] = '192.168.0.0/16'
+
+        # Construct a json representation of a RouteReportConnection model
+        route_report_connection_model_json = {}
+        route_report_connection_model_json['bgps'] = [route_report_connection_bgp_model]
+        route_report_connection_model_json['id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
+        route_report_connection_model_json['name'] = 'transit-connection-vpc1'
+        route_report_connection_model_json['routes'] = [route_report_connection_route_model]
+        route_report_connection_model_json['type'] = 'vpc'
+
+        # Construct a model instance of RouteReportConnection by calling from_dict on the json representation
+        route_report_connection_model = RouteReportConnection.from_dict(route_report_connection_model_json)
+        assert route_report_connection_model != False
+
+        # Construct a model instance of RouteReportConnection by calling from_dict on the json representation
+        route_report_connection_model_dict = RouteReportConnection.from_dict(route_report_connection_model_json).__dict__
+        route_report_connection_model2 = RouteReportConnection(**route_report_connection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_connection_model == route_report_connection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_connection_model_json2 = route_report_connection_model.to_dict()
+        assert route_report_connection_model_json2 == route_report_connection_model_json
+
+class TestModel_RouteReportConnectionBgp():
+    """
+    Test Class for RouteReportConnectionBgp
+    """
+
+    def test_route_report_connection_bgp_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportConnectionBgp
+        """
+
+        # Construct a json representation of a RouteReportConnectionBgp model
+        route_report_connection_bgp_model_json = {}
+        route_report_connection_bgp_model_json['as_path'] = '(65201 4201065544) 4203065544'
+        route_report_connection_bgp_model_json['is_used'] = True
+        route_report_connection_bgp_model_json['local_preference'] = '190'
+        route_report_connection_bgp_model_json['prefix'] = '172.17.0.0/16'
+
+        # Construct a model instance of RouteReportConnectionBgp by calling from_dict on the json representation
+        route_report_connection_bgp_model = RouteReportConnectionBgp.from_dict(route_report_connection_bgp_model_json)
+        assert route_report_connection_bgp_model != False
+
+        # Construct a model instance of RouteReportConnectionBgp by calling from_dict on the json representation
+        route_report_connection_bgp_model_dict = RouteReportConnectionBgp.from_dict(route_report_connection_bgp_model_json).__dict__
+        route_report_connection_bgp_model2 = RouteReportConnectionBgp(**route_report_connection_bgp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_connection_bgp_model == route_report_connection_bgp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_connection_bgp_model_json2 = route_report_connection_bgp_model.to_dict()
+        assert route_report_connection_bgp_model_json2 == route_report_connection_bgp_model_json
+
+class TestModel_RouteReportConnectionRoute():
+    """
+    Test Class for RouteReportConnectionRoute
+    """
+
+    def test_route_report_connection_route_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportConnectionRoute
+        """
+
+        # Construct a json representation of a RouteReportConnectionRoute model
+        route_report_connection_route_model_json = {}
+        route_report_connection_route_model_json['prefix'] = '192.168.0.0/16'
+
+        # Construct a model instance of RouteReportConnectionRoute by calling from_dict on the json representation
+        route_report_connection_route_model = RouteReportConnectionRoute.from_dict(route_report_connection_route_model_json)
+        assert route_report_connection_route_model != False
+
+        # Construct a model instance of RouteReportConnectionRoute by calling from_dict on the json representation
+        route_report_connection_route_model_dict = RouteReportConnectionRoute.from_dict(route_report_connection_route_model_json).__dict__
+        route_report_connection_route_model2 = RouteReportConnectionRoute(**route_report_connection_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_connection_route_model == route_report_connection_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_connection_route_model_json2 = route_report_connection_route_model.to_dict()
+        assert route_report_connection_route_model_json2 == route_report_connection_route_model_json
+
+class TestModel_RouteReportOverlappingRoute():
+    """
+    Test Class for RouteReportOverlappingRoute
+    """
+
+    def test_route_report_overlapping_route_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportOverlappingRoute
+        """
+
+        # Construct a json representation of a RouteReportOverlappingRoute model
+        route_report_overlapping_route_model_json = {}
+        route_report_overlapping_route_model_json['connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+        route_report_overlapping_route_model_json['prefix'] = 'testString'
+
+        # Construct a model instance of RouteReportOverlappingRoute by calling from_dict on the json representation
+        route_report_overlapping_route_model = RouteReportOverlappingRoute.from_dict(route_report_overlapping_route_model_json)
+        assert route_report_overlapping_route_model != False
+
+        # Construct a model instance of RouteReportOverlappingRoute by calling from_dict on the json representation
+        route_report_overlapping_route_model_dict = RouteReportOverlappingRoute.from_dict(route_report_overlapping_route_model_json).__dict__
+        route_report_overlapping_route_model2 = RouteReportOverlappingRoute(**route_report_overlapping_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_overlapping_route_model == route_report_overlapping_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_overlapping_route_model_json2 = route_report_overlapping_route_model.to_dict()
+        assert route_report_overlapping_route_model_json2 == route_report_overlapping_route_model_json
+
+class TestModel_RouteReportOverlappingRouteGroup():
+    """
+    Test Class for RouteReportOverlappingRouteGroup
+    """
+
+    def test_route_report_overlapping_route_group_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportOverlappingRouteGroup
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_overlapping_route_model = {} # RouteReportOverlappingRoute
+        route_report_overlapping_route_model['connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+        route_report_overlapping_route_model['prefix'] = 'testString'
+
+        # Construct a json representation of a RouteReportOverlappingRouteGroup model
+        route_report_overlapping_route_group_model_json = {}
+        route_report_overlapping_route_group_model_json['routes'] = [route_report_overlapping_route_model]
+
+        # Construct a model instance of RouteReportOverlappingRouteGroup by calling from_dict on the json representation
+        route_report_overlapping_route_group_model = RouteReportOverlappingRouteGroup.from_dict(route_report_overlapping_route_group_model_json)
+        assert route_report_overlapping_route_group_model != False
+
+        # Construct a model instance of RouteReportOverlappingRouteGroup by calling from_dict on the json representation
+        route_report_overlapping_route_group_model_dict = RouteReportOverlappingRouteGroup.from_dict(route_report_overlapping_route_group_model_json).__dict__
+        route_report_overlapping_route_group_model2 = RouteReportOverlappingRouteGroup(**route_report_overlapping_route_group_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_overlapping_route_group_model == route_report_overlapping_route_group_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_overlapping_route_group_model_json2 = route_report_overlapping_route_group_model.to_dict()
+        assert route_report_overlapping_route_group_model_json2 == route_report_overlapping_route_group_model_json
+
+class TestModel_TSCollection():
+    """
+    Test Class for TSCollection
+    """
+
     def test_ts_collection_serialization(self):
+        """
+        Test serialization/deserialization for TSCollection
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1286,15 +2444,15 @@ class TestTSCollection():
         ts_collection_model_json2 = ts_collection_model.to_dict()
         assert ts_collection_model_json2 == ts_collection_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TSLocalLocation
-#-----------------------------------------------------------------------------
-class TestTSLocalLocation():
+class TestModel_TSLocalLocation():
+    """
+    Test Class for TSLocalLocation
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TSLocalLocation
-    #--------------------------------------------------------
     def test_ts_local_location_serialization(self):
+        """
+        Test serialization/deserialization for TSLocalLocation
+        """
 
         # Construct a json representation of a TSLocalLocation model
         ts_local_location_model_json = {}
@@ -1317,15 +2475,15 @@ class TestTSLocalLocation():
         ts_local_location_model_json2 = ts_local_location_model.to_dict()
         assert ts_local_location_model_json2 == ts_local_location_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TSLocation
-#-----------------------------------------------------------------------------
-class TestTSLocation():
+class TestModel_TSLocation():
+    """
+    Test Class for TSLocation
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TSLocation
-    #--------------------------------------------------------
     def test_ts_location_serialization(self):
+        """
+        Test serialization/deserialization for TSLocation
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1356,15 +2514,15 @@ class TestTSLocation():
         ts_location_model_json2 = ts_location_model.to_dict()
         assert ts_location_model_json2 == ts_location_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TSLocationBasic
-#-----------------------------------------------------------------------------
-class TestTSLocationBasic():
+class TestModel_TSLocationBasic():
+    """
+    Test Class for TSLocationBasic
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TSLocationBasic
-    #--------------------------------------------------------
     def test_ts_location_basic_serialization(self):
+        """
+        Test serialization/deserialization for TSLocationBasic
+        """
 
         # Construct a json representation of a TSLocationBasic model
         ts_location_basic_model_json = {}
@@ -1387,15 +2545,15 @@ class TestTSLocationBasic():
         ts_location_basic_model_json2 = ts_location_basic_model.to_dict()
         assert ts_location_basic_model_json2 == ts_location_basic_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitConnection
-#-----------------------------------------------------------------------------
-class TestTransitConnection():
+class TestModel_TransitConnection():
+    """
+    Test Class for TransitConnection
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitConnection
-    #--------------------------------------------------------
     def test_transit_connection_serialization(self):
+        """
+        Test serialization/deserialization for TransitConnection
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1410,7 +2568,7 @@ class TestTransitConnection():
         # Construct a json representation of a TransitConnection model
         transit_connection_model_json = {}
         transit_connection_model_json['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_connection_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model_json['created_at'] = "2019-01-01T12:00:00Z"
         transit_connection_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
         transit_connection_model_json['local_bgp_asn'] = 64490
         transit_connection_model_json['local_gateway_ip'] = '192.168.100.1'
@@ -1426,7 +2584,7 @@ class TestTransitConnection():
         transit_connection_model_json['request_status'] = 'pending'
         transit_connection_model_json['status'] = 'attached'
         transit_connection_model_json['transit_gateway'] = transit_gateway_reference_model
-        transit_connection_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model_json['updated_at'] = "2019-01-01T12:00:00Z"
         transit_connection_model_json['zone'] = zone_reference_model
 
         # Construct a model instance of TransitConnection by calling from_dict on the json representation
@@ -1444,15 +2602,15 @@ class TestTransitConnection():
         transit_connection_model_json2 = transit_connection_model.to_dict()
         assert transit_connection_model_json2 == transit_connection_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitConnectionCollection
-#-----------------------------------------------------------------------------
-class TestTransitConnectionCollection():
+class TestModel_TransitConnectionCollection():
+    """
+    Test Class for TransitConnectionCollection
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitConnectionCollection
-    #--------------------------------------------------------
     def test_transit_connection_collection_serialization(self):
+        """
+        Test serialization/deserialization for TransitConnectionCollection
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1466,7 +2624,7 @@ class TestTransitConnectionCollection():
 
         transit_connection_model = {} # TransitConnection
         transit_connection_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_connection_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model['created_at'] = "2019-01-01T12:00:00Z"
         transit_connection_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
         transit_connection_model['local_bgp_asn'] = 64490
         transit_connection_model['local_gateway_ip'] = '192.168.100.1'
@@ -1482,7 +2640,7 @@ class TestTransitConnectionCollection():
         transit_connection_model['request_status'] = 'pending'
         transit_connection_model['status'] = 'attached'
         transit_connection_model['transit_gateway'] = transit_gateway_reference_model
-        transit_connection_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_connection_model['updated_at'] = "2019-01-01T12:00:00Z"
         transit_connection_model['zone'] = zone_reference_model
 
         transit_connection_collection_first_model = {} # TransitConnectionCollectionFirst
@@ -1514,15 +2672,15 @@ class TestTransitConnectionCollection():
         transit_connection_collection_model_json2 = transit_connection_collection_model.to_dict()
         assert transit_connection_collection_model_json2 == transit_connection_collection_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitConnectionCollectionFirst
-#-----------------------------------------------------------------------------
-class TestTransitConnectionCollectionFirst():
+class TestModel_TransitConnectionCollectionFirst():
+    """
+    Test Class for TransitConnectionCollectionFirst
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitConnectionCollectionFirst
-    #--------------------------------------------------------
     def test_transit_connection_collection_first_serialization(self):
+        """
+        Test serialization/deserialization for TransitConnectionCollectionFirst
+        """
 
         # Construct a json representation of a TransitConnectionCollectionFirst model
         transit_connection_collection_first_model_json = {}
@@ -1543,15 +2701,15 @@ class TestTransitConnectionCollectionFirst():
         transit_connection_collection_first_model_json2 = transit_connection_collection_first_model.to_dict()
         assert transit_connection_collection_first_model_json2 == transit_connection_collection_first_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitConnectionCollectionNext
-#-----------------------------------------------------------------------------
-class TestTransitConnectionCollectionNext():
+class TestModel_TransitConnectionCollectionNext():
+    """
+    Test Class for TransitConnectionCollectionNext
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitConnectionCollectionNext
-    #--------------------------------------------------------
     def test_transit_connection_collection_next_serialization(self):
+        """
+        Test serialization/deserialization for TransitConnectionCollectionNext
+        """
 
         # Construct a json representation of a TransitConnectionCollectionNext model
         transit_connection_collection_next_model_json = {}
@@ -1573,15 +2731,15 @@ class TestTransitConnectionCollectionNext():
         transit_connection_collection_next_model_json2 = transit_connection_collection_next_model.to_dict()
         assert transit_connection_collection_next_model_json2 == transit_connection_collection_next_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGateway
-#-----------------------------------------------------------------------------
-class TestTransitGateway():
+class TestModel_TransitGateway():
+    """
+    Test Class for TransitGateway
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGateway
-    #--------------------------------------------------------
     def test_transit_gateway_serialization(self):
+        """
+        Test serialization/deserialization for TransitGateway
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1595,11 +2753,11 @@ class TestTransitGateway():
         transit_gateway_model_json['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model_json['name'] = 'my-transit-gateway-in-TransitGateway'
         transit_gateway_model_json['location'] = 'us-south'
-        transit_gateway_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_model_json['created_at'] = "2019-01-01T12:00:00Z"
         transit_gateway_model_json['global'] = True
         transit_gateway_model_json['resource_group'] = resource_group_reference_model
         transit_gateway_model_json['status'] = 'available'
-        transit_gateway_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_model_json['updated_at'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of TransitGateway by calling from_dict on the json representation
         transit_gateway_model = TransitGateway.from_dict(transit_gateway_model_json)
@@ -1616,17 +2774,24 @@ class TestTransitGateway():
         transit_gateway_model_json2 = transit_gateway_model.to_dict()
         assert transit_gateway_model_json2 == transit_gateway_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayCollection
-#-----------------------------------------------------------------------------
-class TestTransitGatewayCollection():
+class TestModel_TransitGatewayCollection():
+    """
+    Test Class for TransitGatewayCollection
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayCollection
-    #--------------------------------------------------------
     def test_transit_gateway_collection_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayCollection
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
+
+        transit_gateway_collection_first_model = {} # TransitGatewayCollectionFirst
+        transit_gateway_collection_first_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?limit=50'
+
+        transit_gateway_collection_next_model = {} # TransitGatewayCollectionNext
+        transit_gateway_collection_next_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50'
+        transit_gateway_collection_next_model['start'] = 'MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa'
 
         resource_group_reference_model = {} # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
@@ -1637,18 +2802,11 @@ class TestTransitGatewayCollection():
         transit_gateway_model['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model['name'] = 'my-transit-gateway-in-TransitGateway'
         transit_gateway_model['location'] = 'us-south'
-        transit_gateway_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_model['created_at'] = "2019-01-01T12:00:00Z"
         transit_gateway_model['global'] = True
         transit_gateway_model['resource_group'] = resource_group_reference_model
         transit_gateway_model['status'] = 'available'
-        transit_gateway_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
-
-        transit_gateway_collection_first_model = {} # TransitGatewayCollectionFirst
-        transit_gateway_collection_first_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?limit=50'
-
-        transit_gateway_collection_next_model = {} # TransitGatewayCollectionNext
-        transit_gateway_collection_next_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50'
-        transit_gateway_collection_next_model['start'] = 'MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa'
+        transit_gateway_model['updated_at'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a TransitGatewayCollection model
         transit_gateway_collection_model_json = {}
@@ -1672,15 +2830,15 @@ class TestTransitGatewayCollection():
         transit_gateway_collection_model_json2 = transit_gateway_collection_model.to_dict()
         assert transit_gateway_collection_model_json2 == transit_gateway_collection_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayCollectionFirst
-#-----------------------------------------------------------------------------
-class TestTransitGatewayCollectionFirst():
+class TestModel_TransitGatewayCollectionFirst():
+    """
+    Test Class for TransitGatewayCollectionFirst
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayCollectionFirst
-    #--------------------------------------------------------
     def test_transit_gateway_collection_first_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayCollectionFirst
+        """
 
         # Construct a json representation of a TransitGatewayCollectionFirst model
         transit_gateway_collection_first_model_json = {}
@@ -1701,15 +2859,15 @@ class TestTransitGatewayCollectionFirst():
         transit_gateway_collection_first_model_json2 = transit_gateway_collection_first_model.to_dict()
         assert transit_gateway_collection_first_model_json2 == transit_gateway_collection_first_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayCollectionNext
-#-----------------------------------------------------------------------------
-class TestTransitGatewayCollectionNext():
+class TestModel_TransitGatewayCollectionNext():
+    """
+    Test Class for TransitGatewayCollectionNext
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayCollectionNext
-    #--------------------------------------------------------
     def test_transit_gateway_collection_next_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayCollectionNext
+        """
 
         # Construct a json representation of a TransitGatewayCollectionNext model
         transit_gateway_collection_next_model_json = {}
@@ -1731,15 +2889,15 @@ class TestTransitGatewayCollectionNext():
         transit_gateway_collection_next_model_json2 = transit_gateway_collection_next_model.to_dict()
         assert transit_gateway_collection_next_model_json2 == transit_gateway_collection_next_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayConnectionCollection
-#-----------------------------------------------------------------------------
-class TestTransitGatewayConnectionCollection():
+class TestModel_TransitGatewayConnectionCollection():
+    """
+    Test Class for TransitGatewayConnectionCollection
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayConnectionCollection
-    #--------------------------------------------------------
     def test_transit_gateway_connection_collection_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayConnectionCollection
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1752,7 +2910,7 @@ class TestTransitGatewayConnectionCollection():
         transit_gateway_connection_cust_model['network_type'] = 'vpc'
         transit_gateway_connection_cust_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
         transit_gateway_connection_cust_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_gateway_connection_cust_model['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model['created_at'] = "2019-01-01T12:00:00Z"
         transit_gateway_connection_cust_model['local_bgp_asn'] = 64490
         transit_gateway_connection_cust_model['local_gateway_ip'] = '192.168.100.1'
         transit_gateway_connection_cust_model['local_tunnel_ip'] = '192.168.129.2'
@@ -1763,7 +2921,7 @@ class TestTransitGatewayConnectionCollection():
         transit_gateway_connection_cust_model['remote_tunnel_ip'] = '192.168.129.1'
         transit_gateway_connection_cust_model['request_status'] = 'pending'
         transit_gateway_connection_cust_model['status'] = 'attached'
-        transit_gateway_connection_cust_model['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model['updated_at'] = "2019-01-01T12:00:00Z"
         transit_gateway_connection_cust_model['zone'] = transit_gateway_connection_cust_zone_model
 
         # Construct a json representation of a TransitGatewayConnectionCollection model
@@ -1785,15 +2943,15 @@ class TestTransitGatewayConnectionCollection():
         transit_gateway_connection_collection_model_json2 = transit_gateway_connection_collection_model.to_dict()
         assert transit_gateway_connection_collection_model_json2 == transit_gateway_connection_collection_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayConnectionCust
-#-----------------------------------------------------------------------------
-class TestTransitGatewayConnectionCust():
+class TestModel_TransitGatewayConnectionCust():
+    """
+    Test Class for TransitGatewayConnectionCust
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayConnectionCust
-    #--------------------------------------------------------
     def test_transit_gateway_connection_cust_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayConnectionCust
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
@@ -1807,7 +2965,7 @@ class TestTransitGatewayConnectionCust():
         transit_gateway_connection_cust_model_json['network_type'] = 'vpc'
         transit_gateway_connection_cust_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
         transit_gateway_connection_cust_model_json['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_gateway_connection_cust_model_json['created_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model_json['created_at'] = "2019-01-01T12:00:00Z"
         transit_gateway_connection_cust_model_json['local_bgp_asn'] = 64490
         transit_gateway_connection_cust_model_json['local_gateway_ip'] = '192.168.100.1'
         transit_gateway_connection_cust_model_json['local_tunnel_ip'] = '192.168.129.2'
@@ -1818,7 +2976,7 @@ class TestTransitGatewayConnectionCust():
         transit_gateway_connection_cust_model_json['remote_tunnel_ip'] = '192.168.129.1'
         transit_gateway_connection_cust_model_json['request_status'] = 'pending'
         transit_gateway_connection_cust_model_json['status'] = 'attached'
-        transit_gateway_connection_cust_model_json['updated_at'] = '2020-01-28T18:40:40.123456Z'
+        transit_gateway_connection_cust_model_json['updated_at'] = "2019-01-01T12:00:00Z"
         transit_gateway_connection_cust_model_json['zone'] = transit_gateway_connection_cust_zone_model
 
         # Construct a model instance of TransitGatewayConnectionCust by calling from_dict on the json representation
@@ -1836,15 +2994,15 @@ class TestTransitGatewayConnectionCust():
         transit_gateway_connection_cust_model_json2 = transit_gateway_connection_cust_model.to_dict()
         assert transit_gateway_connection_cust_model_json2 == transit_gateway_connection_cust_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayConnectionCustZone
-#-----------------------------------------------------------------------------
-class TestTransitGatewayConnectionCustZone():
+class TestModel_TransitGatewayConnectionCustZone():
+    """
+    Test Class for TransitGatewayConnectionCustZone
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayConnectionCustZone
-    #--------------------------------------------------------
     def test_transit_gateway_connection_cust_zone_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayConnectionCustZone
+        """
 
         # Construct a json representation of a TransitGatewayConnectionCustZone model
         transit_gateway_connection_cust_zone_model_json = {}
@@ -1865,15 +3023,15 @@ class TestTransitGatewayConnectionCustZone():
         transit_gateway_connection_cust_zone_model_json2 = transit_gateway_connection_cust_zone_model.to_dict()
         assert transit_gateway_connection_cust_zone_model_json2 == transit_gateway_connection_cust_zone_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for TransitGatewayReference
-#-----------------------------------------------------------------------------
-class TestTransitGatewayReference():
+class TestModel_TransitGatewayReference():
+    """
+    Test Class for TransitGatewayReference
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for TransitGatewayReference
-    #--------------------------------------------------------
     def test_transit_gateway_reference_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayReference
+        """
 
         # Construct a json representation of a TransitGatewayReference model
         transit_gateway_reference_model_json = {}
@@ -1896,15 +3054,15 @@ class TestTransitGatewayReference():
         transit_gateway_reference_model_json2 = transit_gateway_reference_model.to_dict()
         assert transit_gateway_reference_model_json2 == transit_gateway_reference_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ZoneReference
-#-----------------------------------------------------------------------------
-class TestZoneReference():
+class TestModel_ZoneReference():
+    """
+    Test Class for ZoneReference
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ZoneReference
-    #--------------------------------------------------------
     def test_zone_reference_serialization(self):
+        """
+        Test serialization/deserialization for ZoneReference
+        """
 
         # Construct a json representation of a ZoneReference model
         zone_reference_model_json = {}
@@ -1925,15 +3083,15 @@ class TestZoneReference():
         zone_reference_model_json2 = zone_reference_model.to_dict()
         assert zone_reference_model_json2 == zone_reference_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ZoneIdentityByName
-#-----------------------------------------------------------------------------
-class TestZoneIdentityByName():
+class TestModel_ZoneIdentityByName():
+    """
+    Test Class for ZoneIdentityByName
+    """
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ZoneIdentityByName
-    #--------------------------------------------------------
     def test_zone_identity_by_name_serialization(self):
+        """
+        Test serialization/deserialization for ZoneIdentityByName
+        """
 
         # Construct a json representation of a ZoneIdentityByName model
         zone_identity_by_name_model_json = {}
