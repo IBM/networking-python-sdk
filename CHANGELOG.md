@@ -1,3 +1,10 @@
+## [0.14.1](https://github.com/IBM/networking-python-sdk/compare/v0.14.0...v0.14.1) (2021-11-22)
+
+
+### Bug Fixes
+
+* Updated Python SDK per latest updates in sdk-core templates. ([288eadd](https://github.com/IBM/networking-python-sdk/commit/288eaddb4b2af2a166d2dd8998fefd450c00bd24))
+
 # [0.14.0](https://github.com/IBM/networking-python-sdk/compare/v0.13.0...v0.14.0) (2021-11-16)
 
 
