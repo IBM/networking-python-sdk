@@ -4,7 +4,6 @@
 [![PyPI](https://img.shields.io/pypi/v/ibm-cloud-networking-services)](https://pypi.org/project/ibm-cloud-networking-services/)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/ibm-cloud-networking-services)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![codecov](https://codecov.io/gh/IBM/networking-python-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/IBM/networking-python-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 # IBM Cloud Networking Services Python SDK Version 0.14.0
