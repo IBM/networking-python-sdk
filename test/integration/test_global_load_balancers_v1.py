@@ -18,7 +18,7 @@ except:
 
 
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
-    @unittest.skip("skipping")
+
     def setUp(self):
         """ test case setup """
 

@@ -22,8 +22,6 @@ except:
 class TestCustomPagesV1(unittest.TestCase):
     """ Custom Pages test class """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         if not os.path.exists(configFile):
             raise unittest.SkipTest(

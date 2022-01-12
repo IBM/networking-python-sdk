@@ -22,8 +22,6 @@ except:
 class TestRangeApplicationsApiV1(unittest.TestCase):
     """ Range Application API test class """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         if not os.path.exists(configFile):
             raise unittest.SkipTest(

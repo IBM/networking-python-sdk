@@ -22,8 +22,6 @@ except:
 class TestZoneFirewallAccessRules(unittest.TestCase):
     """ Test class to call Zone Firewall Access Rules API functions """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         if not os.path.exists(configFile):
             raise unittest.SkipTest(

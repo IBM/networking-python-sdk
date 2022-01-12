@@ -22,8 +22,6 @@ except:
 class TestZoneLockdownV1(unittest.TestCase):
     """ Zone Lockdown test class """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         if not os.path.exists(configFile):
             raise unittest.SkipTest(

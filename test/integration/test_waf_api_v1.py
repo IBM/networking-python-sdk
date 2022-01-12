@@ -22,8 +22,6 @@ except:
 class TestWafApiV1(unittest.TestCase):
     """ WAF API test class """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         if not os.path.exists(configFile):
             raise unittest.SkipTest(

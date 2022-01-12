@@ -22,8 +22,6 @@ except:
 class TestFirewallAccessRules(unittest.TestCase):
     """ Test class to call Firewall Access Rules API functions """
 
-    @unittest.skip("skipping")
-
     def setUp(self):
         if not os.path.exists(configFile):
             raise unittest.SkipTest(

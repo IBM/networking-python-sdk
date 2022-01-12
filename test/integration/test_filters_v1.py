@@ -20,8 +20,6 @@ except:
 
 class TestFiltersV1(unittest.TestCase):
     """ Test class to call dns record sdk functions """
-
-    @unittest.skip("skipping failing test")
     
     def setUp(self):
         """ test case setup """
