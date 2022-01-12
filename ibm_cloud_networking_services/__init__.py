@@ -50,6 +50,8 @@ from .zone_lockdown_v1 import ZoneLockdownV1
 from .zone_rate_limits_v1 import ZoneRateLimitsV1
 from .zones_settings_v1 import ZonesSettingsV1
 from .zones_v1 import ZonesV1
+from .webhooks_v1 import WebhooksV1
+from .alerts_v1 import AlertsV1
 
 # Private DNS Service Packages
 from .dns_zones_v1 import DnsZonesV1
