@@ -11,11 +11,11 @@ from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services import FirewallRulesV1
 from ibm_cloud_networking_services.filters_v1 import FiltersV1
 
-configFile = "../../cis.env"
+configFile = "cis.env"
 
 # load the .env file containing your environment variables
 try:
-    load_dotenv(find_dotenv(filename="../../cis.env"))
+    load_dotenv(find_dotenv(filename="cis.env"))
 except:
     print('warning: no cis.env file loaded')
 

@@ -22,8 +22,8 @@ except:
 
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
     """The Permitted Networks for DNS V1 service test class."""
-
-    @unittest.skip("skipping")
+    
+    @unittest.skip("skipping failing test")
 
     def setUp(self):
         """ test case setup """

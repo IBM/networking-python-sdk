@@ -22,8 +22,8 @@ except:
 
 class TestResourceRecordsV1(unittest.TestCase):
     """The Resourse records V1 service test class."""
-
-    @unittest.skip("skipping")
+    
+    @unittest.skip("skipping failing test")
 
     def setUp(self):
         """ test case setup """
