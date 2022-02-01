@@ -52,8 +52,6 @@ except:
 
 class TestDirectLinkV1(unittest.TestCase):
     """ Test class for DirectLink sdk functions """
-
-    @unittest.skip("skipping")
     
     def setUp(self):
         """ test case setup """

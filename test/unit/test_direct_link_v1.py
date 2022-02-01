@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -129,13 +129,13 @@ class TestListGateways():
         assert response.status_code == 200
 
     def test_list_gateways_all_params_with_retries(self):
-    	# Enable retries and run test_list_gateways_all_params.
-    	_service.enable_retries()
-    	self.test_list_gateways_all_params()
+        # Enable retries and run test_list_gateways_all_params.
+        _service.enable_retries()
+        self.test_list_gateways_all_params()
 
-    	# Disable retries and run test_list_gateways_all_params.
-    	_service.disable_retries()
-    	self.test_list_gateways_all_params()
+        # Disable retries and run test_list_gateways_all_params.
+        _service.disable_retries()
+        self.test_list_gateways_all_params()
 
     @responses.activate
     def test_list_gateways_value_error(self):
@@ -161,13 +161,13 @@ class TestListGateways():
 
 
     def test_list_gateways_value_error_with_retries(self):
-    	# Enable retries and run test_list_gateways_value_error.
-    	_service.enable_retries()
-    	self.test_list_gateways_value_error()
+        # Enable retries and run test_list_gateways_value_error.
+        _service.enable_retries()
+        self.test_list_gateways_value_error()
 
-    	# Disable retries and run test_list_gateways_value_error.
-    	_service.disable_retries()
-    	self.test_list_gateways_value_error()
+        # Disable retries and run test_list_gateways_value_error.
+        _service.disable_retries()
+        self.test_list_gateways_value_error()
 
 class TestCreateGateway():
     """
@@ -266,13 +266,13 @@ class TestCreateGateway():
         assert req_body == gateway_template
 
     def test_create_gateway_all_params_with_retries(self):
-    	# Enable retries and run test_create_gateway_all_params.
-    	_service.enable_retries()
-    	self.test_create_gateway_all_params()
+        # Enable retries and run test_create_gateway_all_params.
+        _service.enable_retries()
+        self.test_create_gateway_all_params()
 
-    	# Disable retries and run test_create_gateway_all_params.
-    	_service.disable_retries()
-    	self.test_create_gateway_all_params()
+        # Disable retries and run test_create_gateway_all_params.
+        _service.disable_retries()
+        self.test_create_gateway_all_params()
 
     @responses.activate
     def test_create_gateway_value_error(self):
@@ -352,13 +352,13 @@ class TestCreateGateway():
 
 
     def test_create_gateway_value_error_with_retries(self):
-    	# Enable retries and run test_create_gateway_value_error.
-    	_service.enable_retries()
-    	self.test_create_gateway_value_error()
+        # Enable retries and run test_create_gateway_value_error.
+        _service.enable_retries()
+        self.test_create_gateway_value_error()
 
-    	# Disable retries and run test_create_gateway_value_error.
-    	_service.disable_retries()
-    	self.test_create_gateway_value_error()
+        # Disable retries and run test_create_gateway_value_error.
+        _service.disable_retries()
+        self.test_create_gateway_value_error()
 
 class TestDeleteGateway():
     """
@@ -401,13 +401,13 @@ class TestDeleteGateway():
         assert response.status_code == 204
 
     def test_delete_gateway_all_params_with_retries(self):
-    	# Enable retries and run test_delete_gateway_all_params.
-    	_service.enable_retries()
-    	self.test_delete_gateway_all_params()
+        # Enable retries and run test_delete_gateway_all_params.
+        _service.enable_retries()
+        self.test_delete_gateway_all_params()
 
-    	# Disable retries and run test_delete_gateway_all_params.
-    	_service.disable_retries()
-    	self.test_delete_gateway_all_params()
+        # Disable retries and run test_delete_gateway_all_params.
+        _service.disable_retries()
+        self.test_delete_gateway_all_params()
 
     @responses.activate
     def test_delete_gateway_value_error(self):
@@ -434,13 +434,13 @@ class TestDeleteGateway():
 
 
     def test_delete_gateway_value_error_with_retries(self):
-    	# Enable retries and run test_delete_gateway_value_error.
-    	_service.enable_retries()
-    	self.test_delete_gateway_value_error()
+        # Enable retries and run test_delete_gateway_value_error.
+        _service.enable_retries()
+        self.test_delete_gateway_value_error()
 
-    	# Disable retries and run test_delete_gateway_value_error.
-    	_service.disable_retries()
-    	self.test_delete_gateway_value_error()
+        # Disable retries and run test_delete_gateway_value_error.
+        _service.disable_retries()
+        self.test_delete_gateway_value_error()
 
 class TestGetGateway():
     """
@@ -486,13 +486,13 @@ class TestGetGateway():
         assert response.status_code == 200
 
     def test_get_gateway_all_params_with_retries(self):
-    	# Enable retries and run test_get_gateway_all_params.
-    	_service.enable_retries()
-    	self.test_get_gateway_all_params()
+        # Enable retries and run test_get_gateway_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_all_params()
 
-    	# Disable retries and run test_get_gateway_all_params.
-    	_service.disable_retries()
-    	self.test_get_gateway_all_params()
+        # Disable retries and run test_get_gateway_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_all_params()
 
     @responses.activate
     def test_get_gateway_value_error(self):
@@ -522,13 +522,13 @@ class TestGetGateway():
 
 
     def test_get_gateway_value_error_with_retries(self):
-    	# Enable retries and run test_get_gateway_value_error.
-    	_service.enable_retries()
-    	self.test_get_gateway_value_error()
+        # Enable retries and run test_get_gateway_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_value_error()
 
-    	# Disable retries and run test_get_gateway_value_error.
-    	_service.disable_retries()
-    	self.test_get_gateway_value_error()
+        # Disable retries and run test_get_gateway_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_value_error()
 
 class TestUpdateGateway():
     """
@@ -642,13 +642,13 @@ class TestUpdateGateway():
         assert req_body['speed_mbps'] == 1000
 
     def test_update_gateway_all_params_with_retries(self):
-    	# Enable retries and run test_update_gateway_all_params.
-    	_service.enable_retries()
-    	self.test_update_gateway_all_params()
+        # Enable retries and run test_update_gateway_all_params.
+        _service.enable_retries()
+        self.test_update_gateway_all_params()
 
-    	# Disable retries and run test_update_gateway_all_params.
-    	_service.disable_retries()
-    	self.test_update_gateway_all_params()
+        # Disable retries and run test_update_gateway_all_params.
+        _service.disable_retries()
+        self.test_update_gateway_all_params()
 
     @responses.activate
     def test_update_gateway_value_error(self):
@@ -716,13 +716,13 @@ class TestUpdateGateway():
 
 
     def test_update_gateway_value_error_with_retries(self):
-    	# Enable retries and run test_update_gateway_value_error.
-    	_service.enable_retries()
-    	self.test_update_gateway_value_error()
+        # Enable retries and run test_update_gateway_value_error.
+        _service.enable_retries()
+        self.test_update_gateway_value_error()
 
-    	# Disable retries and run test_update_gateway_value_error.
-    	_service.disable_retries()
-    	self.test_update_gateway_value_error()
+        # Disable retries and run test_update_gateway_value_error.
+        _service.disable_retries()
+        self.test_update_gateway_value_error()
 
 class TestCreateGatewayAction():
     """
@@ -811,13 +811,13 @@ class TestCreateGatewayAction():
         assert req_body['updates'] == [gateway_action_template_updates_item_model]
 
     def test_create_gateway_action_all_params_with_retries(self):
-    	# Enable retries and run test_create_gateway_action_all_params.
-    	_service.enable_retries()
-    	self.test_create_gateway_action_all_params()
+        # Enable retries and run test_create_gateway_action_all_params.
+        _service.enable_retries()
+        self.test_create_gateway_action_all_params()
 
-    	# Disable retries and run test_create_gateway_action_all_params.
-    	_service.disable_retries()
-    	self.test_create_gateway_action_all_params()
+        # Disable retries and run test_create_gateway_action_all_params.
+        _service.disable_retries()
+        self.test_create_gateway_action_all_params()
 
     @responses.activate
     def test_create_gateway_action_value_error(self):
@@ -873,13 +873,13 @@ class TestCreateGatewayAction():
 
 
     def test_create_gateway_action_value_error_with_retries(self):
-    	# Enable retries and run test_create_gateway_action_value_error.
-    	_service.enable_retries()
-    	self.test_create_gateway_action_value_error()
+        # Enable retries and run test_create_gateway_action_value_error.
+        _service.enable_retries()
+        self.test_create_gateway_action_value_error()
 
-    	# Disable retries and run test_create_gateway_action_value_error.
-    	_service.disable_retries()
-    	self.test_create_gateway_action_value_error()
+        # Disable retries and run test_create_gateway_action_value_error.
+        _service.disable_retries()
+        self.test_create_gateway_action_value_error()
 
 class TestListGatewayCompletionNotice():
     """
@@ -925,13 +925,13 @@ class TestListGatewayCompletionNotice():
         assert response.status_code == 200
 
     def test_list_gateway_completion_notice_all_params_with_retries(self):
-    	# Enable retries and run test_list_gateway_completion_notice_all_params.
-    	_service.enable_retries()
-    	self.test_list_gateway_completion_notice_all_params()
+        # Enable retries and run test_list_gateway_completion_notice_all_params.
+        _service.enable_retries()
+        self.test_list_gateway_completion_notice_all_params()
 
-    	# Disable retries and run test_list_gateway_completion_notice_all_params.
-    	_service.disable_retries()
-    	self.test_list_gateway_completion_notice_all_params()
+        # Disable retries and run test_list_gateway_completion_notice_all_params.
+        _service.disable_retries()
+        self.test_list_gateway_completion_notice_all_params()
 
     @responses.activate
     def test_list_gateway_completion_notice_value_error(self):
@@ -961,13 +961,13 @@ class TestListGatewayCompletionNotice():
 
 
     def test_list_gateway_completion_notice_value_error_with_retries(self):
-    	# Enable retries and run test_list_gateway_completion_notice_value_error.
-    	_service.enable_retries()
-    	self.test_list_gateway_completion_notice_value_error()
+        # Enable retries and run test_list_gateway_completion_notice_value_error.
+        _service.enable_retries()
+        self.test_list_gateway_completion_notice_value_error()
 
-    	# Disable retries and run test_list_gateway_completion_notice_value_error.
-    	_service.disable_retries()
-    	self.test_list_gateway_completion_notice_value_error()
+        # Disable retries and run test_list_gateway_completion_notice_value_error.
+        _service.disable_retries()
+        self.test_list_gateway_completion_notice_value_error()
 
 class TestCreateGatewayCompletionNotice():
     """
@@ -1014,13 +1014,13 @@ class TestCreateGatewayCompletionNotice():
         assert response.status_code == 204
 
     def test_create_gateway_completion_notice_all_params_with_retries(self):
-    	# Enable retries and run test_create_gateway_completion_notice_all_params.
-    	_service.enable_retries()
-    	self.test_create_gateway_completion_notice_all_params()
+        # Enable retries and run test_create_gateway_completion_notice_all_params.
+        _service.enable_retries()
+        self.test_create_gateway_completion_notice_all_params()
 
-    	# Disable retries and run test_create_gateway_completion_notice_all_params.
-    	_service.disable_retries()
-    	self.test_create_gateway_completion_notice_all_params()
+        # Disable retries and run test_create_gateway_completion_notice_all_params.
+        _service.disable_retries()
+        self.test_create_gateway_completion_notice_all_params()
 
     @responses.activate
     def test_create_gateway_completion_notice_required_params(self):
@@ -1047,13 +1047,13 @@ class TestCreateGatewayCompletionNotice():
         assert response.status_code == 204
 
     def test_create_gateway_completion_notice_required_params_with_retries(self):
-    	# Enable retries and run test_create_gateway_completion_notice_required_params.
-    	_service.enable_retries()
-    	self.test_create_gateway_completion_notice_required_params()
+        # Enable retries and run test_create_gateway_completion_notice_required_params.
+        _service.enable_retries()
+        self.test_create_gateway_completion_notice_required_params()
 
-    	# Disable retries and run test_create_gateway_completion_notice_required_params.
-    	_service.disable_retries()
-    	self.test_create_gateway_completion_notice_required_params()
+        # Disable retries and run test_create_gateway_completion_notice_required_params.
+        _service.disable_retries()
+        self.test_create_gateway_completion_notice_required_params()
 
     @responses.activate
     def test_create_gateway_completion_notice_value_error(self):
@@ -1080,13 +1080,13 @@ class TestCreateGatewayCompletionNotice():
 
 
     def test_create_gateway_completion_notice_value_error_with_retries(self):
-    	# Enable retries and run test_create_gateway_completion_notice_value_error.
-    	_service.enable_retries()
-    	self.test_create_gateway_completion_notice_value_error()
+        # Enable retries and run test_create_gateway_completion_notice_value_error.
+        _service.enable_retries()
+        self.test_create_gateway_completion_notice_value_error()
 
-    	# Disable retries and run test_create_gateway_completion_notice_value_error.
-    	_service.disable_retries()
-    	self.test_create_gateway_completion_notice_value_error()
+        # Disable retries and run test_create_gateway_completion_notice_value_error.
+        _service.disable_retries()
+        self.test_create_gateway_completion_notice_value_error()
 
 class TestListGatewayLetterOfAuthorization():
     """
@@ -1132,13 +1132,13 @@ class TestListGatewayLetterOfAuthorization():
         assert response.status_code == 200
 
     def test_list_gateway_letter_of_authorization_all_params_with_retries(self):
-    	# Enable retries and run test_list_gateway_letter_of_authorization_all_params.
-    	_service.enable_retries()
-    	self.test_list_gateway_letter_of_authorization_all_params()
+        # Enable retries and run test_list_gateway_letter_of_authorization_all_params.
+        _service.enable_retries()
+        self.test_list_gateway_letter_of_authorization_all_params()
 
-    	# Disable retries and run test_list_gateway_letter_of_authorization_all_params.
-    	_service.disable_retries()
-    	self.test_list_gateway_letter_of_authorization_all_params()
+        # Disable retries and run test_list_gateway_letter_of_authorization_all_params.
+        _service.disable_retries()
+        self.test_list_gateway_letter_of_authorization_all_params()
 
     @responses.activate
     def test_list_gateway_letter_of_authorization_value_error(self):
@@ -1168,13 +1168,13 @@ class TestListGatewayLetterOfAuthorization():
 
 
     def test_list_gateway_letter_of_authorization_value_error_with_retries(self):
-    	# Enable retries and run test_list_gateway_letter_of_authorization_value_error.
-    	_service.enable_retries()
-    	self.test_list_gateway_letter_of_authorization_value_error()
+        # Enable retries and run test_list_gateway_letter_of_authorization_value_error.
+        _service.enable_retries()
+        self.test_list_gateway_letter_of_authorization_value_error()
 
-    	# Disable retries and run test_list_gateway_letter_of_authorization_value_error.
-    	_service.disable_retries()
-    	self.test_list_gateway_letter_of_authorization_value_error()
+        # Disable retries and run test_list_gateway_letter_of_authorization_value_error.
+        _service.disable_retries()
+        self.test_list_gateway_letter_of_authorization_value_error()
 
 class TestGetGatewayStatistics():
     """
@@ -1226,13 +1226,13 @@ class TestGetGatewayStatistics():
         assert 'type={}'.format(type) in query_string
 
     def test_get_gateway_statistics_all_params_with_retries(self):
-    	# Enable retries and run test_get_gateway_statistics_all_params.
-    	_service.enable_retries()
-    	self.test_get_gateway_statistics_all_params()
+        # Enable retries and run test_get_gateway_statistics_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_statistics_all_params()
 
-    	# Disable retries and run test_get_gateway_statistics_all_params.
-    	_service.disable_retries()
-    	self.test_get_gateway_statistics_all_params()
+        # Disable retries and run test_get_gateway_statistics_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_statistics_all_params()
 
     @responses.activate
     def test_get_gateway_statistics_value_error(self):
@@ -1264,13 +1264,13 @@ class TestGetGatewayStatistics():
 
 
     def test_get_gateway_statistics_value_error_with_retries(self):
-    	# Enable retries and run test_get_gateway_statistics_value_error.
-    	_service.enable_retries()
-    	self.test_get_gateway_statistics_value_error()
+        # Enable retries and run test_get_gateway_statistics_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_statistics_value_error()
 
-    	# Disable retries and run test_get_gateway_statistics_value_error.
-    	_service.disable_retries()
-    	self.test_get_gateway_statistics_value_error()
+        # Disable retries and run test_get_gateway_statistics_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_statistics_value_error()
 
 class TestGetGatewayStatus():
     """
@@ -1322,13 +1322,13 @@ class TestGetGatewayStatus():
         assert 'type={}'.format(type) in query_string
 
     def test_get_gateway_status_all_params_with_retries(self):
-    	# Enable retries and run test_get_gateway_status_all_params.
-    	_service.enable_retries()
-    	self.test_get_gateway_status_all_params()
+        # Enable retries and run test_get_gateway_status_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_status_all_params()
 
-    	# Disable retries and run test_get_gateway_status_all_params.
-    	_service.disable_retries()
-    	self.test_get_gateway_status_all_params()
+        # Disable retries and run test_get_gateway_status_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_status_all_params()
 
     @responses.activate
     def test_get_gateway_status_required_params(self):
@@ -1358,13 +1358,13 @@ class TestGetGatewayStatus():
         assert response.status_code == 200
 
     def test_get_gateway_status_required_params_with_retries(self):
-    	# Enable retries and run test_get_gateway_status_required_params.
-    	_service.enable_retries()
-    	self.test_get_gateway_status_required_params()
+        # Enable retries and run test_get_gateway_status_required_params.
+        _service.enable_retries()
+        self.test_get_gateway_status_required_params()
 
-    	# Disable retries and run test_get_gateway_status_required_params.
-    	_service.disable_retries()
-    	self.test_get_gateway_status_required_params()
+        # Disable retries and run test_get_gateway_status_required_params.
+        _service.disable_retries()
+        self.test_get_gateway_status_required_params()
 
     @responses.activate
     def test_get_gateway_status_value_error(self):
@@ -1394,13 +1394,13 @@ class TestGetGatewayStatus():
 
 
     def test_get_gateway_status_value_error_with_retries(self):
-    	# Enable retries and run test_get_gateway_status_value_error.
-    	_service.enable_retries()
-    	self.test_get_gateway_status_value_error()
+        # Enable retries and run test_get_gateway_status_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_status_value_error()
 
-    	# Disable retries and run test_get_gateway_status_value_error.
-    	_service.disable_retries()
-    	self.test_get_gateway_status_value_error()
+        # Disable retries and run test_get_gateway_status_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_status_value_error()
 
 # endregion
 ##############################################################################
@@ -1499,13 +1499,13 @@ class TestListOfferingTypeLocations():
         assert response.status_code == 200
 
     def test_list_offering_type_locations_all_params_with_retries(self):
-    	# Enable retries and run test_list_offering_type_locations_all_params.
-    	_service.enable_retries()
-    	self.test_list_offering_type_locations_all_params()
+        # Enable retries and run test_list_offering_type_locations_all_params.
+        _service.enable_retries()
+        self.test_list_offering_type_locations_all_params()
 
-    	# Disable retries and run test_list_offering_type_locations_all_params.
-    	_service.disable_retries()
-    	self.test_list_offering_type_locations_all_params()
+        # Disable retries and run test_list_offering_type_locations_all_params.
+        _service.disable_retries()
+        self.test_list_offering_type_locations_all_params()
 
     @responses.activate
     def test_list_offering_type_locations_value_error(self):
@@ -1535,13 +1535,13 @@ class TestListOfferingTypeLocations():
 
 
     def test_list_offering_type_locations_value_error_with_retries(self):
-    	# Enable retries and run test_list_offering_type_locations_value_error.
-    	_service.enable_retries()
-    	self.test_list_offering_type_locations_value_error()
+        # Enable retries and run test_list_offering_type_locations_value_error.
+        _service.enable_retries()
+        self.test_list_offering_type_locations_value_error()
 
-    	# Disable retries and run test_list_offering_type_locations_value_error.
-    	_service.disable_retries()
-    	self.test_list_offering_type_locations_value_error()
+        # Disable retries and run test_list_offering_type_locations_value_error.
+        _service.disable_retries()
+        self.test_list_offering_type_locations_value_error()
 
 class TestListOfferingTypeLocationCrossConnectRouters():
     """
@@ -1589,13 +1589,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
         assert response.status_code == 200
 
     def test_list_offering_type_location_cross_connect_routers_all_params_with_retries(self):
-    	# Enable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
-    	_service.enable_retries()
-    	self.test_list_offering_type_location_cross_connect_routers_all_params()
+        # Enable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
+        _service.enable_retries()
+        self.test_list_offering_type_location_cross_connect_routers_all_params()
 
-    	# Disable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
-    	_service.disable_retries()
-    	self.test_list_offering_type_location_cross_connect_routers_all_params()
+        # Disable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
+        _service.disable_retries()
+        self.test_list_offering_type_location_cross_connect_routers_all_params()
 
     @responses.activate
     def test_list_offering_type_location_cross_connect_routers_value_error(self):
@@ -1627,13 +1627,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
 
 
     def test_list_offering_type_location_cross_connect_routers_value_error_with_retries(self):
-    	# Enable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
-    	_service.enable_retries()
-    	self.test_list_offering_type_location_cross_connect_routers_value_error()
+        # Enable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
+        _service.enable_retries()
+        self.test_list_offering_type_location_cross_connect_routers_value_error()
 
-    	# Disable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
-    	_service.disable_retries()
-    	self.test_list_offering_type_location_cross_connect_routers_value_error()
+        # Disable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
+        _service.disable_retries()
+        self.test_list_offering_type_location_cross_connect_routers_value_error()
 
 class TestListOfferingTypeSpeeds():
     """
@@ -1679,13 +1679,13 @@ class TestListOfferingTypeSpeeds():
         assert response.status_code == 200
 
     def test_list_offering_type_speeds_all_params_with_retries(self):
-    	# Enable retries and run test_list_offering_type_speeds_all_params.
-    	_service.enable_retries()
-    	self.test_list_offering_type_speeds_all_params()
+        # Enable retries and run test_list_offering_type_speeds_all_params.
+        _service.enable_retries()
+        self.test_list_offering_type_speeds_all_params()
 
-    	# Disable retries and run test_list_offering_type_speeds_all_params.
-    	_service.disable_retries()
-    	self.test_list_offering_type_speeds_all_params()
+        # Disable retries and run test_list_offering_type_speeds_all_params.
+        _service.disable_retries()
+        self.test_list_offering_type_speeds_all_params()
 
     @responses.activate
     def test_list_offering_type_speeds_value_error(self):
@@ -1715,13 +1715,13 @@ class TestListOfferingTypeSpeeds():
 
 
     def test_list_offering_type_speeds_value_error_with_retries(self):
-    	# Enable retries and run test_list_offering_type_speeds_value_error.
-    	_service.enable_retries()
-    	self.test_list_offering_type_speeds_value_error()
+        # Enable retries and run test_list_offering_type_speeds_value_error.
+        _service.enable_retries()
+        self.test_list_offering_type_speeds_value_error()
 
-    	# Disable retries and run test_list_offering_type_speeds_value_error.
-    	_service.disable_retries()
-    	self.test_list_offering_type_speeds_value_error()
+        # Disable retries and run test_list_offering_type_speeds_value_error.
+        _service.disable_retries()
+        self.test_list_offering_type_speeds_value_error()
 
 # endregion
 ##############################################################################
@@ -1830,13 +1830,13 @@ class TestListPorts():
         assert 'location_name={}'.format(location_name) in query_string
 
     def test_list_ports_all_params_with_retries(self):
-    	# Enable retries and run test_list_ports_all_params.
-    	_service.enable_retries()
-    	self.test_list_ports_all_params()
+        # Enable retries and run test_list_ports_all_params.
+        _service.enable_retries()
+        self.test_list_ports_all_params()
 
-    	# Disable retries and run test_list_ports_all_params.
-    	_service.disable_retries()
-    	self.test_list_ports_all_params()
+        # Disable retries and run test_list_ports_all_params.
+        _service.disable_retries()
+        self.test_list_ports_all_params()
 
     @responses.activate
     def test_list_ports_required_params(self):
@@ -1861,13 +1861,13 @@ class TestListPorts():
         assert response.status_code == 200
 
     def test_list_ports_required_params_with_retries(self):
-    	# Enable retries and run test_list_ports_required_params.
-    	_service.enable_retries()
-    	self.test_list_ports_required_params()
+        # Enable retries and run test_list_ports_required_params.
+        _service.enable_retries()
+        self.test_list_ports_required_params()
 
-    	# Disable retries and run test_list_ports_required_params.
-    	_service.disable_retries()
-    	self.test_list_ports_required_params()
+        # Disable retries and run test_list_ports_required_params.
+        _service.disable_retries()
+        self.test_list_ports_required_params()
 
     @responses.activate
     def test_list_ports_value_error(self):
@@ -1893,13 +1893,13 @@ class TestListPorts():
 
 
     def test_list_ports_value_error_with_retries(self):
-    	# Enable retries and run test_list_ports_value_error.
-    	_service.enable_retries()
-    	self.test_list_ports_value_error()
+        # Enable retries and run test_list_ports_value_error.
+        _service.enable_retries()
+        self.test_list_ports_value_error()
 
-    	# Disable retries and run test_list_ports_value_error.
-    	_service.disable_retries()
-    	self.test_list_ports_value_error()
+        # Disable retries and run test_list_ports_value_error.
+        _service.disable_retries()
+        self.test_list_ports_value_error()
 
 class TestGetPort():
     """
@@ -1945,13 +1945,13 @@ class TestGetPort():
         assert response.status_code == 200
 
     def test_get_port_all_params_with_retries(self):
-    	# Enable retries and run test_get_port_all_params.
-    	_service.enable_retries()
-    	self.test_get_port_all_params()
+        # Enable retries and run test_get_port_all_params.
+        _service.enable_retries()
+        self.test_get_port_all_params()
 
-    	# Disable retries and run test_get_port_all_params.
-    	_service.disable_retries()
-    	self.test_get_port_all_params()
+        # Disable retries and run test_get_port_all_params.
+        _service.disable_retries()
+        self.test_get_port_all_params()
 
     @responses.activate
     def test_get_port_value_error(self):
@@ -1981,13 +1981,13 @@ class TestGetPort():
 
 
     def test_get_port_value_error_with_retries(self):
-    	# Enable retries and run test_get_port_value_error.
-    	_service.enable_retries()
-    	self.test_get_port_value_error()
+        # Enable retries and run test_get_port_value_error.
+        _service.enable_retries()
+        self.test_get_port_value_error()
 
-    	# Disable retries and run test_get_port_value_error.
-    	_service.disable_retries()
-    	self.test_get_port_value_error()
+        # Disable retries and run test_get_port_value_error.
+        _service.disable_retries()
+        self.test_get_port_value_error()
 
 # endregion
 ##############################################################################
@@ -2086,13 +2086,13 @@ class TestListGatewayVirtualConnections():
         assert response.status_code == 200
 
     def test_list_gateway_virtual_connections_all_params_with_retries(self):
-    	# Enable retries and run test_list_gateway_virtual_connections_all_params.
-    	_service.enable_retries()
-    	self.test_list_gateway_virtual_connections_all_params()
+        # Enable retries and run test_list_gateway_virtual_connections_all_params.
+        _service.enable_retries()
+        self.test_list_gateway_virtual_connections_all_params()
 
-    	# Disable retries and run test_list_gateway_virtual_connections_all_params.
-    	_service.disable_retries()
-    	self.test_list_gateway_virtual_connections_all_params()
+        # Disable retries and run test_list_gateway_virtual_connections_all_params.
+        _service.disable_retries()
+        self.test_list_gateway_virtual_connections_all_params()
 
     @responses.activate
     def test_list_gateway_virtual_connections_value_error(self):
@@ -2122,13 +2122,13 @@ class TestListGatewayVirtualConnections():
 
 
     def test_list_gateway_virtual_connections_value_error_with_retries(self):
-    	# Enable retries and run test_list_gateway_virtual_connections_value_error.
-    	_service.enable_retries()
-    	self.test_list_gateway_virtual_connections_value_error()
+        # Enable retries and run test_list_gateway_virtual_connections_value_error.
+        _service.enable_retries()
+        self.test_list_gateway_virtual_connections_value_error()
 
-    	# Disable retries and run test_list_gateway_virtual_connections_value_error.
-    	_service.disable_retries()
-    	self.test_list_gateway_virtual_connections_value_error()
+        # Disable retries and run test_list_gateway_virtual_connections_value_error.
+        _service.disable_retries()
+        self.test_list_gateway_virtual_connections_value_error()
 
 class TestCreateGatewayVirtualConnection():
     """
@@ -2185,13 +2185,13 @@ class TestCreateGatewayVirtualConnection():
         assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb'
 
     def test_create_gateway_virtual_connection_all_params_with_retries(self):
-    	# Enable retries and run test_create_gateway_virtual_connection_all_params.
-    	_service.enable_retries()
-    	self.test_create_gateway_virtual_connection_all_params()
+        # Enable retries and run test_create_gateway_virtual_connection_all_params.
+        _service.enable_retries()
+        self.test_create_gateway_virtual_connection_all_params()
 
-    	# Disable retries and run test_create_gateway_virtual_connection_all_params.
-    	_service.disable_retries()
-    	self.test_create_gateway_virtual_connection_all_params()
+        # Disable retries and run test_create_gateway_virtual_connection_all_params.
+        _service.disable_retries()
+        self.test_create_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_create_gateway_virtual_connection_value_error(self):
@@ -2226,13 +2226,13 @@ class TestCreateGatewayVirtualConnection():
 
 
     def test_create_gateway_virtual_connection_value_error_with_retries(self):
-    	# Enable retries and run test_create_gateway_virtual_connection_value_error.
-    	_service.enable_retries()
-    	self.test_create_gateway_virtual_connection_value_error()
+        # Enable retries and run test_create_gateway_virtual_connection_value_error.
+        _service.enable_retries()
+        self.test_create_gateway_virtual_connection_value_error()
 
-    	# Disable retries and run test_create_gateway_virtual_connection_value_error.
-    	_service.disable_retries()
-    	self.test_create_gateway_virtual_connection_value_error()
+        # Disable retries and run test_create_gateway_virtual_connection_value_error.
+        _service.disable_retries()
+        self.test_create_gateway_virtual_connection_value_error()
 
 class TestDeleteGatewayVirtualConnection():
     """
@@ -2277,13 +2277,13 @@ class TestDeleteGatewayVirtualConnection():
         assert response.status_code == 204
 
     def test_delete_gateway_virtual_connection_all_params_with_retries(self):
-    	# Enable retries and run test_delete_gateway_virtual_connection_all_params.
-    	_service.enable_retries()
-    	self.test_delete_gateway_virtual_connection_all_params()
+        # Enable retries and run test_delete_gateway_virtual_connection_all_params.
+        _service.enable_retries()
+        self.test_delete_gateway_virtual_connection_all_params()
 
-    	# Disable retries and run test_delete_gateway_virtual_connection_all_params.
-    	_service.disable_retries()
-    	self.test_delete_gateway_virtual_connection_all_params()
+        # Disable retries and run test_delete_gateway_virtual_connection_all_params.
+        _service.disable_retries()
+        self.test_delete_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_delete_gateway_virtual_connection_value_error(self):
@@ -2312,13 +2312,13 @@ class TestDeleteGatewayVirtualConnection():
 
 
     def test_delete_gateway_virtual_connection_value_error_with_retries(self):
-    	# Enable retries and run test_delete_gateway_virtual_connection_value_error.
-    	_service.enable_retries()
-    	self.test_delete_gateway_virtual_connection_value_error()
+        # Enable retries and run test_delete_gateway_virtual_connection_value_error.
+        _service.enable_retries()
+        self.test_delete_gateway_virtual_connection_value_error()
 
-    	# Disable retries and run test_delete_gateway_virtual_connection_value_error.
-    	_service.disable_retries()
-    	self.test_delete_gateway_virtual_connection_value_error()
+        # Disable retries and run test_delete_gateway_virtual_connection_value_error.
+        _service.disable_retries()
+        self.test_delete_gateway_virtual_connection_value_error()
 
 class TestGetGatewayVirtualConnection():
     """
@@ -2366,13 +2366,13 @@ class TestGetGatewayVirtualConnection():
         assert response.status_code == 200
 
     def test_get_gateway_virtual_connection_all_params_with_retries(self):
-    	# Enable retries and run test_get_gateway_virtual_connection_all_params.
-    	_service.enable_retries()
-    	self.test_get_gateway_virtual_connection_all_params()
+        # Enable retries and run test_get_gateway_virtual_connection_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_virtual_connection_all_params()
 
-    	# Disable retries and run test_get_gateway_virtual_connection_all_params.
-    	_service.disable_retries()
-    	self.test_get_gateway_virtual_connection_all_params()
+        # Disable retries and run test_get_gateway_virtual_connection_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_get_gateway_virtual_connection_value_error(self):
@@ -2404,13 +2404,13 @@ class TestGetGatewayVirtualConnection():
 
 
     def test_get_gateway_virtual_connection_value_error_with_retries(self):
-    	# Enable retries and run test_get_gateway_virtual_connection_value_error.
-    	_service.enable_retries()
-    	self.test_get_gateway_virtual_connection_value_error()
+        # Enable retries and run test_get_gateway_virtual_connection_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_virtual_connection_value_error()
 
-    	# Disable retries and run test_get_gateway_virtual_connection_value_error.
-    	_service.disable_retries()
-    	self.test_get_gateway_virtual_connection_value_error()
+        # Disable retries and run test_get_gateway_virtual_connection_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_virtual_connection_value_error()
 
 class TestUpdateGatewayVirtualConnection():
     """
@@ -2466,13 +2466,13 @@ class TestUpdateGatewayVirtualConnection():
         assert req_body['status'] == 'attached'
 
     def test_update_gateway_virtual_connection_all_params_with_retries(self):
-    	# Enable retries and run test_update_gateway_virtual_connection_all_params.
-    	_service.enable_retries()
-    	self.test_update_gateway_virtual_connection_all_params()
+        # Enable retries and run test_update_gateway_virtual_connection_all_params.
+        _service.enable_retries()
+        self.test_update_gateway_virtual_connection_all_params()
 
-    	# Disable retries and run test_update_gateway_virtual_connection_all_params.
-    	_service.disable_retries()
-    	self.test_update_gateway_virtual_connection_all_params()
+        # Disable retries and run test_update_gateway_virtual_connection_all_params.
+        _service.disable_retries()
+        self.test_update_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_update_gateway_virtual_connection_value_error(self):
@@ -2506,13 +2506,13 @@ class TestUpdateGatewayVirtualConnection():
 
 
     def test_update_gateway_virtual_connection_value_error_with_retries(self):
-    	# Enable retries and run test_update_gateway_virtual_connection_value_error.
-    	_service.enable_retries()
-    	self.test_update_gateway_virtual_connection_value_error()
+        # Enable retries and run test_update_gateway_virtual_connection_value_error.
+        _service.enable_retries()
+        self.test_update_gateway_virtual_connection_value_error()
 
-    	# Disable retries and run test_update_gateway_virtual_connection_value_error.
-    	_service.disable_retries()
-    	self.test_update_gateway_virtual_connection_value_error()
+        # Disable retries and run test_update_gateway_virtual_connection_value_error.
+        _service.disable_retries()
+        self.test_update_gateway_virtual_connection_value_error()
 
 # endregion
 ##############################################################################
@@ -4067,6 +4067,35 @@ class TestModel_GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate():
         gateway_action_template_updates_item_gateway_client_speed_update_model_json2 = gateway_action_template_updates_item_gateway_client_speed_update_model.to_dict()
         assert gateway_action_template_updates_item_gateway_client_speed_update_model_json2 == gateway_action_template_updates_item_gateway_client_speed_update_model_json
 
+class TestModel_GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate():
+    """
+    Test Class for GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate
+    """
+
+    def test_gateway_action_template_updates_item_gateway_client_vlan_update_serialization(self):
+        """
+        Test serialization/deserialization for GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate
+        """
+
+        # Construct a json representation of a GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate model
+        gateway_action_template_updates_item_gateway_client_vlan_update_model_json = {}
+        gateway_action_template_updates_item_gateway_client_vlan_update_model_json['vlan'] = 10
+
+        # Construct a model instance of GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate by calling from_dict on the json representation
+        gateway_action_template_updates_item_gateway_client_vlan_update_model = GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate.from_dict(gateway_action_template_updates_item_gateway_client_vlan_update_model_json)
+        assert gateway_action_template_updates_item_gateway_client_vlan_update_model != False
+
+        # Construct a model instance of GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate by calling from_dict on the json representation
+        gateway_action_template_updates_item_gateway_client_vlan_update_model_dict = GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate.from_dict(gateway_action_template_updates_item_gateway_client_vlan_update_model_json).__dict__
+        gateway_action_template_updates_item_gateway_client_vlan_update_model2 = GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate(**gateway_action_template_updates_item_gateway_client_vlan_update_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_action_template_updates_item_gateway_client_vlan_update_model == gateway_action_template_updates_item_gateway_client_vlan_update_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_action_template_updates_item_gateway_client_vlan_update_model_json2 = gateway_action_template_updates_item_gateway_client_vlan_update_model.to_dict()
+        assert gateway_action_template_updates_item_gateway_client_vlan_update_model_json2 == gateway_action_template_updates_item_gateway_client_vlan_update_model_json
+
 class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate():
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate
@@ -4154,6 +4183,35 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesI
         # Convert model instance back to dict and verify no loss of data
         gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model_json
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate():
+    """
+    Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate
+    """
+
+    def test_gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_serialization(self):
+        """
+        Test serialization/deserialization for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate
+        """
+
+        # Construct a json representation of a GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate model
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json = {}
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json['vlan'] = 10
+
+        # Construct a model instance of GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate by calling from_dict on the json representation
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model = GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate.from_dict(gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json)
+        assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model != False
+
+        # Construct a model instance of GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate by calling from_dict on the json representation
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_dict = GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate.from_dict(gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json).__dict__
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model2 = GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate(**gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model.to_dict()
+        assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json
 
 class TestModel_GatewayChangeRequestGatewayClientGatewayCreate():
     """
