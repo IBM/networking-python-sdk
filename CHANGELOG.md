@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/IBM/networking-python-sdk/compare/v0.15.0...v0.16.0) (2022-02-03)
+
+
+### Features
+
+* add the changes to allow the provider to provide/edit the vlan while creating Direct Link gateways ([#54](https://github.com/IBM/networking-python-sdk/issues/54)) ([69cb0cc](https://github.com/IBM/networking-python-sdk/commit/69cb0cce825dde60a83d8e838ef52ab682120f58))
+
 # [0.15.0](https://github.com/IBM/networking-python-sdk/compare/v0.14.1...v0.15.0) (2022-01-13)
 
 
