@@ -26,7 +26,7 @@ except:
 class TestDirectLinkProviderV2(unittest.TestCase):
     """ Test class for DirectLink Provider sdk functions """
 
-    @unittest.skip("skipping")
+    @unittest.skip("skipping due to tavis timeout of 10m")
 
     def setUp(self):
         """ test case setup """
@@ -212,6 +212,8 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         customerAccount = os.getenv("DL_PROVIDER_SERVICES_CUSTOMER_ACCT_ID")
         speedMbps = 1000
         updatedSpeedMbps = 2000
+        vlan = 38
+        updatedVlan = 95
 
         """ successfully get a provider port id """
         response = self.dl_provider.list_provider_ports()
@@ -225,7 +227,8 @@ class TestDirectLinkProviderV2(unittest.TestCase):
                                                              customer_account_id=customerAccount,
                                                              name=name,
                                                              port=port,
-                                                             speed_mbps=speedMbps)
+                                                             speed_mbps=speedMbps,
+                                                             vlan=vlan)
         assert response is not None
         assert response.get_status_code() == 201
         gateway_id = response.get_result().get("id")
@@ -237,6 +240,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response.get_result().get("id") == gateway_id
         assert response.get_result().get("name") == name
         assert response.get_result().get("speed_mbps") == speedMbps
+        assert response.get_result().get("vlan") == vlan
         assert response.get_result().get("provider_api_managed") == True
         assert response.get_result().get("operational_status") == "create_pending"
         assert response.get_result().get("type") == "connect"
@@ -268,6 +272,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
                 assert response.get_result().get("id") == gateway_id
                 assert response.get_result().get("name") == name
                 assert response.get_result().get("speed_mbps") == speedMbps
+                assert response.get_result().get("vlan") == vlan
                 assert response.get_result().get("provider_api_managed") == True
                 assert response.get_result().get("operational_status") == "provisioned"
                 assert response.get_result().get("type") == "connect"
@@ -299,9 +304,22 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response.get_result().get("speed_mbps") == speedMbps
         assert "change_request" in response.get_result()
 
-        #approve speed update request using client account
+        #successfully request the vlan update of the gateway
+        response = self.dl_provider.update_provider_gateway(id=gateway_id,vlan=updatedVlan)
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == gateway_id
+        assert response.get_result().get("name") == updatedName
+        assert response.get_result().get("vlan") == vlan    # does not change until approved
+        assert "change_request" in response.get_result()
+
+        #approve speed and vlan update request using client account
         speedMbpsObject = {"speed_mbps": updatedSpeedMbps}
         updateAttributes = [speedMbpsObject]
+
+        vlanObject = {"vlan": updatedVlan}
+        updateAttributes.append(vlanObject)
+        
         response = self.dl.create_gateway_action(id=gateway_id, 
                                                  action="update_attributes_approve",
                                                  updates=updateAttributes)
@@ -310,6 +328,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         assert response.get_result().get("id") == gateway_id
         assert response.get_result().get("name") == updatedName
         assert response.get_result().get("speed_mbps") == updatedSpeedMbps
+        assert response.get_result().get("vlan") == updatedVlan
 
         # wait until gateway moves to provisioned state
         count = 0
@@ -323,6 +342,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
                 assert response.get_result().get("id") == gateway_id
                 assert response.get_result().get("name") == updatedName
                 assert response.get_result().get("speed_mbps") == updatedSpeedMbps
+                assert response.get_result().get("vlan") == updatedVlan
                 assert response.get_result().get("provider_api_managed") == True
                 assert response.get_result().get("operational_status") == "provisioned"
                 assert response.get_result().get("type") == "connect"
@@ -363,6 +383,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
                 assert response.get_result().get("id") == gateway_id
                 assert response.get_result().get("name") == updatedName
                 assert response.get_result().get("speed_mbps") == updatedSpeedMbps
+                assert response.get_result().get("vlan") == updatedVlan
                 assert response.get_result().get("provider_api_managed") == True
                 assert response.get_result().get("operational_status") == "provisioned"
                 assert response.get_result().get("type") == "connect"
