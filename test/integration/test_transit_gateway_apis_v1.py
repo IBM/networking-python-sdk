@@ -76,20 +76,20 @@ class TestTransitGatewayApisV1(unittest.TestCase):
                             "delet" not in connection["status"]):
                             if connection["network_type"] == "gre_tunnel":
                                 self.delete_resource_test(gateway_id=gateway_id, 
-                                    conn_id=connection["id"], rr_id="")
+                                    conn_id=connection["id"], rr_id="", pf_id="")
                             else:
                                 conn_ids.append(connection["id"])
 
                     # Deletes Connections from other types.
                     for id in conn_ids:
                         self.delete_resource_test(gateway_id=gateway_id, 
-                            conn_id=id, rr_id="")
+                            conn_id=id, rr_id="", pf_id="")
 
                 # Deletes current gateway
                 if ("SDK-PY" in gateway["name"]) and (
                     "delet" not in gateway["status"]):
                     self.delete_resource_test(gateway_id=gateway_id, 
-                        conn_id="", rr_id="")
+                        conn_id="", rr_id="", pf_id="")
 
     
 ###############################################################################
@@ -247,7 +247,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         # Success: DELETE Transit Gateway:
         ############################################# 
         assert self.delete_resource_test(
-            gateway_id=gateway_id, conn_id="", rr_id="")
+            gateway_id=gateway_id, conn_id="", rr_id="", pf_id="")
 
             
 ###############################################################################
@@ -578,6 +578,11 @@ class TestTransitGatewayApisV1(unittest.TestCase):
                 transit_gateway_id=gateway_id, id=bad_conn_id)
             self.assertEqual(e.exception.code, 404)
 
+
+###############################################################################
+#                    Transit Gateway Route Report Tests                       #
+###############################################################################
+
         #############################################
         # Success: POST Gateway Route Report:
         #############################################
@@ -690,49 +695,198 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         # Success: DELETE Gateway Route Report:
         #############################################
         assert self.delete_resource_test(gateway_id=gateway_id, 
-            conn_id="", rr_id=route_report_id)
+            conn_id="", rr_id=route_report_id, pf_id="")
             
+###############################################################################
+#               Transit Gateway Connection Prefix Filter Tests                #
+###############################################################################
+
+        filterPrefix = "192.168.100.0/24"
+        permitAction = "permit"
+        denyAction = "deny"
+
+        ###############################################################################
+        # Success: POST Transit Gateway Connection Prefix Filter:                     #
+        ###############################################################################
+        response = self.tg.create_transit_gateway_connection_prefix_filter(
+            transit_gateway_id=gateway_id,
+            id=classic_conn_id, 
+            action=permitAction,
+            prefix=filterPrefix)
+
+        assert response is not None
+        assert response.get_status_code() == 201 
+
+        prefix_filter_id = response.get_result().get("id")
+        assert prefix_filter_id != ""
+        assert response.get_result().get("prefix") == filterPrefix
+        assert response.get_result().get("action") == permitAction
+        assert response.get_result().get("created_at") != ""
+        assert response.get_result().get("updated_at") != ""
+        
+        ###############################################################################
+        # Failure: POST Transit Gateway Connection Prefix Filter with invalid values: #
+        ###############################################################################
+        with self.assertRaises(ApiException) as e:
+            response = self.tg.create_transit_gateway_connection_prefix_filter(
+                transit_gateway_id=gateway_id,
+                id=classic_conn_id, 
+                action="testString",
+                prefix="testString")
+            self.assertEqual(e.exception.code, 400)
+
+        #######################################################################
+        # Success: LIST Transit Gateway Connection Prefix Filters:
+        #######################################################################
+        response = self.tg.list_transit_gateway_connection_prefix_filters(
+            transit_gateway_id=gateway_id, id=classic_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert len(response.get_result().get("prefix_filters")) > 0
+        
+        pf_found = False
+        filters = response.get_result().get("prefix_filters")          
+        for filter in filters:
+            if filter["id"] == prefix_filter_id :
+                assert filter["action"] == permitAction
+                assert filter["prefix"] == filterPrefix
+                pf_found = True
+
+        assert pf_found
+       
+        ###############################################################################
+        # Failure: LIST Transit Gateway Connection Prefix Filters with invalid id:    #
+        ###############################################################################
+        with self.assertRaises(ApiException) as e:
+            response = self.tg.list_transit_gateway_connection_prefix_filters(
+                transit_gateway_id=gateway_id, id="invalid_id")
+            self.assertEqual(e.exception.code, 404)
+
+        #################################################################################
+        # Success: UPDATE Transit Gateway Connection Prefix Filter (change action):     #
+        #################################################################################
+        response = self.tg.update_transit_gateway_connection_prefix_filter(
+            transit_gateway_id=gateway_id,
+            id=classic_conn_id, 
+            filter_id=prefix_filter_id,
+            action=denyAction)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+
+        assert response.get_result().get("id") == prefix_filter_id
+        assert response.get_result().get("prefix") == filterPrefix
+        assert response.get_result().get("action") == denyAction
+        assert response.get_result().get("created_at") != ""
+        assert response.get_result().get("updated_at") != ""
+
+        #################################################################################
+        # Failure: UPDATE Transit Gateway Connection Prefix Filter with invalid prefix: #
+        #################################################################################
+        with self.assertRaises(ApiException) as e:
+            response = self.tg.update_transit_gateway_connection_prefix_filter(
+                transit_gateway_id=gateway_id,
+                id=classic_conn_id, 
+                filter_id=prefix_filter_id,
+                prefix="invalid_prefix")
+            self.assertEqual(e.exception.code, 400)
+
+        #################################################################################
+        # Failure: UPDATE Transit Gateway Connection Prefix Filter with invalid id:     #
+        #################################################################################
+        with self.assertRaises(ApiException) as e:
+            response = self.tg.update_transit_gateway_connection_prefix_filter(
+                transit_gateway_id=gateway_id,
+                id=classic_conn_id, 
+                filter_id="invalid_id")
+            self.assertEqual(e.exception.code, 404)
+
+        ##########################################################################
+        # Success: GET Transit Gateway Connection Prefix Filter:                 #
+        ##########################################################################
+        response = self.tg.get_transit_gateway_connection_prefix_filter(
+            transit_gateway_id=gateway_id,
+            id=classic_conn_id, 
+            filter_id=prefix_filter_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+
+        assert response.get_result().get("id") == prefix_filter_id
+        assert response.get_result().get("prefix") == filterPrefix
+        assert response.get_result().get("action") == denyAction
+        assert response.get_result().get("created_at") != ""
+        assert response.get_result().get("updated_at") != ""
+
+        ##########################################################################
+        # Failure: GET Transit Gateway Connection Prefix Filter with invalid id: #
+        ##########################################################################
+        with self.assertRaises(ApiException) as e:
+            response = self.tg.get_transit_gateway_connection_prefix_filter(
+                transit_gateway_id=gateway_id,
+                id=classic_conn_id, 
+                filter_id="invalid_id")
+            self.assertEqual(e.exception.code, 404)
+
+        #####################################################################
+        # Success: DELETE Gateway Connection Prefix Filter:
+        #####################################################################
+        assert self.delete_resource_test(gateway_id=gateway_id, 
+            conn_id=classic_conn_id, rr_id="", pf_id=prefix_filter_id)
+
+        #####################################################################
+        # Failure: DELETE Gateway Connection Prefix Filter with invalid ID: #
+        #####################################################################
+        with self.assertRaises(ApiException) as e:
+            self.tg.delete_transit_gateway_connection_prefix_filter(
+                transit_gateway_id=gateway_id, id=classic_conn_id, filter_id="invalid_id") 
+            self.assertEqual(e.exception.code, 404)
+
         #############################################
         # Success: DELETE Gateway Connections:
         #############################################
         # Delete GRE Connection
         assert self.delete_resource_test(gateway_id=gateway_id, 
-            conn_id=gre_conn_id, rr_id="")
+            conn_id=gre_conn_id, rr_id="", pf_id="")
 
         # Delete DL Connection
         assert self.delete_resource_test(gateway_id=gateway_id, 
-            conn_id=dl_conn_id, rr_id="")
+            conn_id=dl_conn_id, rr_id="", pf_id="")
 
         # Delete VPC Connection
         assert self.delete_resource_test(gateway_id=gateway_id, 
-            conn_id=vpc_conn_id, rr_id="")
+            conn_id=vpc_conn_id, rr_id="", pf_id="")
 
         # Delete CLASSIC Connection
         assert self.delete_resource_test(gateway_id=gateway_id, 
-            conn_id=classic_conn_id, rr_id="")
+            conn_id=classic_conn_id, rr_id="", pf_id="")
         
         #############################################
         # Success: DELETE Transit Gateway:
         #############################################
         assert self.delete_resource_test( 
-            gateway_id=gateway_id, conn_id="", rr_id="")
+            gateway_id=gateway_id, conn_id="", rr_id="", pf_id="")
 
 
 ###############################################################################
 #                           Test Helper Methods                               #
 ###############################################################################
 
-    # delete_resource_test deletes a Transit Gateway or Connection 
-    def delete_resource_test(self, gateway_id, conn_id, rr_id):        
+    # delete_resource_test deletes a Transit Gateway, Connection, route report and prefix filter 
+    def delete_resource_test(self, gateway_id, conn_id, rr_id, pf_id):        
         # Deletes resource depending on input:
         response = None
-        if conn_id != "" and rr_id == "":
+        if conn_id != "" and rr_id == "" and pf_id == "":
             response = self.tg.delete_transit_gateway_connection(
                 transit_gateway_id=gateway_id, id=conn_id)
 
         elif conn_id == "" and rr_id != "":
             response = self.tg.delete_transit_gateway_route_report(
                 transit_gateway_id=gateway_id, id=rr_id)  
+        elif pf_id != "" :
+            response = self.tg.delete_transit_gateway_connection_prefix_filter(
+                transit_gateway_id=gateway_id, id=conn_id, filter_id=pf_id) 
         else:
             response = self.tg.delete_transit_gateway(id=gateway_id)
         
@@ -753,6 +907,9 @@ class TestTransitGatewayApisV1(unittest.TestCase):
                 elif conn_id == "" and rr_id != "":
                     response = self.tg.get_transit_gateway_route_report(
                     transit_gateway_id=gateway_id, id=rr_id) 
+                elif pf_id != "":
+                    response = self.tg.get_transit_gateway_connection_prefix_filter(
+                        transit_gateway_id=gateway_id, id=conn_id, filter_id=pf_id)
                 else:
                     response = self.tg.get_transit_gateway(id=gateway_id)
 
