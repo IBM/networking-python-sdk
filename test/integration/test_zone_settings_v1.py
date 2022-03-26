@@ -20,7 +20,7 @@ except:
 class TestZonesSettingsV1(unittest.TestCase):
     """ Sample function to call zones sdk functions """
 
-    # @unittest.skip("skipping")
+    @unittest.skip("Authentication failing")
 
     def setUp(self):
         """ test case setup """

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ class TestListConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -157,7 +157,7 @@ class TestListConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -188,7 +188,7 @@ class TestListConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -216,6 +216,571 @@ class TestListConnections():
 # endregion
 ##############################################################################
 # End of Service: TransitConnections
+##############################################################################
+
+##############################################################################
+# Start of Service: TransitGatewayConnectionPrefixFilters
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListTransitGatewayConnectionPrefixFilters():
+    """
+    Test Class for list_transit_gateway_connection_prefix_filters
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_transit_gateway_connection_prefix_filters_all_params(self):
+        """
+        list_transit_gateway_connection_prefix_filters()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.list_transit_gateway_connection_prefix_filters(
+            transit_gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_transit_gateway_connection_prefix_filters_all_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_connection_prefix_filters_all_params.
+        _service.enable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_all_params()
+
+        # Disable retries and run test_list_transit_gateway_connection_prefix_filters_all_params.
+        _service.disable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_all_params()
+
+    @responses.activate
+    def test_list_transit_gateway_connection_prefix_filters_value_error(self):
+        """
+        test_list_transit_gateway_connection_prefix_filters_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_transit_gateway_connection_prefix_filters(**req_copy)
+
+
+    def test_list_transit_gateway_connection_prefix_filters_value_error_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_connection_prefix_filters_value_error.
+        _service.enable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_value_error()
+
+        # Disable retries and run test_list_transit_gateway_connection_prefix_filters_value_error.
+        _service.disable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_value_error()
+
+class TestCreateTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for create_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        create_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        action = 'permit'
+        prefix = '192.168.100.0/24'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+
+        # Invoke method
+        response = _service.create_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            action,
+            prefix,
+            before=before,
+            ge=ge,
+            le=le,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['action'] == 'permit'
+        assert req_body['prefix'] == '192.168.100.0/24'
+        assert req_body['before'] == '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        assert req_body['ge'] == 0
+        assert req_body['le'] == 32
+
+    def test_create_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_create_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_create_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_create_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        action = 'permit'
+        prefix = '192.168.100.0/24'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "action": action,
+            "prefix": prefix,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_create_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_create_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_value_error()
+
+class TestDeleteTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for delete_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        delete_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            filter_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_delete_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_delete_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_delete_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "filter_id": filter_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_delete_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_delete_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_value_error()
+
+class TestGetTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for get_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        get_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Invoke method
+        response = _service.get_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            filter_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_get_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_get_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_get_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "filter_id": filter_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_get_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_get_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_value_error()
+
+class TestUpdateTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for update_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        update_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+        action = 'permit'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+        prefix = '192.168.100.0/24'
+
+        # Invoke method
+        response = _service.update_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            filter_id,
+            action=action,
+            before=before,
+            ge=ge,
+            le=le,
+            prefix=prefix,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['action'] == 'permit'
+        assert req_body['before'] == '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        assert req_body['ge'] == 0
+        assert req_body['le'] == 32
+        assert req_body['prefix'] == '192.168.100.0/24'
+
+    def test_update_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_update_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_update_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_update_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+        action = 'permit'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+        prefix = '192.168.100.0/24'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "filter_id": filter_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_update_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_update_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_value_error()
+
+# endregion
+##############################################################################
+# End of Service: TransitGatewayConnectionPrefixFilters
 ##############################################################################
 
 ##############################################################################
@@ -1251,7 +1816,7 @@ class TestListTransitGatewayConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1287,7 +1852,7 @@ class TestListTransitGatewayConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
+        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1339,12 +1904,19 @@ class TestCreateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
+
+        # Construct a dict representation of a TransitGatewayConnectionPrefixFilter model
+        transit_gateway_connection_prefix_filter_model = {}
+        transit_gateway_connection_prefix_filter_model['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_model['ge'] = 0
+        transit_gateway_connection_prefix_filter_model['le'] = 32
+        transit_gateway_connection_prefix_filter_model['prefix'] = '192.168.100.0/24'
 
         # Construct a dict representation of a ZoneIdentityByName model
         zone_identity_model = {}
@@ -1359,6 +1931,8 @@ class TestCreateTransitGatewayConnection():
         name = 'Transit_Service_BWTN_SJ_DL'
         network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        prefix_filters = [transit_gateway_connection_prefix_filter_model]
+        prefix_filters_default = 'permit'
         remote_bgp_asn = '65010'
         remote_gateway_ip = '10.242.63.12'
         remote_tunnel_ip = '192.168.129.1'
@@ -1374,6 +1948,8 @@ class TestCreateTransitGatewayConnection():
             name=name,
             network_account_id=network_account_id,
             network_id=network_id,
+            prefix_filters=prefix_filters,
+            prefix_filters_default=prefix_filters_default,
             remote_bgp_asn=remote_bgp_asn,
             remote_gateway_ip=remote_gateway_ip,
             remote_tunnel_ip=remote_tunnel_ip,
@@ -1393,6 +1969,8 @@ class TestCreateTransitGatewayConnection():
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
         assert req_body['network_account_id'] == '28e4d90ac7504be694471ee66e70d0d5'
         assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        assert req_body['prefix_filters'] == [transit_gateway_connection_prefix_filter_model]
+        assert req_body['prefix_filters_default'] == 'permit'
         assert req_body['remote_bgp_asn'] == '65010'
         assert req_body['remote_gateway_ip'] == '10.242.63.12'
         assert req_body['remote_tunnel_ip'] == '192.168.129.1'
@@ -1414,12 +1992,19 @@ class TestCreateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
+
+        # Construct a dict representation of a TransitGatewayConnectionPrefixFilter model
+        transit_gateway_connection_prefix_filter_model = {}
+        transit_gateway_connection_prefix_filter_model['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_model['ge'] = 0
+        transit_gateway_connection_prefix_filter_model['le'] = 32
+        transit_gateway_connection_prefix_filter_model['prefix'] = '192.168.100.0/24'
 
         # Construct a dict representation of a ZoneIdentityByName model
         zone_identity_model = {}
@@ -1434,6 +2019,8 @@ class TestCreateTransitGatewayConnection():
         name = 'Transit_Service_BWTN_SJ_DL'
         network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        prefix_filters = [transit_gateway_connection_prefix_filter_model]
+        prefix_filters_default = 'permit'
         remote_bgp_asn = '65010'
         remote_gateway_ip = '10.242.63.12'
         remote_tunnel_ip = '192.168.129.1'
@@ -1568,7 +2155,7 @@ class TestGetTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1606,7 +2193,7 @@ class TestGetTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1660,7 +2247,7 @@ class TestUpdateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -1671,12 +2258,14 @@ class TestUpdateTransitGatewayConnection():
         transit_gateway_id = 'testString'
         id = 'testString'
         name = 'Transit_Service_BWTN_SJ_DL'
+        prefix_filters_default = 'permit'
 
         # Invoke method
         response = _service.update_transit_gateway_connection(
             transit_gateway_id,
             id,
             name=name,
+            prefix_filters_default=prefix_filters_default,
             headers={}
         )
 
@@ -1686,6 +2275,7 @@ class TestUpdateTransitGatewayConnection():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
+        assert req_body['prefix_filters_default'] == 'permit'
 
     def test_update_transit_gateway_connection_all_params_with_retries(self):
         # Enable retries and run test_update_transit_gateway_connection_all_params.
@@ -1703,7 +2293,7 @@ class TestUpdateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -1714,6 +2304,7 @@ class TestUpdateTransitGatewayConnection():
         transit_gateway_id = 'testString'
         id = 'testString'
         name = 'Transit_Service_BWTN_SJ_DL'
+        prefix_filters_default = 'permit'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -2058,6 +2649,83 @@ class TestGetGatewayLocation():
 # Start of Model Tests
 ##############################################################################
 # region
+class TestModel_PrefixFilterCollection():
+    """
+    Test Class for PrefixFilterCollection
+    """
+
+    def test_prefix_filter_collection_serialization(self):
+        """
+        Test serialization/deserialization for PrefixFilterCollection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        prefix_filter_cust_model = {} # PrefixFilterCust
+        prefix_filter_cust_model['action'] = 'permit'
+        prefix_filter_cust_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        prefix_filter_cust_model['created_at'] = "2019-01-01T12:00:00Z"
+        prefix_filter_cust_model['ge'] = 0
+        prefix_filter_cust_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        prefix_filter_cust_model['le'] = 32
+        prefix_filter_cust_model['prefix'] = '192.168.100.0/24'
+        prefix_filter_cust_model['updated_at'] = "2019-01-01T12:00:00Z"
+
+        # Construct a json representation of a PrefixFilterCollection model
+        prefix_filter_collection_model_json = {}
+        prefix_filter_collection_model_json['prefix_filters'] = [prefix_filter_cust_model]
+
+        # Construct a model instance of PrefixFilterCollection by calling from_dict on the json representation
+        prefix_filter_collection_model = PrefixFilterCollection.from_dict(prefix_filter_collection_model_json)
+        assert prefix_filter_collection_model != False
+
+        # Construct a model instance of PrefixFilterCollection by calling from_dict on the json representation
+        prefix_filter_collection_model_dict = PrefixFilterCollection.from_dict(prefix_filter_collection_model_json).__dict__
+        prefix_filter_collection_model2 = PrefixFilterCollection(**prefix_filter_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert prefix_filter_collection_model == prefix_filter_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        prefix_filter_collection_model_json2 = prefix_filter_collection_model.to_dict()
+        assert prefix_filter_collection_model_json2 == prefix_filter_collection_model_json
+
+class TestModel_PrefixFilterCust():
+    """
+    Test Class for PrefixFilterCust
+    """
+
+    def test_prefix_filter_cust_serialization(self):
+        """
+        Test serialization/deserialization for PrefixFilterCust
+        """
+
+        # Construct a json representation of a PrefixFilterCust model
+        prefix_filter_cust_model_json = {}
+        prefix_filter_cust_model_json['action'] = 'permit'
+        prefix_filter_cust_model_json['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        prefix_filter_cust_model_json['created_at'] = "2019-01-01T12:00:00Z"
+        prefix_filter_cust_model_json['ge'] = 0
+        prefix_filter_cust_model_json['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        prefix_filter_cust_model_json['le'] = 32
+        prefix_filter_cust_model_json['prefix'] = '192.168.100.0/24'
+        prefix_filter_cust_model_json['updated_at'] = "2019-01-01T12:00:00Z"
+
+        # Construct a model instance of PrefixFilterCust by calling from_dict on the json representation
+        prefix_filter_cust_model = PrefixFilterCust.from_dict(prefix_filter_cust_model_json)
+        assert prefix_filter_cust_model != False
+
+        # Construct a model instance of PrefixFilterCust by calling from_dict on the json representation
+        prefix_filter_cust_model_dict = PrefixFilterCust.from_dict(prefix_filter_cust_model_json).__dict__
+        prefix_filter_cust_model2 = PrefixFilterCust(**prefix_filter_cust_model_dict)
+
+        # Verify the model instances are equivalent
+        assert prefix_filter_cust_model == prefix_filter_cust_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        prefix_filter_cust_model_json2 = prefix_filter_cust_model.to_dict()
+        assert prefix_filter_cust_model_json2 == prefix_filter_cust_model_json
+
 class TestModel_ResourceGroupIdentity():
     """
     Test Class for ResourceGroupIdentity
@@ -2557,6 +3225,16 @@ class TestModel_TransitConnection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        transit_gateway_connection_prefix_filter_reference_model = {} # TransitGatewayConnectionPrefixFilterReference
+        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        transit_gateway_connection_prefix_filter_reference_model['created_at'] = "2019-01-01T12:00:00Z"
+        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
+        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
+        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
+        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = "2019-01-01T12:00:00Z"
+
         transit_gateway_reference_model = {} # TransitGatewayReference
         transit_gateway_reference_model['crn'] = 'crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44'
         transit_gateway_reference_model['id'] = '456f58c1-afe7-123a-0a0a-7f3d720f1a44'
@@ -2578,6 +3256,8 @@ class TestModel_TransitConnection():
         transit_connection_model_json['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
         transit_connection_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_connection_model_json['network_type'] = 'vpc'
+        transit_connection_model_json['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
+        transit_connection_model_json['prefix_filters_default'] = 'permit'
         transit_connection_model_json['remote_bgp_asn'] = 65010
         transit_connection_model_json['remote_gateway_ip'] = '10.242.63.12'
         transit_connection_model_json['remote_tunnel_ip'] = '192.168.129.1'
@@ -2614,6 +3294,16 @@ class TestModel_TransitConnectionCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        transit_gateway_connection_prefix_filter_reference_model = {} # TransitGatewayConnectionPrefixFilterReference
+        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        transit_gateway_connection_prefix_filter_reference_model['created_at'] = "2019-01-01T12:00:00Z"
+        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
+        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
+        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
+        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = "2019-01-01T12:00:00Z"
+
         transit_gateway_reference_model = {} # TransitGatewayReference
         transit_gateway_reference_model['crn'] = 'crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44'
         transit_gateway_reference_model['id'] = '456f58c1-afe7-123a-0a0a-7f3d720f1a44'
@@ -2634,6 +3324,8 @@ class TestModel_TransitConnectionCollection():
         transit_connection_model['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
         transit_connection_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_connection_model['network_type'] = 'vpc'
+        transit_connection_model['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
+        transit_connection_model['prefix_filters_default'] = 'permit'
         transit_connection_model['remote_bgp_asn'] = 65010
         transit_connection_model['remote_gateway_ip'] = '10.242.63.12'
         transit_connection_model['remote_tunnel_ip'] = '192.168.129.1'
@@ -2901,6 +3593,16 @@ class TestModel_TransitGatewayConnectionCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        transit_gateway_connection_prefix_filter_reference_model = {} # TransitGatewayConnectionPrefixFilterReference
+        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        transit_gateway_connection_prefix_filter_reference_model['created_at'] = "2019-01-01T12:00:00Z"
+        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
+        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
+        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
+        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = "2019-01-01T12:00:00Z"
+
         transit_gateway_connection_cust_zone_model = {} # TransitGatewayConnectionCustZone
         transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
 
@@ -2916,6 +3618,8 @@ class TestModel_TransitGatewayConnectionCollection():
         transit_gateway_connection_cust_model['local_tunnel_ip'] = '192.168.129.2'
         transit_gateway_connection_cust_model['mtu'] = 9000
         transit_gateway_connection_cust_model['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_gateway_connection_cust_model['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
+        transit_gateway_connection_cust_model['prefix_filters_default'] = 'permit'
         transit_gateway_connection_cust_model['remote_bgp_asn'] = 65010
         transit_gateway_connection_cust_model['remote_gateway_ip'] = '10.242.63.12'
         transit_gateway_connection_cust_model['remote_tunnel_ip'] = '192.168.129.1'
@@ -2955,6 +3659,16 @@ class TestModel_TransitGatewayConnectionCust():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        transit_gateway_connection_prefix_filter_reference_model = {} # TransitGatewayConnectionPrefixFilterReference
+        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        transit_gateway_connection_prefix_filter_reference_model['created_at'] = "2019-01-01T12:00:00Z"
+        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
+        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
+        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
+        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = "2019-01-01T12:00:00Z"
+
         transit_gateway_connection_cust_zone_model = {} # TransitGatewayConnectionCustZone
         transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
 
@@ -2971,6 +3685,8 @@ class TestModel_TransitGatewayConnectionCust():
         transit_gateway_connection_cust_model_json['local_tunnel_ip'] = '192.168.129.2'
         transit_gateway_connection_cust_model_json['mtu'] = 9000
         transit_gateway_connection_cust_model_json['network_account_id'] = '28e4d90ac7504be694471ee66e70d0d5'
+        transit_gateway_connection_cust_model_json['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
+        transit_gateway_connection_cust_model_json['prefix_filters_default'] = 'permit'
         transit_gateway_connection_cust_model_json['remote_bgp_asn'] = 65010
         transit_gateway_connection_cust_model_json['remote_gateway_ip'] = '10.242.63.12'
         transit_gateway_connection_cust_model_json['remote_tunnel_ip'] = '192.168.129.1'
@@ -3022,6 +3738,74 @@ class TestModel_TransitGatewayConnectionCustZone():
         # Convert model instance back to dict and verify no loss of data
         transit_gateway_connection_cust_zone_model_json2 = transit_gateway_connection_cust_zone_model.to_dict()
         assert transit_gateway_connection_cust_zone_model_json2 == transit_gateway_connection_cust_zone_model_json
+
+class TestModel_TransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for TransitGatewayConnectionPrefixFilter
+    """
+
+    def test_transit_gateway_connection_prefix_filter_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayConnectionPrefixFilter
+        """
+
+        # Construct a json representation of a TransitGatewayConnectionPrefixFilter model
+        transit_gateway_connection_prefix_filter_model_json = {}
+        transit_gateway_connection_prefix_filter_model_json['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_model_json['ge'] = 0
+        transit_gateway_connection_prefix_filter_model_json['le'] = 32
+        transit_gateway_connection_prefix_filter_model_json['prefix'] = '192.168.100.0/24'
+
+        # Construct a model instance of TransitGatewayConnectionPrefixFilter by calling from_dict on the json representation
+        transit_gateway_connection_prefix_filter_model = TransitGatewayConnectionPrefixFilter.from_dict(transit_gateway_connection_prefix_filter_model_json)
+        assert transit_gateway_connection_prefix_filter_model != False
+
+        # Construct a model instance of TransitGatewayConnectionPrefixFilter by calling from_dict on the json representation
+        transit_gateway_connection_prefix_filter_model_dict = TransitGatewayConnectionPrefixFilter.from_dict(transit_gateway_connection_prefix_filter_model_json).__dict__
+        transit_gateway_connection_prefix_filter_model2 = TransitGatewayConnectionPrefixFilter(**transit_gateway_connection_prefix_filter_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_gateway_connection_prefix_filter_model == transit_gateway_connection_prefix_filter_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_gateway_connection_prefix_filter_model_json2 = transit_gateway_connection_prefix_filter_model.to_dict()
+        assert transit_gateway_connection_prefix_filter_model_json2 == transit_gateway_connection_prefix_filter_model_json
+
+class TestModel_TransitGatewayConnectionPrefixFilterReference():
+    """
+    Test Class for TransitGatewayConnectionPrefixFilterReference
+    """
+
+    def test_transit_gateway_connection_prefix_filter_reference_serialization(self):
+        """
+        Test serialization/deserialization for TransitGatewayConnectionPrefixFilterReference
+        """
+
+        # Construct a json representation of a TransitGatewayConnectionPrefixFilterReference model
+        transit_gateway_connection_prefix_filter_reference_model_json = {}
+        transit_gateway_connection_prefix_filter_reference_model_json['action'] = 'permit'
+        transit_gateway_connection_prefix_filter_reference_model_json['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        transit_gateway_connection_prefix_filter_reference_model_json['created_at'] = "2019-01-01T12:00:00Z"
+        transit_gateway_connection_prefix_filter_reference_model_json['ge'] = 0
+        transit_gateway_connection_prefix_filter_reference_model_json['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
+        transit_gateway_connection_prefix_filter_reference_model_json['le'] = 32
+        transit_gateway_connection_prefix_filter_reference_model_json['prefix'] = '192.168.100.0/24'
+        transit_gateway_connection_prefix_filter_reference_model_json['updated_at'] = "2019-01-01T12:00:00Z"
+
+        # Construct a model instance of TransitGatewayConnectionPrefixFilterReference by calling from_dict on the json representation
+        transit_gateway_connection_prefix_filter_reference_model = TransitGatewayConnectionPrefixFilterReference.from_dict(transit_gateway_connection_prefix_filter_reference_model_json)
+        assert transit_gateway_connection_prefix_filter_reference_model != False
+
+        # Construct a model instance of TransitGatewayConnectionPrefixFilterReference by calling from_dict on the json representation
+        transit_gateway_connection_prefix_filter_reference_model_dict = TransitGatewayConnectionPrefixFilterReference.from_dict(transit_gateway_connection_prefix_filter_reference_model_json).__dict__
+        transit_gateway_connection_prefix_filter_reference_model2 = TransitGatewayConnectionPrefixFilterReference(**transit_gateway_connection_prefix_filter_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert transit_gateway_connection_prefix_filter_reference_model == transit_gateway_connection_prefix_filter_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        transit_gateway_connection_prefix_filter_reference_model_json2 = transit_gateway_connection_prefix_filter_reference_model.to_dict()
+        assert transit_gateway_connection_prefix_filter_reference_model_json2 == transit_gateway_connection_prefix_filter_reference_model_json
 
 class TestModel_TransitGatewayReference():
     """
