@@ -1,3 +1,10 @@
+# [0.17.0](https://github.com/IBM/networking-python-sdk/compare/v0.16.0...v0.17.0) (2022-03-26)
+
+
+### Features
+
+* Added Prefix-Filters API functionality with Integration Tests to Transit Python-SDK.  ([#56](https://github.com/IBM/networking-python-sdk/issues/56)) ([05af86e](https://github.com/IBM/networking-python-sdk/commit/05af86e22708c928b20142ecc40a7da1d0d7dd48))
+
 # [0.16.0](https://github.com/IBM/networking-python-sdk/compare/v0.15.0...v0.16.0) (2022-02-03)
 
 
