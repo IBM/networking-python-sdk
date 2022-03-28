@@ -1,3 +1,10 @@
+## [0.17.1](https://github.com/IBM/networking-python-sdk/compare/v0.17.0...v0.17.1) (2022-03-28)
+
+
+### Bug Fixes
+
+* release upload errors ([#58](https://github.com/IBM/networking-python-sdk/issues/58)) ([221dc9a](https://github.com/IBM/networking-python-sdk/commit/221dc9ac064406ebd5d7cc4ca8f18a0ec855ba2f))
+
 # [0.17.0](https://github.com/IBM/networking-python-sdk/compare/v0.16.0...v0.17.0) (2022-03-26)
 
 
