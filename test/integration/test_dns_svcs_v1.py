@@ -10,7 +10,7 @@ import unittest
 from ibm_cloud_networking_services.dns_svcs_v1 import DnsSvcsV1
 from dotenv import load_dotenv, find_dotenv
 
-configFile = "dns.env"
+configFile = "pdns.env"
 # load the .env file containing your environment variables
 try:
     load_dotenv(find_dotenv(filename=configFile))
