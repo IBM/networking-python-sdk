@@ -19,14 +19,11 @@ except:
 
 class TestDNSSvcsV1(unittest.TestCase):
     """The DNS V1 service test class."""
-    
-    @unittest.skip("skipping failing test")
-    
+    # @unittest.skip("skipping")  
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
-            raise unittest.SkipTest(
-                'External configuration not available, skipping...')
+            raise unittest.SkipTest('External configuration not available, skipping...')
         self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
         # create zone class object
         self.zone = DnsSvcsV1.new_instance(service_name="dns_svcs")
@@ -186,9 +183,7 @@ class TestDNSSvcsV1(unittest.TestCase):
 
 class TestResourceRecordsV1(unittest.TestCase):
     """The Resourse records V1 service test class."""
-    
-    @unittest.skip("skipping failing test")
-
+    # @unittest.skip("skipping")
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -703,9 +698,7 @@ class TestResourceRecordsV1(unittest.TestCase):
             self.assertEqual(val.exception.msg, 'instance_id must be provided')
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
     """The Permitted Networks for DNS V1 service test class."""
-    
-    @unittest.skip("skipping failing test")
-
+    # @unittest.skip("skipping")
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -829,9 +822,7 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
     
     """The Global Load Balancers for DNS V1 service test class."""
-    
-    @unittest.skip("skipping failing test")
-   
+    # @unittest.skip("skipping")
     def setUp(self):
         """ test case setup """
 
@@ -1092,8 +1083,7 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
 
 class TestCustomResolversV1(unittest.TestCase):
     """Custom Resolvers for DNS V1 service test class."""
-    
-    @unittest.skip("skipping failing test")
+
     
     def setUp(self):
         """ test case setup """
@@ -1126,11 +1116,16 @@ class TestCustomResolversV1(unittest.TestCase):
 
         name = 'testcustomresolvers'
         description = "Creating Custom Resolvers"
+        location_input_model = {}
+        location_input_model['subnet_crn'] = self.subnet_crn_location
+        location_input_model['enabled'] = False
         resp = self.cr.create_custom_resolver(instance_id=self.instance_id, name=name,
-                                              description=description)
+                                              locations = [location_input_model],description=description)
+
         assert resp is not None
         assert resp.status_code == 200
         resolver_id = resp.get_result().get("id")
+        locations = resp.get_result().get("locations")
 
         # Get Custom Resolver
         resp = self.cr.get_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id)
@@ -1142,6 +1137,14 @@ class TestCustomResolversV1(unittest.TestCase):
         description = "Updating Custom Resolvers"
         resp = self.cr.update_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id, 
                                               name=name, description=description)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Update location order of Custom Resolver
+        name = 'updatecustomresolvers'
+        description = "Updating location order of Custom Resolvers"
+        resp = self.cr.update_cr_locations_order(instance_id=self.instance_id, resolver_id=resolver_id, 
+                                              locations=[locations[0]['id']], name=name, description=description)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1212,7 +1215,7 @@ class TestCustomResolversV1(unittest.TestCase):
         resp = self.cr.delete_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id)
         assert resp is not None
         assert resp.status_code == 204
-
+        
 
 if __name__ == '__main__':
     unittest.main()

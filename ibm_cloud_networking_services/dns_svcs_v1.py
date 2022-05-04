@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,10 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.29.1-b338fb38-20210313-010605
+# IBM OpenAPI SDK Code Generator Version: 3.47.1-be944570-20220406-170244
  
 """
 DNS Services API
+
+API Version: 1.0.0
 """
 
 from datetime import datetime
@@ -64,7 +66,7 @@ class DnsSvcsV1(BaseService):
         Construct a new client for the DNS Svcs service.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         BaseService.__init__(self,
@@ -92,10 +94,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param int offset: (optional) Specify how many resource records to skip
-               over, the default value is 0.
-        :param int limit: (optional) Specify how many resource records are
-               returned, the default value is 200.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListDnszones` object
@@ -129,7 +130,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -190,7 +191,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -237,7 +238,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -285,7 +286,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -347,7 +348,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -372,10 +373,9 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param int offset: (optional) Specify how many resource records to skip
-               over, the default value is 0.
-        :param int limit: (optional) Specify how many resource records are
-               returned, the default value is 200.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListResourceRecords` object
@@ -411,7 +411,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -487,7 +487,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -538,7 +538,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -590,7 +590,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -667,7 +667,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -715,7 +715,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -729,7 +729,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Import resource records from a zone file.
+        Import resource records from a zone file. The maximum size of a zone file is 8MB.
 
         Import resource records from a zone file.
 
@@ -772,7 +772,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -785,8 +785,6 @@ class DnsSvcsV1(BaseService):
         dnszone_id: str,
         *,
         x_correlation_id: str = None,
-        offset: int = None,
-        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -797,10 +795,6 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param int offset: (optional) Specify how many resource records to skip
-               over, the default value is 0.
-        :param int limit: (optional) Specify how many resource records are
-               returned, the default value is 200.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListPermittedNetworks` object
@@ -818,11 +812,6 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_permitted_networks')
         headers.update(sdk_headers)
 
-        params = {
-            'offset': offset,
-            'limit': limit
-        }
-
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -833,10 +822,9 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers,
-                                       params=params)
+                                       headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -900,7 +888,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -953,7 +941,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1006,7 +994,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1019,6 +1007,8 @@ class DnsSvcsV1(BaseService):
         dnszone_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -1029,6 +1019,9 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListLoadBalancers` object
@@ -1046,6 +1039,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_load_balancers')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -1056,9 +1054,10 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1140,7 +1139,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1191,7 +1190,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1243,7 +1242,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1329,7 +1328,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1341,6 +1340,8 @@ class DnsSvcsV1(BaseService):
         instance_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -1350,6 +1351,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListPools` object
@@ -1365,6 +1369,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_pools')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -1375,9 +1384,10 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/pools'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1464,7 +1474,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1511,7 +1521,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1559,7 +1569,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1650,7 +1660,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1662,6 +1672,8 @@ class DnsSvcsV1(BaseService):
         instance_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -1671,6 +1683,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListMonitors` object
@@ -1686,6 +1701,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_monitors')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -1696,9 +1716,10 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/monitors'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1811,7 +1832,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1858,7 +1879,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1906,7 +1927,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2023,7 +2044,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2071,7 +2092,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2134,7 +2155,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2181,7 +2202,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2229,7 +2250,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2244,7 +2265,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a custom resolver.
+        Update a custom resolver.
 
         Update the properties of a custom resolver.
 
@@ -2293,7 +2314,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2352,7 +2373,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2417,7 +2438,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2482,7 +2503,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2533,7 +2554,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2585,7 +2606,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2653,7 +2674,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2672,7 +2693,7 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str resolver_id: The unique identifier of a custom resolver.
-        :param str rule_id: The unique identifier of a forwarding rule.
+        :param str rule_id: The unique identifier of a rule.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -2704,7 +2725,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2723,7 +2744,7 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str resolver_id: The unique identifier of a custom resolver.
-        :param str rule_id: The unique identifier of a forwarding rule.
+        :param str rule_id: The unique identifier of a rule.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -2756,7 +2777,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2772,13 +2793,13 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Update the properties of a forwarding rule.
+        Update a forwarding rule.
 
         Update the properties of a forwarding rule on the given custom resolver.
 
         :param str instance_id: The unique identifier of a service instance.
         :param str resolver_id: The unique identifier of a custom resolver.
-        :param str rule_id: The unique identifier of a forwarding rule.
+        :param str rule_id: The unique identifier of a rule.
         :param str description: (optional) Descriptive text of the forwarding rule.
         :param str match: (optional) The matching zone or hostname.
         :param List[str] forward_to: (optional) The upstream DNS servers will be
@@ -2825,7 +2846,991 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Secondary Zones
+    #########################
+
+
+    def create_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        zone: str = None,
+        transfer_from: List['SecondaryZoneSourceInputItem'] = None,
+        description: str = None,
+        enabled: bool = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create a secondary zone.
+
+        Create a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str zone: (optional) zone name.
+        :param List[SecondaryZoneSourceInputItem] transfer_from: (optional) The
+               source configuration of secondary zone input.
+        :param str description: (optional) Descriptive text of the secondary zone.
+        :param bool enabled: (optional) Enable/Disable the secondary zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if transfer_from is not None:
+            transfer_from = [convert_model(x) for x in transfer_from]
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_secondary_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'zone': zone,
+            'transfer_from': transfer_from,
+            'description': description,
+            'enabled': enabled
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def list_secondary_zones(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List secondary zones.
+
+        List secondary zones for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZoneList` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_secondary_zones')
+        headers.update(sdk_headers)
+
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        sz_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get a secondary zone.
+
+        Get details of a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str sz_id: The unique identifier of a secondary zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if sz_id is None:
+            raise ValueError('sz_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_secondary_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'sz_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, sz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def update_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        sz_id: str,
+        *,
+        description: str = None,
+        enabled: bool = None,
+        transfer_from: List['SecondaryZoneSourceInputItem'] = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update a secondary zone.
+
+        Update a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str sz_id: The unique identifier of a secondary zone.
+        :param str description: (optional) Descriptive text of the secondary zone.
+        :param bool enabled: (optional) Enable/Disable the secondary zone.
+        :param List[SecondaryZoneSourceInputItem] transfer_from: (optional) The
+               source configuration of secondary zone input.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if sz_id is None:
+            raise ValueError('sz_id must be provided')
+        if transfer_from is not None:
+            transfer_from = [convert_model(x) for x in transfer_from]
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_secondary_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'description': description,
+            'enabled': enabled,
+            'transfer_from': transfer_from
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'sz_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, sz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def delete_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        sz_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete a secondary zone.
+
+        Delete a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str sz_id: The unique identifier of a secondary zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if sz_id is None:
+            raise ValueError('sz_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_secondary_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['instance_id', 'resolver_id', 'sz_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, sz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{sz_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Linked Zones
+    #########################
+
+
+    def list_linked_zones(self,
+        instance_id: str,
+        *,
+        x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List linked zones.
+
+        List linked zones in requestor's instance.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LinkedZonesList` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_linked_zones')
+        headers.update(sdk_headers)
+
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def create_linked_zone(self,
+        instance_id: str,
+        *,
+        owner_instance_id: str = None,
+        owner_zone_id: str = None,
+        description: str = None,
+        label: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create a linked zone.
+
+        Create a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str owner_instance_id: (optional) Owner's instance ID.
+        :param str owner_zone_id: (optional) Owner's DNS zone ID.
+        :param str description: (optional) Descriptive text of the linked zone.
+        :param str label: (optional) The label of linked zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LinkedZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_linked_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'owner_instance_id': owner_instance_id,
+            'owner_zone_id': owner_zone_id,
+            'description': description,
+            'label': label
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id']
+        path_param_values = self.encode_path_vars(instance_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_linked_zone(self,
+        instance_id: str,
+        lz_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get a linked zone.
+
+        Get details of a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LinkedZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_linked_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'lz_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def update_linked_zone(self,
+        instance_id: str,
+        lz_id: str,
+        *,
+        description: str = None,
+        label: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update the properties of a linked zone.
+
+        Update the properties of a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str description: (optional) Descriptive text of the linked zone.
+        :param str label: (optional) The label of linked zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `LinkedZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_linked_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'description': description,
+            'label': label
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'lz_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def delete_linked_zone(self,
+        instance_id: str,
+        lz_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete a linked zone.
+
+        Delete a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_linked_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['instance_id', 'lz_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Access Requests
+    #########################
+
+
+    def list_dnszone_access_requests(self,
+        instance_id: str,
+        dnszone_id: str,
+        *,
+        x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List Access Requests.
+
+        List access requests in owner's instance.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str dnszone_id: The unique identifier of a DNS zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AccessRequestsList` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if dnszone_id is None:
+            raise ValueError('dnszone_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_dnszone_access_requests')
+        headers.update(sdk_headers)
+
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'dnszone_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_dnszone_access_request(self,
+        instance_id: str,
+        dnszone_id: str,
+        request_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get an access request.
+
+        Get details of an access request.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str dnszone_id: The unique identifier of a DNS zone.
+        :param str request_id: The unique identifier of an access request.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AccessRequest` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if dnszone_id is None:
+            raise ValueError('dnszone_id must be provided')
+        if request_id is None:
+            raise ValueError('request_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_dnszone_access_request')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'dnszone_id', 'request_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, request_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def update_dnszone_access_request(self,
+        instance_id: str,
+        dnszone_id: str,
+        request_id: str,
+        *,
+        action: str = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update an access request.
+
+        Update the state of an access request.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str dnszone_id: The unique identifier of a DNS zone.
+        :param str request_id: The unique identifier of an access request.
+        :param str action: (optional) The action applies to the access request.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AccessRequest` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if dnszone_id is None:
+            raise ValueError('dnszone_id must be provided')
+        if request_id is None:
+            raise ValueError('request_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_dnszone_access_request')
+        headers.update(sdk_headers)
+
+        data = {
+            'action': action
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'dnszone_id', 'request_id']
+        path_param_values = self.encode_path_vars(instance_id, dnszone_id, request_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/dnszones/{dnszone_id}/access_requests/{request_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
+    # Permitted Network for Linked Zone
+    #########################
+
+
+    def list_linked_permitted_networks(self,
+        instance_id: str,
+        lz_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List permitted networks.
+
+        List the permitted networks for a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListPermittedNetworks` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_linked_permitted_networks')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'lz_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def create_lz_permitted_network(self,
+        instance_id: str,
+        lz_id: str,
+        *,
+        type: str = None,
+        permitted_network: 'PermittedNetworkVpc' = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create a permitted network.
+
+        Create a permitted network for a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str type: (optional) The type of a permitted network.
+        :param PermittedNetworkVpc permitted_network: (optional) Permitted network
+               data for VPC.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `PermittedNetwork` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        if permitted_network is not None:
+            permitted_network = convert_model(permitted_network)
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_lz_permitted_network')
+        headers.update(sdk_headers)
+
+        data = {
+            'type': type,
+            'permitted_network': permitted_network
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'lz_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def delete_lz_permitted_network(self,
+        instance_id: str,
+        lz_id: str,
+        permitted_network_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Remove a permitted network.
+
+        Remove a permitted network from a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str permitted_network_id: The unique identifier of a permitted
+               network.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `PermittedNetwork` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        if permitted_network_id is None:
+            raise ValueError('permitted_network_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_lz_permitted_network')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'lz_id', 'permitted_network_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id, permitted_network_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_linked_permitted_network(self,
+        instance_id: str,
+        lz_id: str,
+        permitted_network_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get a permitted network.
+
+        Get a permitted network of a linked zone.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str lz_id: The unique identifier of a linked zone.
+        :param str permitted_network_id: The unique identifier of a permitted
+               network.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `PermittedNetwork` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if lz_id is None:
+            raise ValueError('lz_id must be provided')
+        if permitted_network_id is None:
+            raise ValueError('permitted_network_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_linked_permitted_network')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'lz_id', 'permitted_network_id']
+        path_param_values = self.encode_path_vars(instance_id, lz_id, permitted_network_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2833,6 +3838,124 @@ class DnsSvcsV1(BaseService):
 # Models
 ##############################################################################
 
+
+class AccessRequestRequestor():
+    """
+    The information of requestor.
+
+    :attr str account: (optional) The account of requestor.
+    """
+
+    def __init__(self,
+                 *,
+                 account: str = None) -> None:
+        """
+        Initialize a AccessRequestRequestor object.
+
+        :param str account: (optional) The account of requestor.
+        """
+        self.account = account
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AccessRequestRequestor':
+        """Initialize a AccessRequestRequestor object from a json dictionary."""
+        args = {}
+        if 'account' in _dict:
+            args['account'] = _dict.get('account')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AccessRequestRequestor object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'account') and self.account is not None:
+            _dict['account'] = self.account
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AccessRequestRequestor object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AccessRequestRequestor') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AccessRequestRequestor') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class LinkedZoneLinkedTo():
+    """
+    The owner's instance and zone that the zone is linked to.
+
+    :attr str instance_crn: (optional) The owner's instance CRN.
+    :attr str zone_id: (optional) The owner's DNS zone.
+    """
+
+    def __init__(self,
+                 *,
+                 instance_crn: str = None,
+                 zone_id: str = None) -> None:
+        """
+        Initialize a LinkedZoneLinkedTo object.
+
+        :param str instance_crn: (optional) The owner's instance CRN.
+        :param str zone_id: (optional) The owner's DNS zone.
+        """
+        self.instance_crn = instance_crn
+        self.zone_id = zone_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LinkedZoneLinkedTo':
+        """Initialize a LinkedZoneLinkedTo object from a json dictionary."""
+        args = {}
+        if 'instance_crn' in _dict:
+            args['instance_crn'] = _dict.get('instance_crn')
+        if 'zone_id' in _dict:
+            args['zone_id'] = _dict.get('zone_id')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LinkedZoneLinkedTo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'instance_crn') and self.instance_crn is not None:
+            _dict['instance_crn'] = self.instance_crn
+        if hasattr(self, 'zone_id') and self.zone_id is not None:
+            _dict['zone_id'] = self.zone_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LinkedZoneLinkedTo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LinkedZoneLinkedTo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LinkedZoneLinkedTo') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class LoadBalancerAzPoolsItem():
     """
@@ -3073,6 +4196,381 @@ class ResourceRecordUpdateInputRdata():
         msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
                   ", ".join(['ResourceRecordUpdateInputRdataRdataARecord', 'ResourceRecordUpdateInputRdataRdataAaaaRecord', 'ResourceRecordUpdateInputRdataRdataCnameRecord', 'ResourceRecordUpdateInputRdataRdataMxRecord', 'ResourceRecordUpdateInputRdataRdataSrvRecord', 'ResourceRecordUpdateInputRdataRdataTxtRecord', 'ResourceRecordUpdateInputRdataRdataPtrRecord']))
         raise Exception(msg)
+
+class SecondaryZoneSourceInputItem():
+    """
+    The source address of secondary zone.
+
+    :attr str address: (optional) The address of secondary zone.
+    """
+
+    def __init__(self,
+                 *,
+                 address: str = None) -> None:
+        """
+        Initialize a SecondaryZoneSourceInputItem object.
+
+        :param str address: (optional) The address of secondary zone.
+        """
+        self.address = address
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecondaryZoneSourceInputItem':
+        """Initialize a SecondaryZoneSourceInputItem object from a json dictionary."""
+        args = {}
+        if 'address' in _dict:
+            args['address'] = _dict.get('address')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecondaryZoneSourceInputItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'address') and self.address is not None:
+            _dict['address'] = self.address
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecondaryZoneSourceInputItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecondaryZoneSourceInputItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecondaryZoneSourceInputItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class SecondaryZoneTransferFromItem():
+    """
+    The source address of secondary zone.
+
+    :attr str address: (optional) The address of secondary zone.
+    :attr int port: (optional) The port number of secondary zone.
+    """
+
+    def __init__(self,
+                 *,
+                 address: str = None,
+                 port: int = None) -> None:
+        """
+        Initialize a SecondaryZoneTransferFromItem object.
+
+        :param str address: (optional) The address of secondary zone.
+        :param int port: (optional) The port number of secondary zone.
+        """
+        self.address = address
+        self.port = port
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecondaryZoneTransferFromItem':
+        """Initialize a SecondaryZoneTransferFromItem object from a json dictionary."""
+        args = {}
+        if 'address' in _dict:
+            args['address'] = _dict.get('address')
+        if 'port' in _dict:
+            args['port'] = _dict.get('port')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecondaryZoneTransferFromItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'address') and self.address is not None:
+            _dict['address'] = self.address
+        if hasattr(self, 'port') and self.port is not None:
+            _dict['port'] = self.port
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecondaryZoneTransferFromItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecondaryZoneTransferFromItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecondaryZoneTransferFromItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class AccessRequest():
+    """
+    Access request.
+
+    :attr str id: (optional) Access request ID.
+    :attr AccessRequestRequestor requestor: (optional) The information of requestor.
+    :attr str zone_id: (optional) The zone ID that requestor requests access for.
+    :attr str zone_name: (optional) The zone name that requestor requests access
+          for.
+    :attr str state: (optional) The state of the access request.
+    :attr str expires_at: (optional) The expired time of the access request.
+    :attr str created_on: (optional) The time when the linked zone is created.
+    :attr str modified_on: (optional) The recent time when the linked zone is
+          modified.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 requestor: 'AccessRequestRequestor' = None,
+                 zone_id: str = None,
+                 zone_name: str = None,
+                 state: str = None,
+                 expires_at: str = None,
+                 created_on: str = None,
+                 modified_on: str = None) -> None:
+        """
+        Initialize a AccessRequest object.
+
+        :param str id: (optional) Access request ID.
+        :param AccessRequestRequestor requestor: (optional) The information of
+               requestor.
+        :param str zone_id: (optional) The zone ID that requestor requests access
+               for.
+        :param str zone_name: (optional) The zone name that requestor requests
+               access for.
+        :param str state: (optional) The state of the access request.
+        :param str expires_at: (optional) The expired time of the access request.
+        :param str created_on: (optional) The time when the linked zone is created.
+        :param str modified_on: (optional) The recent time when the linked zone is
+               modified.
+        """
+        self.id = id
+        self.requestor = requestor
+        self.zone_id = zone_id
+        self.zone_name = zone_name
+        self.state = state
+        self.expires_at = expires_at
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AccessRequest':
+        """Initialize a AccessRequest object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'requestor' in _dict:
+            args['requestor'] = AccessRequestRequestor.from_dict(_dict.get('requestor'))
+        if 'zone_id' in _dict:
+            args['zone_id'] = _dict.get('zone_id')
+        if 'zone_name' in _dict:
+            args['zone_name'] = _dict.get('zone_name')
+        if 'state' in _dict:
+            args['state'] = _dict.get('state')
+        if 'expires_at' in _dict:
+            args['expires_at'] = _dict.get('expires_at')
+        if 'created_on' in _dict:
+            args['created_on'] = _dict.get('created_on')
+        if 'modified_on' in _dict:
+            args['modified_on'] = _dict.get('modified_on')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AccessRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'requestor') and self.requestor is not None:
+            _dict['requestor'] = self.requestor.to_dict()
+        if hasattr(self, 'zone_id') and self.zone_id is not None:
+            _dict['zone_id'] = self.zone_id
+        if hasattr(self, 'zone_name') and self.zone_name is not None:
+            _dict['zone_name'] = self.zone_name
+        if hasattr(self, 'state') and self.state is not None:
+            _dict['state'] = self.state
+        if hasattr(self, 'expires_at') and self.expires_at is not None:
+            _dict['expires_at'] = self.expires_at
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = self.created_on
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = self.modified_on
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AccessRequest object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AccessRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AccessRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StateEnum(str, Enum):
+        """
+        The state of the access request.
+        """
+        PENDING = 'PENDING'
+        APPROVED = 'APPROVED'
+        REJECTED = 'REJECTED'
+        REVOKED = 'REVOKED'
+        TIMEDOUT = 'TIMEDOUT'
+
+
+class AccessRequestsList():
+    """
+    The list of access requests.
+
+    :attr List[AccessRequest] access_requests: The list of access requests.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: (optional) href.
+    :attr PaginationRef last: (optional) href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
+    """
+
+    def __init__(self,
+                 access_requests: List['AccessRequest'],
+                 offset: int,
+                 limit: int,
+                 count: int,
+                 total_count: int,
+                 *,
+                 first: 'PaginationRef' = None,
+                 last: 'PaginationRef' = None,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
+        """
+        Initialize a AccessRequestsList object.
+
+        :param List[AccessRequest] access_requests: The list of access requests.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: (optional) href.
+        :param PaginationRef last: (optional) href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
+        """
+        self.access_requests = access_requests
+        self.offset = offset
+        self.limit = limit
+        self.count = count
+        self.total_count = total_count
+        self.first = first
+        self.last = last
+        self.previous = previous
+        self.next = next
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AccessRequestsList':
+        """Initialize a AccessRequestsList object from a json dictionary."""
+        args = {}
+        if 'access_requests' in _dict:
+            args['access_requests'] = [AccessRequest.from_dict(x) for x in _dict.get('access_requests')]
+        else:
+            raise ValueError('Required property \'access_requests\' not present in AccessRequestsList JSON')
+        if 'offset' in _dict:
+            args['offset'] = _dict.get('offset')
+        else:
+            raise ValueError('Required property \'offset\' not present in AccessRequestsList JSON')
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        else:
+            raise ValueError('Required property \'limit\' not present in AccessRequestsList JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in AccessRequestsList JSON')
+        if 'total_count' in _dict:
+            args['total_count'] = _dict.get('total_count')
+        else:
+            raise ValueError('Required property \'total_count\' not present in AccessRequestsList JSON')
+        if 'first' in _dict:
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AccessRequestsList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'access_requests') and self.access_requests is not None:
+            _dict['access_requests'] = [x.to_dict() for x in self.access_requests]
+        if hasattr(self, 'offset') and self.offset is not None:
+            _dict['offset'] = self.offset
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'total_count') and self.total_count is not None:
+            _dict['total_count'] = self.total_count
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
+        if hasattr(self, 'next') and self.next is not None:
+            _dict['next'] = self.next.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AccessRequestsList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AccessRequestsList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AccessRequestsList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class CustomResolver():
     """
@@ -3381,61 +4879,6 @@ class Dnszone():
         DELETED = 'deleted'
 
 
-class FirstHref():
-    """
-    href.
-
-    :attr str href: (optional) href.
-    """
-
-    def __init__(self,
-                 *,
-                 href: str = None) -> None:
-        """
-        Initialize a FirstHref object.
-
-        :param str href: (optional) href.
-        """
-        self.href = href
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'FirstHref':
-        """Initialize a FirstHref object from a json dictionary."""
-        args = {}
-        if 'href' in _dict:
-            args['href'] = _dict.get('href')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a FirstHref object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'href') and self.href is not None:
-            _dict['href'] = self.href
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this FirstHref object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'FirstHref') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'FirstHref') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
 class ForwardingRule():
     """
     forwarding rule details.
@@ -3555,9 +4998,10 @@ class ForwardingRule():
 
 class ForwardingRuleList():
     """
-    An array of forwarding rules.
+    List of forwarding rules.
 
-    :attr List[ForwardingRule] forwarding_rules: (optional)
+    :attr List[ForwardingRule] forwarding_rules: (optional) An array of forwarding
+          rules.
     """
 
     def __init__(self,
@@ -3566,7 +5010,8 @@ class ForwardingRuleList():
         """
         Initialize a ForwardingRuleList object.
 
-        :param List[ForwardingRule] forwarding_rules: (optional)
+        :param List[ForwardingRule] forwarding_rules: (optional) An array of
+               forwarding rules.
         """
         self.forwarding_rules = forwarding_rules
 
@@ -3794,45 +5239,327 @@ class ImportResourceRecordsResp():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+class LinkedZone():
+    """
+    linked zone details.
+
+    :attr str id: (optional) Identifier of the linked zone.
+    :attr str instance_id: (optional) Unique identifier of a service instance.
+    :attr str name: (optional) Name of owner's DNS zone.
+    :attr str description: (optional) Descriptive text of the linked zone.
+    :attr LinkedZoneLinkedTo linked_to: (optional) The owner's instance and zone
+          that the zone is linked to.
+    :attr str state: (optional) The state of linked zone.
+    :attr str label: (optional) The label of linked zone.
+    :attr str approval_required_before: (optional) The expired time of access
+          request that is created for the linked zone.
+    :attr str created_on: (optional) The time when the linked zone is created.
+    :attr str modified_on: (optional) The recent time when the linked zone is
+          modified.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 instance_id: str = None,
+                 name: str = None,
+                 description: str = None,
+                 linked_to: 'LinkedZoneLinkedTo' = None,
+                 state: str = None,
+                 label: str = None,
+                 approval_required_before: str = None,
+                 created_on: str = None,
+                 modified_on: str = None) -> None:
+        """
+        Initialize a LinkedZone object.
+
+        :param str id: (optional) Identifier of the linked zone.
+        :param str instance_id: (optional) Unique identifier of a service instance.
+        :param str name: (optional) Name of owner's DNS zone.
+        :param str description: (optional) Descriptive text of the linked zone.
+        :param LinkedZoneLinkedTo linked_to: (optional) The owner's instance and
+               zone that the zone is linked to.
+        :param str state: (optional) The state of linked zone.
+        :param str label: (optional) The label of linked zone.
+        :param str approval_required_before: (optional) The expired time of access
+               request that is created for the linked zone.
+        :param str created_on: (optional) The time when the linked zone is created.
+        :param str modified_on: (optional) The recent time when the linked zone is
+               modified.
+        """
+        self.id = id
+        self.instance_id = instance_id
+        self.name = name
+        self.description = description
+        self.linked_to = linked_to
+        self.state = state
+        self.label = label
+        self.approval_required_before = approval_required_before
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LinkedZone':
+        """Initialize a LinkedZone object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'instance_id' in _dict:
+            args['instance_id'] = _dict.get('instance_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'linked_to' in _dict:
+            args['linked_to'] = LinkedZoneLinkedTo.from_dict(_dict.get('linked_to'))
+        if 'state' in _dict:
+            args['state'] = _dict.get('state')
+        if 'label' in _dict:
+            args['label'] = _dict.get('label')
+        if 'approval_required_before' in _dict:
+            args['approval_required_before'] = _dict.get('approval_required_before')
+        if 'created_on' in _dict:
+            args['created_on'] = _dict.get('created_on')
+        if 'modified_on' in _dict:
+            args['modified_on'] = _dict.get('modified_on')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LinkedZone object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'instance_id') and self.instance_id is not None:
+            _dict['instance_id'] = self.instance_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'linked_to') and self.linked_to is not None:
+            _dict['linked_to'] = self.linked_to.to_dict()
+        if hasattr(self, 'state') and self.state is not None:
+            _dict['state'] = self.state
+        if hasattr(self, 'label') and self.label is not None:
+            _dict['label'] = self.label
+        if hasattr(self, 'approval_required_before') and self.approval_required_before is not None:
+            _dict['approval_required_before'] = self.approval_required_before
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = self.created_on
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = self.modified_on
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LinkedZone object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LinkedZone') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LinkedZone') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StateEnum(str, Enum):
+        """
+        The state of linked zone.
+        """
+        APPROVAL_PENDING = 'APPROVAL_PENDING'
+        PENDING_NETWORK_ADD = 'PENDING_NETWORK_ADD'
+        ACTIVE = 'ACTIVE'
+        APPROVAL_REJECTED = 'APPROVAL_REJECTED'
+        APPROVAL_TIMEDOUT = 'APPROVAL_TIMEDOUT'
+        APPROVAL_REVOKED = 'APPROVAL_REVOKED'
+
+
+class LinkedZonesList():
+    """
+    The list of linked zones.
+
+    :attr List[LinkedZone] linked_dnszones: The list of linked zones.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: (optional) href.
+    :attr PaginationRef last: (optional) href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
+    """
+
+    def __init__(self,
+                 linked_dnszones: List['LinkedZone'],
+                 offset: int,
+                 limit: int,
+                 count: int,
+                 total_count: int,
+                 *,
+                 first: 'PaginationRef' = None,
+                 last: 'PaginationRef' = None,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
+        """
+        Initialize a LinkedZonesList object.
+
+        :param List[LinkedZone] linked_dnszones: The list of linked zones.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: (optional) href.
+        :param PaginationRef last: (optional) href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
+        """
+        self.linked_dnszones = linked_dnszones
+        self.offset = offset
+        self.limit = limit
+        self.count = count
+        self.total_count = total_count
+        self.first = first
+        self.last = last
+        self.previous = previous
+        self.next = next
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LinkedZonesList':
+        """Initialize a LinkedZonesList object from a json dictionary."""
+        args = {}
+        if 'linked_dnszones' in _dict:
+            args['linked_dnszones'] = [LinkedZone.from_dict(x) for x in _dict.get('linked_dnszones')]
+        else:
+            raise ValueError('Required property \'linked_dnszones\' not present in LinkedZonesList JSON')
+        if 'offset' in _dict:
+            args['offset'] = _dict.get('offset')
+        else:
+            raise ValueError('Required property \'offset\' not present in LinkedZonesList JSON')
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        else:
+            raise ValueError('Required property \'limit\' not present in LinkedZonesList JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in LinkedZonesList JSON')
+        if 'total_count' in _dict:
+            args['total_count'] = _dict.get('total_count')
+        else:
+            raise ValueError('Required property \'total_count\' not present in LinkedZonesList JSON')
+        if 'first' in _dict:
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LinkedZonesList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'linked_dnszones') and self.linked_dnszones is not None:
+            _dict['linked_dnszones'] = [x.to_dict() for x in self.linked_dnszones]
+        if hasattr(self, 'offset') and self.offset is not None:
+            _dict['offset'] = self.offset
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'total_count') and self.total_count is not None:
+            _dict['total_count'] = self.total_count
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
+        if hasattr(self, 'next') and self.next is not None:
+            _dict['next'] = self.next.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LinkedZonesList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LinkedZonesList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LinkedZonesList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class ListDnszones():
     """
     List DNS zones response.
 
     :attr List[Dnszone] dnszones: An array of DNS zones.
-    :attr int offset: Specify how many DNS zones to skip over, the default value is
-          0.
-    :attr int limit: Specify how many DNS zones are returned, the default value is
-          10.
-    :attr int total_count: Total number of DNS zones.
-    :attr FirstHref first: href.
-    :attr NextHref next: (optional) href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
                  dnszones: List['Dnszone'],
                  offset: int,
                  limit: int,
+                 count: int,
                  total_count: int,
-                 first: 'FirstHref',
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
                  *,
-                 next: 'NextHref' = None) -> None:
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListDnszones object.
 
         :param List[Dnszone] dnszones: An array of DNS zones.
-        :param int offset: Specify how many DNS zones to skip over, the default
-               value is 0.
-        :param int limit: Specify how many DNS zones are returned, the default
-               value is 10.
-        :param int total_count: Total number of DNS zones.
-        :param FirstHref first: href.
-        :param NextHref next: (optional) href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.dnszones = dnszones
         self.offset = offset
         self.limit = limit
+        self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -3851,16 +5578,26 @@ class ListDnszones():
             args['limit'] = _dict.get('limit')
         else:
             raise ValueError('Required property \'limit\' not present in ListDnszones JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in ListDnszones JSON')
         if 'total_count' in _dict:
             args['total_count'] = _dict.get('total_count')
         else:
             raise ValueError('Required property \'total_count\' not present in ListDnszones JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListDnszones JSON')
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        else:
+            raise ValueError('Required property \'last\' not present in ListDnszones JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
         if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -3877,10 +5614,16 @@ class ListDnszones():
             _dict['offset'] = self.offset
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
         if hasattr(self, 'total_count') and self.total_count is not None:
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -3908,12 +5651,14 @@ class ListLoadBalancers():
     List Global Load Balancers response.
 
     :attr List[LoadBalancer] load_balancers: An array of Global Load Balancers.
-    :attr int offset: Page number.
-    :attr int limit: Number of Global Load Balancers per page.
-    :attr int count: Number of Global Load Balancers.
-    :attr int total_count: Total number of Global Load Balancers.
-    :attr FirstHref first: href.
-    :attr NextHref next: href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
@@ -3922,19 +5667,24 @@ class ListLoadBalancers():
                  limit: int,
                  count: int,
                  total_count: int,
-                 first: 'FirstHref',
-                 next: 'NextHref') -> None:
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
+                 *,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListLoadBalancers object.
 
         :param List[LoadBalancer] load_balancers: An array of Global Load
                Balancers.
-        :param int offset: Page number.
-        :param int limit: Number of Global Load Balancers per page.
-        :param int count: Number of Global Load Balancers.
-        :param int total_count: Total number of Global Load Balancers.
-        :param FirstHref first: href.
-        :param NextHref next: href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.load_balancers = load_balancers
         self.offset = offset
@@ -3942,6 +5692,8 @@ class ListLoadBalancers():
         self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -3969,13 +5721,17 @@ class ListLoadBalancers():
         else:
             raise ValueError('Required property \'total_count\' not present in ListLoadBalancers JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListLoadBalancers JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
         else:
-            raise ValueError('Required property \'next\' not present in ListLoadBalancers JSON')
+            raise ValueError('Required property \'last\' not present in ListLoadBalancers JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -3998,6 +5754,10 @@ class ListLoadBalancers():
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -4025,12 +5785,14 @@ class ListMonitors():
     List load balancer monitors response.
 
     :attr List[Monitor] monitors: An array of load balancer monitors.
-    :attr int offset: Page number.
-    :attr int limit: Number of load balancer monitors per page.
-    :attr int count: Number of load balancers.
-    :attr int total_count: Total number of load balancers.
-    :attr FirstHref first: href.
-    :attr NextHref next: href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
@@ -4039,18 +5801,23 @@ class ListMonitors():
                  limit: int,
                  count: int,
                  total_count: int,
-                 first: 'FirstHref',
-                 next: 'NextHref') -> None:
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
+                 *,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListMonitors object.
 
         :param List[Monitor] monitors: An array of load balancer monitors.
-        :param int offset: Page number.
-        :param int limit: Number of load balancer monitors per page.
-        :param int count: Number of load balancers.
-        :param int total_count: Total number of load balancers.
-        :param FirstHref first: href.
-        :param NextHref next: href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.monitors = monitors
         self.offset = offset
@@ -4058,6 +5825,8 @@ class ListMonitors():
         self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -4085,13 +5854,17 @@ class ListMonitors():
         else:
             raise ValueError('Required property \'total_count\' not present in ListMonitors JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListMonitors JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
         else:
-            raise ValueError('Required property \'next\' not present in ListMonitors JSON')
+            raise ValueError('Required property \'last\' not present in ListMonitors JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4114,6 +5887,10 @@ class ListMonitors():
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -4141,42 +5918,17 @@ class ListPermittedNetworks():
     List permitted networks response.
 
     :attr List[PermittedNetwork] permitted_networks: An array of permitted networks.
-    :attr int offset: Specify how many permitted networks to skip over, the default
-          value is 0.
-    :attr int limit: Specify how many permitted networks are returned, the default
-          value is 10.
-    :attr int total_count: Total number of permitted networks.
-    :attr FirstHref first: href.
-    :attr NextHref next: (optional) href.
     """
 
     def __init__(self,
-                 permitted_networks: List['PermittedNetwork'],
-                 offset: int,
-                 limit: int,
-                 total_count: int,
-                 first: 'FirstHref',
-                 *,
-                 next: 'NextHref' = None) -> None:
+                 permitted_networks: List['PermittedNetwork']) -> None:
         """
         Initialize a ListPermittedNetworks object.
 
         :param List[PermittedNetwork] permitted_networks: An array of permitted
                networks.
-        :param int offset: Specify how many permitted networks to skip over, the
-               default value is 0.
-        :param int limit: Specify how many permitted networks are returned, the
-               default value is 10.
-        :param int total_count: Total number of permitted networks.
-        :param FirstHref first: href.
-        :param NextHref next: (optional) href.
         """
         self.permitted_networks = permitted_networks
-        self.offset = offset
-        self.limit = limit
-        self.total_count = total_count
-        self.first = first
-        self.next = next
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'ListPermittedNetworks':
@@ -4186,24 +5938,6 @@ class ListPermittedNetworks():
             args['permitted_networks'] = [PermittedNetwork.from_dict(x) for x in _dict.get('permitted_networks')]
         else:
             raise ValueError('Required property \'permitted_networks\' not present in ListPermittedNetworks JSON')
-        if 'offset' in _dict:
-            args['offset'] = _dict.get('offset')
-        else:
-            raise ValueError('Required property \'offset\' not present in ListPermittedNetworks JSON')
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        else:
-            raise ValueError('Required property \'limit\' not present in ListPermittedNetworks JSON')
-        if 'total_count' in _dict:
-            args['total_count'] = _dict.get('total_count')
-        else:
-            raise ValueError('Required property \'total_count\' not present in ListPermittedNetworks JSON')
-        if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
-        else:
-            raise ValueError('Required property \'first\' not present in ListPermittedNetworks JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4216,16 +5950,6 @@ class ListPermittedNetworks():
         _dict = {}
         if hasattr(self, 'permitted_networks') and self.permitted_networks is not None:
             _dict['permitted_networks'] = [x.to_dict() for x in self.permitted_networks]
-        if hasattr(self, 'offset') and self.offset is not None:
-            _dict['offset'] = self.offset
-        if hasattr(self, 'limit') and self.limit is not None:
-            _dict['limit'] = self.limit
-        if hasattr(self, 'total_count') and self.total_count is not None:
-            _dict['total_count'] = self.total_count
-        if hasattr(self, 'first') and self.first is not None:
-            _dict['first'] = self.first.to_dict()
-        if hasattr(self, 'next') and self.next is not None:
-            _dict['next'] = self.next.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4251,12 +5975,14 @@ class ListPools():
     List load balancer pools response.
 
     :attr List[Pool] pools: An array of load balancer pools.
-    :attr int offset: Page number.
-    :attr int limit: Number of load balancer pools per page.
-    :attr int count: Number of load balancers.
-    :attr int total_count: Total number of load balancers.
-    :attr FirstHref first: href.
-    :attr NextHref next: href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
@@ -4265,18 +5991,23 @@ class ListPools():
                  limit: int,
                  count: int,
                  total_count: int,
-                 first: 'FirstHref',
-                 next: 'NextHref') -> None:
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
+                 *,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListPools object.
 
         :param List[Pool] pools: An array of load balancer pools.
-        :param int offset: Page number.
-        :param int limit: Number of load balancer pools per page.
-        :param int count: Number of load balancers.
-        :param int total_count: Total number of load balancers.
-        :param FirstHref first: href.
-        :param NextHref next: href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.pools = pools
         self.offset = offset
@@ -4284,6 +6015,8 @@ class ListPools():
         self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -4311,13 +6044,17 @@ class ListPools():
         else:
             raise ValueError('Required property \'total_count\' not present in ListPools JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListPools JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
         else:
-            raise ValueError('Required property \'next\' not present in ListPools JSON')
+            raise ValueError('Required property \'last\' not present in ListPools JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4340,6 +6077,10 @@ class ListPools():
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -4367,40 +6108,48 @@ class ListResourceRecords():
     List Resource Records response.
 
     :attr List[ResourceRecord] resource_records: An array of resource records.
-    :attr int offset: Specify how many resource records to skip over, the default
-          value is 0.
-    :attr int limit: Specify how many resource records are returned, the default
-          value is 20.
-    :attr int total_count: Total number of resource records.
-    :attr FirstHref first: href.
-    :attr NextHref next: (optional) href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
                  resource_records: List['ResourceRecord'],
                  offset: int,
                  limit: int,
+                 count: int,
                  total_count: int,
-                 first: 'FirstHref',
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
                  *,
-                 next: 'NextHref' = None) -> None:
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListResourceRecords object.
 
         :param List[ResourceRecord] resource_records: An array of resource records.
-        :param int offset: Specify how many resource records to skip over, the
-               default value is 0.
-        :param int limit: Specify how many resource records are returned, the
-               default value is 20.
-        :param int total_count: Total number of resource records.
-        :param FirstHref first: href.
-        :param NextHref next: (optional) href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.resource_records = resource_records
         self.offset = offset
         self.limit = limit
+        self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -4419,16 +6168,26 @@ class ListResourceRecords():
             args['limit'] = _dict.get('limit')
         else:
             raise ValueError('Required property \'limit\' not present in ListResourceRecords JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in ListResourceRecords JSON')
         if 'total_count' in _dict:
             args['total_count'] = _dict.get('total_count')
         else:
             raise ValueError('Required property \'total_count\' not present in ListResourceRecords JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListResourceRecords JSON')
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        else:
+            raise ValueError('Required property \'last\' not present in ListResourceRecords JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
         if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4445,10 +6204,16 @@ class ListResourceRecords():
             _dict['offset'] = self.offset
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
         if hasattr(self, 'total_count') and self.total_count is not None:
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -5008,61 +6773,6 @@ class Monitor():
         HEAD = 'HEAD'
 
 
-class NextHref():
-    """
-    href.
-
-    :attr str href: (optional) href.
-    """
-
-    def __init__(self,
-                 *,
-                 href: str = None) -> None:
-        """
-        Initialize a NextHref object.
-
-        :param str href: (optional) href.
-        """
-        self.href = href
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'NextHref':
-        """Initialize a NextHref object from a json dictionary."""
-        args = {}
-        if 'href' in _dict:
-            args['href'] = _dict.get('href')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a NextHref object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'href') and self.href is not None:
-            _dict['href'] = self.href
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this NextHref object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'NextHref') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'NextHref') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
 class Origin():
     """
     Origin server.
@@ -5240,6 +6950,61 @@ class OriginInput():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'OriginInput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class PaginationRef():
+    """
+    href.
+
+    :attr str href: (optional) href.
+    """
+
+    def __init__(self,
+                 *,
+                 href: str = None) -> None:
+        """
+        Initialize a PaginationRef object.
+
+        :param str href: (optional) href.
+        """
+        self.href = href
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PaginationRef':
+        """Initialize a PaginationRef object from a json dictionary."""
+        args = {}
+        if 'href' in _dict:
+            args['href'] = _dict.get('href')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PaginationRef object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'href') and self.href is not None:
+            _dict['href'] = self.href
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PaginationRef object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PaginationRef') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PaginationRef') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5994,6 +7759,243 @@ class ResourceRecord():
         TXT = 'TXT'
         PTR = 'PTR'
 
+
+class SecondaryZone():
+    """
+    Secondary zone details.
+
+    :attr str id: (optional) Identifier of the secondary zone.
+    :attr str description: (optional) Descriptive text of the secondary zone.
+    :attr str zone: (optional) zone name.
+    :attr bool enabled: (optional) Enable/Disable the secondary zone.
+    :attr List[SecondaryZoneTransferFromItem] transfer_from: (optional) The source
+          configuration of secondary zone output.
+    :attr str created_on: (optional) The time when a secondary zone is created.
+    :attr str modified_on: (optional) The recent time when a secondary zone is
+          modified.
+    """
+
+    def __init__(self,
+                 *,
+                 id: str = None,
+                 description: str = None,
+                 zone: str = None,
+                 enabled: bool = None,
+                 transfer_from: List['SecondaryZoneTransferFromItem'] = None,
+                 created_on: str = None,
+                 modified_on: str = None) -> None:
+        """
+        Initialize a SecondaryZone object.
+
+        :param str id: (optional) Identifier of the secondary zone.
+        :param str description: (optional) Descriptive text of the secondary zone.
+        :param str zone: (optional) zone name.
+        :param bool enabled: (optional) Enable/Disable the secondary zone.
+        :param List[SecondaryZoneTransferFromItem] transfer_from: (optional) The
+               source configuration of secondary zone output.
+        :param str created_on: (optional) The time when a secondary zone is
+               created.
+        :param str modified_on: (optional) The recent time when a secondary zone is
+               modified.
+        """
+        self.id = id
+        self.description = description
+        self.zone = zone
+        self.enabled = enabled
+        self.transfer_from = transfer_from
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecondaryZone':
+        """Initialize a SecondaryZone object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'zone' in _dict:
+            args['zone'] = _dict.get('zone')
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'transfer_from' in _dict:
+            args['transfer_from'] = [SecondaryZoneTransferFromItem.from_dict(x) for x in _dict.get('transfer_from')]
+        if 'created_on' in _dict:
+            args['created_on'] = _dict.get('created_on')
+        if 'modified_on' in _dict:
+            args['modified_on'] = _dict.get('modified_on')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecondaryZone object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'zone') and self.zone is not None:
+            _dict['zone'] = self.zone
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'transfer_from') and self.transfer_from is not None:
+            _dict['transfer_from'] = [x.to_dict() for x in self.transfer_from]
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = self.created_on
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = self.modified_on
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecondaryZone object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecondaryZone') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecondaryZone') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class SecondaryZoneList():
+    """
+    List of secondary zones.
+
+    :attr List[SecondaryZone] secondary_zones: Secondary zones.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: (optional) href.
+    :attr PaginationRef last: (optional) href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
+    """
+
+    def __init__(self,
+                 secondary_zones: List['SecondaryZone'],
+                 offset: int,
+                 limit: int,
+                 count: int,
+                 total_count: int,
+                 *,
+                 first: 'PaginationRef' = None,
+                 last: 'PaginationRef' = None,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
+        """
+        Initialize a SecondaryZoneList object.
+
+        :param List[SecondaryZone] secondary_zones: Secondary zones.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: (optional) href.
+        :param PaginationRef last: (optional) href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
+        """
+        self.secondary_zones = secondary_zones
+        self.offset = offset
+        self.limit = limit
+        self.count = count
+        self.total_count = total_count
+        self.first = first
+        self.last = last
+        self.previous = previous
+        self.next = next
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecondaryZoneList':
+        """Initialize a SecondaryZoneList object from a json dictionary."""
+        args = {}
+        if 'secondary_zones' in _dict:
+            args['secondary_zones'] = [SecondaryZone.from_dict(x) for x in _dict.get('secondary_zones')]
+        else:
+            raise ValueError('Required property \'secondary_zones\' not present in SecondaryZoneList JSON')
+        if 'offset' in _dict:
+            args['offset'] = _dict.get('offset')
+        else:
+            raise ValueError('Required property \'offset\' not present in SecondaryZoneList JSON')
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        else:
+            raise ValueError('Required property \'limit\' not present in SecondaryZoneList JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in SecondaryZoneList JSON')
+        if 'total_count' in _dict:
+            args['total_count'] = _dict.get('total_count')
+        else:
+            raise ValueError('Required property \'total_count\' not present in SecondaryZoneList JSON')
+        if 'first' in _dict:
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecondaryZoneList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'secondary_zones') and self.secondary_zones is not None:
+            _dict['secondary_zones'] = [x.to_dict() for x in self.secondary_zones]
+        if hasattr(self, 'offset') and self.offset is not None:
+            _dict['offset'] = self.offset
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'total_count') and self.total_count is not None:
+            _dict['total_count'] = self.total_count
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
+        if hasattr(self, 'next') and self.next is not None:
+            _dict['next'] = self.next.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecondaryZoneList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecondaryZoneList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecondaryZoneList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class ResourceRecordInputRdataRdataARecord(ResourceRecordInputRdata):
     """
