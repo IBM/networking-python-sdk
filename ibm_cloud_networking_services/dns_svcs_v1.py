@@ -2859,7 +2859,7 @@ class DnsSvcsV1(BaseService):
         resolver_id: str,
         *,
         zone: str = None,
-        transfer_from: List['SecondaryZoneSourceInputItem'] = None,
+        transfer_from: List[str] = None,
         description: str = None,
         enabled: bool = None,
         x_correlation_id: str = None,
@@ -2873,8 +2873,8 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str resolver_id: The unique identifier of a custom resolver.
         :param str zone: (optional) zone name.
-        :param List[SecondaryZoneSourceInputItem] transfer_from: (optional) The
-               source configuration of secondary zone input.
+        :param List[str] transfer_from: (optional) The source configuration of
+               secondary zone input.
         :param str description: (optional) Descriptive text of the secondary zone.
         :param bool enabled: (optional) Enable/Disable the secondary zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
@@ -2887,8 +2887,6 @@ class DnsSvcsV1(BaseService):
             raise ValueError('instance_id must be provided')
         if resolver_id is None:
             raise ValueError('resolver_id must be provided')
-        if transfer_from is not None:
-            transfer_from = [convert_model(x) for x in transfer_from]
         headers = {
             'X-Correlation-ID': x_correlation_id
         }
@@ -3042,7 +3040,7 @@ class DnsSvcsV1(BaseService):
         *,
         description: str = None,
         enabled: bool = None,
-        transfer_from: List['SecondaryZoneSourceInputItem'] = None,
+        transfer_from: List[str] = None,
         x_correlation_id: str = None,
         **kwargs
     ) -> DetailedResponse:
@@ -3056,8 +3054,8 @@ class DnsSvcsV1(BaseService):
         :param str sz_id: The unique identifier of a secondary zone.
         :param str description: (optional) Descriptive text of the secondary zone.
         :param bool enabled: (optional) Enable/Disable the secondary zone.
-        :param List[SecondaryZoneSourceInputItem] transfer_from: (optional) The
-               source configuration of secondary zone input.
+        :param List[str] transfer_from: (optional) The source configuration of
+               secondary zone input.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -3070,8 +3068,6 @@ class DnsSvcsV1(BaseService):
             raise ValueError('resolver_id must be provided')
         if sz_id is None:
             raise ValueError('sz_id must be provided')
-        if transfer_from is not None:
-            transfer_from = [convert_model(x) for x in transfer_from]
         headers = {
             'X-Correlation-ID': x_correlation_id
         }
@@ -4196,124 +4192,6 @@ class ResourceRecordUpdateInputRdata():
         msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
                   ", ".join(['ResourceRecordUpdateInputRdataRdataARecord', 'ResourceRecordUpdateInputRdataRdataAaaaRecord', 'ResourceRecordUpdateInputRdataRdataCnameRecord', 'ResourceRecordUpdateInputRdataRdataMxRecord', 'ResourceRecordUpdateInputRdataRdataSrvRecord', 'ResourceRecordUpdateInputRdataRdataTxtRecord', 'ResourceRecordUpdateInputRdataRdataPtrRecord']))
         raise Exception(msg)
-
-class SecondaryZoneSourceInputItem():
-    """
-    The source address of secondary zone.
-
-    :attr str address: (optional) The address of secondary zone.
-    """
-
-    def __init__(self,
-                 *,
-                 address: str = None) -> None:
-        """
-        Initialize a SecondaryZoneSourceInputItem object.
-
-        :param str address: (optional) The address of secondary zone.
-        """
-        self.address = address
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'SecondaryZoneSourceInputItem':
-        """Initialize a SecondaryZoneSourceInputItem object from a json dictionary."""
-        args = {}
-        if 'address' in _dict:
-            args['address'] = _dict.get('address')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SecondaryZoneSourceInputItem object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'address') and self.address is not None:
-            _dict['address'] = self.address
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this SecondaryZoneSourceInputItem object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'SecondaryZoneSourceInputItem') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'SecondaryZoneSourceInputItem') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-class SecondaryZoneTransferFromItem():
-    """
-    The source address of secondary zone.
-
-    :attr str address: (optional) The address of secondary zone.
-    :attr int port: (optional) The port number of secondary zone.
-    """
-
-    def __init__(self,
-                 *,
-                 address: str = None,
-                 port: int = None) -> None:
-        """
-        Initialize a SecondaryZoneTransferFromItem object.
-
-        :param str address: (optional) The address of secondary zone.
-        :param int port: (optional) The port number of secondary zone.
-        """
-        self.address = address
-        self.port = port
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'SecondaryZoneTransferFromItem':
-        """Initialize a SecondaryZoneTransferFromItem object from a json dictionary."""
-        args = {}
-        if 'address' in _dict:
-            args['address'] = _dict.get('address')
-        if 'port' in _dict:
-            args['port'] = _dict.get('port')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SecondaryZoneTransferFromItem object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'address') and self.address is not None:
-            _dict['address'] = self.address
-        if hasattr(self, 'port') and self.port is not None:
-            _dict['port'] = self.port
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this SecondaryZoneTransferFromItem object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'SecondaryZoneTransferFromItem') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'SecondaryZoneTransferFromItem') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
 
 class AccessRequest():
     """
@@ -7768,8 +7646,8 @@ class SecondaryZone():
     :attr str description: (optional) Descriptive text of the secondary zone.
     :attr str zone: (optional) zone name.
     :attr bool enabled: (optional) Enable/Disable the secondary zone.
-    :attr List[SecondaryZoneTransferFromItem] transfer_from: (optional) The source
-          configuration of secondary zone output.
+    :attr List[str] transfer_from: (optional) The source configuration of secondary
+          zone output.
     :attr str created_on: (optional) The time when a secondary zone is created.
     :attr str modified_on: (optional) The recent time when a secondary zone is
           modified.
@@ -7781,7 +7659,7 @@ class SecondaryZone():
                  description: str = None,
                  zone: str = None,
                  enabled: bool = None,
-                 transfer_from: List['SecondaryZoneTransferFromItem'] = None,
+                 transfer_from: List[str] = None,
                  created_on: str = None,
                  modified_on: str = None) -> None:
         """
@@ -7791,8 +7669,8 @@ class SecondaryZone():
         :param str description: (optional) Descriptive text of the secondary zone.
         :param str zone: (optional) zone name.
         :param bool enabled: (optional) Enable/Disable the secondary zone.
-        :param List[SecondaryZoneTransferFromItem] transfer_from: (optional) The
-               source configuration of secondary zone output.
+        :param List[str] transfer_from: (optional) The source configuration of
+               secondary zone output.
         :param str created_on: (optional) The time when a secondary zone is
                created.
         :param str modified_on: (optional) The recent time when a secondary zone is
@@ -7819,7 +7697,7 @@ class SecondaryZone():
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'transfer_from' in _dict:
-            args['transfer_from'] = [SecondaryZoneTransferFromItem.from_dict(x) for x in _dict.get('transfer_from')]
+            args['transfer_from'] = _dict.get('transfer_from')
         if 'created_on' in _dict:
             args['created_on'] = _dict.get('created_on')
         if 'modified_on' in _dict:
@@ -7843,7 +7721,7 @@ class SecondaryZone():
         if hasattr(self, 'enabled') and self.enabled is not None:
             _dict['enabled'] = self.enabled
         if hasattr(self, 'transfer_from') and self.transfer_from is not None:
-            _dict['transfer_from'] = [x.to_dict() for x in self.transfer_from]
+            _dict['transfer_from'] = self.transfer_from
         if hasattr(self, 'created_on') and self.created_on is not None:
             _dict['created_on'] = self.created_on
         if hasattr(self, 'modified_on') and self.modified_on is not None:

@@ -30,8 +30,8 @@ import requests
 import responses
 import tempfile
 import urllib
-# from github.ibm.com/ibmcloud/networking-python-sdk.dns_svcs_v1 import *
-from ibm_cloud_networking_services.dns_svcs_v1 import *
+from https://github.com/IBM/networking-python-sdk.dns_svcs_v1 import *
+
 
 _service = DnsSvcsV1(
     authenticator=NoAuthAuthenticator()
@@ -4863,7 +4863,7 @@ class TestGetCustomResolver():
         _service.disable_retries()
         self.test_get_custom_resolver_value_error()
 
-class TestCustomResolver():
+class TestUpdateCustomResolver():
     """
     Test Class for update_custom_resolver
     """
@@ -6265,22 +6265,18 @@ class TestCreateSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a SecondaryZoneSourceInputItem model
-        secondary_zone_source_input_item_model = {}
-        secondary_zone_source_input_item_model['address'] = '10.0.0.7'
-
         # Set up parameter values
         instance_id = 'testString'
         resolver_id = 'testString'
         zone = 'example.com'
-        transfer_from = [secondary_zone_source_input_item_model]
+        transfer_from = ['10.0.0.7']
         description = 'secondary zone'
         enabled = False
         x_correlation_id = 'testString'
@@ -6303,7 +6299,7 @@ class TestCreateSecondaryZone():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['zone'] == 'example.com'
-        assert req_body['transfer_from'] == [secondary_zone_source_input_item_model]
+        assert req_body['transfer_from'] == ['10.0.0.7']
         assert req_body['description'] == 'secondary zone'
         assert req_body['enabled'] == False
 
@@ -6323,7 +6319,7 @@ class TestCreateSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -6361,7 +6357,7 @@ class TestCreateSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -6404,7 +6400,7 @@ class TestListSecondaryZones():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
-        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6453,7 +6449,7 @@ class TestListSecondaryZones():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
-        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6491,7 +6487,7 @@ class TestListSecondaryZones():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
-        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6534,7 +6530,7 @@ class TestGetSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6576,7 +6572,7 @@ class TestGetSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6616,7 +6612,7 @@ class TestGetSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6661,16 +6657,12 @@ class TestUpdateSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
-
-        # Construct a dict representation of a SecondaryZoneSourceInputItem model
-        secondary_zone_source_input_item_model = {}
-        secondary_zone_source_input_item_model['address'] = '10.0.0.7'
 
         # Set up parameter values
         instance_id = 'testString'
@@ -6678,7 +6670,7 @@ class TestUpdateSecondaryZone():
         sz_id = 'testString'
         description = 'secondary zone'
         enabled = False
-        transfer_from = [secondary_zone_source_input_item_model]
+        transfer_from = ['10.0.0.7']
         x_correlation_id = 'testString'
 
         # Invoke method
@@ -6700,7 +6692,7 @@ class TestUpdateSecondaryZone():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['description'] == 'secondary zone'
         assert req_body['enabled'] == False
-        assert req_body['transfer_from'] == [secondary_zone_source_input_item_model]
+        assert req_body['transfer_from'] == ['10.0.0.7']
 
     def test_update_secondary_zone_all_params_with_retries(self):
         # Enable retries and run test_update_secondary_zone_all_params.
@@ -6718,7 +6710,7 @@ class TestUpdateSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -6758,7 +6750,7 @@ class TestUpdateSecondaryZone():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
-        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": [{"address": "10.0.0.7", "port": 53}], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -8693,65 +8685,6 @@ class TestModel_RecordsImportErrorModelError():
         records_import_error_model_error_model_json2 = records_import_error_model_error_model.to_dict()
         assert records_import_error_model_error_model_json2 == records_import_error_model_error_model_json
 
-class TestModel_SecondaryZoneSourceInputItem():
-    """
-    Test Class for SecondaryZoneSourceInputItem
-    """
-
-    def test_secondary_zone_source_input_item_serialization(self):
-        """
-        Test serialization/deserialization for SecondaryZoneSourceInputItem
-        """
-
-        # Construct a json representation of a SecondaryZoneSourceInputItem model
-        secondary_zone_source_input_item_model_json = {}
-        secondary_zone_source_input_item_model_json['address'] = '10.0.0.7'
-
-        # Construct a model instance of SecondaryZoneSourceInputItem by calling from_dict on the json representation
-        secondary_zone_source_input_item_model = SecondaryZoneSourceInputItem.from_dict(secondary_zone_source_input_item_model_json)
-        assert secondary_zone_source_input_item_model != False
-
-        # Construct a model instance of SecondaryZoneSourceInputItem by calling from_dict on the json representation
-        secondary_zone_source_input_item_model_dict = SecondaryZoneSourceInputItem.from_dict(secondary_zone_source_input_item_model_json).__dict__
-        secondary_zone_source_input_item_model2 = SecondaryZoneSourceInputItem(**secondary_zone_source_input_item_model_dict)
-
-        # Verify the model instances are equivalent
-        assert secondary_zone_source_input_item_model == secondary_zone_source_input_item_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        secondary_zone_source_input_item_model_json2 = secondary_zone_source_input_item_model.to_dict()
-        assert secondary_zone_source_input_item_model_json2 == secondary_zone_source_input_item_model_json
-
-class TestModel_SecondaryZoneTransferFromItem():
-    """
-    Test Class for SecondaryZoneTransferFromItem
-    """
-
-    def test_secondary_zone_transfer_from_item_serialization(self):
-        """
-        Test serialization/deserialization for SecondaryZoneTransferFromItem
-        """
-
-        # Construct a json representation of a SecondaryZoneTransferFromItem model
-        secondary_zone_transfer_from_item_model_json = {}
-        secondary_zone_transfer_from_item_model_json['address'] = '10.0.0.7'
-        secondary_zone_transfer_from_item_model_json['port'] = 53
-
-        # Construct a model instance of SecondaryZoneTransferFromItem by calling from_dict on the json representation
-        secondary_zone_transfer_from_item_model = SecondaryZoneTransferFromItem.from_dict(secondary_zone_transfer_from_item_model_json)
-        assert secondary_zone_transfer_from_item_model != False
-
-        # Construct a model instance of SecondaryZoneTransferFromItem by calling from_dict on the json representation
-        secondary_zone_transfer_from_item_model_dict = SecondaryZoneTransferFromItem.from_dict(secondary_zone_transfer_from_item_model_json).__dict__
-        secondary_zone_transfer_from_item_model2 = SecondaryZoneTransferFromItem(**secondary_zone_transfer_from_item_model_dict)
-
-        # Verify the model instances are equivalent
-        assert secondary_zone_transfer_from_item_model == secondary_zone_transfer_from_item_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        secondary_zone_transfer_from_item_model_json2 = secondary_zone_transfer_from_item_model.to_dict()
-        assert secondary_zone_transfer_from_item_model_json2 == secondary_zone_transfer_from_item_model_json
-
 class TestModel_AccessRequest():
     """
     Test Class for AccessRequest
@@ -10111,19 +10044,13 @@ class TestModel_SecondaryZone():
         Test serialization/deserialization for SecondaryZone
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        secondary_zone_transfer_from_item_model = {} # SecondaryZoneTransferFromItem
-        secondary_zone_transfer_from_item_model['address'] = '10.0.0.7'
-        secondary_zone_transfer_from_item_model['port'] = 53
-
         # Construct a json representation of a SecondaryZone model
         secondary_zone_model_json = {}
         secondary_zone_model_json['id'] = 'f97ef698-d5fa-4f91-bc5a-33f17d143b7d'
         secondary_zone_model_json['description'] = 'secondary zone'
         secondary_zone_model_json['zone'] = 'example.com'
         secondary_zone_model_json['enabled'] = False
-        secondary_zone_model_json['transfer_from'] = [secondary_zone_transfer_from_item_model]
+        secondary_zone_model_json['transfer_from'] = ['10.0.0.7:53']
         secondary_zone_model_json['created_on'] = '2022-03-16T08:18:25Z'
         secondary_zone_model_json['modified_on'] = '2022-03-16T08:18:25Z'
 
@@ -10154,16 +10081,12 @@ class TestModel_SecondaryZoneList():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        secondary_zone_transfer_from_item_model = {} # SecondaryZoneTransferFromItem
-        secondary_zone_transfer_from_item_model['address'] = '10.0.0.7'
-        secondary_zone_transfer_from_item_model['port'] = 53
-
         secondary_zone_model = {} # SecondaryZone
         secondary_zone_model['id'] = 'f97ef698-d5fa-4f91-bc5a-33f17d143b7d'
         secondary_zone_model['description'] = 'secondary zone'
         secondary_zone_model['zone'] = 'example.com'
         secondary_zone_model['enabled'] = False
-        secondary_zone_model['transfer_from'] = [secondary_zone_transfer_from_item_model]
+        secondary_zone_model['transfer_from'] = ['10.0.0.7:53']
         secondary_zone_model['created_on'] = '2022-03-16T08:18:25Z'
         secondary_zone_model['modified_on'] = '2022-03-16T08:18:25Z'
 
