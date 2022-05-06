@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,10 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.29.1-b338fb38-20210313-010605
+# IBM OpenAPI SDK Code Generator Version: 3.47.1-be944570-20220406-170244
  
 """
 DNS Services API
+
+API Version: 1.0.0
 """
 
 from datetime import datetime
@@ -64,7 +66,7 @@ class DnsSvcsV1(BaseService):
         Construct a new client for the DNS Svcs service.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         BaseService.__init__(self,
@@ -92,10 +94,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param int offset: (optional) Specify how many resource records to skip
-               over, the default value is 0.
-        :param int limit: (optional) Specify how many resource records are
-               returned, the default value is 200.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListDnszones` object
@@ -129,7 +130,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -190,7 +191,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -237,7 +238,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -285,7 +286,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -347,7 +348,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -372,10 +373,9 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param int offset: (optional) Specify how many resource records to skip
-               over, the default value is 0.
-        :param int limit: (optional) Specify how many resource records are
-               returned, the default value is 200.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListResourceRecords` object
@@ -411,7 +411,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -487,7 +487,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -538,7 +538,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -590,7 +590,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -667,7 +667,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -715,7 +715,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -729,7 +729,7 @@ class DnsSvcsV1(BaseService):
         **kwargs
     ) -> DetailedResponse:
         """
-        Import resource records from a zone file.
+        Import resource records from a zone file. The maximum size of a zone file is 8MB.
 
         Import resource records from a zone file.
 
@@ -772,7 +772,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -785,8 +785,6 @@ class DnsSvcsV1(BaseService):
         dnszone_id: str,
         *,
         x_correlation_id: str = None,
-        offset: int = None,
-        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -797,10 +795,6 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
-        :param int offset: (optional) Specify how many resource records to skip
-               over, the default value is 0.
-        :param int limit: (optional) Specify how many resource records are
-               returned, the default value is 200.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListPermittedNetworks` object
@@ -818,11 +812,6 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_permitted_networks')
         headers.update(sdk_headers)
 
-        params = {
-            'offset': offset,
-            'limit': limit
-        }
-
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -833,10 +822,9 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers,
-                                       params=params)
+                                       headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -900,7 +888,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -953,7 +941,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1006,7 +994,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1019,6 +1007,8 @@ class DnsSvcsV1(BaseService):
         dnszone_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -1029,6 +1019,9 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListLoadBalancers` object
@@ -1046,6 +1039,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_load_balancers')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -1056,9 +1054,10 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1140,7 +1139,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1191,7 +1190,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1243,7 +1242,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1329,7 +1328,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1341,6 +1340,8 @@ class DnsSvcsV1(BaseService):
         instance_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -1350,6 +1351,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListPools` object
@@ -1365,6 +1369,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_pools')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -1375,9 +1384,10 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/pools'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1464,7 +1474,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1511,7 +1521,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1559,7 +1569,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1650,7 +1660,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1662,6 +1672,8 @@ class DnsSvcsV1(BaseService):
         instance_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -1671,6 +1683,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListMonitors` object
@@ -1686,6 +1701,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_monitors')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -1696,9 +1716,10 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/monitors'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1811,7 +1832,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1858,7 +1879,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1906,7 +1927,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2023,7 +2044,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2071,7 +2092,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2134,7 +2155,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2181,7 +2202,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2229,7 +2250,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2293,7 +2314,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2352,7 +2373,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2417,7 +2438,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2482,7 +2503,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2533,7 +2554,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2585,7 +2606,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2653,7 +2674,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2704,7 +2725,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2756,7 +2777,7 @@ class DnsSvcsV1(BaseService):
                                        url=url,
                                        headers=headers)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2825,7 +2846,7 @@ class DnsSvcsV1(BaseService):
                                        headers=headers,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -3381,61 +3402,6 @@ class Dnszone():
         DELETED = 'deleted'
 
 
-class FirstHref():
-    """
-    href.
-
-    :attr str href: (optional) href.
-    """
-
-    def __init__(self,
-                 *,
-                 href: str = None) -> None:
-        """
-        Initialize a FirstHref object.
-
-        :param str href: (optional) href.
-        """
-        self.href = href
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'FirstHref':
-        """Initialize a FirstHref object from a json dictionary."""
-        args = {}
-        if 'href' in _dict:
-            args['href'] = _dict.get('href')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a FirstHref object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'href') and self.href is not None:
-            _dict['href'] = self.href
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this FirstHref object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'FirstHref') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'FirstHref') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
 class ForwardingRule():
     """
     forwarding rule details.
@@ -3799,40 +3765,48 @@ class ListDnszones():
     List DNS zones response.
 
     :attr List[Dnszone] dnszones: An array of DNS zones.
-    :attr int offset: Specify how many DNS zones to skip over, the default value is
-          0.
-    :attr int limit: Specify how many DNS zones are returned, the default value is
-          10.
-    :attr int total_count: Total number of DNS zones.
-    :attr FirstHref first: href.
-    :attr NextHref next: (optional) href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
                  dnszones: List['Dnszone'],
                  offset: int,
                  limit: int,
+                 count: int,
                  total_count: int,
-                 first: 'FirstHref',
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
                  *,
-                 next: 'NextHref' = None) -> None:
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListDnszones object.
 
         :param List[Dnszone] dnszones: An array of DNS zones.
-        :param int offset: Specify how many DNS zones to skip over, the default
-               value is 0.
-        :param int limit: Specify how many DNS zones are returned, the default
-               value is 10.
-        :param int total_count: Total number of DNS zones.
-        :param FirstHref first: href.
-        :param NextHref next: (optional) href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.dnszones = dnszones
         self.offset = offset
         self.limit = limit
+        self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -3851,16 +3825,26 @@ class ListDnszones():
             args['limit'] = _dict.get('limit')
         else:
             raise ValueError('Required property \'limit\' not present in ListDnszones JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in ListDnszones JSON')
         if 'total_count' in _dict:
             args['total_count'] = _dict.get('total_count')
         else:
             raise ValueError('Required property \'total_count\' not present in ListDnszones JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListDnszones JSON')
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        else:
+            raise ValueError('Required property \'last\' not present in ListDnszones JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
         if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -3877,10 +3861,16 @@ class ListDnszones():
             _dict['offset'] = self.offset
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
         if hasattr(self, 'total_count') and self.total_count is not None:
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -3908,12 +3898,14 @@ class ListLoadBalancers():
     List Global Load Balancers response.
 
     :attr List[LoadBalancer] load_balancers: An array of Global Load Balancers.
-    :attr int offset: Page number.
-    :attr int limit: Number of Global Load Balancers per page.
-    :attr int count: Number of Global Load Balancers.
-    :attr int total_count: Total number of Global Load Balancers.
-    :attr FirstHref first: href.
-    :attr NextHref next: href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
@@ -3922,19 +3914,24 @@ class ListLoadBalancers():
                  limit: int,
                  count: int,
                  total_count: int,
-                 first: 'FirstHref',
-                 next: 'NextHref') -> None:
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
+                 *,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListLoadBalancers object.
 
         :param List[LoadBalancer] load_balancers: An array of Global Load
                Balancers.
-        :param int offset: Page number.
-        :param int limit: Number of Global Load Balancers per page.
-        :param int count: Number of Global Load Balancers.
-        :param int total_count: Total number of Global Load Balancers.
-        :param FirstHref first: href.
-        :param NextHref next: href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.load_balancers = load_balancers
         self.offset = offset
@@ -3942,6 +3939,8 @@ class ListLoadBalancers():
         self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -3969,13 +3968,17 @@ class ListLoadBalancers():
         else:
             raise ValueError('Required property \'total_count\' not present in ListLoadBalancers JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListLoadBalancers JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
         else:
-            raise ValueError('Required property \'next\' not present in ListLoadBalancers JSON')
+            raise ValueError('Required property \'last\' not present in ListLoadBalancers JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -3998,6 +4001,10 @@ class ListLoadBalancers():
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -4025,12 +4032,14 @@ class ListMonitors():
     List load balancer monitors response.
 
     :attr List[Monitor] monitors: An array of load balancer monitors.
-    :attr int offset: Page number.
-    :attr int limit: Number of load balancer monitors per page.
-    :attr int count: Number of load balancers.
-    :attr int total_count: Total number of load balancers.
-    :attr FirstHref first: href.
-    :attr NextHref next: href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
@@ -4039,18 +4048,23 @@ class ListMonitors():
                  limit: int,
                  count: int,
                  total_count: int,
-                 first: 'FirstHref',
-                 next: 'NextHref') -> None:
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
+                 *,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListMonitors object.
 
         :param List[Monitor] monitors: An array of load balancer monitors.
-        :param int offset: Page number.
-        :param int limit: Number of load balancer monitors per page.
-        :param int count: Number of load balancers.
-        :param int total_count: Total number of load balancers.
-        :param FirstHref first: href.
-        :param NextHref next: href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.monitors = monitors
         self.offset = offset
@@ -4058,6 +4072,8 @@ class ListMonitors():
         self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -4085,13 +4101,17 @@ class ListMonitors():
         else:
             raise ValueError('Required property \'total_count\' not present in ListMonitors JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListMonitors JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
         else:
-            raise ValueError('Required property \'next\' not present in ListMonitors JSON')
+            raise ValueError('Required property \'last\' not present in ListMonitors JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4114,6 +4134,10 @@ class ListMonitors():
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -4141,42 +4165,17 @@ class ListPermittedNetworks():
     List permitted networks response.
 
     :attr List[PermittedNetwork] permitted_networks: An array of permitted networks.
-    :attr int offset: Specify how many permitted networks to skip over, the default
-          value is 0.
-    :attr int limit: Specify how many permitted networks are returned, the default
-          value is 10.
-    :attr int total_count: Total number of permitted networks.
-    :attr FirstHref first: href.
-    :attr NextHref next: (optional) href.
     """
 
     def __init__(self,
-                 permitted_networks: List['PermittedNetwork'],
-                 offset: int,
-                 limit: int,
-                 total_count: int,
-                 first: 'FirstHref',
-                 *,
-                 next: 'NextHref' = None) -> None:
+                 permitted_networks: List['PermittedNetwork']) -> None:
         """
         Initialize a ListPermittedNetworks object.
 
         :param List[PermittedNetwork] permitted_networks: An array of permitted
                networks.
-        :param int offset: Specify how many permitted networks to skip over, the
-               default value is 0.
-        :param int limit: Specify how many permitted networks are returned, the
-               default value is 10.
-        :param int total_count: Total number of permitted networks.
-        :param FirstHref first: href.
-        :param NextHref next: (optional) href.
         """
         self.permitted_networks = permitted_networks
-        self.offset = offset
-        self.limit = limit
-        self.total_count = total_count
-        self.first = first
-        self.next = next
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'ListPermittedNetworks':
@@ -4186,24 +4185,6 @@ class ListPermittedNetworks():
             args['permitted_networks'] = [PermittedNetwork.from_dict(x) for x in _dict.get('permitted_networks')]
         else:
             raise ValueError('Required property \'permitted_networks\' not present in ListPermittedNetworks JSON')
-        if 'offset' in _dict:
-            args['offset'] = _dict.get('offset')
-        else:
-            raise ValueError('Required property \'offset\' not present in ListPermittedNetworks JSON')
-        if 'limit' in _dict:
-            args['limit'] = _dict.get('limit')
-        else:
-            raise ValueError('Required property \'limit\' not present in ListPermittedNetworks JSON')
-        if 'total_count' in _dict:
-            args['total_count'] = _dict.get('total_count')
-        else:
-            raise ValueError('Required property \'total_count\' not present in ListPermittedNetworks JSON')
-        if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
-        else:
-            raise ValueError('Required property \'first\' not present in ListPermittedNetworks JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4216,16 +4197,6 @@ class ListPermittedNetworks():
         _dict = {}
         if hasattr(self, 'permitted_networks') and self.permitted_networks is not None:
             _dict['permitted_networks'] = [x.to_dict() for x in self.permitted_networks]
-        if hasattr(self, 'offset') and self.offset is not None:
-            _dict['offset'] = self.offset
-        if hasattr(self, 'limit') and self.limit is not None:
-            _dict['limit'] = self.limit
-        if hasattr(self, 'total_count') and self.total_count is not None:
-            _dict['total_count'] = self.total_count
-        if hasattr(self, 'first') and self.first is not None:
-            _dict['first'] = self.first.to_dict()
-        if hasattr(self, 'next') and self.next is not None:
-            _dict['next'] = self.next.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4251,12 +4222,14 @@ class ListPools():
     List load balancer pools response.
 
     :attr List[Pool] pools: An array of load balancer pools.
-    :attr int offset: Page number.
-    :attr int limit: Number of load balancer pools per page.
-    :attr int count: Number of load balancers.
-    :attr int total_count: Total number of load balancers.
-    :attr FirstHref first: href.
-    :attr NextHref next: href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
@@ -4265,18 +4238,23 @@ class ListPools():
                  limit: int,
                  count: int,
                  total_count: int,
-                 first: 'FirstHref',
-                 next: 'NextHref') -> None:
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
+                 *,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListPools object.
 
         :param List[Pool] pools: An array of load balancer pools.
-        :param int offset: Page number.
-        :param int limit: Number of load balancer pools per page.
-        :param int count: Number of load balancers.
-        :param int total_count: Total number of load balancers.
-        :param FirstHref first: href.
-        :param NextHref next: href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.pools = pools
         self.offset = offset
@@ -4284,6 +4262,8 @@ class ListPools():
         self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -4311,13 +4291,17 @@ class ListPools():
         else:
             raise ValueError('Required property \'total_count\' not present in ListPools JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListPools JSON')
-        if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
         else:
-            raise ValueError('Required property \'next\' not present in ListPools JSON')
+            raise ValueError('Required property \'last\' not present in ListPools JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4340,6 +4324,10 @@ class ListPools():
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -4367,40 +4355,48 @@ class ListResourceRecords():
     List Resource Records response.
 
     :attr List[ResourceRecord] resource_records: An array of resource records.
-    :attr int offset: Specify how many resource records to skip over, the default
-          value is 0.
-    :attr int limit: Specify how many resource records are returned, the default
-          value is 20.
-    :attr int total_count: Total number of resource records.
-    :attr FirstHref first: href.
-    :attr NextHref next: (optional) href.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
                  resource_records: List['ResourceRecord'],
                  offset: int,
                  limit: int,
+                 count: int,
                  total_count: int,
-                 first: 'FirstHref',
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
                  *,
-                 next: 'NextHref' = None) -> None:
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ListResourceRecords object.
 
         :param List[ResourceRecord] resource_records: An array of resource records.
-        :param int offset: Specify how many resource records to skip over, the
-               default value is 0.
-        :param int limit: Specify how many resource records are returned, the
-               default value is 20.
-        :param int total_count: Total number of resource records.
-        :param FirstHref first: href.
-        :param NextHref next: (optional) href.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.resource_records = resource_records
         self.offset = offset
         self.limit = limit
+        self.count = count
         self.total_count = total_count
         self.first = first
+        self.last = last
+        self.previous = previous
         self.next = next
 
     @classmethod
@@ -4419,16 +4415,26 @@ class ListResourceRecords():
             args['limit'] = _dict.get('limit')
         else:
             raise ValueError('Required property \'limit\' not present in ListResourceRecords JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in ListResourceRecords JSON')
         if 'total_count' in _dict:
             args['total_count'] = _dict.get('total_count')
         else:
             raise ValueError('Required property \'total_count\' not present in ListResourceRecords JSON')
         if 'first' in _dict:
-            args['first'] = FirstHref.from_dict(_dict.get('first'))
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
         else:
             raise ValueError('Required property \'first\' not present in ListResourceRecords JSON')
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        else:
+            raise ValueError('Required property \'last\' not present in ListResourceRecords JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
         if 'next' in _dict:
-            args['next'] = NextHref.from_dict(_dict.get('next'))
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4445,10 +4451,16 @@ class ListResourceRecords():
             _dict['offset'] = self.offset
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
         if hasattr(self, 'total_count') and self.total_count is not None:
             _dict['total_count'] = self.total_count
         if hasattr(self, 'first') and self.first is not None:
             _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
         if hasattr(self, 'next') and self.next is not None:
             _dict['next'] = self.next.to_dict()
         return _dict
@@ -5008,61 +5020,6 @@ class Monitor():
         HEAD = 'HEAD'
 
 
-class NextHref():
-    """
-    href.
-
-    :attr str href: (optional) href.
-    """
-
-    def __init__(self,
-                 *,
-                 href: str = None) -> None:
-        """
-        Initialize a NextHref object.
-
-        :param str href: (optional) href.
-        """
-        self.href = href
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'NextHref':
-        """Initialize a NextHref object from a json dictionary."""
-        args = {}
-        if 'href' in _dict:
-            args['href'] = _dict.get('href')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a NextHref object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'href') and self.href is not None:
-            _dict['href'] = self.href
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this NextHref object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'NextHref') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'NextHref') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
 class Origin():
     """
     Origin server.
@@ -5240,6 +5197,61 @@ class OriginInput():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'OriginInput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class PaginationRef():
+    """
+    href.
+
+    :attr str href: (optional) href.
+    """
+
+    def __init__(self,
+                 *,
+                 href: str = None) -> None:
+        """
+        Initialize a PaginationRef object.
+
+        :param str href: (optional) href.
+        """
+        self.href = href
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'PaginationRef':
+        """Initialize a PaginationRef object from a json dictionary."""
+        args = {}
+        if 'href' in _dict:
+            args['href'] = _dict.get('href')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PaginationRef object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'href') and self.href is not None:
+            _dict['href'] = self.href
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this PaginationRef object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'PaginationRef') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'PaginationRef') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
