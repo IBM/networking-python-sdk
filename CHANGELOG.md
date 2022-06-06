@@ -1,3 +1,10 @@
+## [0.17.2](https://github.com/IBM/networking-python-sdk/compare/v0.17.1...v0.17.2) (2022-06-06)
+
+
+### Bug Fixes
+
+* Packing does not respect root-level ignore files in workspace issue ([40892a1](https://github.com/IBM/networking-python-sdk/commit/40892a139065dbb118e5fe712de2d1876b845ad9))
+
 ## [0.17.1](https://github.com/IBM/networking-python-sdk/compare/v0.17.0...v0.17.1) (2022-03-28)
 
 
