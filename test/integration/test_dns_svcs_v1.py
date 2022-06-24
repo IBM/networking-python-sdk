@@ -7,6 +7,7 @@ Integration test code to execute dns zones
 
 import os
 import unittest
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services.dns_svcs_v1 import DnsSvcsV1
 from dotenv import load_dotenv, find_dotenv
 
@@ -259,7 +260,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         }
         resp = self.record.update_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id,
-            type=record_type, ttl=ttl, name=name, rdata=rdata)
+            ttl=ttl, name=name, rdata=rdata)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -298,7 +299,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         }
         resp = self.record.update_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id,
-            type=record_type, ttl=ttl, name=name, rdata=rdata)
+            ttl=ttl, name=name, rdata=rdata)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -337,7 +338,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         }
         resp = self.record.update_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id,
-            type=record_type, ttl=ttl, name=name, rdata=rdata)
+            ttl=ttl, name=name, rdata=rdata)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -378,7 +379,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         }
         resp = self.record.update_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id,
-            type=record_type, ttl=ttl, name=name, rdata=rdata)
+            ttl=ttl, name=name, rdata=rdata)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -428,7 +429,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         protocol = "tcp"
         resp = self.record.update_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id,
-            type=record_type, ttl=ttl, name=name, rdata=rdata, service=service_name, protocol=protocol)
+            ttl=ttl, name=name, rdata=rdata, service=service_name, protocol=protocol)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -530,7 +531,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         }
         resp = self.record.update_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id,
-            type=record_type, ttl=ttl, name=name, rdata=rdata)
+            ttl=ttl, name=name, rdata=rdata)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1141,10 +1142,8 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp.status_code == 200
 
         # Update location order of Custom Resolver
-        name = 'updatecustomresolvers'
-        description = "Updating location order of Custom Resolvers"
         resp = self.cr.update_cr_locations_order(instance_id=self.instance_id, resolver_id=resolver_id, 
-                                              locations=[locations[0]['id']], name=name, description=description)
+                                              locations=[locations[0]['id']])
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1216,6 +1215,136 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 204
         
+class TestCrossAccountV1(unittest.TestCase):
+    """Linked Zones for DNS V1 service test class."""   
+
+    def setUp(self):
+        """ test case setup """
+        if not os.path.exists(configFile):
+            raise unittest.SkipTest('External configuration not available, skipping...')
+        self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
+        self.owner_instance_id = os.getenv("DNS_SVCS_OWNER_INSTANCE_ID")
+        self.owner_zone_id = os.getenv("DNS_SVCS_OWNER_ZONE_ID")
+        self.lz_vpc_crn = os.getenv("DNS_SVCS_LZ_VPC_CRN")
+        authenticatorV2 = IAMAuthenticator(apikey=os.getenv("DNS_SVCS_OWNER_APIKEY"),
+                                           url=os.getenv("DNS_SVCS_AUTH_URL"))
+        # Create Linked Zones class object
+        self.lz = DnsSvcsV1.new_instance(service_name="dns_svcs")
+        self.ar = DnsSvcsV1.new_instance(service_name="dns_svcs")
+        self.ar.authenticator = authenticatorV2
+
+    # def tearDown(self):
+    #     """ tear down """
+    #     # Delete the resources
+    #     self._clean_linked_zones()
+    #     print("Clean up complete")
+
+    # def _clean_linked_zones(self):
+    #     # Delete Linked Zones
+    #     response = self.lz.list_linked_zones(instance_id=self.instance_id)
+    #     assert response is not None
+    #     assert response.status_code == 200
+    #     result = response.get_result().get("linked_zones")
+    #     for lzs in result:
+    #         self.lz.delete_linked_zone(instance_id=self.instance_id, linked_dnszone_id=lzs.get("id"))
+
+    def test_1_dns_linkedzones(self):
+        """ create,get,update,list Linked Zones """
+        # Create Linked Zones
+        description = "Linked zone example"
+        label = "dev"
+        x_correlation_id = 'create-linked-zone-sdk-at123'
+        resp = self.lz.create_linked_zone(instance_id=self.instance_id, owner_instance_id=self.owner_instance_id,
+                                         owner_zone_id=self.owner_zone_id, description=description, label=label,
+                                         x_correlation_id=x_correlation_id)
+        
+        linked_dnszone_id = resp.get_result().get("id")
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # List Linked Zones
+        x_correlation_id = 'list-linked-zone-sdk-at123'
+        offset = 0
+        limit = 200
+        resp = self.lz.list_linked_zones(instance_id=self.instance_id, offset=offset,
+                                         limit=limit, x_correlation_id=x_correlation_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Get Linked Zones
+        x_correlation_id = 'get-linked-zone-sdk-at123'
+        resp = self.lz.get_linked_zone(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id) 
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Update Linked Zones
+        description = "Linked zone update example"
+        label = "dev1"
+        x_correlation_id = 'update-linked-zone-sdk-at123'
+        resp = self.lz.update_linked_zone(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id,
+                                          description=description, label=label) 
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # List Access Requests
+        x_correlation_id = 'list-access-request-sdk-at123'
+        offset = 0
+        limit = 200
+        resp = self.ar.list_dnszone_access_requests(instance_id=self.owner_instance_id, dnszone_id=self.owner_zone_id, offset=offset,
+                                         limit=limit, x_correlation_id=x_correlation_id)
+        request_id = resp.get_result().get("access_requests")
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Get an access request
+        x_correlation_id = 'get-access-request-sdk-at123'
+        resp = self.ar.get_dnszone_access_request(instance_id=self.owner_instance_id, dnszone_id=self.owner_zone_id, request_id=request_id[0]["id"],
+                                                  x_correlation_id=x_correlation_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Update the state of an access request
+        x_correlation_id = 'update-access-request-sdk-at123'
+        action = 'APPROVE'
+        resp = self.ar.update_dnszone_access_request(instance_id=self.owner_instance_id, dnszone_id=self.owner_zone_id, request_id=request_id[0]["id"],
+                                                  action=action, x_correlation_id=x_correlation_id)
+        assert resp is not None
+        assert resp.status_code == 200
+        
+        # List the permitted networks for a linked zone
+        x_correlation_id = 'list-permitted-network-sdk-at123'
+        resp = self.lz.list_linked_permitted_networks(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Create a permitted network for a linked zone
+        permitted_network_vpc_model = {}
+        permitted_network_vpc_model['vpc_crn'] = self.lz_vpc_crn
+        x_correlation_id = 'create-permitted-network-sdk-at123'
+        type = 'vpc'
+        resp = self.lz.create_lz_permitted_network(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id,
+                                                   type=type, permitted_network=permitted_network_vpc_model)
+        permitted_network_id = resp.get_result().get("id")
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Get a permitted network
+        x_correlation_id = 'get-permitted-network-sdk-at123'
+        resp = self.lz.get_linked_permitted_network(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id, permitted_network_id=permitted_network_id)
+        assert resp is not None
+        assert resp.status_code == 200
+        
+        # Remove a permitted network
+        x_correlation_id = 'delete-permitted-network-sdk-at123'
+        resp = self.lz.delete_lz_permitted_network(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id, permitted_network_id=permitted_network_id)
+        assert resp is not None
+        assert resp.status_code == 202
+
+        # Delete Linked Zones
+        x_correlation_id = 'delete-linked-zone-sdk-at123'
+        resp = self.lz.delete_linked_zone(instance_id=self.instance_id, linked_dnszone_id=linked_dnszone_id, x_correlation_id=x_correlation_id)
+        assert resp is not None
+        assert resp.status_code == 204
 
 if __name__ == '__main__':
     unittest.main()

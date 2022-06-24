@@ -17,9 +17,7 @@
 Unit Tests for DnsSvcsV1
 """
 
-from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
-from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
@@ -4397,7 +4395,7 @@ class TestListCustomResolvers():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers')
-        mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
+        mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4435,7 +4433,7 @@ class TestListCustomResolvers():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers')
-        mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
+        mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4471,7 +4469,7 @@ class TestListCustomResolvers():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers')
-        mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
+        mock_response = '{"custom_resolvers": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4512,7 +4510,7 @@ class TestCreateCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4566,7 +4564,7 @@ class TestCreateCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4602,7 +4600,7 @@ class TestCreateCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4755,7 +4753,7 @@ class TestGetCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4795,7 +4793,7 @@ class TestGetCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4833,7 +4831,7 @@ class TestGetCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4876,7 +4874,7 @@ class TestUpdateCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -4927,7 +4925,7 @@ class TestUpdateCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -4965,7 +4963,7 @@ class TestUpdateCustomResolver():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -5008,7 +5006,7 @@ class TestUpdateCrLocationsOrder():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/locations_order')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -5053,7 +5051,7 @@ class TestUpdateCrLocationsOrder():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/locations_order')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -5091,7 +5089,7 @@ class TestUpdateCrLocationsOrder():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/locations_order')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "name": "my-resolver", "description": "custom resolver", "enabled": false, "health": "HEALTHY", "locations": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "subnet_crn": "crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04", "enabled": true, "healthy": true, "dns_server_ip": "10.10.16.8"}], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -5590,7 +5588,7 @@ class TestListForwardingRules():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules')
-        mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
+        mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5630,7 +5628,7 @@ class TestListForwardingRules():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules')
-        mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
+        mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5668,7 +5666,7 @@ class TestListForwardingRules():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules')
-        mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}]}'
+        mock_response = '{"forwarding_rules": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5711,7 +5709,7 @@ class TestCreateForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5765,7 +5763,7 @@ class TestCreateForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5803,7 +5801,7 @@ class TestCreateForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5964,7 +5962,7 @@ class TestGetForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6006,7 +6004,7 @@ class TestGetForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6046,7 +6044,7 @@ class TestGetForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6091,7 +6089,7 @@ class TestUpdateForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -6144,7 +6142,7 @@ class TestUpdateForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -6184,7 +6182,7 @@ class TestUpdateForwardingRule():
         """
         # Set up mock
         url = preprocess_url('/instances/testString/custom_resolvers/testString/forwarding_rules/testString')
-        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25.000Z", "modified_on": "2021-04-21T08:18:25.000Z"}'
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "description": "forwarding rule", "type": "zone", "match": "example.com", "forward_to": ["161.26.0.7"], "created_on": "2021-04-21T08:18:25Z", "modified_on": "2021-04-21T08:18:25Z"}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -6222,11 +6220,1695 @@ class TestUpdateForwardingRule():
 # End of Service: ForwardingRules
 ##############################################################################
 
+##############################################################################
+# Start of Service: LinkedZones
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+class TestListLinkedZones():
+    """
+    Test Class for list_linked_zones
+    """
+
+    @responses.activate
+    def test_list_linked_zones_all_params(self):
+        """
+        list_linked_zones()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones')
+        mock_response = '{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        x_correlation_id = 'testString'
+        offset = 38
+        limit = 200
+
+        # Invoke method
+        response = _service.list_linked_zones(
+            instance_id,
+            x_correlation_id=x_correlation_id,
+            offset=offset,
+            limit=limit,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'offset={}'.format(offset) in query_string
+        assert 'limit={}'.format(limit) in query_string
+
+    def test_list_linked_zones_all_params_with_retries(self):
+        # Enable retries and run test_list_linked_zones_all_params.
+        _service.enable_retries()
+        self.test_list_linked_zones_all_params()
+
+        # Disable retries and run test_list_linked_zones_all_params.
+        _service.disable_retries()
+        self.test_list_linked_zones_all_params()
+
+    @responses.activate
+    def test_list_linked_zones_required_params(self):
+        """
+        test_list_linked_zones_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones')
+        mock_response = '{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+
+        # Invoke method
+        response = _service.list_linked_zones(
+            instance_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_linked_zones_required_params_with_retries(self):
+        # Enable retries and run test_list_linked_zones_required_params.
+        _service.enable_retries()
+        self.test_list_linked_zones_required_params()
+
+        # Disable retries and run test_list_linked_zones_required_params.
+        _service.disable_retries()
+        self.test_list_linked_zones_required_params()
+
+    @responses.activate
+    def test_list_linked_zones_value_error(self):
+        """
+        test_list_linked_zones_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones')
+        mock_response = '{"linked_dnszones": [{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_linked_zones(**req_copy)
+
+
+    def test_list_linked_zones_value_error_with_retries(self):
+        # Enable retries and run test_list_linked_zones_value_error.
+        _service.enable_retries()
+        self.test_list_linked_zones_value_error()
+
+        # Disable retries and run test_list_linked_zones_value_error.
+        _service.disable_retries()
+        self.test_list_linked_zones_value_error()
+
+class TestCreateLinkedZone():
+    """
+    Test Class for create_linked_zone
+    """
+
+    @responses.activate
+    def test_create_linked_zone_all_params(self):
+        """
+        create_linked_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        owner_instance_id = 'abe30019-1c08-42dc-9ad9-a0682af70054'
+        owner_zone_id = '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+        description = 'linked zone example'
+        label = 'dev'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.create_linked_zone(
+            instance_id,
+            owner_instance_id=owner_instance_id,
+            owner_zone_id=owner_zone_id,
+            description=description,
+            label=label,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['owner_instance_id'] == 'abe30019-1c08-42dc-9ad9-a0682af70054'
+        assert req_body['owner_zone_id'] == '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+        assert req_body['description'] == 'linked zone example'
+        assert req_body['label'] == 'dev'
+
+    def test_create_linked_zone_all_params_with_retries(self):
+        # Enable retries and run test_create_linked_zone_all_params.
+        _service.enable_retries()
+        self.test_create_linked_zone_all_params()
+
+        # Disable retries and run test_create_linked_zone_all_params.
+        _service.disable_retries()
+        self.test_create_linked_zone_all_params()
+
+    @responses.activate
+    def test_create_linked_zone_required_params(self):
+        """
+        test_create_linked_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+
+        # Invoke method
+        response = _service.create_linked_zone(
+            instance_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_linked_zone_required_params_with_retries(self):
+        # Enable retries and run test_create_linked_zone_required_params.
+        _service.enable_retries()
+        self.test_create_linked_zone_required_params()
+
+        # Disable retries and run test_create_linked_zone_required_params.
+        _service.disable_retries()
+        self.test_create_linked_zone_required_params()
+
+    @responses.activate
+    def test_create_linked_zone_value_error(self):
+        """
+        test_create_linked_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_linked_zone(**req_copy)
+
+
+    def test_create_linked_zone_value_error_with_retries(self):
+        # Enable retries and run test_create_linked_zone_value_error.
+        _service.enable_retries()
+        self.test_create_linked_zone_value_error()
+
+        # Disable retries and run test_create_linked_zone_value_error.
+        _service.disable_retries()
+        self.test_create_linked_zone_value_error()
+
+class TestGetLinkedZone():
+    """
+    Test Class for get_linked_zone
+    """
+
+    @responses.activate
+    def test_get_linked_zone_all_params(self):
+        """
+        get_linked_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.get_linked_zone(
+            instance_id,
+            linked_dnszone_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_linked_zone_all_params_with_retries(self):
+        # Enable retries and run test_get_linked_zone_all_params.
+        _service.enable_retries()
+        self.test_get_linked_zone_all_params()
+
+        # Disable retries and run test_get_linked_zone_all_params.
+        _service.disable_retries()
+        self.test_get_linked_zone_all_params()
+
+    @responses.activate
+    def test_get_linked_zone_required_params(self):
+        """
+        test_get_linked_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Invoke method
+        response = _service.get_linked_zone(
+            instance_id,
+            linked_dnszone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_linked_zone_required_params_with_retries(self):
+        # Enable retries and run test_get_linked_zone_required_params.
+        _service.enable_retries()
+        self.test_get_linked_zone_required_params()
+
+        # Disable retries and run test_get_linked_zone_required_params.
+        _service.disable_retries()
+        self.test_get_linked_zone_required_params()
+
+    @responses.activate
+    def test_get_linked_zone_value_error(self):
+        """
+        test_get_linked_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_linked_zone(**req_copy)
+
+
+    def test_get_linked_zone_value_error_with_retries(self):
+        # Enable retries and run test_get_linked_zone_value_error.
+        _service.enable_retries()
+        self.test_get_linked_zone_value_error()
+
+        # Disable retries and run test_get_linked_zone_value_error.
+        _service.disable_retries()
+        self.test_get_linked_zone_value_error()
+
+class TestUpdateLinkedZone():
+    """
+    Test Class for update_linked_zone
+    """
+
+    @responses.activate
+    def test_update_linked_zone_all_params(self):
+        """
+        update_linked_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        description = 'linked zone example'
+        label = 'dev'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.update_linked_zone(
+            instance_id,
+            linked_dnszone_id,
+            description=description,
+            label=label,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['description'] == 'linked zone example'
+        assert req_body['label'] == 'dev'
+
+    def test_update_linked_zone_all_params_with_retries(self):
+        # Enable retries and run test_update_linked_zone_all_params.
+        _service.enable_retries()
+        self.test_update_linked_zone_all_params()
+
+        # Disable retries and run test_update_linked_zone_all_params.
+        _service.disable_retries()
+        self.test_update_linked_zone_all_params()
+
+    @responses.activate
+    def test_update_linked_zone_required_params(self):
+        """
+        test_update_linked_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Invoke method
+        response = _service.update_linked_zone(
+            instance_id,
+            linked_dnszone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_update_linked_zone_required_params_with_retries(self):
+        # Enable retries and run test_update_linked_zone_required_params.
+        _service.enable_retries()
+        self.test_update_linked_zone_required_params()
+
+        # Disable retries and run test_update_linked_zone_required_params.
+        _service.disable_retries()
+        self.test_update_linked_zone_required_params()
+
+    @responses.activate
+    def test_update_linked_zone_value_error(self):
+        """
+        test_update_linked_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        mock_response = '{"id": "5365b73c-ce6f-4d6f-ad9f-d9c131b26370", "instance_id": "5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85", "name": "example.com", "description": "linked zone example", "linked_to": {"instance_crn": "crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::", "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d"}, "state": "PENDING_APPROVAL", "label": "dev", "approval_required_before": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_linked_zone(**req_copy)
+
+
+    def test_update_linked_zone_value_error_with_retries(self):
+        # Enable retries and run test_update_linked_zone_value_error.
+        _service.enable_retries()
+        self.test_update_linked_zone_value_error()
+
+        # Disable retries and run test_update_linked_zone_value_error.
+        _service.disable_retries()
+        self.test_update_linked_zone_value_error()
+
+class TestDeleteLinkedZone():
+    """
+    Test Class for delete_linked_zone
+    """
+
+    @responses.activate
+    def test_delete_linked_zone_all_params(self):
+        """
+        delete_linked_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_linked_zone(
+            instance_id,
+            linked_dnszone_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_linked_zone_all_params_with_retries(self):
+        # Enable retries and run test_delete_linked_zone_all_params.
+        _service.enable_retries()
+        self.test_delete_linked_zone_all_params()
+
+        # Disable retries and run test_delete_linked_zone_all_params.
+        _service.disable_retries()
+        self.test_delete_linked_zone_all_params()
+
+    @responses.activate
+    def test_delete_linked_zone_required_params(self):
+        """
+        test_delete_linked_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_linked_zone(
+            instance_id,
+            linked_dnszone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_linked_zone_required_params_with_retries(self):
+        # Enable retries and run test_delete_linked_zone_required_params.
+        _service.enable_retries()
+        self.test_delete_linked_zone_required_params()
+
+        # Disable retries and run test_delete_linked_zone_required_params.
+        _service.disable_retries()
+        self.test_delete_linked_zone_required_params()
+
+    @responses.activate
+    def test_delete_linked_zone_value_error(self):
+        """
+        test_delete_linked_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_linked_zone(**req_copy)
+
+
+    def test_delete_linked_zone_value_error_with_retries(self):
+        # Enable retries and run test_delete_linked_zone_value_error.
+        _service.enable_retries()
+        self.test_delete_linked_zone_value_error()
+
+        # Disable retries and run test_delete_linked_zone_value_error.
+        _service.disable_retries()
+        self.test_delete_linked_zone_value_error()
+
+# endregion
+##############################################################################
+# End of Service: LinkedZones
+##############################################################################
+
+##############################################################################
+# Start of Service: AccessRequests
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+class TestListDnszoneAccessRequests():
+    """
+    Test Class for list_dnszone_access_requests
+    """
+
+    @responses.activate
+    def test_list_dnszone_access_requests_all_params(self):
+        """
+        list_dnszone_access_requests()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests')
+        mock_response = '{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        x_correlation_id = 'testString'
+        offset = 38
+        limit = 200
+
+        # Invoke method
+        response = _service.list_dnszone_access_requests(
+            instance_id,
+            dnszone_id,
+            x_correlation_id=x_correlation_id,
+            offset=offset,
+            limit=limit,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'offset={}'.format(offset) in query_string
+        assert 'limit={}'.format(limit) in query_string
+
+    def test_list_dnszone_access_requests_all_params_with_retries(self):
+        # Enable retries and run test_list_dnszone_access_requests_all_params.
+        _service.enable_retries()
+        self.test_list_dnszone_access_requests_all_params()
+
+        # Disable retries and run test_list_dnszone_access_requests_all_params.
+        _service.disable_retries()
+        self.test_list_dnszone_access_requests_all_params()
+
+    @responses.activate
+    def test_list_dnszone_access_requests_required_params(self):
+        """
+        test_list_dnszone_access_requests_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests')
+        mock_response = '{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+
+        # Invoke method
+        response = _service.list_dnszone_access_requests(
+            instance_id,
+            dnszone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_dnszone_access_requests_required_params_with_retries(self):
+        # Enable retries and run test_list_dnszone_access_requests_required_params.
+        _service.enable_retries()
+        self.test_list_dnszone_access_requests_required_params()
+
+        # Disable retries and run test_list_dnszone_access_requests_required_params.
+        _service.disable_retries()
+        self.test_list_dnszone_access_requests_required_params()
+
+    @responses.activate
+    def test_list_dnszone_access_requests_value_error(self):
+        """
+        test_list_dnszone_access_requests_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests')
+        mock_response = '{"access_requests": [{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "dnszone_id": dnszone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_dnszone_access_requests(**req_copy)
+
+
+    def test_list_dnszone_access_requests_value_error_with_retries(self):
+        # Enable retries and run test_list_dnszone_access_requests_value_error.
+        _service.enable_retries()
+        self.test_list_dnszone_access_requests_value_error()
+
+        # Disable retries and run test_list_dnszone_access_requests_value_error.
+        _service.disable_retries()
+        self.test_list_dnszone_access_requests_value_error()
+
+class TestGetDnszoneAccessRequest():
+    """
+    Test Class for get_dnszone_access_request
+    """
+
+    @responses.activate
+    def test_get_dnszone_access_request_all_params(self):
+        """
+        get_dnszone_access_request()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests/testString')
+        mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        request_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.get_dnszone_access_request(
+            instance_id,
+            dnszone_id,
+            request_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_dnszone_access_request_all_params_with_retries(self):
+        # Enable retries and run test_get_dnszone_access_request_all_params.
+        _service.enable_retries()
+        self.test_get_dnszone_access_request_all_params()
+
+        # Disable retries and run test_get_dnszone_access_request_all_params.
+        _service.disable_retries()
+        self.test_get_dnszone_access_request_all_params()
+
+    @responses.activate
+    def test_get_dnszone_access_request_required_params(self):
+        """
+        test_get_dnszone_access_request_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests/testString')
+        mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        request_id = 'testString'
+
+        # Invoke method
+        response = _service.get_dnszone_access_request(
+            instance_id,
+            dnszone_id,
+            request_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_dnszone_access_request_required_params_with_retries(self):
+        # Enable retries and run test_get_dnszone_access_request_required_params.
+        _service.enable_retries()
+        self.test_get_dnszone_access_request_required_params()
+
+        # Disable retries and run test_get_dnszone_access_request_required_params.
+        _service.disable_retries()
+        self.test_get_dnszone_access_request_required_params()
+
+    @responses.activate
+    def test_get_dnszone_access_request_value_error(self):
+        """
+        test_get_dnszone_access_request_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests/testString')
+        mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        request_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "dnszone_id": dnszone_id,
+            "request_id": request_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_dnszone_access_request(**req_copy)
+
+
+    def test_get_dnszone_access_request_value_error_with_retries(self):
+        # Enable retries and run test_get_dnszone_access_request_value_error.
+        _service.enable_retries()
+        self.test_get_dnszone_access_request_value_error()
+
+        # Disable retries and run test_get_dnszone_access_request_value_error.
+        _service.disable_retries()
+        self.test_get_dnszone_access_request_value_error()
+
+class TestUpdateDnszoneAccessRequest():
+    """
+    Test Class for update_dnszone_access_request
+    """
+
+    @responses.activate
+    def test_update_dnszone_access_request_all_params(self):
+        """
+        update_dnszone_access_request()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests/testString')
+        mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        request_id = 'testString'
+        action = 'APPROVE'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.update_dnszone_access_request(
+            instance_id,
+            dnszone_id,
+            request_id,
+            action=action,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['action'] == 'APPROVE'
+
+    def test_update_dnszone_access_request_all_params_with_retries(self):
+        # Enable retries and run test_update_dnszone_access_request_all_params.
+        _service.enable_retries()
+        self.test_update_dnszone_access_request_all_params()
+
+        # Disable retries and run test_update_dnszone_access_request_all_params.
+        _service.disable_retries()
+        self.test_update_dnszone_access_request_all_params()
+
+    @responses.activate
+    def test_update_dnszone_access_request_required_params(self):
+        """
+        test_update_dnszone_access_request_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests/testString')
+        mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        request_id = 'testString'
+
+        # Invoke method
+        response = _service.update_dnszone_access_request(
+            instance_id,
+            dnszone_id,
+            request_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_update_dnszone_access_request_required_params_with_retries(self):
+        # Enable retries and run test_update_dnszone_access_request_required_params.
+        _service.enable_retries()
+        self.test_update_dnszone_access_request_required_params()
+
+        # Disable retries and run test_update_dnszone_access_request_required_params.
+        _service.disable_retries()
+        self.test_update_dnszone_access_request_required_params()
+
+    @responses.activate
+    def test_update_dnszone_access_request_value_error(self):
+        """
+        test_update_dnszone_access_request_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/dnszones/testString/access_requests/testString')
+        mock_response = '{"id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "requestor": {"account_id": "01652b251c3ae2787110a995d8db0135", "instance_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb", "linked_zone_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}, "zone_id": "05855abe-3908-4cdc-bf0d-063e0b1c296d", "zone_name": "example.com", "state": "PENDING", "pending_expires_at": "2022-03-16T07:23:25Z", "created_on": "2022-03-09T07:23:25Z", "modified_on": "2022-03-09T07:23:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        dnszone_id = 'testString'
+        request_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "dnszone_id": dnszone_id,
+            "request_id": request_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_dnszone_access_request(**req_copy)
+
+
+    def test_update_dnszone_access_request_value_error_with_retries(self):
+        # Enable retries and run test_update_dnszone_access_request_value_error.
+        _service.enable_retries()
+        self.test_update_dnszone_access_request_value_error()
+
+        # Disable retries and run test_update_dnszone_access_request_value_error.
+        _service.disable_retries()
+        self.test_update_dnszone_access_request_value_error()
+
+# endregion
+##############################################################################
+# End of Service: AccessRequests
+##############################################################################
+
+##############################################################################
+# Start of Service: PermittedNetworkForLinkedZone
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+class TestListLinkedPermittedNetworks():
+    """
+    Test Class for list_linked_permitted_networks
+    """
+
+    @responses.activate
+    def test_list_linked_permitted_networks_all_params(self):
+        """
+        list_linked_permitted_networks()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks')
+        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.list_linked_permitted_networks(
+            instance_id,
+            linked_dnszone_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_linked_permitted_networks_all_params_with_retries(self):
+        # Enable retries and run test_list_linked_permitted_networks_all_params.
+        _service.enable_retries()
+        self.test_list_linked_permitted_networks_all_params()
+
+        # Disable retries and run test_list_linked_permitted_networks_all_params.
+        _service.disable_retries()
+        self.test_list_linked_permitted_networks_all_params()
+
+    @responses.activate
+    def test_list_linked_permitted_networks_required_params(self):
+        """
+        test_list_linked_permitted_networks_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks')
+        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Invoke method
+        response = _service.list_linked_permitted_networks(
+            instance_id,
+            linked_dnszone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_linked_permitted_networks_required_params_with_retries(self):
+        # Enable retries and run test_list_linked_permitted_networks_required_params.
+        _service.enable_retries()
+        self.test_list_linked_permitted_networks_required_params()
+
+        # Disable retries and run test_list_linked_permitted_networks_required_params.
+        _service.disable_retries()
+        self.test_list_linked_permitted_networks_required_params()
+
+    @responses.activate
+    def test_list_linked_permitted_networks_value_error(self):
+        """
+        test_list_linked_permitted_networks_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks')
+        mock_response = '{"permitted_networks": [{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_linked_permitted_networks(**req_copy)
+
+
+    def test_list_linked_permitted_networks_value_error_with_retries(self):
+        # Enable retries and run test_list_linked_permitted_networks_value_error.
+        _service.enable_retries()
+        self.test_list_linked_permitted_networks_value_error()
+
+        # Disable retries and run test_list_linked_permitted_networks_value_error.
+        _service.disable_retries()
+        self.test_list_linked_permitted_networks_value_error()
+
+class TestCreateLzPermittedNetwork():
+    """
+    Test Class for create_lz_permitted_network
+    """
+
+    @responses.activate
+    def test_create_lz_permitted_network_all_params(self):
+        """
+        create_lz_permitted_network()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a PermittedNetworkVpc model
+        permitted_network_vpc_model = {}
+        permitted_network_vpc_model['vpc_crn'] = 'crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6'
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        type = 'vpc'
+        permitted_network = permitted_network_vpc_model
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.create_lz_permitted_network(
+            instance_id,
+            linked_dnszone_id,
+            type=type,
+            permitted_network=permitted_network,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['type'] == 'vpc'
+        assert req_body['permitted_network'] == permitted_network_vpc_model
+
+    def test_create_lz_permitted_network_all_params_with_retries(self):
+        # Enable retries and run test_create_lz_permitted_network_all_params.
+        _service.enable_retries()
+        self.test_create_lz_permitted_network_all_params()
+
+        # Disable retries and run test_create_lz_permitted_network_all_params.
+        _service.disable_retries()
+        self.test_create_lz_permitted_network_all_params()
+
+    @responses.activate
+    def test_create_lz_permitted_network_required_params(self):
+        """
+        test_create_lz_permitted_network_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Invoke method
+        response = _service.create_lz_permitted_network(
+            instance_id,
+            linked_dnszone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_lz_permitted_network_required_params_with_retries(self):
+        # Enable retries and run test_create_lz_permitted_network_required_params.
+        _service.enable_retries()
+        self.test_create_lz_permitted_network_required_params()
+
+        # Disable retries and run test_create_lz_permitted_network_required_params.
+        _service.disable_retries()
+        self.test_create_lz_permitted_network_required_params()
+
+    @responses.activate
+    def test_create_lz_permitted_network_value_error(self):
+        """
+        test_create_lz_permitted_network_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_lz_permitted_network(**req_copy)
+
+
+    def test_create_lz_permitted_network_value_error_with_retries(self):
+        # Enable retries and run test_create_lz_permitted_network_value_error.
+        _service.enable_retries()
+        self.test_create_lz_permitted_network_value_error()
+
+        # Disable retries and run test_create_lz_permitted_network_value_error.
+        _service.disable_retries()
+        self.test_create_lz_permitted_network_value_error()
+
+class TestDeleteLzPermittedNetwork():
+    """
+    Test Class for delete_lz_permitted_network
+    """
+
+    @responses.activate
+    def test_delete_lz_permitted_network_all_params(self):
+        """
+        delete_lz_permitted_network()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks/testString')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        permitted_network_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_lz_permitted_network(
+            instance_id,
+            linked_dnszone_id,
+            permitted_network_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_delete_lz_permitted_network_all_params_with_retries(self):
+        # Enable retries and run test_delete_lz_permitted_network_all_params.
+        _service.enable_retries()
+        self.test_delete_lz_permitted_network_all_params()
+
+        # Disable retries and run test_delete_lz_permitted_network_all_params.
+        _service.disable_retries()
+        self.test_delete_lz_permitted_network_all_params()
+
+    @responses.activate
+    def test_delete_lz_permitted_network_required_params(self):
+        """
+        test_delete_lz_permitted_network_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks/testString')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        permitted_network_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_lz_permitted_network(
+            instance_id,
+            linked_dnszone_id,
+            permitted_network_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_delete_lz_permitted_network_required_params_with_retries(self):
+        # Enable retries and run test_delete_lz_permitted_network_required_params.
+        _service.enable_retries()
+        self.test_delete_lz_permitted_network_required_params()
+
+        # Disable retries and run test_delete_lz_permitted_network_required_params.
+        _service.disable_retries()
+        self.test_delete_lz_permitted_network_required_params()
+
+    @responses.activate
+    def test_delete_lz_permitted_network_value_error(self):
+        """
+        test_delete_lz_permitted_network_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks/testString')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        permitted_network_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+            "permitted_network_id": permitted_network_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_lz_permitted_network(**req_copy)
+
+
+    def test_delete_lz_permitted_network_value_error_with_retries(self):
+        # Enable retries and run test_delete_lz_permitted_network_value_error.
+        _service.enable_retries()
+        self.test_delete_lz_permitted_network_value_error()
+
+        # Disable retries and run test_delete_lz_permitted_network_value_error.
+        _service.disable_retries()
+        self.test_delete_lz_permitted_network_value_error()
+
+class TestGetLinkedPermittedNetwork():
+    """
+    Test Class for get_linked_permitted_network
+    """
+
+    @responses.activate
+    def test_get_linked_permitted_network_all_params(self):
+        """
+        get_linked_permitted_network()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks/testString')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        permitted_network_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.get_linked_permitted_network(
+            instance_id,
+            linked_dnszone_id,
+            permitted_network_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_linked_permitted_network_all_params_with_retries(self):
+        # Enable retries and run test_get_linked_permitted_network_all_params.
+        _service.enable_retries()
+        self.test_get_linked_permitted_network_all_params()
+
+        # Disable retries and run test_get_linked_permitted_network_all_params.
+        _service.disable_retries()
+        self.test_get_linked_permitted_network_all_params()
+
+    @responses.activate
+    def test_get_linked_permitted_network_required_params(self):
+        """
+        test_get_linked_permitted_network_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks/testString')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        permitted_network_id = 'testString'
+
+        # Invoke method
+        response = _service.get_linked_permitted_network(
+            instance_id,
+            linked_dnszone_id,
+            permitted_network_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_linked_permitted_network_required_params_with_retries(self):
+        # Enable retries and run test_get_linked_permitted_network_required_params.
+        _service.enable_retries()
+        self.test_get_linked_permitted_network_required_params()
+
+        # Disable retries and run test_get_linked_permitted_network_required_params.
+        _service.disable_retries()
+        self.test_get_linked_permitted_network_required_params()
+
+    @responses.activate
+    def test_get_linked_permitted_network_value_error(self):
+        """
+        test_get_linked_permitted_network_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/linked_dnszones/testString/permitted_networks/testString')
+        mock_response = '{"id": "fecd0173-3919-456b-b202-3029dfa1b0f7", "created_on": "2019-01-01T05:20:00.12345Z", "modified_on": "2019-01-01T05:20:00.12345Z", "permitted_network": {"vpc_crn": "crn:v1:bluemix:public:is:eu-de:a/bcf1865e99742d38d2d5fc3fb80a5496::vpc:6e6cc326-04d1-4c99-a289-efb3ae4193d6"}, "type": "vpc", "state": "ACTIVE"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        linked_dnszone_id = 'testString'
+        permitted_network_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "linked_dnszone_id": linked_dnszone_id,
+            "permitted_network_id": permitted_network_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_linked_permitted_network(**req_copy)
+
+
+    def test_get_linked_permitted_network_value_error_with_retries(self):
+        # Enable retries and run test_get_linked_permitted_network_value_error.
+        _service.enable_retries()
+        self.test_get_linked_permitted_network_value_error()
+
+        # Disable retries and run test_get_linked_permitted_network_value_error.
+        _service.disable_retries()
+        self.test_get_linked_permitted_network_value_error()
+
+# endregion
+##############################################################################
+# End of Service: PermittedNetworkForLinkedZone
+##############################################################################
+
 
 ##############################################################################
 # Start of Model Tests
 ##############################################################################
 # region
+class TestModel_AccessRequestRequestor():
+    """
+    Test Class for AccessRequestRequestor
+    """
+
+    def test_access_request_requestor_serialization(self):
+        """
+        Test serialization/deserialization for AccessRequestRequestor
+        """
+
+        # Construct a json representation of a AccessRequestRequestor model
+        access_request_requestor_model_json = {}
+        access_request_requestor_model_json['account_id'] = '01652b251c3ae2787110a995d8db0135'
+        access_request_requestor_model_json['instance_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+        access_request_requestor_model_json['linked_zone_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+
+        # Construct a model instance of AccessRequestRequestor by calling from_dict on the json representation
+        access_request_requestor_model = AccessRequestRequestor.from_dict(access_request_requestor_model_json)
+        assert access_request_requestor_model != False
+
+        # Construct a model instance of AccessRequestRequestor by calling from_dict on the json representation
+        access_request_requestor_model_dict = AccessRequestRequestor.from_dict(access_request_requestor_model_json).__dict__
+        access_request_requestor_model2 = AccessRequestRequestor(**access_request_requestor_model_dict)
+
+        # Verify the model instances are equivalent
+        assert access_request_requestor_model == access_request_requestor_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        access_request_requestor_model_json2 = access_request_requestor_model.to_dict()
+        assert access_request_requestor_model_json2 == access_request_requestor_model_json
+
+class TestModel_LinkedDnszoneLinkedTo():
+    """
+    Test Class for LinkedDnszoneLinkedTo
+    """
+
+    def test_linked_dnszone_linked_to_serialization(self):
+        """
+        Test serialization/deserialization for LinkedDnszoneLinkedTo
+        """
+
+        # Construct a json representation of a LinkedDnszoneLinkedTo model
+        linked_dnszone_linked_to_model_json = {}
+        linked_dnszone_linked_to_model_json['instance_crn'] = 'crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::'
+        linked_dnszone_linked_to_model_json['zone_id'] = '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+
+        # Construct a model instance of LinkedDnszoneLinkedTo by calling from_dict on the json representation
+        linked_dnszone_linked_to_model = LinkedDnszoneLinkedTo.from_dict(linked_dnszone_linked_to_model_json)
+        assert linked_dnszone_linked_to_model != False
+
+        # Construct a model instance of LinkedDnszoneLinkedTo by calling from_dict on the json representation
+        linked_dnszone_linked_to_model_dict = LinkedDnszoneLinkedTo.from_dict(linked_dnszone_linked_to_model_json).__dict__
+        linked_dnszone_linked_to_model2 = LinkedDnszoneLinkedTo(**linked_dnszone_linked_to_model_dict)
+
+        # Verify the model instances are equivalent
+        assert linked_dnszone_linked_to_model == linked_dnszone_linked_to_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        linked_dnszone_linked_to_model_json2 = linked_dnszone_linked_to_model.to_dict()
+        assert linked_dnszone_linked_to_model_json2 == linked_dnszone_linked_to_model_json
+
 class TestModel_LoadBalancerAzPoolsItem():
     """
     Test Class for LoadBalancerAzPoolsItem
@@ -6318,6 +8000,106 @@ class TestModel_RecordsImportErrorModelError():
         # Convert model instance back to dict and verify no loss of data
         records_import_error_model_error_model_json2 = records_import_error_model_error_model.to_dict()
         assert records_import_error_model_error_model_json2 == records_import_error_model_error_model_json
+
+class TestModel_AccessRequest():
+    """
+    Test Class for AccessRequest
+    """
+
+    def test_access_request_serialization(self):
+        """
+        Test serialization/deserialization for AccessRequest
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        access_request_requestor_model = {} # AccessRequestRequestor
+        access_request_requestor_model['account_id'] = '01652b251c3ae2787110a995d8db0135'
+        access_request_requestor_model['instance_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+        access_request_requestor_model['linked_zone_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+
+        # Construct a json representation of a AccessRequest model
+        access_request_model_json = {}
+        access_request_model_json['id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+        access_request_model_json['requestor'] = access_request_requestor_model
+        access_request_model_json['zone_id'] = '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+        access_request_model_json['zone_name'] = 'example.com'
+        access_request_model_json['state'] = 'PENDING'
+        access_request_model_json['pending_expires_at'] = '2022-03-16T07:23:25Z'
+        access_request_model_json['created_on'] = '2022-03-09T07:23:25Z'
+        access_request_model_json['modified_on'] = '2022-03-09T07:23:25Z'
+
+        # Construct a model instance of AccessRequest by calling from_dict on the json representation
+        access_request_model = AccessRequest.from_dict(access_request_model_json)
+        assert access_request_model != False
+
+        # Construct a model instance of AccessRequest by calling from_dict on the json representation
+        access_request_model_dict = AccessRequest.from_dict(access_request_model_json).__dict__
+        access_request_model2 = AccessRequest(**access_request_model_dict)
+
+        # Verify the model instances are equivalent
+        assert access_request_model == access_request_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        access_request_model_json2 = access_request_model.to_dict()
+        assert access_request_model_json2 == access_request_model_json
+
+class TestModel_AccessRequestsList():
+    """
+    Test Class for AccessRequestsList
+    """
+
+    def test_access_requests_list_serialization(self):
+        """
+        Test serialization/deserialization for AccessRequestsList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        access_request_requestor_model = {} # AccessRequestRequestor
+        access_request_requestor_model['account_id'] = '01652b251c3ae2787110a995d8db0135'
+        access_request_requestor_model['instance_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+        access_request_requestor_model['linked_zone_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+
+        access_request_model = {} # AccessRequest
+        access_request_model['id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+        access_request_model['requestor'] = access_request_requestor_model
+        access_request_model['zone_id'] = '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+        access_request_model['zone_name'] = 'example.com'
+        access_request_model['state'] = 'PENDING'
+        access_request_model['pending_expires_at'] = '2022-03-16T07:23:25Z'
+        access_request_model['created_on'] = '2022-03-09T07:23:25Z'
+        access_request_model['modified_on'] = '2022-03-09T07:23:25Z'
+
+        pagination_ref_model = {} # PaginationRef
+        pagination_ref_model['href'] = 'https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200'
+
+        # Construct a json representation of a AccessRequestsList model
+        access_requests_list_model_json = {}
+        access_requests_list_model_json['access_requests'] = [access_request_model]
+        access_requests_list_model_json['offset'] = 0
+        access_requests_list_model_json['limit'] = 200
+        access_requests_list_model_json['count'] = 1
+        access_requests_list_model_json['total_count'] = 1
+        access_requests_list_model_json['first'] = pagination_ref_model
+        access_requests_list_model_json['last'] = pagination_ref_model
+        access_requests_list_model_json['previous'] = pagination_ref_model
+        access_requests_list_model_json['next'] = pagination_ref_model
+
+        # Construct a model instance of AccessRequestsList by calling from_dict on the json representation
+        access_requests_list_model = AccessRequestsList.from_dict(access_requests_list_model_json)
+        assert access_requests_list_model != False
+
+        # Construct a model instance of AccessRequestsList by calling from_dict on the json representation
+        access_requests_list_model_dict = AccessRequestsList.from_dict(access_requests_list_model_json).__dict__
+        access_requests_list_model2 = AccessRequestsList(**access_requests_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert access_requests_list_model == access_requests_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        access_requests_list_model_json2 = access_requests_list_model.to_dict()
+        assert access_requests_list_model_json2 == access_requests_list_model_json
 
 class TestModel_CustomResolver():
     """
@@ -6610,6 +8392,108 @@ class TestModel_ImportResourceRecordsResp():
         # Convert model instance back to dict and verify no loss of data
         import_resource_records_resp_model_json2 = import_resource_records_resp_model.to_dict()
         assert import_resource_records_resp_model_json2 == import_resource_records_resp_model_json
+
+class TestModel_LinkedDnszone():
+    """
+    Test Class for LinkedDnszone
+    """
+
+    def test_linked_dnszone_serialization(self):
+        """
+        Test serialization/deserialization for LinkedDnszone
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        linked_dnszone_linked_to_model = {} # LinkedDnszoneLinkedTo
+        linked_dnszone_linked_to_model['instance_crn'] = 'crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::'
+        linked_dnszone_linked_to_model['zone_id'] = '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+
+        # Construct a json representation of a LinkedDnszone model
+        linked_dnszone_model_json = {}
+        linked_dnszone_model_json['id'] = '5365b73c-ce6f-4d6f-ad9f-d9c131b26370'
+        linked_dnszone_model_json['instance_id'] = '5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85'
+        linked_dnszone_model_json['name'] = 'example.com'
+        linked_dnszone_model_json['description'] = 'linked zone example'
+        linked_dnszone_model_json['linked_to'] = linked_dnszone_linked_to_model
+        linked_dnszone_model_json['state'] = 'PENDING_APPROVAL'
+        linked_dnszone_model_json['label'] = 'dev'
+        linked_dnszone_model_json['approval_required_before'] = '2022-03-16T07:23:25Z'
+        linked_dnszone_model_json['created_on'] = '2022-03-09T07:23:25Z'
+        linked_dnszone_model_json['modified_on'] = '2022-03-09T07:23:25Z'
+
+        # Construct a model instance of LinkedDnszone by calling from_dict on the json representation
+        linked_dnszone_model = LinkedDnszone.from_dict(linked_dnszone_model_json)
+        assert linked_dnszone_model != False
+
+        # Construct a model instance of LinkedDnszone by calling from_dict on the json representation
+        linked_dnszone_model_dict = LinkedDnszone.from_dict(linked_dnszone_model_json).__dict__
+        linked_dnszone_model2 = LinkedDnszone(**linked_dnszone_model_dict)
+
+        # Verify the model instances are equivalent
+        assert linked_dnszone_model == linked_dnszone_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        linked_dnszone_model_json2 = linked_dnszone_model.to_dict()
+        assert linked_dnszone_model_json2 == linked_dnszone_model_json
+
+class TestModel_LinkedDnszonesList():
+    """
+    Test Class for LinkedDnszonesList
+    """
+
+    def test_linked_dnszones_list_serialization(self):
+        """
+        Test serialization/deserialization for LinkedDnszonesList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        linked_dnszone_linked_to_model = {} # LinkedDnszoneLinkedTo
+        linked_dnszone_linked_to_model['instance_crn'] = 'crn:v1:staging:public:pdnsdev:global:a/01652b251c3ae2787110a995d8db0135:abe30019-1c08-42dc-9ad9-a0682af70054::'
+        linked_dnszone_linked_to_model['zone_id'] = '05855abe-3908-4cdc-bf0d-063e0b1c296d'
+
+        linked_dnszone_model = {} # LinkedDnszone
+        linked_dnszone_model['id'] = '5365b73c-ce6f-4d6f-ad9f-d9c131b26370'
+        linked_dnszone_model['instance_id'] = '5cbc3c1b-021c-4ad7-b9e4-a5dfefdecf85'
+        linked_dnszone_model['name'] = 'example.com'
+        linked_dnszone_model['description'] = 'linked zone example'
+        linked_dnszone_model['linked_to'] = linked_dnszone_linked_to_model
+        linked_dnszone_model['state'] = 'PENDING_APPROVAL'
+        linked_dnszone_model['label'] = 'dev'
+        linked_dnszone_model['approval_required_before'] = '2022-03-16T07:23:25Z'
+        linked_dnszone_model['created_on'] = '2022-03-09T07:23:25Z'
+        linked_dnszone_model['modified_on'] = '2022-03-09T07:23:25Z'
+
+        pagination_ref_model = {} # PaginationRef
+        pagination_ref_model['href'] = 'https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200'
+
+        # Construct a json representation of a LinkedDnszonesList model
+        linked_dnszones_list_model_json = {}
+        linked_dnszones_list_model_json['linked_dnszones'] = [linked_dnszone_model]
+        linked_dnszones_list_model_json['offset'] = 0
+        linked_dnszones_list_model_json['limit'] = 200
+        linked_dnszones_list_model_json['count'] = 1
+        linked_dnszones_list_model_json['total_count'] = 1
+        linked_dnszones_list_model_json['first'] = pagination_ref_model
+        linked_dnszones_list_model_json['last'] = pagination_ref_model
+        linked_dnszones_list_model_json['previous'] = pagination_ref_model
+        linked_dnszones_list_model_json['next'] = pagination_ref_model
+
+        # Construct a model instance of LinkedDnszonesList by calling from_dict on the json representation
+        linked_dnszones_list_model = LinkedDnszonesList.from_dict(linked_dnszones_list_model_json)
+        assert linked_dnszones_list_model != False
+
+        # Construct a model instance of LinkedDnszonesList by calling from_dict on the json representation
+        linked_dnszones_list_model_dict = LinkedDnszonesList.from_dict(linked_dnszones_list_model_json).__dict__
+        linked_dnszones_list_model2 = LinkedDnszonesList(**linked_dnszones_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert linked_dnszones_list_model == linked_dnszones_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        linked_dnszones_list_model_json2 = linked_dnszones_list_model.to_dict()
+        assert linked_dnszones_list_model_json2 == linked_dnszones_list_model_json
 
 class TestModel_ListDnszones():
     """
