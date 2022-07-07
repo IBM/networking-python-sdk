@@ -6221,6 +6221,691 @@ class TestUpdateForwardingRule():
 ##############################################################################
 
 ##############################################################################
+# Start of Service: SecondaryZones
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DnsSvcsV1.new_instance(
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DnsSvcsV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DnsSvcsV1.new_instance(
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+class TestCreateSecondaryZone():
+    """
+    Test Class for create_secondary_zone
+    """
+
+    @responses.activate
+    def test_create_secondary_zone_all_params(self):
+        """
+        create_secondary_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        zone = 'example.com'
+        transfer_from = ['10.0.0.7']
+        description = 'secondary zone'
+        enabled = False
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.create_secondary_zone(
+            instance_id,
+            resolver_id,
+            zone=zone,
+            transfer_from=transfer_from,
+            description=description,
+            enabled=enabled,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['zone'] == 'example.com'
+        assert req_body['transfer_from'] == ['10.0.0.7']
+        assert req_body['description'] == 'secondary zone'
+        assert req_body['enabled'] == False
+
+    def test_create_secondary_zone_all_params_with_retries(self):
+        # Enable retries and run test_create_secondary_zone_all_params.
+        _service.enable_retries()
+        self.test_create_secondary_zone_all_params()
+
+        # Disable retries and run test_create_secondary_zone_all_params.
+        _service.disable_retries()
+        self.test_create_secondary_zone_all_params()
+
+    @responses.activate
+    def test_create_secondary_zone_required_params(self):
+        """
+        test_create_secondary_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+
+        # Invoke method
+        response = _service.create_secondary_zone(
+            instance_id,
+            resolver_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_secondary_zone_required_params_with_retries(self):
+        # Enable retries and run test_create_secondary_zone_required_params.
+        _service.enable_retries()
+        self.test_create_secondary_zone_required_params()
+
+        # Disable retries and run test_create_secondary_zone_required_params.
+        _service.disable_retries()
+        self.test_create_secondary_zone_required_params()
+
+    @responses.activate
+    def test_create_secondary_zone_value_error(self):
+        """
+        test_create_secondary_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_secondary_zone(**req_copy)
+
+
+    def test_create_secondary_zone_value_error_with_retries(self):
+        # Enable retries and run test_create_secondary_zone_value_error.
+        _service.enable_retries()
+        self.test_create_secondary_zone_value_error()
+
+        # Disable retries and run test_create_secondary_zone_value_error.
+        _service.disable_retries()
+        self.test_create_secondary_zone_value_error()
+
+class TestListSecondaryZones():
+    """
+    Test Class for list_secondary_zones
+    """
+
+    @responses.activate
+    def test_list_secondary_zones_all_params(self):
+        """
+        list_secondary_zones()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
+        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        x_correlation_id = 'testString'
+        offset = 38
+        limit = 200
+
+        # Invoke method
+        response = _service.list_secondary_zones(
+            instance_id,
+            resolver_id,
+            x_correlation_id=x_correlation_id,
+            offset=offset,
+            limit=limit,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'offset={}'.format(offset) in query_string
+        assert 'limit={}'.format(limit) in query_string
+
+    def test_list_secondary_zones_all_params_with_retries(self):
+        # Enable retries and run test_list_secondary_zones_all_params.
+        _service.enable_retries()
+        self.test_list_secondary_zones_all_params()
+
+        # Disable retries and run test_list_secondary_zones_all_params.
+        _service.disable_retries()
+        self.test_list_secondary_zones_all_params()
+
+    @responses.activate
+    def test_list_secondary_zones_required_params(self):
+        """
+        test_list_secondary_zones_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
+        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+
+        # Invoke method
+        response = _service.list_secondary_zones(
+            instance_id,
+            resolver_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_secondary_zones_required_params_with_retries(self):
+        # Enable retries and run test_list_secondary_zones_required_params.
+        _service.enable_retries()
+        self.test_list_secondary_zones_required_params()
+
+        # Disable retries and run test_list_secondary_zones_required_params.
+        _service.disable_retries()
+        self.test_list_secondary_zones_required_params()
+
+    @responses.activate
+    def test_list_secondary_zones_value_error(self):
+        """
+        test_list_secondary_zones_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones')
+        mock_response = '{"secondary_zones": [{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}], "offset": 0, "limit": 200, "count": 1, "total_count": 1, "first": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "last": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "previous": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}, "next": {"href": "https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_secondary_zones(**req_copy)
+
+
+    def test_list_secondary_zones_value_error_with_retries(self):
+        # Enable retries and run test_list_secondary_zones_value_error.
+        _service.enable_retries()
+        self.test_list_secondary_zones_value_error()
+
+        # Disable retries and run test_list_secondary_zones_value_error.
+        _service.disable_retries()
+        self.test_list_secondary_zones_value_error()
+
+class TestGetSecondaryZone():
+    """
+    Test Class for get_secondary_zone
+    """
+
+    @responses.activate
+    def test_get_secondary_zone_all_params(self):
+        """
+        get_secondary_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.get_secondary_zone(
+            instance_id,
+            resolver_id,
+            secondary_zone_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_secondary_zone_all_params_with_retries(self):
+        # Enable retries and run test_get_secondary_zone_all_params.
+        _service.enable_retries()
+        self.test_get_secondary_zone_all_params()
+
+        # Disable retries and run test_get_secondary_zone_all_params.
+        _service.disable_retries()
+        self.test_get_secondary_zone_all_params()
+
+    @responses.activate
+    def test_get_secondary_zone_required_params(self):
+        """
+        test_get_secondary_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+
+        # Invoke method
+        response = _service.get_secondary_zone(
+            instance_id,
+            resolver_id,
+            secondary_zone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_secondary_zone_required_params_with_retries(self):
+        # Enable retries and run test_get_secondary_zone_required_params.
+        _service.enable_retries()
+        self.test_get_secondary_zone_required_params()
+
+        # Disable retries and run test_get_secondary_zone_required_params.
+        _service.disable_retries()
+        self.test_get_secondary_zone_required_params()
+
+    @responses.activate
+    def test_get_secondary_zone_value_error(self):
+        """
+        test_get_secondary_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+            "secondary_zone_id": secondary_zone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_secondary_zone(**req_copy)
+
+
+    def test_get_secondary_zone_value_error_with_retries(self):
+        # Enable retries and run test_get_secondary_zone_value_error.
+        _service.enable_retries()
+        self.test_get_secondary_zone_value_error()
+
+        # Disable retries and run test_get_secondary_zone_value_error.
+        _service.disable_retries()
+        self.test_get_secondary_zone_value_error()
+
+class TestUpdateSecondaryZone():
+    """
+    Test Class for update_secondary_zone
+    """
+
+    @responses.activate
+    def test_update_secondary_zone_all_params(self):
+        """
+        update_secondary_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+        description = 'secondary zone'
+        enabled = False
+        transfer_from = ['10.0.0.7']
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.update_secondary_zone(
+            instance_id,
+            resolver_id,
+            secondary_zone_id,
+            description=description,
+            enabled=enabled,
+            transfer_from=transfer_from,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['description'] == 'secondary zone'
+        assert req_body['enabled'] == False
+        assert req_body['transfer_from'] == ['10.0.0.7']
+
+    def test_update_secondary_zone_all_params_with_retries(self):
+        # Enable retries and run test_update_secondary_zone_all_params.
+        _service.enable_retries()
+        self.test_update_secondary_zone_all_params()
+
+        # Disable retries and run test_update_secondary_zone_all_params.
+        _service.disable_retries()
+        self.test_update_secondary_zone_all_params()
+
+    @responses.activate
+    def test_update_secondary_zone_required_params(self):
+        """
+        test_update_secondary_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+
+        # Invoke method
+        response = _service.update_secondary_zone(
+            instance_id,
+            resolver_id,
+            secondary_zone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_update_secondary_zone_required_params_with_retries(self):
+        # Enable retries and run test_update_secondary_zone_required_params.
+        _service.enable_retries()
+        self.test_update_secondary_zone_required_params()
+
+        # Disable retries and run test_update_secondary_zone_required_params.
+        _service.disable_retries()
+        self.test_update_secondary_zone_required_params()
+
+    @responses.activate
+    def test_update_secondary_zone_value_error(self):
+        """
+        test_update_secondary_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        mock_response = '{"id": "f97ef698-d5fa-4f91-bc5a-33f17d143b7d", "description": "secondary zone", "zone": "example.com", "enabled": false, "transfer_from": ["10.0.0.7:53"], "created_on": "2022-03-16T08:18:25Z", "modified_on": "2022-03-16T08:18:25Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+            "secondary_zone_id": secondary_zone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_secondary_zone(**req_copy)
+
+
+    def test_update_secondary_zone_value_error_with_retries(self):
+        # Enable retries and run test_update_secondary_zone_value_error.
+        _service.enable_retries()
+        self.test_update_secondary_zone_value_error()
+
+        # Disable retries and run test_update_secondary_zone_value_error.
+        _service.disable_retries()
+        self.test_update_secondary_zone_value_error()
+
+class TestDeleteSecondaryZone():
+    """
+    Test Class for delete_secondary_zone
+    """
+
+    @responses.activate
+    def test_delete_secondary_zone_all_params(self):
+        """
+        delete_secondary_zone()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_secondary_zone(
+            instance_id,
+            resolver_id,
+            secondary_zone_id,
+            x_correlation_id=x_correlation_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_secondary_zone_all_params_with_retries(self):
+        # Enable retries and run test_delete_secondary_zone_all_params.
+        _service.enable_retries()
+        self.test_delete_secondary_zone_all_params()
+
+        # Disable retries and run test_delete_secondary_zone_all_params.
+        _service.disable_retries()
+        self.test_delete_secondary_zone_all_params()
+
+    @responses.activate
+    def test_delete_secondary_zone_required_params(self):
+        """
+        test_delete_secondary_zone_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_secondary_zone(
+            instance_id,
+            resolver_id,
+            secondary_zone_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_secondary_zone_required_params_with_retries(self):
+        # Enable retries and run test_delete_secondary_zone_required_params.
+        _service.enable_retries()
+        self.test_delete_secondary_zone_required_params()
+
+        # Disable retries and run test_delete_secondary_zone_required_params.
+        _service.disable_retries()
+        self.test_delete_secondary_zone_required_params()
+
+    @responses.activate
+    def test_delete_secondary_zone_value_error(self):
+        """
+        test_delete_secondary_zone_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/testString/custom_resolvers/testString/secondary_zones/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        instance_id = 'testString'
+        resolver_id = 'testString'
+        secondary_zone_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+            "secondary_zone_id": secondary_zone_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_secondary_zone(**req_copy)
+
+
+    def test_delete_secondary_zone_value_error_with_retries(self):
+        # Enable retries and run test_delete_secondary_zone_value_error.
+        _service.enable_retries()
+        self.test_delete_secondary_zone_value_error()
+
+        # Disable retries and run test_delete_secondary_zone_value_error.
+        _service.disable_retries()
+        self.test_delete_secondary_zone_value_error()
+
+# endregion
+##############################################################################
+# End of Service: SecondaryZones
+##############################################################################
+
+##############################################################################
 # Start of Service: LinkedZones
 ##############################################################################
 # region
@@ -9353,6 +10038,92 @@ class TestModel_ResourceRecord():
         # Convert model instance back to dict and verify no loss of data
         resource_record_model_json2 = resource_record_model.to_dict()
         assert resource_record_model_json2 == resource_record_model_json
+
+class TestModel_SecondaryZone():
+    """
+    Test Class for SecondaryZone
+    """
+
+    def test_secondary_zone_serialization(self):
+        """
+        Test serialization/deserialization for SecondaryZone
+        """
+
+        # Construct a json representation of a SecondaryZone model
+        secondary_zone_model_json = {}
+        secondary_zone_model_json['id'] = 'f97ef698-d5fa-4f91-bc5a-33f17d143b7d'
+        secondary_zone_model_json['description'] = 'secondary zone'
+        secondary_zone_model_json['zone'] = 'example.com'
+        secondary_zone_model_json['enabled'] = False
+        secondary_zone_model_json['transfer_from'] = ['10.0.0.7:53']
+        secondary_zone_model_json['created_on'] = '2022-03-16T08:18:25Z'
+        secondary_zone_model_json['modified_on'] = '2022-03-16T08:18:25Z'
+
+        # Construct a model instance of SecondaryZone by calling from_dict on the json representation
+        secondary_zone_model = SecondaryZone.from_dict(secondary_zone_model_json)
+        assert secondary_zone_model != False
+
+        # Construct a model instance of SecondaryZone by calling from_dict on the json representation
+        secondary_zone_model_dict = SecondaryZone.from_dict(secondary_zone_model_json).__dict__
+        secondary_zone_model2 = SecondaryZone(**secondary_zone_model_dict)
+
+        # Verify the model instances are equivalent
+        assert secondary_zone_model == secondary_zone_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        secondary_zone_model_json2 = secondary_zone_model.to_dict()
+        assert secondary_zone_model_json2 == secondary_zone_model_json
+
+class TestModel_SecondaryZoneList():
+    """
+    Test Class for SecondaryZoneList
+    """
+
+    def test_secondary_zone_list_serialization(self):
+        """
+        Test serialization/deserialization for SecondaryZoneList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        secondary_zone_model = {} # SecondaryZone
+        secondary_zone_model['id'] = 'f97ef698-d5fa-4f91-bc5a-33f17d143b7d'
+        secondary_zone_model['description'] = 'secondary zone'
+        secondary_zone_model['zone'] = 'example.com'
+        secondary_zone_model['enabled'] = False
+        secondary_zone_model['transfer_from'] = ['10.0.0.7:53']
+        secondary_zone_model['created_on'] = '2022-03-16T08:18:25Z'
+        secondary_zone_model['modified_on'] = '2022-03-16T08:18:25Z'
+
+        pagination_ref_model = {} # PaginationRef
+        pagination_ref_model['href'] = 'https://api.dns-svcs.cloud.ibm.com/v1/instances/434f6c3e-6014-4124-a61d-2e910bca19b1/dnszones?offset=0&limit=200'
+
+        # Construct a json representation of a SecondaryZoneList model
+        secondary_zone_list_model_json = {}
+        secondary_zone_list_model_json['secondary_zones'] = [secondary_zone_model]
+        secondary_zone_list_model_json['offset'] = 0
+        secondary_zone_list_model_json['limit'] = 200
+        secondary_zone_list_model_json['count'] = 1
+        secondary_zone_list_model_json['total_count'] = 1
+        secondary_zone_list_model_json['first'] = pagination_ref_model
+        secondary_zone_list_model_json['last'] = pagination_ref_model
+        secondary_zone_list_model_json['previous'] = pagination_ref_model
+        secondary_zone_list_model_json['next'] = pagination_ref_model
+
+        # Construct a model instance of SecondaryZoneList by calling from_dict on the json representation
+        secondary_zone_list_model = SecondaryZoneList.from_dict(secondary_zone_list_model_json)
+        assert secondary_zone_list_model != False
+
+        # Construct a model instance of SecondaryZoneList by calling from_dict on the json representation
+        secondary_zone_list_model_dict = SecondaryZoneList.from_dict(secondary_zone_list_model_json).__dict__
+        secondary_zone_list_model2 = SecondaryZoneList(**secondary_zone_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert secondary_zone_list_model == secondary_zone_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        secondary_zone_list_model_json2 = secondary_zone_list_model.to_dict()
+        assert secondary_zone_list_model_json2 == secondary_zone_list_model_json
 
 class TestModel_ResourceRecordInputRdataRdataARecord():
     """
