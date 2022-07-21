@@ -1198,6 +1198,49 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
+        """ create,get,update,list Secondary Zones """
+        # Create secondary zones
+        description = "Secondary zone"
+        zone = "example.com"
+        enabled = False
+        transfer_from = ["10.0.0.7"]
+        resp = self.cr.create_secondary_zone(instance_id=self.instance_id, resolver_id=resolver_id,
+                                             description=description, zone=zone, enabled=enabled, transfer_from=transfer_from)
+        secondary_zone_id = resp.get_result().get("id")
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # List Secondary zones
+        offset = 0
+        limit = 200
+        resp = self.cr.list_secondary_zones(instance_id=self.instance_id, resolver_id=resolver_id,
+                                            offset=offset, limit=limit)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Get Secondary zones
+        x_correlation_id = "abc123"
+        resp = self.cr.get_secondary_zone(instance_id=self.instance_id, resolver_id=resolver_id,
+                                           secondary_zone_id=secondary_zone_id, x_correlation_id=x_correlation_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Update Secondary zones
+        x_correlation_id = "abc123"
+        description = "update Secondary zone"
+        enabled = False
+        transfer_from = ["10.0.0.5"]    
+        resp = self.cr.update_secondary_zone(instance_id=self.instance_id, resolver_id=resolver_id, secondary_zone_id=secondary_zone_id, x_correlation_id=x_correlation_id, description=description, enabled=enabled, transfer_from=transfer_from )
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Delete Secondary zones
+        x_correlation_id = "abc123"
+        resp = self.cr.delete_secondary_zone(instance_id=self.instance_id, resolver_id=resolver_id,
+                                           secondary_zone_id=secondary_zone_id, x_correlation_id=x_correlation_id )
+        assert resp is not None
+        assert resp.status_code == 204
+
         """ Delete Custom Resolver,  Locations, Forwarding rules """ 
         # Delete Forwarding rules
         resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)

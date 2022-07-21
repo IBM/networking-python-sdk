@@ -2849,6 +2849,309 @@ class DnsSvcsV1(BaseService):
         return response
 
     #########################
+    # Secondary Zones
+    #########################
+
+
+    def create_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        zone: str = None,
+        transfer_from: List[str] = None,
+        description: str = None,
+        enabled: bool = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Create a secondary zone.
+
+        Create a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str zone: (optional) zone name.
+        :param List[str] transfer_from: (optional) The addresses of DNS servers
+               where the secondary zone data should be transferred from.
+        :param str description: (optional) Descriptive text of the secondary zone.
+        :param bool enabled: (optional) Enable/Disable the secondary zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_secondary_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'zone': zone,
+            'transfer_from': transfer_from,
+            'description': description,
+            'enabled': enabled
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones'.format(**path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def list_secondary_zones(self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List secondary zones.
+
+        List secondary zones for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZoneList` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_secondary_zones')
+        headers.update(sdk_headers)
+
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def get_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        secondary_zone_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Get a secondary zone.
+
+        Get details of a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str secondary_zone_id: The unique identifier of a secondary zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if secondary_zone_id is None:
+            raise ValueError('secondary_zone_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_secondary_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'secondary_zone_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, secondary_zone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def update_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        secondary_zone_id: str,
+        *,
+        description: str = None,
+        enabled: bool = None,
+        transfer_from: List[str] = None,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Update a secondary zone.
+
+        Update a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str secondary_zone_id: The unique identifier of a secondary zone.
+        :param str description: (optional) Descriptive text of the secondary zone.
+        :param bool enabled: (optional) Enable/Disable the secondary zone.
+        :param List[str] transfer_from: (optional) The addresses of DNS servers
+               where the secondary zone data should be transferred from.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecondaryZone` object
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if secondary_zone_id is None:
+            raise ValueError('secondary_zone_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_secondary_zone')
+        headers.update(sdk_headers)
+
+        data = {
+            'description': description,
+            'enabled': enabled,
+            'transfer_from': transfer_from
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'secondary_zone_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, secondary_zone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PATCH',
+                                       url=url,
+                                       headers=headers,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def delete_secondary_zone(self,
+        instance_id: str,
+        resolver_id: str,
+        secondary_zone_id: str,
+        *,
+        x_correlation_id: str = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Delete a secondary zone.
+
+        Delete a secondary zone for the custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str secondary_zone_id: The unique identifier of a secondary zone.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if instance_id is None:
+            raise ValueError('instance_id must be provided')
+        if resolver_id is None:
+            raise ValueError('resolver_id must be provided')
+        if secondary_zone_id is None:
+            raise ValueError('secondary_zone_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_secondary_zone')
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['instance_id', 'resolver_id', 'secondary_zone_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, secondary_zone_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/secondary_zones/{secondary_zone_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
     # Linked Zones
     #########################
 
@@ -7367,6 +7670,251 @@ class ResourceRecord():
         TXT = 'TXT'
         PTR = 'PTR'
 
+
+class SecondaryZone():
+    """
+    Secondary zone details.
+
+    :attr str id: Identifier of the secondary zone.
+    :attr str description: (optional) Descriptive text of the secondary zone.
+    :attr str zone: zone name.
+    :attr bool enabled: Enable/Disable the secondary zone.
+    :attr List[str] transfer_from: The addresses of DNS servers where the secondary
+          zone data should be transferred from.
+    :attr str created_on: (optional) The time when a secondary zone is created.
+    :attr str modified_on: (optional) The recent time when a secondary zone is
+          modified.
+    """
+
+    def __init__(self,
+                 id: str,
+                 zone: str,
+                 enabled: bool,
+                 transfer_from: List[str],
+                 *,
+                 description: str = None,
+                 created_on: str = None,
+                 modified_on: str = None) -> None:
+        """
+        Initialize a SecondaryZone object.
+
+        :param str id: Identifier of the secondary zone.
+        :param str zone: zone name.
+        :param bool enabled: Enable/Disable the secondary zone.
+        :param List[str] transfer_from: The addresses of DNS servers where the
+               secondary zone data should be transferred from.
+        :param str description: (optional) Descriptive text of the secondary zone.
+        :param str created_on: (optional) The time when a secondary zone is
+               created.
+        :param str modified_on: (optional) The recent time when a secondary zone is
+               modified.
+        """
+        self.id = id
+        self.description = description
+        self.zone = zone
+        self.enabled = enabled
+        self.transfer_from = transfer_from
+        self.created_on = created_on
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecondaryZone':
+        """Initialize a SecondaryZone object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in SecondaryZone JSON')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'zone' in _dict:
+            args['zone'] = _dict.get('zone')
+        else:
+            raise ValueError('Required property \'zone\' not present in SecondaryZone JSON')
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        else:
+            raise ValueError('Required property \'enabled\' not present in SecondaryZone JSON')
+        if 'transfer_from' in _dict:
+            args['transfer_from'] = _dict.get('transfer_from')
+        else:
+            raise ValueError('Required property \'transfer_from\' not present in SecondaryZone JSON')
+        if 'created_on' in _dict:
+            args['created_on'] = _dict.get('created_on')
+        if 'modified_on' in _dict:
+            args['modified_on'] = _dict.get('modified_on')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecondaryZone object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'zone') and self.zone is not None:
+            _dict['zone'] = self.zone
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'transfer_from') and self.transfer_from is not None:
+            _dict['transfer_from'] = self.transfer_from
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = self.created_on
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = self.modified_on
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecondaryZone object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecondaryZone') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecondaryZone') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class SecondaryZoneList():
+    """
+    List of secondary zones.
+
+    :attr List[SecondaryZone] secondary_zones: Secondary zones.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: (optional) href.
+    :attr PaginationRef last: (optional) href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
+    """
+
+    def __init__(self,
+                 secondary_zones: List['SecondaryZone'],
+                 offset: int,
+                 limit: int,
+                 count: int,
+                 total_count: int,
+                 *,
+                 first: 'PaginationRef' = None,
+                 last: 'PaginationRef' = None,
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
+        """
+        Initialize a SecondaryZoneList object.
+
+        :param List[SecondaryZone] secondary_zones: Secondary zones.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: (optional) href.
+        :param PaginationRef last: (optional) href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
+        """
+        self.secondary_zones = secondary_zones
+        self.offset = offset
+        self.limit = limit
+        self.count = count
+        self.total_count = total_count
+        self.first = first
+        self.last = last
+        self.previous = previous
+        self.next = next
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecondaryZoneList':
+        """Initialize a SecondaryZoneList object from a json dictionary."""
+        args = {}
+        if 'secondary_zones' in _dict:
+            args['secondary_zones'] = [SecondaryZone.from_dict(x) for x in _dict.get('secondary_zones')]
+        else:
+            raise ValueError('Required property \'secondary_zones\' not present in SecondaryZoneList JSON')
+        if 'offset' in _dict:
+            args['offset'] = _dict.get('offset')
+        else:
+            raise ValueError('Required property \'offset\' not present in SecondaryZoneList JSON')
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        else:
+            raise ValueError('Required property \'limit\' not present in SecondaryZoneList JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in SecondaryZoneList JSON')
+        if 'total_count' in _dict:
+            args['total_count'] = _dict.get('total_count')
+        else:
+            raise ValueError('Required property \'total_count\' not present in SecondaryZoneList JSON')
+        if 'first' in _dict:
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecondaryZoneList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'secondary_zones') and self.secondary_zones is not None:
+            _dict['secondary_zones'] = [x.to_dict() for x in self.secondary_zones]
+        if hasattr(self, 'offset') and self.offset is not None:
+            _dict['offset'] = self.offset
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'total_count') and self.total_count is not None:
+            _dict['total_count'] = self.total_count
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
+        if hasattr(self, 'next') and self.next is not None:
+            _dict['next'] = self.next.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecondaryZoneList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecondaryZoneList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecondaryZoneList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 class ResourceRecordInputRdataRdataARecord(ResourceRecordInputRdata):
     """
