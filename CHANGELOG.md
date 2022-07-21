@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/IBM/networking-python-sdk/compare/v0.17.2...v0.18.0) (2022-07-21)
+
+
+### Features
+
+* Add support for cross account features ([fd628b1](https://github.com/IBM/networking-python-sdk/commit/fd628b1bc82007108a98d9da37862a0b106a9b3b))
+
 ## [0.17.2](https://github.com/IBM/networking-python-sdk/compare/v0.17.1...v0.17.2) (2022-06-06)
 
 
