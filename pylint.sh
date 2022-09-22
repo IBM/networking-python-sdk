@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pylint ibm_cloud_networking_services test --exit-zero
+python -m pylint ibm_cloud_networking_services test/unit test/integration
