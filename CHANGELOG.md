@@ -1,3 +1,10 @@
+# [0.19.0](https://github.com/IBM/networking-python-sdk/compare/v0.18.0...v0.19.0) (2022-09-23)
+
+
+### Features
+
+* AS Prepend and Route Report support for Direct Link ([#66](https://github.com/IBM/networking-python-sdk/issues/66)) ([505d7a4](https://github.com/IBM/networking-python-sdk/commit/505d7a4c6daf3c54e96aefd789418cac5840afd5))
+
 # [0.18.0](https://github.com/IBM/networking-python-sdk/compare/v0.17.2...v0.18.0) (2022-07-21)
 
 
