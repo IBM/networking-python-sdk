@@ -43,6 +43,413 @@ _base_url = 'https://directlink.cloud.ibm.com/v1'
 _service.set_service_url(_base_url)
 
 ##############################################################################
+# Start of Service: GatewayRouteReports
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DirectLinkV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DirectLinkV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DirectLinkV1.new_instance(
+                version=version,
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = DirectLinkV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = DirectLinkV1.new_instance(
+                version=None,
+            )
+class TestListGatewayRouteReports():
+    """
+    Test Class for list_gateway_route_reports
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_gateway_route_reports_all_params(self):
+        """
+        list_gateway_route_reports()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports')
+        mock_response = '{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+
+        # Invoke method
+        response = _service.list_gateway_route_reports(
+            gateway_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_gateway_route_reports_all_params_with_retries(self):
+    	# Enable retries and run test_list_gateway_route_reports_all_params.
+    	_service.enable_retries()
+    	self.test_list_gateway_route_reports_all_params()
+
+    	# Disable retries and run test_list_gateway_route_reports_all_params.
+    	_service.disable_retries()
+    	self.test_list_gateway_route_reports_all_params()
+
+    @responses.activate
+    def test_list_gateway_route_reports_value_error(self):
+        """
+        test_list_gateway_route_reports_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports')
+        mock_response = '{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "gateway_id": gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_gateway_route_reports(**req_copy)
+
+
+    def test_list_gateway_route_reports_value_error_with_retries(self):
+    	# Enable retries and run test_list_gateway_route_reports_value_error.
+    	_service.enable_retries()
+    	self.test_list_gateway_route_reports_value_error()
+
+    	# Disable retries and run test_list_gateway_route_reports_value_error.
+    	_service.disable_retries()
+    	self.test_list_gateway_route_reports_value_error()
+
+class TestCreateGatewayRouteReport():
+    """
+    Test Class for create_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_gateway_route_report_all_params(self):
+        """
+        create_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports')
+        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+
+        # Invoke method
+        response = _service.create_gateway_route_report(
+            gateway_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_create_gateway_route_report_all_params_with_retries(self):
+    	# Enable retries and run test_create_gateway_route_report_all_params.
+    	_service.enable_retries()
+    	self.test_create_gateway_route_report_all_params()
+
+    	# Disable retries and run test_create_gateway_route_report_all_params.
+    	_service.disable_retries()
+    	self.test_create_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_create_gateway_route_report_value_error(self):
+        """
+        test_create_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports')
+        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "gateway_id": gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_gateway_route_report(**req_copy)
+
+
+    def test_create_gateway_route_report_value_error_with_retries(self):
+    	# Enable retries and run test_create_gateway_route_report_value_error.
+    	_service.enable_retries()
+    	self.test_create_gateway_route_report_value_error()
+
+    	# Disable retries and run test_create_gateway_route_report_value_error.
+    	_service.disable_retries()
+    	self.test_create_gateway_route_report_value_error()
+
+class TestDeleteGatewayRouteReport():
+    """
+    Test Class for delete_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_gateway_route_report_all_params(self):
+        """
+        delete_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.delete_gateway_route_report(
+            gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_gateway_route_report_all_params_with_retries(self):
+    	# Enable retries and run test_delete_gateway_route_report_all_params.
+    	_service.enable_retries()
+    	self.test_delete_gateway_route_report_all_params()
+
+    	# Disable retries and run test_delete_gateway_route_report_all_params.
+    	_service.disable_retries()
+    	self.test_delete_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_delete_gateway_route_report_value_error(self):
+        """
+        test_delete_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "gateway_id": gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_gateway_route_report(**req_copy)
+
+
+    def test_delete_gateway_route_report_value_error_with_retries(self):
+    	# Enable retries and run test_delete_gateway_route_report_value_error.
+    	_service.enable_retries()
+    	self.test_delete_gateway_route_report_value_error()
+
+    	# Disable retries and run test_delete_gateway_route_report_value_error.
+    	_service.disable_retries()
+    	self.test_delete_gateway_route_report_value_error()
+
+class TestGetGatewayRouteReport():
+    """
+    Test Class for get_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_gateway_route_report_all_params(self):
+        """
+        get_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports/testString')
+        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.get_gateway_route_report(
+            gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_gateway_route_report_all_params_with_retries(self):
+    	# Enable retries and run test_get_gateway_route_report_all_params.
+    	_service.enable_retries()
+    	self.test_get_gateway_route_report_all_params()
+
+    	# Disable retries and run test_get_gateway_route_report_all_params.
+    	_service.disable_retries()
+    	self.test_get_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_get_gateway_route_report_value_error(self):
+        """
+        test_get_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/gateways/testString/route_reports/testString')
+        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "gateway_id": gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_gateway_route_report(**req_copy)
+
+
+    def test_get_gateway_route_report_value_error_with_retries(self):
+    	# Enable retries and run test_get_gateway_route_report_value_error.
+    	_service.enable_retries()
+    	self.test_get_gateway_route_report_value_error()
+
+    	# Disable retries and run test_get_gateway_route_report_value_error.
+    	_service.disable_retries()
+    	self.test_get_gateway_route_report_value_error()
+
+# endregion
+##############################################################################
+# End of Service: GatewayRouteReports
+##############################################################################
+
+##############################################################################
 # Start of Service: Gateways
 ##############################################################################
 # region
@@ -113,7 +520,7 @@ class TestListGateways():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways')
-        mock_response = '{"gateways": [{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -129,13 +536,13 @@ class TestListGateways():
         assert response.status_code == 200
 
     def test_list_gateways_all_params_with_retries(self):
-        # Enable retries and run test_list_gateways_all_params.
-        _service.enable_retries()
-        self.test_list_gateways_all_params()
+    	# Enable retries and run test_list_gateways_all_params.
+    	_service.enable_retries()
+    	self.test_list_gateways_all_params()
 
-        # Disable retries and run test_list_gateways_all_params.
-        _service.disable_retries()
-        self.test_list_gateways_all_params()
+    	# Disable retries and run test_list_gateways_all_params.
+    	_service.disable_retries()
+    	self.test_list_gateways_all_params()
 
     @responses.activate
     def test_list_gateways_value_error(self):
@@ -144,7 +551,7 @@ class TestListGateways():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways')
-        mock_response = '{"gateways": [{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -161,13 +568,13 @@ class TestListGateways():
 
 
     def test_list_gateways_value_error_with_retries(self):
-        # Enable retries and run test_list_gateways_value_error.
-        _service.enable_retries()
-        self.test_list_gateways_value_error()
+    	# Enable retries and run test_list_gateways_value_error.
+    	_service.enable_retries()
+    	self.test_list_gateways_value_error()
 
-        # Disable retries and run test_list_gateways_value_error.
-        _service.disable_retries()
-        self.test_list_gateways_value_error()
+    	# Disable retries and run test_list_gateways_value_error.
+    	_service.disable_retries()
+    	self.test_list_gateways_value_error()
 
 class TestCreateGateway():
     """
@@ -192,12 +599,18 @@ class TestCreateGateway():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
+
+        # Construct a dict representation of a AsPrependTemplate model
+        as_prepend_template_model = {}
+        as_prepend_template_model['length'] = 4
+        as_prepend_template_model['policy'] = 'import'
+        as_prepend_template_model['prefix'] = '172.17.0.0/16'
 
         # Construct a dict representation of a GatewayTemplateAuthenticationKey model
         gateway_template_authentication_key_model = {}
@@ -229,6 +642,7 @@ class TestCreateGateway():
 
         # Construct a dict representation of a GatewayTemplateGatewayTypeDedicatedTemplate model
         gateway_template_model = {}
+        gateway_template_model['as_prepends'] = [as_prepend_template_model]
         gateway_template_model['authentication_key'] = gateway_template_authentication_key_model
         gateway_template_model['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_model['bgp_asn'] = 64999
@@ -266,13 +680,13 @@ class TestCreateGateway():
         assert req_body == gateway_template
 
     def test_create_gateway_all_params_with_retries(self):
-        # Enable retries and run test_create_gateway_all_params.
-        _service.enable_retries()
-        self.test_create_gateway_all_params()
+    	# Enable retries and run test_create_gateway_all_params.
+    	_service.enable_retries()
+    	self.test_create_gateway_all_params()
 
-        # Disable retries and run test_create_gateway_all_params.
-        _service.disable_retries()
-        self.test_create_gateway_all_params()
+    	# Disable retries and run test_create_gateway_all_params.
+    	_service.disable_retries()
+    	self.test_create_gateway_all_params()
 
     @responses.activate
     def test_create_gateway_value_error(self):
@@ -281,12 +695,18 @@ class TestCreateGateway():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=201)
+
+        # Construct a dict representation of a AsPrependTemplate model
+        as_prepend_template_model = {}
+        as_prepend_template_model['length'] = 4
+        as_prepend_template_model['policy'] = 'import'
+        as_prepend_template_model['prefix'] = '172.17.0.0/16'
 
         # Construct a dict representation of a GatewayTemplateAuthenticationKey model
         gateway_template_authentication_key_model = {}
@@ -318,6 +738,7 @@ class TestCreateGateway():
 
         # Construct a dict representation of a GatewayTemplateGatewayTypeDedicatedTemplate model
         gateway_template_model = {}
+        gateway_template_model['as_prepends'] = [as_prepend_template_model]
         gateway_template_model['authentication_key'] = gateway_template_authentication_key_model
         gateway_template_model['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_model['bgp_asn'] = 64999
@@ -352,13 +773,13 @@ class TestCreateGateway():
 
 
     def test_create_gateway_value_error_with_retries(self):
-        # Enable retries and run test_create_gateway_value_error.
-        _service.enable_retries()
-        self.test_create_gateway_value_error()
+    	# Enable retries and run test_create_gateway_value_error.
+    	_service.enable_retries()
+    	self.test_create_gateway_value_error()
 
-        # Disable retries and run test_create_gateway_value_error.
-        _service.disable_retries()
-        self.test_create_gateway_value_error()
+    	# Disable retries and run test_create_gateway_value_error.
+    	_service.disable_retries()
+    	self.test_create_gateway_value_error()
 
 class TestDeleteGateway():
     """
@@ -401,13 +822,13 @@ class TestDeleteGateway():
         assert response.status_code == 204
 
     def test_delete_gateway_all_params_with_retries(self):
-        # Enable retries and run test_delete_gateway_all_params.
-        _service.enable_retries()
-        self.test_delete_gateway_all_params()
+    	# Enable retries and run test_delete_gateway_all_params.
+    	_service.enable_retries()
+    	self.test_delete_gateway_all_params()
 
-        # Disable retries and run test_delete_gateway_all_params.
-        _service.disable_retries()
-        self.test_delete_gateway_all_params()
+    	# Disable retries and run test_delete_gateway_all_params.
+    	_service.disable_retries()
+    	self.test_delete_gateway_all_params()
 
     @responses.activate
     def test_delete_gateway_value_error(self):
@@ -434,13 +855,13 @@ class TestDeleteGateway():
 
 
     def test_delete_gateway_value_error_with_retries(self):
-        # Enable retries and run test_delete_gateway_value_error.
-        _service.enable_retries()
-        self.test_delete_gateway_value_error()
+    	# Enable retries and run test_delete_gateway_value_error.
+    	_service.enable_retries()
+    	self.test_delete_gateway_value_error()
 
-        # Disable retries and run test_delete_gateway_value_error.
-        _service.disable_retries()
-        self.test_delete_gateway_value_error()
+    	# Disable retries and run test_delete_gateway_value_error.
+    	_service.disable_retries()
+    	self.test_delete_gateway_value_error()
 
 class TestGetGateway():
     """
@@ -465,7 +886,7 @@ class TestGetGateway():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways/testString')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -486,13 +907,13 @@ class TestGetGateway():
         assert response.status_code == 200
 
     def test_get_gateway_all_params_with_retries(self):
-        # Enable retries and run test_get_gateway_all_params.
-        _service.enable_retries()
-        self.test_get_gateway_all_params()
+    	# Enable retries and run test_get_gateway_all_params.
+    	_service.enable_retries()
+    	self.test_get_gateway_all_params()
 
-        # Disable retries and run test_get_gateway_all_params.
-        _service.disable_retries()
-        self.test_get_gateway_all_params()
+    	# Disable retries and run test_get_gateway_all_params.
+    	_service.disable_retries()
+    	self.test_get_gateway_all_params()
 
     @responses.activate
     def test_get_gateway_value_error(self):
@@ -501,7 +922,7 @@ class TestGetGateway():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways/testString')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -522,13 +943,13 @@ class TestGetGateway():
 
 
     def test_get_gateway_value_error_with_retries(self):
-        # Enable retries and run test_get_gateway_value_error.
-        _service.enable_retries()
-        self.test_get_gateway_value_error()
+    	# Enable retries and run test_get_gateway_value_error.
+    	_service.enable_retries()
+    	self.test_get_gateway_value_error()
 
-        # Disable retries and run test_get_gateway_value_error.
-        _service.disable_retries()
-        self.test_get_gateway_value_error()
+    	# Disable retries and run test_get_gateway_value_error.
+    	_service.disable_retries()
+    	self.test_get_gateway_value_error()
 
 class TestUpdateGateway():
     """
@@ -553,7 +974,7 @@ class TestUpdateGateway():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways/testString')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -642,13 +1063,13 @@ class TestUpdateGateway():
         assert req_body['speed_mbps'] == 1000
 
     def test_update_gateway_all_params_with_retries(self):
-        # Enable retries and run test_update_gateway_all_params.
-        _service.enable_retries()
-        self.test_update_gateway_all_params()
+    	# Enable retries and run test_update_gateway_all_params.
+    	_service.enable_retries()
+    	self.test_update_gateway_all_params()
 
-        # Disable retries and run test_update_gateway_all_params.
-        _service.disable_retries()
-        self.test_update_gateway_all_params()
+    	# Disable retries and run test_update_gateway_all_params.
+    	_service.disable_retries()
+    	self.test_update_gateway_all_params()
 
     @responses.activate
     def test_update_gateway_value_error(self):
@@ -657,7 +1078,7 @@ class TestUpdateGateway():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways/testString')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -716,13 +1137,13 @@ class TestUpdateGateway():
 
 
     def test_update_gateway_value_error_with_retries(self):
-        # Enable retries and run test_update_gateway_value_error.
-        _service.enable_retries()
-        self.test_update_gateway_value_error()
+    	# Enable retries and run test_update_gateway_value_error.
+    	_service.enable_retries()
+    	self.test_update_gateway_value_error()
 
-        # Disable retries and run test_update_gateway_value_error.
-        _service.disable_retries()
-        self.test_update_gateway_value_error()
+    	# Disable retries and run test_update_gateway_value_error.
+    	_service.disable_retries()
+    	self.test_update_gateway_value_error()
 
 class TestCreateGatewayAction():
     """
@@ -747,12 +1168,18 @@ class TestCreateGatewayAction():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways/testString/actions')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
+
+        # Construct a dict representation of a AsPrependTemplate model
+        as_prepend_template_model = {}
+        as_prepend_template_model['length'] = 4
+        as_prepend_template_model['policy'] = 'import'
+        as_prepend_template_model['prefix'] = '172.17.0.0/16'
 
         # Construct a dict representation of a GatewayActionTemplateAuthenticationKey model
         gateway_action_template_authentication_key_model = {}
@@ -774,6 +1201,7 @@ class TestCreateGatewayAction():
         # Set up parameter values
         id = 'testString'
         action = 'create_gateway_approve'
+        as_prepends = [as_prepend_template_model]
         authentication_key = gateway_action_template_authentication_key_model
         bfd_config = gateway_bfd_config_action_template_model
         connection_mode = 'transit'
@@ -786,6 +1214,7 @@ class TestCreateGatewayAction():
         response = _service.create_gateway_action(
             id,
             action,
+            as_prepends=as_prepends,
             authentication_key=authentication_key,
             bfd_config=bfd_config,
             connection_mode=connection_mode,
@@ -802,6 +1231,7 @@ class TestCreateGatewayAction():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['action'] == 'create_gateway_approve'
+        assert req_body['as_prepends'] == [as_prepend_template_model]
         assert req_body['authentication_key'] == gateway_action_template_authentication_key_model
         assert req_body['bfd_config'] == gateway_bfd_config_action_template_model
         assert req_body['connection_mode'] == 'transit'
@@ -811,13 +1241,13 @@ class TestCreateGatewayAction():
         assert req_body['updates'] == [gateway_action_template_updates_item_model]
 
     def test_create_gateway_action_all_params_with_retries(self):
-        # Enable retries and run test_create_gateway_action_all_params.
-        _service.enable_retries()
-        self.test_create_gateway_action_all_params()
+    	# Enable retries and run test_create_gateway_action_all_params.
+    	_service.enable_retries()
+    	self.test_create_gateway_action_all_params()
 
-        # Disable retries and run test_create_gateway_action_all_params.
-        _service.disable_retries()
-        self.test_create_gateway_action_all_params()
+    	# Disable retries and run test_create_gateway_action_all_params.
+    	_service.disable_retries()
+    	self.test_create_gateway_action_all_params()
 
     @responses.activate
     def test_create_gateway_action_value_error(self):
@@ -826,12 +1256,18 @@ class TestCreateGatewayAction():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/gateways/testString/actions')
-        mock_response = '{"authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "active", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
+
+        # Construct a dict representation of a AsPrependTemplate model
+        as_prepend_template_model = {}
+        as_prepend_template_model['length'] = 4
+        as_prepend_template_model['policy'] = 'import'
+        as_prepend_template_model['prefix'] = '172.17.0.0/16'
 
         # Construct a dict representation of a GatewayActionTemplateAuthenticationKey model
         gateway_action_template_authentication_key_model = {}
@@ -853,6 +1289,7 @@ class TestCreateGatewayAction():
         # Set up parameter values
         id = 'testString'
         action = 'create_gateway_approve'
+        as_prepends = [as_prepend_template_model]
         authentication_key = gateway_action_template_authentication_key_model
         bfd_config = gateway_bfd_config_action_template_model
         connection_mode = 'transit'
@@ -873,13 +1310,13 @@ class TestCreateGatewayAction():
 
 
     def test_create_gateway_action_value_error_with_retries(self):
-        # Enable retries and run test_create_gateway_action_value_error.
-        _service.enable_retries()
-        self.test_create_gateway_action_value_error()
+    	# Enable retries and run test_create_gateway_action_value_error.
+    	_service.enable_retries()
+    	self.test_create_gateway_action_value_error()
 
-        # Disable retries and run test_create_gateway_action_value_error.
-        _service.disable_retries()
-        self.test_create_gateway_action_value_error()
+    	# Disable retries and run test_create_gateway_action_value_error.
+    	_service.disable_retries()
+    	self.test_create_gateway_action_value_error()
 
 class TestListGatewayCompletionNotice():
     """
@@ -925,13 +1362,13 @@ class TestListGatewayCompletionNotice():
         assert response.status_code == 200
 
     def test_list_gateway_completion_notice_all_params_with_retries(self):
-        # Enable retries and run test_list_gateway_completion_notice_all_params.
-        _service.enable_retries()
-        self.test_list_gateway_completion_notice_all_params()
+    	# Enable retries and run test_list_gateway_completion_notice_all_params.
+    	_service.enable_retries()
+    	self.test_list_gateway_completion_notice_all_params()
 
-        # Disable retries and run test_list_gateway_completion_notice_all_params.
-        _service.disable_retries()
-        self.test_list_gateway_completion_notice_all_params()
+    	# Disable retries and run test_list_gateway_completion_notice_all_params.
+    	_service.disable_retries()
+    	self.test_list_gateway_completion_notice_all_params()
 
     @responses.activate
     def test_list_gateway_completion_notice_value_error(self):
@@ -961,13 +1398,13 @@ class TestListGatewayCompletionNotice():
 
 
     def test_list_gateway_completion_notice_value_error_with_retries(self):
-        # Enable retries and run test_list_gateway_completion_notice_value_error.
-        _service.enable_retries()
-        self.test_list_gateway_completion_notice_value_error()
+    	# Enable retries and run test_list_gateway_completion_notice_value_error.
+    	_service.enable_retries()
+    	self.test_list_gateway_completion_notice_value_error()
 
-        # Disable retries and run test_list_gateway_completion_notice_value_error.
-        _service.disable_retries()
-        self.test_list_gateway_completion_notice_value_error()
+    	# Disable retries and run test_list_gateway_completion_notice_value_error.
+    	_service.disable_retries()
+    	self.test_list_gateway_completion_notice_value_error()
 
 class TestCreateGatewayCompletionNotice():
     """
@@ -1014,13 +1451,13 @@ class TestCreateGatewayCompletionNotice():
         assert response.status_code == 204
 
     def test_create_gateway_completion_notice_all_params_with_retries(self):
-        # Enable retries and run test_create_gateway_completion_notice_all_params.
-        _service.enable_retries()
-        self.test_create_gateway_completion_notice_all_params()
+    	# Enable retries and run test_create_gateway_completion_notice_all_params.
+    	_service.enable_retries()
+    	self.test_create_gateway_completion_notice_all_params()
 
-        # Disable retries and run test_create_gateway_completion_notice_all_params.
-        _service.disable_retries()
-        self.test_create_gateway_completion_notice_all_params()
+    	# Disable retries and run test_create_gateway_completion_notice_all_params.
+    	_service.disable_retries()
+    	self.test_create_gateway_completion_notice_all_params()
 
     @responses.activate
     def test_create_gateway_completion_notice_required_params(self):
@@ -1047,13 +1484,13 @@ class TestCreateGatewayCompletionNotice():
         assert response.status_code == 204
 
     def test_create_gateway_completion_notice_required_params_with_retries(self):
-        # Enable retries and run test_create_gateway_completion_notice_required_params.
-        _service.enable_retries()
-        self.test_create_gateway_completion_notice_required_params()
+    	# Enable retries and run test_create_gateway_completion_notice_required_params.
+    	_service.enable_retries()
+    	self.test_create_gateway_completion_notice_required_params()
 
-        # Disable retries and run test_create_gateway_completion_notice_required_params.
-        _service.disable_retries()
-        self.test_create_gateway_completion_notice_required_params()
+    	# Disable retries and run test_create_gateway_completion_notice_required_params.
+    	_service.disable_retries()
+    	self.test_create_gateway_completion_notice_required_params()
 
     @responses.activate
     def test_create_gateway_completion_notice_value_error(self):
@@ -1080,13 +1517,13 @@ class TestCreateGatewayCompletionNotice():
 
 
     def test_create_gateway_completion_notice_value_error_with_retries(self):
-        # Enable retries and run test_create_gateway_completion_notice_value_error.
-        _service.enable_retries()
-        self.test_create_gateway_completion_notice_value_error()
+    	# Enable retries and run test_create_gateway_completion_notice_value_error.
+    	_service.enable_retries()
+    	self.test_create_gateway_completion_notice_value_error()
 
-        # Disable retries and run test_create_gateway_completion_notice_value_error.
-        _service.disable_retries()
-        self.test_create_gateway_completion_notice_value_error()
+    	# Disable retries and run test_create_gateway_completion_notice_value_error.
+    	_service.disable_retries()
+    	self.test_create_gateway_completion_notice_value_error()
 
 class TestListGatewayLetterOfAuthorization():
     """
@@ -1132,13 +1569,13 @@ class TestListGatewayLetterOfAuthorization():
         assert response.status_code == 200
 
     def test_list_gateway_letter_of_authorization_all_params_with_retries(self):
-        # Enable retries and run test_list_gateway_letter_of_authorization_all_params.
-        _service.enable_retries()
-        self.test_list_gateway_letter_of_authorization_all_params()
+    	# Enable retries and run test_list_gateway_letter_of_authorization_all_params.
+    	_service.enable_retries()
+    	self.test_list_gateway_letter_of_authorization_all_params()
 
-        # Disable retries and run test_list_gateway_letter_of_authorization_all_params.
-        _service.disable_retries()
-        self.test_list_gateway_letter_of_authorization_all_params()
+    	# Disable retries and run test_list_gateway_letter_of_authorization_all_params.
+    	_service.disable_retries()
+    	self.test_list_gateway_letter_of_authorization_all_params()
 
     @responses.activate
     def test_list_gateway_letter_of_authorization_value_error(self):
@@ -1168,13 +1605,13 @@ class TestListGatewayLetterOfAuthorization():
 
 
     def test_list_gateway_letter_of_authorization_value_error_with_retries(self):
-        # Enable retries and run test_list_gateway_letter_of_authorization_value_error.
-        _service.enable_retries()
-        self.test_list_gateway_letter_of_authorization_value_error()
+    	# Enable retries and run test_list_gateway_letter_of_authorization_value_error.
+    	_service.enable_retries()
+    	self.test_list_gateway_letter_of_authorization_value_error()
 
-        # Disable retries and run test_list_gateway_letter_of_authorization_value_error.
-        _service.disable_retries()
-        self.test_list_gateway_letter_of_authorization_value_error()
+    	# Disable retries and run test_list_gateway_letter_of_authorization_value_error.
+    	_service.disable_retries()
+    	self.test_list_gateway_letter_of_authorization_value_error()
 
 class TestGetGatewayStatistics():
     """
@@ -1226,13 +1663,13 @@ class TestGetGatewayStatistics():
         assert 'type={}'.format(type) in query_string
 
     def test_get_gateway_statistics_all_params_with_retries(self):
-        # Enable retries and run test_get_gateway_statistics_all_params.
-        _service.enable_retries()
-        self.test_get_gateway_statistics_all_params()
+    	# Enable retries and run test_get_gateway_statistics_all_params.
+    	_service.enable_retries()
+    	self.test_get_gateway_statistics_all_params()
 
-        # Disable retries and run test_get_gateway_statistics_all_params.
-        _service.disable_retries()
-        self.test_get_gateway_statistics_all_params()
+    	# Disable retries and run test_get_gateway_statistics_all_params.
+    	_service.disable_retries()
+    	self.test_get_gateway_statistics_all_params()
 
     @responses.activate
     def test_get_gateway_statistics_value_error(self):
@@ -1264,13 +1701,13 @@ class TestGetGatewayStatistics():
 
 
     def test_get_gateway_statistics_value_error_with_retries(self):
-        # Enable retries and run test_get_gateway_statistics_value_error.
-        _service.enable_retries()
-        self.test_get_gateway_statistics_value_error()
+    	# Enable retries and run test_get_gateway_statistics_value_error.
+    	_service.enable_retries()
+    	self.test_get_gateway_statistics_value_error()
 
-        # Disable retries and run test_get_gateway_statistics_value_error.
-        _service.disable_retries()
-        self.test_get_gateway_statistics_value_error()
+    	# Disable retries and run test_get_gateway_statistics_value_error.
+    	_service.disable_retries()
+    	self.test_get_gateway_statistics_value_error()
 
 class TestGetGatewayStatus():
     """
@@ -1322,13 +1759,13 @@ class TestGetGatewayStatus():
         assert 'type={}'.format(type) in query_string
 
     def test_get_gateway_status_all_params_with_retries(self):
-        # Enable retries and run test_get_gateway_status_all_params.
-        _service.enable_retries()
-        self.test_get_gateway_status_all_params()
+    	# Enable retries and run test_get_gateway_status_all_params.
+    	_service.enable_retries()
+    	self.test_get_gateway_status_all_params()
 
-        # Disable retries and run test_get_gateway_status_all_params.
-        _service.disable_retries()
-        self.test_get_gateway_status_all_params()
+    	# Disable retries and run test_get_gateway_status_all_params.
+    	_service.disable_retries()
+    	self.test_get_gateway_status_all_params()
 
     @responses.activate
     def test_get_gateway_status_required_params(self):
@@ -1358,13 +1795,13 @@ class TestGetGatewayStatus():
         assert response.status_code == 200
 
     def test_get_gateway_status_required_params_with_retries(self):
-        # Enable retries and run test_get_gateway_status_required_params.
-        _service.enable_retries()
-        self.test_get_gateway_status_required_params()
+    	# Enable retries and run test_get_gateway_status_required_params.
+    	_service.enable_retries()
+    	self.test_get_gateway_status_required_params()
 
-        # Disable retries and run test_get_gateway_status_required_params.
-        _service.disable_retries()
-        self.test_get_gateway_status_required_params()
+    	# Disable retries and run test_get_gateway_status_required_params.
+    	_service.disable_retries()
+    	self.test_get_gateway_status_required_params()
 
     @responses.activate
     def test_get_gateway_status_value_error(self):
@@ -1394,13 +1831,13 @@ class TestGetGatewayStatus():
 
 
     def test_get_gateway_status_value_error_with_retries(self):
-        # Enable retries and run test_get_gateway_status_value_error.
-        _service.enable_retries()
-        self.test_get_gateway_status_value_error()
+    	# Enable retries and run test_get_gateway_status_value_error.
+    	_service.enable_retries()
+    	self.test_get_gateway_status_value_error()
 
-        # Disable retries and run test_get_gateway_status_value_error.
-        _service.disable_retries()
-        self.test_get_gateway_status_value_error()
+    	# Disable retries and run test_get_gateway_status_value_error.
+    	_service.disable_retries()
+    	self.test_get_gateway_status_value_error()
 
 # endregion
 ##############################################################################
@@ -1499,13 +1936,13 @@ class TestListOfferingTypeLocations():
         assert response.status_code == 200
 
     def test_list_offering_type_locations_all_params_with_retries(self):
-        # Enable retries and run test_list_offering_type_locations_all_params.
-        _service.enable_retries()
-        self.test_list_offering_type_locations_all_params()
+    	# Enable retries and run test_list_offering_type_locations_all_params.
+    	_service.enable_retries()
+    	self.test_list_offering_type_locations_all_params()
 
-        # Disable retries and run test_list_offering_type_locations_all_params.
-        _service.disable_retries()
-        self.test_list_offering_type_locations_all_params()
+    	# Disable retries and run test_list_offering_type_locations_all_params.
+    	_service.disable_retries()
+    	self.test_list_offering_type_locations_all_params()
 
     @responses.activate
     def test_list_offering_type_locations_value_error(self):
@@ -1535,13 +1972,13 @@ class TestListOfferingTypeLocations():
 
 
     def test_list_offering_type_locations_value_error_with_retries(self):
-        # Enable retries and run test_list_offering_type_locations_value_error.
-        _service.enable_retries()
-        self.test_list_offering_type_locations_value_error()
+    	# Enable retries and run test_list_offering_type_locations_value_error.
+    	_service.enable_retries()
+    	self.test_list_offering_type_locations_value_error()
 
-        # Disable retries and run test_list_offering_type_locations_value_error.
-        _service.disable_retries()
-        self.test_list_offering_type_locations_value_error()
+    	# Disable retries and run test_list_offering_type_locations_value_error.
+    	_service.disable_retries()
+    	self.test_list_offering_type_locations_value_error()
 
 class TestListOfferingTypeLocationCrossConnectRouters():
     """
@@ -1589,13 +2026,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
         assert response.status_code == 200
 
     def test_list_offering_type_location_cross_connect_routers_all_params_with_retries(self):
-        # Enable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
-        _service.enable_retries()
-        self.test_list_offering_type_location_cross_connect_routers_all_params()
+    	# Enable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
+    	_service.enable_retries()
+    	self.test_list_offering_type_location_cross_connect_routers_all_params()
 
-        # Disable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
-        _service.disable_retries()
-        self.test_list_offering_type_location_cross_connect_routers_all_params()
+    	# Disable retries and run test_list_offering_type_location_cross_connect_routers_all_params.
+    	_service.disable_retries()
+    	self.test_list_offering_type_location_cross_connect_routers_all_params()
 
     @responses.activate
     def test_list_offering_type_location_cross_connect_routers_value_error(self):
@@ -1627,13 +2064,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
 
 
     def test_list_offering_type_location_cross_connect_routers_value_error_with_retries(self):
-        # Enable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
-        _service.enable_retries()
-        self.test_list_offering_type_location_cross_connect_routers_value_error()
+    	# Enable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
+    	_service.enable_retries()
+    	self.test_list_offering_type_location_cross_connect_routers_value_error()
 
-        # Disable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
-        _service.disable_retries()
-        self.test_list_offering_type_location_cross_connect_routers_value_error()
+    	# Disable retries and run test_list_offering_type_location_cross_connect_routers_value_error.
+    	_service.disable_retries()
+    	self.test_list_offering_type_location_cross_connect_routers_value_error()
 
 class TestListOfferingTypeSpeeds():
     """
@@ -1679,13 +2116,13 @@ class TestListOfferingTypeSpeeds():
         assert response.status_code == 200
 
     def test_list_offering_type_speeds_all_params_with_retries(self):
-        # Enable retries and run test_list_offering_type_speeds_all_params.
-        _service.enable_retries()
-        self.test_list_offering_type_speeds_all_params()
+    	# Enable retries and run test_list_offering_type_speeds_all_params.
+    	_service.enable_retries()
+    	self.test_list_offering_type_speeds_all_params()
 
-        # Disable retries and run test_list_offering_type_speeds_all_params.
-        _service.disable_retries()
-        self.test_list_offering_type_speeds_all_params()
+    	# Disable retries and run test_list_offering_type_speeds_all_params.
+    	_service.disable_retries()
+    	self.test_list_offering_type_speeds_all_params()
 
     @responses.activate
     def test_list_offering_type_speeds_value_error(self):
@@ -1715,13 +2152,13 @@ class TestListOfferingTypeSpeeds():
 
 
     def test_list_offering_type_speeds_value_error_with_retries(self):
-        # Enable retries and run test_list_offering_type_speeds_value_error.
-        _service.enable_retries()
-        self.test_list_offering_type_speeds_value_error()
+    	# Enable retries and run test_list_offering_type_speeds_value_error.
+    	_service.enable_retries()
+    	self.test_list_offering_type_speeds_value_error()
 
-        # Disable retries and run test_list_offering_type_speeds_value_error.
-        _service.disable_retries()
-        self.test_list_offering_type_speeds_value_error()
+    	# Disable retries and run test_list_offering_type_speeds_value_error.
+    	_service.disable_retries()
+    	self.test_list_offering_type_speeds_value_error()
 
 # endregion
 ##############################################################################
@@ -1830,13 +2267,13 @@ class TestListPorts():
         assert 'location_name={}'.format(location_name) in query_string
 
     def test_list_ports_all_params_with_retries(self):
-        # Enable retries and run test_list_ports_all_params.
-        _service.enable_retries()
-        self.test_list_ports_all_params()
+    	# Enable retries and run test_list_ports_all_params.
+    	_service.enable_retries()
+    	self.test_list_ports_all_params()
 
-        # Disable retries and run test_list_ports_all_params.
-        _service.disable_retries()
-        self.test_list_ports_all_params()
+    	# Disable retries and run test_list_ports_all_params.
+    	_service.disable_retries()
+    	self.test_list_ports_all_params()
 
     @responses.activate
     def test_list_ports_required_params(self):
@@ -1861,13 +2298,13 @@ class TestListPorts():
         assert response.status_code == 200
 
     def test_list_ports_required_params_with_retries(self):
-        # Enable retries and run test_list_ports_required_params.
-        _service.enable_retries()
-        self.test_list_ports_required_params()
+    	# Enable retries and run test_list_ports_required_params.
+    	_service.enable_retries()
+    	self.test_list_ports_required_params()
 
-        # Disable retries and run test_list_ports_required_params.
-        _service.disable_retries()
-        self.test_list_ports_required_params()
+    	# Disable retries and run test_list_ports_required_params.
+    	_service.disable_retries()
+    	self.test_list_ports_required_params()
 
     @responses.activate
     def test_list_ports_value_error(self):
@@ -1893,13 +2330,13 @@ class TestListPorts():
 
 
     def test_list_ports_value_error_with_retries(self):
-        # Enable retries and run test_list_ports_value_error.
-        _service.enable_retries()
-        self.test_list_ports_value_error()
+    	# Enable retries and run test_list_ports_value_error.
+    	_service.enable_retries()
+    	self.test_list_ports_value_error()
 
-        # Disable retries and run test_list_ports_value_error.
-        _service.disable_retries()
-        self.test_list_ports_value_error()
+    	# Disable retries and run test_list_ports_value_error.
+    	_service.disable_retries()
+    	self.test_list_ports_value_error()
 
 class TestGetPort():
     """
@@ -1945,13 +2382,13 @@ class TestGetPort():
         assert response.status_code == 200
 
     def test_get_port_all_params_with_retries(self):
-        # Enable retries and run test_get_port_all_params.
-        _service.enable_retries()
-        self.test_get_port_all_params()
+    	# Enable retries and run test_get_port_all_params.
+    	_service.enable_retries()
+    	self.test_get_port_all_params()
 
-        # Disable retries and run test_get_port_all_params.
-        _service.disable_retries()
-        self.test_get_port_all_params()
+    	# Disable retries and run test_get_port_all_params.
+    	_service.disable_retries()
+    	self.test_get_port_all_params()
 
     @responses.activate
     def test_get_port_value_error(self):
@@ -1981,13 +2418,13 @@ class TestGetPort():
 
 
     def test_get_port_value_error_with_retries(self):
-        # Enable retries and run test_get_port_value_error.
-        _service.enable_retries()
-        self.test_get_port_value_error()
+    	# Enable retries and run test_get_port_value_error.
+    	_service.enable_retries()
+    	self.test_get_port_value_error()
 
-        # Disable retries and run test_get_port_value_error.
-        _service.disable_retries()
-        self.test_get_port_value_error()
+    	# Disable retries and run test_get_port_value_error.
+    	_service.disable_retries()
+    	self.test_get_port_value_error()
 
 # endregion
 ##############################################################################
@@ -2086,13 +2523,13 @@ class TestListGatewayVirtualConnections():
         assert response.status_code == 200
 
     def test_list_gateway_virtual_connections_all_params_with_retries(self):
-        # Enable retries and run test_list_gateway_virtual_connections_all_params.
-        _service.enable_retries()
-        self.test_list_gateway_virtual_connections_all_params()
+    	# Enable retries and run test_list_gateway_virtual_connections_all_params.
+    	_service.enable_retries()
+    	self.test_list_gateway_virtual_connections_all_params()
 
-        # Disable retries and run test_list_gateway_virtual_connections_all_params.
-        _service.disable_retries()
-        self.test_list_gateway_virtual_connections_all_params()
+    	# Disable retries and run test_list_gateway_virtual_connections_all_params.
+    	_service.disable_retries()
+    	self.test_list_gateway_virtual_connections_all_params()
 
     @responses.activate
     def test_list_gateway_virtual_connections_value_error(self):
@@ -2122,13 +2559,13 @@ class TestListGatewayVirtualConnections():
 
 
     def test_list_gateway_virtual_connections_value_error_with_retries(self):
-        # Enable retries and run test_list_gateway_virtual_connections_value_error.
-        _service.enable_retries()
-        self.test_list_gateway_virtual_connections_value_error()
+    	# Enable retries and run test_list_gateway_virtual_connections_value_error.
+    	_service.enable_retries()
+    	self.test_list_gateway_virtual_connections_value_error()
 
-        # Disable retries and run test_list_gateway_virtual_connections_value_error.
-        _service.disable_retries()
-        self.test_list_gateway_virtual_connections_value_error()
+    	# Disable retries and run test_list_gateway_virtual_connections_value_error.
+    	_service.disable_retries()
+    	self.test_list_gateway_virtual_connections_value_error()
 
 class TestCreateGatewayVirtualConnection():
     """
@@ -2185,13 +2622,13 @@ class TestCreateGatewayVirtualConnection():
         assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb'
 
     def test_create_gateway_virtual_connection_all_params_with_retries(self):
-        # Enable retries and run test_create_gateway_virtual_connection_all_params.
-        _service.enable_retries()
-        self.test_create_gateway_virtual_connection_all_params()
+    	# Enable retries and run test_create_gateway_virtual_connection_all_params.
+    	_service.enable_retries()
+    	self.test_create_gateway_virtual_connection_all_params()
 
-        # Disable retries and run test_create_gateway_virtual_connection_all_params.
-        _service.disable_retries()
-        self.test_create_gateway_virtual_connection_all_params()
+    	# Disable retries and run test_create_gateway_virtual_connection_all_params.
+    	_service.disable_retries()
+    	self.test_create_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_create_gateway_virtual_connection_value_error(self):
@@ -2226,13 +2663,13 @@ class TestCreateGatewayVirtualConnection():
 
 
     def test_create_gateway_virtual_connection_value_error_with_retries(self):
-        # Enable retries and run test_create_gateway_virtual_connection_value_error.
-        _service.enable_retries()
-        self.test_create_gateway_virtual_connection_value_error()
+    	# Enable retries and run test_create_gateway_virtual_connection_value_error.
+    	_service.enable_retries()
+    	self.test_create_gateway_virtual_connection_value_error()
 
-        # Disable retries and run test_create_gateway_virtual_connection_value_error.
-        _service.disable_retries()
-        self.test_create_gateway_virtual_connection_value_error()
+    	# Disable retries and run test_create_gateway_virtual_connection_value_error.
+    	_service.disable_retries()
+    	self.test_create_gateway_virtual_connection_value_error()
 
 class TestDeleteGatewayVirtualConnection():
     """
@@ -2277,13 +2714,13 @@ class TestDeleteGatewayVirtualConnection():
         assert response.status_code == 204
 
     def test_delete_gateway_virtual_connection_all_params_with_retries(self):
-        # Enable retries and run test_delete_gateway_virtual_connection_all_params.
-        _service.enable_retries()
-        self.test_delete_gateway_virtual_connection_all_params()
+    	# Enable retries and run test_delete_gateway_virtual_connection_all_params.
+    	_service.enable_retries()
+    	self.test_delete_gateway_virtual_connection_all_params()
 
-        # Disable retries and run test_delete_gateway_virtual_connection_all_params.
-        _service.disable_retries()
-        self.test_delete_gateway_virtual_connection_all_params()
+    	# Disable retries and run test_delete_gateway_virtual_connection_all_params.
+    	_service.disable_retries()
+    	self.test_delete_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_delete_gateway_virtual_connection_value_error(self):
@@ -2312,13 +2749,13 @@ class TestDeleteGatewayVirtualConnection():
 
 
     def test_delete_gateway_virtual_connection_value_error_with_retries(self):
-        # Enable retries and run test_delete_gateway_virtual_connection_value_error.
-        _service.enable_retries()
-        self.test_delete_gateway_virtual_connection_value_error()
+    	# Enable retries and run test_delete_gateway_virtual_connection_value_error.
+    	_service.enable_retries()
+    	self.test_delete_gateway_virtual_connection_value_error()
 
-        # Disable retries and run test_delete_gateway_virtual_connection_value_error.
-        _service.disable_retries()
-        self.test_delete_gateway_virtual_connection_value_error()
+    	# Disable retries and run test_delete_gateway_virtual_connection_value_error.
+    	_service.disable_retries()
+    	self.test_delete_gateway_virtual_connection_value_error()
 
 class TestGetGatewayVirtualConnection():
     """
@@ -2366,13 +2803,13 @@ class TestGetGatewayVirtualConnection():
         assert response.status_code == 200
 
     def test_get_gateway_virtual_connection_all_params_with_retries(self):
-        # Enable retries and run test_get_gateway_virtual_connection_all_params.
-        _service.enable_retries()
-        self.test_get_gateway_virtual_connection_all_params()
+    	# Enable retries and run test_get_gateway_virtual_connection_all_params.
+    	_service.enable_retries()
+    	self.test_get_gateway_virtual_connection_all_params()
 
-        # Disable retries and run test_get_gateway_virtual_connection_all_params.
-        _service.disable_retries()
-        self.test_get_gateway_virtual_connection_all_params()
+    	# Disable retries and run test_get_gateway_virtual_connection_all_params.
+    	_service.disable_retries()
+    	self.test_get_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_get_gateway_virtual_connection_value_error(self):
@@ -2404,13 +2841,13 @@ class TestGetGatewayVirtualConnection():
 
 
     def test_get_gateway_virtual_connection_value_error_with_retries(self):
-        # Enable retries and run test_get_gateway_virtual_connection_value_error.
-        _service.enable_retries()
-        self.test_get_gateway_virtual_connection_value_error()
+    	# Enable retries and run test_get_gateway_virtual_connection_value_error.
+    	_service.enable_retries()
+    	self.test_get_gateway_virtual_connection_value_error()
 
-        # Disable retries and run test_get_gateway_virtual_connection_value_error.
-        _service.disable_retries()
-        self.test_get_gateway_virtual_connection_value_error()
+    	# Disable retries and run test_get_gateway_virtual_connection_value_error.
+    	_service.disable_retries()
+    	self.test_get_gateway_virtual_connection_value_error()
 
 class TestUpdateGatewayVirtualConnection():
     """
@@ -2466,13 +2903,13 @@ class TestUpdateGatewayVirtualConnection():
         assert req_body['status'] == 'attached'
 
     def test_update_gateway_virtual_connection_all_params_with_retries(self):
-        # Enable retries and run test_update_gateway_virtual_connection_all_params.
-        _service.enable_retries()
-        self.test_update_gateway_virtual_connection_all_params()
+    	# Enable retries and run test_update_gateway_virtual_connection_all_params.
+    	_service.enable_retries()
+    	self.test_update_gateway_virtual_connection_all_params()
 
-        # Disable retries and run test_update_gateway_virtual_connection_all_params.
-        _service.disable_retries()
-        self.test_update_gateway_virtual_connection_all_params()
+    	# Disable retries and run test_update_gateway_virtual_connection_all_params.
+    	_service.disable_retries()
+    	self.test_update_gateway_virtual_connection_all_params()
 
     @responses.activate
     def test_update_gateway_virtual_connection_value_error(self):
@@ -2506,13 +2943,13 @@ class TestUpdateGatewayVirtualConnection():
 
 
     def test_update_gateway_virtual_connection_value_error_with_retries(self):
-        # Enable retries and run test_update_gateway_virtual_connection_value_error.
-        _service.enable_retries()
-        self.test_update_gateway_virtual_connection_value_error()
+    	# Enable retries and run test_update_gateway_virtual_connection_value_error.
+    	_service.enable_retries()
+    	self.test_update_gateway_virtual_connection_value_error()
 
-        # Disable retries and run test_update_gateway_virtual_connection_value_error.
-        _service.disable_retries()
-        self.test_update_gateway_virtual_connection_value_error()
+    	# Disable retries and run test_update_gateway_virtual_connection_value_error.
+    	_service.disable_retries()
+    	self.test_update_gateway_virtual_connection_value_error()
 
 # endregion
 ##############################################################################
@@ -2524,6 +2961,71 @@ class TestUpdateGatewayVirtualConnection():
 # Start of Model Tests
 ##############################################################################
 # region
+class TestModel_AsPrepend():
+    """
+    Test Class for AsPrepend
+    """
+
+    def test_as_prepend_serialization(self):
+        """
+        Test serialization/deserialization for AsPrepend
+        """
+
+        # Construct a json representation of a AsPrepend model
+        as_prepend_model_json = {}
+        as_prepend_model_json['created_at'] = "2019-01-01T12:00:00Z"
+        as_prepend_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        as_prepend_model_json['length'] = 4
+        as_prepend_model_json['policy'] = 'import'
+        as_prepend_model_json['prefix'] = '172.17.0.0/16'
+        as_prepend_model_json['updated_at'] = "2019-01-01T12:00:00Z"
+
+        # Construct a model instance of AsPrepend by calling from_dict on the json representation
+        as_prepend_model = AsPrepend.from_dict(as_prepend_model_json)
+        assert as_prepend_model != False
+
+        # Construct a model instance of AsPrepend by calling from_dict on the json representation
+        as_prepend_model_dict = AsPrepend.from_dict(as_prepend_model_json).__dict__
+        as_prepend_model2 = AsPrepend(**as_prepend_model_dict)
+
+        # Verify the model instances are equivalent
+        assert as_prepend_model == as_prepend_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        as_prepend_model_json2 = as_prepend_model.to_dict()
+        assert as_prepend_model_json2 == as_prepend_model_json
+
+class TestModel_AsPrependTemplate():
+    """
+    Test Class for AsPrependTemplate
+    """
+
+    def test_as_prepend_template_serialization(self):
+        """
+        Test serialization/deserialization for AsPrependTemplate
+        """
+
+        # Construct a json representation of a AsPrependTemplate model
+        as_prepend_template_model_json = {}
+        as_prepend_template_model_json['length'] = 4
+        as_prepend_template_model_json['policy'] = 'import'
+        as_prepend_template_model_json['prefix'] = '172.17.0.0/16'
+
+        # Construct a model instance of AsPrependTemplate by calling from_dict on the json representation
+        as_prepend_template_model = AsPrependTemplate.from_dict(as_prepend_template_model_json)
+        assert as_prepend_template_model != False
+
+        # Construct a model instance of AsPrependTemplate by calling from_dict on the json representation
+        as_prepend_template_model_dict = AsPrependTemplate.from_dict(as_prepend_template_model_json).__dict__
+        as_prepend_template_model2 = AsPrependTemplate(**as_prepend_template_model_dict)
+
+        # Verify the model instances are equivalent
+        assert as_prepend_template_model == as_prepend_template_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        as_prepend_template_model_json2 = as_prepend_template_model.to_dict()
+        assert as_prepend_template_model_json2 == as_prepend_template_model_json
+
 class TestModel_CrossConnectRouter():
     """
     Test Class for CrossConnectRouter
@@ -2566,6 +3068,14 @@ class TestModel_Gateway():
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
+
+        as_prepend_model = {} # AsPrepend
+        as_prepend_model['created_at'] = "2019-01-01T12:00:00Z"
+        as_prepend_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        as_prepend_model['length'] = 4
+        as_prepend_model['policy'] = 'import'
+        as_prepend_model['prefix'] = '172.17.0.0/16'
+        as_prepend_model['updated_at'] = "2019-01-01T12:00:00Z"
 
         gateway_authentication_key_model = {} # GatewayAuthenticationKey
         gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
@@ -2613,6 +3123,7 @@ class TestModel_Gateway():
 
         # Construct a json representation of a Gateway model
         gateway_model_json = {}
+        gateway_model_json['as_prepends'] = [as_prepend_model]
         gateway_model_json['authentication_key'] = gateway_authentication_key_model
         gateway_model_json['bfd_config'] = gateway_bfd_config_model
         gateway_model_json['bgp_asn'] = 64999
@@ -2855,6 +3366,14 @@ class TestModel_GatewayCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        as_prepend_model = {} # AsPrepend
+        as_prepend_model['created_at'] = "2019-01-01T12:00:00Z"
+        as_prepend_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        as_prepend_model['length'] = 4
+        as_prepend_model['policy'] = 'import'
+        as_prepend_model['prefix'] = '172.17.0.0/16'
+        as_prepend_model['updated_at'] = "2019-01-01T12:00:00Z"
+
         gateway_authentication_key_model = {} # GatewayAuthenticationKey
         gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
@@ -2900,6 +3419,7 @@ class TestModel_GatewayCollection():
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         gateway_model = {} # Gateway
+        gateway_model['as_prepends'] = [as_prepend_model]
         gateway_model['authentication_key'] = gateway_authentication_key_model
         gateway_model['bfd_config'] = gateway_bfd_config_model
         gateway_model['bgp_asn'] = 64999
@@ -3979,6 +4499,259 @@ class TestModel_ResourceGroupReference():
         resource_group_reference_model_json2 = resource_group_reference_model.to_dict()
         assert resource_group_reference_model_json2 == resource_group_reference_model_json
 
+class TestModel_RouteReport():
+    """
+    Test Class for RouteReport
+    """
+
+    def test_route_report_serialization(self):
+        """
+        Test serialization/deserialization for RouteReport
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_route_model = {} # RouteReportRoute
+        route_report_route_model['prefix'] = '172.17.0.0/16'
+
+        route_report_on_prem_route_model = {} # RouteReportOnPremRoute
+        route_report_on_prem_route_model['next_hop'] = '172.17.0.0'
+        route_report_on_prem_route_model['prefix'] = '172.17.0.0/16'
+
+        route_report_overlapping_route_model = {} # RouteReportOverlappingRouteForConnection
+        route_report_overlapping_route_model['prefix'] = '172.17.0.0/16'
+        route_report_overlapping_route_model['type'] = 'virtual_connection'
+        route_report_overlapping_route_model['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+
+        route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
+        route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
+
+        route_report_connection_model = {} # RouteReportConnection
+        route_report_connection_model['routes'] = [route_report_route_model]
+        route_report_connection_model['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
+        route_report_connection_model['virtual_connection_name'] = 'vpc1'
+        route_report_connection_model['virtual_connection_type'] = 'vpc'
+
+        # Construct a json representation of a RouteReport model
+        route_report_model_json = {}
+        route_report_model_json['created_at'] = "2019-01-01T12:00:00Z"
+        route_report_model_json['gateway_routes'] = [route_report_route_model]
+        route_report_model_json['id'] = '1a15dcab-7e26-45e1-b7c5-bc690eaa9724'
+        route_report_model_json['on_prem_routes'] = [route_report_on_prem_route_model]
+        route_report_model_json['overlapping_routes'] = [route_report_overlapping_route_group_model]
+        route_report_model_json['status'] = 'complete'
+        route_report_model_json['updated_at'] = "2019-01-01T12:00:00Z"
+        route_report_model_json['virtual_connection_routes'] = [route_report_connection_model]
+
+        # Construct a model instance of RouteReport by calling from_dict on the json representation
+        route_report_model = RouteReport.from_dict(route_report_model_json)
+        assert route_report_model != False
+
+        # Construct a model instance of RouteReport by calling from_dict on the json representation
+        route_report_model_dict = RouteReport.from_dict(route_report_model_json).__dict__
+        route_report_model2 = RouteReport(**route_report_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_model == route_report_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_model_json2 = route_report_model.to_dict()
+        assert route_report_model_json2 == route_report_model_json
+
+class TestModel_RouteReportCollection():
+    """
+    Test Class for RouteReportCollection
+    """
+
+    def test_route_report_collection_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportCollection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_route_model = {} # RouteReportRoute
+        route_report_route_model['prefix'] = '172.17.0.0/16'
+
+        route_report_on_prem_route_model = {} # RouteReportOnPremRoute
+        route_report_on_prem_route_model['next_hop'] = '172.17.0.0'
+        route_report_on_prem_route_model['prefix'] = '172.17.0.0/16'
+
+        route_report_overlapping_route_model = {} # RouteReportOverlappingRouteForConnection
+        route_report_overlapping_route_model['prefix'] = '172.17.0.0/16'
+        route_report_overlapping_route_model['type'] = 'virtual_connection'
+        route_report_overlapping_route_model['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+
+        route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
+        route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
+
+        route_report_connection_model = {} # RouteReportConnection
+        route_report_connection_model['routes'] = [route_report_route_model]
+        route_report_connection_model['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
+        route_report_connection_model['virtual_connection_name'] = 'vpc1'
+        route_report_connection_model['virtual_connection_type'] = 'vpc'
+
+        route_report_model = {} # RouteReport
+        route_report_model['created_at'] = "2019-01-01T12:00:00Z"
+        route_report_model['gateway_routes'] = [route_report_route_model]
+        route_report_model['id'] = '1a15dcab-7e26-45e1-b7c5-bc690eaa9724'
+        route_report_model['on_prem_routes'] = [route_report_on_prem_route_model]
+        route_report_model['overlapping_routes'] = [route_report_overlapping_route_group_model]
+        route_report_model['status'] = 'complete'
+        route_report_model['updated_at'] = "2019-01-01T12:00:00Z"
+        route_report_model['virtual_connection_routes'] = [route_report_connection_model]
+
+        # Construct a json representation of a RouteReportCollection model
+        route_report_collection_model_json = {}
+        route_report_collection_model_json['route_reports'] = [route_report_model]
+
+        # Construct a model instance of RouteReportCollection by calling from_dict on the json representation
+        route_report_collection_model = RouteReportCollection.from_dict(route_report_collection_model_json)
+        assert route_report_collection_model != False
+
+        # Construct a model instance of RouteReportCollection by calling from_dict on the json representation
+        route_report_collection_model_dict = RouteReportCollection.from_dict(route_report_collection_model_json).__dict__
+        route_report_collection_model2 = RouteReportCollection(**route_report_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_collection_model == route_report_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_collection_model_json2 = route_report_collection_model.to_dict()
+        assert route_report_collection_model_json2 == route_report_collection_model_json
+
+class TestModel_RouteReportConnection():
+    """
+    Test Class for RouteReportConnection
+    """
+
+    def test_route_report_connection_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportConnection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_route_model = {} # RouteReportRoute
+        route_report_route_model['prefix'] = '172.17.0.0/16'
+
+        # Construct a json representation of a RouteReportConnection model
+        route_report_connection_model_json = {}
+        route_report_connection_model_json['routes'] = [route_report_route_model]
+        route_report_connection_model_json['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
+        route_report_connection_model_json['virtual_connection_name'] = 'vpc1'
+        route_report_connection_model_json['virtual_connection_type'] = 'vpc'
+
+        # Construct a model instance of RouteReportConnection by calling from_dict on the json representation
+        route_report_connection_model = RouteReportConnection.from_dict(route_report_connection_model_json)
+        assert route_report_connection_model != False
+
+        # Construct a model instance of RouteReportConnection by calling from_dict on the json representation
+        route_report_connection_model_dict = RouteReportConnection.from_dict(route_report_connection_model_json).__dict__
+        route_report_connection_model2 = RouteReportConnection(**route_report_connection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_connection_model == route_report_connection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_connection_model_json2 = route_report_connection_model.to_dict()
+        assert route_report_connection_model_json2 == route_report_connection_model_json
+
+class TestModel_RouteReportOnPremRoute():
+    """
+    Test Class for RouteReportOnPremRoute
+    """
+
+    def test_route_report_on_prem_route_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportOnPremRoute
+        """
+
+        # Construct a json representation of a RouteReportOnPremRoute model
+        route_report_on_prem_route_model_json = {}
+        route_report_on_prem_route_model_json['next_hop'] = '172.17.0.0'
+        route_report_on_prem_route_model_json['prefix'] = '172.17.0.0/16'
+
+        # Construct a model instance of RouteReportOnPremRoute by calling from_dict on the json representation
+        route_report_on_prem_route_model = RouteReportOnPremRoute.from_dict(route_report_on_prem_route_model_json)
+        assert route_report_on_prem_route_model != False
+
+        # Construct a model instance of RouteReportOnPremRoute by calling from_dict on the json representation
+        route_report_on_prem_route_model_dict = RouteReportOnPremRoute.from_dict(route_report_on_prem_route_model_json).__dict__
+        route_report_on_prem_route_model2 = RouteReportOnPremRoute(**route_report_on_prem_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_on_prem_route_model == route_report_on_prem_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_on_prem_route_model_json2 = route_report_on_prem_route_model.to_dict()
+        assert route_report_on_prem_route_model_json2 == route_report_on_prem_route_model_json
+
+class TestModel_RouteReportOverlappingRouteGroup():
+    """
+    Test Class for RouteReportOverlappingRouteGroup
+    """
+
+    def test_route_report_overlapping_route_group_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportOverlappingRouteGroup
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        route_report_overlapping_route_model = {} # RouteReportOverlappingRouteForConnection
+        route_report_overlapping_route_model['prefix'] = '172.17.0.0/16'
+        route_report_overlapping_route_model['type'] = 'virtual_connection'
+        route_report_overlapping_route_model['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+
+        # Construct a json representation of a RouteReportOverlappingRouteGroup model
+        route_report_overlapping_route_group_model_json = {}
+        route_report_overlapping_route_group_model_json['routes'] = [route_report_overlapping_route_model]
+
+        # Construct a model instance of RouteReportOverlappingRouteGroup by calling from_dict on the json representation
+        route_report_overlapping_route_group_model = RouteReportOverlappingRouteGroup.from_dict(route_report_overlapping_route_group_model_json)
+        assert route_report_overlapping_route_group_model != False
+
+        # Construct a model instance of RouteReportOverlappingRouteGroup by calling from_dict on the json representation
+        route_report_overlapping_route_group_model_dict = RouteReportOverlappingRouteGroup.from_dict(route_report_overlapping_route_group_model_json).__dict__
+        route_report_overlapping_route_group_model2 = RouteReportOverlappingRouteGroup(**route_report_overlapping_route_group_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_overlapping_route_group_model == route_report_overlapping_route_group_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_overlapping_route_group_model_json2 = route_report_overlapping_route_group_model.to_dict()
+        assert route_report_overlapping_route_group_model_json2 == route_report_overlapping_route_group_model_json
+
+class TestModel_RouteReportRoute():
+    """
+    Test Class for RouteReportRoute
+    """
+
+    def test_route_report_route_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportRoute
+        """
+
+        # Construct a json representation of a RouteReportRoute model
+        route_report_route_model_json = {}
+        route_report_route_model_json['prefix'] = '172.17.0.0/16'
+
+        # Construct a model instance of RouteReportRoute by calling from_dict on the json representation
+        route_report_route_model = RouteReportRoute.from_dict(route_report_route_model_json)
+        assert route_report_route_model != False
+
+        # Construct a model instance of RouteReportRoute by calling from_dict on the json representation
+        route_report_route_model_dict = RouteReportRoute.from_dict(route_report_route_model_json).__dict__
+        route_report_route_model2 = RouteReportRoute(**route_report_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_route_model == route_report_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_route_model_json2 = route_report_route_model.to_dict()
+        assert route_report_route_model_json2 == route_report_route_model_json
+
 class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate():
     """
     Test Class for GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate
@@ -4411,6 +5184,11 @@ class TestModel_GatewayTemplateGatewayTypeConnectTemplate():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        as_prepend_template_model = {} # AsPrependTemplate
+        as_prepend_template_model['length'] = 4
+        as_prepend_template_model['policy'] = 'import'
+        as_prepend_template_model['prefix'] = '172.17.0.0/16'
+
         gateway_template_authentication_key_model = {} # GatewayTemplateAuthenticationKey
         gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
@@ -4426,6 +5204,7 @@ class TestModel_GatewayTemplateGatewayTypeConnectTemplate():
 
         # Construct a json representation of a GatewayTemplateGatewayTypeConnectTemplate model
         gateway_template_gateway_type_connect_template_model_json = {}
+        gateway_template_gateway_type_connect_template_model_json['as_prepends'] = [as_prepend_template_model]
         gateway_template_gateway_type_connect_template_model_json['authentication_key'] = gateway_template_authentication_key_model
         gateway_template_gateway_type_connect_template_model_json['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_gateway_type_connect_template_model_json['bgp_asn'] = 64999
@@ -4469,6 +5248,11 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        as_prepend_template_model = {} # AsPrependTemplate
+        as_prepend_template_model['length'] = 4
+        as_prepend_template_model['policy'] = 'import'
+        as_prepend_template_model['prefix'] = '172.17.0.0/16'
+
         gateway_template_authentication_key_model = {} # GatewayTemplateAuthenticationKey
         gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
@@ -4493,6 +5277,7 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
 
         # Construct a json representation of a GatewayTemplateGatewayTypeDedicatedTemplate model
         gateway_template_gateway_type_dedicated_template_model_json = {}
+        gateway_template_gateway_type_dedicated_template_model_json['as_prepends'] = [as_prepend_template_model]
         gateway_template_gateway_type_dedicated_template_model_json['authentication_key'] = gateway_template_authentication_key_model
         gateway_template_gateway_type_dedicated_template_model_json['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_gateway_type_dedicated_template_model_json['bgp_asn'] = 64999
@@ -4527,6 +5312,67 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
         # Convert model instance back to dict and verify no loss of data
         gateway_template_gateway_type_dedicated_template_model_json2 = gateway_template_gateway_type_dedicated_template_model.to_dict()
         assert gateway_template_gateway_type_dedicated_template_model_json2 == gateway_template_gateway_type_dedicated_template_model_json
+
+class TestModel_RouteReportOverlappingRouteForConnection():
+    """
+    Test Class for RouteReportOverlappingRouteForConnection
+    """
+
+    def test_route_report_overlapping_route_for_connection_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportOverlappingRouteForConnection
+        """
+
+        # Construct a json representation of a RouteReportOverlappingRouteForConnection model
+        route_report_overlapping_route_for_connection_model_json = {}
+        route_report_overlapping_route_for_connection_model_json['prefix'] = '172.17.0.0/16'
+        route_report_overlapping_route_for_connection_model_json['type'] = 'virtual_connection'
+        route_report_overlapping_route_for_connection_model_json['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
+
+        # Construct a model instance of RouteReportOverlappingRouteForConnection by calling from_dict on the json representation
+        route_report_overlapping_route_for_connection_model = RouteReportOverlappingRouteForConnection.from_dict(route_report_overlapping_route_for_connection_model_json)
+        assert route_report_overlapping_route_for_connection_model != False
+
+        # Construct a model instance of RouteReportOverlappingRouteForConnection by calling from_dict on the json representation
+        route_report_overlapping_route_for_connection_model_dict = RouteReportOverlappingRouteForConnection.from_dict(route_report_overlapping_route_for_connection_model_json).__dict__
+        route_report_overlapping_route_for_connection_model2 = RouteReportOverlappingRouteForConnection(**route_report_overlapping_route_for_connection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_overlapping_route_for_connection_model == route_report_overlapping_route_for_connection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_overlapping_route_for_connection_model_json2 = route_report_overlapping_route_for_connection_model.to_dict()
+        assert route_report_overlapping_route_for_connection_model_json2 == route_report_overlapping_route_for_connection_model_json
+
+class TestModel_RouteReportOverlappingRouteForOthers():
+    """
+    Test Class for RouteReportOverlappingRouteForOthers
+    """
+
+    def test_route_report_overlapping_route_for_others_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportOverlappingRouteForOthers
+        """
+
+        # Construct a json representation of a RouteReportOverlappingRouteForOthers model
+        route_report_overlapping_route_for_others_model_json = {}
+        route_report_overlapping_route_for_others_model_json['prefix'] = '172.17.0.0/16'
+        route_report_overlapping_route_for_others_model_json['type'] = 'gateway'
+
+        # Construct a model instance of RouteReportOverlappingRouteForOthers by calling from_dict on the json representation
+        route_report_overlapping_route_for_others_model = RouteReportOverlappingRouteForOthers.from_dict(route_report_overlapping_route_for_others_model_json)
+        assert route_report_overlapping_route_for_others_model != False
+
+        # Construct a model instance of RouteReportOverlappingRouteForOthers by calling from_dict on the json representation
+        route_report_overlapping_route_for_others_model_dict = RouteReportOverlappingRouteForOthers.from_dict(route_report_overlapping_route_for_others_model_json).__dict__
+        route_report_overlapping_route_for_others_model2 = RouteReportOverlappingRouteForOthers(**route_report_overlapping_route_for_others_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_overlapping_route_for_others_model == route_report_overlapping_route_for_others_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_overlapping_route_for_others_model_json2 = route_report_overlapping_route_for_others_model.to_dict()
+        assert route_report_overlapping_route_for_others_model_json2 == route_report_overlapping_route_for_others_model_json
 
 
 # endregion
