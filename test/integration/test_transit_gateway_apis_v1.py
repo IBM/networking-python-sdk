@@ -74,7 +74,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
                     for connection in connections:
                         if ("SDK-PY" in connection["name"]) and (
                             "delet" not in connection["status"]):
-                            if connection["network_type"] == "gre_tunnel":
+                            if connection["network_type"] == "gre_tunnel" or connection["network_type"] == "unbound_gre_tunnel":
                                 self.delete_resource_test(gateway_id=gateway_id, 
                                     conn_id=connection["id"], rr_id="", pf_id="")
                             else:
@@ -380,6 +380,38 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert self.is_resource_available(gateway_id=gateway_id, 
             conn_id=gre_conn_id, rr_id="")
 
+        #############################################
+        # Success: POST Transit Unbound GRE Connection:
+        #############################################
+        zone = {}; zone['name'] = 'us-south-1'
+        unbound_gre_name = "unbound-GRE_" + time.strftime("%H%M%S")
+        unbound_gre_name = os.getenv("TG_SERVICES_CONN_NAME") + unbound_gre_name
+        
+        response = self.tg.create_transit_gateway_connection(
+            zone=zone,
+            name=unbound_gre_name,
+            network_type="unbound_gre_tunnel", 
+            transit_gateway_id=gateway_id,
+            local_gateway_ip="192.168.100.1", 
+            local_tunnel_ip="192.168.101.1",
+            remote_gateway_ip="10.242.63.12",
+            remote_tunnel_ip="192.168.101.2",
+            base_connection_id=classic_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 201 
+        assert response.get_result().get("id") != ""
+        assert response.get_result().get("zone") == zone
+        assert response.get_result().get("name") == unbound_gre_name
+        assert response.get_result().get("network_type") == "unbound_gre_tunnel"
+        assert response.get_result().get("base_connection_id") == classic_conn_id
+        assert response.get_result().get("base_network_type") == "classic"
+        
+        # wait until the Connection status = attached
+        unbound_gre_conn_id = response.get_result().get("id")
+        assert self.is_resource_available(gateway_id=gateway_id, 
+            conn_id=unbound_gre_conn_id, rr_id="")
+
         #############################################   
         # Success: GET Transit CLASSIC Connection:
         #############################################
@@ -430,6 +462,20 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_result().get("name") == gre_name
         assert response.get_result().get("id") == gre_conn_id    
         assert response.get_result().get("network_type") == "gre_tunnel"
+        assert response.get_result().get("base_connection_id") == classic_conn_id
+
+         #############################################  
+        # Success: GET Transit Unbound GRE Connection:
+        #############################################
+        response = self.tg.get_transit_gateway_connection(
+            transit_gateway_id=gateway_id, id=unbound_gre_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("zone") == zone
+        assert response.get_result().get("name") == unbound_gre_name
+        assert response.get_result().get("id") == unbound_gre_conn_id    
+        assert response.get_result().get("network_type") == "unbound_gre_tunnel"
         assert response.get_result().get("base_connection_id") == classic_conn_id
 
         #############################################    
@@ -488,6 +534,20 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_result().get("id") == gre_conn_id
         assert response.get_result().get("name") == gre_name
 
+        #################################################  
+        # Success: UPDATE Transit Unbound GRE Connection:
+        #################################################
+        gre_name = "UPDATED_" + unbound_gre_name
+        response = self.tg.update_transit_gateway_connection(
+            transit_gateway_id=gateway_id, 
+            name=unbound_gre_name,
+            id=unbound_gre_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == unbound_gre_conn_id
+        assert response.get_result().get("name") == unbound_gre_name
+
         #############################################
         # Success: LIST Transit Connections:
         #############################################
@@ -498,7 +558,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_status_code() == 200
         assert len(response.get_result().get("connections")) > 0
         
-        gre_found = dl_found = vpc_found = classic_found = False
+        gre_found = dl_found = vpc_found = classic_found = unbound_gre_found = False
         conns = response.get_result().get("connections")          
         for conn in conns:
             if conn["network_type"] == "directlink":
@@ -519,10 +579,16 @@ class TestTransitGatewayApisV1(unittest.TestCase):
             elif conn["network_type"] == "classic":
                 assert conn["name"] == classic_name
                 assert conn["id"] == classic_conn_id
-                classic_found = True          
+                classic_found = True 
+
+            elif conn["network_type"] == "unbound_gre_tunnel":
+                assert conn["name"] == unbound_gre_name
+                assert conn["id"] == unbound_gre_conn_id
+                unbound_gre_found = True   
 
         assert dl_found
         assert gre_found
+        assert unbound_gre_found
         assert vpc_found  
         assert classic_found 
         
@@ -633,6 +699,11 @@ class TestTransitGatewayApisV1(unittest.TestCase):
                 assert conn["name"] == gre_name
                 gre_found = True
 
+            elif conn["type"] == "unbound_gre_tunnel":
+                assert conn["id"] == gre_conn_id
+                assert conn["name"] == gre_name
+                unbound_gre_found = True
+
             elif conn["type"] == "classic":
                 assert conn["id"] == classic_conn_id
                 assert conn["name"] == classic_name
@@ -640,6 +711,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
 
         assert dl_found
         assert gre_found
+        assert unbound_gre_found
         assert vpc_found  
         assert classic_found
 

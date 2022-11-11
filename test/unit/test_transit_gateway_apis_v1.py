@@ -41,1156 +41,6 @@ _base_url = 'https://transit.cloud.ibm.com/v1'
 _service.set_service_url(_base_url)
 
 ##############################################################################
-# Start of Service: TransitConnections
-##############################################################################
-# region
-
-class TestNewInstance():
-    """
-    Test Class for new_instance
-    """
-
-    def test_new_instance(self):
-        """
-        new_instance()
-        """
-        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
-
-        service = TransitGatewayApisV1.new_instance(
-            version=version,
-            service_name='TEST_SERVICE',
-        )
-
-        assert service is not None
-        assert isinstance(service, TransitGatewayApisV1)
-
-    def test_new_instance_without_authenticator(self):
-        """
-        new_instance_without_authenticator()
-        """
-        with pytest.raises(ValueError, match='authenticator must be provided'):
-            service = TransitGatewayApisV1.new_instance(
-                version=version,
-            )
-
-    def test_new_instance_without_required_params(self):
-        """
-        new_instance_without_required_params()
-        """
-        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
-            service = TransitGatewayApisV1.new_instance()
-
-    def test_new_instance_required_param_none(self):
-        """
-        new_instance_required_param_none()
-        """
-        with pytest.raises(ValueError, match='version must be provided'):
-            service = TransitGatewayApisV1.new_instance(
-                version=None,
-            )
-class TestListConnections():
-    """
-    Test Class for list_connections
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_connections_all_params(self):
-        """
-        list_connections()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        limit = 1
-        start = 'testString'
-        network_id = 'testString'
-
-        # Invoke method
-        response = _service.list_connections(
-            limit=limit,
-            start=start,
-            network_id=network_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
-        query_string = urllib.parse.unquote_plus(query_string)
-        assert 'limit={}'.format(limit) in query_string
-        assert 'start={}'.format(start) in query_string
-        assert 'network_id={}'.format(network_id) in query_string
-
-    def test_list_connections_all_params_with_retries(self):
-        # Enable retries and run test_list_connections_all_params.
-        _service.enable_retries()
-        self.test_list_connections_all_params()
-
-        # Disable retries and run test_list_connections_all_params.
-        _service.disable_retries()
-        self.test_list_connections_all_params()
-
-    @responses.activate
-    def test_list_connections_required_params(self):
-        """
-        test_list_connections_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Invoke method
-        response = _service.list_connections()
-
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_list_connections_required_params_with_retries(self):
-        # Enable retries and run test_list_connections_required_params.
-        _service.enable_retries()
-        self.test_list_connections_required_params()
-
-        # Disable retries and run test_list_connections_required_params.
-        _service.disable_retries()
-        self.test_list_connections_required_params()
-
-    @responses.activate
-    def test_list_connections_value_error(self):
-        """
-        test_list_connections_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/connections')
-        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_connections(**req_copy)
-
-
-    def test_list_connections_value_error_with_retries(self):
-        # Enable retries and run test_list_connections_value_error.
-        _service.enable_retries()
-        self.test_list_connections_value_error()
-
-        # Disable retries and run test_list_connections_value_error.
-        _service.disable_retries()
-        self.test_list_connections_value_error()
-
-# endregion
-##############################################################################
-# End of Service: TransitConnections
-##############################################################################
-
-##############################################################################
-# Start of Service: TransitGatewayConnectionPrefixFilters
-##############################################################################
-# region
-
-class TestNewInstance():
-    """
-    Test Class for new_instance
-    """
-
-    def test_new_instance(self):
-        """
-        new_instance()
-        """
-        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
-
-        service = TransitGatewayApisV1.new_instance(
-            version=version,
-            service_name='TEST_SERVICE',
-        )
-
-        assert service is not None
-        assert isinstance(service, TransitGatewayApisV1)
-
-    def test_new_instance_without_authenticator(self):
-        """
-        new_instance_without_authenticator()
-        """
-        with pytest.raises(ValueError, match='authenticator must be provided'):
-            service = TransitGatewayApisV1.new_instance(
-                version=version,
-            )
-
-    def test_new_instance_without_required_params(self):
-        """
-        new_instance_without_required_params()
-        """
-        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
-            service = TransitGatewayApisV1.new_instance()
-
-    def test_new_instance_required_param_none(self):
-        """
-        new_instance_required_param_none()
-        """
-        with pytest.raises(ValueError, match='version must be provided'):
-            service = TransitGatewayApisV1.new_instance(
-                version=None,
-            )
-class TestListTransitGatewayConnectionPrefixFilters():
-    """
-    Test Class for list_transit_gateway_connection_prefix_filters
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_transit_gateway_connection_prefix_filters_all_params(self):
-        """
-        list_transit_gateway_connection_prefix_filters()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
-        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-
-        # Invoke method
-        response = _service.list_transit_gateway_connection_prefix_filters(
-            transit_gateway_id,
-            id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_list_transit_gateway_connection_prefix_filters_all_params_with_retries(self):
-        # Enable retries and run test_list_transit_gateway_connection_prefix_filters_all_params.
-        _service.enable_retries()
-        self.test_list_transit_gateway_connection_prefix_filters_all_params()
-
-        # Disable retries and run test_list_transit_gateway_connection_prefix_filters_all_params.
-        _service.disable_retries()
-        self.test_list_transit_gateway_connection_prefix_filters_all_params()
-
-    @responses.activate
-    def test_list_transit_gateway_connection_prefix_filters_value_error(self):
-        """
-        test_list_transit_gateway_connection_prefix_filters_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
-        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_transit_gateway_connection_prefix_filters(**req_copy)
-
-
-    def test_list_transit_gateway_connection_prefix_filters_value_error_with_retries(self):
-        # Enable retries and run test_list_transit_gateway_connection_prefix_filters_value_error.
-        _service.enable_retries()
-        self.test_list_transit_gateway_connection_prefix_filters_value_error()
-
-        # Disable retries and run test_list_transit_gateway_connection_prefix_filters_value_error.
-        _service.disable_retries()
-        self.test_list_transit_gateway_connection_prefix_filters_value_error()
-
-class TestCreateTransitGatewayConnectionPrefixFilter():
-    """
-    Test Class for create_transit_gateway_connection_prefix_filter
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_create_transit_gateway_connection_prefix_filter_all_params(self):
-        """
-        create_transit_gateway_connection_prefix_filter()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
-        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        action = 'permit'
-        prefix = '192.168.100.0/24'
-        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        ge = 0
-        le = 32
-
-        # Invoke method
-        response = _service.create_transit_gateway_connection_prefix_filter(
-            transit_gateway_id,
-            id,
-            action,
-            prefix,
-            before=before,
-            ge=ge,
-            le=le,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['action'] == 'permit'
-        assert req_body['prefix'] == '192.168.100.0/24'
-        assert req_body['before'] == '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        assert req_body['ge'] == 0
-        assert req_body['le'] == 32
-
-    def test_create_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
-        # Enable retries and run test_create_transit_gateway_connection_prefix_filter_all_params.
-        _service.enable_retries()
-        self.test_create_transit_gateway_connection_prefix_filter_all_params()
-
-        # Disable retries and run test_create_transit_gateway_connection_prefix_filter_all_params.
-        _service.disable_retries()
-        self.test_create_transit_gateway_connection_prefix_filter_all_params()
-
-    @responses.activate
-    def test_create_transit_gateway_connection_prefix_filter_value_error(self):
-        """
-        test_create_transit_gateway_connection_prefix_filter_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
-        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        action = 'permit'
-        prefix = '192.168.100.0/24'
-        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        ge = 0
-        le = 32
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-            "action": action,
-            "prefix": prefix,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.create_transit_gateway_connection_prefix_filter(**req_copy)
-
-
-    def test_create_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
-        # Enable retries and run test_create_transit_gateway_connection_prefix_filter_value_error.
-        _service.enable_retries()
-        self.test_create_transit_gateway_connection_prefix_filter_value_error()
-
-        # Disable retries and run test_create_transit_gateway_connection_prefix_filter_value_error.
-        _service.disable_retries()
-        self.test_create_transit_gateway_connection_prefix_filter_value_error()
-
-class TestDeleteTransitGatewayConnectionPrefixFilter():
-    """
-    Test Class for delete_transit_gateway_connection_prefix_filter
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_transit_gateway_connection_prefix_filter_all_params(self):
-        """
-        delete_transit_gateway_connection_prefix_filter()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        filter_id = 'testString'
-
-        # Invoke method
-        response = _service.delete_transit_gateway_connection_prefix_filter(
-            transit_gateway_id,
-            id,
-            filter_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-    def test_delete_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
-        # Enable retries and run test_delete_transit_gateway_connection_prefix_filter_all_params.
-        _service.enable_retries()
-        self.test_delete_transit_gateway_connection_prefix_filter_all_params()
-
-        # Disable retries and run test_delete_transit_gateway_connection_prefix_filter_all_params.
-        _service.disable_retries()
-        self.test_delete_transit_gateway_connection_prefix_filter_all_params()
-
-    @responses.activate
-    def test_delete_transit_gateway_connection_prefix_filter_value_error(self):
-        """
-        test_delete_transit_gateway_connection_prefix_filter_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        filter_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-            "filter_id": filter_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_transit_gateway_connection_prefix_filter(**req_copy)
-
-
-    def test_delete_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
-        # Enable retries and run test_delete_transit_gateway_connection_prefix_filter_value_error.
-        _service.enable_retries()
-        self.test_delete_transit_gateway_connection_prefix_filter_value_error()
-
-        # Disable retries and run test_delete_transit_gateway_connection_prefix_filter_value_error.
-        _service.disable_retries()
-        self.test_delete_transit_gateway_connection_prefix_filter_value_error()
-
-class TestGetTransitGatewayConnectionPrefixFilter():
-    """
-    Test Class for get_transit_gateway_connection_prefix_filter
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_transit_gateway_connection_prefix_filter_all_params(self):
-        """
-        get_transit_gateway_connection_prefix_filter()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
-        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        filter_id = 'testString'
-
-        # Invoke method
-        response = _service.get_transit_gateway_connection_prefix_filter(
-            transit_gateway_id,
-            id,
-            filter_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_get_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
-        # Enable retries and run test_get_transit_gateway_connection_prefix_filter_all_params.
-        _service.enable_retries()
-        self.test_get_transit_gateway_connection_prefix_filter_all_params()
-
-        # Disable retries and run test_get_transit_gateway_connection_prefix_filter_all_params.
-        _service.disable_retries()
-        self.test_get_transit_gateway_connection_prefix_filter_all_params()
-
-    @responses.activate
-    def test_get_transit_gateway_connection_prefix_filter_value_error(self):
-        """
-        test_get_transit_gateway_connection_prefix_filter_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
-        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        filter_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-            "filter_id": filter_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_transit_gateway_connection_prefix_filter(**req_copy)
-
-
-    def test_get_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
-        # Enable retries and run test_get_transit_gateway_connection_prefix_filter_value_error.
-        _service.enable_retries()
-        self.test_get_transit_gateway_connection_prefix_filter_value_error()
-
-        # Disable retries and run test_get_transit_gateway_connection_prefix_filter_value_error.
-        _service.disable_retries()
-        self.test_get_transit_gateway_connection_prefix_filter_value_error()
-
-class TestUpdateTransitGatewayConnectionPrefixFilter():
-    """
-    Test Class for update_transit_gateway_connection_prefix_filter
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_update_transit_gateway_connection_prefix_filter_all_params(self):
-        """
-        update_transit_gateway_connection_prefix_filter()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
-        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        filter_id = 'testString'
-        action = 'permit'
-        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        ge = 0
-        le = 32
-        prefix = '192.168.100.0/24'
-
-        # Invoke method
-        response = _service.update_transit_gateway_connection_prefix_filter(
-            transit_gateway_id,
-            id,
-            filter_id,
-            action=action,
-            before=before,
-            ge=ge,
-            le=le,
-            prefix=prefix,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['action'] == 'permit'
-        assert req_body['before'] == '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        assert req_body['ge'] == 0
-        assert req_body['le'] == 32
-        assert req_body['prefix'] == '192.168.100.0/24'
-
-    def test_update_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
-        # Enable retries and run test_update_transit_gateway_connection_prefix_filter_all_params.
-        _service.enable_retries()
-        self.test_update_transit_gateway_connection_prefix_filter_all_params()
-
-        # Disable retries and run test_update_transit_gateway_connection_prefix_filter_all_params.
-        _service.disable_retries()
-        self.test_update_transit_gateway_connection_prefix_filter_all_params()
-
-    @responses.activate
-    def test_update_transit_gateway_connection_prefix_filter_value_error(self):
-        """
-        test_update_transit_gateway_connection_prefix_filter_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
-        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        filter_id = 'testString'
-        action = 'permit'
-        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        ge = 0
-        le = 32
-        prefix = '192.168.100.0/24'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-            "filter_id": filter_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.update_transit_gateway_connection_prefix_filter(**req_copy)
-
-
-    def test_update_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
-        # Enable retries and run test_update_transit_gateway_connection_prefix_filter_value_error.
-        _service.enable_retries()
-        self.test_update_transit_gateway_connection_prefix_filter_value_error()
-
-        # Disable retries and run test_update_transit_gateway_connection_prefix_filter_value_error.
-        _service.disable_retries()
-        self.test_update_transit_gateway_connection_prefix_filter_value_error()
-
-# endregion
-##############################################################################
-# End of Service: TransitGatewayConnectionPrefixFilters
-##############################################################################
-
-##############################################################################
-# Start of Service: TransitGatewayRouteReports
-##############################################################################
-# region
-
-class TestNewInstance():
-    """
-    Test Class for new_instance
-    """
-
-    def test_new_instance(self):
-        """
-        new_instance()
-        """
-        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
-
-        service = TransitGatewayApisV1.new_instance(
-            version=version,
-            service_name='TEST_SERVICE',
-        )
-
-        assert service is not None
-        assert isinstance(service, TransitGatewayApisV1)
-
-    def test_new_instance_without_authenticator(self):
-        """
-        new_instance_without_authenticator()
-        """
-        with pytest.raises(ValueError, match='authenticator must be provided'):
-            service = TransitGatewayApisV1.new_instance(
-                version=version,
-            )
-
-    def test_new_instance_without_required_params(self):
-        """
-        new_instance_without_required_params()
-        """
-        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
-            service = TransitGatewayApisV1.new_instance()
-
-    def test_new_instance_required_param_none(self):
-        """
-        new_instance_required_param_none()
-        """
-        with pytest.raises(ValueError, match='version must be provided'):
-            service = TransitGatewayApisV1.new_instance(
-                version=None,
-            )
-class TestListTransitGatewayRouteReports():
-    """
-    Test Class for list_transit_gateway_route_reports
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_list_transit_gateway_route_reports_all_params(self):
-        """
-        list_transit_gateway_route_reports()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
-        mock_response = '{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-
-        # Invoke method
-        response = _service.list_transit_gateway_route_reports(
-            transit_gateway_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_list_transit_gateway_route_reports_all_params_with_retries(self):
-        # Enable retries and run test_list_transit_gateway_route_reports_all_params.
-        _service.enable_retries()
-        self.test_list_transit_gateway_route_reports_all_params()
-
-        # Disable retries and run test_list_transit_gateway_route_reports_all_params.
-        _service.disable_retries()
-        self.test_list_transit_gateway_route_reports_all_params()
-
-    @responses.activate
-    def test_list_transit_gateway_route_reports_value_error(self):
-        """
-        test_list_transit_gateway_route_reports_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
-        mock_response = '{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_transit_gateway_route_reports(**req_copy)
-
-
-    def test_list_transit_gateway_route_reports_value_error_with_retries(self):
-        # Enable retries and run test_list_transit_gateway_route_reports_value_error.
-        _service.enable_retries()
-        self.test_list_transit_gateway_route_reports_value_error()
-
-        # Disable retries and run test_list_transit_gateway_route_reports_value_error.
-        _service.disable_retries()
-        self.test_list_transit_gateway_route_reports_value_error()
-
-class TestCreateTransitGatewayRouteReport():
-    """
-    Test Class for create_transit_gateway_route_report
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_create_transit_gateway_route_report_all_params(self):
-        """
-        create_transit_gateway_route_report()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
-        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-
-        # Invoke method
-        response = _service.create_transit_gateway_route_report(
-            transit_gateway_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 202
-
-    def test_create_transit_gateway_route_report_all_params_with_retries(self):
-        # Enable retries and run test_create_transit_gateway_route_report_all_params.
-        _service.enable_retries()
-        self.test_create_transit_gateway_route_report_all_params()
-
-        # Disable retries and run test_create_transit_gateway_route_report_all_params.
-        _service.disable_retries()
-        self.test_create_transit_gateway_route_report_all_params()
-
-    @responses.activate
-    def test_create_transit_gateway_route_report_value_error(self):
-        """
-        test_create_transit_gateway_route_report_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
-        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.create_transit_gateway_route_report(**req_copy)
-
-
-    def test_create_transit_gateway_route_report_value_error_with_retries(self):
-        # Enable retries and run test_create_transit_gateway_route_report_value_error.
-        _service.enable_retries()
-        self.test_create_transit_gateway_route_report_value_error()
-
-        # Disable retries and run test_create_transit_gateway_route_report_value_error.
-        _service.disable_retries()
-        self.test_create_transit_gateway_route_report_value_error()
-
-class TestDeleteTransitGatewayRouteReport():
-    """
-    Test Class for delete_transit_gateway_route_report
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_delete_transit_gateway_route_report_all_params(self):
-        """
-        delete_transit_gateway_route_report()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-
-        # Invoke method
-        response = _service.delete_transit_gateway_route_report(
-            transit_gateway_id,
-            id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 204
-
-    def test_delete_transit_gateway_route_report_all_params_with_retries(self):
-        # Enable retries and run test_delete_transit_gateway_route_report_all_params.
-        _service.enable_retries()
-        self.test_delete_transit_gateway_route_report_all_params()
-
-        # Disable retries and run test_delete_transit_gateway_route_report_all_params.
-        _service.disable_retries()
-        self.test_delete_transit_gateway_route_report_all_params()
-
-    @responses.activate
-    def test_delete_transit_gateway_route_report_value_error(self):
-        """
-        test_delete_transit_gateway_route_report_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.delete_transit_gateway_route_report(**req_copy)
-
-
-    def test_delete_transit_gateway_route_report_value_error_with_retries(self):
-        # Enable retries and run test_delete_transit_gateway_route_report_value_error.
-        _service.enable_retries()
-        self.test_delete_transit_gateway_route_report_value_error()
-
-        # Disable retries and run test_delete_transit_gateway_route_report_value_error.
-        _service.disable_retries()
-        self.test_delete_transit_gateway_route_report_value_error()
-
-class TestGetTransitGatewayRouteReport():
-    """
-    Test Class for get_transit_gateway_route_report
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_get_transit_gateway_route_report_all_params(self):
-        """
-        get_transit_gateway_route_report()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
-        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-
-        # Invoke method
-        response = _service.get_transit_gateway_route_report(
-            transit_gateway_id,
-            id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_get_transit_gateway_route_report_all_params_with_retries(self):
-        # Enable retries and run test_get_transit_gateway_route_report_all_params.
-        _service.enable_retries()
-        self.test_get_transit_gateway_route_report_all_params()
-
-        # Disable retries and run test_get_transit_gateway_route_report_all_params.
-        _service.disable_retries()
-        self.test_get_transit_gateway_route_report_all_params()
-
-    @responses.activate
-    def test_get_transit_gateway_route_report_value_error(self):
-        """
-        test_get_transit_gateway_route_report_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
-        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.get_transit_gateway_route_report(**req_copy)
-
-
-    def test_get_transit_gateway_route_report_value_error_with_retries(self):
-        # Enable retries and run test_get_transit_gateway_route_report_value_error.
-        _service.enable_retries()
-        self.test_get_transit_gateway_route_report_value_error()
-
-        # Disable retries and run test_get_transit_gateway_route_report_value_error.
-        _service.disable_retries()
-        self.test_get_transit_gateway_route_report_value_error()
-
-# endregion
-##############################################################################
-# End of Service: TransitGatewayRouteReports
-##############################################################################
-
-##############################################################################
 # Start of Service: TransitGateways
 ##############################################################################
 # region
@@ -1221,6 +71,7 @@ class TestNewInstance():
         with pytest.raises(ValueError, match='authenticator must be provided'):
             service = TransitGatewayApisV1.new_instance(
                 version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
             )
 
     def test_new_instance_without_required_params(self):
@@ -1746,6 +597,185 @@ class TestUpdateTransitGateway():
 ##############################################################################
 
 ##############################################################################
+# Start of Service: TransitConnections
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListConnections():
+    """
+    Test Class for list_connections
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_connections_all_params(self):
+        """
+        list_connections()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        limit = 1
+        start = 'testString'
+        network_id = 'testString'
+
+        # Invoke method
+        response = _service.list_connections(
+            limit=limit,
+            start=start,
+            network_id=network_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'limit={}'.format(limit) in query_string
+        assert 'start={}'.format(start) in query_string
+        assert 'network_id={}'.format(network_id) in query_string
+
+    def test_list_connections_all_params_with_retries(self):
+        # Enable retries and run test_list_connections_all_params.
+        _service.enable_retries()
+        self.test_list_connections_all_params()
+
+        # Disable retries and run test_list_connections_all_params.
+        _service.disable_retries()
+        self.test_list_connections_all_params()
+
+    @responses.activate
+    def test_list_connections_required_params(self):
+        """
+        test_list_connections_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = _service.list_connections()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_connections_required_params_with_retries(self):
+        # Enable retries and run test_list_connections_required_params.
+        _service.enable_retries()
+        self.test_list_connections_required_params()
+
+        # Disable retries and run test_list_connections_required_params.
+        _service.disable_retries()
+        self.test_list_connections_required_params()
+
+    @responses.activate
+    def test_list_connections_value_error(self):
+        """
+        test_list_connections_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/connections')
+        mock_response = '{"connections": [{"base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "name": "Transit_Service_SJ_DL", "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "transit_gateway": {"crn": "crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44", "id": "456f58c1-afe7-123a-0a0a-7f3d720f1a44", "name": "my-transit-gw100"}, "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa"}}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_connections(**req_copy)
+
+
+    def test_list_connections_value_error_with_retries(self):
+        # Enable retries and run test_list_connections_value_error.
+        _service.enable_retries()
+        self.test_list_connections_value_error()
+
+        # Disable retries and run test_list_connections_value_error.
+        _service.disable_retries()
+        self.test_list_connections_value_error()
+
+# endregion
+##############################################################################
+# End of Service: TransitConnections
+##############################################################################
+
+##############################################################################
 # Start of Service: TransitGatewaysNetworkConnections
 ##############################################################################
 # region
@@ -1776,6 +806,7 @@ class TestNewInstance():
         with pytest.raises(ValueError, match='authenticator must be provided'):
             service = TransitGatewayApisV1.new_instance(
                 version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
             )
 
     def test_new_instance_without_required_params(self):
@@ -1816,7 +847,7 @@ class TestListTransitGatewayConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
+        mock_response = '{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1852,7 +883,7 @@ class TestListTransitGatewayConnections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
+        mock_response = '{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1904,7 +935,7 @@ class TestCreateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1926,6 +957,7 @@ class TestCreateTransitGatewayConnection():
         transit_gateway_id = 'testString'
         network_type = 'vpc'
         base_connection_id = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        base_network_type = 'classic'
         local_gateway_ip = '192.168.100.1'
         local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
@@ -1933,7 +965,7 @@ class TestCreateTransitGatewayConnection():
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         prefix_filters = [transit_gateway_connection_prefix_filter_model]
         prefix_filters_default = 'permit'
-        remote_bgp_asn = '65010'
+        remote_bgp_asn = 65010
         remote_gateway_ip = '10.242.63.12'
         remote_tunnel_ip = '192.168.129.1'
         zone = zone_identity_model
@@ -1943,6 +975,7 @@ class TestCreateTransitGatewayConnection():
             transit_gateway_id,
             network_type,
             base_connection_id=base_connection_id,
+            base_network_type=base_network_type,
             local_gateway_ip=local_gateway_ip,
             local_tunnel_ip=local_tunnel_ip,
             name=name,
@@ -1964,6 +997,7 @@ class TestCreateTransitGatewayConnection():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['network_type'] == 'vpc'
         assert req_body['base_connection_id'] == '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        assert req_body['base_network_type'] == 'classic'
         assert req_body['local_gateway_ip'] == '192.168.100.1'
         assert req_body['local_tunnel_ip'] == '192.168.129.2'
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
@@ -1971,7 +1005,7 @@ class TestCreateTransitGatewayConnection():
         assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         assert req_body['prefix_filters'] == [transit_gateway_connection_prefix_filter_model]
         assert req_body['prefix_filters_default'] == 'permit'
-        assert req_body['remote_bgp_asn'] == '65010'
+        assert req_body['remote_bgp_asn'] == 65010
         assert req_body['remote_gateway_ip'] == '10.242.63.12'
         assert req_body['remote_tunnel_ip'] == '192.168.129.1'
         assert req_body['zone'] == zone_identity_model
@@ -1992,7 +1026,7 @@ class TestCreateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -2014,6 +1048,7 @@ class TestCreateTransitGatewayConnection():
         transit_gateway_id = 'testString'
         network_type = 'vpc'
         base_connection_id = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        base_network_type = 'classic'
         local_gateway_ip = '192.168.100.1'
         local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
@@ -2021,7 +1056,7 @@ class TestCreateTransitGatewayConnection():
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         prefix_filters = [transit_gateway_connection_prefix_filter_model]
         prefix_filters_default = 'permit'
-        remote_bgp_asn = '65010'
+        remote_bgp_asn = 65010
         remote_gateway_ip = '10.242.63.12'
         remote_tunnel_ip = '192.168.129.1'
         zone = zone_identity_model
@@ -2155,7 +1190,7 @@ class TestGetTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2193,7 +1228,7 @@ class TestGetTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2247,7 +1282,7 @@ class TestUpdateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -2293,7 +1328,7 @@ class TestUpdateTransitGatewayConnection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString')
-        mock_response = '{"name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "28e4d90ac7504be694471ee66e70d0d5", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
         responses.add(responses.PATCH,
                       url,
                       body=mock_response,
@@ -2455,6 +1490,7 @@ class TestNewInstance():
         with pytest.raises(ValueError, match='authenticator must be provided'):
             service = TransitGatewayApisV1.new_instance(
                 version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
             )
 
     def test_new_instance_without_required_params(self):
@@ -2574,7 +1610,7 @@ class TestGetGatewayLocation():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/locations/testString')
-        mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "type": "region"}]}'
+        mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "supported_connection_types": ["supported_connection_types"], "type": "region"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2610,7 +1646,7 @@ class TestGetGatewayLocation():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/locations/testString')
-        mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "type": "region"}]}'
+        mock_response = '{"billing_location": "us", "name": "us-south", "type": "region", "local_connection_locations": [{"display_name": "Dallas", "name": "us-south", "supported_connection_types": ["supported_connection_types"], "type": "region"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2642,6 +1678,1093 @@ class TestGetGatewayLocation():
 # endregion
 ##############################################################################
 # End of Service: TransitLocation
+##############################################################################
+
+##############################################################################
+# Start of Service: TransitGatewayConnectionPrefixFilters
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListTransitGatewayConnectionPrefixFilters():
+    """
+    Test Class for list_transit_gateway_connection_prefix_filters
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_transit_gateway_connection_prefix_filters_all_params(self):
+        """
+        list_transit_gateway_connection_prefix_filters()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.list_transit_gateway_connection_prefix_filters(
+            transit_gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_transit_gateway_connection_prefix_filters_all_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_connection_prefix_filters_all_params.
+        _service.enable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_all_params()
+
+        # Disable retries and run test_list_transit_gateway_connection_prefix_filters_all_params.
+        _service.disable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_all_params()
+
+    @responses.activate
+    def test_list_transit_gateway_connection_prefix_filters_value_error(self):
+        """
+        test_list_transit_gateway_connection_prefix_filters_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_transit_gateway_connection_prefix_filters(**req_copy)
+
+
+    def test_list_transit_gateway_connection_prefix_filters_value_error_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_connection_prefix_filters_value_error.
+        _service.enable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_value_error()
+
+        # Disable retries and run test_list_transit_gateway_connection_prefix_filters_value_error.
+        _service.disable_retries()
+        self.test_list_transit_gateway_connection_prefix_filters_value_error()
+
+class TestCreateTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for create_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        create_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        action = 'permit'
+        prefix = '192.168.100.0/24'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+
+        # Invoke method
+        response = _service.create_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            action,
+            prefix,
+            before=before,
+            ge=ge,
+            le=le,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['action'] == 'permit'
+        assert req_body['prefix'] == '192.168.100.0/24'
+        assert req_body['before'] == '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        assert req_body['ge'] == 0
+        assert req_body['le'] == 32
+
+    def test_create_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_create_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_create_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_create_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        action = 'permit'
+        prefix = '192.168.100.0/24'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "action": action,
+            "prefix": prefix,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_create_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_create_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_connection_prefix_filter_value_error()
+
+class TestReplaceTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for replace_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_replace_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        replace_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a PrefixFilterPut model
+        prefix_filter_put_model = {}
+        prefix_filter_put_model['action'] = 'permit'
+        prefix_filter_put_model['ge'] = 0
+        prefix_filter_put_model['le'] = 32
+        prefix_filter_put_model['prefix'] = '192.168.100.0/24'
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        prefix_filters = [prefix_filter_put_model]
+
+        # Invoke method
+        response = _service.replace_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            prefix_filters,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['prefix_filters'] == [prefix_filter_put_model]
+
+    def test_replace_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_replace_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_replace_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_replace_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_replace_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_replace_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_replace_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters')
+        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Construct a dict representation of a PrefixFilterPut model
+        prefix_filter_put_model = {}
+        prefix_filter_put_model['action'] = 'permit'
+        prefix_filter_put_model['ge'] = 0
+        prefix_filter_put_model['le'] = 32
+        prefix_filter_put_model['prefix'] = '192.168.100.0/24'
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        prefix_filters = [prefix_filter_put_model]
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "prefix_filters": prefix_filters,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.replace_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_replace_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_replace_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_replace_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_replace_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_replace_transit_gateway_connection_prefix_filter_value_error()
+
+class TestDeleteTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for delete_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        delete_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            filter_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_delete_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_delete_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_delete_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "filter_id": filter_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_delete_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_delete_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_connection_prefix_filter_value_error()
+
+class TestGetTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for get_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        get_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Invoke method
+        response = _service.get_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            filter_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_get_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_get_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_get_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "filter_id": filter_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_get_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_get_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_get_transit_gateway_connection_prefix_filter_value_error()
+
+class TestUpdateTransitGatewayConnectionPrefixFilter():
+    """
+    Test Class for update_transit_gateway_connection_prefix_filter
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_transit_gateway_connection_prefix_filter_all_params(self):
+        """
+        update_transit_gateway_connection_prefix_filter()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+        action = 'permit'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+        prefix = '192.168.100.0/24'
+
+        # Invoke method
+        response = _service.update_transit_gateway_connection_prefix_filter(
+            transit_gateway_id,
+            id,
+            filter_id,
+            action=action,
+            before=before,
+            ge=ge,
+            le=le,
+            prefix=prefix,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['action'] == 'permit'
+        assert req_body['before'] == '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        assert req_body['ge'] == 0
+        assert req_body['le'] == 32
+        assert req_body['prefix'] == '192.168.100.0/24'
+
+    def test_update_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_connection_prefix_filter_all_params.
+        _service.enable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_all_params()
+
+        # Disable retries and run test_update_transit_gateway_connection_prefix_filter_all_params.
+        _service.disable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_all_params()
+
+    @responses.activate
+    def test_update_transit_gateway_connection_prefix_filter_value_error(self):
+        """
+        test_update_transit_gateway_connection_prefix_filter_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/connections/testString/prefix_filters/testString')
+        mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PATCH,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+        filter_id = 'testString'
+        action = 'permit'
+        before = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
+        ge = 0
+        le = 32
+        prefix = '192.168.100.0/24'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+            "filter_id": filter_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_transit_gateway_connection_prefix_filter(**req_copy)
+
+
+    def test_update_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
+        # Enable retries and run test_update_transit_gateway_connection_prefix_filter_value_error.
+        _service.enable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_value_error()
+
+        # Disable retries and run test_update_transit_gateway_connection_prefix_filter_value_error.
+        _service.disable_retries()
+        self.test_update_transit_gateway_connection_prefix_filter_value_error()
+
+# endregion
+##############################################################################
+# End of Service: TransitGatewayConnectionPrefixFilters
+##############################################################################
+
+##############################################################################
+# Start of Service: TransitGatewayRouteReports
+##############################################################################
+# region
+
+class TestNewInstance():
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = TransitGatewayApisV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, TransitGatewayApisV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = TransitGatewayApisV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = TransitGatewayApisV1.new_instance(
+                version=None,
+            )
+class TestListTransitGatewayRouteReports():
+    """
+    Test Class for list_transit_gateway_route_reports
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_transit_gateway_route_reports_all_params(self):
+        """
+        list_transit_gateway_route_reports()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Invoke method
+        response = _service.list_transit_gateway_route_reports(
+            transit_gateway_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_transit_gateway_route_reports_all_params_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_route_reports_all_params.
+        _service.enable_retries()
+        self.test_list_transit_gateway_route_reports_all_params()
+
+        # Disable retries and run test_list_transit_gateway_route_reports_all_params.
+        _service.disable_retries()
+        self.test_list_transit_gateway_route_reports_all_params()
+
+    @responses.activate
+    def test_list_transit_gateway_route_reports_value_error(self):
+        """
+        test_list_transit_gateway_route_reports_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"route_reports": [{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_transit_gateway_route_reports(**req_copy)
+
+
+    def test_list_transit_gateway_route_reports_value_error_with_retries(self):
+        # Enable retries and run test_list_transit_gateway_route_reports_value_error.
+        _service.enable_retries()
+        self.test_list_transit_gateway_route_reports_value_error()
+
+        # Disable retries and run test_list_transit_gateway_route_reports_value_error.
+        _service.disable_retries()
+        self.test_list_transit_gateway_route_reports_value_error()
+
+class TestCreateTransitGatewayRouteReport():
+    """
+    Test Class for create_transit_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_transit_gateway_route_report_all_params(self):
+        """
+        create_transit_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Invoke method
+        response = _service.create_transit_gateway_route_report(
+            transit_gateway_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_create_transit_gateway_route_report_all_params_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_route_report_all_params.
+        _service.enable_retries()
+        self.test_create_transit_gateway_route_report_all_params()
+
+        # Disable retries and run test_create_transit_gateway_route_report_all_params.
+        _service.disable_retries()
+        self.test_create_transit_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_create_transit_gateway_route_report_value_error(self):
+        """
+        test_create_transit_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=202)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_transit_gateway_route_report(**req_copy)
+
+
+    def test_create_transit_gateway_route_report_value_error_with_retries(self):
+        # Enable retries and run test_create_transit_gateway_route_report_value_error.
+        _service.enable_retries()
+        self.test_create_transit_gateway_route_report_value_error()
+
+        # Disable retries and run test_create_transit_gateway_route_report_value_error.
+        _service.disable_retries()
+        self.test_create_transit_gateway_route_report_value_error()
+
+class TestDeleteTransitGatewayRouteReport():
+    """
+    Test Class for delete_transit_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_transit_gateway_route_report_all_params(self):
+        """
+        delete_transit_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.delete_transit_gateway_route_report(
+            transit_gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_transit_gateway_route_report_all_params_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_route_report_all_params.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_route_report_all_params()
+
+        # Disable retries and run test_delete_transit_gateway_route_report_all_params.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_delete_transit_gateway_route_report_value_error(self):
+        """
+        test_delete_transit_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_transit_gateway_route_report(**req_copy)
+
+
+    def test_delete_transit_gateway_route_report_value_error_with_retries(self):
+        # Enable retries and run test_delete_transit_gateway_route_report_value_error.
+        _service.enable_retries()
+        self.test_delete_transit_gateway_route_report_value_error()
+
+        # Disable retries and run test_delete_transit_gateway_route_report_value_error.
+        _service.disable_retries()
+        self.test_delete_transit_gateway_route_report_value_error()
+
+class TestGetTransitGatewayRouteReport():
+    """
+    Test Class for get_transit_gateway_route_report
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_transit_gateway_route_report_all_params(self):
+        """
+        get_transit_gateway_route_report()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Invoke method
+        response = _service.get_transit_gateway_route_report(
+            transit_gateway_id,
+            id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_transit_gateway_route_report_all_params_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_route_report_all_params.
+        _service.enable_retries()
+        self.test_get_transit_gateway_route_report_all_params()
+
+        # Disable retries and run test_get_transit_gateway_route_report_all_params.
+        _service.disable_retries()
+        self.test_get_transit_gateway_route_report_all_params()
+
+    @responses.activate
+    def test_get_transit_gateway_route_report_value_error(self):
+        """
+        test_get_transit_gateway_route_report_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/transit_gateways/testString/route_reports/testString')
+        mock_response = '{"connections": [{"bgps": [{"as_path": "(65201 4201065544) 4203065544", "is_used": true, "local_preference": "190", "prefix": "172.17.0.0/16"}], "id": "3c265a62-91da-4261-a950-950b6af0eb58", "name": "transit-connection-vpc1", "routes": [{"prefix": "192.168.0.0/16"}], "type": "vpc"}], "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "overlapping_routes": [{"routes": [{"connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff", "prefix": "prefix"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        transit_gateway_id = 'testString'
+        id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "transit_gateway_id": transit_gateway_id,
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_transit_gateway_route_report(**req_copy)
+
+
+    def test_get_transit_gateway_route_report_value_error_with_retries(self):
+        # Enable retries and run test_get_transit_gateway_route_report_value_error.
+        _service.enable_retries()
+        self.test_get_transit_gateway_route_report_value_error()
+
+        # Disable retries and run test_get_transit_gateway_route_report_value_error.
+        _service.disable_retries()
+        self.test_get_transit_gateway_route_report_value_error()
+
+# endregion
+##############################################################################
+# End of Service: TransitGatewayRouteReports
 ##############################################################################
 
 
@@ -2725,6 +2848,38 @@ class TestModel_PrefixFilterCust():
         # Convert model instance back to dict and verify no loss of data
         prefix_filter_cust_model_json2 = prefix_filter_cust_model.to_dict()
         assert prefix_filter_cust_model_json2 == prefix_filter_cust_model_json
+
+class TestModel_PrefixFilterPut():
+    """
+    Test Class for PrefixFilterPut
+    """
+
+    def test_prefix_filter_put_serialization(self):
+        """
+        Test serialization/deserialization for PrefixFilterPut
+        """
+
+        # Construct a json representation of a PrefixFilterPut model
+        prefix_filter_put_model_json = {}
+        prefix_filter_put_model_json['action'] = 'permit'
+        prefix_filter_put_model_json['ge'] = 0
+        prefix_filter_put_model_json['le'] = 32
+        prefix_filter_put_model_json['prefix'] = '192.168.100.0/24'
+
+        # Construct a model instance of PrefixFilterPut by calling from_dict on the json representation
+        prefix_filter_put_model = PrefixFilterPut.from_dict(prefix_filter_put_model_json)
+        assert prefix_filter_put_model != False
+
+        # Construct a model instance of PrefixFilterPut by calling from_dict on the json representation
+        prefix_filter_put_model_dict = PrefixFilterPut.from_dict(prefix_filter_put_model_json).__dict__
+        prefix_filter_put_model2 = PrefixFilterPut(**prefix_filter_put_model_dict)
+
+        # Verify the model instances are equivalent
+        assert prefix_filter_put_model == prefix_filter_put_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        prefix_filter_put_model_json2 = prefix_filter_put_model.to_dict()
+        assert prefix_filter_put_model_json2 == prefix_filter_put_model_json
 
 class TestModel_ResourceGroupIdentity():
     """
@@ -3126,6 +3281,7 @@ class TestModel_TSLocalLocation():
         ts_local_location_model_json = {}
         ts_local_location_model_json['display_name'] = 'Dallas'
         ts_local_location_model_json['name'] = 'us-south'
+        ts_local_location_model_json['supported_connection_types'] = ['classic', 'vpc', 'directlink', 'gre_tunnel', 'power_virtual_server']
         ts_local_location_model_json['type'] = 'region'
 
         # Construct a model instance of TSLocalLocation by calling from_dict on the json representation
@@ -3158,6 +3314,7 @@ class TestModel_TSLocation():
         ts_local_location_model = {} # TSLocalLocation
         ts_local_location_model['display_name'] = 'Dallas'
         ts_local_location_model['name'] = 'us-south'
+        ts_local_location_model['supported_connection_types'] = ['classic', 'vpc', 'directlink', 'gre_tunnel', 'power_virtual_server']
         ts_local_location_model['type'] = 'region'
 
         # Construct a json representation of a TSLocation model
@@ -3607,6 +3764,7 @@ class TestModel_TransitGatewayConnectionCollection():
         transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
 
         transit_gateway_connection_cust_model = {} # TransitGatewayConnectionCust
+        transit_gateway_connection_cust_model['base_network_type'] = 'classic'
         transit_gateway_connection_cust_model['name'] = 'Transit_Service_BWTN_SJ_DL'
         transit_gateway_connection_cust_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_gateway_connection_cust_model['network_type'] = 'vpc'
@@ -3674,6 +3832,7 @@ class TestModel_TransitGatewayConnectionCust():
 
         # Construct a json representation of a TransitGatewayConnectionCust model
         transit_gateway_connection_cust_model_json = {}
+        transit_gateway_connection_cust_model_json['base_network_type'] = 'classic'
         transit_gateway_connection_cust_model_json['name'] = 'Transit_Service_BWTN_SJ_DL'
         transit_gateway_connection_cust_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         transit_gateway_connection_cust_model_json['network_type'] = 'vpc'
