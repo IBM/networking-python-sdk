@@ -907,5 +907,62 @@ class TestDirectLinkV1(unittest.TestCase):
 
         # delete gateway
         self.delete_gateway(gateway_id)
+
+    ################## Direct Link AS Prepends ############################
+    def test_gateway_as_prepends(self):
+
+        # Construct a dict representation of a AsPrependTemplate model
+        as_prepend_template_model = AsPrependTemplate(length=4, policy='import', specific_prefixes=['172.17.0.0/16'])
+
+        """ test create gateway with as_prepends """
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+
+        # create a dedicated gateway
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-BFD-") + str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+                                                                   type=gatewayType, speed_mbps=speedMbps,
+                                                                   global_=global_bool,
+                                                                   bgp_asn=bgpAsn, metered=metered,
+                                                                   carrier_name=carrierName,
+                                                                   cross_connect_router=crossConnectRouter,
+                                                                   customer_name=customerName,
+                                                                   location_name=locationName,
+                                                                   as_prepends=[as_prepend_template_model])
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        print(response)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+        gateway_as_prepends = response.get_result().get("as_prepends")
+        assert gateway_as_prepends[0]['specific_prefixes'][0] == '172.17.0.0/16'
+
+        """ Test list gateway as_prepends"""
+        asp_list_response = self.dl.list_gateway_as_prepends(gateway_id)
+        assert asp_list_response.status_code == 200
+        asp_list_result = asp_list_response.get_result()
+        assert asp_list_result['as_prepends'][0]['specific_prefixes'][0] == '172.17.0.0/16'
+
+        """Test put gateway as_prepends"""
+        etag = asp_list_response.get_headers()['etag']
+
+        as_prepend_prefix_array_template_model = AsPrependTemplate(length=4, policy='import',
+                                                                   specific_prefixes=['192.168.3.0/24'])
+
+        asp_put_response = self.dl.replace_gateway_as_prepends(gateway_id,
+                                                               as_prepends=[as_prepend_prefix_array_template_model],
+                                                               if_match=etag)
+        assert asp_put_response.get_status_code() == 201
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
 if __name__ == '__main__':
     unittest.main()
