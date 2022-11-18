@@ -94,6 +94,122 @@ class DirectLinkV1(BaseService):
 
 
     #########################
+    # gatewayASPrepends
+    #########################
+
+
+    def list_gateway_as_prepends(self,
+        gateway_id: str,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        List AS Prepends.
+
+        Retrieve all AS Prepends for the specified Direct Link gateway.
+
+        :param str gateway_id: Direct Link gateway identifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AsPrependCollection` object
+        """
+
+        if not gateway_id:
+            raise ValueError('gateway_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_gateway_as_prepends')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['gateway_id']
+        path_param_values = self.encode_path_vars(gateway_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/gateways/{gateway_id}/as_prepends'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request, **kwargs)
+        return response
+
+
+    def replace_gateway_as_prepends(self,
+        gateway_id: str,
+        if_match: str,
+        *,
+        as_prepends: List['AsPrependPrefixArrayTemplate'] = None,
+        **kwargs
+    ) -> DetailedResponse:
+        """
+        Replace existing AS Prepends.
+
+        Replace the given set of AS prepends on the specified gateway.  Existing resources
+        may be reused when the individual AS Prepend item is unchanged.
+
+        :param str gateway_id: Direct Link gateway identifier.
+        :param str if_match: If present, the request will fail if the specified
+               ETag value does not match the resource's current ETag value.
+        :param List[AsPrependPrefixArrayTemplate] as_prepends: (optional) array of
+               AS Prepend configuration information.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `AsPrependCollection` object
+        """
+
+        if not gateway_id:
+            raise ValueError('gateway_id must be provided')
+        if not if_match:
+            raise ValueError('if_match must be provided')
+        if as_prepends is not None:
+            as_prepends = [convert_model(x) for x in as_prepends]
+        headers = {
+            'If-Match': if_match
+        }
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='replace_gateway_as_prepends')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version
+        }
+
+        data = {
+            'as_prepends': as_prepends
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['gateway_id']
+        path_param_values = self.encode_path_vars(gateway_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/gateways/{gateway_id}/as_prepends'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request, **kwargs)
+        return response
+
+    #########################
     # gatewayRouteReports
     #########################
 
@@ -1575,8 +1691,12 @@ class AsPrepend():
     :attr str id: (optional) The unique identifier for this AS Prepend.
     :attr int length: (optional) Number of times the ASN to appended to the AS Path.
     :attr str policy: (optional) Route type this AS Prepend applies to.
-    :attr str prefix: (optional) Comma separated list of prefixes this AS Prepend
-          applies to.  If empty, this applies to all prefixes.
+    :attr str prefix: (optional) Deprecated: Comma separated list of prefixes this
+          AS Prepend applies to.  If empty, this applies to all prefixes.
+    :attr List[str] specific_prefixes: (optional) Array of prefixes this AS Prepend
+          applies to. This parameter is not returned when AS Prepend applies to all
+          prefixes.  Note that ordering is not significant and may differ from request
+          order.
     :attr datetime updated_at: (optional) The date and time resource was last
           updated.
     """
@@ -1588,6 +1708,7 @@ class AsPrepend():
                  length: int = None,
                  policy: str = None,
                  prefix: str = None,
+                 specific_prefixes: List[str] = None,
                  updated_at: datetime = None) -> None:
         """
         Initialize a AsPrepend object.
@@ -1598,8 +1719,12 @@ class AsPrepend():
         :param int length: (optional) Number of times the ASN to appended to the AS
                Path.
         :param str policy: (optional) Route type this AS Prepend applies to.
-        :param str prefix: (optional) Comma separated list of prefixes this AS
-               Prepend applies to.  If empty, this applies to all prefixes.
+        :param str prefix: (optional) Deprecated: Comma separated list of prefixes
+               this AS Prepend applies to.  If empty, this applies to all prefixes.
+        :param List[str] specific_prefixes: (optional) Array of prefixes this AS
+               Prepend applies to. This parameter is not returned when AS Prepend applies
+               to all prefixes.  Note that ordering is not significant and may differ from
+               request order.
         :param datetime updated_at: (optional) The date and time resource was last
                updated.
         """
@@ -1608,6 +1733,7 @@ class AsPrepend():
         self.length = length
         self.policy = policy
         self.prefix = prefix
+        self.specific_prefixes = specific_prefixes
         self.updated_at = updated_at
 
     @classmethod
@@ -1624,6 +1750,8 @@ class AsPrepend():
             args['policy'] = _dict.get('policy')
         if 'prefix' in _dict:
             args['prefix'] = _dict.get('prefix')
+        if 'specific_prefixes' in _dict:
+            args['specific_prefixes'] = _dict.get('specific_prefixes')
         if 'updated_at' in _dict:
             args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
         return cls(**args)
@@ -1646,6 +1774,8 @@ class AsPrepend():
             _dict['policy'] = self.policy
         if hasattr(self, 'prefix') and self.prefix is not None:
             _dict['prefix'] = self.prefix
+        if hasattr(self, 'specific_prefixes') and self.specific_prefixes is not None:
+            _dict['specific_prefixes'] = self.specific_prefixes
         if hasattr(self, 'updated_at') and self.updated_at is not None:
             _dict['updated_at'] = datetime_to_string(self.updated_at)
         return _dict
@@ -1676,34 +1806,299 @@ class AsPrepend():
         EXPORT = 'export'
 
 
-class AsPrependTemplate():
+class AsPrependCollection():
+    """
+    array of AS Prepends.
+
+    :attr List[AsPrependEntry] as_prepends: (optional) array of AS Prepend
+          information.
+    """
+
+    def __init__(self,
+                 *,
+                 as_prepends: List['AsPrependEntry'] = None) -> None:
+        """
+        Initialize a AsPrependCollection object.
+
+        :param List[AsPrependEntry] as_prepends: (optional) array of AS Prepend
+               information.
+        """
+        self.as_prepends = as_prepends
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AsPrependCollection':
+        """Initialize a AsPrependCollection object from a json dictionary."""
+        args = {}
+        if 'as_prepends' in _dict:
+            args['as_prepends'] = [AsPrependEntry.from_dict(x) for x in _dict.get('as_prepends')]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AsPrependCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'as_prepends') and self.as_prepends is not None:
+            _dict['as_prepends'] = [x.to_dict() for x in self.as_prepends]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AsPrependCollection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AsPrependCollection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AsPrependCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class AsPrependEntry():
+    """
+    AS Prepends API object.
+
+    :attr datetime created_at: (optional) The date and time resource was created.
+    :attr str id: (optional) The unique identifier for this AS Prepend.
+    :attr int length: (optional) Number of times the ASN to appended to the AS Path.
+    :attr str policy: (optional) Route type this AS Prepend applies to.
+    :attr List[str] specific_prefixes: (optional) Array of prefixes this AS Prepend
+          applies to. This parameter is not returned when AS Prepend applies to all
+          prefixes.  Note that ordering is not significant and may differ from request
+          order.
+    :attr datetime updated_at: (optional) The date and time resource was last
+          updated.
+    """
+
+    def __init__(self,
+                 *,
+                 created_at: datetime = None,
+                 id: str = None,
+                 length: int = None,
+                 policy: str = None,
+                 specific_prefixes: List[str] = None,
+                 updated_at: datetime = None) -> None:
+        """
+        Initialize a AsPrependEntry object.
+
+        :param datetime created_at: (optional) The date and time resource was
+               created.
+        :param str id: (optional) The unique identifier for this AS Prepend.
+        :param int length: (optional) Number of times the ASN to appended to the AS
+               Path.
+        :param str policy: (optional) Route type this AS Prepend applies to.
+        :param List[str] specific_prefixes: (optional) Array of prefixes this AS
+               Prepend applies to. This parameter is not returned when AS Prepend applies
+               to all prefixes.  Note that ordering is not significant and may differ from
+               request order.
+        :param datetime updated_at: (optional) The date and time resource was last
+               updated.
+        """
+        self.created_at = created_at
+        self.id = id
+        self.length = length
+        self.policy = policy
+        self.specific_prefixes = specific_prefixes
+        self.updated_at = updated_at
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AsPrependEntry':
+        """Initialize a AsPrependEntry object from a json dictionary."""
+        args = {}
+        if 'created_at' in _dict:
+            args['created_at'] = string_to_datetime(_dict.get('created_at'))
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        if 'length' in _dict:
+            args['length'] = _dict.get('length')
+        if 'policy' in _dict:
+            args['policy'] = _dict.get('policy')
+        if 'specific_prefixes' in _dict:
+            args['specific_prefixes'] = _dict.get('specific_prefixes')
+        if 'updated_at' in _dict:
+            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AsPrependEntry object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'length') and self.length is not None:
+            _dict['length'] = self.length
+        if hasattr(self, 'policy') and self.policy is not None:
+            _dict['policy'] = self.policy
+        if hasattr(self, 'specific_prefixes') and self.specific_prefixes is not None:
+            _dict['specific_prefixes'] = self.specific_prefixes
+        if hasattr(self, 'updated_at') and self.updated_at is not None:
+            _dict['updated_at'] = datetime_to_string(self.updated_at)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AsPrependEntry object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AsPrependEntry') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AsPrependEntry') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class PolicyEnum(str, Enum):
+        """
+        Route type this AS Prepend applies to.
+        """
+        IMPORT = 'import'
+        EXPORT = 'export'
+
+
+class AsPrependPrefixArrayTemplate():
     """
     Create AS Prepend Configuration template.
 
-    :attr int length: Number of times the ASN to appended to the AS Path.
+    :attr int length: Number of times the ASN to be prepended to the AS Path.
     :attr str policy: Route type this AS Prepend applies to.
-    :attr str prefix: (optional) Comma separated list of prefixes this AS Prepend
-          applies to.  Maximum of 10 prefixes.  If not specified, this AS Prepend applies
-          to all prefixes.
+    :attr List[str] specific_prefixes: (optional) Array of prefixes this AS Prepend
+          applies to. If this property is absent, the AS Prepend applies to all prefixes.
+          Note that ordering is not significant and may differ from request order.
     """
 
     def __init__(self,
                  length: int,
                  policy: str,
                  *,
-                 prefix: str = None) -> None:
+                 specific_prefixes: List[str] = None) -> None:
+        """
+        Initialize a AsPrependPrefixArrayTemplate object.
+
+        :param int length: Number of times the ASN to be prepended to the AS Path.
+        :param str policy: Route type this AS Prepend applies to.
+        :param List[str] specific_prefixes: (optional) Array of prefixes this AS
+               Prepend applies to. If this property is absent, the AS Prepend applies to
+               all prefixes.  Note that ordering is not significant and may differ from
+               request order.
+        """
+        self.length = length
+        self.policy = policy
+        self.specific_prefixes = specific_prefixes
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AsPrependPrefixArrayTemplate':
+        """Initialize a AsPrependPrefixArrayTemplate object from a json dictionary."""
+        args = {}
+        if 'length' in _dict:
+            args['length'] = _dict.get('length')
+        else:
+            raise ValueError('Required property \'length\' not present in AsPrependPrefixArrayTemplate JSON')
+        if 'policy' in _dict:
+            args['policy'] = _dict.get('policy')
+        else:
+            raise ValueError('Required property \'policy\' not present in AsPrependPrefixArrayTemplate JSON')
+        if 'specific_prefixes' in _dict:
+            args['specific_prefixes'] = _dict.get('specific_prefixes')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AsPrependPrefixArrayTemplate object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'length') and self.length is not None:
+            _dict['length'] = self.length
+        if hasattr(self, 'policy') and self.policy is not None:
+            _dict['policy'] = self.policy
+        if hasattr(self, 'specific_prefixes') and self.specific_prefixes is not None:
+            _dict['specific_prefixes'] = self.specific_prefixes
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AsPrependPrefixArrayTemplate object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AsPrependPrefixArrayTemplate') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AsPrependPrefixArrayTemplate') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class PolicyEnum(str, Enum):
+        """
+        Route type this AS Prepend applies to.
+        """
+        IMPORT = 'import'
+        EXPORT = 'export'
+
+
+class AsPrependTemplate():
+    """
+    Create AS Prepend Configuration template.
+
+    :attr int length: Number of times the ASN to be prepended to the AS Path.
+    :attr str policy: Route type this AS Prepend applies to.
+    :attr str prefix: (optional) Deprecated: Comma separated list of prefixes this
+          AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
+          Prepend applies to all prefixes.
+    :attr List[str] specific_prefixes: (optional) Array of prefixes this AS Prepend
+          applies to. If this property is absent, the AS Prepend applies to all prefixes.
+    """
+
+    def __init__(self,
+                 length: int,
+                 policy: str,
+                 *,
+                 prefix: str = None,
+                 specific_prefixes: List[str] = None) -> None:
         """
         Initialize a AsPrependTemplate object.
 
-        :param int length: Number of times the ASN to appended to the AS Path.
+        :param int length: Number of times the ASN to be prepended to the AS Path.
         :param str policy: Route type this AS Prepend applies to.
-        :param str prefix: (optional) Comma separated list of prefixes this AS
-               Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
-               Prepend applies to all prefixes.
+        :param str prefix: (optional) Deprecated: Comma separated list of prefixes
+               this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified,
+               this AS Prepend applies to all prefixes.
+        :param List[str] specific_prefixes: (optional) Array of prefixes this AS
+               Prepend applies to. If this property is absent, the AS Prepend applies to
+               all prefixes.
         """
         self.length = length
         self.policy = policy
         self.prefix = prefix
+        self.specific_prefixes = specific_prefixes
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'AsPrependTemplate':
@@ -1719,6 +2114,8 @@ class AsPrependTemplate():
             raise ValueError('Required property \'policy\' not present in AsPrependTemplate JSON')
         if 'prefix' in _dict:
             args['prefix'] = _dict.get('prefix')
+        if 'specific_prefixes' in _dict:
+            args['specific_prefixes'] = _dict.get('specific_prefixes')
         return cls(**args)
 
     @classmethod
@@ -1735,6 +2132,8 @@ class AsPrependTemplate():
             _dict['policy'] = self.policy
         if hasattr(self, 'prefix') and self.prefix is not None:
             _dict['prefix'] = self.prefix
+        if hasattr(self, 'specific_prefixes') and self.specific_prefixes is not None:
+            _dict['specific_prefixes'] = self.specific_prefixes
         return _dict
 
     def _to_dict(self):
