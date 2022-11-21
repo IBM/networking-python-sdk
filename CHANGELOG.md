@@ -1,3 +1,10 @@
+# [0.20.0](https://github.com/IBM/networking-python-sdk/compare/v0.19.0...v0.20.0) (2022-11-21)
+
+
+### Features
+
+* added AS-Prepends ([0abba8f](https://github.com/IBM/networking-python-sdk/commit/0abba8f1ce85da5a8e29bad75e08c597e7639b0c))
+
 # [0.19.0](https://github.com/IBM/networking-python-sdk/compare/v0.18.0...v0.19.0) (2022-09-23)
 
 
