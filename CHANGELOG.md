@@ -1,3 +1,10 @@
+## [0.21.1](https://github.com/IBM/networking-python-sdk/compare/v0.21.0...v0.21.1) (2023-02-27)
+
+
+### Bug Fixes
+
+* updating the http-cache-semantics version number ([#75](https://github.com/IBM/networking-python-sdk/issues/75)) ([22cc422](https://github.com/IBM/networking-python-sdk/commit/22cc4228a527d39935fcdb789250f0b89e36b0ca))
+
 # [0.21.0](https://github.com/IBM/networking-python-sdk/compare/v0.20.0...v0.21.0) (2022-11-30)
 
 
