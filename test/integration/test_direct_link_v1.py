@@ -31,6 +31,13 @@ from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateGatewayTypeConnectTemplate,
     GatewayPortIdentity,
     Gateway,
+    AsPrependTemplate,
+    GatewayBfdConfigTemplate,
+    GatewayBfdPatchTemplate,
+    ImportRouteFilterCollection,
+    ExportRouteFilterCollection,
+    GatewayTemplateRouteFilter,
+    UpdateRouteFilterTemplate,
     GatewayBfdConfigTemplate,
     GatewayBfdPatchTemplate
     )
@@ -256,7 +263,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # # delete gateway
         # self.delete_gateway(gateway_id)
         
-################### Ports ############################
+    ################### Ports ############################
     def test_list_get_ports(self):
         response = self.dl.list_ports()
         assert response is not None
@@ -267,8 +274,7 @@ class TestDirectLinkV1(unittest.TestCase):
         response = self.dl.get_port(id=port_id)
         assert response.get_status_code() == 200
 
-
-################## Offering Types ###########################################
+    ################## Offering Types ###########################################
     def test_offering_type_locations(self):
         """ test getting all locations by offering type """
         response = self.dl.list_offering_type_locations(
@@ -305,9 +311,7 @@ class TestDirectLinkV1(unittest.TestCase):
         #Check if we are recieving capabilities as part of 100G changes
         assert response.get_result().get("speeds")[0].get("capabilities") is not None
 
-
-
-################## Virtual Connections ######################################
+    ################## Virtual Connections ######################################
     def test_gateway_vc_actions(self):
         """ test create/get/update/delete gateway connections success """
         bgpAsn = 64999
@@ -371,13 +375,13 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
-################### LOA and Completion Notice #######################
-# notes about LOA and CN testing.  When a GW is created, a github issue is also created by dl-rest.  The issue is used for managing the LOA and CN.  In normal operation,
-# an LOA is added to the issue via manual GH interaction.  After that occurs and the GH label changed, then CN upload is allowed.  Since we do not have the ability to
-# do the manual steps for integration testing, the test will only do the following
-#  - Issue GET LOA for a gateway.  It will expect a 404 error since no one has added the LOA to the GH issue
-#  - PUT a completion notice to the gw.  It will fail with a 412 error because the GH issue and GW status are in the wrong state due to no manual interaction
-#  - GET CN for a gw.  It will expect a 404 since the CN could not be uploaded
+    ################### LOA and Completion Notice #######################
+    # notes about LOA and CN testing.  When a GW is created, a github issue is also created by dl-rest.  The issue is used for managing the LOA and CN.  In normal operation,
+    # an LOA is added to the issue via manual GH interaction.  After that occurs and the GH label changed, then CN upload is allowed.  Since we do not have the ability to
+    # do the manual steps for integration testing, the test will only do the following
+    #  - Issue GET LOA for a gateway.  It will expect a 404 error since no one has added the LOA to the GH issue
+    #  - PUT a completion notice to the gw.  It will fail with a 412 error because the GH issue and GW status are in the wrong state due to no manual interaction
+    #  - GET CN for a gw.  It will expect a 404 since the CN could not be uploaded
 
     def test_loa_and_completion(self):
         bgpAsn = 64999
@@ -643,7 +647,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
-################## Direct Link Connect Gateways with Connection Mode ############################
+    ################## Direct Link Connect Gateways with Connection Mode ############################
 
     def test_connect_gateway_with_bgp_ip_update(self):
         bgpAsn = 64999
@@ -737,7 +741,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
-################## Direct Link Dedicated Gateways with BFD Config ############################
+    ################## Direct Link Dedicated Gateways with BFD Config ############################
 
     def test_dedicated_gateway_with_bfd_config(self):
         bgpAsn = 64999
@@ -788,7 +792,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
-################## Direct Link Connect Gateways BFD Config ############################
+    ################## Direct Link Connect Gateways BFD Config ############################
 
     def test_connect_gateway_with_bfd_config(self):
         bgpAsn = 64999
@@ -864,7 +868,7 @@ class TestDirectLinkV1(unittest.TestCase):
         # delete gateway
         self.delete_gateway(gateway_id)
 
-################## Direct Link Dedicated Gateways Status ############################
+    ################## Direct Link Dedicated Gateways Status ############################
 
     def test_dedicated_gateway_with_status(self):
         bgpAsn = 64999
@@ -960,6 +964,143 @@ class TestDirectLinkV1(unittest.TestCase):
                                                                as_prepends=[as_prepend_prefix_array_template_model],
                                                                if_match=etag)
         assert asp_put_response.get_status_code() == 201
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+    ################## Direct Link Export/Import Route Filters ############################
+    def test_gateway_export_import_route_filter(self):
+
+        # Construct a dict representation of a AsPrependTemplate
+        as_prepend_template_model = AsPrependTemplate(length=4, policy='import', specific_prefixes=['172.17.0.0/16'])
+        # Construct a dict representation of a RouteFilterTemplate
+        route_filter_template_model = GatewayTemplateRouteFilter(action='permit',
+                                                                 prefix='192.168.100.0/24',
+                                                                 ge=25,
+                                                                 le=30)
+
+        """ test create gateway with export/import route filters """
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr01.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 1000
+        metered = False
+        carrierName = "carrier1"
+        customerName = "customer1"
+        gatewayType = "dedicated"
+
+        # create a dedicated gateway
+        name = os.getenv("DL_SERVICES_GW_NAME") + str("-DEDICATED-BGPRF-") + str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+            type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+            bgp_asn=bgpAsn, metered=metered, carrier_name=carrierName,
+            cross_connect_router=crossConnectRouter, customer_name=customerName,
+            location_name=locationName, as_prepends=[as_prepend_template_model],
+            default_export_route_filter='permit', default_import_route_filter='permit',
+            export_route_filters=[route_filter_template_model], import_route_filters=[route_filter_template_model])
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        print(response)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+        gateway_route_filter_action = response.get_result().get("default_export_route_filter")
+        assert gateway_route_filter_action == 'permit'
+        time.sleep(15)
+
+        # erf - export_route_filter
+
+        """ Test create gateway export route filters"""
+        erf_create_response = self.dl.create_gateway_export_route_filter(
+            gateway_id, action='permit', prefix='172.168.100.0/24', ge=25, le=30)
+        assert erf_create_response.status_code == 201
+        time.sleep(15)
+
+        """ Test list gateway export route filters"""
+        erf_list_response = self.dl.list_gateway_export_route_filters(gateway_id)
+        assert erf_list_response.status_code == 200
+        erf_list_result = erf_list_response.get_result()
+        assert erf_list_result['export_route_filters'][0]['prefix'] == '192.168.100.0/24'
+        print(erf_list_response.headers)
+        etag = erf_list_response.headers['etag']
+
+        """ Test put gateway export route filters"""
+        erf_collection_template = [GatewayTemplateRouteFilter(action='permit', prefix='100.100.101.0/24', ge=25, le=30)]
+        erf_put_response = self.dl.replace_gateway_export_route_filters(
+            if_match=etag,
+            gateway_id=gateway_id,
+            export_route_filters=erf_collection_template)
+        erf_put_result = erf_put_response.get_result()
+        erf_id = erf_put_result['export_route_filters'][0]['id']
+
+        assert erf_put_response.status_code == 201
+        assert len(erf_put_result['export_route_filters']) == 1
+        time.sleep(15)
+
+        """ Test get gateway export route filter"""
+        erf_get_response = self.dl.get_gateway_export_route_filter(gateway_id, erf_id)
+        erf_get_result = erf_get_response.get_result()
+
+        assert erf_get_response.status_code == 200
+        assert erf_get_result['prefix'] == '100.100.101.0/24'
+
+        """ Test update gateway export route filter"""
+        update_erf_template = UpdateRouteFilterTemplate(prefix='101.100.100.0/24')
+        erf_update_response = self.dl.update_gateway_export_route_filter(gateway_id, erf_id, update_erf_template)
+
+        assert erf_update_response.status_code == 200
+        time.sleep(15)
+
+        """ Test delete gateway export route filter"""
+        erf_delete_response = self.dl.delete_gateway_export_route_filter(gateway_id, erf_id)
+        assert erf_delete_response.status_code == 204
+
+        # irf - import_route_filter
+
+        """ Test create gateway import route filters"""
+        irf_create_response = self.dl.create_gateway_import_route_filter(
+            gateway_id, action='permit', prefix='172.168.100.0/24', ge=25, le=30)
+        assert irf_create_response.status_code == 201
+        time.sleep(15)
+
+        """ Test list gateway import route filters"""
+        irf_list_response = self.dl.list_gateway_import_route_filters(gateway_id)
+        assert irf_list_response.status_code == 200
+        irf_list_result = irf_list_response.get_result()
+        assert irf_list_result['import_route_filters'][0]['prefix'] == '192.168.100.0/24'
+        print(irf_list_response.headers)
+        etag = irf_list_response.headers['etag']
+
+        """ Test put gateway import route filters"""
+        irf_collection_template = [GatewayTemplateRouteFilter(action='permit', prefix='100.100.101.0/24', ge=25, le=30)]
+        irf_put_response = self.dl.replace_gateway_import_route_filters(
+            if_match=etag,
+            gateway_id=gateway_id,
+            import_route_filters=irf_collection_template)
+        irf_put_result = irf_put_response.get_result()
+        irf_id = irf_put_result['import_route_filters'][0]['id']
+
+        assert irf_put_response.status_code == 201
+        assert len(irf_put_result['import_route_filters']) == 1
+        time.sleep(15)
+
+        """ Test get gateway import route filter"""
+        irf_get_response = self.dl.get_gateway_import_route_filter(gateway_id, irf_id)
+        irf_get_result = irf_get_response.get_result()
+
+        assert irf_get_response.status_code == 200
+        assert irf_get_result['prefix'] == '100.100.101.0/24'
+
+        """ Test update gateway import route filter"""
+        update_irf_template = UpdateRouteFilterTemplate(prefix='101.100.100.0/24')
+        irf_update_response = self.dl.update_gateway_import_route_filter(gateway_id, irf_id, update_irf_template)
+
+        assert irf_update_response.status_code == 200
+        time.sleep(15)
+
+        """ Test delete gateway import route filter"""
+        irf_delete_response = self.dl.delete_gateway_import_route_filter(gateway_id, irf_id)
+        assert irf_delete_response.status_code == 204
 
         # delete gateway
         self.delete_gateway(gateway_id)
