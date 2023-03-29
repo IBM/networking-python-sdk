@@ -1,3 +1,16 @@
+# [0.22.0](https://github.com/IBM/networking-python-sdk/compare/v0.21.1...v0.22.0) (2023-03-29)
+
+
+### Bug Fixes
+
+* updating dependency versions ([#76](https://github.com/IBM/networking-python-sdk/issues/76)) ([2aa22c3](https://github.com/IBM/networking-python-sdk/commit/2aa22c3b1af4e58f93f75bb8decf6412841eab64))
+
+
+### Features
+
+* added DL BGP Route filtering ([28528d5](https://github.com/IBM/networking-python-sdk/commit/28528d5933d0903229a0e6258034429f448b53b3))
+* added DL BGP Route Filtering ([15b183c](https://github.com/IBM/networking-python-sdk/commit/15b183c9626383c17109b86ad6e9c888c7ef522a))
+
 ## [0.21.1](https://github.com/IBM/networking-python-sdk/compare/v0.21.0...v0.21.1) (2023-02-27)
 
 
