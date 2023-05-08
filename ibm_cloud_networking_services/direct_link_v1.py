@@ -7283,6 +7283,10 @@ class RouteReport():
     """
     route report.
 
+    :attr List[RouteReportAdvertisedRoute] advertised_routes: (optional) Array of
+          connection prefixes advertised to the on-prem network. This parameter is not
+          returned when the route report was generated prior to inclusion of this
+          parameter.
     :attr datetime created_at: Date and time route report was requested.
     :attr List[RouteReportRoute] gateway_routes: Array of local/direct routes.
     :attr str id: Report identifier.
@@ -7307,6 +7311,7 @@ class RouteReport():
                  status: str,
                  virtual_connection_routes: List['RouteReportConnection'],
                  *,
+                 advertised_routes: List['RouteReportAdvertisedRoute'] = None,
                  updated_at: datetime = None) -> None:
         """
         Initialize a RouteReport object.
@@ -7323,9 +7328,14 @@ class RouteReport():
                must tolerate unexpected values.
         :param List[RouteReportConnection] virtual_connection_routes: Array of
                routes on virtual connections.
+        :param List[RouteReportAdvertisedRoute] advertised_routes: (optional) Array
+               of connection prefixes advertised to the on-prem network. This parameter is
+               not returned when the route report was generated prior to inclusion of this
+               parameter.
         :param datetime updated_at: (optional) Date and time route report was last
                modified.
         """
+        self.advertised_routes = advertised_routes
         self.created_at = created_at
         self.gateway_routes = gateway_routes
         self.id = id
@@ -7339,6 +7349,8 @@ class RouteReport():
     def from_dict(cls, _dict: Dict) -> 'RouteReport':
         """Initialize a RouteReport object from a json dictionary."""
         args = {}
+        if 'advertised_routes' in _dict:
+            args['advertised_routes'] = [RouteReportAdvertisedRoute.from_dict(v) for v in _dict.get('advertised_routes')]
         if 'created_at' in _dict:
             args['created_at'] = string_to_datetime(_dict.get('created_at'))
         else:
@@ -7379,6 +7391,14 @@ class RouteReport():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'advertised_routes') and self.advertised_routes is not None:
+            advertised_routes_list = []
+            for v in self.advertised_routes:
+                if isinstance(v, dict):
+                    advertised_routes_list.append(v)
+                else:
+                    advertised_routes_list.append(v.to_dict())
+            _dict['advertised_routes'] = advertised_routes_list
         if hasattr(self, 'created_at') and self.created_at is not None:
             _dict['created_at'] = datetime_to_string(self.created_at)
         if hasattr(self, 'gateway_routes') and self.gateway_routes is not None:
@@ -7448,6 +7468,72 @@ class RouteReport():
         PENDING = 'pending'
 
 
+class RouteReportAdvertisedRoute():
+    """
+    Route advertised to the on-prem network.
+
+    :attr str as_path: The BGP AS path of the route.
+    :attr str prefix: prefix.
+    """
+
+    def __init__(self,
+                 as_path: str,
+                 prefix: str) -> None:
+        """
+        Initialize a RouteReportAdvertisedRoute object.
+
+        :param str as_path: The BGP AS path of the route.
+        :param str prefix: prefix.
+        """
+        self.as_path = as_path
+        self.prefix = prefix
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RouteReportAdvertisedRoute':
+        """Initialize a RouteReportAdvertisedRoute object from a json dictionary."""
+        args = {}
+        if 'as_path' in _dict:
+            args['as_path'] = _dict.get('as_path')
+        else:
+            raise ValueError('Required property \'as_path\' not present in RouteReportAdvertisedRoute JSON')
+        if 'prefix' in _dict:
+            args['prefix'] = _dict.get('prefix')
+        else:
+            raise ValueError('Required property \'prefix\' not present in RouteReportAdvertisedRoute JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RouteReportAdvertisedRoute object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'as_path') and self.as_path is not None:
+            _dict['as_path'] = self.as_path
+        if hasattr(self, 'prefix') and self.prefix is not None:
+            _dict['prefix'] = self.prefix
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RouteReportAdvertisedRoute object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RouteReportAdvertisedRoute') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RouteReportAdvertisedRoute') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
 class RouteReportCollection():
     """
     route reports.
@@ -7514,14 +7600,15 @@ class RouteReportConnection():
     """
     Routes of a virtual connection.
 
-    :attr List[RouteReportRoute] routes: Array of virtual connection's routes.
+    :attr List[RouteReportVirtualConnectionRoute] routes: Array of virtual
+          connection's routes.
     :attr str virtual_connection_id: (optional) ID of virtual connection.
     :attr str virtual_connection_name: (optional) name of virtual connection.
     :attr str virtual_connection_type: (optional) type of virtual connection.
     """
 
     def __init__(self,
-                 routes: List['RouteReportRoute'],
+                 routes: List['RouteReportVirtualConnectionRoute'],
                  *,
                  virtual_connection_id: str = None,
                  virtual_connection_name: str = None,
@@ -7529,7 +7616,8 @@ class RouteReportConnection():
         """
         Initialize a RouteReportConnection object.
 
-        :param List[RouteReportRoute] routes: Array of virtual connection's routes.
+        :param List[RouteReportVirtualConnectionRoute] routes: Array of virtual
+               connection's routes.
         :param str virtual_connection_id: (optional) ID of virtual connection.
         :param str virtual_connection_name: (optional) name of virtual connection.
         :param str virtual_connection_type: (optional) type of virtual connection.
@@ -7544,7 +7632,7 @@ class RouteReportConnection():
         """Initialize a RouteReportConnection object from a json dictionary."""
         args = {}
         if 'routes' in _dict:
-            args['routes'] = [RouteReportRoute.from_dict(v) for v in _dict.get('routes')]
+            args['routes'] = [RouteReportVirtualConnectionRoute.from_dict(v) for v in _dict.get('routes')]
         else:
             raise ValueError('Required property \'routes\' not present in RouteReportConnection JSON')
         if 'virtual_connection_id' in _dict:
@@ -7601,20 +7689,24 @@ class RouteReportOnPremRoute():
     """
     on-prem route.
 
+    :attr str as_path: (optional) The BGP AS path of the route.
     :attr str next_hop: (optional) Next hop address.
     :attr str prefix: (optional) prefix.
     """
 
     def __init__(self,
                  *,
+                 as_path: str = None,
                  next_hop: str = None,
                  prefix: str = None) -> None:
         """
         Initialize a RouteReportOnPremRoute object.
 
+        :param str as_path: (optional) The BGP AS path of the route.
         :param str next_hop: (optional) Next hop address.
         :param str prefix: (optional) prefix.
         """
+        self.as_path = as_path
         self.next_hop = next_hop
         self.prefix = prefix
 
@@ -7622,6 +7714,8 @@ class RouteReportOnPremRoute():
     def from_dict(cls, _dict: Dict) -> 'RouteReportOnPremRoute':
         """Initialize a RouteReportOnPremRoute object from a json dictionary."""
         args = {}
+        if 'as_path' in _dict:
+            args['as_path'] = _dict.get('as_path')
         if 'next_hop' in _dict:
             args['next_hop'] = _dict.get('next_hop')
         if 'prefix' in _dict:
@@ -7636,6 +7730,8 @@ class RouteReportOnPremRoute():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'as_path') and self.as_path is not None:
+            _dict['as_path'] = self.as_path
         if hasattr(self, 'next_hop') and self.next_hop is not None:
             _dict['next_hop'] = self.next_hop
         if hasattr(self, 'prefix') and self.prefix is not None:
@@ -7790,6 +7886,83 @@ class RouteReportRoute():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'RouteReportRoute') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+class RouteReportVirtualConnectionRoute():
+    """
+    A route originating from an attached virtual connection.
+
+    :attr bool active: (optional) Indicates whether the route is the preferred path
+          of the prefix.
+    :attr str local_preference: (optional) The local preference of the route. This
+          attribute can manipulate the chosen path on routes.
+    :attr str prefix: prefix.
+    """
+
+    def __init__(self,
+                 prefix: str,
+                 *,
+                 active: bool = None,
+                 local_preference: str = None) -> None:
+        """
+        Initialize a RouteReportVirtualConnectionRoute object.
+
+        :param str prefix: prefix.
+        :param bool active: (optional) Indicates whether the route is the preferred
+               path of the prefix.
+        :param str local_preference: (optional) The local preference of the route.
+               This attribute can manipulate the chosen path on routes.
+        """
+        self.active = active
+        self.local_preference = local_preference
+        self.prefix = prefix
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RouteReportVirtualConnectionRoute':
+        """Initialize a RouteReportVirtualConnectionRoute object from a json dictionary."""
+        args = {}
+        if 'active' in _dict:
+            args['active'] = _dict.get('active')
+        if 'local_preference' in _dict:
+            args['local_preference'] = _dict.get('local_preference')
+        if 'prefix' in _dict:
+            args['prefix'] = _dict.get('prefix')
+        else:
+            raise ValueError('Required property \'prefix\' not present in RouteReportVirtualConnectionRoute JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RouteReportVirtualConnectionRoute object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'active') and self.active is not None:
+            _dict['active'] = self.active
+        if hasattr(self, 'local_preference') and self.local_preference is not None:
+            _dict['local_preference'] = self.local_preference
+        if hasattr(self, 'prefix') and self.prefix is not None:
+            _dict['prefix'] = self.prefix
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RouteReportVirtualConnectionRoute object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'RouteReportVirtualConnectionRoute') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RouteReportVirtualConnectionRoute') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

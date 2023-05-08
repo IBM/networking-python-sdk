@@ -2695,7 +2695,7 @@ class TestListGatewayRouteReports():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
-        mock_response = '{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
+        mock_response = '{"route_reports": [{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2731,7 +2731,7 @@ class TestListGatewayRouteReports():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
-        mock_response = '{"route_reports": [{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
+        mock_response = '{"route_reports": [{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2771,7 +2771,7 @@ class TestCreateGatewayRouteReport():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
-        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -2807,7 +2807,7 @@ class TestCreateGatewayRouteReport():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
-        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -2921,7 +2921,7 @@ class TestGetGatewayRouteReport():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2959,7 +2959,7 @@ class TestGetGatewayRouteReport():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
+        mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6101,10 +6101,15 @@ class TestModel_RouteReport():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        route_report_advertised_route_model = {} # RouteReportAdvertisedRoute
+        route_report_advertised_route_model['as_path'] = '64999 64999 64998 I'
+        route_report_advertised_route_model['prefix'] = '172.17.0.0/16'
+
         route_report_route_model = {} # RouteReportRoute
         route_report_route_model['prefix'] = '172.17.0.0/16'
 
         route_report_on_prem_route_model = {} # RouteReportOnPremRoute
+        route_report_on_prem_route_model['as_path'] = '64999 64999 64998 I'
         route_report_on_prem_route_model['next_hop'] = '172.17.0.0'
         route_report_on_prem_route_model['prefix'] = '172.17.0.0/16'
 
@@ -6116,14 +6121,20 @@ class TestModel_RouteReport():
         route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
         route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
 
+        route_report_virtual_connection_route_model = {} # RouteReportVirtualConnectionRoute
+        route_report_virtual_connection_route_model['active'] = True
+        route_report_virtual_connection_route_model['local_preference'] = '200'
+        route_report_virtual_connection_route_model['prefix'] = '172.17.0.0/16'
+
         route_report_connection_model = {} # RouteReportConnection
-        route_report_connection_model['routes'] = [route_report_route_model]
+        route_report_connection_model['routes'] = [route_report_virtual_connection_route_model]
         route_report_connection_model['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
         route_report_connection_model['virtual_connection_name'] = 'vpc1'
         route_report_connection_model['virtual_connection_type'] = 'vpc'
 
         # Construct a json representation of a RouteReport model
         route_report_model_json = {}
+        route_report_model_json['advertised_routes'] = [route_report_advertised_route_model]
         route_report_model_json['created_at'] = '2019-01-01T12:00:00Z'
         route_report_model_json['gateway_routes'] = [route_report_route_model]
         route_report_model_json['id'] = '1a15dcab-7e26-45e1-b7c5-bc690eaa9724'
@@ -6148,6 +6159,36 @@ class TestModel_RouteReport():
         route_report_model_json2 = route_report_model.to_dict()
         assert route_report_model_json2 == route_report_model_json
 
+class TestModel_RouteReportAdvertisedRoute():
+    """
+    Test Class for RouteReportAdvertisedRoute
+    """
+
+    def test_route_report_advertised_route_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportAdvertisedRoute
+        """
+
+        # Construct a json representation of a RouteReportAdvertisedRoute model
+        route_report_advertised_route_model_json = {}
+        route_report_advertised_route_model_json['as_path'] = '64999 64999 64998 I'
+        route_report_advertised_route_model_json['prefix'] = '172.17.0.0/16'
+
+        # Construct a model instance of RouteReportAdvertisedRoute by calling from_dict on the json representation
+        route_report_advertised_route_model = RouteReportAdvertisedRoute.from_dict(route_report_advertised_route_model_json)
+        assert route_report_advertised_route_model != False
+
+        # Construct a model instance of RouteReportAdvertisedRoute by calling from_dict on the json representation
+        route_report_advertised_route_model_dict = RouteReportAdvertisedRoute.from_dict(route_report_advertised_route_model_json).__dict__
+        route_report_advertised_route_model2 = RouteReportAdvertisedRoute(**route_report_advertised_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_advertised_route_model == route_report_advertised_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_advertised_route_model_json2 = route_report_advertised_route_model.to_dict()
+        assert route_report_advertised_route_model_json2 == route_report_advertised_route_model_json
+
 class TestModel_RouteReportCollection():
     """
     Test Class for RouteReportCollection
@@ -6160,10 +6201,15 @@ class TestModel_RouteReportCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        route_report_advertised_route_model = {} # RouteReportAdvertisedRoute
+        route_report_advertised_route_model['as_path'] = '64999 64999 64998 I'
+        route_report_advertised_route_model['prefix'] = '172.17.0.0/16'
+
         route_report_route_model = {} # RouteReportRoute
         route_report_route_model['prefix'] = '172.17.0.0/16'
 
         route_report_on_prem_route_model = {} # RouteReportOnPremRoute
+        route_report_on_prem_route_model['as_path'] = '64999 64999 64998 I'
         route_report_on_prem_route_model['next_hop'] = '172.17.0.0'
         route_report_on_prem_route_model['prefix'] = '172.17.0.0/16'
 
@@ -6175,13 +6221,19 @@ class TestModel_RouteReportCollection():
         route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
         route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
 
+        route_report_virtual_connection_route_model = {} # RouteReportVirtualConnectionRoute
+        route_report_virtual_connection_route_model['active'] = True
+        route_report_virtual_connection_route_model['local_preference'] = '200'
+        route_report_virtual_connection_route_model['prefix'] = '172.17.0.0/16'
+
         route_report_connection_model = {} # RouteReportConnection
-        route_report_connection_model['routes'] = [route_report_route_model]
+        route_report_connection_model['routes'] = [route_report_virtual_connection_route_model]
         route_report_connection_model['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
         route_report_connection_model['virtual_connection_name'] = 'vpc1'
         route_report_connection_model['virtual_connection_type'] = 'vpc'
 
         route_report_model = {} # RouteReport
+        route_report_model['advertised_routes'] = [route_report_advertised_route_model]
         route_report_model['created_at'] = '2019-01-01T12:00:00Z'
         route_report_model['gateway_routes'] = [route_report_route_model]
         route_report_model['id'] = '1a15dcab-7e26-45e1-b7c5-bc690eaa9724'
@@ -6222,12 +6274,14 @@ class TestModel_RouteReportConnection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_report_route_model = {} # RouteReportRoute
-        route_report_route_model['prefix'] = '172.17.0.0/16'
+        route_report_virtual_connection_route_model = {} # RouteReportVirtualConnectionRoute
+        route_report_virtual_connection_route_model['active'] = True
+        route_report_virtual_connection_route_model['local_preference'] = '200'
+        route_report_virtual_connection_route_model['prefix'] = '172.17.0.0/16'
 
         # Construct a json representation of a RouteReportConnection model
         route_report_connection_model_json = {}
-        route_report_connection_model_json['routes'] = [route_report_route_model]
+        route_report_connection_model_json['routes'] = [route_report_virtual_connection_route_model]
         route_report_connection_model_json['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
         route_report_connection_model_json['virtual_connection_name'] = 'vpc1'
         route_report_connection_model_json['virtual_connection_type'] = 'vpc'
@@ -6259,6 +6313,7 @@ class TestModel_RouteReportOnPremRoute():
 
         # Construct a json representation of a RouteReportOnPremRoute model
         route_report_on_prem_route_model_json = {}
+        route_report_on_prem_route_model_json['as_path'] = '64999 64999 64998 I'
         route_report_on_prem_route_model_json['next_hop'] = '172.17.0.0'
         route_report_on_prem_route_model_json['prefix'] = '172.17.0.0/16'
 
@@ -6341,6 +6396,37 @@ class TestModel_RouteReportRoute():
         # Convert model instance back to dict and verify no loss of data
         route_report_route_model_json2 = route_report_route_model.to_dict()
         assert route_report_route_model_json2 == route_report_route_model_json
+
+class TestModel_RouteReportVirtualConnectionRoute():
+    """
+    Test Class for RouteReportVirtualConnectionRoute
+    """
+
+    def test_route_report_virtual_connection_route_serialization(self):
+        """
+        Test serialization/deserialization for RouteReportVirtualConnectionRoute
+        """
+
+        # Construct a json representation of a RouteReportVirtualConnectionRoute model
+        route_report_virtual_connection_route_model_json = {}
+        route_report_virtual_connection_route_model_json['active'] = True
+        route_report_virtual_connection_route_model_json['local_preference'] = '200'
+        route_report_virtual_connection_route_model_json['prefix'] = '172.17.0.0/16'
+
+        # Construct a model instance of RouteReportVirtualConnectionRoute by calling from_dict on the json representation
+        route_report_virtual_connection_route_model = RouteReportVirtualConnectionRoute.from_dict(route_report_virtual_connection_route_model_json)
+        assert route_report_virtual_connection_route_model != False
+
+        # Construct a model instance of RouteReportVirtualConnectionRoute by calling from_dict on the json representation
+        route_report_virtual_connection_route_model_dict = RouteReportVirtualConnectionRoute.from_dict(route_report_virtual_connection_route_model_json).__dict__
+        route_report_virtual_connection_route_model2 = RouteReportVirtualConnectionRoute(**route_report_virtual_connection_route_model_dict)
+
+        # Verify the model instances are equivalent
+        assert route_report_virtual_connection_route_model == route_report_virtual_connection_route_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        route_report_virtual_connection_route_model_json2 = route_report_virtual_connection_route_model.to_dict()
+        assert route_report_virtual_connection_route_model_json2 == route_report_virtual_connection_route_model_json
 
 class TestModel_UpdateRouteFilterTemplate():
     """
