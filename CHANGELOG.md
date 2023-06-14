@@ -1,3 +1,10 @@
+## [0.22.1](https://github.com/IBM/networking-python-sdk/compare/v0.22.0...v0.22.1) (2023-06-14)
+
+
+### Bug Fixes
+
+* fixing codeQL errors ([#82](https://github.com/IBM/networking-python-sdk/issues/82)) ([e6f492a](https://github.com/IBM/networking-python-sdk/commit/e6f492a5106dd0c0e7f8012e765e42712ed2af2e))
+
 # [0.22.0](https://github.com/IBM/networking-python-sdk/compare/v0.21.1...v0.22.0) (2023-03-29)
 
 
