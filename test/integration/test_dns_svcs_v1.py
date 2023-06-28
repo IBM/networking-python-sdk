@@ -20,7 +20,9 @@ except:
 
 class TestDNSSvcsV1(unittest.TestCase):
     """The DNS V1 service test class."""
-    # @unittest.skip("skipping")  
+
+    # @unittest.skip("skipping travis failed test cases")
+     
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -184,7 +186,9 @@ class TestDNSSvcsV1(unittest.TestCase):
 
 class TestResourceRecordsV1(unittest.TestCase):
     """The Resourse records V1 service test class."""
-    # @unittest.skip("skipping")
+
+    #@unittest.skip("skipping travis failed test cases")
+    
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -192,6 +196,7 @@ class TestResourceRecordsV1(unittest.TestCase):
                 'External configuration not available, skipping...')
         self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
         self.zone_id = ""
+        self.zone_name = ""
         # create zone class object
         self.zone = DnsSvcsV1.new_instance(service_name="dns_svcs")
         # create resource record service class object
@@ -213,6 +218,7 @@ class TestResourceRecordsV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
         self.zone_id = resp.get_result().get("id")
+        self.zone_name = resp.get_result().get("name")
 
     def _clean_dns_resource_records(self):
         # list all dns resource records
@@ -264,6 +270,20 @@ class TestResourceRecordsV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
+        # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='A')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'A'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == name + "." + self.zone_name
+        
         # get resource record
         resp = self.record.get_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
@@ -309,6 +329,20 @@ class TestResourceRecordsV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
+        # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='AAAA')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'AAAA'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == name + "." + self.zone_name
+
         # delete resource record
         resp = self.record.delete_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
@@ -347,6 +381,20 @@ class TestResourceRecordsV1(unittest.TestCase):
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
         assert resp is not None
         assert resp.status_code == 200
+
+        # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='CNAME')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'CNAME'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == name + "." + self.zone_name
 
         # delete resource record
         resp = self.record.delete_resource_record(
@@ -388,6 +436,20 @@ class TestResourceRecordsV1(unittest.TestCase):
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
         assert resp is not None
         assert resp.status_code == 200
+
+        # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='MX')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'MX'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == name + "." + self.zone_name
 
         # delete resource record
         resp = self.record.delete_resource_record(
@@ -436,8 +498,23 @@ class TestResourceRecordsV1(unittest.TestCase):
         # get resource record
         resp = self.record.get_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
+        srv_rr_name = resp.get_result().get("name")
         assert resp is not None
         assert resp.status_code == 200
+
+        # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='SRV')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'SRV'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=srv_rr_name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == srv_rr_name
 
         # delete resource record
         resp = self.record.delete_resource_record(
@@ -501,6 +578,20 @@ class TestResourceRecordsV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 200
 
+        # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='PTR')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'PTR'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == name
+
         # delete resource record
         resp = self.record.delete_resource_record(
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
@@ -540,6 +631,20 @@ class TestResourceRecordsV1(unittest.TestCase):
             instance_id=self.instance_id, dnszone_id=self.zone_id, record_id=record_id)
         assert resp is not None
         assert resp.status_code == 200
+
+         # List resource record by type
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, type='TXT')
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["type"] == 'TXT'
+
+        # List resource record by name
+        resp = self.record.list_resource_records(instance_id=self.instance_id, dnszone_id=self.zone_id, name=name)
+        resource_records = resp.get_result().get("resource_records")
+        assert resp.status_code == 200
+        assert len(resource_records) == 1
+        assert resource_records[0]["name"] == name + "." + self.zone_name
 
         # delete resource record
         resp = self.record.delete_resource_record(
@@ -697,9 +802,12 @@ class TestResourceRecordsV1(unittest.TestCase):
             self.record.export_resource_records(instance_id=instance_id,
                                                 dnszone_id=dnszone_id)
             self.assertEqual(val.exception.msg, 'instance_id must be provided')
+
 class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
     """The Permitted Networks for DNS V1 service test class."""
-    # @unittest.skip("skipping")
+
+    # @unittest.skip("skipping travis failed test cases")
+    
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -819,11 +927,12 @@ class TestPermittedNetworksForDnsZonesV1(unittest.TestCase):
                                             dnszone_id=dnszone_id)
             self.assertEqual(val.exception.msg, 'dnszone_id must be provided')
 
-
 class TestGlobalLoadBalancersV1 (unittest.TestCase):
     
     """The Global Load Balancers for DNS V1 service test class."""
-    # @unittest.skip("skipping")
+
+    # @unittest.skip("skipping travis failed test cases")
+   
     def setUp(self):
         """ test case setup """
 
@@ -1085,7 +1194,8 @@ class TestGlobalLoadBalancersV1 (unittest.TestCase):
 class TestCustomResolversV1(unittest.TestCase):
     """Custom Resolvers for DNS V1 service test class."""
 
-    
+    # @unittest.skip("skipping travis failed test cases")
+
     def setUp(self):
         """ test case setup """
         if not os.path.exists(configFile):
@@ -1142,6 +1252,8 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp.status_code == 200
 
         # Update location order of Custom Resolver
+        name = 'updatecustomresolvers'
+        description = "Updating location order of Custom Resolvers"
         resp = self.cr.update_cr_locations_order(instance_id=self.instance_id, resolver_id=resolver_id, 
                                               locations=[locations[0]['id']])
         assert resp is not None
@@ -1176,10 +1288,10 @@ class TestCustomResolversV1(unittest.TestCase):
                                               type=type1, match=match, forward_to=forward_to)
         assert resp is not None
         assert resp.status_code == 200
-        rule_id = resp.get_result().get("id")
+        rule_1_id = resp.get_result().get("id")
 
         # Get Forwarding rules
-        resp = self.cr.get_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)
+        resp = self.cr.get_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_1_id)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1188,13 +1300,102 @@ class TestCustomResolversV1(unittest.TestCase):
         match = "test.updateexample.com"
         forward_to = ["168.20.22.122", "190.20.22.134"]
 
-        resp = self.cr.update_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id,
+        resp = self.cr.update_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_1_id,
                                               description=description, match=match, forward_to=forward_to)
         assert resp is not None
         assert resp.status_code == 200
 
         # List Forwarding rules
         resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # Forwarding rules pagination
+        # Create another forwarding rule
+        type1 = 'zone'
+        match = "abc.example.com"
+        forward_to = ["9.9.9.9"]
+        resp = self.cr.create_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id,
+                                              type=type1, match=match, forward_to=forward_to)
+        assert resp is not None
+        assert resp.status_code == 200
+        rule_2_id = resp.get_result().get("id")
+
+        # List forwarding rules with offset and limit
+        # offset = 0 and limit = default
+        offset = 0
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, offset=offset)
+        resp_offset = resp.get_result().get("offset")
+        resp_count = resp.get_result().get("count")
+        assert resp_offset == offset
+        assert resp_count == 3
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # offset = 1 and limit = default
+        offset = 1
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, offset=offset)
+        resp_offset = resp.get_result().get("offset")
+        resp_count = resp.get_result().get("count")
+        assert resp_offset == offset
+        assert resp_count == 2
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # offset = 3 and limit = default
+        offset = 3
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, offset=offset)
+        resp_offset = resp.get_result().get("offset")
+        resp_count = resp.get_result().get("count")
+        assert resp_offset == offset
+        assert resp_count == 0
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # offset = default and limit = 0
+        limit = 1
+        offset = 0
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, limit=limit)
+        resp_limit = resp.get_result().get("limit")
+        resp_count = resp.get_result().get("count")
+        assert resp_limit == limit
+        assert resp_count == 1
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # offset = default and limit = 2
+        limit = 2
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, limit=limit)
+        resp_limit = resp.get_result().get("limit")
+        resp_count = resp.get_result().get("count")
+        assert resp_limit == limit
+        assert resp_count == 2
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # offset = 1 and limit = 2
+        offset = 1
+        limit = 2
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, limit=limit, offset=offset)
+        resp_limit = resp.get_result().get("limit")
+        resp_offset = resp.get_result().get("offset")
+        resp_count = resp.get_result().get("count")
+        assert resp_limit == limit
+        assert resp_offset == offset
+        assert resp_count == 2
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # offset = 0 and limit = 200
+        offset = 0
+        limit = 200
+        resp = self.cr.list_forwarding_rules(instance_id=self.instance_id, resolver_id=resolver_id, limit=limit, offset=offset)
+        resp_limit = resp.get_result().get("limit")
+        resp_offset = resp.get_result().get("offset")
+        resp_count = resp.get_result().get("count")
+        assert resp_limit == limit
+        assert resp_offset == offset
+        assert resp_count == 3
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1243,7 +1444,11 @@ class TestCustomResolversV1(unittest.TestCase):
 
         """ Delete Custom Resolver,  Locations, Forwarding rules """ 
         # Delete Forwarding rules
-        resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_id)
+        resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_1_id)
+        assert resp is not None
+        assert resp.status_code == 204
+
+        resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_2_id)
         assert resp is not None
         assert resp.status_code == 204
 
@@ -1257,9 +1462,11 @@ class TestCustomResolversV1(unittest.TestCase):
         resp = self.cr.delete_custom_resolver(instance_id=self.instance_id, resolver_id=resolver_id)
         assert resp is not None
         assert resp.status_code == 204
-        
+
 class TestCrossAccountV1(unittest.TestCase):
     """Linked Zones for DNS V1 service test class."""   
+
+    # @unittest.skip("skipping travis failed test cases")
 
     def setUp(self):
         """ test case setup """
@@ -1268,7 +1475,7 @@ class TestCrossAccountV1(unittest.TestCase):
         self.instance_id = os.getenv("DNS_SVCS_INSTANCE_ID")
         self.owner_instance_id = os.getenv("DNS_SVCS_OWNER_INSTANCE_ID")
         self.owner_zone_id = os.getenv("DNS_SVCS_OWNER_ZONE_ID")
-        self.lz_vpc_crn = os.getenv("DNS_SVCS_LZ_VPC_CRN")
+        self.lz_vpc_crn = os.getenv("DNS_SVCS_VPC_CRN_LZ_PERMITTED_NETWORK")
         authenticatorV2 = IAMAuthenticator(apikey=os.getenv("DNS_SVCS_OWNER_APIKEY"),
                                            url=os.getenv("DNS_SVCS_AUTH_URL"))
         # Create Linked Zones class object
@@ -1276,20 +1483,21 @@ class TestCrossAccountV1(unittest.TestCase):
         self.ar = DnsSvcsV1.new_instance(service_name="dns_svcs")
         self.ar.authenticator = authenticatorV2
 
-    # def tearDown(self):
-    #     """ tear down """
-    #     # Delete the resources
-    #     self._clean_linked_zones()
-    #     print("Clean up complete")
+    def tearDown(self):
+        """ tear down """
+        # Delete the resources
+        self._clean_linked_zones()
+        print("Clean up complete")
 
-    # def _clean_linked_zones(self):
-    #     # Delete Linked Zones
-    #     response = self.lz.list_linked_zones(instance_id=self.instance_id)
-    #     assert response is not None
-    #     assert response.status_code == 200
-    #     result = response.get_result().get("linked_zones")
-    #     for lzs in result:
-    #         self.lz.delete_linked_zone(instance_id=self.instance_id, linked_dnszone_id=lzs.get("id"))
+    def _clean_linked_zones(self):
+        # Delete Linked Zones
+        response = self.lz.list_linked_zones(instance_id=self.instance_id)
+        assert response is not None
+        assert response.status_code == 200
+        result = response.get_result().get("linked_zones")
+        if result is not None:
+            for lzs in result:
+                self.lz.delete_linked_zone(instance_id=self.instance_id, linked_dnszone_id=lzs.get("id"))
 
     def test_1_dns_linkedzones(self):
         """ create,get,update,list Linked Zones """
