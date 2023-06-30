@@ -1,3 +1,10 @@
+# [0.23.0](https://github.com/IBM/networking-python-sdk/compare/v0.22.1...v0.23.0) (2023-06-30)
+
+
+### Features
+
+* Support name and type fields in list RR and pagination for forwarding rules ([a7d6427](https://github.com/IBM/networking-python-sdk/commit/a7d6427848a92ec79b67ba9fdf71df2b316ff04f))
+
 ## [0.22.1](https://github.com/IBM/networking-python-sdk/compare/v0.22.0...v0.22.1) (2023-06-14)
 
 
