@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2022.
+# (C) Copyright IBM Corp. 2023.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ DNS Services API
 API Version: 1.0.0
 """
 
+from datetime import datetime
 from enum import Enum
 from typing import BinaryIO, Dict, List
 import json
@@ -29,7 +30,7 @@ import json
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from ibm_cloud_sdk_core.utils import convert_model
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
 
 from .common import get_sdk_headers
 
@@ -84,6 +85,7 @@ class DnsSvcsV1(BaseService):
         x_correlation_id: str = None,
         offset: int = None,
         limit: int = None,
+        vpc_id: str = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -96,6 +98,7 @@ class DnsSvcsV1(BaseService):
         :param int offset: (optional) Specify how many resources to skip over, the
                default value is 0.
         :param int limit: (optional) Specify maximum resources might be returned.
+        :param str vpc_id: (optional) Specify the VPC ID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListDnszones` object
@@ -113,7 +116,8 @@ class DnsSvcsV1(BaseService):
 
         params = {
             'offset': offset,
-            'limit': limit
+            'limit': limit,
+            'vpc_id': vpc_id
         }
 
         if 'headers' in kwargs:
@@ -362,6 +366,8 @@ class DnsSvcsV1(BaseService):
         x_correlation_id: str = None,
         offset: int = None,
         limit: int = None,
+        type: str = None,
+        name: str = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -375,6 +381,8 @@ class DnsSvcsV1(BaseService):
         :param int offset: (optional) Specify how many resources to skip over, the
                default value is 0.
         :param int limit: (optional) Specify maximum resources might be returned.
+        :param str type: (optional) Specify the type of resource record to query.
+        :param str name: (optional) Specify the name of resource record to query.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListResourceRecords` object
@@ -394,7 +402,9 @@ class DnsSvcsV1(BaseService):
 
         params = {
             'offset': offset,
-            'limit': limit
+            'limit': limit,
+            'type': type,
+            'name': name
         }
 
         if 'headers' in kwargs:
@@ -783,6 +793,7 @@ class DnsSvcsV1(BaseService):
         instance_id: str,
         dnszone_id: str,
         *,
+        accounts: str = None,
         x_correlation_id: str = None,
         **kwargs
     ) -> DetailedResponse:
@@ -793,6 +804,9 @@ class DnsSvcsV1(BaseService):
 
         :param str instance_id: The unique identifier of a service instance.
         :param str dnszone_id: The unique identifier of a DNS zone.
+        :param str accounts: (optional) The account identifiers of the owner zone
+               and linked zones in the format of "?account=account1,account2,account3".
+               Maximum 5 accounts are allowed.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -811,6 +825,10 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_permitted_networks')
         headers.update(sdk_headers)
 
+        params = {
+            'accounts': accounts
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -821,7 +839,8 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
         response = self.send(request, **kwargs)
         return response
@@ -833,6 +852,7 @@ class DnsSvcsV1(BaseService):
         *,
         type: str = None,
         permitted_network: 'PermittedNetworkVpc' = None,
+        accounts: str = None,
         x_correlation_id: str = None,
         **kwargs
     ) -> DetailedResponse:
@@ -846,6 +866,9 @@ class DnsSvcsV1(BaseService):
         :param str type: (optional) The type of a permitted network.
         :param PermittedNetworkVpc permitted_network: (optional) Permitted network
                data for VPC.
+        :param str accounts: (optional) The account identifiers of the owner zone
+               and linked zones in the format of "?account=account1,account2,account3".
+               Maximum 5 accounts are allowed.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -866,6 +889,10 @@ class DnsSvcsV1(BaseService):
                                       operation_id='create_permitted_network')
         headers.update(sdk_headers)
 
+        params = {
+            'accounts': accounts
+        }
+
         data = {
             'type': type,
             'permitted_network': permitted_network
@@ -885,6 +912,7 @@ class DnsSvcsV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
+                                       params=params,
                                        data=data)
 
         response = self.send(request, **kwargs)
@@ -2566,6 +2594,8 @@ class DnsSvcsV1(BaseService):
         resolver_id: str,
         *,
         x_correlation_id: str = None,
+        offset: int = None,
+        limit: int = None,
         **kwargs
     ) -> DetailedResponse:
         """
@@ -2576,6 +2606,9 @@ class DnsSvcsV1(BaseService):
         :param str instance_id: The unique identifier of a service instance.
         :param str resolver_id: The unique identifier of a custom resolver.
         :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param int offset: (optional) Specify how many resources to skip over, the
+               default value is 0.
+        :param int limit: (optional) Specify maximum resources might be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ForwardingRuleList` object
@@ -2593,6 +2626,11 @@ class DnsSvcsV1(BaseService):
                                       operation_id='list_forwarding_rules')
         headers.update(sdk_headers)
 
+        params = {
+            'offset': offset,
+            'limit': limit
+        }
+
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -2603,7 +2641,8 @@ class DnsSvcsV1(BaseService):
         url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
-                                       headers=headers)
+                                       headers=headers,
+                                       params=params)
 
         response = self.send(request, **kwargs)
         return response
@@ -4217,10 +4256,10 @@ class AccessRequest():
     :attr str zone_id: The zone ID that requestor requests access for.
     :attr str zone_name: The zone name that requestor requests access for.
     :attr str state: The state of the access request.
-    :attr str pending_expires_at: (optional) The expired time of access request with
-          state `pending`.
-    :attr str created_on: (optional) The time when the linked zone is created.
-    :attr str modified_on: (optional) The recent time when the linked zone is
+    :attr datetime pending_expires_at: (optional) The expired time of access request
+          with state `pending`.
+    :attr datetime created_on: (optional) The time when the linked zone is created.
+    :attr datetime modified_on: (optional) The recent time when the linked zone is
           modified.
     """
 
@@ -4231,9 +4270,9 @@ class AccessRequest():
                  zone_name: str,
                  state: str,
                  *,
-                 pending_expires_at: str = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 pending_expires_at: datetime = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a AccessRequest object.
 
@@ -4242,11 +4281,12 @@ class AccessRequest():
         :param str zone_id: The zone ID that requestor requests access for.
         :param str zone_name: The zone name that requestor requests access for.
         :param str state: The state of the access request.
-        :param str pending_expires_at: (optional) The expired time of access
+        :param datetime pending_expires_at: (optional) The expired time of access
                request with state `pending`.
-        :param str created_on: (optional) The time when the linked zone is created.
-        :param str modified_on: (optional) The recent time when the linked zone is
-               modified.
+        :param datetime created_on: (optional) The time when the linked zone is
+               created.
+        :param datetime modified_on: (optional) The recent time when the linked
+               zone is modified.
         """
         self.id = id
         self.requestor = requestor
@@ -4282,11 +4322,11 @@ class AccessRequest():
         else:
             raise ValueError('Required property \'state\' not present in AccessRequest JSON')
         if 'pending_expires_at' in _dict:
-            args['pending_expires_at'] = _dict.get('pending_expires_at')
+            args['pending_expires_at'] = string_to_datetime(_dict.get('pending_expires_at'))
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -4308,11 +4348,11 @@ class AccessRequest():
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
         if hasattr(self, 'pending_expires_at') and self.pending_expires_at is not None:
-            _dict['pending_expires_at'] = self.pending_expires_at
+            _dict['pending_expires_at'] = datetime_to_string(self.pending_expires_at)
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -4484,9 +4524,9 @@ class CustomResolver():
     :attr str health: (optional) Healthy state of the custom resolver.
     :attr List[Location] locations: (optional) Locations on which the custom
           resolver will be running.
-    :attr str created_on: (optional) the time when a custom resolver is created,
-          RFC3339 format.
-    :attr str modified_on: (optional) the recent time when a custom resolver is
+    :attr datetime created_on: (optional) the time when a custom resolver is
+          created, RFC3339 format.
+    :attr datetime modified_on: (optional) the recent time when a custom resolver is
           modified, RFC3339 format.
     """
 
@@ -4498,8 +4538,8 @@ class CustomResolver():
                  enabled: bool = None,
                  health: str = None,
                  locations: List['Location'] = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a CustomResolver object.
 
@@ -4510,10 +4550,10 @@ class CustomResolver():
         :param str health: (optional) Healthy state of the custom resolver.
         :param List[Location] locations: (optional) Locations on which the custom
                resolver will be running.
-        :param str created_on: (optional) the time when a custom resolver is
+        :param datetime created_on: (optional) the time when a custom resolver is
                created, RFC3339 format.
-        :param str modified_on: (optional) the recent time when a custom resolver
-               is modified, RFC3339 format.
+        :param datetime modified_on: (optional) the recent time when a custom
+               resolver is modified, RFC3339 format.
         """
         self.id = id
         self.name = name
@@ -4541,9 +4581,9 @@ class CustomResolver():
         if 'locations' in _dict:
             args['locations'] = [Location.from_dict(x) for x in _dict.get('locations')]
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -4567,9 +4607,9 @@ class CustomResolver():
         if hasattr(self, 'locations') and self.locations is not None:
             _dict['locations'] = [x.to_dict() for x in self.locations]
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -4661,10 +4701,12 @@ class Dnszone():
     DNS zone details.
 
     :attr str id: (optional) Unique identifier of a DNS zone.
-    :attr str created_on: (optional) the time when a DNS zone is created.
-    :attr str modified_on: (optional) the recent time when a DNS zone is modified.
+    :attr datetime created_on: (optional) The time when a DNS zone is created.
+    :attr datetime modified_on: (optional) The recent time when a DNS zone is
+          modified.
     :attr str instance_id: (optional) Unique identifier of a service instance.
-    :attr str name: (optional) Name of DNS zone.
+    :attr str name: (optional) Name of the DNS zone. Must be a fully qualified
+          domain name.
     :attr str description: (optional) The text describing the purpose of a DNS zone.
     :attr str state: (optional) State of DNS zone.
     :attr str label: (optional) The label of a DNS zone.
@@ -4673,8 +4715,8 @@ class Dnszone():
     def __init__(self,
                  *,
                  id: str = None,
-                 created_on: str = None,
-                 modified_on: str = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None,
                  instance_id: str = None,
                  name: str = None,
                  description: str = None,
@@ -4684,11 +4726,12 @@ class Dnszone():
         Initialize a Dnszone object.
 
         :param str id: (optional) Unique identifier of a DNS zone.
-        :param str created_on: (optional) the time when a DNS zone is created.
-        :param str modified_on: (optional) the recent time when a DNS zone is
+        :param datetime created_on: (optional) The time when a DNS zone is created.
+        :param datetime modified_on: (optional) The recent time when a DNS zone is
                modified.
         :param str instance_id: (optional) Unique identifier of a service instance.
-        :param str name: (optional) Name of DNS zone.
+        :param str name: (optional) Name of the DNS zone. Must be a fully qualified
+               domain name.
         :param str description: (optional) The text describing the purpose of a DNS
                zone.
         :param str state: (optional) State of DNS zone.
@@ -4710,9 +4753,9 @@ class Dnszone():
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         if 'instance_id' in _dict:
             args['instance_id'] = _dict.get('instance_id')
         if 'name' in _dict:
@@ -4736,9 +4779,9 @@ class Dnszone():
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         if hasattr(self, 'instance_id') and self.instance_id is not None:
             _dict['instance_id'] = self.instance_id
         if hasattr(self, 'name') and self.name is not None:
@@ -4790,9 +4833,9 @@ class ForwardingRule():
     :attr str match: (optional) The matching zone or hostname.
     :attr List[str] forward_to: (optional) The upstream DNS servers will be
           forwarded to.
-    :attr str created_on: (optional) the time when a forwarding rule is created,
-          RFC3339 format.
-    :attr str modified_on: (optional) the recent time when a forwarding rule is
+    :attr datetime created_on: (optional) the time when a forwarding rule is
+          created, RFC3339 format.
+    :attr datetime modified_on: (optional) the recent time when a forwarding rule is
           modified, RFC3339 format.
     """
 
@@ -4803,8 +4846,8 @@ class ForwardingRule():
                  type: str = None,
                  match: str = None,
                  forward_to: List[str] = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a ForwardingRule object.
 
@@ -4814,10 +4857,10 @@ class ForwardingRule():
         :param str match: (optional) The matching zone or hostname.
         :param List[str] forward_to: (optional) The upstream DNS servers will be
                forwarded to.
-        :param str created_on: (optional) the time when a forwarding rule is
+        :param datetime created_on: (optional) the time when a forwarding rule is
                created, RFC3339 format.
-        :param str modified_on: (optional) the recent time when a forwarding rule
-               is modified, RFC3339 format.
+        :param datetime modified_on: (optional) the recent time when a forwarding
+               rule is modified, RFC3339 format.
         """
         self.id = id
         self.description = description
@@ -4842,9 +4885,9 @@ class ForwardingRule():
         if 'forward_to' in _dict:
             args['forward_to'] = _dict.get('forward_to')
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -4866,9 +4909,9 @@ class ForwardingRule():
         if hasattr(self, 'forward_to') and self.forward_to is not None:
             _dict['forward_to'] = self.forward_to
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -4901,20 +4944,50 @@ class ForwardingRuleList():
     """
     List of forwarding rules.
 
-    :attr List[ForwardingRule] forwarding_rules: (optional) An array of forwarding
-          rules.
+    :attr List[ForwardingRule] forwarding_rules: An array of forwarding rules.
+    :attr int offset: The number of resources to skip over.
+    :attr int limit: The maximum number of resources might be returned.
+    :attr int count: The number of resources are returned.
+    :attr int total_count: Total number of resources.
+    :attr PaginationRef first: href.
+    :attr PaginationRef last: href.
+    :attr PaginationRef previous: (optional) href.
+    :attr PaginationRef next: (optional) href.
     """
 
     def __init__(self,
+                 forwarding_rules: List['ForwardingRule'],
+                 offset: int,
+                 limit: int,
+                 count: int,
+                 total_count: int,
+                 first: 'PaginationRef',
+                 last: 'PaginationRef',
                  *,
-                 forwarding_rules: List['ForwardingRule'] = None) -> None:
+                 previous: 'PaginationRef' = None,
+                 next: 'PaginationRef' = None) -> None:
         """
         Initialize a ForwardingRuleList object.
 
-        :param List[ForwardingRule] forwarding_rules: (optional) An array of
-               forwarding rules.
+        :param List[ForwardingRule] forwarding_rules: An array of forwarding rules.
+        :param int offset: The number of resources to skip over.
+        :param int limit: The maximum number of resources might be returned.
+        :param int count: The number of resources are returned.
+        :param int total_count: Total number of resources.
+        :param PaginationRef first: href.
+        :param PaginationRef last: href.
+        :param PaginationRef previous: (optional) href.
+        :param PaginationRef next: (optional) href.
         """
         self.forwarding_rules = forwarding_rules
+        self.offset = offset
+        self.limit = limit
+        self.count = count
+        self.total_count = total_count
+        self.first = first
+        self.last = last
+        self.previous = previous
+        self.next = next
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'ForwardingRuleList':
@@ -4922,6 +4995,36 @@ class ForwardingRuleList():
         args = {}
         if 'forwarding_rules' in _dict:
             args['forwarding_rules'] = [ForwardingRule.from_dict(x) for x in _dict.get('forwarding_rules')]
+        else:
+            raise ValueError('Required property \'forwarding_rules\' not present in ForwardingRuleList JSON')
+        if 'offset' in _dict:
+            args['offset'] = _dict.get('offset')
+        else:
+            raise ValueError('Required property \'offset\' not present in ForwardingRuleList JSON')
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        else:
+            raise ValueError('Required property \'limit\' not present in ForwardingRuleList JSON')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError('Required property \'count\' not present in ForwardingRuleList JSON')
+        if 'total_count' in _dict:
+            args['total_count'] = _dict.get('total_count')
+        else:
+            raise ValueError('Required property \'total_count\' not present in ForwardingRuleList JSON')
+        if 'first' in _dict:
+            args['first'] = PaginationRef.from_dict(_dict.get('first'))
+        else:
+            raise ValueError('Required property \'first\' not present in ForwardingRuleList JSON')
+        if 'last' in _dict:
+            args['last'] = PaginationRef.from_dict(_dict.get('last'))
+        else:
+            raise ValueError('Required property \'last\' not present in ForwardingRuleList JSON')
+        if 'previous' in _dict:
+            args['previous'] = PaginationRef.from_dict(_dict.get('previous'))
+        if 'next' in _dict:
+            args['next'] = PaginationRef.from_dict(_dict.get('next'))
         return cls(**args)
 
     @classmethod
@@ -4934,6 +5037,22 @@ class ForwardingRuleList():
         _dict = {}
         if hasattr(self, 'forwarding_rules') and self.forwarding_rules is not None:
             _dict['forwarding_rules'] = [x.to_dict() for x in self.forwarding_rules]
+        if hasattr(self, 'offset') and self.offset is not None:
+            _dict['offset'] = self.offset
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'total_count') and self.total_count is not None:
+            _dict['total_count'] = self.total_count
+        if hasattr(self, 'first') and self.first is not None:
+            _dict['first'] = self.first.to_dict()
+        if hasattr(self, 'last') and self.last is not None:
+            _dict['last'] = self.last.to_dict()
+        if hasattr(self, 'previous') and self.previous is not None:
+            _dict['previous'] = self.previous.to_dict()
+        if hasattr(self, 'next') and self.next is not None:
+            _dict['next'] = self.next.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5152,10 +5271,10 @@ class LinkedDnszone():
           zone is linked to.
     :attr str state: The state of linked zone.
     :attr str label: (optional) The label of linked zone.
-    :attr str approval_required_before: (optional) The expired time of linked zone
-          with state `approval pending`.
-    :attr str created_on: (optional) The time when the linked zone is created.
-    :attr str modified_on: (optional) The recent time when the linked zone is
+    :attr datetime approval_required_before: (optional) The expired time of linked
+          zone with state `approval pending`.
+    :attr datetime created_on: (optional) The time when the linked zone is created.
+    :attr datetime modified_on: (optional) The recent time when the linked zone is
           modified.
     """
 
@@ -5168,9 +5287,9 @@ class LinkedDnszone():
                  *,
                  description: str = None,
                  label: str = None,
-                 approval_required_before: str = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 approval_required_before: datetime = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a LinkedDnszone object.
 
@@ -5182,11 +5301,12 @@ class LinkedDnszone():
         :param str state: The state of linked zone.
         :param str description: (optional) Descriptive text of the linked zone.
         :param str label: (optional) The label of linked zone.
-        :param str approval_required_before: (optional) The expired time of linked
-               zone with state `approval pending`.
-        :param str created_on: (optional) The time when the linked zone is created.
-        :param str modified_on: (optional) The recent time when the linked zone is
-               modified.
+        :param datetime approval_required_before: (optional) The expired time of
+               linked zone with state `approval pending`.
+        :param datetime created_on: (optional) The time when the linked zone is
+               created.
+        :param datetime modified_on: (optional) The recent time when the linked
+               zone is modified.
         """
         self.id = id
         self.instance_id = instance_id
@@ -5228,11 +5348,11 @@ class LinkedDnszone():
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'approval_required_before' in _dict:
-            args['approval_required_before'] = _dict.get('approval_required_before')
+            args['approval_required_before'] = string_to_datetime(_dict.get('approval_required_before'))
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -5258,11 +5378,11 @@ class LinkedDnszone():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'approval_required_before') and self.approval_required_before is not None:
-            _dict['approval_required_before'] = self.approval_required_before
+            _dict['approval_required_before'] = datetime_to_string(self.approval_required_before)
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -6164,8 +6284,8 @@ class LoadBalancer():
           are not configured for a given region.
     :attr List[LoadBalancerAzPoolsItem] az_pools: (optional) Map availability zones
           to pool IDs.
-    :attr str created_on: (optional) The time when a load balancer is created.
-    :attr str modified_on: (optional) The recent time when a load balancer is
+    :attr datetime created_on: (optional) The time when a load balancer is created.
+    :attr datetime modified_on: (optional) The recent time when a load balancer is
           modified.
     """
 
@@ -6180,8 +6300,8 @@ class LoadBalancer():
                  fallback_pool: str = None,
                  default_pools: List[str] = None,
                  az_pools: List['LoadBalancerAzPoolsItem'] = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a LoadBalancer object.
 
@@ -6198,9 +6318,10 @@ class LoadBalancer():
                region_pools are not configured for a given region.
         :param List[LoadBalancerAzPoolsItem] az_pools: (optional) Map availability
                zones to pool IDs.
-        :param str created_on: (optional) The time when a load balancer is created.
-        :param str modified_on: (optional) The recent time when a load balancer is
-               modified.
+        :param datetime created_on: (optional) The time when a load balancer is
+               created.
+        :param datetime modified_on: (optional) The recent time when a load
+               balancer is modified.
         """
         self.id = id
         self.name = name
@@ -6237,9 +6358,9 @@ class LoadBalancer():
         if 'az_pools' in _dict:
             args['az_pools'] = [LoadBalancerAzPoolsItem.from_dict(x) for x in _dict.get('az_pools')]
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -6269,9 +6390,9 @@ class LoadBalancer():
         if hasattr(self, 'az_pools') and self.az_pools is not None:
             _dict['az_pools'] = [x.to_dict() for x in self.az_pools]
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -6493,10 +6614,10 @@ class Monitor():
     :attr str expected_body: (optional) A case-insensitive sub-string to look for in
           the response body. If this string is not found, the origin will be marked as
           unhealthy. This parameter is only valid for HTTP and HTTPS monitors.
-    :attr str created_on: (optional) the time when a load balancer monitor is
+    :attr datetime created_on: (optional) the time when a load balancer monitor is
           created.
-    :attr str modified_on: (optional) the recent time when a load balancer monitor
-          is modified.
+    :attr datetime modified_on: (optional) the recent time when a load balancer
+          monitor is modified.
     """
 
     def __init__(self,
@@ -6515,8 +6636,8 @@ class Monitor():
                  allow_insecure: bool = None,
                  expected_codes: str = None,
                  expected_body: str = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a Monitor object.
 
@@ -6555,10 +6676,10 @@ class Monitor():
                for in the response body. If this string is not found, the origin will be
                marked as unhealthy. This parameter is only valid for HTTP and HTTPS
                monitors.
-        :param str created_on: (optional) the time when a load balancer monitor is
-               created.
-        :param str modified_on: (optional) the recent time when a load balancer
-               monitor is modified.
+        :param datetime created_on: (optional) the time when a load balancer
+               monitor is created.
+        :param datetime modified_on: (optional) the recent time when a load
+               balancer monitor is modified.
         """
         self.id = id
         self.name = name
@@ -6610,9 +6731,9 @@ class Monitor():
         if 'expected_body' in _dict:
             args['expected_body'] = _dict.get('expected_body')
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -6652,9 +6773,9 @@ class Monitor():
         if hasattr(self, 'expected_body') and self.expected_body is not None:
             _dict['expected_body'] = self.expected_body
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -6924,35 +7045,41 @@ class PermittedNetwork():
     Permitted network details.
 
     :attr str id: (optional) Unique identifier of a permitted network.
-    :attr str created_on: (optional) The time when a permitted network is created.
-    :attr str modified_on: (optional) The recent time when a permitted network is
-          modified.
+    :attr datetime created_on: (optional) The time when a permitted network is
+          created.
+    :attr datetime modified_on: (optional) The recent time when a permitted network
+          is modified.
     :attr PermittedNetworkVpc permitted_network: (optional) Permitted network data
           for VPC.
     :attr str type: (optional) The type of a permitted network.
     :attr str state: (optional) The state of a permitted network.
+    :attr str linked_zone_id: (optional) Unique identifier of a linked zone through
+          which the permitted network was added.
     """
 
     def __init__(self,
                  *,
                  id: str = None,
-                 created_on: str = None,
-                 modified_on: str = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None,
                  permitted_network: 'PermittedNetworkVpc' = None,
                  type: str = None,
-                 state: str = None) -> None:
+                 state: str = None,
+                 linked_zone_id: str = None) -> None:
         """
         Initialize a PermittedNetwork object.
 
         :param str id: (optional) Unique identifier of a permitted network.
-        :param str created_on: (optional) The time when a permitted network is
+        :param datetime created_on: (optional) The time when a permitted network is
                created.
-        :param str modified_on: (optional) The recent time when a permitted network
-               is modified.
+        :param datetime modified_on: (optional) The recent time when a permitted
+               network is modified.
         :param PermittedNetworkVpc permitted_network: (optional) Permitted network
                data for VPC.
         :param str type: (optional) The type of a permitted network.
         :param str state: (optional) The state of a permitted network.
+        :param str linked_zone_id: (optional) Unique identifier of a linked zone
+               through which the permitted network was added.
         """
         self.id = id
         self.created_on = created_on
@@ -6960,6 +7087,7 @@ class PermittedNetwork():
         self.permitted_network = permitted_network
         self.type = type
         self.state = state
+        self.linked_zone_id = linked_zone_id
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'PermittedNetwork':
@@ -6968,15 +7096,17 @@ class PermittedNetwork():
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         if 'permitted_network' in _dict:
             args['permitted_network'] = PermittedNetworkVpc.from_dict(_dict.get('permitted_network'))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'state' in _dict:
             args['state'] = _dict.get('state')
+        if 'linked_zone_id' in _dict:
+            args['linked_zone_id'] = _dict.get('linked_zone_id')
         return cls(**args)
 
     @classmethod
@@ -6990,15 +7120,17 @@ class PermittedNetwork():
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         if hasattr(self, 'permitted_network') and self.permitted_network is not None:
             _dict['permitted_network'] = self.permitted_network.to_dict()
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
+        if hasattr(self, 'linked_zone_id') and self.linked_zone_id is not None:
+            _dict['linked_zone_id'] = self.linked_zone_id
         return _dict
 
     def _to_dict(self):
@@ -7113,9 +7245,10 @@ class Pool():
     :attr List[str] healthcheck_subnets: (optional) Health check subnet CRNs.
     :attr List[PoolHealthcheckVsisItem] healthcheck_vsis: (optional) Health check
           VSI information.
-    :attr str created_on: (optional) the time when a load balancer pool is created.
-    :attr str modified_on: (optional) the recent time when a load balancer pool is
-          modified.
+    :attr datetime created_on: (optional) the time when a load balancer pool is
+          created.
+    :attr datetime modified_on: (optional) the recent time when a load balancer pool
+          is modified.
     """
 
     def __init__(self,
@@ -7132,8 +7265,8 @@ class Pool():
                  healthcheck_region: str = None,
                  healthcheck_subnets: List[str] = None,
                  healthcheck_vsis: List['PoolHealthcheckVsisItem'] = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a Pool object.
 
@@ -7157,10 +7290,10 @@ class Pool():
         :param List[str] healthcheck_subnets: (optional) Health check subnet CRNs.
         :param List[PoolHealthcheckVsisItem] healthcheck_vsis: (optional) Health
                check VSI information.
-        :param str created_on: (optional) the time when a load balancer pool is
-               created.
-        :param str modified_on: (optional) the recent time when a load balancer
-               pool is modified.
+        :param datetime created_on: (optional) the time when a load balancer pool
+               is created.
+        :param datetime modified_on: (optional) the recent time when a load
+               balancer pool is modified.
         """
         self.id = id
         self.name = name
@@ -7206,9 +7339,9 @@ class Pool():
         if 'healthcheck_vsis' in _dict:
             args['healthcheck_vsis'] = [PoolHealthcheckVsisItem.from_dict(x) for x in _dict.get('healthcheck_vsis')]
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -7244,9 +7377,9 @@ class Pool():
         if hasattr(self, 'healthcheck_vsis') and self.healthcheck_vsis is not None:
             _dict['healthcheck_vsis'] = [x.to_dict() for x in self.healthcheck_vsis]
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
@@ -7541,8 +7674,9 @@ class ResourceRecord():
     Resource record details.
 
     :attr str id: (optional) Identifier of the resource record.
-    :attr str created_on: (optional) the time when a resource record is created.
-    :attr str modified_on: (optional) the recent time when a resource record is
+    :attr datetime created_on: (optional) The time when a resource record is
+          created.
+    :attr datetime modified_on: (optional) The recent time when a resource record is
           modified.
     :attr str name: (optional) Name of the resource record.
     :attr str type: (optional) Type of the resource record.
@@ -7555,8 +7689,8 @@ class ResourceRecord():
     def __init__(self,
                  *,
                  id: str = None,
-                 created_on: str = None,
-                 modified_on: str = None,
+                 created_on: datetime = None,
+                 modified_on: datetime = None,
                  name: str = None,
                  type: str = None,
                  ttl: int = None,
@@ -7567,10 +7701,10 @@ class ResourceRecord():
         Initialize a ResourceRecord object.
 
         :param str id: (optional) Identifier of the resource record.
-        :param str created_on: (optional) the time when a resource record is
+        :param datetime created_on: (optional) The time when a resource record is
                created.
-        :param str modified_on: (optional) the recent time when a resource record
-               is modified.
+        :param datetime modified_on: (optional) The recent time when a resource
+               record is modified.
         :param str name: (optional) Name of the resource record.
         :param str type: (optional) Type of the resource record.
         :param int ttl: (optional) Time to live in second.
@@ -7595,9 +7729,9 @@ class ResourceRecord():
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'type' in _dict:
@@ -7623,9 +7757,9 @@ class ResourceRecord():
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'type') and self.type is not None:
@@ -7681,8 +7815,8 @@ class SecondaryZone():
     :attr bool enabled: Enable/Disable the secondary zone.
     :attr List[str] transfer_from: The addresses of DNS servers where the secondary
           zone data should be transferred from.
-    :attr str created_on: (optional) The time when a secondary zone is created.
-    :attr str modified_on: (optional) The recent time when a secondary zone is
+    :attr datetime created_on: (optional) The time when a secondary zone is created.
+    :attr datetime modified_on: (optional) The recent time when a secondary zone is
           modified.
     """
 
@@ -7693,8 +7827,8 @@ class SecondaryZone():
                  transfer_from: List[str],
                  *,
                  description: str = None,
-                 created_on: str = None,
-                 modified_on: str = None) -> None:
+                 created_on: datetime = None,
+                 modified_on: datetime = None) -> None:
         """
         Initialize a SecondaryZone object.
 
@@ -7704,10 +7838,10 @@ class SecondaryZone():
         :param List[str] transfer_from: The addresses of DNS servers where the
                secondary zone data should be transferred from.
         :param str description: (optional) Descriptive text of the secondary zone.
-        :param str created_on: (optional) The time when a secondary zone is
+        :param datetime created_on: (optional) The time when a secondary zone is
                created.
-        :param str modified_on: (optional) The recent time when a secondary zone is
-               modified.
+        :param datetime modified_on: (optional) The recent time when a secondary
+               zone is modified.
         """
         self.id = id
         self.description = description
@@ -7740,9 +7874,9 @@ class SecondaryZone():
         else:
             raise ValueError('Required property \'transfer_from\' not present in SecondaryZone JSON')
         if 'created_on' in _dict:
-            args['created_on'] = _dict.get('created_on')
+            args['created_on'] = string_to_datetime(_dict.get('created_on'))
         if 'modified_on' in _dict:
-            args['modified_on'] = _dict.get('modified_on')
+            args['modified_on'] = string_to_datetime(_dict.get('modified_on'))
         return cls(**args)
 
     @classmethod
@@ -7764,9 +7898,9 @@ class SecondaryZone():
         if hasattr(self, 'transfer_from') and self.transfer_from is not None:
             _dict['transfer_from'] = self.transfer_from
         if hasattr(self, 'created_on') and self.created_on is not None:
-            _dict['created_on'] = self.created_on
+            _dict['created_on'] = datetime_to_string(self.created_on)
         if hasattr(self, 'modified_on') and self.modified_on is not None:
-            _dict['modified_on'] = self.modified_on
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
         return _dict
 
     def _to_dict(self):
