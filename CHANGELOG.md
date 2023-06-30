@@ -1,3 +1,10 @@
+## [0.23.1](https://github.com/IBM/networking-python-sdk/compare/v0.23.0...v0.23.1) (2023-06-30)
+
+
+### Bug Fixes
+
+* updating semver version to the latest ([#84](https://github.com/IBM/networking-python-sdk/issues/84)) ([e9b141e](https://github.com/IBM/networking-python-sdk/commit/e9b141e26b7e162f19b388b940d3cd2887ccd7b4))
+
 # [0.23.0](https://github.com/IBM/networking-python-sdk/compare/v0.22.1...v0.23.0) (2023-06-30)
 
 
