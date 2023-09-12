@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/IBM/networking-python-sdk/compare/v0.23.2...v0.24.0) (2023-09-12)
+
+
+### Features
+
+* updating .secrets.baseline to suppress [secure] positives ([#91](https://github.com/IBM/networking-python-sdk/issues/91)) ([1d3527e](https://github.com/IBM/networking-python-sdk/commit/1d3527e9bf6ae3a1c3e8b393b2f60b18367a6320))
+
 ## [0.23.2](https://github.com/IBM/networking-python-sdk/compare/v0.23.1...v0.23.2) (2023-07-10)
 
 
