@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2023.
+# (C) Copyright IBM Corp. 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ version = 'testString'
 
 _service = DirectLinkV1(
     authenticator=NoAuthAuthenticator(),
-    version=version
+    version=version,
 )
 
 _base_url = 'https://directlink.cloud.ibm.com/v1'
@@ -74,7 +74,8 @@ def preprocess_url(operation_path: str):
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -119,7 +120,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListGateways():
+
+class TestListGateways:
     """
     Test Class for list_gateways
     """
@@ -131,16 +133,17 @@ class TestListGateways():
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_gateways()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -162,18 +165,20 @@ class TestListGateways():
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateways(**req_copy)
 
@@ -186,7 +191,8 @@ class TestListGateways():
         _service.disable_retries()
         self.test_list_gateways_value_error()
 
-class TestCreateGateway():
+
+class TestCreateGateway:
     """
     Test Class for create_gateway
     """
@@ -198,12 +204,14 @@ class TestCreateGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a AsPrependTemplate model
         as_prepend_template_model = {}
@@ -273,6 +281,7 @@ class TestCreateGateway():
         gateway_template_model['customer_name'] = 'newCustomerName'
         gateway_template_model['location_name'] = 'dal03'
         gateway_template_model['macsec_config'] = gateway_macsec_config_template_model
+        gateway_template_model['vlan'] = 10
 
         # Set up parameter values
         gateway_template = gateway_template_model
@@ -280,7 +289,7 @@ class TestCreateGateway():
         # Invoke method
         response = _service.create_gateway(
             gateway_template,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -306,12 +315,14 @@ class TestCreateGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a AsPrependTemplate model
         as_prepend_template_model = {}
@@ -381,6 +392,7 @@ class TestCreateGateway():
         gateway_template_model['customer_name'] = 'newCustomerName'
         gateway_template_model['location_name'] = 'dal03'
         gateway_template_model['macsec_config'] = gateway_macsec_config_template_model
+        gateway_template_model['vlan'] = 10
 
         # Set up parameter values
         gateway_template = gateway_template_model
@@ -390,7 +402,7 @@ class TestCreateGateway():
             "gateway_template": gateway_template,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway(**req_copy)
 
@@ -403,7 +415,8 @@ class TestCreateGateway():
         _service.disable_retries()
         self.test_create_gateway_value_error()
 
-class TestDeleteGateway():
+
+class TestDeleteGateway:
     """
     Test Class for delete_gateway
     """
@@ -415,9 +428,11 @@ class TestDeleteGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -425,7 +440,7 @@ class TestDeleteGateway():
         # Invoke method
         response = _service.delete_gateway(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -448,9 +463,11 @@ class TestDeleteGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -460,7 +477,7 @@ class TestDeleteGateway():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_gateway(**req_copy)
 
@@ -473,7 +490,8 @@ class TestDeleteGateway():
         _service.disable_retries()
         self.test_delete_gateway_value_error()
 
-class TestGetGateway():
+
+class TestGetGateway:
     """
     Test Class for get_gateway
     """
@@ -485,12 +503,14 @@ class TestGetGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -498,7 +518,7 @@ class TestGetGateway():
         # Invoke method
         response = _service.get_gateway(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -521,12 +541,14 @@ class TestGetGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -536,7 +558,7 @@ class TestGetGateway():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway(**req_copy)
 
@@ -549,7 +571,8 @@ class TestGetGateway():
         _service.disable_retries()
         self.test_get_gateway_value_error()
 
-class TestUpdateGateway():
+
+class TestUpdateGateway:
     """
     Test Class for update_gateway
     """
@@ -561,12 +584,14 @@ class TestUpdateGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a GatewayPatchTemplateAuthenticationKey model
         gateway_patch_template_authentication_key_model = {}
@@ -592,45 +617,35 @@ class TestUpdateGateway():
         gateway_macsec_config_patch_template_model['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
         gateway_macsec_config_patch_template_model['window_size'] = 512
 
+        # Construct a dict representation of a GatewayPatchTemplate model
+        gateway_patch_template_model = {}
+        gateway_patch_template_model['authentication_key'] = gateway_patch_template_authentication_key_model
+        gateway_patch_template_model['bfd_config'] = gateway_bfd_patch_template_model
+        gateway_patch_template_model['bgp_asn'] = 64999
+        gateway_patch_template_model['bgp_cer_cidr'] = '169.254.0.10/30'
+        gateway_patch_template_model['bgp_ibm_cidr'] = '169.254.0.9/30'
+        gateway_patch_template_model['connection_mode'] = 'transit'
+        gateway_patch_template_model['default_export_route_filter'] = 'permit'
+        gateway_patch_template_model['default_import_route_filter'] = 'permit'
+        gateway_patch_template_model['global'] = True
+        gateway_patch_template_model['loa_reject_reason'] = 'The port mentioned was incorrect'
+        gateway_patch_template_model['macsec_config'] = gateway_macsec_config_patch_template_model
+        gateway_patch_template_model['metered'] = False
+        gateway_patch_template_model['name'] = 'testGateway'
+        gateway_patch_template_model['operational_status'] = 'loa_accepted'
+        gateway_patch_template_model['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_patch_template_model['speed_mbps'] = 1000
+        gateway_patch_template_model['vlan'] = 10
+
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        authentication_key = gateway_patch_template_authentication_key_model
-        bfd_config = gateway_bfd_patch_template_model
-        bgp_asn = 64999
-        bgp_cer_cidr = '169.254.0.10/30'
-        bgp_ibm_cidr = '169.254.0.9/30'
-        connection_mode = 'transit'
-        default_export_route_filter = 'permit'
-        default_import_route_filter = 'permit'
-        global_ = True
-        loa_reject_reason = 'The port mentioned was incorrect'
-        macsec_config = gateway_macsec_config_patch_template_model
-        metered = False
-        name = 'testGateway'
-        operational_status = 'loa_accepted'
-        patch_panel_completion_notice = 'patch panel configuration details'
-        speed_mbps = 1000
+        gateway_patch_template = gateway_patch_template_model
 
         # Invoke method
         response = _service.update_gateway(
             id,
-            authentication_key=authentication_key,
-            bfd_config=bfd_config,
-            bgp_asn=bgp_asn,
-            bgp_cer_cidr=bgp_cer_cidr,
-            bgp_ibm_cidr=bgp_ibm_cidr,
-            connection_mode=connection_mode,
-            default_export_route_filter=default_export_route_filter,
-            default_import_route_filter=default_import_route_filter,
-            global_=global_,
-            loa_reject_reason=loa_reject_reason,
-            macsec_config=macsec_config,
-            metered=metered,
-            name=name,
-            operational_status=operational_status,
-            patch_panel_completion_notice=patch_panel_completion_notice,
-            speed_mbps=speed_mbps,
-            headers={}
+            gateway_patch_template,
+            headers={},
         )
 
         # Check for correct operation
@@ -638,22 +653,7 @@ class TestUpdateGateway():
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['authentication_key'] == gateway_patch_template_authentication_key_model
-        assert req_body['bfd_config'] == gateway_bfd_patch_template_model
-        assert req_body['bgp_asn'] == 64999
-        assert req_body['bgp_cer_cidr'] == '169.254.0.10/30'
-        assert req_body['bgp_ibm_cidr'] == '169.254.0.9/30'
-        assert req_body['connection_mode'] == 'transit'
-        assert req_body['default_export_route_filter'] == 'permit'
-        assert req_body['default_import_route_filter'] == 'permit'
-        assert req_body['global'] == True
-        assert req_body['loa_reject_reason'] == 'The port mentioned was incorrect'
-        assert req_body['macsec_config'] == gateway_macsec_config_patch_template_model
-        assert req_body['metered'] == False
-        assert req_body['name'] == 'testGateway'
-        assert req_body['operational_status'] == 'loa_accepted'
-        assert req_body['patch_panel_completion_notice'] == 'patch panel configuration details'
-        assert req_body['speed_mbps'] == 1000
+        assert req_body == gateway_patch_template
 
     def test_update_gateway_all_params_with_retries(self):
         # Enable retries and run test_update_gateway_all_params.
@@ -671,12 +671,14 @@ class TestUpdateGateway():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a GatewayPatchTemplateAuthenticationKey model
         gateway_patch_template_authentication_key_model = {}
@@ -702,31 +704,37 @@ class TestUpdateGateway():
         gateway_macsec_config_patch_template_model['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
         gateway_macsec_config_patch_template_model['window_size'] = 512
 
+        # Construct a dict representation of a GatewayPatchTemplate model
+        gateway_patch_template_model = {}
+        gateway_patch_template_model['authentication_key'] = gateway_patch_template_authentication_key_model
+        gateway_patch_template_model['bfd_config'] = gateway_bfd_patch_template_model
+        gateway_patch_template_model['bgp_asn'] = 64999
+        gateway_patch_template_model['bgp_cer_cidr'] = '169.254.0.10/30'
+        gateway_patch_template_model['bgp_ibm_cidr'] = '169.254.0.9/30'
+        gateway_patch_template_model['connection_mode'] = 'transit'
+        gateway_patch_template_model['default_export_route_filter'] = 'permit'
+        gateway_patch_template_model['default_import_route_filter'] = 'permit'
+        gateway_patch_template_model['global'] = True
+        gateway_patch_template_model['loa_reject_reason'] = 'The port mentioned was incorrect'
+        gateway_patch_template_model['macsec_config'] = gateway_macsec_config_patch_template_model
+        gateway_patch_template_model['metered'] = False
+        gateway_patch_template_model['name'] = 'testGateway'
+        gateway_patch_template_model['operational_status'] = 'loa_accepted'
+        gateway_patch_template_model['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_patch_template_model['speed_mbps'] = 1000
+        gateway_patch_template_model['vlan'] = 10
+
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        authentication_key = gateway_patch_template_authentication_key_model
-        bfd_config = gateway_bfd_patch_template_model
-        bgp_asn = 64999
-        bgp_cer_cidr = '169.254.0.10/30'
-        bgp_ibm_cidr = '169.254.0.9/30'
-        connection_mode = 'transit'
-        default_export_route_filter = 'permit'
-        default_import_route_filter = 'permit'
-        global_ = True
-        loa_reject_reason = 'The port mentioned was incorrect'
-        macsec_config = gateway_macsec_config_patch_template_model
-        metered = False
-        name = 'testGateway'
-        operational_status = 'loa_accepted'
-        patch_panel_completion_notice = 'patch panel configuration details'
-        speed_mbps = 1000
+        gateway_patch_template = gateway_patch_template_model
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "id": id,
+            "gateway_patch_template": gateway_patch_template,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_gateway(**req_copy)
 
@@ -739,7 +747,8 @@ class TestUpdateGateway():
         _service.disable_retries()
         self.test_update_gateway_value_error()
 
-class TestCreateGatewayAction():
+
+class TestCreateGatewayAction:
     """
     Test Class for create_gateway_action
     """
@@ -751,12 +760,14 @@ class TestCreateGatewayAction():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a AsPrependTemplate model
         as_prepend_template_model = {}
@@ -821,7 +832,7 @@ class TestCreateGatewayAction():
             metered=metered,
             resource_group=resource_group,
             updates=updates,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -859,12 +870,14 @@ class TestCreateGatewayAction():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a AsPrependTemplate model
         as_prepend_template_model = {}
@@ -918,7 +931,7 @@ class TestCreateGatewayAction():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway_action(**req_copy)
 
@@ -931,7 +944,8 @@ class TestCreateGatewayAction():
         _service.disable_retries()
         self.test_create_gateway_action_value_error()
 
-class TestListGatewayCompletionNotice():
+
+class TestListGatewayCompletionNotice:
     """
     Test Class for list_gateway_completion_notice
     """
@@ -944,11 +958,13 @@ class TestListGatewayCompletionNotice():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/pdf',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/pdf',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -956,7 +972,7 @@ class TestListGatewayCompletionNotice():
         # Invoke method
         response = _service.list_gateway_completion_notice(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -980,11 +996,13 @@ class TestListGatewayCompletionNotice():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/pdf',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/pdf',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -994,7 +1012,7 @@ class TestListGatewayCompletionNotice():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_completion_notice(**req_copy)
 
@@ -1007,7 +1025,8 @@ class TestListGatewayCompletionNotice():
         _service.disable_retries()
         self.test_list_gateway_completion_notice_value_error()
 
-class TestCreateGatewayCompletionNotice():
+
+class TestCreateGatewayCompletionNotice:
     """
     Test Class for create_gateway_completion_notice
     """
@@ -1019,9 +1038,11 @@ class TestCreateGatewayCompletionNotice():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice')
-        responses.add(responses.PUT,
-                      url,
-                      status=204)
+        responses.add(
+            responses.PUT,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1033,7 +1054,7 @@ class TestCreateGatewayCompletionNotice():
             id,
             upload=upload,
             upload_content_type=upload_content_type,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1056,9 +1077,11 @@ class TestCreateGatewayCompletionNotice():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice')
-        responses.add(responses.PUT,
-                      url,
-                      status=204)
+        responses.add(
+            responses.PUT,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1066,7 +1089,7 @@ class TestCreateGatewayCompletionNotice():
         # Invoke method
         response = _service.create_gateway_completion_notice(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1089,9 +1112,11 @@ class TestCreateGatewayCompletionNotice():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice')
-        responses.add(responses.PUT,
-                      url,
-                      status=204)
+        responses.add(
+            responses.PUT,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1101,7 +1126,7 @@ class TestCreateGatewayCompletionNotice():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway_completion_notice(**req_copy)
 
@@ -1114,7 +1139,8 @@ class TestCreateGatewayCompletionNotice():
         _service.disable_retries()
         self.test_create_gateway_completion_notice_value_error()
 
-class TestListGatewayLetterOfAuthorization():
+
+class TestListGatewayLetterOfAuthorization:
     """
     Test Class for list_gateway_letter_of_authorization
     """
@@ -1127,11 +1153,13 @@ class TestListGatewayLetterOfAuthorization():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/letter_of_authorization')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/pdf',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/pdf',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1139,7 +1167,7 @@ class TestListGatewayLetterOfAuthorization():
         # Invoke method
         response = _service.list_gateway_letter_of_authorization(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1163,11 +1191,13 @@ class TestListGatewayLetterOfAuthorization():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/letter_of_authorization')
         mock_response = 'This is a mock binary response.'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/pdf',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/pdf',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1177,7 +1207,7 @@ class TestListGatewayLetterOfAuthorization():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_letter_of_authorization(**req_copy)
 
@@ -1190,7 +1220,8 @@ class TestListGatewayLetterOfAuthorization():
         _service.disable_retries()
         self.test_list_gateway_letter_of_authorization_value_error()
 
-class TestGetGatewayStatistics():
+
+class TestGetGatewayStatistics:
     """
     Test Class for get_gateway_statistics
     """
@@ -1203,11 +1234,13 @@ class TestGetGatewayStatistics():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/statistics')
         mock_response = '{"statistics": [{"created_at": "2020-08-20T06:58:41.909Z", "data": "MKA statistics text...", "type": "macsec_policy"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1217,14 +1250,14 @@ class TestGetGatewayStatistics():
         response = _service.get_gateway_statistics(
             id,
             type,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'type={}'.format(type) in query_string
 
@@ -1245,11 +1278,13 @@ class TestGetGatewayStatistics():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/statistics')
         mock_response = '{"statistics": [{"created_at": "2020-08-20T06:58:41.909Z", "data": "MKA statistics text...", "type": "macsec_policy"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1261,7 +1296,7 @@ class TestGetGatewayStatistics():
             "type": type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway_statistics(**req_copy)
 
@@ -1274,7 +1309,8 @@ class TestGetGatewayStatistics():
         _service.disable_retries()
         self.test_get_gateway_statistics_value_error()
 
-class TestGetGatewayStatus():
+
+class TestGetGatewayStatus:
     """
     Test Class for get_gateway_status
     """
@@ -1287,11 +1323,13 @@ class TestGetGatewayStatus():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/status')
         mock_response = '{"status": [{"type": "bgp", "updated_at": "2020-08-20T06:58:41.909Z", "value": "active"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1301,14 +1339,14 @@ class TestGetGatewayStatus():
         response = _service.get_gateway_status(
             id,
             type=type,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'type={}'.format(type) in query_string
 
@@ -1329,11 +1367,13 @@ class TestGetGatewayStatus():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/status')
         mock_response = '{"status": [{"type": "bgp", "updated_at": "2020-08-20T06:58:41.909Z", "value": "active"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1341,7 +1381,7 @@ class TestGetGatewayStatus():
         # Invoke method
         response = _service.get_gateway_status(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1365,11 +1405,13 @@ class TestGetGatewayStatus():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/status')
         mock_response = '{"status": [{"type": "bgp", "updated_at": "2020-08-20T06:58:41.909Z", "value": "active"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1379,7 +1421,7 @@ class TestGetGatewayStatus():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway_status(**req_copy)
 
@@ -1392,6 +1434,7 @@ class TestGetGatewayStatus():
         _service.disable_retries()
         self.test_get_gateway_status_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Gateways
@@ -1402,7 +1445,8 @@ class TestGetGatewayStatus():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -1447,7 +1491,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListGatewayExportRouteFilters():
+
+class TestListGatewayExportRouteFilters:
     """
     Test Class for list_gateway_export_route_filters
     """
@@ -1460,11 +1505,13 @@ class TestListGatewayExportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1472,7 +1519,7 @@ class TestListGatewayExportRouteFilters():
         # Invoke method
         response = _service.list_gateway_export_route_filters(
             gateway_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1496,11 +1543,13 @@ class TestListGatewayExportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1510,7 +1559,7 @@ class TestListGatewayExportRouteFilters():
             "gateway_id": gateway_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_export_route_filters(**req_copy)
 
@@ -1523,7 +1572,8 @@ class TestListGatewayExportRouteFilters():
         _service.disable_retries()
         self.test_list_gateway_export_route_filters_value_error()
 
-class TestCreateGatewayExportRouteFilter():
+
+class TestCreateGatewayExportRouteFilter:
     """
     Test Class for create_gateway_export_route_filter
     """
@@ -1536,11 +1586,13 @@ class TestCreateGatewayExportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1558,7 +1610,7 @@ class TestCreateGatewayExportRouteFilter():
             before=before,
             ge=ge,
             le=le,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1589,11 +1641,13 @@ class TestCreateGatewayExportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1610,7 +1664,7 @@ class TestCreateGatewayExportRouteFilter():
             "prefix": prefix,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway_export_route_filter(**req_copy)
 
@@ -1623,7 +1677,8 @@ class TestCreateGatewayExportRouteFilter():
         _service.disable_retries()
         self.test_create_gateway_export_route_filter_value_error()
 
-class TestReplaceGatewayExportRouteFilters():
+
+class TestReplaceGatewayExportRouteFilters:
     """
     Test Class for replace_gateway_export_route_filters
     """
@@ -1636,11 +1691,13 @@ class TestReplaceGatewayExportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a GatewayTemplateRouteFilter model
         gateway_template_route_filter_model = {}
@@ -1659,7 +1716,7 @@ class TestReplaceGatewayExportRouteFilters():
             gateway_id,
             if_match,
             export_route_filters=export_route_filters,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1686,11 +1743,13 @@ class TestReplaceGatewayExportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1700,7 +1759,7 @@ class TestReplaceGatewayExportRouteFilters():
         response = _service.replace_gateway_export_route_filters(
             gateway_id,
             if_match,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1724,11 +1783,13 @@ class TestReplaceGatewayExportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters')
         mock_response = '{"export_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1740,7 +1801,7 @@ class TestReplaceGatewayExportRouteFilters():
             "if_match": if_match,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.replace_gateway_export_route_filters(**req_copy)
 
@@ -1753,7 +1814,8 @@ class TestReplaceGatewayExportRouteFilters():
         _service.disable_retries()
         self.test_replace_gateway_export_route_filters_value_error()
 
-class TestDeleteGatewayExportRouteFilter():
+
+class TestDeleteGatewayExportRouteFilter:
     """
     Test Class for delete_gateway_export_route_filter
     """
@@ -1765,9 +1827,11 @@ class TestDeleteGatewayExportRouteFilter():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1777,7 +1841,7 @@ class TestDeleteGatewayExportRouteFilter():
         response = _service.delete_gateway_export_route_filter(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1800,9 +1864,11 @@ class TestDeleteGatewayExportRouteFilter():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1814,7 +1880,7 @@ class TestDeleteGatewayExportRouteFilter():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_gateway_export_route_filter(**req_copy)
 
@@ -1827,7 +1893,8 @@ class TestDeleteGatewayExportRouteFilter():
         _service.disable_retries()
         self.test_delete_gateway_export_route_filter_value_error()
 
-class TestGetGatewayExportRouteFilter():
+
+class TestGetGatewayExportRouteFilter:
     """
     Test Class for get_gateway_export_route_filter
     """
@@ -1840,11 +1907,13 @@ class TestGetGatewayExportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1854,7 +1923,7 @@ class TestGetGatewayExportRouteFilter():
         response = _service.get_gateway_export_route_filter(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1878,11 +1947,13 @@ class TestGetGatewayExportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -1894,7 +1965,7 @@ class TestGetGatewayExportRouteFilter():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway_export_route_filter(**req_copy)
 
@@ -1907,7 +1978,8 @@ class TestGetGatewayExportRouteFilter():
         _service.disable_retries()
         self.test_get_gateway_export_route_filter_value_error()
 
-class TestUpdateGatewayExportRouteFilter():
+
+class TestUpdateGatewayExportRouteFilter:
     """
     Test Class for update_gateway_export_route_filter
     """
@@ -1920,11 +1992,13 @@ class TestUpdateGatewayExportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a UpdateRouteFilterTemplate model
         update_route_filter_template_model = {}
@@ -1944,7 +2018,7 @@ class TestUpdateGatewayExportRouteFilter():
             gateway_id,
             id,
             update_route_filter_template,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -1971,11 +2045,13 @@ class TestUpdateGatewayExportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a UpdateRouteFilterTemplate model
         update_route_filter_template_model = {}
@@ -1997,7 +2073,7 @@ class TestUpdateGatewayExportRouteFilter():
             "update_route_filter_template": update_route_filter_template,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_gateway_export_route_filter(**req_copy)
 
@@ -2010,6 +2086,7 @@ class TestUpdateGatewayExportRouteFilter():
         _service.disable_retries()
         self.test_update_gateway_export_route_filter_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: GatewayExportRouteFilters
@@ -2020,7 +2097,8 @@ class TestUpdateGatewayExportRouteFilter():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -2065,7 +2143,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListGatewayImportRouteFilters():
+
+class TestListGatewayImportRouteFilters:
     """
     Test Class for list_gateway_import_route_filters
     """
@@ -2078,11 +2157,13 @@ class TestListGatewayImportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2090,7 +2171,7 @@ class TestListGatewayImportRouteFilters():
         # Invoke method
         response = _service.list_gateway_import_route_filters(
             gateway_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2114,11 +2195,13 @@ class TestListGatewayImportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2128,7 +2211,7 @@ class TestListGatewayImportRouteFilters():
             "gateway_id": gateway_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_import_route_filters(**req_copy)
 
@@ -2141,7 +2224,8 @@ class TestListGatewayImportRouteFilters():
         _service.disable_retries()
         self.test_list_gateway_import_route_filters_value_error()
 
-class TestCreateGatewayImportRouteFilter():
+
+class TestCreateGatewayImportRouteFilter:
     """
     Test Class for create_gateway_import_route_filter
     """
@@ -2154,11 +2238,13 @@ class TestCreateGatewayImportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2176,7 +2262,7 @@ class TestCreateGatewayImportRouteFilter():
             before=before,
             ge=ge,
             le=le,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2207,11 +2293,13 @@ class TestCreateGatewayImportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2228,7 +2316,7 @@ class TestCreateGatewayImportRouteFilter():
             "prefix": prefix,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway_import_route_filter(**req_copy)
 
@@ -2241,7 +2329,8 @@ class TestCreateGatewayImportRouteFilter():
         _service.disable_retries()
         self.test_create_gateway_import_route_filter_value_error()
 
-class TestReplaceGatewayImportRouteFilters():
+
+class TestReplaceGatewayImportRouteFilters:
     """
     Test Class for replace_gateway_import_route_filters
     """
@@ -2254,11 +2343,13 @@ class TestReplaceGatewayImportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a GatewayTemplateRouteFilter model
         gateway_template_route_filter_model = {}
@@ -2277,7 +2368,7 @@ class TestReplaceGatewayImportRouteFilters():
             gateway_id,
             if_match,
             import_route_filters=import_route_filters,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2304,11 +2395,13 @@ class TestReplaceGatewayImportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2318,7 +2411,7 @@ class TestReplaceGatewayImportRouteFilters():
         response = _service.replace_gateway_import_route_filters(
             gateway_id,
             if_match,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2342,11 +2435,13 @@ class TestReplaceGatewayImportRouteFilters():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters')
         mock_response = '{"import_route_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2358,7 +2453,7 @@ class TestReplaceGatewayImportRouteFilters():
             "if_match": if_match,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.replace_gateway_import_route_filters(**req_copy)
 
@@ -2371,7 +2466,8 @@ class TestReplaceGatewayImportRouteFilters():
         _service.disable_retries()
         self.test_replace_gateway_import_route_filters_value_error()
 
-class TestDeleteGatewayImportRouteFilter():
+
+class TestDeleteGatewayImportRouteFilter:
     """
     Test Class for delete_gateway_import_route_filter
     """
@@ -2383,9 +2479,11 @@ class TestDeleteGatewayImportRouteFilter():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2395,7 +2493,7 @@ class TestDeleteGatewayImportRouteFilter():
         response = _service.delete_gateway_import_route_filter(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2418,9 +2516,11 @@ class TestDeleteGatewayImportRouteFilter():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2432,7 +2532,7 @@ class TestDeleteGatewayImportRouteFilter():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_gateway_import_route_filter(**req_copy)
 
@@ -2445,7 +2545,8 @@ class TestDeleteGatewayImportRouteFilter():
         _service.disable_retries()
         self.test_delete_gateway_import_route_filter_value_error()
 
-class TestGetGatewayImportRouteFilter():
+
+class TestGetGatewayImportRouteFilter:
     """
     Test Class for get_gateway_import_route_filter
     """
@@ -2458,11 +2559,13 @@ class TestGetGatewayImportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2472,7 +2575,7 @@ class TestGetGatewayImportRouteFilter():
         response = _service.get_gateway_import_route_filter(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2496,11 +2599,13 @@ class TestGetGatewayImportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2512,7 +2617,7 @@ class TestGetGatewayImportRouteFilter():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway_import_route_filter(**req_copy)
 
@@ -2525,7 +2630,8 @@ class TestGetGatewayImportRouteFilter():
         _service.disable_retries()
         self.test_get_gateway_import_route_filter_value_error()
 
-class TestUpdateGatewayImportRouteFilter():
+
+class TestUpdateGatewayImportRouteFilter:
     """
     Test Class for update_gateway_import_route_filter
     """
@@ -2538,11 +2644,13 @@ class TestUpdateGatewayImportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a UpdateRouteFilterTemplate model
         update_route_filter_template_model = {}
@@ -2562,7 +2670,7 @@ class TestUpdateGatewayImportRouteFilter():
             gateway_id,
             id,
             update_route_filter_template,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2589,11 +2697,13 @@ class TestUpdateGatewayImportRouteFilter():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2020-11-02T20:40:29.622Z", "ge": 25, "id": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "le": 30, "prefix": "192.168.100.0/24", "updated_at": "2020-11-02T20:40:29.622Z"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Construct a dict representation of a UpdateRouteFilterTemplate model
         update_route_filter_template_model = {}
@@ -2615,7 +2725,7 @@ class TestUpdateGatewayImportRouteFilter():
             "update_route_filter_template": update_route_filter_template,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_gateway_import_route_filter(**req_copy)
 
@@ -2628,6 +2738,7 @@ class TestUpdateGatewayImportRouteFilter():
         _service.disable_retries()
         self.test_update_gateway_import_route_filter_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: GatewayImportRouteFilters
@@ -2638,7 +2749,8 @@ class TestUpdateGatewayImportRouteFilter():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -2683,7 +2795,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListGatewayRouteReports():
+
+class TestListGatewayRouteReports:
     """
     Test Class for list_gateway_route_reports
     """
@@ -2696,11 +2809,13 @@ class TestListGatewayRouteReports():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
         mock_response = '{"route_reports": [{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2708,7 +2823,7 @@ class TestListGatewayRouteReports():
         # Invoke method
         response = _service.list_gateway_route_reports(
             gateway_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2732,11 +2847,13 @@ class TestListGatewayRouteReports():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
         mock_response = '{"route_reports": [{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2746,7 +2863,7 @@ class TestListGatewayRouteReports():
             "gateway_id": gateway_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_route_reports(**req_copy)
 
@@ -2759,7 +2876,8 @@ class TestListGatewayRouteReports():
         _service.disable_retries()
         self.test_list_gateway_route_reports_value_error()
 
-class TestCreateGatewayRouteReport():
+
+class TestCreateGatewayRouteReport:
     """
     Test Class for create_gateway_route_report
     """
@@ -2772,11 +2890,13 @@ class TestCreateGatewayRouteReport():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
         mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2784,7 +2904,7 @@ class TestCreateGatewayRouteReport():
         # Invoke method
         response = _service.create_gateway_route_report(
             gateway_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2808,11 +2928,13 @@ class TestCreateGatewayRouteReport():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports')
         mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2822,7 +2944,7 @@ class TestCreateGatewayRouteReport():
             "gateway_id": gateway_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway_route_report(**req_copy)
 
@@ -2835,7 +2957,8 @@ class TestCreateGatewayRouteReport():
         _service.disable_retries()
         self.test_create_gateway_route_report_value_error()
 
-class TestDeleteGatewayRouteReport():
+
+class TestDeleteGatewayRouteReport:
     """
     Test Class for delete_gateway_route_report
     """
@@ -2847,9 +2970,11 @@ class TestDeleteGatewayRouteReport():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2859,7 +2984,7 @@ class TestDeleteGatewayRouteReport():
         response = _service.delete_gateway_route_report(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2882,9 +3007,11 @@ class TestDeleteGatewayRouteReport():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2896,7 +3023,7 @@ class TestDeleteGatewayRouteReport():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_gateway_route_report(**req_copy)
 
@@ -2909,7 +3036,8 @@ class TestDeleteGatewayRouteReport():
         _service.disable_retries()
         self.test_delete_gateway_route_report_value_error()
 
-class TestGetGatewayRouteReport():
+
+class TestGetGatewayRouteReport:
     """
     Test Class for get_gateway_route_report
     """
@@ -2922,11 +3050,13 @@ class TestGetGatewayRouteReport():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2936,7 +3066,7 @@ class TestGetGatewayRouteReport():
         response = _service.get_gateway_route_report(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -2960,11 +3090,13 @@ class TestGetGatewayRouteReport():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"advertised_routes": [{"as_path": "64999 64999 64998 I", "prefix": "172.17.0.0/16"}], "created_at": "2019-01-01T12:00:00.000Z", "gateway_routes": [{"prefix": "172.17.0.0/16"}], "id": "1a15dcab-7e26-45e1-b7c5-bc690eaa9724", "on_prem_routes": [{"as_path": "64999 64999 64998 I", "next_hop": "172.17.0.0", "prefix": "172.17.0.0/16"}], "overlapping_routes": [{"routes": [{"prefix": "172.17.0.0/16", "type": "virtual_connection", "virtual_connection_id": "d2d985d8-1d8e-4e8b-96cd-cee2290ecaff"}]}], "status": "complete", "updated_at": "2019-01-01T12:00:00.000Z", "virtual_connection_routes": [{"routes": [{"active": true, "local_preference": "200", "prefix": "172.17.0.0/16"}], "virtual_connection_id": "3c265a62-91da-4261-a950-950b6af0eb58", "virtual_connection_name": "vpc1", "virtual_connection_type": "vpc"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -2976,7 +3108,7 @@ class TestGetGatewayRouteReport():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway_route_report(**req_copy)
 
@@ -2989,6 +3121,7 @@ class TestGetGatewayRouteReport():
         _service.disable_retries()
         self.test_get_gateway_route_report_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: GatewayRouteReports
@@ -2999,7 +3132,8 @@ class TestGetGatewayRouteReport():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -3044,7 +3178,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListGatewayVirtualConnections():
+
+class TestListGatewayVirtualConnections:
     """
     Test Class for list_gateway_virtual_connections
     """
@@ -3057,11 +3192,13 @@ class TestListGatewayVirtualConnections():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections')
         mock_response = '{"virtual_connections": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3069,7 +3206,7 @@ class TestListGatewayVirtualConnections():
         # Invoke method
         response = _service.list_gateway_virtual_connections(
             gateway_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3093,11 +3230,13 @@ class TestListGatewayVirtualConnections():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections')
         mock_response = '{"virtual_connections": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3107,7 +3246,7 @@ class TestListGatewayVirtualConnections():
             "gateway_id": gateway_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_virtual_connections(**req_copy)
 
@@ -3120,7 +3259,8 @@ class TestListGatewayVirtualConnections():
         _service.disable_retries()
         self.test_list_gateway_virtual_connections_value_error()
 
-class TestCreateGatewayVirtualConnection():
+
+class TestCreateGatewayVirtualConnection:
     """
     Test Class for create_gateway_virtual_connection
     """
@@ -3133,11 +3273,13 @@ class TestCreateGatewayVirtualConnection():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections')
         mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3151,7 +3293,7 @@ class TestCreateGatewayVirtualConnection():
             name,
             type,
             network_id=network_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3180,11 +3322,13 @@ class TestCreateGatewayVirtualConnection():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections')
         mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3199,7 +3343,7 @@ class TestCreateGatewayVirtualConnection():
             "type": type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_gateway_virtual_connection(**req_copy)
 
@@ -3212,7 +3356,8 @@ class TestCreateGatewayVirtualConnection():
         _service.disable_retries()
         self.test_create_gateway_virtual_connection_value_error()
 
-class TestDeleteGatewayVirtualConnection():
+
+class TestDeleteGatewayVirtualConnection:
     """
     Test Class for delete_gateway_virtual_connection
     """
@@ -3224,9 +3369,11 @@ class TestDeleteGatewayVirtualConnection():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3236,7 +3383,7 @@ class TestDeleteGatewayVirtualConnection():
         response = _service.delete_gateway_virtual_connection(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3259,9 +3406,11 @@ class TestDeleteGatewayVirtualConnection():
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        responses.add(responses.DELETE,
-                      url,
-                      status=204)
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3273,7 +3422,7 @@ class TestDeleteGatewayVirtualConnection():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_gateway_virtual_connection(**req_copy)
 
@@ -3286,7 +3435,8 @@ class TestDeleteGatewayVirtualConnection():
         _service.disable_retries()
         self.test_delete_gateway_virtual_connection_value_error()
 
-class TestGetGatewayVirtualConnection():
+
+class TestGetGatewayVirtualConnection:
     """
     Test Class for get_gateway_virtual_connection
     """
@@ -3299,11 +3449,13 @@ class TestGetGatewayVirtualConnection():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3313,7 +3465,7 @@ class TestGetGatewayVirtualConnection():
         response = _service.get_gateway_virtual_connection(
             gateway_id,
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3337,11 +3489,13 @@ class TestGetGatewayVirtualConnection():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3353,7 +3507,7 @@ class TestGetGatewayVirtualConnection():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_gateway_virtual_connection(**req_copy)
 
@@ -3366,7 +3520,8 @@ class TestGetGatewayVirtualConnection():
         _service.disable_retries()
         self.test_get_gateway_virtual_connection_value_error()
 
-class TestUpdateGatewayVirtualConnection():
+
+class TestUpdateGatewayVirtualConnection:
     """
     Test Class for update_gateway_virtual_connection
     """
@@ -3379,11 +3534,13 @@ class TestUpdateGatewayVirtualConnection():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3397,7 +3554,7 @@ class TestUpdateGatewayVirtualConnection():
             id,
             name=name,
             status=status,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3425,11 +3582,13 @@ class TestUpdateGatewayVirtualConnection():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "newVC", "network_account": "00aa14a2e0fb102c8995ebefff865555", "network_id": "crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb", "status": "attached", "type": "vpc"}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3443,7 +3602,7 @@ class TestUpdateGatewayVirtualConnection():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_gateway_virtual_connection(**req_copy)
 
@@ -3456,6 +3615,7 @@ class TestUpdateGatewayVirtualConnection():
         _service.disable_retries()
         self.test_update_gateway_virtual_connection_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: VirtualConnections
@@ -3466,7 +3626,8 @@ class TestUpdateGatewayVirtualConnection():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -3511,7 +3672,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListOfferingTypeLocations():
+
+class TestListOfferingTypeLocations:
     """
     Test Class for list_offering_type_locations
     """
@@ -3524,11 +3686,13 @@ class TestListOfferingTypeLocations():
         # Set up mock
         url = preprocess_url('/offering_types/dedicated/locations')
         mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         offering_type = 'dedicated'
@@ -3536,7 +3700,7 @@ class TestListOfferingTypeLocations():
         # Invoke method
         response = _service.list_offering_type_locations(
             offering_type,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3560,11 +3724,13 @@ class TestListOfferingTypeLocations():
         # Set up mock
         url = preprocess_url('/offering_types/dedicated/locations')
         mock_response = '{"locations": [{"billing_location": "us", "building_colocation_owner": "MyProvider", "display_name": "Dallas 9", "location_type": "PoP", "macsec_enabled": false, "market": "Dallas", "market_geography": "N/S America", "mzr": true, "name": "dal03", "offering_type": "dedicated", "provision_enabled": true, "vpc_region": "us-south"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         offering_type = 'dedicated'
@@ -3574,7 +3740,7 @@ class TestListOfferingTypeLocations():
             "offering_type": offering_type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_offering_type_locations(**req_copy)
 
@@ -3587,7 +3753,8 @@ class TestListOfferingTypeLocations():
         _service.disable_retries()
         self.test_list_offering_type_locations_value_error()
 
-class TestListOfferingTypeLocationCrossConnectRouters():
+
+class TestListOfferingTypeLocationCrossConnectRouters:
     """
     Test Class for list_offering_type_location_cross_connect_routers
     """
@@ -3600,11 +3767,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
         # Set up mock
         url = preprocess_url('/offering_types/dedicated/locations/testString/cross_connect_routers')
         mock_response = '{"cross_connect_routers": [{"capabilities": ["capabilities"], "router_name": "xcr01.dal03", "total_connections": 1}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         offering_type = 'dedicated'
@@ -3614,7 +3783,7 @@ class TestListOfferingTypeLocationCrossConnectRouters():
         response = _service.list_offering_type_location_cross_connect_routers(
             offering_type,
             location_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3638,11 +3807,13 @@ class TestListOfferingTypeLocationCrossConnectRouters():
         # Set up mock
         url = preprocess_url('/offering_types/dedicated/locations/testString/cross_connect_routers')
         mock_response = '{"cross_connect_routers": [{"capabilities": ["capabilities"], "router_name": "xcr01.dal03", "total_connections": 1}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         offering_type = 'dedicated'
@@ -3654,7 +3825,7 @@ class TestListOfferingTypeLocationCrossConnectRouters():
             "location_name": location_name,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_offering_type_location_cross_connect_routers(**req_copy)
 
@@ -3667,7 +3838,8 @@ class TestListOfferingTypeLocationCrossConnectRouters():
         _service.disable_retries()
         self.test_list_offering_type_location_cross_connect_routers_value_error()
 
-class TestListOfferingTypeSpeeds():
+
+class TestListOfferingTypeSpeeds:
     """
     Test Class for list_offering_type_speeds
     """
@@ -3680,11 +3852,13 @@ class TestListOfferingTypeSpeeds():
         # Set up mock
         url = preprocess_url('/offering_types/dedicated/speeds')
         mock_response = '{"speeds": [{"capabilities": ["capabilities"], "link_speed": 2000, "macsec_enabled": false}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         offering_type = 'dedicated'
@@ -3692,7 +3866,7 @@ class TestListOfferingTypeSpeeds():
         # Invoke method
         response = _service.list_offering_type_speeds(
             offering_type,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -3716,11 +3890,13 @@ class TestListOfferingTypeSpeeds():
         # Set up mock
         url = preprocess_url('/offering_types/dedicated/speeds')
         mock_response = '{"speeds": [{"capabilities": ["capabilities"], "link_speed": 2000, "macsec_enabled": false}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         offering_type = 'dedicated'
@@ -3730,7 +3906,7 @@ class TestListOfferingTypeSpeeds():
             "offering_type": offering_type,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_offering_type_speeds(**req_copy)
 
@@ -3743,6 +3919,7 @@ class TestListOfferingTypeSpeeds():
         _service.disable_retries()
         self.test_list_offering_type_speeds_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: OfferingInformation
@@ -3753,7 +3930,8 @@ class TestListOfferingTypeSpeeds():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -3798,7 +3976,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListPorts():
+
+class TestListPorts:
     """
     Test Class for list_ports
     """
@@ -3811,15 +3990,17 @@ class TestListPorts():
         # Set up mock
         url = preprocess_url('/ports')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         start = 'testString'
-        limit = 1
+        limit = 50
         location_name = 'testString'
 
         # Invoke method
@@ -3827,14 +4008,14 @@ class TestListPorts():
             start=start,
             limit=limit,
             location_name=location_name,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'start={}'.format(start) in query_string
         assert 'limit={}'.format(limit) in query_string
@@ -3857,15 +4038,16 @@ class TestListPorts():
         # Set up mock
         url = preprocess_url('/ports')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_ports()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -3888,17 +4070,19 @@ class TestListPorts():
         # Set up mock
         url = preprocess_url('/ports')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/v1/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_ports(**req_copy)
 
@@ -3920,16 +4104,20 @@ class TestListPorts():
         url = preprocess_url('/ports')
         mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
         mock_response2 = '{"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response1,
-                      content_type='application/json',
-                      status=200)
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response2,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response1,
+            content_type='application/json',
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response2,
+            content_type='application/json',
+            status=200,
+        )
 
         # Exercise the pager class for this operation
         all_results = []
@@ -3953,16 +4141,20 @@ class TestListPorts():
         url = preprocess_url('/ports')
         mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
         mock_response2 = '{"total_count":2,"limit":1,"ports":[{"direct_link_count":1,"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response1,
-                      content_type='application/json',
-                      status=200)
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response2,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response1,
+            content_type='application/json',
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response2,
+            content_type='application/json',
+            status=200,
+        )
 
         # Exercise the pager class for this operation
         pager = PortsPager(
@@ -3974,7 +4166,8 @@ class TestListPorts():
         assert all_results is not None
         assert len(all_results) == 2
 
-class TestGetPort():
+
+class TestGetPort:
     """
     Test Class for get_port
     """
@@ -3987,11 +4180,13 @@ class TestGetPort():
         # Set up mock
         url = preprocess_url('/ports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -3999,7 +4194,7 @@ class TestGetPort():
         # Invoke method
         response = _service.get_port(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4023,11 +4218,13 @@ class TestGetPort():
         # Set up mock
         url = preprocess_url('/ports/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
         mock_response = '{"direct_link_count": 1, "id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -4037,7 +4234,7 @@ class TestGetPort():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_port(**req_copy)
 
@@ -4050,6 +4247,7 @@ class TestGetPort():
         _service.disable_retries()
         self.test_get_port_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: Ports
@@ -4060,7 +4258,8 @@ class TestGetPort():
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -4105,7 +4304,8 @@ class TestNewInstance():
                 version=None,
             )
 
-class TestListGatewayAsPrepends():
+
+class TestListGatewayAsPrepends:
     """
     Test Class for list_gateway_as_prepends
     """
@@ -4118,11 +4318,13 @@ class TestListGatewayAsPrepends():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
         mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -4130,7 +4332,7 @@ class TestListGatewayAsPrepends():
         # Invoke method
         response = _service.list_gateway_as_prepends(
             gateway_id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4154,11 +4356,13 @@ class TestListGatewayAsPrepends():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
         mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
@@ -4168,7 +4372,7 @@ class TestListGatewayAsPrepends():
             "gateway_id": gateway_id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_gateway_as_prepends(**req_copy)
 
@@ -4181,7 +4385,8 @@ class TestListGatewayAsPrepends():
         _service.disable_retries()
         self.test_list_gateway_as_prepends_value_error()
 
-class TestReplaceGatewayAsPrepends():
+
+class TestReplaceGatewayAsPrepends:
     """
     Test Class for replace_gateway_as_prepends
     """
@@ -4194,11 +4399,13 @@ class TestReplaceGatewayAsPrepends():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
         mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a AsPrependPrefixArrayTemplate model
         as_prepend_prefix_array_template_model = {}
@@ -4216,7 +4423,7 @@ class TestReplaceGatewayAsPrepends():
             gateway_id,
             if_match,
             as_prepends=as_prepends,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -4243,11 +4450,13 @@ class TestReplaceGatewayAsPrepends():
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
         mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a AsPrependPrefixArrayTemplate model
         as_prepend_prefix_array_template_model = {}
@@ -4266,7 +4475,7 @@ class TestReplaceGatewayAsPrepends():
             "if_match": if_match,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.replace_gateway_as_prepends(**req_copy)
 
@@ -4279,6 +4488,7 @@ class TestReplaceGatewayAsPrepends():
         _service.disable_retries()
         self.test_replace_gateway_as_prepends_value_error()
 
+
 # endregion
 ##############################################################################
 # End of Service: GatewayASPrepends
@@ -4289,7 +4499,9 @@ class TestReplaceGatewayAsPrepends():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_AsPrepend():
+
+
+class TestModel_AsPrepend:
     """
     Test Class for AsPrepend
     """
@@ -4324,7 +4536,8 @@ class TestModel_AsPrepend():
         as_prepend_model_json2 = as_prepend_model.to_dict()
         assert as_prepend_model_json2 == as_prepend_model_json
 
-class TestModel_AsPrependCollection():
+
+class TestModel_AsPrependCollection:
     """
     Test Class for AsPrependCollection
     """
@@ -4336,7 +4549,7 @@ class TestModel_AsPrependCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        as_prepend_entry_model = {} # AsPrependEntry
+        as_prepend_entry_model = {}  # AsPrependEntry
         as_prepend_entry_model['created_at'] = '2019-01-01T12:00:00Z'
         as_prepend_entry_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         as_prepend_entry_model['length'] = 4
@@ -4363,7 +4576,8 @@ class TestModel_AsPrependCollection():
         as_prepend_collection_model_json2 = as_prepend_collection_model.to_dict()
         assert as_prepend_collection_model_json2 == as_prepend_collection_model_json
 
-class TestModel_AsPrependEntry():
+
+class TestModel_AsPrependEntry:
     """
     Test Class for AsPrependEntry
     """
@@ -4397,7 +4611,8 @@ class TestModel_AsPrependEntry():
         as_prepend_entry_model_json2 = as_prepend_entry_model.to_dict()
         assert as_prepend_entry_model_json2 == as_prepend_entry_model_json
 
-class TestModel_AsPrependPrefixArrayTemplate():
+
+class TestModel_AsPrependPrefixArrayTemplate:
     """
     Test Class for AsPrependPrefixArrayTemplate
     """
@@ -4428,7 +4643,8 @@ class TestModel_AsPrependPrefixArrayTemplate():
         as_prepend_prefix_array_template_model_json2 = as_prepend_prefix_array_template_model.to_dict()
         assert as_prepend_prefix_array_template_model_json2 == as_prepend_prefix_array_template_model_json
 
-class TestModel_AsPrependTemplate():
+
+class TestModel_AsPrependTemplate:
     """
     Test Class for AsPrependTemplate
     """
@@ -4460,7 +4676,38 @@ class TestModel_AsPrependTemplate():
         as_prepend_template_model_json2 = as_prepend_template_model.to_dict()
         assert as_prepend_template_model_json2 == as_prepend_template_model_json
 
-class TestModel_CrossConnectRouter():
+
+class TestModel_CrossAccountGatewayPort:
+    """
+    Test Class for CrossAccountGatewayPort
+    """
+
+    def test_cross_account_gateway_port_serialization(self):
+        """
+        Test serialization/deserialization for CrossAccountGatewayPort
+        """
+
+        # Construct a json representation of a CrossAccountGatewayPort model
+        cross_account_gateway_port_model_json = {}
+        cross_account_gateway_port_model_json['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+
+        # Construct a model instance of CrossAccountGatewayPort by calling from_dict on the json representation
+        cross_account_gateway_port_model = CrossAccountGatewayPort.from_dict(cross_account_gateway_port_model_json)
+        assert cross_account_gateway_port_model != False
+
+        # Construct a model instance of CrossAccountGatewayPort by calling from_dict on the json representation
+        cross_account_gateway_port_model_dict = CrossAccountGatewayPort.from_dict(cross_account_gateway_port_model_json).__dict__
+        cross_account_gateway_port_model2 = CrossAccountGatewayPort(**cross_account_gateway_port_model_dict)
+
+        # Verify the model instances are equivalent
+        assert cross_account_gateway_port_model == cross_account_gateway_port_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        cross_account_gateway_port_model_json2 = cross_account_gateway_port_model.to_dict()
+        assert cross_account_gateway_port_model_json2 == cross_account_gateway_port_model_json
+
+
+class TestModel_CrossConnectRouter:
     """
     Test Class for CrossConnectRouter
     """
@@ -4491,7 +4738,8 @@ class TestModel_CrossConnectRouter():
         cross_connect_router_model_json2 = cross_connect_router_model.to_dict()
         assert cross_connect_router_model_json2 == cross_connect_router_model_json
 
-class TestModel_ExportRouteFilterCollection():
+
+class TestModel_ExportRouteFilterCollection:
     """
     Test Class for ExportRouteFilterCollection
     """
@@ -4503,7 +4751,7 @@ class TestModel_ExportRouteFilterCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_filter_model = {} # RouteFilter
+        route_filter_model = {}  # RouteFilter
         route_filter_model['action'] = 'permit'
         route_filter_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
         route_filter_model['created_at'] = '2020-11-02T20:40:29.622000Z'
@@ -4532,7 +4780,8 @@ class TestModel_ExportRouteFilterCollection():
         export_route_filter_collection_model_json2 = export_route_filter_collection_model.to_dict()
         assert export_route_filter_collection_model_json2 == export_route_filter_collection_model_json
 
-class TestModel_Gateway():
+
+class TestModel_Gateway:
     """
     Test Class for Gateway
     """
@@ -4544,7 +4793,7 @@ class TestModel_Gateway():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        as_prepend_model = {} # AsPrepend
+        as_prepend_model = {}  # AsPrepend
         as_prepend_model['created_at'] = '2019-01-01T12:00:00Z'
         as_prepend_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         as_prepend_model['length'] = 4
@@ -4553,31 +4802,31 @@ class TestModel_Gateway():
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        gateway_authentication_key_model = {} # GatewayAuthenticationKey
+        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
         gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
-        gateway_bfd_config_model = {} # GatewayBfdConfig
+        gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
         gateway_bfd_config_model['bfd_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_bfd_config_model['interval'] = 2000
         gateway_bfd_config_model['multiplier'] = 10
 
-        gateway_change_request_model = {} # GatewayChangeRequestGatewayClientGatewayCreate
+        gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
         gateway_change_request_model['type'] = 'create_gateway'
 
-        gateway_macsec_config_active_cak_model = {} # GatewayMacsecConfigActiveCak
+        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
         gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_active_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_fallback_cak_model = {} # GatewayMacsecConfigFallbackCak
+        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
         gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_fallback_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_primary_cak_model = {} # GatewayMacsecConfigPrimaryCak
+        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
         gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_primary_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_model = {} # GatewayMacsecConfig
+        gateway_macsec_config_model = {}  # GatewayMacsecConfig
         gateway_macsec_config_model['active'] = True
         gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
         gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
@@ -4591,10 +4840,10 @@ class TestModel_Gateway():
         gateway_macsec_config_model['status'] = 'secured'
         gateway_macsec_config_model['window_size'] = 64
 
-        gateway_port_model = {} # GatewayPort
+        gateway_port_model = {}  # GatewayPort
         gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
-        resource_group_reference_model = {} # ResourceGroupReference
+        resource_group_reference_model = {}  # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         # Construct a json representation of a Gateway model
@@ -4615,6 +4864,7 @@ class TestModel_Gateway():
         gateway_model_json['connection_mode'] = 'transit'
         gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
         gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_model_json['cross_account'] = False
         gateway_model_json['cross_connect_router'] = 'xcr01.dal03'
         gateway_model_json['customer_name'] = 'newCustomerName'
         gateway_model_json['default_export_route_filter'] = 'permit'
@@ -4629,11 +4879,11 @@ class TestModel_Gateway():
         gateway_model_json['metered'] = False
         gateway_model_json['name'] = 'myGateway'
         gateway_model_json['operational_status'] = 'awaiting_completion_notice'
-        gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
         gateway_model_json['port'] = gateway_port_model
         gateway_model_json['provider_api_managed'] = False
         gateway_model_json['resource_group'] = resource_group_reference_model
         gateway_model_json['speed_mbps'] = 1000
+        gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
         gateway_model_json['type'] = 'dedicated'
         gateway_model_json['vlan'] = 10
 
@@ -4652,7 +4902,8 @@ class TestModel_Gateway():
         gateway_model_json2 = gateway_model.to_dict()
         assert gateway_model_json2 == gateway_model_json
 
-class TestModel_GatewayActionTemplateAuthenticationKey():
+
+class TestModel_GatewayActionTemplateAuthenticationKey:
     """
     Test Class for GatewayActionTemplateAuthenticationKey
     """
@@ -4681,7 +4932,8 @@ class TestModel_GatewayActionTemplateAuthenticationKey():
         gateway_action_template_authentication_key_model_json2 = gateway_action_template_authentication_key_model.to_dict()
         assert gateway_action_template_authentication_key_model_json2 == gateway_action_template_authentication_key_model_json
 
-class TestModel_GatewayAuthenticationKey():
+
+class TestModel_GatewayAuthenticationKey:
     """
     Test Class for GatewayAuthenticationKey
     """
@@ -4710,7 +4962,8 @@ class TestModel_GatewayAuthenticationKey():
         gateway_authentication_key_model_json2 = gateway_authentication_key_model.to_dict()
         assert gateway_authentication_key_model_json2 == gateway_authentication_key_model_json
 
-class TestModel_GatewayBfdConfig():
+
+class TestModel_GatewayBfdConfig:
     """
     Test Class for GatewayBfdConfig
     """
@@ -4742,7 +4995,8 @@ class TestModel_GatewayBfdConfig():
         gateway_bfd_config_model_json2 = gateway_bfd_config_model.to_dict()
         assert gateway_bfd_config_model_json2 == gateway_bfd_config_model_json
 
-class TestModel_GatewayBfdConfigActionTemplate():
+
+class TestModel_GatewayBfdConfigActionTemplate:
     """
     Test Class for GatewayBfdConfigActionTemplate
     """
@@ -4772,7 +5026,8 @@ class TestModel_GatewayBfdConfigActionTemplate():
         gateway_bfd_config_action_template_model_json2 = gateway_bfd_config_action_template_model.to_dict()
         assert gateway_bfd_config_action_template_model_json2 == gateway_bfd_config_action_template_model_json
 
-class TestModel_GatewayBfdConfigTemplate():
+
+class TestModel_GatewayBfdConfigTemplate:
     """
     Test Class for GatewayBfdConfigTemplate
     """
@@ -4802,7 +5057,8 @@ class TestModel_GatewayBfdConfigTemplate():
         gateway_bfd_config_template_model_json2 = gateway_bfd_config_template_model.to_dict()
         assert gateway_bfd_config_template_model_json2 == gateway_bfd_config_template_model_json
 
-class TestModel_GatewayBfdPatchTemplate():
+
+class TestModel_GatewayBfdPatchTemplate:
     """
     Test Class for GatewayBfdPatchTemplate
     """
@@ -4832,7 +5088,8 @@ class TestModel_GatewayBfdPatchTemplate():
         gateway_bfd_patch_template_model_json2 = gateway_bfd_patch_template_model.to_dict()
         assert gateway_bfd_patch_template_model_json2 == gateway_bfd_patch_template_model_json
 
-class TestModel_GatewayCollection():
+
+class TestModel_GatewayCollection:
     """
     Test Class for GatewayCollection
     """
@@ -4844,7 +5101,7 @@ class TestModel_GatewayCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        as_prepend_model = {} # AsPrepend
+        as_prepend_model = {}  # AsPrepend
         as_prepend_model['created_at'] = '2019-01-01T12:00:00Z'
         as_prepend_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         as_prepend_model['length'] = 4
@@ -4853,31 +5110,31 @@ class TestModel_GatewayCollection():
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        gateway_authentication_key_model = {} # GatewayAuthenticationKey
+        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
         gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
-        gateway_bfd_config_model = {} # GatewayBfdConfig
+        gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
         gateway_bfd_config_model['bfd_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_bfd_config_model['interval'] = 2000
         gateway_bfd_config_model['multiplier'] = 10
 
-        gateway_change_request_model = {} # GatewayChangeRequestGatewayClientGatewayCreate
+        gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
         gateway_change_request_model['type'] = 'create_gateway'
 
-        gateway_macsec_config_active_cak_model = {} # GatewayMacsecConfigActiveCak
+        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
         gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_active_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_fallback_cak_model = {} # GatewayMacsecConfigFallbackCak
+        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
         gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_fallback_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_primary_cak_model = {} # GatewayMacsecConfigPrimaryCak
+        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
         gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_primary_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_model = {} # GatewayMacsecConfig
+        gateway_macsec_config_model = {}  # GatewayMacsecConfig
         gateway_macsec_config_model['active'] = True
         gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
         gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
@@ -4891,54 +5148,55 @@ class TestModel_GatewayCollection():
         gateway_macsec_config_model['status'] = 'secured'
         gateway_macsec_config_model['window_size'] = 64
 
-        gateway_port_model = {} # GatewayPort
+        gateway_port_model = {}  # GatewayPort
         gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
-        resource_group_reference_model = {} # ResourceGroupReference
+        resource_group_reference_model = {}  # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        gateway_model = {} # Gateway
-        gateway_model['as_prepends'] = [as_prepend_model]
-        gateway_model['authentication_key'] = gateway_authentication_key_model
-        gateway_model['bfd_config'] = gateway_bfd_config_model
-        gateway_model['bgp_asn'] = 64999
-        gateway_model['bgp_base_cidr'] = 'testString'
-        gateway_model['bgp_cer_cidr'] = '10.254.30.78/30'
-        gateway_model['bgp_ibm_asn'] = 13884
-        gateway_model['bgp_ibm_cidr'] = '10.254.30.77/30'
-        gateway_model['bgp_status'] = 'active'
-        gateway_model['bgp_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
-        gateway_model['carrier_name'] = 'myCarrierName'
-        gateway_model['change_request'] = gateway_change_request_model
-        gateway_model['completion_notice_reject_reason'] = 'The completion notice file was blank'
-        gateway_model['connection_mode'] = 'transit'
-        gateway_model['created_at'] = '2019-01-01T12:00:00Z'
-        gateway_model['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        gateway_model['cross_connect_router'] = 'xcr01.dal03'
-        gateway_model['customer_name'] = 'newCustomerName'
-        gateway_model['default_export_route_filter'] = 'permit'
-        gateway_model['default_import_route_filter'] = 'permit'
-        gateway_model['global'] = True
-        gateway_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        gateway_model['link_status'] = 'up'
-        gateway_model['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
-        gateway_model['location_display_name'] = 'Dallas 03'
-        gateway_model['location_name'] = 'dal03'
-        gateway_model['macsec_config'] = gateway_macsec_config_model
-        gateway_model['metered'] = False
-        gateway_model['name'] = 'myGateway'
-        gateway_model['operational_status'] = 'awaiting_completion_notice'
-        gateway_model['patch_panel_completion_notice'] = 'patch panel configuration details'
-        gateway_model['port'] = gateway_port_model
-        gateway_model['provider_api_managed'] = False
-        gateway_model['resource_group'] = resource_group_reference_model
-        gateway_model['speed_mbps'] = 1000
-        gateway_model['type'] = 'dedicated'
-        gateway_model['vlan'] = 10
+        gateway_collection_gateways_item_model = {}  # GatewayCollectionGatewaysItemGateway
+        gateway_collection_gateways_item_model['as_prepends'] = [as_prepend_model]
+        gateway_collection_gateways_item_model['authentication_key'] = gateway_authentication_key_model
+        gateway_collection_gateways_item_model['bfd_config'] = gateway_bfd_config_model
+        gateway_collection_gateways_item_model['bgp_asn'] = 64999
+        gateway_collection_gateways_item_model['bgp_base_cidr'] = 'testString'
+        gateway_collection_gateways_item_model['bgp_cer_cidr'] = '10.254.30.78/30'
+        gateway_collection_gateways_item_model['bgp_ibm_asn'] = 13884
+        gateway_collection_gateways_item_model['bgp_ibm_cidr'] = '10.254.30.77/30'
+        gateway_collection_gateways_item_model['bgp_status'] = 'active'
+        gateway_collection_gateways_item_model['bgp_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_collection_gateways_item_model['carrier_name'] = 'myCarrierName'
+        gateway_collection_gateways_item_model['change_request'] = gateway_change_request_model
+        gateway_collection_gateways_item_model['completion_notice_reject_reason'] = 'The completion notice file was blank'
+        gateway_collection_gateways_item_model['connection_mode'] = 'transit'
+        gateway_collection_gateways_item_model['created_at'] = '2019-01-01T12:00:00Z'
+        gateway_collection_gateways_item_model['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_collection_gateways_item_model['cross_account'] = False
+        gateway_collection_gateways_item_model['cross_connect_router'] = 'xcr01.dal03'
+        gateway_collection_gateways_item_model['customer_name'] = 'newCustomerName'
+        gateway_collection_gateways_item_model['default_export_route_filter'] = 'permit'
+        gateway_collection_gateways_item_model['default_import_route_filter'] = 'permit'
+        gateway_collection_gateways_item_model['global'] = True
+        gateway_collection_gateways_item_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_collection_gateways_item_model['link_status'] = 'up'
+        gateway_collection_gateways_item_model['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_collection_gateways_item_model['location_display_name'] = 'Dallas 03'
+        gateway_collection_gateways_item_model['location_name'] = 'dal03'
+        gateway_collection_gateways_item_model['macsec_config'] = gateway_macsec_config_model
+        gateway_collection_gateways_item_model['metered'] = False
+        gateway_collection_gateways_item_model['name'] = 'myGateway'
+        gateway_collection_gateways_item_model['operational_status'] = 'awaiting_completion_notice'
+        gateway_collection_gateways_item_model['port'] = gateway_port_model
+        gateway_collection_gateways_item_model['provider_api_managed'] = False
+        gateway_collection_gateways_item_model['resource_group'] = resource_group_reference_model
+        gateway_collection_gateways_item_model['speed_mbps'] = 1000
+        gateway_collection_gateways_item_model['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_collection_gateways_item_model['type'] = 'dedicated'
+        gateway_collection_gateways_item_model['vlan'] = 10
 
         # Construct a json representation of a GatewayCollection model
         gateway_collection_model_json = {}
-        gateway_collection_model_json['gateways'] = [gateway_model]
+        gateway_collection_model_json['gateways'] = [gateway_collection_gateways_item_model]
 
         # Construct a model instance of GatewayCollection by calling from_dict on the json representation
         gateway_collection_model = GatewayCollection.from_dict(gateway_collection_model_json)
@@ -4955,7 +5213,8 @@ class TestModel_GatewayCollection():
         gateway_collection_model_json2 = gateway_collection_model.to_dict()
         assert gateway_collection_model_json2 == gateway_collection_model_json
 
-class TestModel_GatewayMacsecConfig():
+
+class TestModel_GatewayMacsecConfig:
     """
     Test Class for GatewayMacsecConfig
     """
@@ -4967,15 +5226,15 @@ class TestModel_GatewayMacsecConfig():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_macsec_config_active_cak_model = {} # GatewayMacsecConfigActiveCak
+        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
         gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_active_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_fallback_cak_model = {} # GatewayMacsecConfigFallbackCak
+        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
         gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_fallback_cak_model['status'] = 'testString'
 
-        gateway_macsec_config_primary_cak_model = {} # GatewayMacsecConfigPrimaryCak
+        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
         gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
         gateway_macsec_config_primary_cak_model['status'] = 'testString'
 
@@ -5009,7 +5268,8 @@ class TestModel_GatewayMacsecConfig():
         gateway_macsec_config_model_json2 = gateway_macsec_config_model.to_dict()
         assert gateway_macsec_config_model_json2 == gateway_macsec_config_model_json
 
-class TestModel_GatewayMacsecConfigActiveCak():
+
+class TestModel_GatewayMacsecConfigActiveCak:
     """
     Test Class for GatewayMacsecConfigActiveCak
     """
@@ -5039,7 +5299,8 @@ class TestModel_GatewayMacsecConfigActiveCak():
         gateway_macsec_config_active_cak_model_json2 = gateway_macsec_config_active_cak_model.to_dict()
         assert gateway_macsec_config_active_cak_model_json2 == gateway_macsec_config_active_cak_model_json
 
-class TestModel_GatewayMacsecConfigFallbackCak():
+
+class TestModel_GatewayMacsecConfigFallbackCak:
     """
     Test Class for GatewayMacsecConfigFallbackCak
     """
@@ -5069,7 +5330,8 @@ class TestModel_GatewayMacsecConfigFallbackCak():
         gateway_macsec_config_fallback_cak_model_json2 = gateway_macsec_config_fallback_cak_model.to_dict()
         assert gateway_macsec_config_fallback_cak_model_json2 == gateway_macsec_config_fallback_cak_model_json
 
-class TestModel_GatewayMacsecConfigPatchTemplate():
+
+class TestModel_GatewayMacsecConfigPatchTemplate:
     """
     Test Class for GatewayMacsecConfigPatchTemplate
     """
@@ -5081,10 +5343,10 @@ class TestModel_GatewayMacsecConfigPatchTemplate():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_macsec_config_patch_template_fallback_cak_model = {} # GatewayMacsecConfigPatchTemplateFallbackCak
+        gateway_macsec_config_patch_template_fallback_cak_model = {}  # GatewayMacsecConfigPatchTemplateFallbackCak
         gateway_macsec_config_patch_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        gateway_macsec_config_patch_template_primary_cak_model = {} # GatewayMacsecConfigPatchTemplatePrimaryCak
+        gateway_macsec_config_patch_template_primary_cak_model = {}  # GatewayMacsecConfigPatchTemplatePrimaryCak
         gateway_macsec_config_patch_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a json representation of a GatewayMacsecConfigPatchTemplate model
@@ -5109,7 +5371,8 @@ class TestModel_GatewayMacsecConfigPatchTemplate():
         gateway_macsec_config_patch_template_model_json2 = gateway_macsec_config_patch_template_model.to_dict()
         assert gateway_macsec_config_patch_template_model_json2 == gateway_macsec_config_patch_template_model_json
 
-class TestModel_GatewayMacsecConfigPatchTemplateFallbackCak():
+
+class TestModel_GatewayMacsecConfigPatchTemplateFallbackCak:
     """
     Test Class for GatewayMacsecConfigPatchTemplateFallbackCak
     """
@@ -5138,7 +5401,8 @@ class TestModel_GatewayMacsecConfigPatchTemplateFallbackCak():
         gateway_macsec_config_patch_template_fallback_cak_model_json2 = gateway_macsec_config_patch_template_fallback_cak_model.to_dict()
         assert gateway_macsec_config_patch_template_fallback_cak_model_json2 == gateway_macsec_config_patch_template_fallback_cak_model_json
 
-class TestModel_GatewayMacsecConfigPatchTemplatePrimaryCak():
+
+class TestModel_GatewayMacsecConfigPatchTemplatePrimaryCak:
     """
     Test Class for GatewayMacsecConfigPatchTemplatePrimaryCak
     """
@@ -5167,7 +5431,8 @@ class TestModel_GatewayMacsecConfigPatchTemplatePrimaryCak():
         gateway_macsec_config_patch_template_primary_cak_model_json2 = gateway_macsec_config_patch_template_primary_cak_model.to_dict()
         assert gateway_macsec_config_patch_template_primary_cak_model_json2 == gateway_macsec_config_patch_template_primary_cak_model_json
 
-class TestModel_GatewayMacsecConfigPrimaryCak():
+
+class TestModel_GatewayMacsecConfigPrimaryCak:
     """
     Test Class for GatewayMacsecConfigPrimaryCak
     """
@@ -5197,7 +5462,8 @@ class TestModel_GatewayMacsecConfigPrimaryCak():
         gateway_macsec_config_primary_cak_model_json2 = gateway_macsec_config_primary_cak_model.to_dict()
         assert gateway_macsec_config_primary_cak_model_json2 == gateway_macsec_config_primary_cak_model_json
 
-class TestModel_GatewayMacsecConfigTemplate():
+
+class TestModel_GatewayMacsecConfigTemplate:
     """
     Test Class for GatewayMacsecConfigTemplate
     """
@@ -5209,10 +5475,10 @@ class TestModel_GatewayMacsecConfigTemplate():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_macsec_config_template_fallback_cak_model = {} # GatewayMacsecConfigTemplateFallbackCak
+        gateway_macsec_config_template_fallback_cak_model = {}  # GatewayMacsecConfigTemplateFallbackCak
         gateway_macsec_config_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        gateway_macsec_config_template_primary_cak_model = {} # GatewayMacsecConfigTemplatePrimaryCak
+        gateway_macsec_config_template_primary_cak_model = {}  # GatewayMacsecConfigTemplatePrimaryCak
         gateway_macsec_config_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a json representation of a GatewayMacsecConfigTemplate model
@@ -5237,7 +5503,8 @@ class TestModel_GatewayMacsecConfigTemplate():
         gateway_macsec_config_template_model_json2 = gateway_macsec_config_template_model.to_dict()
         assert gateway_macsec_config_template_model_json2 == gateway_macsec_config_template_model_json
 
-class TestModel_GatewayMacsecConfigTemplateFallbackCak():
+
+class TestModel_GatewayMacsecConfigTemplateFallbackCak:
     """
     Test Class for GatewayMacsecConfigTemplateFallbackCak
     """
@@ -5266,7 +5533,8 @@ class TestModel_GatewayMacsecConfigTemplateFallbackCak():
         gateway_macsec_config_template_fallback_cak_model_json2 = gateway_macsec_config_template_fallback_cak_model.to_dict()
         assert gateway_macsec_config_template_fallback_cak_model_json2 == gateway_macsec_config_template_fallback_cak_model_json
 
-class TestModel_GatewayMacsecConfigTemplatePrimaryCak():
+
+class TestModel_GatewayMacsecConfigTemplatePrimaryCak:
     """
     Test Class for GatewayMacsecConfigTemplatePrimaryCak
     """
@@ -5295,7 +5563,75 @@ class TestModel_GatewayMacsecConfigTemplatePrimaryCak():
         gateway_macsec_config_template_primary_cak_model_json2 = gateway_macsec_config_template_primary_cak_model.to_dict()
         assert gateway_macsec_config_template_primary_cak_model_json2 == gateway_macsec_config_template_primary_cak_model_json
 
-class TestModel_GatewayPatchTemplateAuthenticationKey():
+
+class TestModel_GatewayPatchTemplate:
+    """
+    Test Class for GatewayPatchTemplate
+    """
+
+    def test_gateway_patch_template_serialization(self):
+        """
+        Test serialization/deserialization for GatewayPatchTemplate
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        gateway_patch_template_authentication_key_model = {}  # GatewayPatchTemplateAuthenticationKey
+        gateway_patch_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+
+        gateway_bfd_patch_template_model = {}  # GatewayBfdPatchTemplate
+        gateway_bfd_patch_template_model['interval'] = 2000
+        gateway_bfd_patch_template_model['multiplier'] = 10
+
+        gateway_macsec_config_patch_template_fallback_cak_model = {}  # GatewayMacsecConfigPatchTemplateFallbackCak
+        gateway_macsec_config_patch_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        gateway_macsec_config_patch_template_primary_cak_model = {}  # GatewayMacsecConfigPatchTemplatePrimaryCak
+        gateway_macsec_config_patch_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        gateway_macsec_config_patch_template_model = {}  # GatewayMacsecConfigPatchTemplate
+        gateway_macsec_config_patch_template_model['active'] = True
+        gateway_macsec_config_patch_template_model['fallback_cak'] = gateway_macsec_config_patch_template_fallback_cak_model
+        gateway_macsec_config_patch_template_model['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
+        gateway_macsec_config_patch_template_model['window_size'] = 512
+
+        # Construct a json representation of a GatewayPatchTemplate model
+        gateway_patch_template_model_json = {}
+        gateway_patch_template_model_json['authentication_key'] = gateway_patch_template_authentication_key_model
+        gateway_patch_template_model_json['bfd_config'] = gateway_bfd_patch_template_model
+        gateway_patch_template_model_json['bgp_asn'] = 64999
+        gateway_patch_template_model_json['bgp_cer_cidr'] = '169.254.0.10/30'
+        gateway_patch_template_model_json['bgp_ibm_cidr'] = '169.254.0.9/30'
+        gateway_patch_template_model_json['connection_mode'] = 'transit'
+        gateway_patch_template_model_json['default_export_route_filter'] = 'permit'
+        gateway_patch_template_model_json['default_import_route_filter'] = 'permit'
+        gateway_patch_template_model_json['global'] = True
+        gateway_patch_template_model_json['loa_reject_reason'] = 'The port mentioned was incorrect'
+        gateway_patch_template_model_json['macsec_config'] = gateway_macsec_config_patch_template_model
+        gateway_patch_template_model_json['metered'] = False
+        gateway_patch_template_model_json['name'] = 'testGateway'
+        gateway_patch_template_model_json['operational_status'] = 'loa_accepted'
+        gateway_patch_template_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_patch_template_model_json['speed_mbps'] = 1000
+        gateway_patch_template_model_json['vlan'] = 10
+
+        # Construct a model instance of GatewayPatchTemplate by calling from_dict on the json representation
+        gateway_patch_template_model = GatewayPatchTemplate.from_dict(gateway_patch_template_model_json)
+        assert gateway_patch_template_model != False
+
+        # Construct a model instance of GatewayPatchTemplate by calling from_dict on the json representation
+        gateway_patch_template_model_dict = GatewayPatchTemplate.from_dict(gateway_patch_template_model_json).__dict__
+        gateway_patch_template_model2 = GatewayPatchTemplate(**gateway_patch_template_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_patch_template_model == gateway_patch_template_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_patch_template_model_json2 = gateway_patch_template_model.to_dict()
+        assert gateway_patch_template_model_json2 == gateway_patch_template_model_json
+
+
+class TestModel_GatewayPatchTemplateAuthenticationKey:
     """
     Test Class for GatewayPatchTemplateAuthenticationKey
     """
@@ -5324,7 +5660,8 @@ class TestModel_GatewayPatchTemplateAuthenticationKey():
         gateway_patch_template_authentication_key_model_json2 = gateway_patch_template_authentication_key_model.to_dict()
         assert gateway_patch_template_authentication_key_model_json2 == gateway_patch_template_authentication_key_model_json
 
-class TestModel_GatewayPort():
+
+class TestModel_GatewayPort:
     """
     Test Class for GatewayPort
     """
@@ -5353,7 +5690,8 @@ class TestModel_GatewayPort():
         gateway_port_model_json2 = gateway_port_model.to_dict()
         assert gateway_port_model_json2 == gateway_port_model_json
 
-class TestModel_GatewayPortIdentity():
+
+class TestModel_GatewayPortIdentity:
     """
     Test Class for GatewayPortIdentity
     """
@@ -5382,7 +5720,8 @@ class TestModel_GatewayPortIdentity():
         gateway_port_identity_model_json2 = gateway_port_identity_model.to_dict()
         assert gateway_port_identity_model_json2 == gateway_port_identity_model_json
 
-class TestModel_GatewayStatistic():
+
+class TestModel_GatewayStatistic:
     """
     Test Class for GatewayStatistic
     """
@@ -5413,7 +5752,8 @@ class TestModel_GatewayStatistic():
         gateway_statistic_model_json2 = gateway_statistic_model.to_dict()
         assert gateway_statistic_model_json2 == gateway_statistic_model_json
 
-class TestModel_GatewayStatisticCollection():
+
+class TestModel_GatewayStatisticCollection:
     """
     Test Class for GatewayStatisticCollection
     """
@@ -5425,7 +5765,7 @@ class TestModel_GatewayStatisticCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_statistic_model = {} # GatewayStatistic
+        gateway_statistic_model = {}  # GatewayStatistic
         gateway_statistic_model['created_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_statistic_model['data'] = 'MKA statistics text...'
         gateway_statistic_model['type'] = 'macsec_policy'
@@ -5449,7 +5789,8 @@ class TestModel_GatewayStatisticCollection():
         gateway_statistic_collection_model_json2 = gateway_statistic_collection_model.to_dict()
         assert gateway_statistic_collection_model_json2 == gateway_statistic_collection_model_json
 
-class TestModel_GatewayStatusCollection():
+
+class TestModel_GatewayStatusCollection:
     """
     Test Class for GatewayStatusCollection
     """
@@ -5461,7 +5802,7 @@ class TestModel_GatewayStatusCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_status_model = {} # GatewayStatusGatewayBGPStatus
+        gateway_status_model = {}  # GatewayStatusGatewayBGPStatus
         gateway_status_model['type'] = 'bgp'
         gateway_status_model['updated_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_status_model['value'] = 'active'
@@ -5485,7 +5826,8 @@ class TestModel_GatewayStatusCollection():
         gateway_status_collection_model_json2 = gateway_status_collection_model.to_dict()
         assert gateway_status_collection_model_json2 == gateway_status_collection_model_json
 
-class TestModel_GatewayTemplateAuthenticationKey():
+
+class TestModel_GatewayTemplateAuthenticationKey:
     """
     Test Class for GatewayTemplateAuthenticationKey
     """
@@ -5514,7 +5856,8 @@ class TestModel_GatewayTemplateAuthenticationKey():
         gateway_template_authentication_key_model_json2 = gateway_template_authentication_key_model.to_dict()
         assert gateway_template_authentication_key_model_json2 == gateway_template_authentication_key_model_json
 
-class TestModel_GatewayTemplateRouteFilter():
+
+class TestModel_GatewayTemplateRouteFilter:
     """
     Test Class for GatewayTemplateRouteFilter
     """
@@ -5546,7 +5889,8 @@ class TestModel_GatewayTemplateRouteFilter():
         gateway_template_route_filter_model_json2 = gateway_template_route_filter_model.to_dict()
         assert gateway_template_route_filter_model_json2 == gateway_template_route_filter_model_json
 
-class TestModel_GatewayVirtualConnection():
+
+class TestModel_GatewayVirtualConnection:
     """
     Test Class for GatewayVirtualConnection
     """
@@ -5581,7 +5925,8 @@ class TestModel_GatewayVirtualConnection():
         gateway_virtual_connection_model_json2 = gateway_virtual_connection_model.to_dict()
         assert gateway_virtual_connection_model_json2 == gateway_virtual_connection_model_json
 
-class TestModel_GatewayVirtualConnectionCollection():
+
+class TestModel_GatewayVirtualConnectionCollection:
     """
     Test Class for GatewayVirtualConnectionCollection
     """
@@ -5593,7 +5938,7 @@ class TestModel_GatewayVirtualConnectionCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_virtual_connection_model = {} # GatewayVirtualConnection
+        gateway_virtual_connection_model = {}  # GatewayVirtualConnection
         gateway_virtual_connection_model['created_at'] = '2019-01-01T12:00:00Z'
         gateway_virtual_connection_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         gateway_virtual_connection_model['name'] = 'newVC'
@@ -5621,7 +5966,8 @@ class TestModel_GatewayVirtualConnectionCollection():
         gateway_virtual_connection_collection_model_json2 = gateway_virtual_connection_collection_model.to_dict()
         assert gateway_virtual_connection_collection_model_json2 == gateway_virtual_connection_collection_model_json
 
-class TestModel_ImportRouteFilterCollection():
+
+class TestModel_ImportRouteFilterCollection:
     """
     Test Class for ImportRouteFilterCollection
     """
@@ -5633,7 +5979,7 @@ class TestModel_ImportRouteFilterCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_filter_model = {} # RouteFilter
+        route_filter_model = {}  # RouteFilter
         route_filter_model['action'] = 'permit'
         route_filter_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
         route_filter_model['created_at'] = '2020-11-02T20:40:29.622000Z'
@@ -5662,7 +6008,8 @@ class TestModel_ImportRouteFilterCollection():
         import_route_filter_collection_model_json2 = import_route_filter_collection_model.to_dict()
         assert import_route_filter_collection_model_json2 == import_route_filter_collection_model_json
 
-class TestModel_LocationCollection():
+
+class TestModel_LocationCollection:
     """
     Test Class for LocationCollection
     """
@@ -5674,7 +6021,7 @@ class TestModel_LocationCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        location_output_model = {} # LocationOutput
+        location_output_model = {}  # LocationOutput
         location_output_model['billing_location'] = 'us'
         location_output_model['building_colocation_owner'] = 'MyProvider'
         location_output_model['display_name'] = 'Dallas 9'
@@ -5707,7 +6054,8 @@ class TestModel_LocationCollection():
         location_collection_model_json2 = location_collection_model.to_dict()
         assert location_collection_model_json2 == location_collection_model_json
 
-class TestModel_LocationCrossConnectRouterCollection():
+
+class TestModel_LocationCrossConnectRouterCollection:
     """
     Test Class for LocationCrossConnectRouterCollection
     """
@@ -5719,7 +6067,7 @@ class TestModel_LocationCrossConnectRouterCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        cross_connect_router_model = {} # CrossConnectRouter
+        cross_connect_router_model = {}  # CrossConnectRouter
         cross_connect_router_model['capabilities'] = ['non_macsec', 'macsec']
         cross_connect_router_model['router_name'] = 'xcr01.dal03'
         cross_connect_router_model['total_connections'] = 1
@@ -5743,7 +6091,8 @@ class TestModel_LocationCrossConnectRouterCollection():
         location_cross_connect_router_collection_model_json2 = location_cross_connect_router_collection_model.to_dict()
         assert location_cross_connect_router_collection_model_json2 == location_cross_connect_router_collection_model_json
 
-class TestModel_LocationOutput():
+
+class TestModel_LocationOutput:
     """
     Test Class for LocationOutput
     """
@@ -5783,7 +6132,8 @@ class TestModel_LocationOutput():
         location_output_model_json2 = location_output_model.to_dict()
         assert location_output_model_json2 == location_output_model_json
 
-class TestModel_OfferingSpeed():
+
+class TestModel_OfferingSpeed:
     """
     Test Class for OfferingSpeed
     """
@@ -5814,7 +6164,8 @@ class TestModel_OfferingSpeed():
         offering_speed_model_json2 = offering_speed_model.to_dict()
         assert offering_speed_model_json2 == offering_speed_model_json
 
-class TestModel_OfferingSpeedCollection():
+
+class TestModel_OfferingSpeedCollection:
     """
     Test Class for OfferingSpeedCollection
     """
@@ -5826,7 +6177,7 @@ class TestModel_OfferingSpeedCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        offering_speed_model = {} # OfferingSpeed
+        offering_speed_model = {}  # OfferingSpeed
         offering_speed_model['capabilities'] = ['metered', 'unmetered']
         offering_speed_model['link_speed'] = 2000
         offering_speed_model['macsec_enabled'] = False
@@ -5850,7 +6201,8 @@ class TestModel_OfferingSpeedCollection():
         offering_speed_collection_model_json2 = offering_speed_collection_model.to_dict()
         assert offering_speed_collection_model_json2 == offering_speed_collection_model_json
 
-class TestModel_Port():
+
+class TestModel_Port:
     """
     Test Class for Port
     """
@@ -5885,7 +6237,8 @@ class TestModel_Port():
         port_model_json2 = port_model.to_dict()
         assert port_model_json2 == port_model_json
 
-class TestModel_PortCollection():
+
+class TestModel_PortCollection:
     """
     Test Class for PortCollection
     """
@@ -5897,14 +6250,14 @@ class TestModel_PortCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        ports_paginated_collection_first_model = {} # PortsPaginatedCollectionFirst
+        ports_paginated_collection_first_model = {}  # PortsPaginatedCollectionFirst
         ports_paginated_collection_first_model['href'] = 'https://directlink.cloud.ibm.com/v1/ports?limit=100'
 
-        ports_paginated_collection_next_model = {} # PortsPaginatedCollectionNext
+        ports_paginated_collection_next_model = {}  # PortsPaginatedCollectionNext
         ports_paginated_collection_next_model['href'] = 'https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100'
         ports_paginated_collection_next_model['start'] = '9d5a91a3e2cbd233b5a5b33436855ed1'
 
-        port_model = {} # Port
+        port_model = {}  # Port
         port_model['direct_link_count'] = 1
         port_model['id'] = '01122b9b-820f-4c44-8a31-77f1f0806765'
         port_model['label'] = 'XCR-FRK-CS-SEC-01'
@@ -5936,7 +6289,8 @@ class TestModel_PortCollection():
         port_collection_model_json2 = port_collection_model.to_dict()
         assert port_collection_model_json2 == port_collection_model_json
 
-class TestModel_PortsPaginatedCollectionFirst():
+
+class TestModel_PortsPaginatedCollectionFirst:
     """
     Test Class for PortsPaginatedCollectionFirst
     """
@@ -5965,7 +6319,8 @@ class TestModel_PortsPaginatedCollectionFirst():
         ports_paginated_collection_first_model_json2 = ports_paginated_collection_first_model.to_dict()
         assert ports_paginated_collection_first_model_json2 == ports_paginated_collection_first_model_json
 
-class TestModel_PortsPaginatedCollectionNext():
+
+class TestModel_PortsPaginatedCollectionNext:
     """
     Test Class for PortsPaginatedCollectionNext
     """
@@ -5995,7 +6350,8 @@ class TestModel_PortsPaginatedCollectionNext():
         ports_paginated_collection_next_model_json2 = ports_paginated_collection_next_model.to_dict()
         assert ports_paginated_collection_next_model_json2 == ports_paginated_collection_next_model_json
 
-class TestModel_ResourceGroupIdentity():
+
+class TestModel_ResourceGroupIdentity:
     """
     Test Class for ResourceGroupIdentity
     """
@@ -6024,7 +6380,8 @@ class TestModel_ResourceGroupIdentity():
         resource_group_identity_model_json2 = resource_group_identity_model.to_dict()
         assert resource_group_identity_model_json2 == resource_group_identity_model_json
 
-class TestModel_ResourceGroupReference():
+
+class TestModel_ResourceGroupReference:
     """
     Test Class for ResourceGroupReference
     """
@@ -6053,7 +6410,8 @@ class TestModel_ResourceGroupReference():
         resource_group_reference_model_json2 = resource_group_reference_model.to_dict()
         assert resource_group_reference_model_json2 == resource_group_reference_model_json
 
-class TestModel_RouteFilter():
+
+class TestModel_RouteFilter:
     """
     Test Class for RouteFilter
     """
@@ -6089,7 +6447,8 @@ class TestModel_RouteFilter():
         route_filter_model_json2 = route_filter_model.to_dict()
         assert route_filter_model_json2 == route_filter_model_json
 
-class TestModel_RouteReport():
+
+class TestModel_RouteReport:
     """
     Test Class for RouteReport
     """
@@ -6101,32 +6460,32 @@ class TestModel_RouteReport():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_report_advertised_route_model = {} # RouteReportAdvertisedRoute
+        route_report_advertised_route_model = {}  # RouteReportAdvertisedRoute
         route_report_advertised_route_model['as_path'] = '64999 64999 64998 I'
         route_report_advertised_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_route_model = {} # RouteReportRoute
+        route_report_route_model = {}  # RouteReportRoute
         route_report_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_on_prem_route_model = {} # RouteReportOnPremRoute
+        route_report_on_prem_route_model = {}  # RouteReportOnPremRoute
         route_report_on_prem_route_model['as_path'] = '64999 64999 64998 I'
         route_report_on_prem_route_model['next_hop'] = '172.17.0.0'
         route_report_on_prem_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_overlapping_route_model = {} # RouteReportOverlappingRouteForConnection
+        route_report_overlapping_route_model = {}  # RouteReportOverlappingRouteForConnection
         route_report_overlapping_route_model['prefix'] = '172.17.0.0/16'
         route_report_overlapping_route_model['type'] = 'virtual_connection'
         route_report_overlapping_route_model['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
 
-        route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
+        route_report_overlapping_route_group_model = {}  # RouteReportOverlappingRouteGroup
         route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
 
-        route_report_virtual_connection_route_model = {} # RouteReportVirtualConnectionRoute
+        route_report_virtual_connection_route_model = {}  # RouteReportVirtualConnectionRoute
         route_report_virtual_connection_route_model['active'] = True
         route_report_virtual_connection_route_model['local_preference'] = '200'
         route_report_virtual_connection_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_connection_model = {} # RouteReportConnection
+        route_report_connection_model = {}  # RouteReportConnection
         route_report_connection_model['routes'] = [route_report_virtual_connection_route_model]
         route_report_connection_model['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
         route_report_connection_model['virtual_connection_name'] = 'vpc1'
@@ -6159,7 +6518,8 @@ class TestModel_RouteReport():
         route_report_model_json2 = route_report_model.to_dict()
         assert route_report_model_json2 == route_report_model_json
 
-class TestModel_RouteReportAdvertisedRoute():
+
+class TestModel_RouteReportAdvertisedRoute:
     """
     Test Class for RouteReportAdvertisedRoute
     """
@@ -6189,7 +6549,8 @@ class TestModel_RouteReportAdvertisedRoute():
         route_report_advertised_route_model_json2 = route_report_advertised_route_model.to_dict()
         assert route_report_advertised_route_model_json2 == route_report_advertised_route_model_json
 
-class TestModel_RouteReportCollection():
+
+class TestModel_RouteReportCollection:
     """
     Test Class for RouteReportCollection
     """
@@ -6201,38 +6562,38 @@ class TestModel_RouteReportCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_report_advertised_route_model = {} # RouteReportAdvertisedRoute
+        route_report_advertised_route_model = {}  # RouteReportAdvertisedRoute
         route_report_advertised_route_model['as_path'] = '64999 64999 64998 I'
         route_report_advertised_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_route_model = {} # RouteReportRoute
+        route_report_route_model = {}  # RouteReportRoute
         route_report_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_on_prem_route_model = {} # RouteReportOnPremRoute
+        route_report_on_prem_route_model = {}  # RouteReportOnPremRoute
         route_report_on_prem_route_model['as_path'] = '64999 64999 64998 I'
         route_report_on_prem_route_model['next_hop'] = '172.17.0.0'
         route_report_on_prem_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_overlapping_route_model = {} # RouteReportOverlappingRouteForConnection
+        route_report_overlapping_route_model = {}  # RouteReportOverlappingRouteForConnection
         route_report_overlapping_route_model['prefix'] = '172.17.0.0/16'
         route_report_overlapping_route_model['type'] = 'virtual_connection'
         route_report_overlapping_route_model['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
 
-        route_report_overlapping_route_group_model = {} # RouteReportOverlappingRouteGroup
+        route_report_overlapping_route_group_model = {}  # RouteReportOverlappingRouteGroup
         route_report_overlapping_route_group_model['routes'] = [route_report_overlapping_route_model]
 
-        route_report_virtual_connection_route_model = {} # RouteReportVirtualConnectionRoute
+        route_report_virtual_connection_route_model = {}  # RouteReportVirtualConnectionRoute
         route_report_virtual_connection_route_model['active'] = True
         route_report_virtual_connection_route_model['local_preference'] = '200'
         route_report_virtual_connection_route_model['prefix'] = '172.17.0.0/16'
 
-        route_report_connection_model = {} # RouteReportConnection
+        route_report_connection_model = {}  # RouteReportConnection
         route_report_connection_model['routes'] = [route_report_virtual_connection_route_model]
         route_report_connection_model['virtual_connection_id'] = '3c265a62-91da-4261-a950-950b6af0eb58'
         route_report_connection_model['virtual_connection_name'] = 'vpc1'
         route_report_connection_model['virtual_connection_type'] = 'vpc'
 
-        route_report_model = {} # RouteReport
+        route_report_model = {}  # RouteReport
         route_report_model['advertised_routes'] = [route_report_advertised_route_model]
         route_report_model['created_at'] = '2019-01-01T12:00:00Z'
         route_report_model['gateway_routes'] = [route_report_route_model]
@@ -6262,7 +6623,8 @@ class TestModel_RouteReportCollection():
         route_report_collection_model_json2 = route_report_collection_model.to_dict()
         assert route_report_collection_model_json2 == route_report_collection_model_json
 
-class TestModel_RouteReportConnection():
+
+class TestModel_RouteReportConnection:
     """
     Test Class for RouteReportConnection
     """
@@ -6274,7 +6636,7 @@ class TestModel_RouteReportConnection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_report_virtual_connection_route_model = {} # RouteReportVirtualConnectionRoute
+        route_report_virtual_connection_route_model = {}  # RouteReportVirtualConnectionRoute
         route_report_virtual_connection_route_model['active'] = True
         route_report_virtual_connection_route_model['local_preference'] = '200'
         route_report_virtual_connection_route_model['prefix'] = '172.17.0.0/16'
@@ -6301,7 +6663,8 @@ class TestModel_RouteReportConnection():
         route_report_connection_model_json2 = route_report_connection_model.to_dict()
         assert route_report_connection_model_json2 == route_report_connection_model_json
 
-class TestModel_RouteReportOnPremRoute():
+
+class TestModel_RouteReportOnPremRoute:
     """
     Test Class for RouteReportOnPremRoute
     """
@@ -6332,7 +6695,8 @@ class TestModel_RouteReportOnPremRoute():
         route_report_on_prem_route_model_json2 = route_report_on_prem_route_model.to_dict()
         assert route_report_on_prem_route_model_json2 == route_report_on_prem_route_model_json
 
-class TestModel_RouteReportOverlappingRouteGroup():
+
+class TestModel_RouteReportOverlappingRouteGroup:
     """
     Test Class for RouteReportOverlappingRouteGroup
     """
@@ -6344,7 +6708,7 @@ class TestModel_RouteReportOverlappingRouteGroup():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        route_report_overlapping_route_model = {} # RouteReportOverlappingRouteForConnection
+        route_report_overlapping_route_model = {}  # RouteReportOverlappingRouteForConnection
         route_report_overlapping_route_model['prefix'] = '172.17.0.0/16'
         route_report_overlapping_route_model['type'] = 'virtual_connection'
         route_report_overlapping_route_model['virtual_connection_id'] = 'd2d985d8-1d8e-4e8b-96cd-cee2290ecaff'
@@ -6368,7 +6732,8 @@ class TestModel_RouteReportOverlappingRouteGroup():
         route_report_overlapping_route_group_model_json2 = route_report_overlapping_route_group_model.to_dict()
         assert route_report_overlapping_route_group_model_json2 == route_report_overlapping_route_group_model_json
 
-class TestModel_RouteReportRoute():
+
+class TestModel_RouteReportRoute:
     """
     Test Class for RouteReportRoute
     """
@@ -6397,7 +6762,8 @@ class TestModel_RouteReportRoute():
         route_report_route_model_json2 = route_report_route_model.to_dict()
         assert route_report_route_model_json2 == route_report_route_model_json
 
-class TestModel_RouteReportVirtualConnectionRoute():
+
+class TestModel_RouteReportVirtualConnectionRoute:
     """
     Test Class for RouteReportVirtualConnectionRoute
     """
@@ -6428,7 +6794,8 @@ class TestModel_RouteReportVirtualConnectionRoute():
         route_report_virtual_connection_route_model_json2 = route_report_virtual_connection_route_model.to_dict()
         assert route_report_virtual_connection_route_model_json2 == route_report_virtual_connection_route_model_json
 
-class TestModel_UpdateRouteFilterTemplate():
+
+class TestModel_UpdateRouteFilterTemplate:
     """
     Test Class for UpdateRouteFilterTemplate
     """
@@ -6461,7 +6828,8 @@ class TestModel_UpdateRouteFilterTemplate():
         update_route_filter_template_model_json2 = update_route_filter_template_model.to_dict()
         assert update_route_filter_template_model_json2 == update_route_filter_template_model_json
 
-class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate():
+
+class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate:
     """
     Test Class for GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate
     """
@@ -6490,7 +6858,8 @@ class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate():
         gateway_action_template_updates_item_gateway_client_bgpasn_update_model_json2 = gateway_action_template_updates_item_gateway_client_bgpasn_update_model.to_dict()
         assert gateway_action_template_updates_item_gateway_client_bgpasn_update_model_json2 == gateway_action_template_updates_item_gateway_client_bgpasn_update_model_json
 
-class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate():
+
+class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate:
     """
     Test Class for GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate
     """
@@ -6520,7 +6889,8 @@ class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate():
         gateway_action_template_updates_item_gateway_client_bgpip_update_model_json2 = gateway_action_template_updates_item_gateway_client_bgpip_update_model.to_dict()
         assert gateway_action_template_updates_item_gateway_client_bgpip_update_model_json2 == gateway_action_template_updates_item_gateway_client_bgpip_update_model_json
 
-class TestModel_GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate():
+
+class TestModel_GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate:
     """
     Test Class for GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate
     """
@@ -6549,7 +6919,8 @@ class TestModel_GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate():
         gateway_action_template_updates_item_gateway_client_speed_update_model_json2 = gateway_action_template_updates_item_gateway_client_speed_update_model.to_dict()
         assert gateway_action_template_updates_item_gateway_client_speed_update_model_json2 == gateway_action_template_updates_item_gateway_client_speed_update_model_json
 
-class TestModel_GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate():
+
+class TestModel_GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate:
     """
     Test Class for GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate
     """
@@ -6578,7 +6949,8 @@ class TestModel_GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate():
         gateway_action_template_updates_item_gateway_client_vlan_update_model_json2 = gateway_action_template_updates_item_gateway_client_vlan_update_model.to_dict()
         assert gateway_action_template_updates_item_gateway_client_vlan_update_model_json2 == gateway_action_template_updates_item_gateway_client_vlan_update_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate
     """
@@ -6607,7 +6979,8 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesI
         gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpasn_update_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpasn_update_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpasn_update_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpasn_update_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate
     """
@@ -6637,7 +7010,8 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesI
         gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpip_update_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpip_update_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpip_update_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_bgpip_update_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate
     """
@@ -6666,7 +7040,8 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesI
         gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_speed_update_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate
     """
@@ -6695,7 +7070,8 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesI
         gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_updates_item_gateway_client_vlan_update_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayCreate():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayCreate:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayCreate
     """
@@ -6724,7 +7100,8 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayCreate():
         gateway_change_request_gateway_client_gateway_create_model_json2 = gateway_change_request_gateway_client_gateway_create_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_create_model_json2 == gateway_change_request_gateway_client_gateway_create_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayDelete():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayDelete:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayDelete
     """
@@ -6753,7 +7130,8 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayDelete():
         gateway_change_request_gateway_client_gateway_delete_model_json2 = gateway_change_request_gateway_client_gateway_delete_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_delete_model_json2 == gateway_change_request_gateway_client_gateway_delete_model_json
 
-class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributes():
+
+class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributes:
     """
     Test Class for GatewayChangeRequestGatewayClientGatewayUpdateAttributes
     """
@@ -6765,7 +7143,7 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributes():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_model = {} # GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate
+        gateway_change_request_gateway_client_gateway_update_attributes_updates_item_model = {}  # GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate
         gateway_change_request_gateway_client_gateway_update_attributes_updates_item_model['speed_mbps'] = 500
 
         # Construct a json representation of a GatewayChangeRequestGatewayClientGatewayUpdateAttributes model
@@ -6788,7 +7166,182 @@ class TestModel_GatewayChangeRequestGatewayClientGatewayUpdateAttributes():
         gateway_change_request_gateway_client_gateway_update_attributes_model_json2 = gateway_change_request_gateway_client_gateway_update_attributes_model.to_dict()
         assert gateway_change_request_gateway_client_gateway_update_attributes_model_json2 == gateway_change_request_gateway_client_gateway_update_attributes_model_json
 
-class TestModel_GatewayStatusGatewayBFDStatus():
+
+class TestModel_GatewayCollectionGatewaysItemCrossAccountGateway:
+    """
+    Test Class for GatewayCollectionGatewaysItemCrossAccountGateway
+    """
+
+    def test_gateway_collection_gateways_item_cross_account_gateway_serialization(self):
+        """
+        Test serialization/deserialization for GatewayCollectionGatewaysItemCrossAccountGateway
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        cross_account_gateway_port_model = {}  # CrossAccountGatewayPort
+        cross_account_gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+
+        # Construct a json representation of a GatewayCollectionGatewaysItemCrossAccountGateway model
+        gateway_collection_gateways_item_cross_account_gateway_model_json = {}
+        gateway_collection_gateways_item_cross_account_gateway_model_json['bgp_status'] = 'active'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['bgp_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['connection_mode'] = 'transit'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['cross_account'] = True
+        gateway_collection_gateways_item_cross_account_gateway_model_json['cross_connect_router'] = 'xcr01.dal03'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['global'] = True
+        gateway_collection_gateways_item_cross_account_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['link_status'] = 'up'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['location_display_name'] = 'Dallas 03'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['location_name'] = 'dal03'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['name'] = 'myGateway'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
+        gateway_collection_gateways_item_cross_account_gateway_model_json['port'] = cross_account_gateway_port_model
+        gateway_collection_gateways_item_cross_account_gateway_model_json['speed_mbps'] = 1000
+        gateway_collection_gateways_item_cross_account_gateway_model_json['type'] = 'dedicated'
+
+        # Construct a model instance of GatewayCollectionGatewaysItemCrossAccountGateway by calling from_dict on the json representation
+        gateway_collection_gateways_item_cross_account_gateway_model = GatewayCollectionGatewaysItemCrossAccountGateway.from_dict(gateway_collection_gateways_item_cross_account_gateway_model_json)
+        assert gateway_collection_gateways_item_cross_account_gateway_model != False
+
+        # Construct a model instance of GatewayCollectionGatewaysItemCrossAccountGateway by calling from_dict on the json representation
+        gateway_collection_gateways_item_cross_account_gateway_model_dict = GatewayCollectionGatewaysItemCrossAccountGateway.from_dict(gateway_collection_gateways_item_cross_account_gateway_model_json).__dict__
+        gateway_collection_gateways_item_cross_account_gateway_model2 = GatewayCollectionGatewaysItemCrossAccountGateway(**gateway_collection_gateways_item_cross_account_gateway_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_collection_gateways_item_cross_account_gateway_model == gateway_collection_gateways_item_cross_account_gateway_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_collection_gateways_item_cross_account_gateway_model_json2 = gateway_collection_gateways_item_cross_account_gateway_model.to_dict()
+        assert gateway_collection_gateways_item_cross_account_gateway_model_json2 == gateway_collection_gateways_item_cross_account_gateway_model_json
+
+
+class TestModel_GatewayCollectionGatewaysItemGateway:
+    """
+    Test Class for GatewayCollectionGatewaysItemGateway
+    """
+
+    def test_gateway_collection_gateways_item_gateway_serialization(self):
+        """
+        Test serialization/deserialization for GatewayCollectionGatewaysItemGateway
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        as_prepend_model = {}  # AsPrepend
+        as_prepend_model['created_at'] = '2019-01-01T12:00:00Z'
+        as_prepend_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        as_prepend_model['length'] = 4
+        as_prepend_model['policy'] = 'import'
+        as_prepend_model['prefix'] = '172.17.0.0/16'
+        as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
+        as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
+
+        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
+        gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+
+        gateway_bfd_config_model = {}  # GatewayBfdConfig
+        gateway_bfd_config_model['bfd_status'] = 'up'
+        gateway_bfd_config_model['bfd_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_bfd_config_model['interval'] = 2000
+        gateway_bfd_config_model['multiplier'] = 10
+
+        gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
+        gateway_change_request_model['type'] = 'create_gateway'
+
+        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
+        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_config_active_cak_model['status'] = 'testString'
+
+        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
+        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
+
+        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
+        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_config_primary_cak_model['status'] = 'testString'
+
+        gateway_macsec_config_model = {}  # GatewayMacsecConfig
+        gateway_macsec_config_model['active'] = True
+        gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
+        gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
+        gateway_macsec_config_model['confidentiality_offset'] = 0
+        gateway_macsec_config_model['cryptographic_algorithm'] = 'aes_256_cmac'
+        gateway_macsec_config_model['fallback_cak'] = gateway_macsec_config_fallback_cak_model
+        gateway_macsec_config_model['key_server_priority'] = 255
+        gateway_macsec_config_model['primary_cak'] = gateway_macsec_config_primary_cak_model
+        gateway_macsec_config_model['sak_expiry_time'] = 3600
+        gateway_macsec_config_model['security_policy'] = 'must_secure'
+        gateway_macsec_config_model['status'] = 'secured'
+        gateway_macsec_config_model['window_size'] = 64
+
+        gateway_port_model = {}  # GatewayPort
+        gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+
+        resource_group_reference_model = {}  # ResourceGroupReference
+        resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
+
+        # Construct a json representation of a GatewayCollectionGatewaysItemGateway model
+        gateway_collection_gateways_item_gateway_model_json = {}
+        gateway_collection_gateways_item_gateway_model_json['as_prepends'] = [as_prepend_model]
+        gateway_collection_gateways_item_gateway_model_json['authentication_key'] = gateway_authentication_key_model
+        gateway_collection_gateways_item_gateway_model_json['bfd_config'] = gateway_bfd_config_model
+        gateway_collection_gateways_item_gateway_model_json['bgp_asn'] = 64999
+        gateway_collection_gateways_item_gateway_model_json['bgp_base_cidr'] = 'testString'
+        gateway_collection_gateways_item_gateway_model_json['bgp_cer_cidr'] = '10.254.30.78/30'
+        gateway_collection_gateways_item_gateway_model_json['bgp_ibm_asn'] = 13884
+        gateway_collection_gateways_item_gateway_model_json['bgp_ibm_cidr'] = '10.254.30.77/30'
+        gateway_collection_gateways_item_gateway_model_json['bgp_status'] = 'active'
+        gateway_collection_gateways_item_gateway_model_json['bgp_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_collection_gateways_item_gateway_model_json['carrier_name'] = 'myCarrierName'
+        gateway_collection_gateways_item_gateway_model_json['change_request'] = gateway_change_request_model
+        gateway_collection_gateways_item_gateway_model_json['completion_notice_reject_reason'] = 'The completion notice file was blank'
+        gateway_collection_gateways_item_gateway_model_json['connection_mode'] = 'transit'
+        gateway_collection_gateways_item_gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
+        gateway_collection_gateways_item_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_collection_gateways_item_gateway_model_json['cross_account'] = False
+        gateway_collection_gateways_item_gateway_model_json['cross_connect_router'] = 'xcr01.dal03'
+        gateway_collection_gateways_item_gateway_model_json['customer_name'] = 'newCustomerName'
+        gateway_collection_gateways_item_gateway_model_json['default_export_route_filter'] = 'permit'
+        gateway_collection_gateways_item_gateway_model_json['default_import_route_filter'] = 'permit'
+        gateway_collection_gateways_item_gateway_model_json['global'] = True
+        gateway_collection_gateways_item_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_collection_gateways_item_gateway_model_json['link_status'] = 'up'
+        gateway_collection_gateways_item_gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_collection_gateways_item_gateway_model_json['location_display_name'] = 'Dallas 03'
+        gateway_collection_gateways_item_gateway_model_json['location_name'] = 'dal03'
+        gateway_collection_gateways_item_gateway_model_json['macsec_config'] = gateway_macsec_config_model
+        gateway_collection_gateways_item_gateway_model_json['metered'] = False
+        gateway_collection_gateways_item_gateway_model_json['name'] = 'myGateway'
+        gateway_collection_gateways_item_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
+        gateway_collection_gateways_item_gateway_model_json['port'] = gateway_port_model
+        gateway_collection_gateways_item_gateway_model_json['provider_api_managed'] = False
+        gateway_collection_gateways_item_gateway_model_json['resource_group'] = resource_group_reference_model
+        gateway_collection_gateways_item_gateway_model_json['speed_mbps'] = 1000
+        gateway_collection_gateways_item_gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_collection_gateways_item_gateway_model_json['type'] = 'dedicated'
+        gateway_collection_gateways_item_gateway_model_json['vlan'] = 10
+
+        # Construct a model instance of GatewayCollectionGatewaysItemGateway by calling from_dict on the json representation
+        gateway_collection_gateways_item_gateway_model = GatewayCollectionGatewaysItemGateway.from_dict(gateway_collection_gateways_item_gateway_model_json)
+        assert gateway_collection_gateways_item_gateway_model != False
+
+        # Construct a model instance of GatewayCollectionGatewaysItemGateway by calling from_dict on the json representation
+        gateway_collection_gateways_item_gateway_model_dict = GatewayCollectionGatewaysItemGateway.from_dict(gateway_collection_gateways_item_gateway_model_json).__dict__
+        gateway_collection_gateways_item_gateway_model2 = GatewayCollectionGatewaysItemGateway(**gateway_collection_gateways_item_gateway_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_collection_gateways_item_gateway_model == gateway_collection_gateways_item_gateway_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_collection_gateways_item_gateway_model_json2 = gateway_collection_gateways_item_gateway_model.to_dict()
+        assert gateway_collection_gateways_item_gateway_model_json2 == gateway_collection_gateways_item_gateway_model_json
+
+
+class TestModel_GatewayStatusGatewayBFDStatus:
     """
     Test Class for GatewayStatusGatewayBFDStatus
     """
@@ -6819,7 +7372,8 @@ class TestModel_GatewayStatusGatewayBFDStatus():
         gateway_status_gateway_bfd_status_model_json2 = gateway_status_gateway_bfd_status_model.to_dict()
         assert gateway_status_gateway_bfd_status_model_json2 == gateway_status_gateway_bfd_status_model_json
 
-class TestModel_GatewayStatusGatewayBGPStatus():
+
+class TestModel_GatewayStatusGatewayBGPStatus:
     """
     Test Class for GatewayStatusGatewayBGPStatus
     """
@@ -6850,7 +7404,8 @@ class TestModel_GatewayStatusGatewayBGPStatus():
         gateway_status_gateway_bgp_status_model_json2 = gateway_status_gateway_bgp_status_model.to_dict()
         assert gateway_status_gateway_bgp_status_model_json2 == gateway_status_gateway_bgp_status_model_json
 
-class TestModel_GatewayStatusGatewayLinkStatus():
+
+class TestModel_GatewayStatusGatewayLinkStatus:
     """
     Test Class for GatewayStatusGatewayLinkStatus
     """
@@ -6881,7 +7436,8 @@ class TestModel_GatewayStatusGatewayLinkStatus():
         gateway_status_gateway_link_status_model_json2 = gateway_status_gateway_link_status_model.to_dict()
         assert gateway_status_gateway_link_status_model_json2 == gateway_status_gateway_link_status_model_json
 
-class TestModel_GatewayTemplateGatewayTypeConnectTemplate():
+
+class TestModel_GatewayTemplateGatewayTypeConnectTemplate:
     """
     Test Class for GatewayTemplateGatewayTypeConnectTemplate
     """
@@ -6893,29 +7449,29 @@ class TestModel_GatewayTemplateGatewayTypeConnectTemplate():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        as_prepend_template_model = {} # AsPrependTemplate
+        as_prepend_template_model = {}  # AsPrependTemplate
         as_prepend_template_model['length'] = 4
         as_prepend_template_model['policy'] = 'import'
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        gateway_template_authentication_key_model = {} # GatewayTemplateAuthenticationKey
+        gateway_template_authentication_key_model = {}  # GatewayTemplateAuthenticationKey
         gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
-        gateway_bfd_config_template_model = {} # GatewayBfdConfigTemplate
+        gateway_bfd_config_template_model = {}  # GatewayBfdConfigTemplate
         gateway_bfd_config_template_model['interval'] = 2000
         gateway_bfd_config_template_model['multiplier'] = 10
 
-        gateway_template_route_filter_model = {} # GatewayTemplateRouteFilter
+        gateway_template_route_filter_model = {}  # GatewayTemplateRouteFilter
         gateway_template_route_filter_model['action'] = 'permit'
         gateway_template_route_filter_model['ge'] = 25
         gateway_template_route_filter_model['le'] = 30
         gateway_template_route_filter_model['prefix'] = '192.168.100.0/24'
 
-        resource_group_identity_model = {} # ResourceGroupIdentity
+        resource_group_identity_model = {}  # ResourceGroupIdentity
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        gateway_port_identity_model = {} # GatewayPortIdentity
+        gateway_port_identity_model = {}  # GatewayPortIdentity
         gateway_port_identity_model['id'] = 'fffdcb1a-fee4-41c7-9e11-9cd99e65c777'
 
         # Construct a json representation of a GatewayTemplateGatewayTypeConnectTemplate model
@@ -6956,7 +7512,8 @@ class TestModel_GatewayTemplateGatewayTypeConnectTemplate():
         gateway_template_gateway_type_connect_template_model_json2 = gateway_template_gateway_type_connect_template_model.to_dict()
         assert gateway_template_gateway_type_connect_template_model_json2 == gateway_template_gateway_type_connect_template_model_json
 
-class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
+
+class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate:
     """
     Test Class for GatewayTemplateGatewayTypeDedicatedTemplate
     """
@@ -6968,35 +7525,35 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        as_prepend_template_model = {} # AsPrependTemplate
+        as_prepend_template_model = {}  # AsPrependTemplate
         as_prepend_template_model['length'] = 4
         as_prepend_template_model['policy'] = 'import'
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        gateway_template_authentication_key_model = {} # GatewayTemplateAuthenticationKey
+        gateway_template_authentication_key_model = {}  # GatewayTemplateAuthenticationKey
         gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
 
-        gateway_bfd_config_template_model = {} # GatewayBfdConfigTemplate
+        gateway_bfd_config_template_model = {}  # GatewayBfdConfigTemplate
         gateway_bfd_config_template_model['interval'] = 2000
         gateway_bfd_config_template_model['multiplier'] = 10
 
-        gateway_template_route_filter_model = {} # GatewayTemplateRouteFilter
+        gateway_template_route_filter_model = {}  # GatewayTemplateRouteFilter
         gateway_template_route_filter_model['action'] = 'permit'
         gateway_template_route_filter_model['ge'] = 25
         gateway_template_route_filter_model['le'] = 30
         gateway_template_route_filter_model['prefix'] = '192.168.100.0/24'
 
-        resource_group_identity_model = {} # ResourceGroupIdentity
+        resource_group_identity_model = {}  # ResourceGroupIdentity
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        gateway_macsec_config_template_fallback_cak_model = {} # GatewayMacsecConfigTemplateFallbackCak
+        gateway_macsec_config_template_fallback_cak_model = {}  # GatewayMacsecConfigTemplateFallbackCak
         gateway_macsec_config_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        gateway_macsec_config_template_primary_cak_model = {} # GatewayMacsecConfigTemplatePrimaryCak
+        gateway_macsec_config_template_primary_cak_model = {}  # GatewayMacsecConfigTemplatePrimaryCak
         gateway_macsec_config_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        gateway_macsec_config_template_model = {} # GatewayMacsecConfigTemplate
+        gateway_macsec_config_template_model = {}  # GatewayMacsecConfigTemplate
         gateway_macsec_config_template_model['active'] = True
         gateway_macsec_config_template_model['fallback_cak'] = gateway_macsec_config_template_fallback_cak_model
         gateway_macsec_config_template_model['primary_cak'] = gateway_macsec_config_template_primary_cak_model
@@ -7028,6 +7585,7 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
         gateway_template_gateway_type_dedicated_template_model_json['customer_name'] = 'newCustomerName'
         gateway_template_gateway_type_dedicated_template_model_json['location_name'] = 'dal03'
         gateway_template_gateway_type_dedicated_template_model_json['macsec_config'] = gateway_macsec_config_template_model
+        gateway_template_gateway_type_dedicated_template_model_json['vlan'] = 10
 
         # Construct a model instance of GatewayTemplateGatewayTypeDedicatedTemplate by calling from_dict on the json representation
         gateway_template_gateway_type_dedicated_template_model = GatewayTemplateGatewayTypeDedicatedTemplate.from_dict(gateway_template_gateway_type_dedicated_template_model_json)
@@ -7044,7 +7602,182 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate():
         gateway_template_gateway_type_dedicated_template_model_json2 = gateway_template_gateway_type_dedicated_template_model.to_dict()
         assert gateway_template_gateway_type_dedicated_template_model_json2 == gateway_template_gateway_type_dedicated_template_model_json
 
-class TestModel_RouteReportOverlappingRouteForConnection():
+
+class TestModel_GetGatewayResponseCrossAccountGateway:
+    """
+    Test Class for GetGatewayResponseCrossAccountGateway
+    """
+
+    def test_get_gateway_response_cross_account_gateway_serialization(self):
+        """
+        Test serialization/deserialization for GetGatewayResponseCrossAccountGateway
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        cross_account_gateway_port_model = {}  # CrossAccountGatewayPort
+        cross_account_gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+
+        # Construct a json representation of a GetGatewayResponseCrossAccountGateway model
+        get_gateway_response_cross_account_gateway_model_json = {}
+        get_gateway_response_cross_account_gateway_model_json['bgp_status'] = 'active'
+        get_gateway_response_cross_account_gateway_model_json['bgp_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        get_gateway_response_cross_account_gateway_model_json['connection_mode'] = 'transit'
+        get_gateway_response_cross_account_gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
+        get_gateway_response_cross_account_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        get_gateway_response_cross_account_gateway_model_json['cross_account'] = True
+        get_gateway_response_cross_account_gateway_model_json['cross_connect_router'] = 'xcr01.dal03'
+        get_gateway_response_cross_account_gateway_model_json['global'] = True
+        get_gateway_response_cross_account_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        get_gateway_response_cross_account_gateway_model_json['link_status'] = 'up'
+        get_gateway_response_cross_account_gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        get_gateway_response_cross_account_gateway_model_json['location_display_name'] = 'Dallas 03'
+        get_gateway_response_cross_account_gateway_model_json['location_name'] = 'dal03'
+        get_gateway_response_cross_account_gateway_model_json['name'] = 'myGateway'
+        get_gateway_response_cross_account_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
+        get_gateway_response_cross_account_gateway_model_json['port'] = cross_account_gateway_port_model
+        get_gateway_response_cross_account_gateway_model_json['speed_mbps'] = 1000
+        get_gateway_response_cross_account_gateway_model_json['type'] = 'dedicated'
+
+        # Construct a model instance of GetGatewayResponseCrossAccountGateway by calling from_dict on the json representation
+        get_gateway_response_cross_account_gateway_model = GetGatewayResponseCrossAccountGateway.from_dict(get_gateway_response_cross_account_gateway_model_json)
+        assert get_gateway_response_cross_account_gateway_model != False
+
+        # Construct a model instance of GetGatewayResponseCrossAccountGateway by calling from_dict on the json representation
+        get_gateway_response_cross_account_gateway_model_dict = GetGatewayResponseCrossAccountGateway.from_dict(get_gateway_response_cross_account_gateway_model_json).__dict__
+        get_gateway_response_cross_account_gateway_model2 = GetGatewayResponseCrossAccountGateway(**get_gateway_response_cross_account_gateway_model_dict)
+
+        # Verify the model instances are equivalent
+        assert get_gateway_response_cross_account_gateway_model == get_gateway_response_cross_account_gateway_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        get_gateway_response_cross_account_gateway_model_json2 = get_gateway_response_cross_account_gateway_model.to_dict()
+        assert get_gateway_response_cross_account_gateway_model_json2 == get_gateway_response_cross_account_gateway_model_json
+
+
+class TestModel_GetGatewayResponseGateway:
+    """
+    Test Class for GetGatewayResponseGateway
+    """
+
+    def test_get_gateway_response_gateway_serialization(self):
+        """
+        Test serialization/deserialization for GetGatewayResponseGateway
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        as_prepend_model = {}  # AsPrepend
+        as_prepend_model['created_at'] = '2019-01-01T12:00:00Z'
+        as_prepend_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        as_prepend_model['length'] = 4
+        as_prepend_model['policy'] = 'import'
+        as_prepend_model['prefix'] = '172.17.0.0/16'
+        as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
+        as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
+
+        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
+        gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+
+        gateway_bfd_config_model = {}  # GatewayBfdConfig
+        gateway_bfd_config_model['bfd_status'] = 'up'
+        gateway_bfd_config_model['bfd_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        gateway_bfd_config_model['interval'] = 2000
+        gateway_bfd_config_model['multiplier'] = 10
+
+        gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
+        gateway_change_request_model['type'] = 'create_gateway'
+
+        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
+        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_config_active_cak_model['status'] = 'testString'
+
+        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
+        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
+
+        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
+        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_config_primary_cak_model['status'] = 'testString'
+
+        gateway_macsec_config_model = {}  # GatewayMacsecConfig
+        gateway_macsec_config_model['active'] = True
+        gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
+        gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
+        gateway_macsec_config_model['confidentiality_offset'] = 0
+        gateway_macsec_config_model['cryptographic_algorithm'] = 'aes_256_cmac'
+        gateway_macsec_config_model['fallback_cak'] = gateway_macsec_config_fallback_cak_model
+        gateway_macsec_config_model['key_server_priority'] = 255
+        gateway_macsec_config_model['primary_cak'] = gateway_macsec_config_primary_cak_model
+        gateway_macsec_config_model['sak_expiry_time'] = 3600
+        gateway_macsec_config_model['security_policy'] = 'must_secure'
+        gateway_macsec_config_model['status'] = 'secured'
+        gateway_macsec_config_model['window_size'] = 64
+
+        gateway_port_model = {}  # GatewayPort
+        gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+
+        resource_group_reference_model = {}  # ResourceGroupReference
+        resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
+
+        # Construct a json representation of a GetGatewayResponseGateway model
+        get_gateway_response_gateway_model_json = {}
+        get_gateway_response_gateway_model_json['as_prepends'] = [as_prepend_model]
+        get_gateway_response_gateway_model_json['authentication_key'] = gateway_authentication_key_model
+        get_gateway_response_gateway_model_json['bfd_config'] = gateway_bfd_config_model
+        get_gateway_response_gateway_model_json['bgp_asn'] = 64999
+        get_gateway_response_gateway_model_json['bgp_base_cidr'] = 'testString'
+        get_gateway_response_gateway_model_json['bgp_cer_cidr'] = '10.254.30.78/30'
+        get_gateway_response_gateway_model_json['bgp_ibm_asn'] = 13884
+        get_gateway_response_gateway_model_json['bgp_ibm_cidr'] = '10.254.30.77/30'
+        get_gateway_response_gateway_model_json['bgp_status'] = 'active'
+        get_gateway_response_gateway_model_json['bgp_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        get_gateway_response_gateway_model_json['carrier_name'] = 'myCarrierName'
+        get_gateway_response_gateway_model_json['change_request'] = gateway_change_request_model
+        get_gateway_response_gateway_model_json['completion_notice_reject_reason'] = 'The completion notice file was blank'
+        get_gateway_response_gateway_model_json['connection_mode'] = 'transit'
+        get_gateway_response_gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
+        get_gateway_response_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        get_gateway_response_gateway_model_json['cross_account'] = False
+        get_gateway_response_gateway_model_json['cross_connect_router'] = 'xcr01.dal03'
+        get_gateway_response_gateway_model_json['customer_name'] = 'newCustomerName'
+        get_gateway_response_gateway_model_json['default_export_route_filter'] = 'permit'
+        get_gateway_response_gateway_model_json['default_import_route_filter'] = 'permit'
+        get_gateway_response_gateway_model_json['global'] = True
+        get_gateway_response_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        get_gateway_response_gateway_model_json['link_status'] = 'up'
+        get_gateway_response_gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
+        get_gateway_response_gateway_model_json['location_display_name'] = 'Dallas 03'
+        get_gateway_response_gateway_model_json['location_name'] = 'dal03'
+        get_gateway_response_gateway_model_json['macsec_config'] = gateway_macsec_config_model
+        get_gateway_response_gateway_model_json['metered'] = False
+        get_gateway_response_gateway_model_json['name'] = 'myGateway'
+        get_gateway_response_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
+        get_gateway_response_gateway_model_json['port'] = gateway_port_model
+        get_gateway_response_gateway_model_json['provider_api_managed'] = False
+        get_gateway_response_gateway_model_json['resource_group'] = resource_group_reference_model
+        get_gateway_response_gateway_model_json['speed_mbps'] = 1000
+        get_gateway_response_gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
+        get_gateway_response_gateway_model_json['type'] = 'dedicated'
+        get_gateway_response_gateway_model_json['vlan'] = 10
+
+        # Construct a model instance of GetGatewayResponseGateway by calling from_dict on the json representation
+        get_gateway_response_gateway_model = GetGatewayResponseGateway.from_dict(get_gateway_response_gateway_model_json)
+        assert get_gateway_response_gateway_model != False
+
+        # Construct a model instance of GetGatewayResponseGateway by calling from_dict on the json representation
+        get_gateway_response_gateway_model_dict = GetGatewayResponseGateway.from_dict(get_gateway_response_gateway_model_json).__dict__
+        get_gateway_response_gateway_model2 = GetGatewayResponseGateway(**get_gateway_response_gateway_model_dict)
+
+        # Verify the model instances are equivalent
+        assert get_gateway_response_gateway_model == get_gateway_response_gateway_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        get_gateway_response_gateway_model_json2 = get_gateway_response_gateway_model.to_dict()
+        assert get_gateway_response_gateway_model_json2 == get_gateway_response_gateway_model_json
+
+
+class TestModel_RouteReportOverlappingRouteForConnection:
     """
     Test Class for RouteReportOverlappingRouteForConnection
     """
@@ -7075,7 +7808,8 @@ class TestModel_RouteReportOverlappingRouteForConnection():
         route_report_overlapping_route_for_connection_model_json2 = route_report_overlapping_route_for_connection_model.to_dict()
         assert route_report_overlapping_route_for_connection_model_json2 == route_report_overlapping_route_for_connection_model_json
 
-class TestModel_RouteReportOverlappingRouteForOthers():
+
+class TestModel_RouteReportOverlappingRouteForOthers:
     """
     Test Class for RouteReportOverlappingRouteForOthers
     """
