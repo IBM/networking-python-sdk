@@ -30,6 +30,7 @@ from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateAuthenticationKey,
     GatewayPatchTemplateAuthenticationKey,
     GatewayTemplateGatewayTypeConnectTemplate,
+    GatewayPatchTemplate,
     GatewayPortIdentity,
     Gateway,
     AsPrependTemplate,
@@ -171,6 +172,7 @@ class TestDirectLinkV1(unittest.TestCase):
         carrierName = "carrier1"
         customerName = "customer1"
         gatewayType = "dedicated"
+        vlan = 10
 
         """ test create/get/update/delete gateway success """
         # create gateway
@@ -179,11 +181,14 @@ class TestDirectLinkV1(unittest.TestCase):
             type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
             bgp_asn=bgpAsn, bgp_base_cidr=bgpBaseCidr, metered=metered, 
             carrier_name=carrierName, cross_connect_router=crossConnectRouter,
-            customer_name=customerName, location_name=locationName)
+            customer_name=customerName, location_name=locationName, vlan=vlan)
         response = self.dl.create_gateway(gateway_template=gtw_template)
         assert response is not None
         assert response.get_status_code() == 201
         gateway_id = response.get_result().get("id")
+
+        # vlan check after create
+        assert response.get_result()["vlan"] == vlan
 
         # list gateways
         response = self.dl.list_gateways()
@@ -197,13 +202,27 @@ class TestDirectLinkV1(unittest.TestCase):
                 break
         assert list_result
 
-        # update gateway name
+        # update gateway name and vlan
         update_name = os.getenv("DL_SERVICES_GW_NAME")+"-PATCH"
-        response = self.dl.update_gateway(id=gateway_id,
-            name=update_name, metered=True)
+        updated_vlan = 99
+        gtw_patch_template = GatewayPatchTemplate(name=update_name, metered=True, vlan=updated_vlan)
+        response = self.dl.update_gateway(id=gateway_id, gateway_patch_template=gtw_patch_template)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == update_name
+
+        # vlan check after update
+        assert response.get_result()["vlan"] == updated_vlan
+
+        # update for vlan reset
+        # gtw_vlan_patch_template = GatewayPatchTemplate(metered=True, vlan=None) 
+        # to reset vlan, we need pass this as JSON object
+        reset_response = self.dl.update_gateway(id=gateway_id, gateway_patch_template={ "metered": True, "vlan": None })
+        assert reset_response is not None
+        assert reset_response.get_status_code() == 200
+
+        # vlan is unset after update
+        assert reset_response.get_result().get("vlan") is None
 
         # delete gateway
         self.delete_gateway(gateway_id)
