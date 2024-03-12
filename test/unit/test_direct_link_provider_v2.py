@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,18 +34,46 @@ version = 'testString'
 
 _service = DirectLinkProviderV2(
     authenticator=NoAuthAuthenticator(),
-    version=version
+    version=version,
 )
 
 _base_url = 'https://directlink.cloud.ibm.com/provider/v2'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: ProviderAPIs
 ##############################################################################
 # region
 
-class TestNewInstance():
+
+class TestNewInstance:
     """
     Test Class for new_instance
     """
@@ -71,6 +99,7 @@ class TestNewInstance():
         with pytest.raises(ValueError, match='authenticator must be provided'):
             service = DirectLinkProviderV2.new_instance(
                 version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
             )
 
     def test_new_instance_without_required_params(self):
@@ -88,21 +117,12 @@ class TestNewInstance():
             service = DirectLinkProviderV2.new_instance(
                 version=None,
             )
-class TestListProviderGateways():
+
+
+class TestListProviderGateways:
     """
     Test Class for list_provider_gateways
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_provider_gateways_all_params(self):
@@ -110,30 +130,32 @@ class TestListProviderGateways():
         list_provider_gateways()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways')
+        url = preprocess_url('/gateways')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         start = 'testString'
-        limit = 1
+        limit = 50
 
         # Invoke method
         response = _service.list_provider_gateways(
             start=start,
             limit=limit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'start={}'.format(start) in query_string
         assert 'limit={}'.format(limit) in query_string
@@ -153,17 +175,18 @@ class TestListProviderGateways():
         test_list_provider_gateways_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways')
+        url = preprocess_url('/gateways')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_provider_gateways()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -184,22 +207,23 @@ class TestListProviderGateways():
         test_list_provider_gateways_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways')
+        url = preprocess_url('/gateways')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100", "start": "8c4a91a3e2cbd233b5a5b33436855fc2"}, "total_count": 132, "gateways": [{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_provider_gateways(**req_copy)
-
 
     def test_list_provider_gateways_value_error_with_retries(self):
         # Enable retries and run test_list_provider_gateways_value_error.
@@ -210,21 +234,80 @@ class TestListProviderGateways():
         _service.disable_retries()
         self.test_list_provider_gateways_value_error()
 
-class TestCreateProviderGateway():
+    @responses.activate
+    def test_list_provider_gateways_with_pager_get_next(self):
+        """
+        test_list_provider_gateways_with_pager_get_next()
+        """
+        # Set up a two-page mock response
+        url = preprocess_url('/gateways')
+        mock_response1 = '{"next":{"start":"1"},"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}'
+        mock_response2 = '{"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response1,
+            content_type='application/json',
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response2,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Exercise the pager class for this operation
+        all_results = []
+        pager = ProviderGatewaysPager(
+            client=_service,
+            limit=10,
+        )
+        while pager.has_next():
+            next_page = pager.get_next()
+            assert next_page is not None
+            all_results.extend(next_page)
+        assert len(all_results) == 2
+
+    @responses.activate
+    def test_list_provider_gateways_with_pager_get_all(self):
+        """
+        test_list_provider_gateways_with_pager_get_all()
+        """
+        # Set up a two-page mock response
+        url = preprocess_url('/gateways')
+        mock_response1 = '{"next":{"start":"1"},"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}'
+        mock_response2 = '{"gateways":[{"bgp_asn":64999,"bgp_cer_cidr":"10.254.30.78/30","bgp_ibm_asn":13884,"bgp_ibm_cidr":"10.254.30.77/30","bgp_status":"active","change_request":{"type":"create_gateway"},"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","customer_account_id":"4111d05f36894e3cb9b46a43556d9000","id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"myGateway","operational_status":"configuring","port":{"id":"fffdcb1a-fee4-41c7-9e11-9cd99e65c777"},"provider_api_managed":true,"speed_mbps":1000,"type":"connect","vlan":10}],"total_count":2,"limit":1}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response1,
+            content_type='application/json',
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response2,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Exercise the pager class for this operation
+        pager = ProviderGatewaysPager(
+            client=_service,
+            limit=10,
+        )
+        all_results = pager.get_all()
+        assert all_results is not None
+        assert len(all_results) == 2
+
+
+class TestCreateProviderGateway:
     """
     Test Class for create_provider_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_provider_gateway_all_params(self):
@@ -232,13 +315,15 @@ class TestCreateProviderGateway():
         create_provider_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways')
+        url = preprocess_url('/gateways')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a ProviderGatewayPortIdentity model
         provider_gateway_port_identity_model = {}
@@ -266,14 +351,14 @@ class TestCreateProviderGateway():
             bgp_ibm_cidr=bgp_ibm_cidr,
             vlan=vlan,
             check_only=check_only,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'check_only={}'.format(check_only) in query_string
         # Validate body params
@@ -302,13 +387,15 @@ class TestCreateProviderGateway():
         test_create_provider_gateway_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways')
+        url = preprocess_url('/gateways')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a ProviderGatewayPortIdentity model
         provider_gateway_port_identity_model = {}
@@ -334,7 +421,7 @@ class TestCreateProviderGateway():
             bgp_cer_cidr=bgp_cer_cidr,
             bgp_ibm_cidr=bgp_ibm_cidr,
             vlan=vlan,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -366,13 +453,15 @@ class TestCreateProviderGateway():
         test_create_provider_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways')
+        url = preprocess_url('/gateways')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
 
         # Construct a dict representation of a ProviderGatewayPortIdentity model
         provider_gateway_port_identity_model = {}
@@ -397,10 +486,9 @@ class TestCreateProviderGateway():
             "speed_mbps": speed_mbps,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.create_provider_gateway(**req_copy)
-
 
     def test_create_provider_gateway_value_error_with_retries(self):
         # Enable retries and run test_create_provider_gateway_value_error.
@@ -411,21 +499,11 @@ class TestCreateProviderGateway():
         _service.disable_retries()
         self.test_create_provider_gateway_value_error()
 
-class TestDeleteProviderGateway():
+
+class TestDeleteProviderGateway:
     """
     Test Class for delete_provider_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_provider_gateway_all_params(self):
@@ -433,13 +511,15 @@ class TestDeleteProviderGateway():
         delete_provider_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways/testString')
+        url = preprocess_url('/gateways/testString')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -447,7 +527,7 @@ class TestDeleteProviderGateway():
         # Invoke method
         response = _service.delete_provider_gateway(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -469,13 +549,15 @@ class TestDeleteProviderGateway():
         test_delete_provider_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways/testString')
+        url = preprocess_url('/gateways/testString')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=202)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -485,10 +567,9 @@ class TestDeleteProviderGateway():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.delete_provider_gateway(**req_copy)
-
 
     def test_delete_provider_gateway_value_error_with_retries(self):
         # Enable retries and run test_delete_provider_gateway_value_error.
@@ -499,21 +580,11 @@ class TestDeleteProviderGateway():
         _service.disable_retries()
         self.test_delete_provider_gateway_value_error()
 
-class TestGetProviderGateway():
+
+class TestGetProviderGateway:
     """
     Test Class for get_provider_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_provider_gateway_all_params(self):
@@ -521,13 +592,15 @@ class TestGetProviderGateway():
         get_provider_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways/testString')
+        url = preprocess_url('/gateways/testString')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -535,7 +608,7 @@ class TestGetProviderGateway():
         # Invoke method
         response = _service.get_provider_gateway(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -557,13 +630,15 @@ class TestGetProviderGateway():
         test_get_provider_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways/testString')
+        url = preprocess_url('/gateways/testString')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -573,10 +648,9 @@ class TestGetProviderGateway():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_provider_gateway(**req_copy)
-
 
     def test_get_provider_gateway_value_error_with_retries(self):
         # Enable retries and run test_get_provider_gateway_value_error.
@@ -587,21 +661,11 @@ class TestGetProviderGateway():
         _service.disable_retries()
         self.test_get_provider_gateway_value_error()
 
-class TestUpdateProviderGateway():
+
+class TestUpdateProviderGateway:
     """
     Test Class for update_provider_gateway
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_provider_gateway_all_params(self):
@@ -609,13 +673,15 @@ class TestUpdateProviderGateway():
         update_provider_gateway()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways/testString')
+        url = preprocess_url('/gateways/testString')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -635,7 +701,7 @@ class TestUpdateProviderGateway():
             name=name,
             speed_mbps=speed_mbps,
             vlan=vlan,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -665,13 +731,15 @@ class TestUpdateProviderGateway():
         test_update_provider_gateway_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/gateways/testString')
+        url = preprocess_url('/gateways/testString')
         mock_response = '{"bgp_asn": 64999, "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "change_request": {"type": "create_gateway"}, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "customer_account_id": "4111d05f36894e3cb9b46a43556d9000", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "myGateway", "operational_status": "configuring", "port": {"id": "fffdcb1a-fee4-41c7-9e11-9cd99e65c777"}, "provider_api_managed": true, "speed_mbps": 1000, "type": "connect", "vlan": 10}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -687,10 +755,9 @@ class TestUpdateProviderGateway():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.update_provider_gateway(**req_copy)
-
 
     def test_update_provider_gateway_value_error_with_retries(self):
         # Enable retries and run test_update_provider_gateway_value_error.
@@ -701,21 +768,11 @@ class TestUpdateProviderGateway():
         _service.disable_retries()
         self.test_update_provider_gateway_value_error()
 
-class TestListProviderPorts():
+
+class TestListProviderPorts:
     """
     Test Class for list_provider_ports
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_provider_ports_all_params(self):
@@ -723,30 +780,32 @@ class TestListProviderPorts():
         list_provider_ports()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/ports')
+        url = preprocess_url('/ports')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         start = 'testString'
-        limit = 1
+        limit = 50
 
         # Invoke method
         response = _service.list_provider_ports(
             start=start,
             limit=limit,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate query params
-        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'start={}'.format(start) in query_string
         assert 'limit={}'.format(limit) in query_string
@@ -766,17 +825,18 @@ class TestListProviderPorts():
         test_list_provider_ports_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/ports')
+        url = preprocess_url('/ports')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
         response = _service.list_provider_ports()
-
 
         # Check for correct operation
         assert len(responses.calls) == 1
@@ -797,22 +857,23 @@ class TestListProviderPorts():
         test_list_provider_ports_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/ports')
+        url = preprocess_url('/ports')
         mock_response = '{"first": {"href": "https://directlink.cloud.ibm.com/provider/v2/ports?limit=100"}, "limit": 100, "next": {"href": "https://directlink.cloud.ibm.com/provider/v2/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100", "start": "9d5a91a3e2cbd233b5a5b33436855ed1"}, "total_count": 132, "ports": [{"id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.list_provider_ports(**req_copy)
-
 
     def test_list_provider_ports_value_error_with_retries(self):
         # Enable retries and run test_list_provider_ports_value_error.
@@ -823,21 +884,80 @@ class TestListProviderPorts():
         _service.disable_retries()
         self.test_list_provider_ports_value_error()
 
-class TestGetProviderPort():
+    @responses.activate
+    def test_list_provider_ports_with_pager_get_next(self):
+        """
+        test_list_provider_ports_with_pager_get_next()
+        """
+        # Set up a two-page mock response
+        url = preprocess_url('/ports')
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response1,
+            content_type='application/json',
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response2,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Exercise the pager class for this operation
+        all_results = []
+        pager = ProviderPortsPager(
+            client=_service,
+            limit=10,
+        )
+        while pager.has_next():
+            next_page = pager.get_next()
+            assert next_page is not None
+            all_results.extend(next_page)
+        assert len(all_results) == 2
+
+    @responses.activate
+    def test_list_provider_ports_with_pager_get_all(self):
+        """
+        test_list_provider_ports_with_pager_get_all()
+        """
+        # Set up a two-page mock response
+        url = preprocess_url('/ports')
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"ports":[{"id":"01122b9b-820f-4c44-8a31-77f1f0806765","label":"XCR-FRK-CS-SEC-01","location_display_name":"Dallas 03","location_name":"dal03","provider_name":"provider_1","supported_link_speeds":[21]}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response1,
+            content_type='application/json',
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response2,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Exercise the pager class for this operation
+        pager = ProviderPortsPager(
+            client=_service,
+            limit=10,
+        )
+        all_results = pager.get_all()
+        assert all_results is not None
+        assert len(all_results) == 2
+
+
+class TestGetProviderPort:
     """
     Test Class for get_provider_port
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_provider_port_all_params(self):
@@ -845,13 +965,15 @@ class TestGetProviderPort():
         get_provider_port()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/ports/testString')
+        url = preprocess_url('/ports/testString')
         mock_response = '{"id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -859,7 +981,7 @@ class TestGetProviderPort():
         # Invoke method
         response = _service.get_provider_port(
             id,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -881,13 +1003,15 @@ class TestGetProviderPort():
         test_get_provider_port_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/ports/testString')
+        url = preprocess_url('/ports/testString')
         mock_response = '{"id": "01122b9b-820f-4c44-8a31-77f1f0806765", "label": "XCR-FRK-CS-SEC-01", "location_display_name": "Dallas 03", "location_name": "dal03", "provider_name": "provider_1", "supported_link_speeds": [21]}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         id = 'testString'
@@ -897,10 +1021,9 @@ class TestGetProviderPort():
             "id": id,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
                 _service.get_provider_port(**req_copy)
-
 
     def test_get_provider_port_value_error_with_retries(self):
         # Enable retries and run test_get_provider_port_value_error.
@@ -910,6 +1033,7 @@ class TestGetProviderPort():
         # Disable retries and run test_get_provider_port_value_error.
         _service.disable_retries()
         self.test_get_provider_port_value_error()
+
 
 # endregion
 ##############################################################################
@@ -921,7 +1045,9 @@ class TestGetProviderPort():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestModel_ProviderGateway():
+
+
+class TestModel_ProviderGateway:
     """
     Test Class for ProviderGateway
     """
@@ -933,10 +1059,10 @@ class TestModel_ProviderGateway():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        provider_gateway_change_request_model = {} # ProviderGatewayChangeRequestProviderGatewayCreate
+        provider_gateway_change_request_model = {}  # ProviderGatewayChangeRequestProviderGatewayCreate
         provider_gateway_change_request_model['type'] = 'create_gateway'
 
-        provider_gateway_port_reference_model = {} # ProviderGatewayPortReference
+        provider_gateway_port_reference_model = {}  # ProviderGatewayPortReference
         provider_gateway_port_reference_model['id'] = 'fffdcb1a-fee4-41c7-9e11-9cd99e65c777'
 
         # Construct a json representation of a ProviderGateway model
@@ -947,7 +1073,7 @@ class TestModel_ProviderGateway():
         provider_gateway_model_json['bgp_ibm_cidr'] = '10.254.30.77/30'
         provider_gateway_model_json['bgp_status'] = 'active'
         provider_gateway_model_json['change_request'] = provider_gateway_change_request_model
-        provider_gateway_model_json['created_at'] = "2019-01-01T12:00:00Z"
+        provider_gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
         provider_gateway_model_json['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         provider_gateway_model_json['customer_account_id'] = '4111d05f36894e3cb9b46a43556d9000'
         provider_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
@@ -974,7 +1100,8 @@ class TestModel_ProviderGateway():
         provider_gateway_model_json2 = provider_gateway_model.to_dict()
         assert provider_gateway_model_json2 == provider_gateway_model_json
 
-class TestModel_ProviderGatewayCollection():
+
+class TestModel_ProviderGatewayCollection:
     """
     Test Class for ProviderGatewayCollection
     """
@@ -986,27 +1113,27 @@ class TestModel_ProviderGatewayCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        provider_gateway_collection_first_model = {} # ProviderGatewayCollectionFirst
+        provider_gateway_collection_first_model = {}  # ProviderGatewayCollectionFirst
         provider_gateway_collection_first_model['href'] = 'https://directlink.cloud.ibm.com/provider/v2/gateways?limit=100'
 
-        provider_gateway_collection_next_model = {} # ProviderGatewayCollectionNext
+        provider_gateway_collection_next_model = {}  # ProviderGatewayCollectionNext
         provider_gateway_collection_next_model['href'] = 'https://directlink.cloud.ibm.com/provider/v2/gateways?start=8c4a91a3e2cbd233b5a5b33436855fc2&limit=100'
         provider_gateway_collection_next_model['start'] = '8c4a91a3e2cbd233b5a5b33436855fc2'
 
-        provider_gateway_change_request_model = {} # ProviderGatewayChangeRequestProviderGatewayCreate
+        provider_gateway_change_request_model = {}  # ProviderGatewayChangeRequestProviderGatewayCreate
         provider_gateway_change_request_model['type'] = 'create_gateway'
 
-        provider_gateway_port_reference_model = {} # ProviderGatewayPortReference
+        provider_gateway_port_reference_model = {}  # ProviderGatewayPortReference
         provider_gateway_port_reference_model['id'] = 'fffdcb1a-fee4-41c7-9e11-9cd99e65c777'
 
-        provider_gateway_model = {} # ProviderGateway
+        provider_gateway_model = {}  # ProviderGateway
         provider_gateway_model['bgp_asn'] = 64999
         provider_gateway_model['bgp_cer_cidr'] = '10.254.30.78/30'
         provider_gateway_model['bgp_ibm_asn'] = 13884
         provider_gateway_model['bgp_ibm_cidr'] = '10.254.30.77/30'
         provider_gateway_model['bgp_status'] = 'active'
         provider_gateway_model['change_request'] = provider_gateway_change_request_model
-        provider_gateway_model['created_at'] = "2019-01-01T12:00:00Z"
+        provider_gateway_model['created_at'] = '2019-01-01T12:00:00Z'
         provider_gateway_model['crn'] = 'crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::connect:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         provider_gateway_model['customer_account_id'] = '4111d05f36894e3cb9b46a43556d9000'
         provider_gateway_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
@@ -1041,7 +1168,8 @@ class TestModel_ProviderGatewayCollection():
         provider_gateway_collection_model_json2 = provider_gateway_collection_model.to_dict()
         assert provider_gateway_collection_model_json2 == provider_gateway_collection_model_json
 
-class TestModel_ProviderGatewayCollectionFirst():
+
+class TestModel_ProviderGatewayCollectionFirst:
     """
     Test Class for ProviderGatewayCollectionFirst
     """
@@ -1070,7 +1198,8 @@ class TestModel_ProviderGatewayCollectionFirst():
         provider_gateway_collection_first_model_json2 = provider_gateway_collection_first_model.to_dict()
         assert provider_gateway_collection_first_model_json2 == provider_gateway_collection_first_model_json
 
-class TestModel_ProviderGatewayCollectionNext():
+
+class TestModel_ProviderGatewayCollectionNext:
     """
     Test Class for ProviderGatewayCollectionNext
     """
@@ -1100,7 +1229,8 @@ class TestModel_ProviderGatewayCollectionNext():
         provider_gateway_collection_next_model_json2 = provider_gateway_collection_next_model.to_dict()
         assert provider_gateway_collection_next_model_json2 == provider_gateway_collection_next_model_json
 
-class TestModel_ProviderGatewayPortIdentity():
+
+class TestModel_ProviderGatewayPortIdentity:
     """
     Test Class for ProviderGatewayPortIdentity
     """
@@ -1129,7 +1259,8 @@ class TestModel_ProviderGatewayPortIdentity():
         provider_gateway_port_identity_model_json2 = provider_gateway_port_identity_model.to_dict()
         assert provider_gateway_port_identity_model_json2 == provider_gateway_port_identity_model_json
 
-class TestModel_ProviderGatewayPortReference():
+
+class TestModel_ProviderGatewayPortReference:
     """
     Test Class for ProviderGatewayPortReference
     """
@@ -1158,7 +1289,8 @@ class TestModel_ProviderGatewayPortReference():
         provider_gateway_port_reference_model_json2 = provider_gateway_port_reference_model.to_dict()
         assert provider_gateway_port_reference_model_json2 == provider_gateway_port_reference_model_json
 
-class TestModel_ProviderPort():
+
+class TestModel_ProviderPort:
     """
     Test Class for ProviderPort
     """
@@ -1192,7 +1324,8 @@ class TestModel_ProviderPort():
         provider_port_model_json2 = provider_port_model.to_dict()
         assert provider_port_model_json2 == provider_port_model_json
 
-class TestModel_ProviderPortCollection():
+
+class TestModel_ProviderPortCollection:
     """
     Test Class for ProviderPortCollection
     """
@@ -1204,14 +1337,14 @@ class TestModel_ProviderPortCollection():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        provider_port_collection_first_model = {} # ProviderPortCollectionFirst
+        provider_port_collection_first_model = {}  # ProviderPortCollectionFirst
         provider_port_collection_first_model['href'] = 'https://directlink.cloud.ibm.com/provider/v2/ports?limit=100'
 
-        provider_port_collection_next_model = {} # ProviderPortCollectionNext
+        provider_port_collection_next_model = {}  # ProviderPortCollectionNext
         provider_port_collection_next_model['href'] = 'https://directlink.cloud.ibm.com/provider/v2/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100'
         provider_port_collection_next_model['start'] = '9d5a91a3e2cbd233b5a5b33436855ed1'
 
-        provider_port_model = {} # ProviderPort
+        provider_port_model = {}  # ProviderPort
         provider_port_model['id'] = '01122b9b-820f-4c44-8a31-77f1f0806765'
         provider_port_model['label'] = 'XCR-FRK-CS-SEC-01'
         provider_port_model['location_display_name'] = 'Dallas 03'
@@ -1242,7 +1375,8 @@ class TestModel_ProviderPortCollection():
         provider_port_collection_model_json2 = provider_port_collection_model.to_dict()
         assert provider_port_collection_model_json2 == provider_port_collection_model_json
 
-class TestModel_ProviderPortCollectionFirst():
+
+class TestModel_ProviderPortCollectionFirst:
     """
     Test Class for ProviderPortCollectionFirst
     """
@@ -1271,7 +1405,8 @@ class TestModel_ProviderPortCollectionFirst():
         provider_port_collection_first_model_json2 = provider_port_collection_first_model.to_dict()
         assert provider_port_collection_first_model_json2 == provider_port_collection_first_model_json
 
-class TestModel_ProviderPortCollectionNext():
+
+class TestModel_ProviderPortCollectionNext:
     """
     Test Class for ProviderPortCollectionNext
     """
@@ -1301,7 +1436,8 @@ class TestModel_ProviderPortCollectionNext():
         provider_port_collection_next_model_json2 = provider_port_collection_next_model.to_dict()
         assert provider_port_collection_next_model_json2 == provider_port_collection_next_model_json
 
-class TestModel_ProviderGatewayChangeRequestProviderGatewayCreate():
+
+class TestModel_ProviderGatewayChangeRequestProviderGatewayCreate:
     """
     Test Class for ProviderGatewayChangeRequestProviderGatewayCreate
     """
@@ -1330,7 +1466,8 @@ class TestModel_ProviderGatewayChangeRequestProviderGatewayCreate():
         provider_gateway_change_request_provider_gateway_create_model_json2 = provider_gateway_change_request_provider_gateway_create_model.to_dict()
         assert provider_gateway_change_request_provider_gateway_create_model_json2 == provider_gateway_change_request_provider_gateway_create_model_json
 
-class TestModel_ProviderGatewayChangeRequestProviderGatewayDelete():
+
+class TestModel_ProviderGatewayChangeRequestProviderGatewayDelete:
     """
     Test Class for ProviderGatewayChangeRequestProviderGatewayDelete
     """
@@ -1359,7 +1496,8 @@ class TestModel_ProviderGatewayChangeRequestProviderGatewayDelete():
         provider_gateway_change_request_provider_gateway_delete_model_json2 = provider_gateway_change_request_provider_gateway_delete_model.to_dict()
         assert provider_gateway_change_request_provider_gateway_delete_model_json2 == provider_gateway_change_request_provider_gateway_delete_model_json
 
-class TestModel_ProviderGatewayChangeRequestProviderGatewayUpdateAttributes():
+
+class TestModel_ProviderGatewayChangeRequestProviderGatewayUpdateAttributes:
     """
     Test Class for ProviderGatewayChangeRequestProviderGatewayUpdateAttributes
     """
@@ -1371,7 +1509,7 @@ class TestModel_ProviderGatewayChangeRequestProviderGatewayUpdateAttributes():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        provider_gateway_update_attributes_updates_item_model = {} # ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate
+        provider_gateway_update_attributes_updates_item_model = {}  # ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate
         provider_gateway_update_attributes_updates_item_model['speed_mbps'] = 500
 
         # Construct a json representation of a ProviderGatewayChangeRequestProviderGatewayUpdateAttributes model
@@ -1394,7 +1532,8 @@ class TestModel_ProviderGatewayChangeRequestProviderGatewayUpdateAttributes():
         provider_gateway_change_request_provider_gateway_update_attributes_model_json2 = provider_gateway_change_request_provider_gateway_update_attributes_model.to_dict()
         assert provider_gateway_change_request_provider_gateway_update_attributes_model_json2 == provider_gateway_change_request_provider_gateway_update_attributes_model_json
 
-class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate():
+
+class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate:
     """
     Test Class for ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate
     """
@@ -1423,7 +1562,8 @@ class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNU
         provider_gateway_update_attributes_updates_item_provider_gateway_bgpasn_update_model_json2 = provider_gateway_update_attributes_updates_item_provider_gateway_bgpasn_update_model.to_dict()
         assert provider_gateway_update_attributes_updates_item_provider_gateway_bgpasn_update_model_json2 == provider_gateway_update_attributes_updates_item_provider_gateway_bgpasn_update_model_json
 
-class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate():
+
+class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate:
     """
     Test Class for ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate
     """
@@ -1453,7 +1593,8 @@ class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUp
         provider_gateway_update_attributes_updates_item_provider_gateway_bgpip_update_model_json2 = provider_gateway_update_attributes_updates_item_provider_gateway_bgpip_update_model.to_dict()
         assert provider_gateway_update_attributes_updates_item_provider_gateway_bgpip_update_model_json2 == provider_gateway_update_attributes_updates_item_provider_gateway_bgpip_update_model_json
 
-class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate():
+
+class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate:
     """
     Test Class for ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate
     """
@@ -1482,7 +1623,8 @@ class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUp
         provider_gateway_update_attributes_updates_item_provider_gateway_speed_update_model_json2 = provider_gateway_update_attributes_updates_item_provider_gateway_speed_update_model.to_dict()
         assert provider_gateway_update_attributes_updates_item_provider_gateway_speed_update_model_json2 == provider_gateway_update_attributes_updates_item_provider_gateway_speed_update_model_json
 
-class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN():
+
+class TestModel_ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN:
     """
     Test Class for ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN
     """
