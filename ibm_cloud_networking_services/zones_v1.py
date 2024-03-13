@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,11 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# IBM OpenAPI SDK Code Generator Version: 3.84.0-a4533f12-20240103-170852
+
 """
 CIS Zones
+
+API Version: 1.0.1
 """
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 import json
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
@@ -31,6 +35,7 @@ from .common import get_sdk_headers
 # Service
 ##############################################################################
 
+
 class ZonesV1(BaseService):
     """The Zones V1 service."""
 
@@ -38,10 +43,11 @@ class ZonesV1(BaseService):
     DEFAULT_SERVICE_NAME = 'zones'
 
     @classmethod
-    def new_instance(cls,
-                     crn: str,
-                     service_name: str = DEFAULT_SERVICE_NAME,
-                    ) -> 'ZonesV1':
+    def new_instance(
+        cls,
+        crn: str,
+        service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> 'ZonesV1':
         """
         Return a new client for the Zones service using the specified parameters
                and external configuration.
@@ -59,69 +65,87 @@ class ZonesV1(BaseService):
         service.configure_service(service_name)
         return service
 
-    def __init__(self,
-                 crn: str,
-                 authenticator: Authenticator = None,
-                ) -> None:
+    def __init__(
+        self,
+        crn: str,
+        authenticator: Authenticator = None,
+    ) -> None:
         """
         Construct a new client for the Zones service.
 
         :param str crn: Full url-encoded CRN of the service instance.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
-               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/main/README.md
                about initializing the authenticator of your choice.
         """
         if crn is None:
             raise ValueError('crn must be provided')
 
-        BaseService.__init__(self,
-                             service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator)
+        BaseService.__init__(self, service_url=self.DEFAULT_SERVICE_URL, authenticator=authenticator)
         self.crn = crn
-
 
     #########################
     # CIS Zones
     #########################
 
-
-    def list_zones(self,
-        **kwargs
+    def list_zones(
+        self,
+        *,
+        page: Optional[int] = None,
+        per_page: Optional[int] = None,
+        **kwargs,
     ) -> DetailedResponse:
         """
         List all zones.
 
         List all zones for a service instance.
 
+        :param int page: (optional) Page number of paginated results.
+        :param int per_page: (optional) Maximum number of zones per page.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListZonesResp` object
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='list_zones')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_zones',
+        )
         headers.update(sdk_headers)
+
+        params = {
+            'page': page,
+            'per_page': per_page,
+        }
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones'.format(
-            *self.encode_path_vars(self.crn))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        path_param_keys = ['crn']
+        path_param_values = self.encode_path_vars(self.crn)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
-
-    def create_zone(self,
+    def create_zone(
+        self,
         *,
-        name: str = None,
-        **kwargs
+        name: Optional[str] = None,
+        type: Optional[str] = None,
+        **kwargs,
     ) -> DetailedResponse:
         """
         Create zone.
@@ -129,19 +153,23 @@ class ZonesV1(BaseService):
         Add a new zone for a given service instance.
 
         :param str name: (optional) name.
+        :param str type: (optional) zone type.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ZoneResp` object
         """
 
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='create_zone')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_zone',
+        )
         headers.update(sdk_headers)
 
         data = {
-            'name': name
+            'name': name,
+            'type': type,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -149,21 +177,27 @@ class ZonesV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones'.format(
-            *self.encode_path_vars(self.crn))
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        path_param_keys = ['crn']
+        path_param_values = self.encode_path_vars(self.crn)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            data=data,
+        )
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
-
-    def delete_zone(self,
+    def delete_zone(
+        self,
         zone_identifier: str,
-        **kwargs
+        **kwargs,
     ) -> DetailedResponse:
         """
         Delete zone.
@@ -176,30 +210,38 @@ class ZonesV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `DeleteZoneResp` object
         """
 
-        if zone_identifier is None:
+        if not zone_identifier:
             raise ValueError('zone_identifier must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='delete_zone')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_zone',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}'.format(
-            *self.encode_path_vars(self.crn, zone_identifier))
-        request = self.prepare_request(method='DELETE',
-                                       url=url,
-                                       headers=headers)
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+        )
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
-
-    def get_zone(self,
+    def get_zone(
+        self,
         zone_identifier: str,
-        **kwargs
+        **kwargs,
     ) -> DetailedResponse:
         """
         Get zone.
@@ -212,32 +254,40 @@ class ZonesV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ZoneResp` object
         """
 
-        if zone_identifier is None:
+        if not zone_identifier:
             raise ValueError('zone_identifier must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='get_zone')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_zone',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}'.format(
-            *self.encode_path_vars(self.crn, zone_identifier))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers)
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
-
-    def update_zone(self,
+    def update_zone(
+        self,
         zone_identifier: str,
         *,
-        paused: bool = None,
-        **kwargs
+        paused: Optional[bool] = None,
+        **kwargs,
     ) -> DetailedResponse:
         """
         Update zone.
@@ -251,16 +301,18 @@ class ZonesV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ZoneResp` object
         """
 
-        if zone_identifier is None:
+        if not zone_identifier:
             raise ValueError('zone_identifier must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='update_zone')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_zone',
+        )
         headers.update(sdk_headers)
 
         data = {
-            'paused': paused
+            'paused': paused,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
@@ -268,21 +320,27 @@ class ZonesV1(BaseService):
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}'.format(
-            *self.encode_path_vars(self.crn, zone_identifier))
-        request = self.prepare_request(method='PATCH',
-                                       url=url,
-                                       headers=headers,
-                                       data=data)
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='PATCH',
+            url=url,
+            headers=headers,
+            data=data,
+        )
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
-
-    def zone_activation_check(self,
+    def zone_activation_check(
+        self,
         zone_identifier: str,
-        **kwargs
+        **kwargs,
     ) -> DetailedResponse:
         """
         Check zone.
@@ -295,24 +353,32 @@ class ZonesV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ZoneActivationcheckResp` object
         """
 
-        if zone_identifier is None:
+        if not zone_identifier:
             raise ValueError('zone_identifier must be provided')
         headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V1',
-                                      operation_id='zone_activation_check')
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='zone_activation_check',
+        )
         headers.update(sdk_headers)
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
 
-        url = '/v1/{0}/zones/{1}/activation_check'.format(
-            *self.encode_path_vars(self.crn, zone_identifier))
-        request = self.prepare_request(method='PUT',
-                                       url=url,
-                                       headers=headers)
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/activation_check'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+        )
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -321,15 +387,17 @@ class ZonesV1(BaseService):
 ##############################################################################
 
 
-class DeleteZoneRespResult():
+class DeleteZoneRespResult:
     """
     result.
 
-    :attr str id: id.
+    :param str id: id.
     """
 
-    def __init__(self,
-                 id: str) -> None:
+    def __init__(
+        self,
+        id: str,
+    ) -> None:
         """
         Initialize a DeleteZoneRespResult object.
 
@@ -377,15 +445,18 @@ class DeleteZoneRespResult():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ZoneActivationcheckRespResult():
+
+class ZoneActivationcheckRespResult:
     """
     result.
 
-    :attr str id: id.
+    :param str id: id.
     """
 
-    def __init__(self,
-                 id: str) -> None:
+    def __init__(
+        self,
+        id: str,
+    ) -> None:
         """
         Initialize a ZoneActivationcheckRespResult object.
 
@@ -433,21 +504,24 @@ class ZoneActivationcheckRespResult():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class DeleteZoneResp():
+
+class DeleteZoneResp:
     """
     delete zone response.
 
-    :attr bool success: success.
-    :attr List[List[str]] errors: errors.
-    :attr List[List[str]] messages: messages.
-    :attr DeleteZoneRespResult result: result.
+    :param bool success: success.
+    :param List[List[str]] errors: errors.
+    :param List[List[str]] messages: messages.
+    :param DeleteZoneRespResult result: result.
     """
 
-    def __init__(self,
-                 success: bool,
-                 errors: List[List[str]],
-                 messages: List[List[str]],
-                 result: 'DeleteZoneRespResult') -> None:
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: 'DeleteZoneRespResult',
+    ) -> None:
         """
         Initialize a DeleteZoneResp object.
 
@@ -498,7 +572,10 @@ class DeleteZoneResp():
         if hasattr(self, 'messages') and self.messages is not None:
             _dict['messages'] = self.messages
         if hasattr(self, 'result') and self.result is not None:
-            _dict['result'] = self.result.to_dict()
+            if isinstance(self.result, dict):
+                _dict['result'] = self.result
+            else:
+                _dict['result'] = self.result.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -519,23 +596,26 @@ class DeleteZoneResp():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ListZonesResp():
+
+class ListZonesResp:
     """
     list zones response.
 
-    :attr bool success: success.
-    :attr List[List[str]] errors: errors.
-    :attr List[List[str]] messages: messages.
-    :attr List[ZoneDetails] result: zone list.
-    :attr ResultInfo result_info: result information.
+    :param bool success: success.
+    :param List[List[str]] errors: errors.
+    :param List[List[str]] messages: messages.
+    :param List[ZoneDetails] result: zone list.
+    :param ResultInfo result_info: result information.
     """
 
-    def __init__(self,
-                 success: bool,
-                 errors: List[List[str]],
-                 messages: List[List[str]],
-                 result: List['ZoneDetails'],
-                 result_info: 'ResultInfo') -> None:
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: List['ZoneDetails'],
+        result_info: 'ResultInfo',
+    ) -> None:
         """
         Initialize a ListZonesResp object.
 
@@ -568,7 +648,7 @@ class ListZonesResp():
         else:
             raise ValueError('Required property \'messages\' not present in ListZonesResp JSON')
         if 'result' in _dict:
-            args['result'] = [ZoneDetails.from_dict(x) for x in _dict.get('result')]
+            args['result'] = [ZoneDetails.from_dict(v) for v in _dict.get('result')]
         else:
             raise ValueError('Required property \'result\' not present in ListZonesResp JSON')
         if 'result_info' in _dict:
@@ -592,9 +672,18 @@ class ListZonesResp():
         if hasattr(self, 'messages') and self.messages is not None:
             _dict['messages'] = self.messages
         if hasattr(self, 'result') and self.result is not None:
-            _dict['result'] = [x.to_dict() for x in self.result]
+            result_list = []
+            for v in self.result:
+                if isinstance(v, dict):
+                    result_list.append(v)
+                else:
+                    result_list.append(v.to_dict())
+            _dict['result'] = result_list
         if hasattr(self, 'result_info') and self.result_info is not None:
-            _dict['result_info'] = self.result_info.to_dict()
+            if isinstance(self.result_info, dict):
+                _dict['result_info'] = self.result_info
+            else:
+                _dict['result_info'] = self.result_info.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -615,21 +704,24 @@ class ListZonesResp():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ResultInfo():
+
+class ResultInfo:
     """
     result information.
 
-    :attr int page: page.
-    :attr int per_page: per page.
-    :attr int count: count.
-    :attr int total_count: total count.
+    :param int page: page.
+    :param int per_page: per page.
+    :param int count: count.
+    :param int total_count: total count.
     """
 
-    def __init__(self,
-                 page: int,
-                 per_page: int,
-                 count: int,
-                 total_count: int) -> None:
+    def __init__(
+        self,
+        page: int,
+        per_page: int,
+        count: int,
+        total_count: int,
+    ) -> None:
         """
         Initialize a ResultInfo object.
 
@@ -701,21 +793,24 @@ class ResultInfo():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ZoneActivationcheckResp():
+
+class ZoneActivationcheckResp:
     """
     zone activation check response.
 
-    :attr bool success: success.
-    :attr List[List[str]] errors: errors.
-    :attr List[List[str]] messages: messages.
-    :attr ZoneActivationcheckRespResult result: result.
+    :param bool success: success.
+    :param List[List[str]] errors: errors.
+    :param List[List[str]] messages: messages.
+    :param ZoneActivationcheckRespResult result: result.
     """
 
-    def __init__(self,
-                 success: bool,
-                 errors: List[List[str]],
-                 messages: List[List[str]],
-                 result: 'ZoneActivationcheckRespResult') -> None:
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: 'ZoneActivationcheckRespResult',
+    ) -> None:
         """
         Initialize a ZoneActivationcheckResp object.
 
@@ -766,7 +861,10 @@ class ZoneActivationcheckResp():
         if hasattr(self, 'messages') and self.messages is not None:
             _dict['messages'] = self.messages
         if hasattr(self, 'result') and self.result is not None:
-            _dict['result'] = self.result.to_dict()
+            if isinstance(self.result, dict):
+                _dict['result'] = self.result
+            else:
+                _dict['result'] = self.result.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -787,34 +885,43 @@ class ZoneActivationcheckResp():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ZoneDetails():
+
+class ZoneDetails:
     """
     zone details.
 
-    :attr str id: (optional) id.
-    :attr str created_on: (optional) created date.
-    :attr str modified_on: (optional) modified date.
-    :attr str name: (optional) name.
-    :attr str original_registrar: (optional) original registrar.
-    :attr str original_dnshost: (optional) orginal dns host.
-    :attr str status: (optional) status.
-    :attr bool paused: (optional) paused.
-    :attr List[str] original_name_servers: (optional) orginal name servers.
-    :attr List[str] name_servers: (optional) name servers.
+    :param str id: (optional) id.
+    :param str created_on: (optional) created date.
+    :param str modified_on: (optional) modified date.
+    :param str name: (optional) name.
+    :param str original_registrar: (optional) original registrar.
+    :param str original_dnshost: (optional) orginal dns host.
+    :param str status: (optional) status.
+    :param bool paused: (optional) paused.
+    :param List[str] original_name_servers: (optional) orginal name servers.
+    :param List[str] name_servers: (optional) name servers.
+    :param str type: (optional) zone type.
+    :param str verification_key: (optional) verification key.
+    :param str cname_suffix: (optional) canme suffix.
     """
 
-    def __init__(self,
-                 *,
-                 id: str = None,
-                 created_on: str = None,
-                 modified_on: str = None,
-                 name: str = None,
-                 original_registrar: str = None,
-                 original_dnshost: str = None,
-                 status: str = None,
-                 paused: bool = None,
-                 original_name_servers: List[str] = None,
-                 name_servers: List[str] = None) -> None:
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+        created_on: Optional[str] = None,
+        modified_on: Optional[str] = None,
+        name: Optional[str] = None,
+        original_registrar: Optional[str] = None,
+        original_dnshost: Optional[str] = None,
+        status: Optional[str] = None,
+        paused: Optional[bool] = None,
+        original_name_servers: Optional[List[str]] = None,
+        name_servers: Optional[List[str]] = None,
+        type: Optional[str] = None,
+        verification_key: Optional[str] = None,
+        cname_suffix: Optional[str] = None,
+    ) -> None:
         """
         Initialize a ZoneDetails object.
 
@@ -828,6 +935,9 @@ class ZoneDetails():
         :param bool paused: (optional) paused.
         :param List[str] original_name_servers: (optional) orginal name servers.
         :param List[str] name_servers: (optional) name servers.
+        :param str type: (optional) zone type.
+        :param str verification_key: (optional) verification key.
+        :param str cname_suffix: (optional) canme suffix.
         """
         self.id = id
         self.created_on = created_on
@@ -839,6 +949,9 @@ class ZoneDetails():
         self.paused = paused
         self.original_name_servers = original_name_servers
         self.name_servers = name_servers
+        self.type = type
+        self.verification_key = verification_key
+        self.cname_suffix = cname_suffix
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'ZoneDetails':
@@ -864,6 +977,12 @@ class ZoneDetails():
             args['original_name_servers'] = _dict.get('original_name_servers')
         if 'name_servers' in _dict:
             args['name_servers'] = _dict.get('name_servers')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'verification_key' in _dict:
+            args['verification_key'] = _dict.get('verification_key')
+        if 'cname_suffix' in _dict:
+            args['cname_suffix'] = _dict.get('cname_suffix')
         return cls(**args)
 
     @classmethod
@@ -894,6 +1013,12 @@ class ZoneDetails():
             _dict['original_name_servers'] = self.original_name_servers
         if hasattr(self, 'name_servers') and self.name_servers is not None:
             _dict['name_servers'] = self.name_servers
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'verification_key') and self.verification_key is not None:
+            _dict['verification_key'] = self.verification_key
+        if hasattr(self, 'cname_suffix') and self.cname_suffix is not None:
+            _dict['cname_suffix'] = self.cname_suffix
         return _dict
 
     def _to_dict(self):
@@ -914,21 +1039,24 @@ class ZoneDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-class ZoneResp():
+
+class ZoneResp:
     """
     zone response.
 
-    :attr bool success: success.
-    :attr List[List[str]] errors: errors.
-    :attr List[List[str]] messages: messages.
-    :attr ZoneDetails result: zone details.
+    :param bool success: success.
+    :param List[List[str]] errors: errors.
+    :param List[List[str]] messages: messages.
+    :param ZoneDetails result: zone details.
     """
 
-    def __init__(self,
-                 success: bool,
-                 errors: List[List[str]],
-                 messages: List[List[str]],
-                 result: 'ZoneDetails') -> None:
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: 'ZoneDetails',
+    ) -> None:
         """
         Initialize a ZoneResp object.
 
@@ -979,7 +1107,10 @@ class ZoneResp():
         if hasattr(self, 'messages') and self.messages is not None:
             _dict['messages'] = self.messages
         if hasattr(self, 'result') and self.result is not None:
-            _dict['result'] = self.result.to_dict()
+            if isinstance(self.result, dict):
+                _dict['result'] = self.result
+            else:
+                _dict['result'] = self.result.to_dict()
         return _dict
 
     def _to_dict(self):
