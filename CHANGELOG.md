@@ -1,3 +1,18 @@
+# [0.25.0](https://github.com/IBM/networking-python-sdk/compare/v0.24.0...v0.25.0) (2024-03-14)
+
+
+### Bug Fixes
+
+* udating dependency versions ([#95](https://github.com/IBM/networking-python-sdk/issues/95)) ([9cfd59b](https://github.com/IBM/networking-python-sdk/commit/9cfd59b99e7b3896fdd3df72597de19c77fc12ee))
+
+
+### Features
+
+* direct link changes build release ([2ed3b18](https://github.com/IBM/networking-python-sdk/commit/2ed3b1893701da168ac54a9f2ec49549c44752d7))
+* directlink - dedicated vlan mapping ([1cb591a](https://github.com/IBM/networking-python-sdk/commit/1cb591a5ba79a3fb03dfceb3926ac476e29491a7))
+* directlink provider updated to latest spec ([0bd2ad1](https://github.com/IBM/networking-python-sdk/commit/0bd2ad1a99b74021ffd6281f7f8047821cea5e95))
+* Updating the list of reserved ASN numbers ([#92](https://github.com/IBM/networking-python-sdk/issues/92)) ([b5ca185](https://github.com/IBM/networking-python-sdk/commit/b5ca185a4a2faa7dc692a7992ad3d2ad85e9808b))
+
 # [0.24.0](https://github.com/IBM/networking-python-sdk/compare/v0.23.2...v0.24.0) (2023-09-12)
 
 
