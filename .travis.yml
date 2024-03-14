@@ -34,7 +34,7 @@ install:
 script: tox
 
 before_deploy:
-- nvm install 18
+- nvm install 20
 - npm install npm@latest -g
 - npm install @semantic-release/changelog
 - npm install @semantic-release/exec
