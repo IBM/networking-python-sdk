@@ -509,7 +509,22 @@ class TransitGatewayApisV1(BaseService):
     def create_transit_gateway_connection(
         self,
         transit_gateway_id: str,
-        transit_gateway_connection_template: 'TransitGatewayConnectionTemplate',
+        network_type: str,
+        *,
+        base_connection_id: str = None,
+        base_network_type: str = None,
+        local_gateway_ip: str = None,
+        local_tunnel_ip: str = None,
+        name: str = None,
+        network_account_id: str = None,
+        network_id: str = None,
+        prefix_filters: List['TransitGatewayConnectionPrefixFilter'] = None,
+        prefix_filters_default: str = None,
+        remote_bgp_asn: int = None,
+        remote_gateway_ip: str = None,
+        remote_tunnel_ip: str = None,
+        tunnels: List['TransitGatewayRedundantGRETunnelTemplate'] = None,
+        zone: 'ZoneIdentity' = None,
         **kwargs,
     ) -> DetailedResponse:
         """
@@ -518,8 +533,106 @@ class TransitGatewayApisV1(BaseService):
         Add a connection to Transit Gateway.
 
         :param str transit_gateway_id: The Transit Gateway identifier.
-        :param TransitGatewayConnectionTemplate
-               transit_gateway_connection_template: The connection template.
+        :param str network_type: Defines what type of network is connected via this
+               connection.
+        :param str base_connection_id: (optional) Deprecated: network_type
+               'gre_tunnel' connections must be created over an existing network_type
+               'classic' connection. This field must specify the ID of an active transit
+               gateway network_type 'classic' connection in the same transit gateway.
+               This field is required for network type 'gre_tunnel' connections.
+               This field is required to be unspecified for network type 'classic',
+               'directlink', 'vpc',
+               'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre'
+               connections.
+        :param str base_network_type: (optional) The type of network the Unbound
+               GRE tunnel is targeting. This field is required for network type
+               'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre'
+               network type, the value is required and can be either VPC or Classic. This
+               field is required to be unspecified for network type 'classic',
+               'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+        :param str local_gateway_ip: (optional) Local gateway IP address. This
+               field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections. This field is required to be unspecified for network type
+               'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
+               connections.
+        :param str local_tunnel_ip: (optional) Local tunnel IP address. The
+               local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
+               network. Neither can be the network nor broadcast addresses.
+               This field is required for network type 'gre_tunnel' and
+               'unbound_gre_tunnel' connections.
+               This field is required to be unspecified for network type 'classic',
+               'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
+               connections.
+        :param str name: (optional) The user-defined name for this transit gateway
+               connection. Network type 'vpc'  connections are defaulted to the name of
+               the VPC.  Network type 'classic' connections are named 'Classic'.
+               This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel'
+               and 'redundant_gre' connections.
+               This field is optional for network type 'classic', 'directlink', 'vpc' and
+               'power_virtual_server' connections.
+        :param str network_account_id: (optional) The ID of the account which owns
+               the network that is being connected. Generally only used if the network is
+               in a different account than the gateway. This field is required for type
+               'unbound_gre_tunnel' when the associated_network_type is 'classic' or
+               network_type is 'redundant_gre' and the GRE tunnel is in a different
+               account than the gateway.
+        :param str network_id: (optional) The ID of the network being connected via
+               this connection. For network types 'vpc','power_virtual_server' and
+               'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway
+               respectively. This field is required for network type 'vpc',
+               'power_virtual_server' and 'directlink' connections.  It is also required
+               for 'redundant_gre' connections when the base_network_type is set to VPC.
+               This field is required to be unspecified for network type 'classic',
+               'gre_tunnel' and 'unbound_gre_tunnel' connections.
+        :param List[TransitGatewayConnectionPrefixFilter] prefix_filters:
+               (optional) Array of prefix route filters for a transit gateway connection.
+               Prefix filters can be specified for netowrk type 'vpc', 'classic',
+               'power_virtual_server' and 'directlink' connections. They are not allowed
+               for type 'gre_tunnel' connections. This is order dependent with those first
+               in the array being applied first, and those at the end of the array being
+               applied last, or just before applying the default. This field is optional
+               for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server'
+               connections. This field is required to be unspecified for network type
+               'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+        :param str prefix_filters_default: (optional) Default setting of permit or
+               deny which applies to any routes that don't match a specified filter. This
+               field is optional for network type 'classic', 'vpc', 'directlink', and
+               'power_virtual_server' connections. This field is required to be
+               unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and
+               'redundant_gre' connections.
+        :param int remote_bgp_asn: (optional) Remote network BGP ASN. The following
+               ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
+               65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
+               'remote_bgp_asn' is omitted on gre_tunnel or unbound_gre_tunnel connection
+               create requests IBM will assign an ASN.
+               This field is optional for network type 'gre_tunnel' and
+               'unbound_gre_tunnel' connections.
+               This field is required to be unspecified for network type 'classic',
+               'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+        :param str remote_gateway_ip: (optional) Remote gateway IP address. This
+               field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections. This field is required to be unspecified for network type
+               'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
+               connections.
+        :param str remote_tunnel_ip: (optional) Remote tunnel IP address. The
+               local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
+               network. Neither can be the network nor broadcast addresses.
+               This field is required for network type 'gre_tunnel' and
+               'unbound_gre_tunnel' connections.
+               This field is required to be unspecified for network type 'classic',
+               'directlink', 'vpc',  'power_virtual_server' and 'redundant_gre'
+               connections.
+        :param List[TransitGatewayRedundantGRETunnelTemplate] tunnels: (optional)
+               Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
+                This field is required for 'redundant_gre' connections.
+        :param ZoneIdentity zone: (optional) Specify the connection's location.
+               The specified availability zone must reside in the gateway's region.
+               Use the IBM Cloud global catalog to list zones within the desired region.
+               This field is required for network type 'gre_tunnel' and
+               'unbound_gre_tunnel' connections.
+               This field is required to be unspecified for network type 'classic',
+               'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
+               connections.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TransitGatewayConnectionCust` object
@@ -527,10 +640,14 @@ class TransitGatewayApisV1(BaseService):
 
         if not transit_gateway_id:
             raise ValueError('transit_gateway_id must be provided')
-        if transit_gateway_connection_template is None:
-            raise ValueError('transit_gateway_connection_template must be provided')
-        if isinstance(transit_gateway_connection_template, TransitGatewayConnectionTemplate):
-            transit_gateway_connection_template = convert_model(transit_gateway_connection_template)
+        if network_type is None:
+            raise ValueError('network_type must be provided')
+        if prefix_filters is not None:
+            prefix_filters = [convert_model(x) for x in prefix_filters]
+        if tunnels is not None:
+            tunnels = [convert_model(x) for x in tunnels]
+        if zone is not None:
+            zone = convert_model(zone)
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
@@ -543,7 +660,25 @@ class TransitGatewayApisV1(BaseService):
             'version': self.version,
         }
 
-        data = json.dumps(transit_gateway_connection_template)
+        data = {
+            'network_type': network_type,
+            'base_connection_id': base_connection_id,
+            'base_network_type': base_network_type,
+            'local_gateway_ip': local_gateway_ip,
+            'local_tunnel_ip': local_tunnel_ip,
+            'name': name,
+            'network_account_id': network_account_id,
+            'network_id': network_id,
+            'prefix_filters': prefix_filters,
+            'prefix_filters_default': prefix_filters_default,
+            'remote_bgp_asn': remote_bgp_asn,
+            'remote_gateway_ip': remote_gateway_ip,
+            'remote_tunnel_ip': remote_tunnel_ip,
+            'tunnels': tunnels,
+            'zone': zone,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
         headers['content-type'] = 'application/json'
 
         if 'headers' in kwargs:
@@ -4227,12 +4362,430 @@ class TSLocationBasic:
         return not self == other
 
 
+class TransitConnection:
+    """
+    Connection included in transit gateway.
+
+    :attr str base_network_type: (optional) The type of network the GRE tunnel is
+          targeting.
+    :attr str name: The user-defined name for this transit gateway connection.
+    :attr str network_id: (optional) The ID of the network being connected via this
+          connection. This field is required for some types, such as 'vpc',
+          'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
+          'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the CRN
+          of the VPC  / PowerVS / Direct Link gateway respectively.
+    :attr str network_type: Defines what type of network is connected via this
+          connection. The list of enumerated values for this property may expand in the
+          future. Code and processes using this field must tolerate unexpected values.
+    :attr str id: The unique identifier for this Transit Gateway Connection.
+    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
+          connections use 'base_connection_id' to specify the ID of a network_type
+          'classic' connection the tunnel is configured over. The specified connection
+          must reside in the same transit gateway and be in an active state. The 'classic'
+          connection cannot be deleted until any 'gre_tunnel' connections using it are
+          deleted. This field only applies to and is required for network type
+          'gre_tunnel' connections.
+    :attr datetime created_at: The date and time that this connection was created.
+    :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
+          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str network_account_id: (optional) The ID of the account which owns the
+          connected network. Generally only used if the network is in a different IBM
+          Cloud account than the gateway.
+    :attr List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
+          (optional) Array of prefix route filters for a transit gateway connection. This
+          is order dependent with those first in the array being applied first, and those
+          at the end of the array is applied last, or just before the default.
+          This field does not apply to the 'redundant_gre' network type.
+    :attr str prefix_filters_default: (optional) Default setting of permit or deny
+          which applies to any routes that don't match a specified filter.
+          This field does not apply to the 'redundant_gre' network type.
+    :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str request_status: Only visible for cross account connections, this field
+          represents the status of a connection request between IBM Cloud accounts. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field must tolerate unexpected values.
+    :attr str status: Connection's current configuration state. The list of
+          enumerated values for this property may expand in the future. Code and processes
+          using this field must tolerate unexpected values.
+    :attr TransitGatewayReference transit_gateway: Transit gateway reference.
+    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
+          Collection of all tunnels for 'redundant_gre' connection.
+    :attr datetime updated_at: The date and time that this connection was last
+          updated.
+    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
+          field only applies to network type 'gre_tunnel' connections.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        network_type: str,
+        id: str,
+        created_at: datetime,
+        request_status: str,
+        status: str,
+        transit_gateway: 'TransitGatewayReference',
+        updated_at: datetime,
+        *,
+        base_network_type: str = None,
+        network_id: str = None,
+        base_connection_id: str = None,
+        local_bgp_asn: int = None,
+        local_gateway_ip: str = None,
+        local_tunnel_ip: str = None,
+        mtu: int = None,
+        network_account_id: str = None,
+        prefix_filters: List['TransitGatewayConnectionPrefixFilterReference'] = None,
+        prefix_filters_default: str = None,
+        remote_bgp_asn: int = None,
+        remote_gateway_ip: str = None,
+        remote_tunnel_ip: str = None,
+        tunnels: List['TransitGatewayRedundantGRETunnelReference'] = None,
+        zone: 'GreTunnelZoneReference' = None,
+    ) -> None:
+        """
+        Initialize a TransitConnection object.
+
+        :param str name: The user-defined name for this transit gateway connection.
+        :param str network_type: Defines what type of network is connected via this
+               connection. The list of enumerated values for this property may expand in
+               the future. Code and processes using this field must tolerate unexpected
+               values.
+        :param str id: The unique identifier for this Transit Gateway Connection.
+        :param datetime created_at: The date and time that this connection was
+               created.
+        :param str request_status: Only visible for cross account connections, this
+               field represents the status of a connection request between IBM Cloud
+               accounts. The list of enumerated values for this property may expand in the
+               future. Code and processes using this field must tolerate unexpected
+               values.
+        :param str status: Connection's current configuration state. The list of
+               enumerated values for this property may expand in the future. Code and
+               processes using this field must tolerate unexpected values.
+        :param TransitGatewayReference transit_gateway: Transit gateway reference.
+        :param datetime updated_at: The date and time that this connection was last
+               updated.
+        :param str base_network_type: (optional) The type of network the GRE tunnel
+               is targeting.
+        :param str network_id: (optional) The ID of the network being connected via
+               this connection. This field is required for some types, such as 'vpc',
+               'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
+               'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the
+               CRN of the VPC  / PowerVS / Direct Link gateway respectively.
+        :param str base_connection_id: (optional) Deprecated: network_type
+               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
+               network_type 'classic' connection the tunnel is configured over. The
+               specified connection must reside in the same transit gateway and be in an
+               active state. The 'classic' connection cannot be deleted until any
+               'gre_tunnel' connections using it are deleted. This field only applies to
+               and is required for network type 'gre_tunnel' connections.
+        :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str local_gateway_ip: (optional) Local gateway IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
+               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+        :param str network_account_id: (optional) The ID of the account which owns
+               the connected network. Generally only used if the network is in a different
+               IBM Cloud account than the gateway.
+        :param List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
+               (optional) Array of prefix route filters for a transit gateway connection.
+               This is order dependent with those first in the array being applied first,
+               and those at the end of the array is applied last, or just before the
+               default.
+               This field does not apply to the 'redundant_gre' network type.
+        :param str prefix_filters_default: (optional) Default setting of permit or
+               deny which applies to any routes that don't match a specified filter.
+               This field does not apply to the 'redundant_gre' network type.
+        :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
+               Collection of all tunnels for 'redundant_gre' connection.
+        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
+               This field only applies to network type 'gre_tunnel' connections.
+        """
+        self.base_network_type = base_network_type
+        self.name = name
+        self.network_id = network_id
+        self.network_type = network_type
+        self.id = id
+        self.base_connection_id = base_connection_id
+        self.created_at = created_at
+        self.local_bgp_asn = local_bgp_asn
+        self.local_gateway_ip = local_gateway_ip
+        self.local_tunnel_ip = local_tunnel_ip
+        self.mtu = mtu
+        self.network_account_id = network_account_id
+        self.prefix_filters = prefix_filters
+        self.prefix_filters_default = prefix_filters_default
+        self.remote_bgp_asn = remote_bgp_asn
+        self.remote_gateway_ip = remote_gateway_ip
+        self.remote_tunnel_ip = remote_tunnel_ip
+        self.request_status = request_status
+        self.status = status
+        self.transit_gateway = transit_gateway
+        self.tunnels = tunnels
+        self.updated_at = updated_at
+        self.zone = zone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitConnection':
+        """Initialize a TransitConnection object from a json dictionary."""
+        args = {}
+        if 'base_network_type' in _dict:
+            args['base_network_type'] = _dict.get('base_network_type')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in TransitConnection JSON')
+        if 'network_id' in _dict:
+            args['network_id'] = _dict.get('network_id')
+        if 'network_type' in _dict:
+            args['network_type'] = _dict.get('network_type')
+        else:
+            raise ValueError('Required property \'network_type\' not present in TransitConnection JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in TransitConnection JSON')
+        if 'base_connection_id' in _dict:
+            args['base_connection_id'] = _dict.get('base_connection_id')
+        if 'created_at' in _dict:
+            args['created_at'] = string_to_datetime(_dict.get('created_at'))
+        else:
+            raise ValueError('Required property \'created_at\' not present in TransitConnection JSON')
+        if 'local_bgp_asn' in _dict:
+            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
+        if 'local_gateway_ip' in _dict:
+            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
+        if 'local_tunnel_ip' in _dict:
+            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
+        if 'mtu' in _dict:
+            args['mtu'] = _dict.get('mtu')
+        if 'network_account_id' in _dict:
+            args['network_account_id'] = _dict.get('network_account_id')
+        if 'prefix_filters' in _dict:
+            args['prefix_filters'] = [TransitGatewayConnectionPrefixFilterReference.from_dict(v) for v in _dict.get('prefix_filters')]
+        if 'prefix_filters_default' in _dict:
+            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
+        if 'remote_bgp_asn' in _dict:
+            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
+        if 'remote_gateway_ip' in _dict:
+            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
+        if 'remote_tunnel_ip' in _dict:
+            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
+        if 'request_status' in _dict:
+            args['request_status'] = _dict.get('request_status')
+        else:
+            raise ValueError('Required property \'request_status\' not present in TransitConnection JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in TransitConnection JSON')
+        if 'transit_gateway' in _dict:
+            args['transit_gateway'] = TransitGatewayReference.from_dict(_dict.get('transit_gateway'))
+        else:
+            raise ValueError('Required property \'transit_gateway\' not present in TransitConnection JSON')
+        if 'tunnels' in _dict:
+            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
+        if 'updated_at' in _dict:
+            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
+        else:
+            raise ValueError('Required property \'updated_at\' not present in TransitConnection JSON')
+        if 'zone' in _dict:
+            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitConnection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
+            _dict['base_network_type'] = self.base_network_type
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'network_id') and self.network_id is not None:
+            _dict['network_id'] = self.network_id
+        if hasattr(self, 'network_type') and self.network_type is not None:
+            _dict['network_type'] = self.network_type
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
+            _dict['base_connection_id'] = self.base_connection_id
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
+            _dict['local_bgp_asn'] = self.local_bgp_asn
+        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
+            _dict['local_gateway_ip'] = self.local_gateway_ip
+        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
+            _dict['local_tunnel_ip'] = self.local_tunnel_ip
+        if hasattr(self, 'mtu') and self.mtu is not None:
+            _dict['mtu'] = self.mtu
+        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
+            _dict['network_account_id'] = self.network_account_id
+        if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
+            prefix_filters_list = []
+            for v in self.prefix_filters:
+                if isinstance(v, dict):
+                    prefix_filters_list.append(v)
+                else:
+                    prefix_filters_list.append(v.to_dict())
+            _dict['prefix_filters'] = prefix_filters_list
+        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
+            _dict['prefix_filters_default'] = self.prefix_filters_default
+        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
+            _dict['remote_bgp_asn'] = self.remote_bgp_asn
+        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
+            _dict['remote_gateway_ip'] = self.remote_gateway_ip
+        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
+            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
+        if hasattr(self, 'request_status') and self.request_status is not None:
+            _dict['request_status'] = self.request_status
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'transit_gateway') and self.transit_gateway is not None:
+            if isinstance(self.transit_gateway, dict):
+                _dict['transit_gateway'] = self.transit_gateway
+            else:
+                _dict['transit_gateway'] = self.transit_gateway.to_dict()
+        if hasattr(self, 'tunnels') and self.tunnels is not None:
+            tunnels_list = []
+            for v in self.tunnels:
+                if isinstance(v, dict):
+                    tunnels_list.append(v)
+                else:
+                    tunnels_list.append(v.to_dict())
+            _dict['tunnels'] = tunnels_list
+        if hasattr(self, 'updated_at') and self.updated_at is not None:
+            _dict['updated_at'] = datetime_to_string(self.updated_at)
+        if hasattr(self, 'zone') and self.zone is not None:
+            if isinstance(self.zone, dict):
+                _dict['zone'] = self.zone
+            else:
+                _dict['zone'] = self.zone.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitConnection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitConnection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitConnection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class BaseNetworkTypeEnum(str, Enum):
+        """
+        The type of network the GRE tunnel is targeting.
+        """
+
+        CLASSIC = 'classic'
+        VPC = 'vpc'
+
+
+    class NetworkTypeEnum(str, Enum):
+        """
+        Defines what type of network is connected via this connection. The list of
+        enumerated values for this property may expand in the future. Code and processes
+        using this field must tolerate unexpected values.
+        """
+
+        CLASSIC = 'classic'
+        DIRECTLINK = 'directlink'
+        GRE_TUNNEL = 'gre_tunnel'
+        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
+        VPC = 'vpc'
+        POWER_VIRTUAL_SERVER = 'power_virtual_server'
+        REDUNDANT_GRE = 'redundant_gre'
+
+
+    class PrefixFiltersDefaultEnum(str, Enum):
+        """
+        Default setting of permit or deny which applies to any routes that don't match a
+        specified filter.
+        This field does not apply to the 'redundant_gre' network type.
+        """
+
+        PERMIT = 'permit'
+        DENY = 'deny'
+
+
+    class RequestStatusEnum(str, Enum):
+        """
+        Only visible for cross account connections, this field represents the status of a
+        connection request between IBM Cloud accounts. The list of enumerated values for
+        this property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        PENDING = 'pending'
+        APPROVED = 'approved'
+        REJECTED = 'rejected'
+        EXPIRED = 'expired'
+        DETACHED = 'detached'
+
+
+    class StatusEnum(str, Enum):
+        """
+        Connection's current configuration state. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        ATTACHED = 'attached'
+        FAILED = 'failed'
+        PENDING = 'pending'
+        NETWORK_PENDING = 'network_pending'
+        DELETING = 'deleting'
+        DETACHING = 'detaching'
+        DETACHED = 'detached'
+        SUSPENDING = 'suspending'
+        SUSPENDED = 'suspended'
+
+
+
 class TransitConnectionCollection:
     """
     Transit gateway connections.
 
-    :attr List[TransitConnectionCollectionConnectionsItem] connections: Array of
-          transit gateway connections.
+    :attr List[TransitConnection] connections: Array of transit gateway connections.
     :attr PaginationFirstConnection first: A reference to the first page of
           resources.
     :attr int limit: The maximum number of connections returned on one request.
@@ -4242,7 +4795,7 @@ class TransitConnectionCollection:
 
     def __init__(
         self,
-        connections: List['TransitConnectionCollectionConnectionsItem'],
+        connections: List['TransitConnection'],
         first: 'PaginationFirstConnection',
         limit: int,
         *,
@@ -4251,8 +4804,8 @@ class TransitConnectionCollection:
         """
         Initialize a TransitConnectionCollection object.
 
-        :param List[TransitConnectionCollectionConnectionsItem] connections: Array
-               of transit gateway connections.
+        :param List[TransitConnection] connections: Array of transit gateway
+               connections.
         :param PaginationFirstConnection first: A reference to the first page of
                resources.
         :param int limit: The maximum number of connections returned on one
@@ -4271,7 +4824,7 @@ class TransitConnectionCollection:
         """Initialize a TransitConnectionCollection object from a json dictionary."""
         args = {}
         if 'connections' in _dict:
-            args['connections'] = _dict.get('connections')
+            args['connections'] = [TransitConnection.from_dict(v) for v in _dict.get('connections')]
         else:
             raise ValueError('Required property \'connections\' not present in TransitConnectionCollection JSON')
         if 'first' in _dict:
@@ -4333,25 +4886,6 @@ class TransitConnectionCollection:
     def __ne__(self, other: 'TransitConnectionCollection') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-
-class TransitConnectionCollectionConnectionsItem:
-    """
-    TransitConnectionCollectionConnectionsItem.
-
-    """
-
-    def __init__(
-        self,
-    ) -> None:
-        """
-        Initialize a TransitConnectionCollectionConnectionsItem object.
-
-        """
-        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
-            ", ".join(['TransitConnectionCollectionConnectionsItemTransitConnection', 'TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE'])
-        )
-        raise Exception(msg)
 
 
 class TransitGateway:
@@ -4625,12 +5159,416 @@ class TransitGatewayCollection:
         return not self == other
 
 
+class TransitGatewayConnection:
+    """
+    Connection included in transit gateway.
+
+    :attr str base_network_type: (optional) The type of network the GRE tunnel is
+          targeting.
+    :attr str name: The user-defined name for this transit gateway connection.
+    :attr str network_id: (optional) The ID of the network being connected via this
+          connection. This field is required for some types, such as 'vpc',
+          'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
+          'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the CRN
+          of the VPC  / PowerVS / Direct Link gateway respectively.
+    :attr str network_type: Defines what type of network is connected via this
+          connection. The list of enumerated values for this property may expand in the
+          future. Code and processes using this field must tolerate unexpected values.
+    :attr str id: The unique identifier for this Transit Gateway Connection.
+    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
+          connections use 'base_connection_id' to specify the ID of a network_type
+          'classic' connection the tunnel is configured over. The specified connection
+          must reside in the same transit gateway and be in an active state. The 'classic'
+          connection cannot be deleted until any 'gre_tunnel' connections using it are
+          deleted. This field only applies to and is required for network type
+          'gre_tunnel' connections.
+    :attr datetime created_at: The date and time that this connection was created.
+    :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
+          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str network_account_id: (optional) The ID of the account which owns the
+          connected network. Generally only used if the network is in a different IBM
+          Cloud account than the gateway.
+    :attr List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
+          (optional) Array of prefix route filters for a transit gateway connection. This
+          is order dependent with those first in the array being applied first, and those
+          at the end of the array is applied last, or just before the default. This field
+          does not apply to the 'redundant_gre' network type.
+    :attr str prefix_filters_default: (optional) Default setting of permit or deny
+          which applies to any routes that don't match a specified filter. This field does
+          not apply to the 'redundant_gre' network type.
+    :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str request_status: Only visible for cross account connections, this field
+          represents the status of a connection request between IBM Cloud accounts. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field must tolerate unexpected values.
+    :attr str status: Connection's current configuration state. The list of
+          enumerated values for this property may expand in the future. Code and processes
+          using this field must tolerate unexpected values.
+    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
+          Collection of all tunnels for 'redundant_gre' connection.
+    :attr datetime updated_at: The date and time that this connection was last
+          updated.
+    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
+          field only applies to network type 'gre_tunnel' connections.
+    """
+
+    def __init__(
+        self,
+        name: str,
+        network_type: str,
+        id: str,
+        created_at: datetime,
+        request_status: str,
+        status: str,
+        updated_at: datetime,
+        *,
+        base_network_type: str = None,
+        network_id: str = None,
+        base_connection_id: str = None,
+        local_bgp_asn: int = None,
+        local_gateway_ip: str = None,
+        local_tunnel_ip: str = None,
+        mtu: int = None,
+        network_account_id: str = None,
+        prefix_filters: List['TransitGatewayConnectionPrefixFilterReference'] = None,
+        prefix_filters_default: str = None,
+        remote_bgp_asn: int = None,
+        remote_gateway_ip: str = None,
+        remote_tunnel_ip: str = None,
+        tunnels: List['TransitGatewayRedundantGRETunnelReference'] = None,
+        zone: 'GreTunnelZoneReference' = None,
+    ) -> None:
+        """
+        Initialize a TransitGatewayConnection object.
+
+        :param str name: The user-defined name for this transit gateway connection.
+        :param str network_type: Defines what type of network is connected via this
+               connection. The list of enumerated values for this property may expand in
+               the future. Code and processes using this field must tolerate unexpected
+               values.
+        :param str id: The unique identifier for this Transit Gateway Connection.
+        :param datetime created_at: The date and time that this connection was
+               created.
+        :param str request_status: Only visible for cross account connections, this
+               field represents the status of a connection request between IBM Cloud
+               accounts. The list of enumerated values for this property may expand in the
+               future. Code and processes using this field must tolerate unexpected
+               values.
+        :param str status: Connection's current configuration state. The list of
+               enumerated values for this property may expand in the future. Code and
+               processes using this field must tolerate unexpected values.
+        :param datetime updated_at: The date and time that this connection was last
+               updated.
+        :param str base_network_type: (optional) The type of network the GRE tunnel
+               is targeting.
+        :param str network_id: (optional) The ID of the network being connected via
+               this connection. This field is required for some types, such as 'vpc',
+               'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
+               'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the
+               CRN of the VPC  / PowerVS / Direct Link gateway respectively.
+        :param str base_connection_id: (optional) Deprecated: network_type
+               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
+               network_type 'classic' connection the tunnel is configured over. The
+               specified connection must reside in the same transit gateway and be in an
+               active state. The 'classic' connection cannot be deleted until any
+               'gre_tunnel' connections using it are deleted. This field only applies to
+               and is required for network type 'gre_tunnel' connections.
+        :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str local_gateway_ip: (optional) Local gateway IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
+               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+        :param str network_account_id: (optional) The ID of the account which owns
+               the connected network. Generally only used if the network is in a different
+               IBM Cloud account than the gateway.
+        :param List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
+               (optional) Array of prefix route filters for a transit gateway connection.
+               This is order dependent with those first in the array being applied first,
+               and those at the end of the array is applied last, or just before the
+               default. This field does not apply to the 'redundant_gre' network type.
+        :param str prefix_filters_default: (optional) Default setting of permit or
+               deny which applies to any routes that don't match a specified filter. This
+               field does not apply to the 'redundant_gre' network type.
+        :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
+               Collection of all tunnels for 'redundant_gre' connection.
+        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
+               This field only applies to network type 'gre_tunnel' connections.
+        """
+        self.base_network_type = base_network_type
+        self.name = name
+        self.network_id = network_id
+        self.network_type = network_type
+        self.id = id
+        self.base_connection_id = base_connection_id
+        self.created_at = created_at
+        self.local_bgp_asn = local_bgp_asn
+        self.local_gateway_ip = local_gateway_ip
+        self.local_tunnel_ip = local_tunnel_ip
+        self.mtu = mtu
+        self.network_account_id = network_account_id
+        self.prefix_filters = prefix_filters
+        self.prefix_filters_default = prefix_filters_default
+        self.remote_bgp_asn = remote_bgp_asn
+        self.remote_gateway_ip = remote_gateway_ip
+        self.remote_tunnel_ip = remote_tunnel_ip
+        self.request_status = request_status
+        self.status = status
+        self.tunnels = tunnels
+        self.updated_at = updated_at
+        self.zone = zone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnection':
+        """Initialize a TransitGatewayConnection object from a json dictionary."""
+        args = {}
+        if 'base_network_type' in _dict:
+            args['base_network_type'] = _dict.get('base_network_type')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in TransitGatewayConnection JSON')
+        if 'network_id' in _dict:
+            args['network_id'] = _dict.get('network_id')
+        if 'network_type' in _dict:
+            args['network_type'] = _dict.get('network_type')
+        else:
+            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnection JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in TransitGatewayConnection JSON')
+        if 'base_connection_id' in _dict:
+            args['base_connection_id'] = _dict.get('base_connection_id')
+        if 'created_at' in _dict:
+            args['created_at'] = string_to_datetime(_dict.get('created_at'))
+        else:
+            raise ValueError('Required property \'created_at\' not present in TransitGatewayConnection JSON')
+        if 'local_bgp_asn' in _dict:
+            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
+        if 'local_gateway_ip' in _dict:
+            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
+        if 'local_tunnel_ip' in _dict:
+            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
+        if 'mtu' in _dict:
+            args['mtu'] = _dict.get('mtu')
+        if 'network_account_id' in _dict:
+            args['network_account_id'] = _dict.get('network_account_id')
+        if 'prefix_filters' in _dict:
+            args['prefix_filters'] = [TransitGatewayConnectionPrefixFilterReference.from_dict(v) for v in _dict.get('prefix_filters')]
+        if 'prefix_filters_default' in _dict:
+            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
+        if 'remote_bgp_asn' in _dict:
+            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
+        if 'remote_gateway_ip' in _dict:
+            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
+        if 'remote_tunnel_ip' in _dict:
+            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
+        if 'request_status' in _dict:
+            args['request_status'] = _dict.get('request_status')
+        else:
+            raise ValueError('Required property \'request_status\' not present in TransitGatewayConnection JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in TransitGatewayConnection JSON')
+        if 'tunnels' in _dict:
+            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
+        if 'updated_at' in _dict:
+            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
+        else:
+            raise ValueError('Required property \'updated_at\' not present in TransitGatewayConnection JSON')
+        if 'zone' in _dict:
+            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitGatewayConnection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
+            _dict['base_network_type'] = self.base_network_type
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'network_id') and self.network_id is not None:
+            _dict['network_id'] = self.network_id
+        if hasattr(self, 'network_type') and self.network_type is not None:
+            _dict['network_type'] = self.network_type
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
+            _dict['base_connection_id'] = self.base_connection_id
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
+            _dict['local_bgp_asn'] = self.local_bgp_asn
+        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
+            _dict['local_gateway_ip'] = self.local_gateway_ip
+        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
+            _dict['local_tunnel_ip'] = self.local_tunnel_ip
+        if hasattr(self, 'mtu') and self.mtu is not None:
+            _dict['mtu'] = self.mtu
+        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
+            _dict['network_account_id'] = self.network_account_id
+        if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
+            prefix_filters_list = []
+            for v in self.prefix_filters:
+                if isinstance(v, dict):
+                    prefix_filters_list.append(v)
+                else:
+                    prefix_filters_list.append(v.to_dict())
+            _dict['prefix_filters'] = prefix_filters_list
+        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
+            _dict['prefix_filters_default'] = self.prefix_filters_default
+        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
+            _dict['remote_bgp_asn'] = self.remote_bgp_asn
+        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
+            _dict['remote_gateway_ip'] = self.remote_gateway_ip
+        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
+            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
+        if hasattr(self, 'request_status') and self.request_status is not None:
+            _dict['request_status'] = self.request_status
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'tunnels') and self.tunnels is not None:
+            tunnels_list = []
+            for v in self.tunnels:
+                if isinstance(v, dict):
+                    tunnels_list.append(v)
+                else:
+                    tunnels_list.append(v.to_dict())
+            _dict['tunnels'] = tunnels_list
+        if hasattr(self, 'updated_at') and self.updated_at is not None:
+            _dict['updated_at'] = datetime_to_string(self.updated_at)
+        if hasattr(self, 'zone') and self.zone is not None:
+            if isinstance(self.zone, dict):
+                _dict['zone'] = self.zone
+            else:
+                _dict['zone'] = self.zone.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitGatewayConnection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitGatewayConnection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitGatewayConnection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class BaseNetworkTypeEnum(str, Enum):
+        """
+        The type of network the GRE tunnel is targeting.
+        """
+
+        CLASSIC = 'classic'
+        VPC = 'vpc'
+
+
+    class NetworkTypeEnum(str, Enum):
+        """
+        Defines what type of network is connected via this connection. The list of
+        enumerated values for this property may expand in the future. Code and processes
+        using this field must tolerate unexpected values.
+        """
+
+        CLASSIC = 'classic'
+        DIRECTLINK = 'directlink'
+        GRE_TUNNEL = 'gre_tunnel'
+        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
+        VPC = 'vpc'
+        POWER_VIRTUAL_SERVER = 'power_virtual_server'
+        REDUNDANT_GRE = 'redundant_gre'
+
+
+    class PrefixFiltersDefaultEnum(str, Enum):
+        """
+        Default setting of permit or deny which applies to any routes that don't match a
+        specified filter. This field does not apply to the 'redundant_gre' network type.
+        """
+
+        PERMIT = 'permit'
+        DENY = 'deny'
+
+
+    class RequestStatusEnum(str, Enum):
+        """
+        Only visible for cross account connections, this field represents the status of a
+        connection request between IBM Cloud accounts. The list of enumerated values for
+        this property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        PENDING = 'pending'
+        APPROVED = 'approved'
+        REJECTED = 'rejected'
+        EXPIRED = 'expired'
+        DETACHED = 'detached'
+
+
+    class StatusEnum(str, Enum):
+        """
+        Connection's current configuration state. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        ATTACHED = 'attached'
+        FAILED = 'failed'
+        PENDING = 'pending'
+        NETWORK_PENDING = 'network_pending'
+        DELETING = 'deleting'
+        DETACHING = 'detaching'
+        DETACHED = 'detached'
+        SUSPENDING = 'suspending'
+        SUSPENDED = 'suspended'
+
+
+
 class TransitGatewayConnectionCollection:
     """
     A set of Transit Gateway network connections.
 
-    :attr List[TransitGatewayConnectionCollectionConnectionsItem] connections: Array
-          of transit gateways network Connections.
+    :attr List[TransitGatewayConnection] connections: Array of transit gateways
+          network Connections.
     :attr PaginationFirstTGWConnection first: A reference to the first page of
           resources.
           This will be returned when number of connections in response are greater than
@@ -4646,7 +5584,7 @@ class TransitGatewayConnectionCollection:
 
     def __init__(
         self,
-        connections: List['TransitGatewayConnectionCollectionConnectionsItem'],
+        connections: List['TransitGatewayConnection'],
         first: 'PaginationFirstTGWConnection',
         limit: int,
         total_count: int,
@@ -4656,8 +5594,8 @@ class TransitGatewayConnectionCollection:
         """
         Initialize a TransitGatewayConnectionCollection object.
 
-        :param List[TransitGatewayConnectionCollectionConnectionsItem] connections:
-               Array of transit gateways network Connections.
+        :param List[TransitGatewayConnection] connections: Array of transit
+               gateways network Connections.
         :param PaginationFirstTGWConnection first: A reference to the first page of
                resources.
                This will be returned when number of connections in response are greater
@@ -4682,7 +5620,7 @@ class TransitGatewayConnectionCollection:
         """Initialize a TransitGatewayConnectionCollection object from a json dictionary."""
         args = {}
         if 'connections' in _dict:
-            args['connections'] = _dict.get('connections')
+            args['connections'] = [TransitGatewayConnection.from_dict(v) for v in _dict.get('connections')]
         else:
             raise ValueError('Required property \'connections\' not present in TransitGatewayConnectionCollection JSON')
         if 'first' in _dict:
@@ -4752,42 +5690,408 @@ class TransitGatewayConnectionCollection:
         return not self == other
 
 
-class TransitGatewayConnectionCollectionConnectionsItem:
-    """
-    TransitGatewayConnectionCollectionConnectionsItem.
-
-    """
-
-    def __init__(
-        self,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionCollectionConnectionsItem object.
-
-        """
-        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
-            ", ".join(['TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel', 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel'])
-        )
-        raise Exception(msg)
-
-
 class TransitGatewayConnectionCust:
     """
-    TransitGatewayConnectionCust.
+    Connection included in transit gateway.
 
+    :attr str base_network_type: (optional) The type of network the GRE tunnel is
+          targeting.
+    :attr str name: The user-defined name for this transit gateway connection.
+    :attr str network_id: (optional) The ID of the network being connected via this
+          connection. This field is required for some types, such as 'vpc',
+          'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
+          'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the CRN
+          of the VPC  / PowerVS / Direct Link gateway respectively.
+    :attr str network_type: Defines what type of network is connected via this
+          connection. The list of enumerated values for this property may expand in the
+          future. Code and processes using this field must tolerate unexpected values.
+    :attr str id: The unique identifier for this Transit Gateway Connection.
+    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
+          connections use 'base_connection_id' to specify the ID of a network_type
+          'classic' connection the tunnel is configured over. The specified connection
+          must reside in the same transit gateway and be in an active state. The 'classic'
+          connection cannot be deleted until any 'gre_tunnel' connections using it are
+          deleted. This field only applies to and is required for network type
+          'gre_tunnel' connections.
+    :attr datetime created_at: The date and time that this connection was created.
+    :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
+          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str network_account_id: (optional) The ID of the account which owns the
+          connected network. Generally only used if the network is in a different IBM
+          Cloud account than the gateway.
+    :attr List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
+          (optional) Array of prefix route filters for a transit gateway connection. This
+          is order dependent with those first in the array being applied first, and those
+          at the end of the array is applied last, or just before the default. This field
+          does not apply to the 'redundant_gre' network type.
+    :attr str prefix_filters_default: (optional) Default setting of permit or deny
+          which applies to any routes that don't match a specified filter. This field does
+          not apply to the 'redundant_gre' network type.
+    :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
+          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
+          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+    :attr str request_status: Only visible for cross account connections, this field
+          represents the status of a connection request between IBM Cloud accounts. The
+          list of enumerated values for this property may expand in the future. Code and
+          processes using this field must tolerate unexpected values.
+    :attr str status: Connection's current configuration state. The list of
+          enumerated values for this property may expand in the future. Code and processes
+          using this field must tolerate unexpected values.
+    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
+          Collection of all tunnels for 'redundant_gre' connection.
+    :attr datetime updated_at: The date and time that this connection was last
+          updated.
+    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
+          field only applies to network type 'gre_tunnel' connections.
     """
 
     def __init__(
         self,
+        name: str,
+        network_type: str,
+        id: str,
+        created_at: datetime,
+        request_status: str,
+        status: str,
+        updated_at: datetime,
+        *,
+        base_network_type: str = None,
+        network_id: str = None,
+        base_connection_id: str = None,
+        local_bgp_asn: int = None,
+        local_gateway_ip: str = None,
+        local_tunnel_ip: str = None,
+        mtu: int = None,
+        network_account_id: str = None,
+        prefix_filters: List['TransitGatewayConnectionPrefixFilterReference'] = None,
+        prefix_filters_default: str = None,
+        remote_bgp_asn: int = None,
+        remote_gateway_ip: str = None,
+        remote_tunnel_ip: str = None,
+        tunnels: List['TransitGatewayRedundantGRETunnelReference'] = None,
+        zone: 'GreTunnelZoneReference' = None,
     ) -> None:
         """
         Initialize a TransitGatewayConnectionCust object.
 
+        :param str name: The user-defined name for this transit gateway connection.
+        :param str network_type: Defines what type of network is connected via this
+               connection. The list of enumerated values for this property may expand in
+               the future. Code and processes using this field must tolerate unexpected
+               values.
+        :param str id: The unique identifier for this Transit Gateway Connection.
+        :param datetime created_at: The date and time that this connection was
+               created.
+        :param str request_status: Only visible for cross account connections, this
+               field represents the status of a connection request between IBM Cloud
+               accounts. The list of enumerated values for this property may expand in the
+               future. Code and processes using this field must tolerate unexpected
+               values.
+        :param str status: Connection's current configuration state. The list of
+               enumerated values for this property may expand in the future. Code and
+               processes using this field must tolerate unexpected values.
+        :param datetime updated_at: The date and time that this connection was last
+               updated.
+        :param str base_network_type: (optional) The type of network the GRE tunnel
+               is targeting.
+        :param str network_id: (optional) The ID of the network being connected via
+               this connection. This field is required for some types, such as 'vpc',
+               'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
+               'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the
+               CRN of the VPC  / PowerVS / Direct Link gateway respectively.
+        :param str base_connection_id: (optional) Deprecated: network_type
+               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
+               network_type 'classic' connection the tunnel is configured over. The
+               specified connection must reside in the same transit gateway and be in an
+               active state. The 'classic' connection cannot be deleted until any
+               'gre_tunnel' connections using it are deleted. This field only applies to
+               and is required for network type 'gre_tunnel' connections.
+        :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str local_gateway_ip: (optional) Local gateway IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
+               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+        :param str network_account_id: (optional) The ID of the account which owns
+               the connected network. Generally only used if the network is in a different
+               IBM Cloud account than the gateway.
+        :param List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
+               (optional) Array of prefix route filters for a transit gateway connection.
+               This is order dependent with those first in the array being applied first,
+               and those at the end of the array is applied last, or just before the
+               default. This field does not apply to the 'redundant_gre' network type.
+        :param str prefix_filters_default: (optional) Default setting of permit or
+               deny which applies to any routes that don't match a specified filter. This
+               field does not apply to the 'redundant_gre' network type.
+        :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
+               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
+               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               connections.
+        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
+               Collection of all tunnels for 'redundant_gre' connection.
+        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
+               This field only applies to network type 'gre_tunnel' connections.
         """
-        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
-            ", ".join(['TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel', 'TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel'])
-        )
-        raise Exception(msg)
+        self.base_network_type = base_network_type
+        self.name = name
+        self.network_id = network_id
+        self.network_type = network_type
+        self.id = id
+        self.base_connection_id = base_connection_id
+        self.created_at = created_at
+        self.local_bgp_asn = local_bgp_asn
+        self.local_gateway_ip = local_gateway_ip
+        self.local_tunnel_ip = local_tunnel_ip
+        self.mtu = mtu
+        self.network_account_id = network_account_id
+        self.prefix_filters = prefix_filters
+        self.prefix_filters_default = prefix_filters_default
+        self.remote_bgp_asn = remote_bgp_asn
+        self.remote_gateway_ip = remote_gateway_ip
+        self.remote_tunnel_ip = remote_tunnel_ip
+        self.request_status = request_status
+        self.status = status
+        self.tunnels = tunnels
+        self.updated_at = updated_at
+        self.zone = zone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionCust':
+        """Initialize a TransitGatewayConnectionCust object from a json dictionary."""
+        args = {}
+        if 'base_network_type' in _dict:
+            args['base_network_type'] = _dict.get('base_network_type')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionCust JSON')
+        if 'network_id' in _dict:
+            args['network_id'] = _dict.get('network_id')
+        if 'network_type' in _dict:
+            args['network_type'] = _dict.get('network_type')
+        else:
+            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionCust JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCust JSON')
+        if 'base_connection_id' in _dict:
+            args['base_connection_id'] = _dict.get('base_connection_id')
+        if 'created_at' in _dict:
+            args['created_at'] = string_to_datetime(_dict.get('created_at'))
+        else:
+            raise ValueError('Required property \'created_at\' not present in TransitGatewayConnectionCust JSON')
+        if 'local_bgp_asn' in _dict:
+            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
+        if 'local_gateway_ip' in _dict:
+            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
+        if 'local_tunnel_ip' in _dict:
+            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
+        if 'mtu' in _dict:
+            args['mtu'] = _dict.get('mtu')
+        if 'network_account_id' in _dict:
+            args['network_account_id'] = _dict.get('network_account_id')
+        if 'prefix_filters' in _dict:
+            args['prefix_filters'] = [TransitGatewayConnectionPrefixFilterReference.from_dict(v) for v in _dict.get('prefix_filters')]
+        if 'prefix_filters_default' in _dict:
+            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
+        if 'remote_bgp_asn' in _dict:
+            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
+        if 'remote_gateway_ip' in _dict:
+            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
+        if 'remote_tunnel_ip' in _dict:
+            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
+        if 'request_status' in _dict:
+            args['request_status'] = _dict.get('request_status')
+        else:
+            raise ValueError('Required property \'request_status\' not present in TransitGatewayConnectionCust JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in TransitGatewayConnectionCust JSON')
+        if 'tunnels' in _dict:
+            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
+        if 'updated_at' in _dict:
+            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
+        else:
+            raise ValueError('Required property \'updated_at\' not present in TransitGatewayConnectionCust JSON')
+        if 'zone' in _dict:
+            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitGatewayConnectionCust object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
+            _dict['base_network_type'] = self.base_network_type
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'network_id') and self.network_id is not None:
+            _dict['network_id'] = self.network_id
+        if hasattr(self, 'network_type') and self.network_type is not None:
+            _dict['network_type'] = self.network_type
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
+            _dict['base_connection_id'] = self.base_connection_id
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
+            _dict['local_bgp_asn'] = self.local_bgp_asn
+        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
+            _dict['local_gateway_ip'] = self.local_gateway_ip
+        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
+            _dict['local_tunnel_ip'] = self.local_tunnel_ip
+        if hasattr(self, 'mtu') and self.mtu is not None:
+            _dict['mtu'] = self.mtu
+        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
+            _dict['network_account_id'] = self.network_account_id
+        if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
+            prefix_filters_list = []
+            for v in self.prefix_filters:
+                if isinstance(v, dict):
+                    prefix_filters_list.append(v)
+                else:
+                    prefix_filters_list.append(v.to_dict())
+            _dict['prefix_filters'] = prefix_filters_list
+        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
+            _dict['prefix_filters_default'] = self.prefix_filters_default
+        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
+            _dict['remote_bgp_asn'] = self.remote_bgp_asn
+        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
+            _dict['remote_gateway_ip'] = self.remote_gateway_ip
+        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
+            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
+        if hasattr(self, 'request_status') and self.request_status is not None:
+            _dict['request_status'] = self.request_status
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'tunnels') and self.tunnels is not None:
+            tunnels_list = []
+            for v in self.tunnels:
+                if isinstance(v, dict):
+                    tunnels_list.append(v)
+                else:
+                    tunnels_list.append(v.to_dict())
+            _dict['tunnels'] = tunnels_list
+        if hasattr(self, 'updated_at') and self.updated_at is not None:
+            _dict['updated_at'] = datetime_to_string(self.updated_at)
+        if hasattr(self, 'zone') and self.zone is not None:
+            if isinstance(self.zone, dict):
+                _dict['zone'] = self.zone
+            else:
+                _dict['zone'] = self.zone.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitGatewayConnectionCust object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitGatewayConnectionCust') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitGatewayConnectionCust') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class BaseNetworkTypeEnum(str, Enum):
+        """
+        The type of network the GRE tunnel is targeting.
+        """
+
+        CLASSIC = 'classic'
+        VPC = 'vpc'
+
+
+    class NetworkTypeEnum(str, Enum):
+        """
+        Defines what type of network is connected via this connection. The list of
+        enumerated values for this property may expand in the future. Code and processes
+        using this field must tolerate unexpected values.
+        """
+
+        CLASSIC = 'classic'
+        DIRECTLINK = 'directlink'
+        GRE_TUNNEL = 'gre_tunnel'
+        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
+        VPC = 'vpc'
+        POWER_VIRTUAL_SERVER = 'power_virtual_server'
+        REDUNDANT_GRE = 'redundant_gre'
+
+
+    class PrefixFiltersDefaultEnum(str, Enum):
+        """
+        Default setting of permit or deny which applies to any routes that don't match a
+        specified filter. This field does not apply to the 'redundant_gre' network type.
+        """
+
+        PERMIT = 'permit'
+        DENY = 'deny'
+
+
+    class RequestStatusEnum(str, Enum):
+        """
+        Only visible for cross account connections, this field represents the status of a
+        connection request between IBM Cloud accounts. The list of enumerated values for
+        this property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        PENDING = 'pending'
+        APPROVED = 'approved'
+        REJECTED = 'rejected'
+        EXPIRED = 'expired'
+        DETACHED = 'detached'
+
+
+    class StatusEnum(str, Enum):
+        """
+        Connection's current configuration state. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        ATTACHED = 'attached'
+        FAILED = 'failed'
+        PENDING = 'pending'
+        NETWORK_PENDING = 'network_pending'
+        DELETING = 'deleting'
+        DETACHING = 'detaching'
+        DETACHED = 'detached'
+        SUSPENDING = 'suspending'
+        SUSPENDED = 'suspended'
+
 
 
 class TransitGatewayConnectionPrefixFilter:
@@ -5052,25 +6356,6 @@ class TransitGatewayConnectionPrefixFilterReference:
         PERMIT = 'permit'
         DENY = 'deny'
 
-
-
-class TransitGatewayConnectionTemplate:
-    """
-    TransitGatewayConnectionTemplate.
-
-    """
-
-    def __init__(
-        self,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionTemplate object.
-
-        """
-        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
-            ", ".join(['TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate', 'TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate'])
-        )
-        raise Exception(msg)
 
 
 class TransitGatewayRedundantGRETunnelReference:
@@ -5659,2370 +6944,6 @@ class ZoneReferenceCollection:
         return not self == other
 
 
-class TransitConnectionCollectionConnectionsItemTransitConnection(TransitConnectionCollectionConnectionsItem):
-    """
-    Transit gateway connection.
-
-    :attr str base_connection_id: (optional) network_type 'gre_tunnel' connections
-          use 'base_connection_id' to specify the id of a network_type 'classic'
-          connection the tunnel is configured over. The specified connection must reside
-          in the same transit gateway and be in an active state. The 'classic' connection
-          cannot be deleted until any 'gre_tunnel' connections using it are deleted. This
-          field only applies to and is required for network type 'gre_tunnel' connections.
-    :attr datetime created_at: The date and time that this connection was created.
-    :attr str id: The unique identifier for this connection.
-    :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' connections.
-    :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
-          only applies to network type 'gre_tunnel' connections.
-    :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
-          applies to network type 'gre_tunnel' connections.
-    :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
-          type 'gre_tunnel' connections.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          connected network. Generally only used if the network is in a different IBM
-          Cloud account than the gateway.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. This field is required for some types, such as 'vpc',
-          'power_virtual_server' and 'directlink'. For network types
-          'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC /
-          PowerVS / Direct Link gateway respectively.
-    :attr str network_type: Defines what type of network is connected via this
-          connection. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str prefix_filters_default: Default setting of permit or deny which
-          applies to any routes that don't match a specified filter.
-    :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' connections.
-    :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
-          only applies to network type 'gre_tunnel' connections.
-    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
-          only applies to network type 'gre_tunnel' connections.
-    :attr str request_status: (optional) Only visible for cross account connections,
-          this field represents the status of a connection request between IBM Cloud
-          accounts. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str status: Connection state. The list of enumerated values for this
-          property may expand in the future. Code and processes using this field must
-          tolerate unexpected values.
-    :attr TransitGatewayReference transit_gateway: Reference to the transit gateway
-          that contains this connection.
-    :attr datetime updated_at: (optional) The date and time that this connection was
-          last updated.
-    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
-          field only applies to network type 'gre_tunnel' connections.
-    """
-
-    def __init__(
-        self,
-        created_at: datetime,
-        id: str,
-        name: str,
-        network_type: str,
-        prefix_filters_default: str,
-        status: str,
-        transit_gateway: 'TransitGatewayReference',
-        *,
-        base_connection_id: str = None,
-        local_bgp_asn: int = None,
-        local_gateway_ip: str = None,
-        local_tunnel_ip: str = None,
-        mtu: int = None,
-        network_account_id: str = None,
-        network_id: str = None,
-        remote_bgp_asn: int = None,
-        remote_gateway_ip: str = None,
-        remote_tunnel_ip: str = None,
-        request_status: str = None,
-        updated_at: datetime = None,
-        zone: 'GreTunnelZoneReference' = None,
-    ) -> None:
-        """
-        Initialize a TransitConnectionCollectionConnectionsItemTransitConnection object.
-
-        :param datetime created_at: The date and time that this connection was
-               created.
-        :param str id: The unique identifier for this connection.
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection. The list of enumerated values for this property may expand in
-               the future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str prefix_filters_default: Default setting of permit or deny which
-               applies to any routes that don't match a specified filter.
-        :param str status: Connection state. The list of enumerated values for this
-               property may expand in the future. Code and processes using this field must
-               tolerate unexpected values.
-        :param TransitGatewayReference transit_gateway: Reference to the transit
-               gateway that contains this connection.
-        :param str base_connection_id: (optional) network_type 'gre_tunnel'
-               connections use 'base_connection_id' to specify the id of a network_type
-               'classic' connection the tunnel is configured over. The specified
-               connection must reside in the same transit gateway and be in an active
-               state. The 'classic' connection cannot be deleted until any 'gre_tunnel'
-               connections using it are deleted. This field only applies to and is
-               required for network type 'gre_tunnel' connections.
-        :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' connections.
-        :param str local_gateway_ip: (optional) Local gateway IP address.  This
-               field only applies to network type 'gre_tunnel' connections.
-        :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
-               only applies to network type 'gre_tunnel' connections.
-        :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
-               network type 'gre_tunnel' connections.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the connected network. Generally only used if the network is in a different
-               IBM Cloud account than the gateway.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. This field is required for some types, such as 'vpc',
-               'power_virtual_server' and 'directlink'. For network types
-               'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC /
-               PowerVS / Direct Link gateway respectively.
-        :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' connections.
-        :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
-               field only applies to network type 'gre_tunnel' connections.
-        :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
-               field only applies to network type 'gre_tunnel' connections.
-        :param str request_status: (optional) Only visible for cross account
-               connections, this field represents the status of a connection request
-               between IBM Cloud accounts. The list of enumerated values for this property
-               may expand in the future. Code and processes using this field must tolerate
-               unexpected values.
-        :param datetime updated_at: (optional) The date and time that this
-               connection was last updated.
-        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
-               This field only applies to network type 'gre_tunnel' connections.
-        """
-        # pylint: disable=super-init-not-called
-        self.base_connection_id = base_connection_id
-        self.created_at = created_at
-        self.id = id
-        self.local_bgp_asn = local_bgp_asn
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.mtu = mtu
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.network_type = network_type
-        self.prefix_filters_default = prefix_filters_default
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.request_status = request_status
-        self.status = status
-        self.transit_gateway = transit_gateway
-        self.updated_at = updated_at
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitConnectionCollectionConnectionsItemTransitConnection':
-        """Initialize a TransitConnectionCollectionConnectionsItemTransitConnection object from a json dictionary."""
-        args = {}
-        if 'base_connection_id' in _dict:
-            args['base_connection_id'] = _dict.get('base_connection_id')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'local_bgp_asn' in _dict:
-            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        if 'mtu' in _dict:
-            args['mtu'] = _dict.get('mtu')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'prefix_filters_default' in _dict:
-            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
-        else:
-            raise ValueError('Required property \'prefix_filters_default\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        if 'request_status' in _dict:
-            args['request_status'] = _dict.get('request_status')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'transit_gateway' in _dict:
-            args['transit_gateway'] = TransitGatewayReference.from_dict(_dict.get('transit_gateway'))
-        else:
-            raise ValueError('Required property \'transit_gateway\' not present in TransitConnectionCollectionConnectionsItemTransitConnection JSON')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        if 'zone' in _dict:
-            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitConnectionCollectionConnectionsItemTransitConnection object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
-            _dict['base_connection_id'] = self.base_connection_id
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
-            _dict['local_bgp_asn'] = self.local_bgp_asn
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'mtu') and self.mtu is not None:
-            _dict['mtu'] = self.mtu
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
-            _dict['prefix_filters_default'] = self.prefix_filters_default
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'request_status') and self.request_status is not None:
-            _dict['request_status'] = self.request_status
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'transit_gateway') and self.transit_gateway is not None:
-            if isinstance(self.transit_gateway, dict):
-                _dict['transit_gateway'] = self.transit_gateway
-            else:
-                _dict['transit_gateway'] = self.transit_gateway.to_dict()
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitConnectionCollectionConnectionsItemTransitConnection object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitConnectionCollectionConnectionsItemTransitConnection') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitConnectionCollectionConnectionsItemTransitConnection') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection. The list of
-        enumerated values for this property may expand in the future. Code and processes
-        using this field must tolerate unexpected values.
-        """
-
-        CLASSIC = 'classic'
-        DIRECTLINK = 'directlink'
-        GRE_TUNNEL = 'gre_tunnel'
-        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
-        VPC = 'vpc'
-        POWER_VIRTUAL_SERVER = 'power_virtual_server'
-
-
-    class PrefixFiltersDefaultEnum(str, Enum):
-        """
-        Default setting of permit or deny which applies to any routes that don't match a
-        specified filter.
-        """
-
-        PERMIT = 'permit'
-        DENY = 'deny'
-
-
-    class RequestStatusEnum(str, Enum):
-        """
-        Only visible for cross account connections, this field represents the status of a
-        connection request between IBM Cloud accounts. The list of enumerated values for
-        this property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        PENDING = 'pending'
-        APPROVED = 'approved'
-        REJECTED = 'rejected'
-        EXPIRED = 'expired'
-        DETACHED = 'detached'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Connection state. The list of enumerated values for this property may expand in
-        the future. Code and processes using this field must tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        NETWORK_PENDING = 'network_pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE(TransitConnectionCollectionConnectionsItem):
-    """
-    Transit gateway connection for redundant GRE.
-
-    :attr str base_network_type: The type of network the redundant GRE tunnel is
-          targeting.
-    :attr datetime created_at: The date and time that this connection was created.
-    :attr str id: The unique identifier for this connection.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          connected network. Generally only used if the network is in a different IBM
-          Cloud account than the gateway.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. This field is required for type 'vpc' and is the CRN of the VPC.
-    :attr str network_type: Defines what type of network is connected via this
-          connection.
-    :attr str request_status: Only visible for cross account connections, this field
-          represents the status of a connection request between IBM Cloud accounts. The
-          list of enumerated values for this property may expand in the future. Code and
-          processes using this field must tolerate unexpected values.
-    :attr str status: Connection state. The list of enumerated values for this
-          property may expand in the future. Code and processes using this field must
-          tolerate unexpected values.
-    :attr TransitGatewayReference transit_gateway: Reference to the transit gateway
-          that contains this connection.
-    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: Array of GRE
-          tunnels for a transit gateway redundant GRE tunnel connection.
-    :attr datetime updated_at: The date and time that this connection was last
-          updated.
-    """
-
-    def __init__(
-        self,
-        base_network_type: str,
-        created_at: datetime,
-        id: str,
-        name: str,
-        network_type: str,
-        request_status: str,
-        status: str,
-        transit_gateway: 'TransitGatewayReference',
-        tunnels: List['TransitGatewayRedundantGRETunnelReference'],
-        updated_at: datetime,
-        *,
-        network_account_id: str = None,
-        network_id: str = None,
-    ) -> None:
-        """
-        Initialize a TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE object.
-
-        :param str base_network_type: The type of network the redundant GRE tunnel
-               is targeting.
-        :param datetime created_at: The date and time that this connection was
-               created.
-        :param str id: The unique identifier for this connection.
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection.
-        :param str request_status: Only visible for cross account connections, this
-               field represents the status of a connection request between IBM Cloud
-               accounts. The list of enumerated values for this property may expand in the
-               future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str status: Connection state. The list of enumerated values for this
-               property may expand in the future. Code and processes using this field must
-               tolerate unexpected values.
-        :param TransitGatewayReference transit_gateway: Reference to the transit
-               gateway that contains this connection.
-        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: Array of
-               GRE tunnels for a transit gateway redundant GRE tunnel connection.
-        :param datetime updated_at: The date and time that this connection was last
-               updated.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the connected network. Generally only used if the network is in a different
-               IBM Cloud account than the gateway.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. This field is required for type 'vpc' and is the CRN of
-               the VPC.
-        """
-        # pylint: disable=super-init-not-called
-        self.base_network_type = base_network_type
-        self.created_at = created_at
-        self.id = id
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.network_type = network_type
-        self.request_status = request_status
-        self.status = status
-        self.transit_gateway = transit_gateway
-        self.tunnels = tunnels
-        self.updated_at = updated_at
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE':
-        """Initialize a TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE object from a json dictionary."""
-        args = {}
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        else:
-            raise ValueError('Required property \'base_network_type\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'request_status' in _dict:
-            args['request_status'] = _dict.get('request_status')
-        else:
-            raise ValueError('Required property \'request_status\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'transit_gateway' in _dict:
-            args['transit_gateway'] = TransitGatewayReference.from_dict(_dict.get('transit_gateway'))
-        else:
-            raise ValueError('Required property \'transit_gateway\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'tunnels' in _dict:
-            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
-        else:
-            raise ValueError('Required property \'tunnels\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        else:
-            raise ValueError('Required property \'updated_at\' not present in TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'request_status') and self.request_status is not None:
-            _dict['request_status'] = self.request_status
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'transit_gateway') and self.transit_gateway is not None:
-            if isinstance(self.transit_gateway, dict):
-                _dict['transit_gateway'] = self.transit_gateway
-            else:
-                _dict['transit_gateway'] = self.transit_gateway.to_dict()
-        if hasattr(self, 'tunnels') and self.tunnels is not None:
-            tunnels_list = []
-            for v in self.tunnels:
-                if isinstance(v, dict):
-                    tunnels_list.append(v)
-                else:
-                    tunnels_list.append(v.to_dict())
-            _dict['tunnels'] = tunnels_list
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the redundant GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-        VPC = 'vpc'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection.
-        """
-
-        REDUNDANT_GRE = 'redundant_gre'
-
-
-    class RequestStatusEnum(str, Enum):
-        """
-        Only visible for cross account connections, this field represents the status of a
-        connection request between IBM Cloud accounts. The list of enumerated values for
-        this property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        PARTIAL = 'partial'
-        PENDING = 'pending'
-        APPROVED = 'approved'
-        REJECTED = 'rejected'
-        EXPIRED = 'expired'
-        DETACHED = 'detached'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Connection state. The list of enumerated values for this property may expand in
-        the future. Code and processes using this field must tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        NETWORK_PENDING = 'network_pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel(TransitGatewayConnectionCollectionConnectionsItem):
-    """
-    Connection included in transit gateway.
-
-    :attr str base_network_type: (optional) The type of network the GRE tunnel is
-          targeting.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. This field is required for some types, such as 'vpc',
-          'power_virtual_server' and 'directlink'. For network types
-          'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC /
-          PowerVS / Direct Link gateway respectively.
-    :attr str network_type: Defines what type of network is connected via this
-          connection. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str id: The unique identifier for this Transit Gateway Connection.
-    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
-          connections use 'base_connection_id' to specify the ID of a network_type
-          'classic' connection the tunnel is configured over. The specified connection
-          must reside in the same transit gateway and be in an active state. The 'classic'
-          connection cannot be deleted until any 'gre_tunnel' connections using it are
-          deleted. This field only applies to and is required for network type
-          'gre_tunnel' connections.
-    :attr datetime created_at: The date and time that this connection was created.
-    :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
-          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          connected network. Generally only used if the network is in a different IBM
-          Cloud account than the gateway.
-    :attr List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
-          (optional) Array of prefix route filters for a transit gateway connection. This
-          is order dependent with those first in the array being applied first, and those
-          at the end of the array is applied last, or just before the default.
-    :attr str prefix_filters_default: Default setting of permit or deny which
-          applies to any routes that don't match a specified filter.
-    :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str request_status: (optional) Only visible for cross account connections,
-          this field represents the status of a connection request between IBM Cloud
-          accounts. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str status: (optional) Connection's current configuration state. The list
-          of enumerated values for this property may expand in the future. Code and
-          processes using this field must tolerate unexpected values.
-    :attr datetime updated_at: (optional) The date and time that this connection was
-          last updated.
-    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
-          field only applies to network type 'gre_tunnel' connections.
-    """
-
-    def __init__(
-        self,
-        name: str,
-        network_type: str,
-        id: str,
-        created_at: datetime,
-        prefix_filters_default: str,
-        *,
-        base_network_type: str = None,
-        network_id: str = None,
-        base_connection_id: str = None,
-        local_bgp_asn: int = None,
-        local_gateway_ip: str = None,
-        local_tunnel_ip: str = None,
-        mtu: int = None,
-        network_account_id: str = None,
-        prefix_filters: List['TransitGatewayConnectionPrefixFilterReference'] = None,
-        remote_bgp_asn: int = None,
-        remote_gateway_ip: str = None,
-        remote_tunnel_ip: str = None,
-        request_status: str = None,
-        status: str = None,
-        updated_at: datetime = None,
-        zone: 'GreTunnelZoneReference' = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel object.
-
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection. The list of enumerated values for this property may expand in
-               the future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str id: The unique identifier for this Transit Gateway Connection.
-        :param datetime created_at: The date and time that this connection was
-               created.
-        :param str prefix_filters_default: Default setting of permit or deny which
-               applies to any routes that don't match a specified filter.
-        :param str base_network_type: (optional) The type of network the GRE tunnel
-               is targeting.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. This field is required for some types, such as 'vpc',
-               'power_virtual_server' and 'directlink'. For network types
-               'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC /
-               PowerVS / Direct Link gateway respectively.
-        :param str base_connection_id: (optional) Deprecated: network_type
-               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-               network_type 'classic' connection the tunnel is configured over. The
-               specified connection must reside in the same transit gateway and be in an
-               active state. The 'classic' connection cannot be deleted until any
-               'gre_tunnel' connections using it are deleted. This field only applies to
-               and is required for network type 'gre_tunnel' connections.
-        :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str local_gateway_ip: (optional) Local gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
-               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the connected network. Generally only used if the network is in a different
-               IBM Cloud account than the gateway.
-        :param List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
-               (optional) Array of prefix route filters for a transit gateway connection.
-               This is order dependent with those first in the array being applied first,
-               and those at the end of the array is applied last, or just before the
-               default.
-        :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str request_status: (optional) Only visible for cross account
-               connections, this field represents the status of a connection request
-               between IBM Cloud accounts. The list of enumerated values for this property
-               may expand in the future. Code and processes using this field must tolerate
-               unexpected values.
-        :param str status: (optional) Connection's current configuration state. The
-               list of enumerated values for this property may expand in the future. Code
-               and processes using this field must tolerate unexpected values.
-        :param datetime updated_at: (optional) The date and time that this
-               connection was last updated.
-        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
-               This field only applies to network type 'gre_tunnel' connections.
-        """
-        # pylint: disable=super-init-not-called
-        self.base_network_type = base_network_type
-        self.name = name
-        self.network_id = network_id
-        self.network_type = network_type
-        self.id = id
-        self.base_connection_id = base_connection_id
-        self.created_at = created_at
-        self.local_bgp_asn = local_bgp_asn
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.mtu = mtu
-        self.network_account_id = network_account_id
-        self.prefix_filters = prefix_filters
-        self.prefix_filters_default = prefix_filters_default
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.request_status = request_status
-        self.status = status
-        self.updated_at = updated_at
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel':
-        """Initialize a TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel object from a json dictionary."""
-        args = {}
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'base_connection_id' in _dict:
-            args['base_connection_id'] = _dict.get('base_connection_id')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'local_bgp_asn' in _dict:
-            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        if 'mtu' in _dict:
-            args['mtu'] = _dict.get('mtu')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'prefix_filters' in _dict:
-            args['prefix_filters'] = [TransitGatewayConnectionPrefixFilterReference.from_dict(v) for v in _dict.get('prefix_filters')]
-        if 'prefix_filters_default' in _dict:
-            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
-        else:
-            raise ValueError('Required property \'prefix_filters_default\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        if 'request_status' in _dict:
-            args['request_status'] = _dict.get('request_status')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        if 'zone' in _dict:
-            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
-            _dict['base_connection_id'] = self.base_connection_id
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
-            _dict['local_bgp_asn'] = self.local_bgp_asn
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'mtu') and self.mtu is not None:
-            _dict['mtu'] = self.mtu
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
-            prefix_filters_list = []
-            for v in self.prefix_filters:
-                if isinstance(v, dict):
-                    prefix_filters_list.append(v)
-                else:
-                    prefix_filters_list.append(v.to_dict())
-            _dict['prefix_filters'] = prefix_filters_list
-        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
-            _dict['prefix_filters_default'] = self.prefix_filters_default
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'request_status') and self.request_status is not None:
-            _dict['request_status'] = self.request_status
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionNonRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection. The list of
-        enumerated values for this property may expand in the future. Code and processes
-        using this field must tolerate unexpected values.
-        """
-
-        CLASSIC = 'classic'
-        DIRECTLINK = 'directlink'
-        GRE_TUNNEL = 'gre_tunnel'
-        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
-        VPC = 'vpc'
-        POWER_VIRTUAL_SERVER = 'power_virtual_server'
-
-
-    class PrefixFiltersDefaultEnum(str, Enum):
-        """
-        Default setting of permit or deny which applies to any routes that don't match a
-        specified filter.
-        """
-
-        PERMIT = 'permit'
-        DENY = 'deny'
-
-
-    class RequestStatusEnum(str, Enum):
-        """
-        Only visible for cross account connections, this field represents the status of a
-        connection request between IBM Cloud accounts. The list of enumerated values for
-        this property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        PENDING = 'pending'
-        APPROVED = 'approved'
-        REJECTED = 'rejected'
-        EXPIRED = 'expired'
-        DETACHED = 'detached'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Connection's current configuration state. The list of enumerated values for this
-        property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        NETWORK_PENDING = 'network_pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel(TransitGatewayConnectionCollectionConnectionsItem):
-    """
-    Redundant GRE tunnel connection included in transit gateway.
-
-    :attr str id: The unique identifier for this Transit Gateway redundant tunnel
-          connection.
-    :attr str base_network_type: The type of network the GRE tunnel is targeting.
-    :attr datetime created_at: The date and time that this connection was created.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          connected network. Generally only used if the network is in a different IBM
-          Cloud account than the gateway.
-    :attr str network_id: (optional) The ID of the network VPC being connected via
-          this connection.
-    :attr str network_type: Defines what type of network is connected via this
-          connection. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str request_status: Only visible for cross account connections, this field
-          represents the status of a connection request between IBM Cloud accounts. The
-          list of enumerated values for this property may expand in the future. Code and
-          processes using this field must tolerate unexpected values.
-    :attr str status: Connection's current configuration state. The list of
-          enumerated values for this property may expand in the future. Code and processes
-          using this field must tolerate unexpected values.
-    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: Array of GRE
-          tunnels for a transit gateway redundant GRE tunnel connection.
-    :attr datetime updated_at: The date and time that this connection was last
-          updated.
-    """
-
-    def __init__(
-        self,
-        id: str,
-        base_network_type: str,
-        created_at: datetime,
-        name: str,
-        network_type: str,
-        request_status: str,
-        status: str,
-        tunnels: List['TransitGatewayRedundantGRETunnelReference'],
-        updated_at: datetime,
-        *,
-        network_account_id: str = None,
-        network_id: str = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel object.
-
-        :param str id: The unique identifier for this Transit Gateway redundant
-               tunnel connection.
-        :param str base_network_type: The type of network the GRE tunnel is
-               targeting.
-        :param datetime created_at: The date and time that this connection was
-               created.
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection. The list of enumerated values for this property may expand in
-               the future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str request_status: Only visible for cross account connections, this
-               field represents the status of a connection request between IBM Cloud
-               accounts. The list of enumerated values for this property may expand in the
-               future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str status: Connection's current configuration state. The list of
-               enumerated values for this property may expand in the future. Code and
-               processes using this field must tolerate unexpected values.
-        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: Array of
-               GRE tunnels for a transit gateway redundant GRE tunnel connection.
-        :param datetime updated_at: The date and time that this connection was last
-               updated.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the connected network. Generally only used if the network is in a different
-               IBM Cloud account than the gateway.
-        :param str network_id: (optional) The ID of the network VPC being connected
-               via this connection.
-        """
-        # pylint: disable=super-init-not-called
-        self.id = id
-        self.base_network_type = base_network_type
-        self.created_at = created_at
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.network_type = network_type
-        self.request_status = request_status
-        self.status = status
-        self.tunnels = tunnels
-        self.updated_at = updated_at
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel':
-        """Initialize a TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel object from a json dictionary."""
-        args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        else:
-            raise ValueError('Required property \'base_network_type\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'request_status' in _dict:
-            args['request_status'] = _dict.get('request_status')
-        else:
-            raise ValueError('Required property \'request_status\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'tunnels' in _dict:
-            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
-        else:
-            raise ValueError('Required property \'tunnels\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        else:
-            raise ValueError('Required property \'updated_at\' not present in TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'request_status') and self.request_status is not None:
-            _dict['request_status'] = self.request_status
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'tunnels') and self.tunnels is not None:
-            tunnels_list = []
-            for v in self.tunnels:
-                if isinstance(v, dict):
-                    tunnels_list.append(v)
-                else:
-                    tunnels_list.append(v.to_dict())
-            _dict['tunnels'] = tunnels_list
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayConnectionCollectionConnectionsItemTransitGatewayConnectionRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-        VPC = 'vpc'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection. The list of
-        enumerated values for this property may expand in the future. Code and processes
-        using this field must tolerate unexpected values.
-        """
-
-        REDUNDANT_GRE = 'redundant_gre'
-
-
-    class RequestStatusEnum(str, Enum):
-        """
-        Only visible for cross account connections, this field represents the status of a
-        connection request between IBM Cloud accounts. The list of enumerated values for
-        this property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        PARTIAL = 'partial'
-        PENDING = 'pending'
-        APPROVED = 'approved'
-        REJECTED = 'rejected'
-        EXPIRED = 'expired'
-        DETACHED = 'detached'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Connection's current configuration state. The list of enumerated values for this
-        property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        NETWORK_PENDING = 'network_pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel(TransitGatewayConnectionCust):
-    """
-    Connection included in transit gateway.
-
-    :attr str base_network_type: (optional) The type of network the GRE tunnel is
-          targeting.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. This field is required for some types, such as 'vpc',
-          'power_virtual_server' and 'directlink'. For network types
-          'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC /
-          PowerVS / Direct Link gateway respectively.
-    :attr str network_type: Defines what type of network is connected via this
-          connection. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str id: The unique identifier for this Transit Gateway Connection.
-    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
-          connections use 'base_connection_id' to specify the ID of a network_type
-          'classic' connection the tunnel is configured over. The specified connection
-          must reside in the same transit gateway and be in an active state. The 'classic'
-          connection cannot be deleted until any 'gre_tunnel' connections using it are
-          deleted. This field only applies to and is required for network type
-          'gre_tunnel' connections.
-    :attr datetime created_at: The date and time that this connection was created.
-    :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
-          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          connected network. Generally only used if the network is in a different IBM
-          Cloud account than the gateway.
-    :attr List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
-          (optional) Array of prefix route filters for a transit gateway connection. This
-          is order dependent with those first in the array being applied first, and those
-          at the end of the array is applied last, or just before the default.
-    :attr str prefix_filters_default: Default setting of permit or deny which
-          applies to any routes that don't match a specified filter.
-    :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str request_status: (optional) Only visible for cross account connections,
-          this field represents the status of a connection request between IBM Cloud
-          accounts. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str status: (optional) Connection's current configuration state. The list
-          of enumerated values for this property may expand in the future. Code and
-          processes using this field must tolerate unexpected values.
-    :attr datetime updated_at: (optional) The date and time that this connection was
-          last updated.
-    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
-          field only applies to network type 'gre_tunnel' connections.
-    """
-
-    def __init__(
-        self,
-        name: str,
-        network_type: str,
-        id: str,
-        created_at: datetime,
-        prefix_filters_default: str,
-        *,
-        base_network_type: str = None,
-        network_id: str = None,
-        base_connection_id: str = None,
-        local_bgp_asn: int = None,
-        local_gateway_ip: str = None,
-        local_tunnel_ip: str = None,
-        mtu: int = None,
-        network_account_id: str = None,
-        prefix_filters: List['TransitGatewayConnectionPrefixFilterReference'] = None,
-        remote_bgp_asn: int = None,
-        remote_gateway_ip: str = None,
-        remote_tunnel_ip: str = None,
-        request_status: str = None,
-        status: str = None,
-        updated_at: datetime = None,
-        zone: 'GreTunnelZoneReference' = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel object.
-
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection. The list of enumerated values for this property may expand in
-               the future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str id: The unique identifier for this Transit Gateway Connection.
-        :param datetime created_at: The date and time that this connection was
-               created.
-        :param str prefix_filters_default: Default setting of permit or deny which
-               applies to any routes that don't match a specified filter.
-        :param str base_network_type: (optional) The type of network the GRE tunnel
-               is targeting.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. This field is required for some types, such as 'vpc',
-               'power_virtual_server' and 'directlink'. For network types
-               'vpc','power_virtual_server' and 'directlink' this is the CRN of the VPC /
-               PowerVS / Direct Link gateway respectively.
-        :param str base_connection_id: (optional) Deprecated: network_type
-               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-               network_type 'classic' connection the tunnel is configured over. The
-               specified connection must reside in the same transit gateway and be in an
-               active state. The 'classic' connection cannot be deleted until any
-               'gre_tunnel' connections using it are deleted. This field only applies to
-               and is required for network type 'gre_tunnel' connections.
-        :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str local_gateway_ip: (optional) Local gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
-               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the connected network. Generally only used if the network is in a different
-               IBM Cloud account than the gateway.
-        :param List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
-               (optional) Array of prefix route filters for a transit gateway connection.
-               This is order dependent with those first in the array being applied first,
-               and those at the end of the array is applied last, or just before the
-               default.
-        :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param str request_status: (optional) Only visible for cross account
-               connections, this field represents the status of a connection request
-               between IBM Cloud accounts. The list of enumerated values for this property
-               may expand in the future. Code and processes using this field must tolerate
-               unexpected values.
-        :param str status: (optional) Connection's current configuration state. The
-               list of enumerated values for this property may expand in the future. Code
-               and processes using this field must tolerate unexpected values.
-        :param datetime updated_at: (optional) The date and time that this
-               connection was last updated.
-        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
-               This field only applies to network type 'gre_tunnel' connections.
-        """
-        # pylint: disable=super-init-not-called
-        self.base_network_type = base_network_type
-        self.name = name
-        self.network_id = network_id
-        self.network_type = network_type
-        self.id = id
-        self.base_connection_id = base_connection_id
-        self.created_at = created_at
-        self.local_bgp_asn = local_bgp_asn
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.mtu = mtu
-        self.network_account_id = network_account_id
-        self.prefix_filters = prefix_filters
-        self.prefix_filters_default = prefix_filters_default
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.request_status = request_status
-        self.status = status
-        self.updated_at = updated_at
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel':
-        """Initialize a TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel object from a json dictionary."""
-        args = {}
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'base_connection_id' in _dict:
-            args['base_connection_id'] = _dict.get('base_connection_id')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'local_bgp_asn' in _dict:
-            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        if 'mtu' in _dict:
-            args['mtu'] = _dict.get('mtu')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'prefix_filters' in _dict:
-            args['prefix_filters'] = [TransitGatewayConnectionPrefixFilterReference.from_dict(v) for v in _dict.get('prefix_filters')]
-        if 'prefix_filters_default' in _dict:
-            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
-        else:
-            raise ValueError('Required property \'prefix_filters_default\' not present in TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel JSON')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        if 'request_status' in _dict:
-            args['request_status'] = _dict.get('request_status')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        if 'zone' in _dict:
-            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
-            _dict['base_connection_id'] = self.base_connection_id
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
-            _dict['local_bgp_asn'] = self.local_bgp_asn
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'mtu') and self.mtu is not None:
-            _dict['mtu'] = self.mtu
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
-            prefix_filters_list = []
-            for v in self.prefix_filters:
-                if isinstance(v, dict):
-                    prefix_filters_list.append(v)
-                else:
-                    prefix_filters_list.append(v.to_dict())
-            _dict['prefix_filters'] = prefix_filters_list
-        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
-            _dict['prefix_filters_default'] = self.prefix_filters_default
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'request_status') and self.request_status is not None:
-            _dict['request_status'] = self.request_status
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection. The list of
-        enumerated values for this property may expand in the future. Code and processes
-        using this field must tolerate unexpected values.
-        """
-
-        CLASSIC = 'classic'
-        DIRECTLINK = 'directlink'
-        GRE_TUNNEL = 'gre_tunnel'
-        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
-        VPC = 'vpc'
-        POWER_VIRTUAL_SERVER = 'power_virtual_server'
-
-
-    class PrefixFiltersDefaultEnum(str, Enum):
-        """
-        Default setting of permit or deny which applies to any routes that don't match a
-        specified filter.
-        """
-
-        PERMIT = 'permit'
-        DENY = 'deny'
-
-
-    class RequestStatusEnum(str, Enum):
-        """
-        Only visible for cross account connections, this field represents the status of a
-        connection request between IBM Cloud accounts. The list of enumerated values for
-        this property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        PENDING = 'pending'
-        APPROVED = 'approved'
-        REJECTED = 'rejected'
-        EXPIRED = 'expired'
-        DETACHED = 'detached'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Connection's current configuration state. The list of enumerated values for this
-        property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        NETWORK_PENDING = 'network_pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel(TransitGatewayConnectionCust):
-    """
-    Redundant GRE tunnel connection included in transit gateway.
-
-    :attr str id: The unique identifier for this Transit Gateway redundant tunnel
-          connection.
-    :attr str base_network_type: The type of network the GRE tunnel is targeting.
-    :attr datetime created_at: The date and time that this connection was created.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          connected network. Generally only used if the network is in a different IBM
-          Cloud account than the gateway.
-    :attr str network_id: (optional) The ID of the network VPC being connected via
-          this connection.
-    :attr str network_type: Defines what type of network is connected via this
-          connection. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str request_status: Only visible for cross account connections, this field
-          represents the status of a connection request between IBM Cloud accounts. The
-          list of enumerated values for this property may expand in the future. Code and
-          processes using this field must tolerate unexpected values.
-    :attr str status: Connection's current configuration state. The list of
-          enumerated values for this property may expand in the future. Code and processes
-          using this field must tolerate unexpected values.
-    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: Array of GRE
-          tunnels for a transit gateway redundant GRE tunnel connection.
-    :attr datetime updated_at: The date and time that this connection was last
-          updated.
-    """
-
-    def __init__(
-        self,
-        id: str,
-        base_network_type: str,
-        created_at: datetime,
-        name: str,
-        network_type: str,
-        request_status: str,
-        status: str,
-        tunnels: List['TransitGatewayRedundantGRETunnelReference'],
-        updated_at: datetime,
-        *,
-        network_account_id: str = None,
-        network_id: str = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel object.
-
-        :param str id: The unique identifier for this Transit Gateway redundant
-               tunnel connection.
-        :param str base_network_type: The type of network the GRE tunnel is
-               targeting.
-        :param datetime created_at: The date and time that this connection was
-               created.
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection. The list of enumerated values for this property may expand in
-               the future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str request_status: Only visible for cross account connections, this
-               field represents the status of a connection request between IBM Cloud
-               accounts. The list of enumerated values for this property may expand in the
-               future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str status: Connection's current configuration state. The list of
-               enumerated values for this property may expand in the future. Code and
-               processes using this field must tolerate unexpected values.
-        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: Array of
-               GRE tunnels for a transit gateway redundant GRE tunnel connection.
-        :param datetime updated_at: The date and time that this connection was last
-               updated.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the connected network. Generally only used if the network is in a different
-               IBM Cloud account than the gateway.
-        :param str network_id: (optional) The ID of the network VPC being connected
-               via this connection.
-        """
-        # pylint: disable=super-init-not-called
-        self.id = id
-        self.base_network_type = base_network_type
-        self.created_at = created_at
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.network_type = network_type
-        self.request_status = request_status
-        self.status = status
-        self.tunnels = tunnels
-        self.updated_at = updated_at
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel':
-        """Initialize a TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel object from a json dictionary."""
-        args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        else:
-            raise ValueError('Required property \'base_network_type\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'request_status' in _dict:
-            args['request_status'] = _dict.get('request_status')
-        else:
-            raise ValueError('Required property \'request_status\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'tunnels' in _dict:
-            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
-        else:
-            raise ValueError('Required property \'tunnels\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        else:
-            raise ValueError('Required property \'updated_at\' not present in TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'request_status') and self.request_status is not None:
-            _dict['request_status'] = self.request_status
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'tunnels') and self.tunnels is not None:
-            tunnels_list = []
-            for v in self.tunnels:
-                if isinstance(v, dict):
-                    tunnels_list.append(v)
-                else:
-                    tunnels_list.append(v.to_dict())
-            _dict['tunnels'] = tunnels_list
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-        VPC = 'vpc'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection. The list of
-        enumerated values for this property may expand in the future. Code and processes
-        using this field must tolerate unexpected values.
-        """
-
-        REDUNDANT_GRE = 'redundant_gre'
-
-
-    class RequestStatusEnum(str, Enum):
-        """
-        Only visible for cross account connections, this field represents the status of a
-        connection request between IBM Cloud accounts. The list of enumerated values for
-        this property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        PARTIAL = 'partial'
-        PENDING = 'pending'
-        APPROVED = 'approved'
-        REJECTED = 'rejected'
-        EXPIRED = 'expired'
-        DETACHED = 'detached'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Connection's current configuration state. The list of enumerated values for this
-        property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        NETWORK_PENDING = 'network_pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate(TransitGatewayConnectionTemplate):
-    """
-    A create template for a Transit Gateway connection.
-
-    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
-          connections must be created over an existing network_type 'classic' connection.
-          This field must specify the ID of an active transit gateway network_type
-          'classic' connection in the same transit gateway.
-          This field is required for network type 'gre_tunnel' connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc', 'power_virtual_server' and 'unbound_gre_tunnel'
-          connections.
-    :attr str base_network_type: (optional) The type of network the Unbound GRE
-          tunnel is targeting. This field is required for network type
-          'unbound_gre_tunnel' connections. This field is required to be unspecified for
-          network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
-          'gre_tunnel' connections.
-    :attr str local_gateway_ip: (optional) Local gateway IP address. This field is
-          required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc' and 'power_virtual_server' connections.
-    :attr str local_tunnel_ip: (optional) Local tunnel IP address. The
-          local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-          Neither can be the network nor broadcast addresses.
-          This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-          connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc' and 'power_virtual_server' connections.
-    :attr str name: (optional) The user-defined name for this transit gateway
-          connection. Network type 'vpc'  connections are defaulted to the name of the
-          VPC.  Network type 'classic' connections are named 'Classic'.
-          This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-          connections.
-          This field is optional for network type 'classic', 'directlink', 'vpc' and
-          'power_virtual_server' connections.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          network that is being connected. Generally only used if the network is in a
-          different account than the gateway. This field is required for type
-          'unbound_gre_tunnel' when the associated_network_type is 'classic' and the GRE
-          tunnel is in a different account than the gateway.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. For network types 'vpc','power_virtual_server' and 'directlink' this
-          is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field
-          is required for network type 'vpc', 'power_virtual_server' and 'directlink'
-          connections. This field is required to be unspecified for network type
-          'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr str network_type: Defines what type of network is connected via this
-          connection.
-    :attr List[TransitGatewayConnectionPrefixFilter] prefix_filters: (optional)
-          Array of prefix route filters for a transit gateway connection. Prefix filters
-          can be specified for netowrk type 'vpc', 'classic', 'power_virtual_server' and
-          'directlink' connections. They are not allowed for type 'gre_tunnel'
-          connections. This is order dependent with those first in the array being applied
-          first, and those at the end of the array being applied last, or just before
-          applying the default. This field is optional for network type 'classic', 'vpc',
-          'directlink', and 'power_virtual_server' connections. This field is required to
-          be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-          connections.
-    :attr str prefix_filters_default: (optional) Default setting of permit or deny
-          which applies to any routes that don't match a specified filter. This field is
-          optional for network type 'classic', 'vpc', 'directlink', and
-          'power_virtual_server' connections. This field is required to be unspecified for
-          network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-    :attr int remote_bgp_asn: (optional) Remote network BGP ASN. The following ASN
-          values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-          65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn'
-          is omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM
-          will assign an ASN.
-          This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-          connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc' and 'power_virtual_server' connections.
-    :attr str remote_gateway_ip: (optional) Remote gateway IP address. This field is
-          required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc' and 'power_virtual_server' connections.
-    :attr str remote_tunnel_ip: (optional) Remote tunnel IP address. The
-          local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-          Neither can be the network nor broadcast addresses.
-          This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-          connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc' and 'power_virtual_server' connections.
-    :attr ZoneIdentity zone: (optional) Specify the connection's location.  The
-          specified availability zone must reside in the gateway's region.
-          Use the IBM Cloud global catalog to list zones within the desired region.
-          This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-          connections.
-          This field is required to be unspecified for network type 'classic',
-          'directlink', 'vpc' and 'power_virtual_server' connections.
-    """
-
-    def __init__(
-        self,
-        network_type: str,
-        *,
-        base_connection_id: str = None,
-        base_network_type: str = None,
-        local_gateway_ip: str = None,
-        local_tunnel_ip: str = None,
-        name: str = None,
-        network_account_id: str = None,
-        network_id: str = None,
-        prefix_filters: List['TransitGatewayConnectionPrefixFilter'] = None,
-        prefix_filters_default: str = None,
-        remote_bgp_asn: int = None,
-        remote_gateway_ip: str = None,
-        remote_tunnel_ip: str = None,
-        zone: 'ZoneIdentity' = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate object.
-
-        :param str network_type: Defines what type of network is connected via this
-               connection.
-        :param str base_connection_id: (optional) Deprecated: network_type
-               'gre_tunnel' connections must be created over an existing network_type
-               'classic' connection. This field must specify the ID of an active transit
-               gateway network_type 'classic' connection in the same transit gateway.
-               This field is required for network type 'gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc', 'power_virtual_server' and 'unbound_gre_tunnel'
-               connections.
-        :param str base_network_type: (optional) The type of network the Unbound
-               GRE tunnel is targeting. This field is required for network type
-               'unbound_gre_tunnel' connections. This field is required to be unspecified
-               for network type 'classic', 'directlink', 'vpc', 'power_virtual_server' and
-               'gre_tunnel' connections.
-        :param str local_gateway_ip: (optional) Local gateway IP address. This
-               field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections. This field is required to be unspecified for network type
-               'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
-        :param str local_tunnel_ip: (optional) Local tunnel IP address. The
-               local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
-               network. Neither can be the network nor broadcast addresses.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc' and 'power_virtual_server' connections.
-        :param str name: (optional) The user-defined name for this transit gateway
-               connection. Network type 'vpc'  connections are defaulted to the name of
-               the VPC.  Network type 'classic' connections are named 'Classic'.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is optional for network type 'classic', 'directlink', 'vpc' and
-               'power_virtual_server' connections.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the network that is being connected. Generally only used if the network is
-               in a different account than the gateway. This field is required for type
-               'unbound_gre_tunnel' when the associated_network_type is 'classic' and the
-               GRE tunnel is in a different account than the gateway.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. For network types 'vpc','power_virtual_server' and
-               'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway
-               respectively. This field is required for network type 'vpc',
-               'power_virtual_server' and 'directlink' connections. This field is required
-               to be unspecified for network type 'classic', 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-        :param List[TransitGatewayConnectionPrefixFilter] prefix_filters:
-               (optional) Array of prefix route filters for a transit gateway connection.
-               Prefix filters can be specified for netowrk type 'vpc', 'classic',
-               'power_virtual_server' and 'directlink' connections. They are not allowed
-               for type 'gre_tunnel' connections. This is order dependent with those first
-               in the array being applied first, and those at the end of the array being
-               applied last, or just before applying the default. This field is optional
-               for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server'
-               connections. This field is required to be unspecified for network type
-               'gre_tunnel' and 'unbound_gre_tunnel' connections.
-        :param str prefix_filters_default: (optional) Default setting of permit or
-               deny which applies to any routes that don't match a specified filter. This
-               field is optional for network type 'classic', 'vpc', 'directlink', and
-               'power_virtual_server' connections. This field is required to be
-               unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections.
-        :param int remote_bgp_asn: (optional) Remote network BGP ASN. The following
-               ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-               65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-               'remote_bgp_asn' is omitted on gre_tunnel or unbound_gre_tunnel connection
-               create requests IBM will assign an ASN.
-               This field is optional for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc' and 'power_virtual_server' connections.
-        :param str remote_gateway_ip: (optional) Remote gateway IP address. This
-               field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections. This field is required to be unspecified for network type
-               'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
-        :param str remote_tunnel_ip: (optional) Remote tunnel IP address. The
-               local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
-               network. Neither can be the network nor broadcast addresses.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc' and 'power_virtual_server' connections.
-        :param ZoneIdentity zone: (optional) Specify the connection's location.
-               The specified availability zone must reside in the gateway's region.
-               Use the IBM Cloud global catalog to list zones within the desired region.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc' and 'power_virtual_server' connections.
-        """
-        # pylint: disable=super-init-not-called
-        self.base_connection_id = base_connection_id
-        self.base_network_type = base_network_type
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.network_type = network_type
-        self.prefix_filters = prefix_filters
-        self.prefix_filters_default = prefix_filters_default
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate':
-        """Initialize a TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate object from a json dictionary."""
-        args = {}
-        if 'base_connection_id' in _dict:
-            args['base_connection_id'] = _dict.get('base_connection_id')
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate JSON')
-        if 'prefix_filters' in _dict:
-            args['prefix_filters'] = [TransitGatewayConnectionPrefixFilter.from_dict(v) for v in _dict.get('prefix_filters')]
-        if 'prefix_filters_default' in _dict:
-            args['prefix_filters_default'] = _dict.get('prefix_filters_default')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        if 'zone' in _dict:
-            args['zone'] = _dict.get('zone')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
-            _dict['base_connection_id'] = self.base_connection_id
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
-            prefix_filters_list = []
-            for v in self.prefix_filters:
-                if isinstance(v, dict):
-                    prefix_filters_list.append(v)
-                else:
-                    prefix_filters_list.append(v.to_dict())
-            _dict['prefix_filters'] = prefix_filters_list
-        if hasattr(self, 'prefix_filters_default') and self.prefix_filters_default is not None:
-            _dict['prefix_filters_default'] = self.prefix_filters_default
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayConnectionTemplateTransitGatewayConnectionNonRedundantGRETemplate') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the Unbound GRE tunnel is targeting. This field is required
-        for network type 'unbound_gre_tunnel' connections. This field is required to be
-        unspecified for network type 'classic', 'directlink', 'vpc',
-        'power_virtual_server' and 'gre_tunnel' connections.
-        """
-
-        CLASSIC = 'classic'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection.
-        """
-
-        CLASSIC = 'classic'
-        DIRECTLINK = 'directlink'
-        GRE_TUNNEL = 'gre_tunnel'
-        UNBOUND_GRE_TUNNEL = 'unbound_gre_tunnel'
-        VPC = 'vpc'
-        POWER_VIRTUAL_SERVER = 'power_virtual_server'
-
-
-    class PrefixFiltersDefaultEnum(str, Enum):
-        """
-        Default setting of permit or deny which applies to any routes that don't match a
-        specified filter. This field is optional for network type 'classic', 'vpc',
-        'directlink', and 'power_virtual_server' connections. This field is required to be
-        unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-        """
-
-        PERMIT = 'permit'
-        DENY = 'deny'
-
-
-
-class TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate(TransitGatewayConnectionTemplate):
-    """
-    A create template for a Transit Gateway connection redundant GRE tunnel object.
-
-    :attr str base_network_type: The type of network the GRE tunnel is targeting.
-    :attr str name: The user-defined name for this redundant gre transit gateway
-          connection. Network type 'vpc'  connections are defaulted to the name of the
-          VPC.  Network type 'classic' connections are named 'Classic'.
-    :attr str network_account_id: (optional) The ID of the account which owns the
-          network that is being connected. Generally only used if the network is in a
-          different account than the gateway. This field is required when the GRE tunnel
-          is in a different account than the gateway.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. For base network type, 'vpc', this is the CRN of the VPC. This field
-          is required for base network type 'vpc'. This field is required to be
-          unspecified for base network type 'classic' connections.
-    :attr str network_type: Defines what type of network is connected via this
-          connection.
-    :attr List[TransitGatewayRedundantGRETunnelTemplate] tunnels: Array of GRE
-          tunnels for a transit gateway redundant GRE tunnel connection.
-    """
-
-    def __init__(
-        self,
-        base_network_type: str,
-        name: str,
-        network_type: str,
-        tunnels: List['TransitGatewayRedundantGRETunnelTemplate'],
-        *,
-        network_account_id: str = None,
-        network_id: str = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate object.
-
-        :param str base_network_type: The type of network the GRE tunnel is
-               targeting.
-        :param str name: The user-defined name for this redundant gre transit
-               gateway connection. Network type 'vpc'  connections are defaulted to the
-               name of the VPC.  Network type 'classic' connections are named 'Classic'.
-        :param str network_type: Defines what type of network is connected via this
-               connection.
-        :param List[TransitGatewayRedundantGRETunnelTemplate] tunnels: Array of GRE
-               tunnels for a transit gateway redundant GRE tunnel connection.
-        :param str network_account_id: (optional) The ID of the account which owns
-               the network that is being connected. Generally only used if the network is
-               in a different account than the gateway. This field is required when the
-               GRE tunnel is in a different account than the gateway.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. For base network type, 'vpc', this is the CRN of the VPC.
-               This field is required for base network type 'vpc'. This field is required
-               to be unspecified for base network type 'classic' connections.
-        """
-        # pylint: disable=super-init-not-called
-        self.base_network_type = base_network_type
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.network_type = network_type
-        self.tunnels = tunnels
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate':
-        """Initialize a TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate object from a json dictionary."""
-        args = {}
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        else:
-            raise ValueError('Required property \'base_network_type\' not present in TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate JSON')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate JSON')
-        if 'tunnels' in _dict:
-            args['tunnels'] = [TransitGatewayRedundantGRETunnelTemplate.from_dict(v) for v in _dict.get('tunnels')]
-        else:
-            raise ValueError('Required property \'tunnels\' not present in TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'tunnels') and self.tunnels is not None:
-            tunnels_list = []
-            for v in self.tunnels:
-                if isinstance(v, dict):
-                    tunnels_list.append(v)
-                else:
-                    tunnels_list.append(v.to_dict())
-            _dict['tunnels'] = tunnels_list
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayConnectionTemplateTransitGatewayConnectionRedundantGRETemplate') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-        VPC = 'vpc'
-
-
-    class NetworkTypeEnum(str, Enum):
-        """
-        Defines what type of network is connected via this connection.
-        """
-
-        REDUNDANT_GRE = 'redundant_gre'
-
-
-
 class ZoneIdentityByName(ZoneIdentity):
     """
     Availability zone.
@@ -8185,7 +7106,7 @@ class ConnectionsPager:
     def get_next(self) -> List[dict]:
         """
         Returns the next page of results.
-        :return: A List[dict], where each element is a dict that represents an instance of TransitConnectionCollectionConnectionsItem.
+        :return: A List[dict], where each element is a dict that represents an instance of TransitConnection.
         :rtype: List[dict]
         """
         if not self.has_next():
@@ -8211,7 +7132,7 @@ class ConnectionsPager:
         """
         Returns all results by invoking get_next() repeatedly
         until all pages of results have been retrieved.
-        :return: A List[dict], where each element is a dict that represents an instance of TransitConnectionCollectionConnectionsItem.
+        :return: A List[dict], where each element is a dict that represents an instance of TransitConnection.
         :rtype: List[dict]
         """
         results = []
@@ -8257,7 +7178,7 @@ class TransitGatewayConnectionsPager:
     def get_next(self) -> List[dict]:
         """
         Returns the next page of results.
-        :return: A List[dict], where each element is a dict that represents an instance of TransitGatewayConnectionCollectionConnectionsItem.
+        :return: A List[dict], where each element is a dict that represents an instance of TransitGatewayConnection.
         :rtype: List[dict]
         """
         if not self.has_next():
@@ -8284,7 +7205,7 @@ class TransitGatewayConnectionsPager:
         """
         Returns all results by invoking get_next() repeatedly
         until all pages of results have been retrieved.
-        :return: A List[dict], where each element is a dict that represents an instance of TransitGatewayConnectionCollectionConnectionsItem.
+        :return: A List[dict], where each element is a dict that represents an instance of TransitGatewayConnection.
         :rtype: List[dict]
         """
         results = []
