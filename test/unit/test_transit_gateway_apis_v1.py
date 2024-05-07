@@ -4681,90 +4681,6 @@ class TestModel_TransitGatewayCollection:
         assert transit_gateway_collection_model_json2 == transit_gateway_collection_model_json
 
 
-class TestModel_TransitGatewayConnection:
-    """
-    Test Class for TransitGatewayConnection
-    """
-
-    def test_transit_gateway_connection_serialization(self):
-        """
-        Test serialization/deserialization for TransitGatewayConnection
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        transit_gateway_connection_prefix_filter_reference_model = {}  # TransitGatewayConnectionPrefixFilterReference
-        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
-        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        transit_gateway_connection_prefix_filter_reference_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
-        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
-        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
-        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
-        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = '2019-01-01T12:00:00Z'
-
-        rgre_tunnel_zone_reference_model = {}  # RgreTunnelZoneReference
-        rgre_tunnel_zone_reference_model['name'] = 'us-south-1'
-
-        transit_gateway_redundant_gre_tunnel_reference_model = {}  # TransitGatewayRedundantGRETunnelReference
-        transit_gateway_redundant_gre_tunnel_reference_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_redundant_gre_tunnel_reference_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_redundant_gre_tunnel_reference_model['local_bgp_asn'] = 38
-        transit_gateway_redundant_gre_tunnel_reference_model['local_gateway_ip'] = '10.242.63.12'
-        transit_gateway_redundant_gre_tunnel_reference_model['local_tunnel_ip'] = '192.168.100.20'
-        transit_gateway_redundant_gre_tunnel_reference_model['mtu'] = 9000
-        transit_gateway_redundant_gre_tunnel_reference_model['name'] = 'gre1'
-        transit_gateway_redundant_gre_tunnel_reference_model['remote_bgp_asn'] = 65010
-        transit_gateway_redundant_gre_tunnel_reference_model['remote_gateway_ip'] = '10.242.33.22'
-        transit_gateway_redundant_gre_tunnel_reference_model['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_redundant_gre_tunnel_reference_model['status'] = 'attached'
-        transit_gateway_redundant_gre_tunnel_reference_model['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_redundant_gre_tunnel_reference_model['zone'] = rgre_tunnel_zone_reference_model
-
-        gre_tunnel_zone_reference_model = {}  # GreTunnelZoneReference
-        gre_tunnel_zone_reference_model['name'] = 'us-south-1'
-
-        # Construct a json representation of a TransitGatewayConnection model
-        transit_gateway_connection_model_json = {}
-        transit_gateway_connection_model_json['base_network_type'] = 'classic'
-        transit_gateway_connection_model_json['name'] = 'Transit_Service_BWTN_SJ_DL'
-        transit_gateway_connection_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
-        transit_gateway_connection_model_json['network_type'] = 'vpc'
-        transit_gateway_connection_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_connection_model_json['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_gateway_connection_model_json['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_model_json['local_bgp_asn'] = 64490
-        transit_gateway_connection_model_json['local_gateway_ip'] = '192.168.100.1'
-        transit_gateway_connection_model_json['local_tunnel_ip'] = '192.168.129.2'
-        transit_gateway_connection_model_json['mtu'] = 9000
-        transit_gateway_connection_model_json['network_account_id'] = 'testString'
-        transit_gateway_connection_model_json['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
-        transit_gateway_connection_model_json['prefix_filters_default'] = 'permit'
-        transit_gateway_connection_model_json['remote_bgp_asn'] = 65010
-        transit_gateway_connection_model_json['remote_gateway_ip'] = '10.242.63.12'
-        transit_gateway_connection_model_json['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_connection_model_json['request_status'] = 'pending'
-        transit_gateway_connection_model_json['status'] = 'attached'
-        transit_gateway_connection_model_json['tunnels'] = [transit_gateway_redundant_gre_tunnel_reference_model]
-        transit_gateway_connection_model_json['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_model_json['zone'] = gre_tunnel_zone_reference_model
-
-        # Construct a model instance of TransitGatewayConnection by calling from_dict on the json representation
-        transit_gateway_connection_model = TransitGatewayConnection.from_dict(transit_gateway_connection_model_json)
-        assert transit_gateway_connection_model != False
-
-        # Construct a model instance of TransitGatewayConnection by calling from_dict on the json representation
-        transit_gateway_connection_model_dict = TransitGatewayConnection.from_dict(transit_gateway_connection_model_json).__dict__
-        transit_gateway_connection_model2 = TransitGatewayConnection(**transit_gateway_connection_model_dict)
-
-        # Verify the model instances are equivalent
-        assert transit_gateway_connection_model == transit_gateway_connection_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        transit_gateway_connection_model_json2 = transit_gateway_connection_model.to_dict()
-        assert transit_gateway_connection_model_json2 == transit_gateway_connection_model_json
-
-
 class TestModel_TransitGatewayConnectionCollection:
     """
     Test Class for TransitGatewayConnectionCollection
@@ -4808,29 +4724,29 @@ class TestModel_TransitGatewayConnectionCollection:
         gre_tunnel_zone_reference_model = {}  # GreTunnelZoneReference
         gre_tunnel_zone_reference_model['name'] = 'us-south-1'
 
-        transit_gateway_connection_model = {}  # TransitGatewayConnection
-        transit_gateway_connection_model['base_network_type'] = 'classic'
-        transit_gateway_connection_model['name'] = 'Transit_Service_BWTN_SJ_DL'
-        transit_gateway_connection_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
-        transit_gateway_connection_model['network_type'] = 'vpc'
-        transit_gateway_connection_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_connection_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_gateway_connection_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_model['local_bgp_asn'] = 64490
-        transit_gateway_connection_model['local_gateway_ip'] = '192.168.100.1'
-        transit_gateway_connection_model['local_tunnel_ip'] = '192.168.129.2'
-        transit_gateway_connection_model['mtu'] = 9000
-        transit_gateway_connection_model['network_account_id'] = 'testString'
-        transit_gateway_connection_model['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
-        transit_gateway_connection_model['prefix_filters_default'] = 'permit'
-        transit_gateway_connection_model['remote_bgp_asn'] = 65010
-        transit_gateway_connection_model['remote_gateway_ip'] = '10.242.63.12'
-        transit_gateway_connection_model['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_connection_model['request_status'] = 'pending'
-        transit_gateway_connection_model['status'] = 'attached'
-        transit_gateway_connection_model['tunnels'] = [transit_gateway_redundant_gre_tunnel_reference_model]
-        transit_gateway_connection_model['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_model['zone'] = gre_tunnel_zone_reference_model
+        transit_gateway_connection_cust_model = {}  # TransitGatewayConnectionCust
+        transit_gateway_connection_cust_model['base_network_type'] = 'classic'
+        transit_gateway_connection_cust_model['name'] = 'Transit_Service_BWTN_SJ_DL'
+        transit_gateway_connection_cust_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
+        transit_gateway_connection_cust_model['network_type'] = 'vpc'
+        transit_gateway_connection_cust_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
+        transit_gateway_connection_cust_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
+        transit_gateway_connection_cust_model['created_at'] = '2019-01-01T12:00:00Z'
+        transit_gateway_connection_cust_model['local_bgp_asn'] = 64490
+        transit_gateway_connection_cust_model['local_gateway_ip'] = '192.168.100.1'
+        transit_gateway_connection_cust_model['local_tunnel_ip'] = '192.168.129.2'
+        transit_gateway_connection_cust_model['mtu'] = 9000
+        transit_gateway_connection_cust_model['network_account_id'] = 'testString'
+        transit_gateway_connection_cust_model['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
+        transit_gateway_connection_cust_model['prefix_filters_default'] = 'permit'
+        transit_gateway_connection_cust_model['remote_bgp_asn'] = 65010
+        transit_gateway_connection_cust_model['remote_gateway_ip'] = '10.242.63.12'
+        transit_gateway_connection_cust_model['remote_tunnel_ip'] = '192.168.129.1'
+        transit_gateway_connection_cust_model['request_status'] = 'pending'
+        transit_gateway_connection_cust_model['status'] = 'attached'
+        transit_gateway_connection_cust_model['tunnels'] = [transit_gateway_redundant_gre_tunnel_reference_model]
+        transit_gateway_connection_cust_model['updated_at'] = '2019-01-01T12:00:00Z'
+        transit_gateway_connection_cust_model['zone'] = gre_tunnel_zone_reference_model
 
         pagination_first_tgw_connection_model = {}  # PaginationFirstTGWConnection
         pagination_first_tgw_connection_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50'
@@ -4841,7 +4757,7 @@ class TestModel_TransitGatewayConnectionCollection:
 
         # Construct a json representation of a TransitGatewayConnectionCollection model
         transit_gateway_connection_collection_model_json = {}
-        transit_gateway_connection_collection_model_json['connections'] = [transit_gateway_connection_model]
+        transit_gateway_connection_collection_model_json['connections'] = [transit_gateway_connection_cust_model]
         transit_gateway_connection_collection_model_json['first'] = pagination_first_tgw_connection_model
         transit_gateway_connection_collection_model_json['limit'] = 50
         transit_gateway_connection_collection_model_json['next'] = pagination_next_tgw_connection_model
