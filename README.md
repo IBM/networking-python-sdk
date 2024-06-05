@@ -99,7 +99,7 @@ IBM Cloud services:
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade "ibm-cloud-networking-services==0.25.0"
+pip install --upgrade "ibm-cloud-networking-services==2.32.2"
 ```
 
 or
@@ -134,7 +134,7 @@ Find more open source projects on the [IBM Github Page](http://ibm.github.io/)
 
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md).
+See [CONTRIBUTING](CONTRIBUTING.md)
 
 ## License
 
