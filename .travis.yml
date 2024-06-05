@@ -27,6 +27,7 @@ before_install:
 - sudo apt-get install pandoc
 - pip install pypandoc
 - echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
+- curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
 install:
   - pip install tox-travis
