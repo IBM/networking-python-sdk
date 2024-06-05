@@ -22,7 +22,7 @@ Python client library to interact with various [IBM Cloud Networking Service API
       npx markdown-toc -i README.md
   -->
 
-<! -- toc -->
+<!-- toc -->
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
@@ -99,7 +99,7 @@ IBM Cloud services:
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade "ibm-cloud-networking-services==2.32.2"
+pip install --upgrade "ibm-cloud-networking-services==0.25.0"
 ```
 
 or
