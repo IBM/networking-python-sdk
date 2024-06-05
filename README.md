@@ -22,7 +22,7 @@ Python client library to interact with various [IBM Cloud Networking Service API
       npx markdown-toc -i README.md
   -->
 
-<!-- toc -->
+<! -- toc -->
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
