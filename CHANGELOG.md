@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/IBM/networking-python-sdk/compare/v0.25.0...v0.26.0) (2024-06-12)
+
+
+### Features
+
+* Added the new connection type - Redundant GRE ([#105](https://github.com/IBM/networking-python-sdk/issues/105)) ([5e6e23a](https://github.com/IBM/networking-python-sdk/commit/5e6e23a83ce70dfc3003fbc23dcfb904edec8cf4))
+
 # [0.25.0](https://github.com/IBM/networking-python-sdk/compare/v0.24.0...v0.25.0) (2024-03-14)
 
 
