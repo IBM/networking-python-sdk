@@ -1,3 +1,10 @@
+## [0.26.1](https://github.com/IBM/networking-python-sdk/compare/v0.26.0...v0.26.1) (2024-06-14)
+
+
+### Bug Fixes
+
+* fixing the PGP mongodb reference issue ([#112](https://github.com/IBM/networking-python-sdk/issues/112)) ([10e6007](https://github.com/IBM/networking-python-sdk/commit/10e6007a083fb4b0a5c49ff10f64432ddee624e7))
+
 # [0.26.0](https://github.com/IBM/networking-python-sdk/compare/v0.25.0...v0.26.0) (2024-06-12)
 
 
