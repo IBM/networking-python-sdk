@@ -1,3 +1,10 @@
+## [0.26.2](https://github.com/IBM/networking-python-sdk/compare/v0.26.1...v0.26.2) (2024-06-17)
+
+
+### Bug Fixes
+
+* Another possible fix for travis failure ([#114](https://github.com/IBM/networking-python-sdk/issues/114)) ([d18c6e5](https://github.com/IBM/networking-python-sdk/commit/d18c6e53ddd08324a2f5990a88207cde6e394ea7))
+
 ## [0.26.1](https://github.com/IBM/networking-python-sdk/compare/v0.26.0...v0.26.1) (2024-06-14)
 
 
