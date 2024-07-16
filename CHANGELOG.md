@@ -1,3 +1,10 @@
+# [0.27.0](https://github.com/IBM/networking-python-sdk/compare/v0.26.2...v0.27.0) (2024-07-16)
+
+
+### Features
+
+* **CIS:** add partial setup zone ([#117](https://github.com/IBM/networking-python-sdk/issues/117)) ([9d06057](https://github.com/IBM/networking-python-sdk/commit/9d06057bc0f1cb8152873ed28a3649b57e228634))
+
 ## [0.26.2](https://github.com/IBM/networking-python-sdk/compare/v0.26.1...v0.26.2) (2024-06-17)
 
 
