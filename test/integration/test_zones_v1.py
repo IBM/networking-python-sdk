@@ -16,14 +16,14 @@ configFile = "cis.env"
 
 # load the .env file containing your environment variables
 try:
-    load_dotenv(find_dotenv(filename="cis.env"))
+    load_dotenv(find_dotenv(filename=configFile))
 except:
     print('warning: no cis.env file loaded')
 
 
 class TestZonesV1(unittest.TestCase):
     """ Sample function to call zones sdk functions """
-
+        
     @unittest.skip("Authentication failing")
 
     def setUp(self):
@@ -131,6 +131,48 @@ class TestZonesV1(unittest.TestCase):
                 zone_identifier=None).get_result()
             self.assertEqual(val.exception.msg,
                              'zone_identifier must be provided')
+            
+    ################## partial zone integration test ###################
+    def test_3_zones(self):
+        """ create a partial zone """
+        self.zone_name = "uuid-" + \
+            str(uuid.uuid1())[1:6] + ".ibm.com"
+        response = self.zones.create_zone(
+            name=self.zone_name, type="partial").get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        self.zone_id = result.get('id')
+        self.paused = result.get('paused')
+
+        """ list all zones """
+        response = self.zones.list_zones().get_result()
+        assert response is not None and response.get('success') is True
+
+        """ zone activation check """
+        try:
+            response = self.zones.zone_activation_check(
+                zone_identifier=self.zone_id).get_result()
+            assert response is not None and response.get('success') is True
+        except ApiException as e:
+            print("Exception:", e)
+
+        """ update a zone """
+        self.paused = not self.paused
+        response = self.zones.update_zone(
+            zone_identifier=self.zone_id, paused=self.paused).get_result()
+        assert response is not None and response.get('success') is True
+    
+        self.paused = not self.paused
+        response = self.zones.update_zone(
+            zone_identifier=self.zone_id, paused=self.paused).get_result()
+        assert response is not None and response.get('success') is True
+
+        """ delete a zone """
+        response = self.zones.delete_zone(
+            zone_identifier=self.zone_id).get_result()
+        assert response is not None and response.get('success') is True
+
+
 
 
 if __name__ == '__main__':
