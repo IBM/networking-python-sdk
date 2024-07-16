@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2024.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,121 +13,255 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+Unit Tests for ZonesV1
+"""
+
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 import inspect
 import json
+import os
 import pytest
 import re
+import requests
 import responses
+import urllib
 from ibm_cloud_networking_services.zones_v1 import *
 
 crn = 'testString'
 
-service = ZonesV1(
+_service = ZonesV1(
     authenticator=NoAuthAuthenticator(),
-    crn=crn
-    )
+    crn=crn,
+)
 
-base_url = 'https://api.cis.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.cis.cloud.ibm.com'
+_service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: CISZones
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for list_zones
-#-----------------------------------------------------------------------------
-class TestListZones():
 
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
+class TestNewInstance:
+    """
+    Test Class for new_instance
+    """
 
-    #--------------------------------------------------------
-    # list_zones()
-    #--------------------------------------------------------
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = ZonesV1.new_instance(
+            crn=crn,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, ZonesV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = ZonesV1.new_instance(
+                crn=crn,
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = ZonesV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='crn must be provided'):
+            service = ZonesV1.new_instance(
+                crn=None,
+            )
+
+
+class TestListZones:
+    """
+    Test Class for list_zones
+    """
+
     @responses.activate
     def test_list_zones_all_params(self):
+        """
+        list_zones()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        page = 1
+        per_page = 20
 
         # Invoke method
-        response = service.list_zones()
+        response = _service.list_zones(
+            page=page,
+            per_page=per_page,
+            headers={},
+        )
 
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'page={}'.format(page) in query_string
+        assert 'per_page={}'.format(per_page) in query_string
+
+    def test_list_zones_all_params_with_retries(self):
+        # Enable retries and run test_list_zones_all_params.
+        _service.enable_retries()
+        self.test_list_zones_all_params()
+
+        # Disable retries and run test_list_zones_all_params.
+        _service.disable_retries()
+        self.test_list_zones_all_params()
+
+    @responses.activate
+    def test_list_zones_required_params(self):
+        """
+        test_list_zones_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.list_zones()
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_zones_required_params_with_retries(self):
+        # Enable retries and run test_list_zones_required_params.
+        _service.enable_retries()
+        self.test_list_zones_required_params()
 
-    #--------------------------------------------------------
-    # test_list_zones_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_list_zones_required_params.
+        _service.disable_retries()
+        self.test_list_zones_required_params()
+
     @responses.activate
     def test_list_zones_value_error(self):
+        """
+        test_list_zones_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}], "result_info": {"page": 1, "per_page": 20, "count": 1, "total_count": 2000}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_zones(**req_copy)
+                _service.list_zones(**req_copy)
+
+    def test_list_zones_value_error_with_retries(self):
+        # Enable retries and run test_list_zones_value_error.
+        _service.enable_retries()
+        self.test_list_zones_value_error()
+
+        # Disable retries and run test_list_zones_value_error.
+        _service.disable_retries()
+        self.test_list_zones_value_error()
 
 
+class TestCreateZone:
+    """
+    Test Class for create_zone
+    """
 
-#-----------------------------------------------------------------------------
-# Test Class for create_zone
-#-----------------------------------------------------------------------------
-class TestCreateZone():
-
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    #--------------------------------------------------------
-    # create_zone()
-    #--------------------------------------------------------
     @responses.activate
     def test_create_zone_all_params(self):
+        """
+        create_zone()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         name = 'test-example.com'
+        type = 'full'
 
         # Invoke method
-        response = service.create_zone(
+        response = _service.create_zone(
             name=name,
-            headers={}
+            type=type,
+            headers={},
         )
 
         # Check for correct operation
@@ -136,108 +270,141 @@ class TestCreateZone():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'test-example.com'
+        assert req_body['type'] == 'full'
 
+    def test_create_zone_all_params_with_retries(self):
+        # Enable retries and run test_create_zone_all_params.
+        _service.enable_retries()
+        self.test_create_zone_all_params()
 
-    #--------------------------------------------------------
-    # test_create_zone_required_params()
-    #--------------------------------------------------------
+        # Disable retries and run test_create_zone_all_params.
+        _service.disable_retries()
+        self.test_create_zone_all_params()
+
     @responses.activate
     def test_create_zone_required_params(self):
+        """
+        test_create_zone_required_params()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Invoke method
-        response = service.create_zone()
-
+        response = _service.create_zone()
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_create_zone_required_params_with_retries(self):
+        # Enable retries and run test_create_zone_required_params.
+        _service.enable_retries()
+        self.test_create_zone_required_params()
 
-    #--------------------------------------------------------
-    # test_create_zone_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_create_zone_required_params.
+        _service.disable_retries()
+        self.test_create_zone_required_params()
+
     @responses.activate
     def test_create_zone_value_error(self):
+        """
+        test_create_zone_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_zone(**req_copy)
+                _service.create_zone(**req_copy)
+
+    def test_create_zone_value_error_with_retries(self):
+        # Enable retries and run test_create_zone_value_error.
+        _service.enable_retries()
+        self.test_create_zone_value_error()
+
+        # Disable retries and run test_create_zone_value_error.
+        _service.disable_retries()
+        self.test_create_zone_value_error()
 
 
+class TestDeleteZone:
+    """
+    Test Class for delete_zone
+    """
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_zone
-#-----------------------------------------------------------------------------
-class TestDeleteZone():
-
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    #--------------------------------------------------------
-    # delete_zone()
-    #--------------------------------------------------------
     @responses.activate
     def test_delete_zone_all_params(self):
+        """
+        delete_zone()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
+        url = preprocess_url('/v1/testString/zones/testString')
         mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
 
         # Invoke method
-        response = service.delete_zone(
+        response = _service.delete_zone(
             zone_identifier,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_zone_all_params_with_retries(self):
+        # Enable retries and run test_delete_zone_all_params.
+        _service.enable_retries()
+        self.test_delete_zone_all_params()
 
-    #--------------------------------------------------------
-    # test_delete_zone_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_delete_zone_all_params.
+        _service.disable_retries()
+        self.test_delete_zone_all_params()
+
     @responses.activate
     def test_delete_zone_value_error(self):
+        """
+        test_delete_zone_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
+        url = preprocess_url('/v1/testString/zones/testString')
         mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.DELETE,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
@@ -247,65 +414,78 @@ class TestDeleteZone():
             "zone_identifier": zone_identifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_zone(**req_copy)
+                _service.delete_zone(**req_copy)
+
+    def test_delete_zone_value_error_with_retries(self):
+        # Enable retries and run test_delete_zone_value_error.
+        _service.enable_retries()
+        self.test_delete_zone_value_error()
+
+        # Disable retries and run test_delete_zone_value_error.
+        _service.disable_retries()
+        self.test_delete_zone_value_error()
 
 
+class TestGetZone:
+    """
+    Test Class for get_zone
+    """
 
-#-----------------------------------------------------------------------------
-# Test Class for get_zone
-#-----------------------------------------------------------------------------
-class TestGetZone():
-
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    #--------------------------------------------------------
-    # get_zone()
-    #--------------------------------------------------------
     @responses.activate
     def test_get_zone_all_params(self):
+        """
+        get_zone()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones/testString')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
 
         # Invoke method
-        response = service.get_zone(
+        response = _service.get_zone(
             zone_identifier,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_zone_all_params_with_retries(self):
+        # Enable retries and run test_get_zone_all_params.
+        _service.enable_retries()
+        self.test_get_zone_all_params()
 
-    #--------------------------------------------------------
-    # test_get_zone_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_get_zone_all_params.
+        _service.disable_retries()
+        self.test_get_zone_all_params()
+
     @responses.activate
     def test_get_zone_value_error(self):
+        """
+        test_get_zone_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.GET,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones/testString')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
@@ -315,47 +495,50 @@ class TestGetZone():
             "zone_identifier": zone_identifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_zone(**req_copy)
+                _service.get_zone(**req_copy)
+
+    def test_get_zone_value_error_with_retries(self):
+        # Enable retries and run test_get_zone_value_error.
+        _service.enable_retries()
+        self.test_get_zone_value_error()
+
+        # Disable retries and run test_get_zone_value_error.
+        _service.disable_retries()
+        self.test_get_zone_value_error()
 
 
+class TestUpdateZone:
+    """
+    Test Class for update_zone
+    """
 
-#-----------------------------------------------------------------------------
-# Test Class for update_zone
-#-----------------------------------------------------------------------------
-class TestUpdateZone():
-
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    #--------------------------------------------------------
-    # update_zone()
-    #--------------------------------------------------------
     @responses.activate
     def test_update_zone_all_params(self):
+        """
+        update_zone()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones/testString')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
         paused = False
 
         # Invoke method
-        response = service.update_zone(
+        response = _service.update_zone(
             zone_identifier,
             paused=paused,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
@@ -365,48 +548,68 @@ class TestUpdateZone():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['paused'] == False
 
+    def test_update_zone_all_params_with_retries(self):
+        # Enable retries and run test_update_zone_all_params.
+        _service.enable_retries()
+        self.test_update_zone_all_params()
 
-    #--------------------------------------------------------
-    # test_update_zone_required_params()
-    #--------------------------------------------------------
+        # Disable retries and run test_update_zone_all_params.
+        _service.disable_retries()
+        self.test_update_zone_all_params()
+
     @responses.activate
     def test_update_zone_required_params(self):
+        """
+        test_update_zone_required_params()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones/testString')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
 
         # Invoke method
-        response = service.update_zone(
+        response = _service.update_zone(
             zone_identifier,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_update_zone_required_params_with_retries(self):
+        # Enable retries and run test_update_zone_required_params.
+        _service.enable_retries()
+        self.test_update_zone_required_params()
 
-    #--------------------------------------------------------
-    # test_update_zone_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_update_zone_required_params.
+        _service.disable_retries()
+        self.test_update_zone_required_params()
+
     @responses.activate
     def test_update_zone_value_error(self):
+        """
+        test_update_zone_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"]}}'
-        responses.add(responses.PATCH,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        url = preprocess_url('/v1/testString/zones/testString')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc", "created_on": "2014-01-01T05:20:00.12345Z", "modified_on": "2014-01-01T05:20:00.12345Z", "name": "test-example.com", "original_registrar": "GoDaddy", "original_dnshost": "NameCheap", "status": "active", "paused": false, "original_name_servers": ["ns1.originaldnshost.com"], "name_servers": ["ns001.name.cloud.ibm.com"], "type": "full", "verification_key": "476754457-428595283", "cname_suffix": "cdn.cloudflare.net"}}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
@@ -416,65 +619,78 @@ class TestUpdateZone():
             "zone_identifier": zone_identifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_zone(**req_copy)
+                _service.update_zone(**req_copy)
+
+    def test_update_zone_value_error_with_retries(self):
+        # Enable retries and run test_update_zone_value_error.
+        _service.enable_retries()
+        self.test_update_zone_value_error()
+
+        # Disable retries and run test_update_zone_value_error.
+        _service.disable_retries()
+        self.test_update_zone_value_error()
 
 
+class TestZoneActivationCheck:
+    """
+    Test Class for zone_activation_check
+    """
 
-#-----------------------------------------------------------------------------
-# Test Class for zone_activation_check
-#-----------------------------------------------------------------------------
-class TestZoneActivationCheck():
-
-    # Preprocess the request URL to ensure the mock response will be found.
-    def preprocess_url(self, request_url: str):
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    #--------------------------------------------------------
-    # zone_activation_check()
-    #--------------------------------------------------------
     @responses.activate
     def test_zone_activation_check_all_params(self):
+        """
+        zone_activation_check()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/activation_check')
+        url = preprocess_url('/v1/testString/zones/testString/activation_check')
         mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
 
         # Invoke method
-        response = service.zone_activation_check(
+        response = _service.zone_activation_check(
             zone_identifier,
-            headers={}
+            headers={},
         )
 
         # Check for correct operation
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_zone_activation_check_all_params_with_retries(self):
+        # Enable retries and run test_zone_activation_check_all_params.
+        _service.enable_retries()
+        self.test_zone_activation_check_all_params()
 
-    #--------------------------------------------------------
-    # test_zone_activation_check_value_error()
-    #--------------------------------------------------------
+        # Disable retries and run test_zone_activation_check_all_params.
+        _service.disable_retries()
+        self.test_zone_activation_check_all_params()
+
     @responses.activate
     def test_zone_activation_check_value_error(self):
+        """
+        test_zone_activation_check_value_error()
+        """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/testString/zones/testString/activation_check')
+        url = preprocess_url('/v1/testString/zones/testString/activation_check')
         mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"id": "f1aba936b94213e5b8dca0c0dbf1f9cc"}}'
-        responses.add(responses.PUT,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
 
         # Set up parameter values
         zone_identifier = 'testString'
@@ -484,10 +700,18 @@ class TestZoneActivationCheck():
             "zone_identifier": zone_identifier,
         }
         for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.zone_activation_check(**req_copy)
+                _service.zone_activation_check(**req_copy)
 
+    def test_zone_activation_check_value_error_with_retries(self):
+        # Enable retries and run test_zone_activation_check_value_error.
+        _service.enable_retries()
+        self.test_zone_activation_check_value_error()
+
+        # Disable retries and run test_zone_activation_check_value_error.
+        _service.disable_retries()
+        self.test_zone_activation_check_value_error()
 
 
 # endregion
@@ -500,15 +724,17 @@ class TestZoneActivationCheck():
 # Start of Model Tests
 ##############################################################################
 # region
-#-----------------------------------------------------------------------------
-# Test Class for DeleteZoneRespResult
-#-----------------------------------------------------------------------------
-class TestDeleteZoneRespResult():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for DeleteZoneRespResult
-    #--------------------------------------------------------
+
+class TestModel_DeleteZoneRespResult:
+    """
+    Test Class for DeleteZoneRespResult
+    """
+
     def test_delete_zone_resp_result_serialization(self):
+        """
+        Test serialization/deserialization for DeleteZoneRespResult
+        """
 
         # Construct a json representation of a DeleteZoneRespResult model
         delete_zone_resp_result_model_json = {}
@@ -529,15 +755,16 @@ class TestDeleteZoneRespResult():
         delete_zone_resp_result_model_json2 = delete_zone_resp_result_model.to_dict()
         assert delete_zone_resp_result_model_json2 == delete_zone_resp_result_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ZoneActivationcheckRespResult
-#-----------------------------------------------------------------------------
-class TestZoneActivationcheckRespResult():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ZoneActivationcheckRespResult
-    #--------------------------------------------------------
+class TestModel_ZoneActivationcheckRespResult:
+    """
+    Test Class for ZoneActivationcheckRespResult
+    """
+
     def test_zone_activationcheck_resp_result_serialization(self):
+        """
+        Test serialization/deserialization for ZoneActivationcheckRespResult
+        """
 
         # Construct a json representation of a ZoneActivationcheckRespResult model
         zone_activationcheck_resp_result_model_json = {}
@@ -558,19 +785,20 @@ class TestZoneActivationcheckRespResult():
         zone_activationcheck_resp_result_model_json2 = zone_activationcheck_resp_result_model.to_dict()
         assert zone_activationcheck_resp_result_model_json2 == zone_activationcheck_resp_result_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for DeleteZoneResp
-#-----------------------------------------------------------------------------
-class TestDeleteZoneResp():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for DeleteZoneResp
-    #--------------------------------------------------------
+class TestModel_DeleteZoneResp:
+    """
+    Test Class for DeleteZoneResp
+    """
+
     def test_delete_zone_resp_serialization(self):
+        """
+        Test serialization/deserialization for DeleteZoneResp
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        delete_zone_resp_result_model = {} # DeleteZoneRespResult
+        delete_zone_resp_result_model = {}  # DeleteZoneRespResult
         delete_zone_resp_result_model['id'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
 
         # Construct a json representation of a DeleteZoneResp model
@@ -595,25 +823,20 @@ class TestDeleteZoneResp():
         delete_zone_resp_model_json2 = delete_zone_resp_model.to_dict()
         assert delete_zone_resp_model_json2 == delete_zone_resp_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ListZonesResp
-#-----------------------------------------------------------------------------
-class TestListZonesResp():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ListZonesResp
-    #--------------------------------------------------------
+class TestModel_ListZonesResp:
+    """
+    Test Class for ListZonesResp
+    """
+
     def test_list_zones_resp_serialization(self):
+        """
+        Test serialization/deserialization for ListZonesResp
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        result_info_model = {} # ResultInfo
-        result_info_model['page'] = 1
-        result_info_model['per_page'] = 20
-        result_info_model['count'] = 1
-        result_info_model['total_count'] = 2000
-
-        zone_details_model = {} # ZoneDetails
+        zone_details_model = {}  # ZoneDetails
         zone_details_model['id'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
         zone_details_model['created_on'] = '2014-01-01T05:20:00.12345Z'
         zone_details_model['modified_on'] = '2014-01-01T05:20:00.12345Z'
@@ -624,6 +847,15 @@ class TestListZonesResp():
         zone_details_model['paused'] = False
         zone_details_model['original_name_servers'] = ['ns1.originaldnshost.com']
         zone_details_model['name_servers'] = ['ns001.name.cloud.ibm.com']
+        zone_details_model['type'] = 'full'
+        zone_details_model['verification_key'] = '476754457-428595283'
+        zone_details_model['cname_suffix'] = 'cdn.cloudflare.net'
+
+        result_info_model = {}  # ResultInfo
+        result_info_model['page'] = 1
+        result_info_model['per_page'] = 20
+        result_info_model['count'] = 1
+        result_info_model['total_count'] = 2000
 
         # Construct a json representation of a ListZonesResp model
         list_zones_resp_model_json = {}
@@ -648,15 +880,16 @@ class TestListZonesResp():
         list_zones_resp_model_json2 = list_zones_resp_model.to_dict()
         assert list_zones_resp_model_json2 == list_zones_resp_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ResultInfo
-#-----------------------------------------------------------------------------
-class TestResultInfo():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ResultInfo
-    #--------------------------------------------------------
+class TestModel_ResultInfo:
+    """
+    Test Class for ResultInfo
+    """
+
     def test_result_info_serialization(self):
+        """
+        Test serialization/deserialization for ResultInfo
+        """
 
         # Construct a json representation of a ResultInfo model
         result_info_model_json = {}
@@ -680,19 +913,20 @@ class TestResultInfo():
         result_info_model_json2 = result_info_model.to_dict()
         assert result_info_model_json2 == result_info_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ZoneActivationcheckResp
-#-----------------------------------------------------------------------------
-class TestZoneActivationcheckResp():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ZoneActivationcheckResp
-    #--------------------------------------------------------
+class TestModel_ZoneActivationcheckResp:
+    """
+    Test Class for ZoneActivationcheckResp
+    """
+
     def test_zone_activationcheck_resp_serialization(self):
+        """
+        Test serialization/deserialization for ZoneActivationcheckResp
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        zone_activationcheck_resp_result_model = {} # ZoneActivationcheckRespResult
+        zone_activationcheck_resp_result_model = {}  # ZoneActivationcheckRespResult
         zone_activationcheck_resp_result_model['id'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
 
         # Construct a json representation of a ZoneActivationcheckResp model
@@ -717,15 +951,16 @@ class TestZoneActivationcheckResp():
         zone_activationcheck_resp_model_json2 = zone_activationcheck_resp_model.to_dict()
         assert zone_activationcheck_resp_model_json2 == zone_activationcheck_resp_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ZoneDetails
-#-----------------------------------------------------------------------------
-class TestZoneDetails():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ZoneDetails
-    #--------------------------------------------------------
+class TestModel_ZoneDetails:
+    """
+    Test Class for ZoneDetails
+    """
+
     def test_zone_details_serialization(self):
+        """
+        Test serialization/deserialization for ZoneDetails
+        """
 
         # Construct a json representation of a ZoneDetails model
         zone_details_model_json = {}
@@ -739,6 +974,9 @@ class TestZoneDetails():
         zone_details_model_json['paused'] = False
         zone_details_model_json['original_name_servers'] = ['ns1.originaldnshost.com']
         zone_details_model_json['name_servers'] = ['ns001.name.cloud.ibm.com']
+        zone_details_model_json['type'] = 'full'
+        zone_details_model_json['verification_key'] = '476754457-428595283'
+        zone_details_model_json['cname_suffix'] = 'cdn.cloudflare.net'
 
         # Construct a model instance of ZoneDetails by calling from_dict on the json representation
         zone_details_model = ZoneDetails.from_dict(zone_details_model_json)
@@ -755,19 +993,20 @@ class TestZoneDetails():
         zone_details_model_json2 = zone_details_model.to_dict()
         assert zone_details_model_json2 == zone_details_model_json
 
-#-----------------------------------------------------------------------------
-# Test Class for ZoneResp
-#-----------------------------------------------------------------------------
-class TestZoneResp():
 
-    #--------------------------------------------------------
-    # Test serialization/deserialization for ZoneResp
-    #--------------------------------------------------------
+class TestModel_ZoneResp:
+    """
+    Test Class for ZoneResp
+    """
+
     def test_zone_resp_serialization(self):
+        """
+        Test serialization/deserialization for ZoneResp
+        """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        zone_details_model = {} # ZoneDetails
+        zone_details_model = {}  # ZoneDetails
         zone_details_model['id'] = 'f1aba936b94213e5b8dca0c0dbf1f9cc'
         zone_details_model['created_on'] = '2014-01-01T05:20:00.12345Z'
         zone_details_model['modified_on'] = '2014-01-01T05:20:00.12345Z'
@@ -778,6 +1017,9 @@ class TestZoneResp():
         zone_details_model['paused'] = False
         zone_details_model['original_name_servers'] = ['ns1.originaldnshost.com']
         zone_details_model['name_servers'] = ['ns001.name.cloud.ibm.com']
+        zone_details_model['type'] = 'full'
+        zone_details_model['verification_key'] = '476754457-428595283'
+        zone_details_model['cname_suffix'] = 'cdn.cloudflare.net'
 
         # Construct a json representation of a ZoneResp model
         zone_resp_model_json = {}
