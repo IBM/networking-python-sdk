@@ -16,7 +16,7 @@ configFile = "cis.env"
 
 # load the .env file containing your environment variables
 try:
-    load_dotenv(find_dotenv(filename="cis.env"))
+    load_dotenv(find_dotenv(filename=configFile))
 except:
     print('warning: no cis.env file loaded')
 
