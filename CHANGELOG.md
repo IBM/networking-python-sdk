@@ -1,3 +1,10 @@
+## [0.27.1](https://github.com/IBM/networking-python-sdk/compare/v0.27.0...v0.27.1) (2024-12-09)
+
+
+### Bug Fixes
+
+* updating a vulnerable pakcage to the latest version number ([#122](https://github.com/IBM/networking-python-sdk/issues/122)) ([a7dfbb6](https://github.com/IBM/networking-python-sdk/commit/a7dfbb60c5b8c9e3bd8927390427e65a551887df))
+
 # [0.27.0](https://github.com/IBM/networking-python-sdk/compare/v0.26.2...v0.27.0) (2024-07-16)
 
 
