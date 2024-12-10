@@ -52,11 +52,11 @@ deploy:
   on:
     python: '3.9'
     branch: master
-- provider: pypi
-  setuptools_version: "60.8.2"
-  user: __token__
-  password: $PYPI_TOKEN
-  repository: https://upload.pypi.org/legacy
+- provider: script
+  script: |
+    python -m pip install --upgrade pip setuptools twine
+    python setup.py sdist bdist_wheel
+    python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/* -u __token__ -p $PYPI_TOKEN
   skip_cleanup: true
   on:
     python: '3.9'
