@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2024.
+# (C) Copyright IBM Corp. 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -61,9 +61,10 @@ def preprocess_url(operation_path: str):
 
     # If the request url does NOT end with a /, then just return it as-is.
     # Otherwise, return a regular expression that matches one or more trailing /.
-    if not request_url.endswith('/'):
+    if re.fullmatch('.*/+', request_url) is None:
         return request_url
-    return re.compile(request_url.rstrip('/') + '/+')
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -130,7 +131,7 @@ class TestListTransitGateways:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways')
-        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(
             responses.GET,
             url,
@@ -175,7 +176,7 @@ class TestListTransitGateways:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways')
-        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(
             responses.GET,
             url,
@@ -207,7 +208,7 @@ class TestListTransitGateways:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways')
-        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "transit_gateways": [{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(
             responses.GET,
             url,
@@ -240,8 +241,8 @@ class TestListTransitGateways:
         """
         # Set up a two-page mock response
         url = preprocess_url('/transit_gateways')
-        mock_response1 = '{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
-        mock_response2 = '{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
+        mock_response1 = '{"next":{"start":"1"},"transit_gateways":[{"allow_gre_traffic_across_zones":true,"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
+        mock_response2 = '{"transit_gateways":[{"allow_gre_traffic_across_zones":true,"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
         responses.add(
             responses.GET,
             url,
@@ -276,8 +277,8 @@ class TestListTransitGateways:
         """
         # Set up a two-page mock response
         url = preprocess_url('/transit_gateways')
-        mock_response1 = '{"next":{"start":"1"},"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
-        mock_response2 = '{"transit_gateways":[{"id":"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","name":"my-transit-gateway-in-TransitGateway","location":"us-south","created_at":"2019-01-01T12:00:00.000Z","global":true,"resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
+        mock_response1 = '{"next":{"start":"1"},"transit_gateways":[{"allow_gre_traffic_across_zones":true,"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
+        mock_response2 = '{"transit_gateways":[{"allow_gre_traffic_across_zones":true,"connection_count":5,"connection_needs_attention":true,"created_at":"2019-01-01T12:00:00.000Z","crn":"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4","global":true,"id":"0a06fb9b-820f-4c44-8a31-77f1f0806d28","location":"us-south","name":"my-transit-gateway-in-TransitGateway","resource_group":{"href":"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8","id":"56969d6043e9465c883cb9f7363e78e8"},"status":"available","updated_at":"2019-01-01T12:00:00.000Z"}],"total_count":2,"limit":1}'
         responses.add(
             responses.GET,
             url,
@@ -315,7 +316,7 @@ class TestCreateTransitGateway:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(
             responses.POST,
             url,
@@ -329,16 +330,18 @@ class TestCreateTransitGateway:
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         # Set up parameter values
-        location = 'us-south'
-        name = 'Transit_Service_BWTN_SJ_DL'
+        allow_gre_traffic_across_zones = True
         global_ = True
+        location = 'us-south'
+        name = 'my-transit-gateway-in-TransitGateway'
         resource_group = resource_group_identity_model
 
         # Invoke method
         response = _service.create_transit_gateway(
-            location,
-            name,
+            allow_gre_traffic_across_zones=allow_gre_traffic_across_zones,
             global_=global_,
+            location=location,
+            name=name,
             resource_group=resource_group,
             headers={},
         )
@@ -348,9 +351,10 @@ class TestCreateTransitGateway:
         assert response.status_code == 201
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['location'] == 'us-south'
-        assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
+        assert req_body['allow_gre_traffic_across_zones'] == True
         assert req_body['global'] == True
+        assert req_body['location'] == 'us-south'
+        assert req_body['name'] == 'my-transit-gateway-in-TransitGateway'
         assert req_body['resource_group'] == resource_group_identity_model
 
     def test_create_transit_gateway_all_params_with_retries(self):
@@ -369,7 +373,7 @@ class TestCreateTransitGateway:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(
             responses.POST,
             url,
@@ -383,15 +387,14 @@ class TestCreateTransitGateway:
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         # Set up parameter values
-        location = 'us-south'
-        name = 'Transit_Service_BWTN_SJ_DL'
+        allow_gre_traffic_across_zones = True
         global_ = True
+        location = 'us-south'
+        name = 'my-transit-gateway-in-TransitGateway'
         resource_group = resource_group_identity_model
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
-            "location": location,
-            "name": name,
         }
         for param in req_param_dict.keys():
             req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
@@ -495,7 +498,7 @@ class TestGetTransitGateway:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(
             responses.GET,
             url,
@@ -533,7 +536,7 @@ class TestGetTransitGateway:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(
             responses.GET,
             url,
@@ -576,7 +579,7 @@ class TestUpdateTransitGateway:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(
             responses.PATCH,
             url,
@@ -587,12 +590,14 @@ class TestUpdateTransitGateway:
 
         # Set up parameter values
         id = 'testString'
+        allow_gre_traffic_across_zones = True
         global_ = True
-        name = 'my-transit-gateway'
+        name = 'my-resource'
 
         # Invoke method
         response = _service.update_transit_gateway(
             id,
+            allow_gre_traffic_across_zones=allow_gre_traffic_across_zones,
             global_=global_,
             name=name,
             headers={},
@@ -603,8 +608,9 @@ class TestUpdateTransitGateway:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['allow_gre_traffic_across_zones'] == True
         assert req_body['global'] == True
-        assert req_body['name'] == 'my-transit-gateway'
+        assert req_body['name'] == 'my-resource'
 
     def test_update_transit_gateway_all_params_with_retries(self):
         # Enable retries and run test_update_transit_gateway_all_params.
@@ -622,7 +628,7 @@ class TestUpdateTransitGateway:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString')
-        mock_response = '{"id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "name": "my-transit-gateway-in-TransitGateway", "location": "us-south", "created_at": "2019-01-01T12:00:00.000Z", "global": true, "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"allow_gre_traffic_across_zones": true, "connection_count": 5, "connection_needs_attention": true, "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "global": true, "id": "0a06fb9b-820f-4c44-8a31-77f1f0806d28", "location": "us-south", "name": "my-transit-gateway-in-TransitGateway", "resource_group": {"href": "https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8", "id": "56969d6043e9465c883cb9f7363e78e8"}, "status": "available", "updated_at": "2019-01-01T12:00:00.000Z"}'
         responses.add(
             responses.PATCH,
             url,
@@ -633,8 +639,9 @@ class TestUpdateTransitGateway:
 
         # Set up parameter values
         id = 'testString'
+        allow_gre_traffic_across_zones = True
         global_ = True
-        name = 'my-transit-gateway'
+        name = 'my-resource'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -971,7 +978,7 @@ class TestListTransitGatewayConnections:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}'
+        mock_response = '{"connections": [{}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}'
         responses.add(
             responses.GET,
             url,
@@ -1021,7 +1028,7 @@ class TestListTransitGatewayConnections:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}'
+        mock_response = '{"connections": [{}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}'
         responses.add(
             responses.GET,
             url,
@@ -1059,7 +1066,7 @@ class TestListTransitGatewayConnections:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response = '{"connections": [{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}'
+        mock_response = '{"connections": [{}], "first": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50"}, "limit": 50, "next": {"href": "https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50", "start": "MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa"}, "total_count": 500}'
         responses.add(
             responses.GET,
             url,
@@ -1096,8 +1103,8 @@ class TestListTransitGatewayConnections:
         """
         # Set up a two-page mock response
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"network_account_id","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}'
-        mock_response2 = '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"network_account_id","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}'
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"connections":[{}]}'
         responses.add(
             responses.GET,
             url,
@@ -1134,8 +1141,8 @@ class TestListTransitGatewayConnections:
         """
         # Set up a two-page mock response
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"network_account_id","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}'
-        mock_response2 = '{"total_count":2,"limit":1,"connections":[{"base_network_type":"classic","name":"Transit_Service_BWTN_SJ_DL","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","network_type":"vpc","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","base_connection_id":"975f58c1-afe7-469a-9727-7f3d720f2d32","created_at":"2019-01-01T12:00:00.000Z","local_bgp_asn":64490,"local_gateway_ip":"192.168.100.1","local_tunnel_ip":"192.168.129.2","mtu":9000,"network_account_id":"network_account_id","prefix_filters":[{"action":"permit","before":"1a15dcab-7e40-45e1-b7c5-bc690eaa9782","created_at":"2019-01-01T12:00:00.000Z","ge":0,"id":"1a15dcab-7e30-45e1-b7c5-bc690eaa9865","le":32,"prefix":"192.168.100.0/24","updated_at":"2019-01-01T12:00:00.000Z"}],"prefix_filters_default":"permit","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.63.12","remote_tunnel_ip":"192.168.129.1","request_status":"pending","status":"attached","tunnels":[{"base_network_type":"classic","created_at":"2019-01-01T12:00:00.000Z","id":"1a15dca5-7e33-45e1-b7c5-bc690e569531","local_bgp_asn":13,"local_gateway_ip":"10.242.63.12","local_tunnel_ip":"192.168.100.20","mtu":9000,"name":"gre1","network_account_id":"network_account_id","network_id":"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b","remote_bgp_asn":65010,"remote_gateway_ip":"10.242.33.22","remote_tunnel_ip":"192.168.129.1","status":"attached","updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}],"updated_at":"2019-01-01T12:00:00.000Z","zone":{"name":"us-south-1"}}]}'
+        mock_response1 = '{"next":{"start":"1"},"total_count":2,"limit":1,"connections":[{}]}'
+        mock_response2 = '{"total_count":2,"limit":1,"connections":[{}]}'
         responses.add(
             responses.GET,
             url,
@@ -1175,7 +1182,7 @@ class TestCreateTransitGatewayConnection:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{}'
         responses.add(
             responses.POST,
             url,
@@ -1210,6 +1217,7 @@ class TestCreateTransitGatewayConnection:
         network_type = 'vpc'
         base_connection_id = '975f58c1-afe7-469a-9727-7f3d720f2d32'
         base_network_type = 'classic'
+        cidr = '192.168.0.0/24'
         local_gateway_ip = '192.168.100.1'
         local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
@@ -1229,6 +1237,7 @@ class TestCreateTransitGatewayConnection:
             network_type,
             base_connection_id=base_connection_id,
             base_network_type=base_network_type,
+            cidr=cidr,
             local_gateway_ip=local_gateway_ip,
             local_tunnel_ip=local_tunnel_ip,
             name=name,
@@ -1252,6 +1261,7 @@ class TestCreateTransitGatewayConnection:
         assert req_body['network_type'] == 'vpc'
         assert req_body['base_connection_id'] == '975f58c1-afe7-469a-9727-7f3d720f2d32'
         assert req_body['base_network_type'] == 'classic'
+        assert req_body['cidr'] == '192.168.0.0/24'
         assert req_body['local_gateway_ip'] == '192.168.100.1'
         assert req_body['local_tunnel_ip'] == '192.168.129.2'
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
@@ -1281,7 +1291,7 @@ class TestCreateTransitGatewayConnection:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections')
-        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{}'
         responses.add(
             responses.POST,
             url,
@@ -1316,6 +1326,7 @@ class TestCreateTransitGatewayConnection:
         network_type = 'vpc'
         base_connection_id = '975f58c1-afe7-469a-9727-7f3d720f2d32'
         base_network_type = 'classic'
+        cidr = '192.168.0.0/24'
         local_gateway_ip = '192.168.100.1'
         local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
@@ -1440,7 +1451,7 @@ class TestGetTransitGatewayConnection:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections/testString')
-        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{}'
         responses.add(
             responses.GET,
             url,
@@ -1480,7 +1491,7 @@ class TestGetTransitGatewayConnection:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections/testString')
-        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{}'
         responses.add(
             responses.GET,
             url,
@@ -1525,7 +1536,7 @@ class TestUpdateTransitGatewayConnection:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections/testString')
-        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{}'
         responses.add(
             responses.PATCH,
             url,
@@ -1573,7 +1584,7 @@ class TestUpdateTransitGatewayConnection:
         """
         # Set up mock
         url = preprocess_url('/transit_gateways/testString/connections/testString')
-        mock_response = '{"base_network_type": "classic", "name": "Transit_Service_BWTN_SJ_DL", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "network_type": "vpc", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "base_connection_id": "975f58c1-afe7-469a-9727-7f3d720f2d32", "created_at": "2019-01-01T12:00:00.000Z", "local_bgp_asn": 64490, "local_gateway_ip": "192.168.100.1", "local_tunnel_ip": "192.168.129.2", "mtu": 9000, "network_account_id": "network_account_id", "prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}], "prefix_filters_default": "permit", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.63.12", "remote_tunnel_ip": "192.168.129.1", "request_status": "pending", "status": "attached", "tunnels": [{"base_network_type": "classic", "created_at": "2019-01-01T12:00:00.000Z", "id": "1a15dca5-7e33-45e1-b7c5-bc690e569531", "local_bgp_asn": 13, "local_gateway_ip": "10.242.63.12", "local_tunnel_ip": "192.168.100.20", "mtu": 9000, "name": "gre1", "network_account_id": "network_account_id", "network_id": "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b", "remote_bgp_asn": 65010, "remote_gateway_ip": "10.242.33.22", "remote_tunnel_ip": "192.168.129.1", "status": "attached", "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}], "updated_at": "2019-01-01T12:00:00.000Z", "zone": {"name": "us-south-1"}}'
+        mock_response = '{}'
         responses.add(
             responses.PATCH,
             url,
@@ -4440,12 +4451,15 @@ class TestModel_TransitGateway:
 
         # Construct a json representation of a TransitGateway model
         transit_gateway_model_json = {}
-        transit_gateway_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        transit_gateway_model_json['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        transit_gateway_model_json['name'] = 'my-transit-gateway-in-TransitGateway'
-        transit_gateway_model_json['location'] = 'us-south'
+        transit_gateway_model_json['allow_gre_traffic_across_zones'] = True
+        transit_gateway_model_json['connection_count'] = 5
+        transit_gateway_model_json['connection_needs_attention'] = True
         transit_gateway_model_json['created_at'] = '2019-01-01T12:00:00Z'
+        transit_gateway_model_json['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model_json['global'] = True
+        transit_gateway_model_json['id'] = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        transit_gateway_model_json['location'] = 'us-south'
+        transit_gateway_model_json['name'] = 'my-transit-gateway-in-TransitGateway'
         transit_gateway_model_json['resource_group'] = resource_group_reference_model
         transit_gateway_model_json['status'] = 'available'
         transit_gateway_model_json['updated_at'] = '2019-01-01T12:00:00Z'
@@ -4490,12 +4504,15 @@ class TestModel_TransitGatewayCollection:
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         transit_gateway_model = {}  # TransitGateway
-        transit_gateway_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        transit_gateway_model['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        transit_gateway_model['name'] = 'my-transit-gateway-in-TransitGateway'
-        transit_gateway_model['location'] = 'us-south'
+        transit_gateway_model['allow_gre_traffic_across_zones'] = True
+        transit_gateway_model['connection_count'] = 5
+        transit_gateway_model['connection_needs_attention'] = True
         transit_gateway_model['created_at'] = '2019-01-01T12:00:00Z'
+        transit_gateway_model['crn'] = 'crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
         transit_gateway_model['global'] = True
+        transit_gateway_model['id'] = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        transit_gateway_model['location'] = 'us-south'
+        transit_gateway_model['name'] = 'my-transit-gateway-in-TransitGateway'
         transit_gateway_model['resource_group'] = resource_group_reference_model
         transit_gateway_model['status'] = 'available'
         transit_gateway_model['updated_at'] = '2019-01-01T12:00:00Z'
@@ -4535,63 +4552,7 @@ class TestModel_TransitGatewayConnectionCollection:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        transit_gateway_connection_prefix_filter_reference_model = {}  # TransitGatewayConnectionPrefixFilterReference
-        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
-        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        transit_gateway_connection_prefix_filter_reference_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
-        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
-        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
-        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
-        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = '2019-01-01T12:00:00Z'
-
-        zone_reference_model = {}  # ZoneReference
-        zone_reference_model['name'] = 'us-south-1'
-
-        transit_gateway_tunnel_model = {}  # TransitGatewayTunnel
-        transit_gateway_tunnel_model['base_network_type'] = 'classic'
-        transit_gateway_tunnel_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_tunnel_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_tunnel_model['local_bgp_asn'] = 38
-        transit_gateway_tunnel_model['local_gateway_ip'] = '10.242.63.12'
-        transit_gateway_tunnel_model['local_tunnel_ip'] = '192.168.100.20'
-        transit_gateway_tunnel_model['mtu'] = 9000
-        transit_gateway_tunnel_model['name'] = 'gre1'
-        transit_gateway_tunnel_model['network_account_id'] = 'testString'
-        transit_gateway_tunnel_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
-        transit_gateway_tunnel_model['remote_bgp_asn'] = 65010
-        transit_gateway_tunnel_model['remote_gateway_ip'] = '10.242.33.22'
-        transit_gateway_tunnel_model['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_tunnel_model['status'] = 'attached'
-        transit_gateway_tunnel_model['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_tunnel_model['zone'] = zone_reference_model
-
-        transit_gateway_connection_cust_zone_model = {}  # TransitGatewayConnectionCustZone
-        transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
-
         transit_gateway_connection_cust_model = {}  # TransitGatewayConnectionCust
-        transit_gateway_connection_cust_model['base_network_type'] = 'classic'
-        transit_gateway_connection_cust_model['name'] = 'Transit_Service_BWTN_SJ_DL'
-        transit_gateway_connection_cust_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
-        transit_gateway_connection_cust_model['network_type'] = 'vpc'
-        transit_gateway_connection_cust_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_connection_cust_model['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_gateway_connection_cust_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_cust_model['local_bgp_asn'] = 64490
-        transit_gateway_connection_cust_model['local_gateway_ip'] = '192.168.100.1'
-        transit_gateway_connection_cust_model['local_tunnel_ip'] = '192.168.129.2'
-        transit_gateway_connection_cust_model['mtu'] = 9000
-        transit_gateway_connection_cust_model['network_account_id'] = 'testString'
-        transit_gateway_connection_cust_model['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
-        transit_gateway_connection_cust_model['prefix_filters_default'] = 'permit'
-        transit_gateway_connection_cust_model['remote_bgp_asn'] = 65010
-        transit_gateway_connection_cust_model['remote_gateway_ip'] = '10.242.63.12'
-        transit_gateway_connection_cust_model['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_connection_cust_model['request_status'] = 'pending'
-        transit_gateway_connection_cust_model['status'] = 'attached'
-        transit_gateway_connection_cust_model['tunnels'] = [transit_gateway_tunnel_model]
-        transit_gateway_connection_cust_model['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_cust_model['zone'] = transit_gateway_connection_cust_zone_model
 
         pagination_first_tgw_connection_model = {}  # PaginationFirstTGWConnection
         pagination_first_tgw_connection_model['href'] = 'https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50'
@@ -4634,66 +4595,8 @@ class TestModel_TransitGatewayConnectionCust:
         Test serialization/deserialization for TransitGatewayConnectionCust
         """
 
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        transit_gateway_connection_prefix_filter_reference_model = {}  # TransitGatewayConnectionPrefixFilterReference
-        transit_gateway_connection_prefix_filter_reference_model['action'] = 'permit'
-        transit_gateway_connection_prefix_filter_reference_model['before'] = '1a15dcab-7e40-45e1-b7c5-bc690eaa9782'
-        transit_gateway_connection_prefix_filter_reference_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_prefix_filter_reference_model['ge'] = 0
-        transit_gateway_connection_prefix_filter_reference_model['id'] = '1a15dcab-7e30-45e1-b7c5-bc690eaa9865'
-        transit_gateway_connection_prefix_filter_reference_model['le'] = 32
-        transit_gateway_connection_prefix_filter_reference_model['prefix'] = '192.168.100.0/24'
-        transit_gateway_connection_prefix_filter_reference_model['updated_at'] = '2019-01-01T12:00:00Z'
-
-        zone_reference_model = {}  # ZoneReference
-        zone_reference_model['name'] = 'us-south-1'
-
-        transit_gateway_tunnel_model = {}  # TransitGatewayTunnel
-        transit_gateway_tunnel_model['base_network_type'] = 'classic'
-        transit_gateway_tunnel_model['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_tunnel_model['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_tunnel_model['local_bgp_asn'] = 38
-        transit_gateway_tunnel_model['local_gateway_ip'] = '10.242.63.12'
-        transit_gateway_tunnel_model['local_tunnel_ip'] = '192.168.100.20'
-        transit_gateway_tunnel_model['mtu'] = 9000
-        transit_gateway_tunnel_model['name'] = 'gre1'
-        transit_gateway_tunnel_model['network_account_id'] = 'testString'
-        transit_gateway_tunnel_model['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
-        transit_gateway_tunnel_model['remote_bgp_asn'] = 65010
-        transit_gateway_tunnel_model['remote_gateway_ip'] = '10.242.33.22'
-        transit_gateway_tunnel_model['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_tunnel_model['status'] = 'attached'
-        transit_gateway_tunnel_model['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_tunnel_model['zone'] = zone_reference_model
-
-        transit_gateway_connection_cust_zone_model = {}  # TransitGatewayConnectionCustZone
-        transit_gateway_connection_cust_zone_model['name'] = 'us-south-1'
-
         # Construct a json representation of a TransitGatewayConnectionCust model
         transit_gateway_connection_cust_model_json = {}
-        transit_gateway_connection_cust_model_json['base_network_type'] = 'classic'
-        transit_gateway_connection_cust_model_json['name'] = 'Transit_Service_BWTN_SJ_DL'
-        transit_gateway_connection_cust_model_json['network_id'] = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
-        transit_gateway_connection_cust_model_json['network_type'] = 'vpc'
-        transit_gateway_connection_cust_model_json['id'] = '1a15dca5-7e33-45e1-b7c5-bc690e569531'
-        transit_gateway_connection_cust_model_json['base_connection_id'] = '975f58c1-afe7-469a-9727-7f3d720f2d32'
-        transit_gateway_connection_cust_model_json['created_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_cust_model_json['local_bgp_asn'] = 64490
-        transit_gateway_connection_cust_model_json['local_gateway_ip'] = '192.168.100.1'
-        transit_gateway_connection_cust_model_json['local_tunnel_ip'] = '192.168.129.2'
-        transit_gateway_connection_cust_model_json['mtu'] = 9000
-        transit_gateway_connection_cust_model_json['network_account_id'] = 'testString'
-        transit_gateway_connection_cust_model_json['prefix_filters'] = [transit_gateway_connection_prefix_filter_reference_model]
-        transit_gateway_connection_cust_model_json['prefix_filters_default'] = 'permit'
-        transit_gateway_connection_cust_model_json['remote_bgp_asn'] = 65010
-        transit_gateway_connection_cust_model_json['remote_gateway_ip'] = '10.242.63.12'
-        transit_gateway_connection_cust_model_json['remote_tunnel_ip'] = '192.168.129.1'
-        transit_gateway_connection_cust_model_json['request_status'] = 'pending'
-        transit_gateway_connection_cust_model_json['status'] = 'attached'
-        transit_gateway_connection_cust_model_json['tunnels'] = [transit_gateway_tunnel_model]
-        transit_gateway_connection_cust_model_json['updated_at'] = '2019-01-01T12:00:00Z'
-        transit_gateway_connection_cust_model_json['zone'] = transit_gateway_connection_cust_zone_model
 
         # Construct a model instance of TransitGatewayConnectionCust by calling from_dict on the json representation
         transit_gateway_connection_cust_model = TransitGatewayConnectionCust.from_dict(transit_gateway_connection_cust_model_json)
@@ -4709,36 +4612,6 @@ class TestModel_TransitGatewayConnectionCust:
         # Convert model instance back to dict and verify no loss of data
         transit_gateway_connection_cust_model_json2 = transit_gateway_connection_cust_model.to_dict()
         assert transit_gateway_connection_cust_model_json2 == transit_gateway_connection_cust_model_json
-
-
-class TestModel_TransitGatewayConnectionCustZone:
-    """
-    Test Class for TransitGatewayConnectionCustZone
-    """
-
-    def test_transit_gateway_connection_cust_zone_serialization(self):
-        """
-        Test serialization/deserialization for TransitGatewayConnectionCustZone
-        """
-
-        # Construct a json representation of a TransitGatewayConnectionCustZone model
-        transit_gateway_connection_cust_zone_model_json = {}
-        transit_gateway_connection_cust_zone_model_json['name'] = 'us-south-1'
-
-        # Construct a model instance of TransitGatewayConnectionCustZone by calling from_dict on the json representation
-        transit_gateway_connection_cust_zone_model = TransitGatewayConnectionCustZone.from_dict(transit_gateway_connection_cust_zone_model_json)
-        assert transit_gateway_connection_cust_zone_model != False
-
-        # Construct a model instance of TransitGatewayConnectionCustZone by calling from_dict on the json representation
-        transit_gateway_connection_cust_zone_model_dict = TransitGatewayConnectionCustZone.from_dict(transit_gateway_connection_cust_zone_model_json).__dict__
-        transit_gateway_connection_cust_zone_model2 = TransitGatewayConnectionCustZone(**transit_gateway_connection_cust_zone_model_dict)
-
-        # Verify the model instances are equivalent
-        assert transit_gateway_connection_cust_zone_model == transit_gateway_connection_cust_zone_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        transit_gateway_connection_cust_zone_model_json2 = transit_gateway_connection_cust_zone_model.to_dict()
-        assert transit_gateway_connection_cust_zone_model_json2 == transit_gateway_connection_cust_zone_model_json
 
 
 class TestModel_TransitGatewayConnectionPrefixFilter:

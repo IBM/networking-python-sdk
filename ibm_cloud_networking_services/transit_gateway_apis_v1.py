@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2024.
+# (C) Copyright IBM Corp. 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -153,6 +153,7 @@ class TransitGatewayApisV1(BaseService):
         location: str,
         name: str,
         *,
+        allow_gre_traffic_across_zones: bool = None,
         global_: bool = None,
         resource_group: 'ResourceGroupIdentity' = None,
         **kwargs,
@@ -163,7 +164,9 @@ class TransitGatewayApisV1(BaseService):
         Create a Transit Gateway based on the supplied input template.
 
         :param str location: Location of Transit Gateway Services.
-        :param str name: Name Transit Gateway Services.
+        :param str name: A human readable name for the transit gateway.
+        :param bool allow_gre_traffic_across_zones: (optional) Allow GRE traffic in
+               this gateway to flow across zones.
         :param bool global_: (optional) Allow global routing for a Transit Gateway.
                If unspecified, the default value is false.
         :param ResourceGroupIdentity resource_group: (optional) The resource group
@@ -196,6 +199,7 @@ class TransitGatewayApisV1(BaseService):
         data = {
             'location': location,
             'name': name,
+            'allow_gre_traffic_across_zones': allow_gre_traffic_across_zones,
             'global': global_,
             'resource_group': resource_group,
         }
@@ -323,6 +327,7 @@ class TransitGatewayApisV1(BaseService):
         self,
         id: str,
         *,
+        allow_gre_traffic_across_zones: bool = None,
         global_: bool = None,
         name: str = None,
         **kwargs,
@@ -333,8 +338,10 @@ class TransitGatewayApisV1(BaseService):
         This request updates a Transit Gateway's name and/or global flag.
 
         :param str id: The Transit Gateway identifier.
+        :param bool allow_gre_traffic_across_zones: (optional) Allow GRE traffic in
+               this gateway to flow across zones.
         :param bool global_: (optional) Allow global routing for a Transit Gateway.
-        :param str name: (optional) The user-defined name for this transit gateway.
+        :param str name: (optional) A human readable name for a resource.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TransitGateway` object
@@ -355,6 +362,7 @@ class TransitGatewayApisV1(BaseService):
         }
 
         data = {
+            'allow_gre_traffic_across_zones': allow_gre_traffic_across_zones,
             'global': global_,
             'name': name,
         }
@@ -513,6 +521,7 @@ class TransitGatewayApisV1(BaseService):
         *,
         base_connection_id: str = None,
         base_network_type: str = None,
+        cidr: str = None,
         local_gateway_ip: str = None,
         local_tunnel_ip: str = None,
         name: str = None,
@@ -523,12 +532,12 @@ class TransitGatewayApisV1(BaseService):
         remote_bgp_asn: int = None,
         remote_gateway_ip: str = None,
         remote_tunnel_ip: str = None,
-        tunnels: List['TransitGatewayRedundantGRETunnelTemplate'] = None,
+        tunnels: List['TransitGatewayTunnelTemplate'] = None,
         zone: 'ZoneIdentity' = None,
         **kwargs,
     ) -> DetailedResponse:
         """
-        Add connection to a Transit Gateway.
+        Adds a connection to a Transit Gateway.
 
         Add a connection to Transit Gateway.
 
@@ -536,102 +545,112 @@ class TransitGatewayApisV1(BaseService):
         :param str network_type: Defines what type of network is connected via this
                connection.
         :param str base_connection_id: (optional) Deprecated: network_type
-               'gre_tunnel' connections must be created over an existing network_type
-               'classic' connection. This field must specify the ID of an active transit
-               gateway network_type 'classic' connection in the same transit gateway.
-               This field is required for network type 'gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc',
-               'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre'
-               connections.
+               `gre_tunnel` connections must be created over an existing network_type
+               `classic` connection. This field must specify the ID of an active transit
+               gateway network_type `classic` connection in the same transit gateway.
+               This field is required for network type `gre_tunnel` connections.
+               This field is required to be unspecified for network type `classic`,
+               `vmware`, `directlink`, `vpc`,
+               `power_virtual_server`, `unbound_gre_tunnel`, `vpn_gateway` and
+               `redundant_gre` connections.
         :param str base_network_type: (optional) The type of network the Unbound
                GRE tunnel is targeting. This field is required for network type
-               'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre'
+               `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre`
                network type, the value is required and can be either VPC or Classic. This
-               field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
-        :param str local_gateway_ip: (optional) Local gateway IP address. This
-               field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-               connections. This field is required to be unspecified for network type
-               'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
+               field is required to be unspecified for network type `classic`, `vmware`,
+               `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel`
                connections.
+        :param str cidr: (optional) network_type 'vpn_gateway' connections use
+               'cdr' to specify the CIDR to use for the VPN GRE tunnels.
+               This field is required for network type `vpn_gateway` connections.
+               This field is required to be unspecified for network type `classic`,
+               `vmware`, `directlink`, `vpc`, `power_virtual_server`, `gre_tunnel`,
+               `unbound_gre_tunnel`, and `redundant_gre` connections.
+        :param str local_gateway_ip: (optional) Local gateway IP address. This
+               field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
+               connections. This field is required to be unspecified for network type
+               `classic`, `vmware`, `directlink`, `vpc`, `power_virtual_server`,
+               `vpn_gateway` and `redundant_gre` connections.
         :param str local_tunnel_ip: (optional) Local tunnel IP address. The
                local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
                network. Neither can be the network nor broadcast addresses.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
-               connections.
+               This field is required for network type `gre_tunnel` and
+               `unbound_gre_tunnel` connections.
+               This field is required to be unspecified for network type `classic`,
+               `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and
+               `redundant_gre` connections.
         :param str name: (optional) The user-defined name for this transit gateway
-               connection. Network type 'vpc'  connections are defaulted to the name of
-               the VPC.  Network type 'classic' connections are named 'Classic'.
-               This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel'
-               and 'redundant_gre' connections.
-               This field is optional for network type 'classic', 'directlink', 'vpc' and
-               'power_virtual_server' connections.
+               connection. Network type `vpc`  connections are defaulted to the name of
+               the VPC.  Network type `classic` connections are named `classic`.
+               This field is required for network type `power_virtual_server`,
+               `directlink`, `vmware`, `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`
+               and `redundant_gre` connections.
+               This field is optional for network type `classic`, `vpc` connections.
         :param str network_account_id: (optional) The ID of the account which owns
                the network that is being connected. Generally only used if the network is
                in a different account than the gateway. This field is required for type
-               'unbound_gre_tunnel' when the associated_network_type is 'classic' or
-               network_type is 'redundant_gre' and the GRE tunnel is in a different
+               `unbound_gre_tunnel` when the associated_network_type is `classic` or
+               network_type is `redundant_gre` and the GRE tunnel is in a different
                account than the gateway.
         :param str network_id: (optional) The ID of the network being connected via
-               this connection. For network types 'vpc','power_virtual_server' and
-               'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway
-               respectively. This field is required for network type 'vpc',
-               'power_virtual_server' and 'directlink' connections.  It is also required
-               for 'redundant_gre' connections when the base_network_type is set to VPC.
-               This field is required to be unspecified for network type 'classic',
-               'gre_tunnel' and 'unbound_gre_tunnel' connections.
+               this connection. For network types `vpc`,`power_virtual_server`, `vmware`,
+               `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC /
+               Direct Link / VPN gateway respectively. This field is required for network
+               type `vpc`, `power_virtual_server`, `vmware`, `vpn_gateway`, and
+               `directlink` connections.  It is also required for `redundant_gre`
+               connections when the base_network_type is set to VPC. This field is
+               required to be unspecified for network type `classic`, `gre_tunnel` and
+               `unbound_gre_tunnel` connections.
         :param List[TransitGatewayConnectionPrefixFilter] prefix_filters:
                (optional) Array of prefix route filters for a transit gateway connection.
-               Prefix filters can be specified for netowrk type 'vpc', 'classic',
-               'power_virtual_server' and 'directlink' connections. They are not allowed
-               for type 'gre_tunnel' connections. This is order dependent with those first
+               Prefix filters can be specified for netowrk type `vpc`, `classic`,
+               `power_virtual_server` and `directlink` connections. They are not allowed
+               for type `gre_tunnel` connections. This is order dependent with those first
                in the array being applied first, and those at the end of the array being
                applied last, or just before applying the default. This field is optional
-               for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server'
+               for network type `classic`, `vpc`, `directlink`, and `power_virtual_server`
                connections. This field is required to be unspecified for network type
-               'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+               `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
+               connections.
         :param str prefix_filters_default: (optional) Default setting of permit or
                deny which applies to any routes that don't match a specified filter. This
-               field is optional for network type 'classic', 'vpc', 'directlink', and
-               'power_virtual_server' connections. This field is required to be
-               unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and
-               'redundant_gre' connections.
+               field is optional for network type `classic`, `vpc`, `directlink`, and
+               `power_virtual_server` connections. This field is required to be
+               unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`,
+               `vpn_gateway` and `redundant_gre` connections.
         :param int remote_bgp_asn: (optional) Remote network BGP ASN. The following
                ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
                65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-               'remote_bgp_asn' is omitted on gre_tunnel or unbound_gre_tunnel connection
+               `remote_bgp_asn` is omitted on gre_tunnel or unbound_gre_tunnel connection
                create requests IBM will assign an ASN.
-               This field is optional for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+               This field is optional for network type `gre_tunnel` and
+               `unbound_gre_tunnel` connections.
+               This field is required to be unspecified for network type `classic`,
+               `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and
+               `gre_tunnel` connections.
         :param str remote_gateway_ip: (optional) Remote gateway IP address. This
-               field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
                connections. This field is required to be unspecified for network type
-               'classic', 'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
-               connections.
+               `classic`, `vmware`, `directlink`, `vpc`, `power_virtual_server`,
+               `vpn_gateway` and `redundant_gre` connections.
         :param str remote_tunnel_ip: (optional) Remote tunnel IP address. The
                local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30
                network. Neither can be the network nor broadcast addresses.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc',  'power_virtual_server' and 'redundant_gre'
-               connections.
-        :param List[TransitGatewayRedundantGRETunnelTemplate] tunnels: (optional)
-               Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
-                This field is required for 'redundant_gre' connections.
+               This field is required for network type `gre_tunnel` and
+               `unbound_gre_tunnel` connections.
+               This field is required to be unspecified for network type `classic`,
+               `vmware`, `directlink`, `vpc`,  `power_virtual_server`, `vpn_gateway` and
+               `redundant_gre` connections.
+        :param List[TransitGatewayTunnelTemplate] tunnels: (optional) Array of GRE
+               tunnels for a transit gateway redundant GRE tunnel connection.  This field
+               is required for `redundant_gre` connections.
         :param ZoneIdentity zone: (optional) Specify the connection's location.
                The specified availability zone must reside in the gateway's region.
                Use the IBM Cloud global catalog to list zones within the desired region.
-               This field is required for network type 'gre_tunnel' and
-               'unbound_gre_tunnel' connections.
-               This field is required to be unspecified for network type 'classic',
-               'directlink', 'vpc', 'power_virtual_server' and 'redundant_gre'
+               This field is required for network type `gre_tunnel`, `unbound_gre_tunnel`
+               and `vpn_gateway` connections.
+               This field is required to be unspecified for network type `classic`,
+               `vmware`, `directlink`, `vpc`, `power_virtual_server` and `redundant_gre`
                connections.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -664,6 +683,7 @@ class TransitGatewayApisV1(BaseService):
             'network_type': network_type,
             'base_connection_id': base_connection_id,
             'base_network_type': base_network_type,
+            'cidr': cidr,
             'local_gateway_ip': local_gateway_ip,
             'local_tunnel_ip': local_tunnel_ip,
             'name': name,
@@ -708,7 +728,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Remove connection from Transit Gateway.
+        Removes a connection from Transit Gateway.
 
         After the specified connection is detached, entities still within the Transit
         Gateway will no longer be able to communicate directly to it through the IBM Cloud
@@ -826,8 +846,8 @@ class TransitGatewayApisV1(BaseService):
         :param str id: The connection identifier.
         :param str name: (optional) The user-defined name for this transit gateway.
                If specified as empty string or nil,  the name will be the network name
-               (the name of the VPC in the case of network type 'vpc',  and the word
-               Classic, in the case of network type 'classic').
+               (the name of the VPC in the case of network type `vpc`,  and the word
+               Classic, in the case of network type `classic`).
         :param str prefix_filters_default: (optional) Default setting of permit or
                deny which applies to any routes that don't match a specified filter.
         :param dict headers: A `dict` containing the request headers
@@ -887,7 +907,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Perform actions on a connection for a Transit Gateway.
+        Performs actions on a connection for a Transit Gateway.
 
         Allow a network owner to approve or reject a cross-account connection request.
 
@@ -944,7 +964,7 @@ class TransitGatewayApisV1(BaseService):
         response = self.send(request, **kwargs)
         return response
 
-    def get_transit_gateway_gre_tunnel(
+    def list_transit_gateway_gre_tunnel(
         self,
         transit_gateway_id: str,
         id: str,
@@ -953,13 +973,13 @@ class TransitGatewayApisV1(BaseService):
         """
         Retrieves specified Transit Gateway redundant gre connection tunnels.
 
-        This request retrieves a list of all the tunnels for the redundant gre conneciton.
+        This request retrieves a list of all the tunnels for the redundant gre connection.
 
         :param str transit_gateway_id: The Transit Gateway identifier.
         :param str id: The connection identifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RedundantGRETunnelCollection` object
+        :rtype: DetailedResponse with `dict` result representing a `TransitGatewayTunnelCollection` object
         """
 
         if not transit_gateway_id:
@@ -970,7 +990,7 @@ class TransitGatewayApisV1(BaseService):
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
-            operation_id='get_transit_gateway_gre_tunnel',
+            operation_id='list_transit_gateway_gre_tunnel',
         )
         headers.update(sdk_headers)
 
@@ -1012,7 +1032,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Create Transit Gateway redundant GRE tunnel.
+        Creates a Transit Gateway redundant GRE tunnel.
 
         Add a tunnel to an existing Redundant GRE connection.
 
@@ -1033,10 +1053,10 @@ class TransitGatewayApisV1(BaseService):
         :param int remote_bgp_asn: (optional) Remote network BGP ASN. The following
                ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
                65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-               'remote_bgp_asn' is omitted on create requests, IBM will assign an ASN.
+               `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RedundantGRETunnelReference` object
+        :rtype: DetailedResponse with `dict` result representing a `TransitGatewayTunnel` object
         """
 
         if not transit_gateway_id:
@@ -1109,7 +1129,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Delete specified Transit Gateway redundant GRE tunnel.
+        Deletes a specified Transit Gateway redundant GRE tunnel.
 
         Remove a tunnel from a redundant GRE connection.
 
@@ -1167,14 +1187,14 @@ class TransitGatewayApisV1(BaseService):
         """
         Retrieves specified Transit Gateway connection tunnel.
 
-        This request retrieves a connection tunnel from the Transit Gateway Connection.
+        This request retrieves a connection tunnel from the Transit Gateway connection.
 
         :param str transit_gateway_id: The Transit Gateway identifier.
         :param str id: The connection identifier.
         :param str gre_tunnel_id: The tunnel identifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RedundantGRETunnelReference` object
+        :rtype: DetailedResponse with `dict` result representing a `TransitGatewayTunnel` object
         """
 
         if not transit_gateway_id:
@@ -1219,8 +1239,7 @@ class TransitGatewayApisV1(BaseService):
         transit_gateway_id: str,
         id: str,
         gre_tunnel_id: str,
-        *,
-        name: str = None,
+        transit_gateway_tunnel_patch: 'TransitGatewayTunnelPatch',
         **kwargs,
     ) -> DetailedResponse:
         """
@@ -1231,11 +1250,11 @@ class TransitGatewayApisV1(BaseService):
         :param str transit_gateway_id: The Transit Gateway identifier.
         :param str id: The connection identifier.
         :param str gre_tunnel_id: The tunnel identifier.
-        :param str name: (optional) The user-defined name for this connection
-               tunnel.
+        :param TransitGatewayTunnelPatch transit_gateway_tunnel_patch: The update
+               connection tunnel template.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `RedundantGRETunnelReference` object
+        :rtype: DetailedResponse with `dict` result representing a `TransitGatewayTunnel` object
         """
 
         if not transit_gateway_id:
@@ -1244,6 +1263,10 @@ class TransitGatewayApisV1(BaseService):
             raise ValueError('id must be provided')
         if not gre_tunnel_id:
             raise ValueError('gre_tunnel_id must be provided')
+        if transit_gateway_tunnel_patch is None:
+            raise ValueError('transit_gateway_tunnel_patch must be provided')
+        if isinstance(transit_gateway_tunnel_patch, TransitGatewayTunnelPatch):
+            transit_gateway_tunnel_patch = convert_model(transit_gateway_tunnel_patch)
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
@@ -1256,12 +1279,8 @@ class TransitGatewayApisV1(BaseService):
             'version': self.version,
         }
 
-        data = {
-            'name': name,
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
+        data = json.dumps(transit_gateway_tunnel_patch)
+        headers['content-type'] = 'application/merge-patch+json'
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1284,7 +1303,7 @@ class TransitGatewayApisV1(BaseService):
         return response
 
     #########################
-    # Transit Location
+    # Transit Locations
     #########################
 
     def list_gateway_locations(
@@ -1292,7 +1311,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        List all locations that support Transit Gateways.
+        Lists all locations that support Transit Gateways.
 
         List all locations that support Transit Gateways.
 
@@ -1335,7 +1354,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Show the details of a given Transit Gateway location.
+        Shows the details of a given Transit Gateway location.
 
         Get the details of a Transit Gateway Location.
 
@@ -1448,20 +1467,20 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Add a prefix filter to a Transit Gateway Connection.
+        Add a prefix filter to a Transit Gateway connection.
 
-        Add a prefix filter to a Transit Gateway Connection.
+        Add a prefix filter to a Transit Gateway connection.
 
         :param str transit_gateway_id: The Transit Gateway identifier.
         :param str id: The connection identifier.
         :param str action: Whether or not this prefix filter should allow or deny
                prefixes matching this filter's prefix definition.
         :param str prefix: The IPv4 Prefix to be matched by this filter. If both
-               the 'le' and 'ge' are zero, then this filter will only apply to routes that
-               exactly match this prefix, while a non-zero value for either 'le' or 'ge',
+               the `le` and `ge` are zero, then this filter will only apply to routes that
+               exactly match this prefix, while a non-zero value for either `le` or `ge`,
                this filter can apply to multiple routes with different prefix lengths, but
                will still only apply to prefixes contained in the address space defined by
-               'prefix'.
+               `prefix`.
         :param str before: (optional) A reference to the prefix filter that will be
                the next filter applied to the Transit Gateway connection.
                If this field is blank, this prefix filter will be the last rule applied
@@ -1471,21 +1490,21 @@ class TransitGatewayApisV1(BaseService):
                and the existing filter's before field will be updated accordingly.
         :param int ge: (optional) Defines the minimum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length greater than or equal to this value.
+               `prefix` that have a prefix length greater than or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'ge' route matching
-               behavior. If the 'le' value is non-zero the the 'ge' value must between the
+               this value is set to zero, the filter will not use the `ge` route matching
+               behavior. If the `le` value is non-zero the the `ge` value must between the
                prefix length and the
-               'le' value, inclusive.
+               `le` value, inclusive.
         :param int le: (optional) Defines the maximum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length less than or equal to this value.
+               `prefix` that have a prefix length less than or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'le' route matching
-               behavior. If the 'ge' value is non-zero the the 'le' value must between the
-               'ge' value and 32, inclusive.
+               this value is set to zero, the filter will not use the `le` route matching
+               behavior. If the `ge` value is non-zero the the `le` value must between the
+               `ge` value and 32, inclusive.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `PrefixFilterCust` object
@@ -1550,9 +1569,9 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Replaces the prefix filters of the Transit Gateway Connection.
+        Replaces the prefix filters of the Transit Gateway connection.
 
-        Replaces the prefix filters of the Transit Gateway Connection.
+        Replaces the prefix filters of the Transit Gateway connection.
 
         :param str transit_gateway_id: The Transit Gateway identifier.
         :param str id: The connection identifier.
@@ -1616,7 +1635,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Remove prefix filter from Transit Gateway Connection.
+        Remove prefix filter from Transit Gateway connection.
 
         Delete a prefix filter.
 
@@ -1674,7 +1693,7 @@ class TransitGatewayApisV1(BaseService):
         """
         Retrieves specified Transit Gateway connection prefix filter.
 
-        This request retrieves a prefix filter from the Transit Gateway Connection.
+        This request retrieves a prefix filter from the Transit Gateway connection.
 
         :param str transit_gateway_id: The Transit Gateway identifier.
         :param str id: The connection identifier.
@@ -1753,21 +1772,21 @@ class TransitGatewayApisV1(BaseService):
                and the existing filter's before field will be updated accordingly.
         :param int ge: (optional) Defines the minimum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length greater or equal to this value.
+               `prefix` that have a prefix length greater or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'ge' route matching
-               behavior. If the 'le' value is non-zero the the 'ge' value must between the
+               this value is set to zero, the filter will not use the `ge` route matching
+               behavior. If the `le` value is non-zero the the `ge` value must between the
                prefix length and the
-               'le' value, inclusive.
+               `le` value, inclusive.
         :param int le: (optional) Defines the maximum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length less than or equal to this value.
+               `prefix` that have a prefix length less than or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'le' route matching
-               behavior. If the 'ge' value is non-zero the the 'le' value must between the
-               'ge' value and 32, inclusive.
+               this value is set to zero, the filter will not use the `le` route matching
+               behavior. If the `ge` value is non-zero the the `le` value must between the
+               `ge` value and 32, inclusive.
         :param str prefix: (optional) The IPv4 Prefix to be matched by this filter.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1833,7 +1852,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        List route reports.
+        Lists route reports.
 
         Retrieve all route reports for the specified Transit Gateway.  There will normally
         be at most one completed report and one pending report.  Additionally, completed
@@ -1884,7 +1903,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Request a route report.
+        Requests a route report.
 
         Request route report generation.  While report generation is in progress,
         additional requests to generate a report are ignored and return the current
@@ -1936,7 +1955,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Delete route report.
+        Deletes a route report.
 
         Delete a route report.
 
@@ -1988,7 +2007,7 @@ class TransitGatewayApisV1(BaseService):
         **kwargs,
     ) -> DetailedResponse:
         """
-        Retrieve route report.
+        Retrieves a route report.
 
         Retrieve a route report.
 
@@ -2038,66 +2057,6 @@ class TransitGatewayApisV1(BaseService):
 ##############################################################################
 # Models
 ##############################################################################
-
-
-class GreTunnelZoneReference:
-    """
-    Location of GRE tunnel.  This field only applies to network type 'gre_tunnel'
-    connections.
-
-    :attr str name: Availability zone name.
-    """
-
-    def __init__(
-        self,
-        name: str,
-    ) -> None:
-        """
-        Initialize a GreTunnelZoneReference object.
-
-        :param str name: Availability zone name.
-        """
-        self.name = name
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'GreTunnelZoneReference':
-        """Initialize a GreTunnelZoneReference object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in GreTunnelZoneReference JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a GreTunnelZoneReference object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this GreTunnelZoneReference object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'GreTunnelZoneReference') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'GreTunnelZoneReference') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
 
 
 class PaginationFirstConnection:
@@ -2569,27 +2528,27 @@ class PrefixFilterCust:
     :attr datetime created_at: The date and time that this prefix filter was
           created.
     :attr int ge: (optional) Defines the minimum matched prefix precision. If this
-          field is non-zero then the filter will match all routes within the 'prefix' that
+          field is non-zero then the filter will match all routes within the `prefix` that
           have a prefix length greater or equal to this value.
           This value can be zero, or a non-negative number greater than or equal to the
           prefix length of the filter's prefix or less then or equal to 32. If this value
-          is set to zero, the filter will not use the 'ge' route matching behavior. If the
-          'le' value is non-zero the the 'ge' value must between the prefix length and the
-          'le' value, inclusive.
+          is set to zero, the filter will not use the `ge` route matching behavior. If the
+          `le` value is non-zero the the `ge` value must between the prefix length and the
+          `le` value, inclusive.
     :attr str id: Prefix Filter identifier.
     :attr int le: (optional) Defines the maximum matched prefix precision. If this
-          field is non-zero then the filter will match all routes within the 'prefix' that
+          field is non-zero then the filter will match all routes within the `prefix` that
           have a prefix length less than or equal to this value.
           This value can be zero, or a non-negative number greater than or equal to the
           prefix length of the filter's prefix or less then or equal to 32. If this value
-          is set to zero, the filter will not use the 'le' route matching behavior. If the
-          'ge' value is non-zero the the 'le' value must between the 'ge' value and 32,
+          is set to zero, the filter will not use the `le` route matching behavior. If the
+          `ge` value is non-zero the the `le` value must between the `ge` value and 32,
           inclusive.
-    :attr str prefix: The IPv4 Prefix to be matched by this filter. If both the 'le'
-          and 'ge' are zero, then this filter will only apply to routes that exactly match
-          this prefix, while a non-zero value for either 'le' or 'ge', this filter can
+    :attr str prefix: The IPv4 Prefix to be matched by this filter. If both the `le`
+          and `ge` are zero, then this filter will only apply to routes that exactly match
+          this prefix, while a non-zero value for either `le` or `ge`, this filter can
           apply to multiple routes with different prefix lengths, but will still only
-          apply to prefixes contained in the address space defined by 'prefix'.
+          apply to prefixes contained in the address space defined by `prefix`.
     :attr datetime updated_at: (optional) The date and time that this prefix filter
           was last updated.
     """
@@ -2615,11 +2574,11 @@ class PrefixFilterCust:
                created.
         :param str id: Prefix Filter identifier.
         :param str prefix: The IPv4 Prefix to be matched by this filter. If both
-               the 'le' and 'ge' are zero, then this filter will only apply to routes that
-               exactly match this prefix, while a non-zero value for either 'le' or 'ge',
+               the `le` and `ge` are zero, then this filter will only apply to routes that
+               exactly match this prefix, while a non-zero value for either `le` or `ge`,
                this filter can apply to multiple routes with different prefix lengths, but
                will still only apply to prefixes contained in the address space defined by
-               'prefix'.
+               `prefix`.
         :param str before: (optional) A reference to the prefix filter that will be
                the next filter applied to the Transit Gateway connection.
                If this field is blank, this prefix filter will be the last rule applied
@@ -2629,21 +2588,21 @@ class PrefixFilterCust:
                and the existing filter's before field will be updated accordingly.
         :param int ge: (optional) Defines the minimum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length greater or equal to this value.
+               `prefix` that have a prefix length greater or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'ge' route matching
-               behavior. If the 'le' value is non-zero the the 'ge' value must between the
+               this value is set to zero, the filter will not use the `ge` route matching
+               behavior. If the `le` value is non-zero the the `ge` value must between the
                prefix length and the
-               'le' value, inclusive.
+               `le` value, inclusive.
         :param int le: (optional) Defines the maximum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length less than or equal to this value.
+               `prefix` that have a prefix length less than or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'le' route matching
-               behavior. If the 'ge' value is non-zero the the 'le' value must between the
-               'ge' value and 32, inclusive.
+               this value is set to zero, the filter will not use the `le` route matching
+               behavior. If the `ge` value is non-zero the the `le` value must between the
+               `ge` value and 32, inclusive.
         :param datetime updated_at: (optional) The date and time that this prefix
                filter was last updated.
         """
@@ -2748,26 +2707,26 @@ class PrefixFilterPut:
     :attr str action: Whether or not this prefix filter should allow or deny
           prefixes matching this filter's prefix definition.
     :attr int ge: (optional) Defines the minimum matched prefix precision. If this
-          field is non-zero then the filter will match all routes within the 'prefix' that
+          field is non-zero then the filter will match all routes within the `prefix` that
           have a prefix length greater or equal to this value.
           This value can be zero, or a non-negative number greater than or equal to the
           prefix length of the filter's prefix or less then or equal to 32. If this value
-          is set to zero, the filter will not use the 'ge' route matching behavior. If the
-          'le' value is non-zero the the 'ge' value must between the prefix length and the
-          'le' value, inclusive.
+          is set to zero, the filter will not use the `ge` route matching behavior. If the
+          `le` value is non-zero the the `ge` value must between the prefix length and the
+          `le` value, inclusive.
     :attr int le: (optional) Defines the maximum matched prefix precision. If this
-          field is non-zero then the filter will match all routes within the 'prefix' that
+          field is non-zero then the filter will match all routes within the `prefix` that
           have a prefix length less than or equal to this value.
           This value can be zero, or a non-negative number greater than or equal to the
           prefix length of the filter's prefix or less then or equal to 32. If this value
-          is set to zero, the filter will not use the 'le' route matching behavior. If the
-          'ge' value is non-zero the the 'le' value must between the 'ge' value and 32,
+          is set to zero, the filter will not use the `le` route matching behavior. If the
+          `ge` value is non-zero the the `le` value must between the `ge` value and 32,
           inclusive.
-    :attr str prefix: The IPv4 Prefix to be matched by this filter. If both the 'le'
-          and 'ge' are zero, then this filter will only apply to routes that exactly match
-          this prefix, while a non-zero value for either 'le' or 'ge', this filter can
+    :attr str prefix: The IPv4 Prefix to be matched by this filter. If both the `le`
+          and `ge` are zero, then this filter will only apply to routes that exactly match
+          this prefix, while a non-zero value for either `le` or `ge`, this filter can
           apply to multiple routes with different prefix lengths, but will still only
-          apply to prefixes contained in the address space defined by 'prefix'.
+          apply to prefixes contained in the address space defined by `prefix`.
     """
 
     def __init__(
@@ -2784,28 +2743,28 @@ class PrefixFilterPut:
         :param str action: Whether or not this prefix filter should allow or deny
                prefixes matching this filter's prefix definition.
         :param str prefix: The IPv4 Prefix to be matched by this filter. If both
-               the 'le' and 'ge' are zero, then this filter will only apply to routes that
-               exactly match this prefix, while a non-zero value for either 'le' or 'ge',
+               the `le` and `ge` are zero, then this filter will only apply to routes that
+               exactly match this prefix, while a non-zero value for either `le` or `ge`,
                this filter can apply to multiple routes with different prefix lengths, but
                will still only apply to prefixes contained in the address space defined by
-               'prefix'.
+               `prefix`.
         :param int ge: (optional) Defines the minimum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length greater or equal to this value.
+               `prefix` that have a prefix length greater or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'ge' route matching
-               behavior. If the 'le' value is non-zero the the 'ge' value must between the
+               this value is set to zero, the filter will not use the `ge` route matching
+               behavior. If the `le` value is non-zero the the `ge` value must between the
                prefix length and the
-               'le' value, inclusive.
+               `le` value, inclusive.
         :param int le: (optional) Defines the maximum matched prefix precision. If
                this field is non-zero then the filter will match all routes within the
-               'prefix' that have a prefix length less than or equal to this value.
+               `prefix` that have a prefix length less than or equal to this value.
                This value can be zero, or a non-negative number greater than or equal to
                the prefix length of the filter's prefix or less then or equal to 32. If
-               this value is set to zero, the filter will not use the 'le' route matching
-               behavior. If the 'ge' value is non-zero the the 'le' value must between the
-               'ge' value and 32, inclusive.
+               this value is set to zero, the filter will not use the `le` route matching
+               behavior. If the `ge` value is non-zero the the `le` value must between the
+               `ge` value and 32, inclusive.
         """
         self.action = action
         self.ge = ge
@@ -2874,342 +2833,6 @@ class PrefixFilterPut:
 
         PERMIT = 'permit'
         DENY = 'deny'
-
-
-
-class RedundantGRETunnelCollection:
-    """
-    Collection of all tunnels for redundant gre connection.
-
-    :attr List[RedundantGRETunnelReference] tunnels: Collection of all tunnels for
-          redundant gre connection.
-    """
-
-    def __init__(
-        self,
-        tunnels: List['RedundantGRETunnelReference'],
-    ) -> None:
-        """
-        Initialize a RedundantGRETunnelCollection object.
-
-        :param List[RedundantGRETunnelReference] tunnels: Collection of all tunnels
-               for redundant gre connection.
-        """
-        self.tunnels = tunnels
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'RedundantGRETunnelCollection':
-        """Initialize a RedundantGRETunnelCollection object from a json dictionary."""
-        args = {}
-        if 'tunnels' in _dict:
-            args['tunnels'] = [RedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
-        else:
-            raise ValueError('Required property \'tunnels\' not present in RedundantGRETunnelCollection JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RedundantGRETunnelCollection object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'tunnels') and self.tunnels is not None:
-            tunnels_list = []
-            for v in self.tunnels:
-                if isinstance(v, dict):
-                    tunnels_list.append(v)
-                else:
-                    tunnels_list.append(v.to_dict())
-            _dict['tunnels'] = tunnels_list
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this RedundantGRETunnelCollection object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'RedundantGRETunnelCollection') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'RedundantGRETunnelCollection') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RedundantGRETunnelReference:
-    """
-    Details for a redundant GRE tunnel.
-
-    :attr str base_network_type: The type of network the redundant GRE tunnel is
-          targeting.
-    :attr datetime created_at: The date and time that this GRE tunnel was created.
-    :attr str id: The unique identifier for this redundant GRE tunnel.
-    :attr int local_bgp_asn: Local network BGP ASN.  It is assigned by IBM when the
-          tunnel is created.
-    :attr str local_gateway_ip: Local gateway IP address.
-    :attr str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip and
-          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
-          network nor broadcast addresses.
-    :attr int mtu: GRE tunnel MTU.
-    :attr str name: The user-defined name for this tunnel.
-    :attr str network_account_id: (optional) The ID of the account for cross account
-          Classic connections.  This field is required when the GRE tunnel is in a
-          different account than the gateway and the base network is Classic.
-    :attr str network_id: (optional) The ID of the network VPC being connected via
-          this connection.
-    :attr int remote_bgp_asn: Remote network BGP ASN. The following ASN values are
-          reserved and unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234,
-          65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on
-          create requests, IBM will assign an ASN.
-    :attr str remote_gateway_ip: Remote gateway IP address.
-    :attr str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip and
-          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
-          network nor broadcast addresses.
-    :attr str status: Tunnel's current configuration state. The list of enumerated
-          values for this property may expand in the future. Code and processes using this
-          field must tolerate unexpected values.
-    :attr datetime updated_at: The date and time that this tunnel was last updated.
-    :attr RgreTunnelZoneReference zone: The tunnel's location.  The specified
-          availability zone must reside in the gateway's region. Use the IBM Cloud global
-          catalog to list zones within the desired region.
-    """
-
-    def __init__(
-        self,
-        base_network_type: str,
-        created_at: datetime,
-        id: str,
-        local_bgp_asn: int,
-        local_gateway_ip: str,
-        local_tunnel_ip: str,
-        mtu: int,
-        name: str,
-        remote_bgp_asn: int,
-        remote_gateway_ip: str,
-        remote_tunnel_ip: str,
-        status: str,
-        updated_at: datetime,
-        zone: 'RgreTunnelZoneReference',
-        *,
-        network_account_id: str = None,
-        network_id: str = None,
-    ) -> None:
-        """
-        Initialize a RedundantGRETunnelReference object.
-
-        :param str base_network_type: The type of network the redundant GRE tunnel
-               is targeting.
-        :param datetime created_at: The date and time that this GRE tunnel was
-               created.
-        :param str id: The unique identifier for this redundant GRE tunnel.
-        :param int local_bgp_asn: Local network BGP ASN.  It is assigned by IBM
-               when the tunnel is created.
-        :param str local_gateway_ip: Local gateway IP address.
-        :param str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip
-               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
-               be the network nor broadcast addresses.
-        :param int mtu: GRE tunnel MTU.
-        :param str name: The user-defined name for this tunnel.
-        :param int remote_bgp_asn: Remote network BGP ASN. The following ASN values
-               are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-               65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-               'remote_bgp_asn' is omitted on create requests, IBM will assign an ASN.
-        :param str remote_gateway_ip: Remote gateway IP address.
-        :param str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip
-               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
-               be the network nor broadcast addresses.
-        :param str status: Tunnel's current configuration state. The list of
-               enumerated values for this property may expand in the future. Code and
-               processes using this field must tolerate unexpected values.
-        :param datetime updated_at: The date and time that this tunnel was last
-               updated.
-        :param RgreTunnelZoneReference zone: The tunnel's location.  The specified
-               availability zone must reside in the gateway's region. Use the IBM Cloud
-               global catalog to list zones within the desired region.
-        :param str network_account_id: (optional) The ID of the account for cross
-               account Classic connections.  This field is required when the GRE tunnel is
-               in a different account than the gateway and the base network is Classic.
-        :param str network_id: (optional) The ID of the network VPC being connected
-               via this connection.
-        """
-        self.base_network_type = base_network_type
-        self.created_at = created_at
-        self.id = id
-        self.local_bgp_asn = local_bgp_asn
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.mtu = mtu
-        self.name = name
-        self.network_account_id = network_account_id
-        self.network_id = network_id
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.status = status
-        self.updated_at = updated_at
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'RedundantGRETunnelReference':
-        """Initialize a RedundantGRETunnelReference object from a json dictionary."""
-        args = {}
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        else:
-            raise ValueError('Required property \'base_network_type\' not present in RedundantGRETunnelReference JSON')
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in RedundantGRETunnelReference JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in RedundantGRETunnelReference JSON')
-        if 'local_bgp_asn' in _dict:
-            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
-        else:
-            raise ValueError('Required property \'local_bgp_asn\' not present in RedundantGRETunnelReference JSON')
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        else:
-            raise ValueError('Required property \'local_gateway_ip\' not present in RedundantGRETunnelReference JSON')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        else:
-            raise ValueError('Required property \'local_tunnel_ip\' not present in RedundantGRETunnelReference JSON')
-        if 'mtu' in _dict:
-            args['mtu'] = _dict.get('mtu')
-        else:
-            raise ValueError('Required property \'mtu\' not present in RedundantGRETunnelReference JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in RedundantGRETunnelReference JSON')
-        if 'network_account_id' in _dict:
-            args['network_account_id'] = _dict.get('network_account_id')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        else:
-            raise ValueError('Required property \'remote_bgp_asn\' not present in RedundantGRETunnelReference JSON')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        else:
-            raise ValueError('Required property \'remote_gateway_ip\' not present in RedundantGRETunnelReference JSON')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        else:
-            raise ValueError('Required property \'remote_tunnel_ip\' not present in RedundantGRETunnelReference JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in RedundantGRETunnelReference JSON')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        else:
-            raise ValueError('Required property \'updated_at\' not present in RedundantGRETunnelReference JSON')
-        if 'zone' in _dict:
-            args['zone'] = RgreTunnelZoneReference.from_dict(_dict.get('zone'))
-        else:
-            raise ValueError('Required property \'zone\' not present in RedundantGRETunnelReference JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RedundantGRETunnelReference object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
-            _dict['local_bgp_asn'] = self.local_bgp_asn
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'mtu') and self.mtu is not None:
-            _dict['mtu'] = self.mtu
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
-            _dict['network_account_id'] = self.network_account_id
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this RedundantGRETunnelReference object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'RedundantGRETunnelReference') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'RedundantGRETunnelReference') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class BaseNetworkTypeEnum(str, Enum):
-        """
-        The type of network the redundant GRE tunnel is targeting.
-        """
-
-        CLASSIC = 'classic'
-        VPC = 'vpc'
-
-
-    class StatusEnum(str, Enum):
-        """
-        Tunnel's current configuration state. The list of enumerated values for this
-        property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
 
 
 
@@ -3339,66 +2962,6 @@ class ResourceGroupReference:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ResourceGroupReference') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RgreTunnelZoneReference:
-    """
-    The tunnel's location.  The specified availability zone must reside in the gateway's
-    region. Use the IBM Cloud global catalog to list zones within the desired region.
-
-    :attr str name: Availability zone name.
-    """
-
-    def __init__(
-        self,
-        name: str,
-    ) -> None:
-        """
-        Initialize a RgreTunnelZoneReference object.
-
-        :param str name: Availability zone name.
-        """
-        self.name = name
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'RgreTunnelZoneReference':
-        """Initialize a RgreTunnelZoneReference object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in RgreTunnelZoneReference JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RgreTunnelZoneReference object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this RgreTunnelZoneReference object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'RgreTunnelZoneReference') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'RgreTunnelZoneReference') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4172,7 +3735,7 @@ class TSLocation:
           region, a single data center, or a point of presence.
     :attr List[TSLocalLocation] local_connection_locations: The set of network
           locations that are considered local for this Transit Gateway location.
-    :attr List[ZoneReferenceCollection] zones: List of valid zones for GRE tunnels.
+    :attr List[ZoneReference] zones: List of valid zones for GRE tunnels.
     """
 
     def __init__(
@@ -4181,7 +3744,7 @@ class TSLocation:
         name: str,
         type: str,
         local_connection_locations: List['TSLocalLocation'],
-        zones: List['ZoneReferenceCollection'],
+        zones: List['ZoneReference'],
     ) -> None:
         """
         Initialize a TSLocation object.
@@ -4193,8 +3756,7 @@ class TSLocation:
                region, a single data center, or a point of presence.
         :param List[TSLocalLocation] local_connection_locations: The set of network
                locations that are considered local for this Transit Gateway location.
-        :param List[ZoneReferenceCollection] zones: List of valid zones for GRE
-               tunnels.
+        :param List[ZoneReference] zones: List of valid zones for GRE tunnels.
         """
         self.billing_location = billing_location
         self.name = name
@@ -4223,7 +3785,7 @@ class TSLocation:
         else:
             raise ValueError('Required property \'local_connection_locations\' not present in TSLocation JSON')
         if 'zones' in _dict:
-            args['zones'] = [ZoneReferenceCollection.from_dict(v) for v in _dict.get('zones')]
+            args['zones'] = [ZoneReference.from_dict(v) for v in _dict.get('zones')]
         else:
             raise ValueError('Required property \'zones\' not present in TSLocation JSON')
         return cls(**args)
@@ -4370,30 +3932,31 @@ class TransitConnection:
           targeting.
     :attr str name: The user-defined name for this transit gateway connection.
     :attr str network_id: (optional) The ID of the network being connected via this
-          connection. This field is required for some types, such as 'vpc',
-          'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
-          'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the CRN
-          of the VPC  / PowerVS / Direct Link gateway respectively.
+          connection. This field is required for some types, such as `vpc`, `vmware`,
+          `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For
+          network types `vpc`, `redundant_gre`, `power_virtual_server`, `vmware` and
+          `directlink` this is the CRN of the VPC  / PowerVS / VDC / Direct Link gateway
+          respectively.
     :attr str network_type: Defines what type of network is connected via this
           connection. The list of enumerated values for this property may expand in the
           future. Code and processes using this field must tolerate unexpected values.
-    :attr str id: The unique identifier for this Transit Gateway Connection.
-    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
-          connections use 'base_connection_id' to specify the ID of a network_type
-          'classic' connection the tunnel is configured over. The specified connection
-          must reside in the same transit gateway and be in an active state. The 'classic'
-          connection cannot be deleted until any 'gre_tunnel' connections using it are
+    :attr str id: The unique identifier for this Transit Gateway connection.
+    :attr str base_connection_id: (optional) Deprecated: network_type `gre_tunnel`
+          connections use `base_connection_id` to specify the ID of a network_type
+          `classic` connection the tunnel is configured over. The specified connection
+          must reside in the same transit gateway and be in an active state. The `classic`
+          connection cannot be deleted until any `gre_tunnel` connections using it are
           deleted. This field only applies to and is required for network type
-          'gre_tunnel' connections.
+          `gre_tunnel` connections.
     :attr datetime created_at: The date and time that this connection was created.
     :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
-          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str network_account_id: (optional) The ID of the account which owns the
           connected network. Generally only used if the network is in a different IBM
           Cloud account than the gateway.
@@ -4401,16 +3964,16 @@ class TransitConnection:
           (optional) Array of prefix route filters for a transit gateway connection. This
           is order dependent with those first in the array being applied first, and those
           at the end of the array is applied last, or just before the default.
-          This field does not apply to the 'redundant_gre' network type.
+          This field does not apply to the `redundant_gre` or `vmware` network types.
     :attr str prefix_filters_default: (optional) Default setting of permit or deny
           which applies to any routes that don't match a specified filter.
-          This field does not apply to the 'redundant_gre' network type.
+          This field does not apply to the `redundant_gre` or `vmware` network types.
     :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str request_status: Only visible for cross account connections, this field
           represents the status of a connection request between IBM Cloud accounts. The
           list of enumerated values for this property may expand in the future. Code and
@@ -4419,12 +3982,11 @@ class TransitConnection:
           enumerated values for this property may expand in the future. Code and processes
           using this field must tolerate unexpected values.
     :attr TransitGatewayReference transit_gateway: Transit gateway reference.
-    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
-          Collection of all tunnels for 'redundant_gre' connection.
+    :attr List[TransitGatewayTunnel] tunnels: (optional) Collection of all tunnels
+          for `redundant_gre` connection.
     :attr datetime updated_at: The date and time that this connection was last
           updated.
-    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
-          field only applies to network type 'gre_tunnel' connections.
+    :attr ZoneReference zone: (optional) Availability zone reference.
     """
 
     def __init__(
@@ -4451,8 +4013,8 @@ class TransitConnection:
         remote_bgp_asn: int = None,
         remote_gateway_ip: str = None,
         remote_tunnel_ip: str = None,
-        tunnels: List['TransitGatewayRedundantGRETunnelReference'] = None,
-        zone: 'GreTunnelZoneReference' = None,
+        tunnels: List['TransitGatewayTunnel'] = None,
+        zone: 'ZoneReference' = None,
     ) -> None:
         """
         Initialize a TransitConnection object.
@@ -4462,7 +4024,7 @@ class TransitConnection:
                connection. The list of enumerated values for this property may expand in
                the future. Code and processes using this field must tolerate unexpected
                values.
-        :param str id: The unique identifier for this Transit Gateway Connection.
+        :param str id: The unique identifier for this Transit Gateway connection.
         :param datetime created_at: The date and time that this connection was
                created.
         :param str request_status: Only visible for cross account connections, this
@@ -4479,28 +4041,29 @@ class TransitConnection:
         :param str base_network_type: (optional) The type of network the GRE tunnel
                is targeting.
         :param str network_id: (optional) The ID of the network being connected via
-               this connection. This field is required for some types, such as 'vpc',
-               'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
-               'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the
-               CRN of the VPC  / PowerVS / Direct Link gateway respectively.
+               this connection. This field is required for some types, such as `vpc`,
+               `vmware`, `power_virtual_server`, `directlink`, `vpn_gateway` and
+               `redundant_gre`. For network types `vpc`, `redundant_gre`,
+               `power_virtual_server`, `vmware` and `directlink` this is the CRN of the
+               VPC  / PowerVS / VDC / Direct Link gateway respectively.
         :param str base_connection_id: (optional) Deprecated: network_type
-               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-               network_type 'classic' connection the tunnel is configured over. The
+               `gre_tunnel` connections use `base_connection_id` to specify the ID of a
+               network_type `classic` connection the tunnel is configured over. The
                specified connection must reside in the same transit gateway and be in an
-               active state. The 'classic' connection cannot be deleted until any
-               'gre_tunnel' connections using it are deleted. This field only applies to
-               and is required for network type 'gre_tunnel' connections.
+               active state. The `classic` connection cannot be deleted until any
+               `gre_tunnel` connections using it are deleted. This field only applies to
+               and is required for network type `gre_tunnel` connections.
         :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str local_gateway_ip: (optional) Local gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
-               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+               network type `gre_tunnel` and `unbound_gre_tunnel` connections.
         :param str network_account_id: (optional) The ID of the account which owns
                the connected network. Generally only used if the network is in a different
                IBM Cloud account than the gateway.
@@ -4509,23 +4072,22 @@ class TransitConnection:
                This is order dependent with those first in the array being applied first,
                and those at the end of the array is applied last, or just before the
                default.
-               This field does not apply to the 'redundant_gre' network type.
+               This field does not apply to the `redundant_gre` or `vmware` network types.
         :param str prefix_filters_default: (optional) Default setting of permit or
                deny which applies to any routes that don't match a specified filter.
-               This field does not apply to the 'redundant_gre' network type.
+               This field does not apply to the `redundant_gre` or `vmware` network types.
         :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
-        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
-               Collection of all tunnels for 'redundant_gre' connection.
-        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
-               This field only applies to network type 'gre_tunnel' connections.
+        :param List[TransitGatewayTunnel] tunnels: (optional) Collection of all
+               tunnels for `redundant_gre` connection.
+        :param ZoneReference zone: (optional) Availability zone reference.
         """
         self.base_network_type = base_network_type
         self.name = name
@@ -4610,13 +4172,13 @@ class TransitConnection:
         else:
             raise ValueError('Required property \'transit_gateway\' not present in TransitConnection JSON')
         if 'tunnels' in _dict:
-            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
+            args['tunnels'] = [TransitGatewayTunnel.from_dict(v) for v in _dict.get('tunnels')]
         if 'updated_at' in _dict:
             args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
         else:
             raise ValueError('Required property \'updated_at\' not present in TransitConnection JSON')
         if 'zone' in _dict:
-            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
+            args['zone'] = ZoneReference.from_dict(_dict.get('zone'))
         return cls(**args)
 
     @classmethod
@@ -4734,13 +4296,15 @@ class TransitConnection:
         VPC = 'vpc'
         POWER_VIRTUAL_SERVER = 'power_virtual_server'
         REDUNDANT_GRE = 'redundant_gre'
+        VMWARE = 'vmware'
+        VPN_GATEWAY = 'vpn_gateway'
 
 
     class PrefixFiltersDefaultEnum(str, Enum):
         """
         Default setting of permit or deny which applies to any routes that don't match a
         specified filter.
-        This field does not apply to the 'redundant_gre' network type.
+        This field does not apply to the `redundant_gre` or `vmware` network types.
         """
 
         PERMIT = 'permit'
@@ -4892,12 +4456,18 @@ class TransitGateway:
     """
     Details of a Transit Gateway.
 
-    :attr str id: The unique identifier for this Transit Gateway.
-    :attr str crn: The CRN for this Transit Gateway.
-    :attr str name: A human readable name for the transit gateway.
-    :attr str location: Location of Transit Gateway Services.
+    :attr bool allow_gre_traffic_across_zones: (optional) Allow GRE traffic in this
+          gateway to flow across zones.
+    :attr int connection_count: (optional) The number of connections associated with
+          this Transit Gateway.
+    :attr bool connection_needs_attention: (optional) Indicates if this Transit
+          Gateway has a connection that needs attention (Such as cross account approval).
     :attr datetime created_at: The date and time that this gateway was created.
+    :attr str crn: (optional) Cloud Resource Name of a transit gateway.
     :attr bool global_: Allow global routing for a Transit Gateway.
+    :attr str id: A unique identifier for this transit gateway.
+    :attr str location: Location of Transit Gateway Services.
+    :attr str name: A human readable name for the transit gateway.
     :attr ResourceGroupReference resource_group: (optional) The resource group to
           use. If unspecified, the account's [default resource
           group](https://console.bluemix.net/apidocs/resource-manager#introduction) is
@@ -4911,30 +4481,40 @@ class TransitGateway:
 
     def __init__(
         self,
-        id: str,
-        crn: str,
-        name: str,
-        location: str,
         created_at: datetime,
         global_: bool,
+        id: str,
+        location: str,
+        name: str,
         status: str,
         *,
+        allow_gre_traffic_across_zones: bool = None,
+        connection_count: int = None,
+        connection_needs_attention: bool = None,
+        crn: str = None,
         resource_group: 'ResourceGroupReference' = None,
         updated_at: datetime = None,
     ) -> None:
         """
         Initialize a TransitGateway object.
 
-        :param str id: The unique identifier for this Transit Gateway.
-        :param str crn: The CRN for this Transit Gateway.
-        :param str name: A human readable name for the transit gateway.
-        :param str location: Location of Transit Gateway Services.
         :param datetime created_at: The date and time that this gateway was
                created.
         :param bool global_: Allow global routing for a Transit Gateway.
+        :param str id: A unique identifier for this transit gateway.
+        :param str location: Location of Transit Gateway Services.
+        :param str name: A human readable name for the transit gateway.
         :param str status: The status of the Transit Gateway. The list of
                enumerated values for this property may expand in the future. Code and
                processes using this field must tolerate unexpected values.
+        :param bool allow_gre_traffic_across_zones: (optional) Allow GRE traffic in
+               this gateway to flow across zones.
+        :param int connection_count: (optional) The number of connections
+               associated with this Transit Gateway.
+        :param bool connection_needs_attention: (optional) Indicates if this
+               Transit Gateway has a connection that needs attention (Such as cross
+               account approval).
+        :param str crn: (optional) Cloud Resource Name of a transit gateway.
         :param ResourceGroupReference resource_group: (optional) The resource group
                to use. If unspecified, the account's [default resource
                group](https://console.bluemix.net/apidocs/resource-manager#introduction)
@@ -4942,12 +4522,15 @@ class TransitGateway:
         :param datetime updated_at: (optional) The date and time that this gateway
                was last updated.
         """
-        self.id = id
-        self.crn = crn
-        self.name = name
-        self.location = location
+        self.allow_gre_traffic_across_zones = allow_gre_traffic_across_zones
+        self.connection_count = connection_count
+        self.connection_needs_attention = connection_needs_attention
         self.created_at = created_at
+        self.crn = crn
         self.global_ = global_
+        self.id = id
+        self.location = location
+        self.name = name
         self.resource_group = resource_group
         self.status = status
         self.updated_at = updated_at
@@ -4956,30 +4539,34 @@ class TransitGateway:
     def from_dict(cls, _dict: Dict) -> 'TransitGateway':
         """Initialize a TransitGateway object from a json dictionary."""
         args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGateway JSON')
-        if 'crn' in _dict:
-            args['crn'] = _dict.get('crn')
-        else:
-            raise ValueError('Required property \'crn\' not present in TransitGateway JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGateway JSON')
-        if 'location' in _dict:
-            args['location'] = _dict.get('location')
-        else:
-            raise ValueError('Required property \'location\' not present in TransitGateway JSON')
+        if 'allow_gre_traffic_across_zones' in _dict:
+            args['allow_gre_traffic_across_zones'] = _dict.get('allow_gre_traffic_across_zones')
+        if 'connection_count' in _dict:
+            args['connection_count'] = _dict.get('connection_count')
+        if 'connection_needs_attention' in _dict:
+            args['connection_needs_attention'] = _dict.get('connection_needs_attention')
         if 'created_at' in _dict:
             args['created_at'] = string_to_datetime(_dict.get('created_at'))
         else:
             raise ValueError('Required property \'created_at\' not present in TransitGateway JSON')
+        if 'crn' in _dict:
+            args['crn'] = _dict.get('crn')
         if 'global' in _dict:
             args['global_'] = _dict.get('global')
         else:
             raise ValueError('Required property \'global\' not present in TransitGateway JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in TransitGateway JSON')
+        if 'location' in _dict:
+            args['location'] = _dict.get('location')
+        else:
+            raise ValueError('Required property \'location\' not present in TransitGateway JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in TransitGateway JSON')
         if 'resource_group' in _dict:
             args['resource_group'] = ResourceGroupReference.from_dict(_dict.get('resource_group'))
         if 'status' in _dict:
@@ -4998,18 +4585,24 @@ class TransitGateway:
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'crn') and self.crn is not None:
-            _dict['crn'] = self.crn
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location
+        if hasattr(self, 'allow_gre_traffic_across_zones') and self.allow_gre_traffic_across_zones is not None:
+            _dict['allow_gre_traffic_across_zones'] = self.allow_gre_traffic_across_zones
+        if hasattr(self, 'connection_count') and self.connection_count is not None:
+            _dict['connection_count'] = self.connection_count
+        if hasattr(self, 'connection_needs_attention') and self.connection_needs_attention is not None:
+            _dict['connection_needs_attention'] = self.connection_needs_attention
         if hasattr(self, 'created_at') and self.created_at is not None:
             _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'crn') and self.crn is not None:
+            _dict['crn'] = self.crn
         if hasattr(self, 'global_') and self.global_ is not None:
             _dict['global'] = self.global_
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'resource_group') and self.resource_group is not None:
             if isinstance(self.resource_group, dict):
                 _dict['resource_group'] = self.resource_group
@@ -5290,51 +4883,66 @@ class TransitGatewayConnectionCust:
     """
     Connection included in transit gateway.
 
-    :attr str base_network_type: (optional) The type of network the GRE tunnel is
-          targeting.
-    :attr str name: The user-defined name for this transit gateway connection.
-    :attr str network_id: (optional) The ID of the network being connected via this
-          connection. This field is required for some types, such as 'vpc',
-          'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
-          'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the CRN
-          of the VPC  / PowerVS / Direct Link gateway respectively.
-    :attr str network_type: Defines what type of network is connected via this
-          connection. The list of enumerated values for this property may expand in the
-          future. Code and processes using this field must tolerate unexpected values.
-    :attr str id: The unique identifier for this Transit Gateway Connection.
-    :attr str base_connection_id: (optional) Deprecated: network_type 'gre_tunnel'
-          connections use 'base_connection_id' to specify the ID of a network_type
-          'classic' connection the tunnel is configured over. The specified connection
-          must reside in the same transit gateway and be in an active state. The 'classic'
-          connection cannot be deleted until any 'gre_tunnel' connections using it are
+    :attr str base_connection_id: (optional) Deprecated: network_type `gre_tunnel`
+          connections use `base_connection_id` to specify the ID of a network_type
+          `classic` connection the tunnel is configured over. The specified connection
+          must reside in the same transit gateway and be in an active state. The `classic`
+          connection cannot be deleted until any `gre_tunnel` connections using it are
           deleted. This field only applies to and is required for network type
-          'gre_tunnel' connections.
+          `gre_tunnel` connections.
+    :attr str base_network_type: (optional) The type of network the Unbound GRE
+          tunnel is targeting. This field is required for network type
+          `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre`
+          network type, the value is required and can be either VPC or Classic. This field
+          is required to be unspecified for network type `classic`, `vmware`,
+          `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel`
+          connections.
+    :attr str cidr: (optional) network_type 'vpn_gateway' connections use 'cidr' to
+          specify the CIDR to use for the VPN GRE tunnels.
     :attr datetime created_at: The date and time that this connection was created.
+    :attr str id: The unique identifier for this Transit Gateway connection.
     :attr int local_bgp_asn: (optional) Local network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str local_gateway_ip: (optional) Local gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str local_tunnel_ip: (optional) Local tunnel IP address.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr int mtu: (optional) GRE tunnel MTU.  This field only applies to network
-          type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          type `gre_tunnel` and `unbound_gre_tunnel` connections.
+    :attr str name: (optional) The user-defined name for this transit gateway
+          connection. Network type `vpc`  connections are defaulted to the name of the
+          VPC.  Network type `classic` connections are named `classic`.
+          This field is required for network type `power_virtual_server`, `directlink`,
+          `vmware`, `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
+          connections.
+          This field is optional for network type `classic`, `vpc` connections.
     :attr str network_account_id: (optional) The ID of the account which owns the
           connected network. Generally only used if the network is in a different IBM
           Cloud account than the gateway.
+    :attr str network_id: (optional) The ID of the network being connected via this
+          connection. For network types `vpc`,`power_virtual_server`, `vmware`,
+          `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC /
+          Direct Link / VPN gateway respectively. This field is required for network type
+          `vpc`, `power_virtual_server`, `vmware`, `vpn_gateway`, and `directlink`
+          connections.  It is also required for `redundant_gre` connections when the
+          base_network_type is set to VPC. This field is required to be unspecified for
+          network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
+    :attr str network_type: (optional) Defines what type of network is connected via
+          this connection.
     :attr List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
           (optional) Array of prefix route filters for a transit gateway connection. This
           is order dependent with those first in the array being applied first, and those
           at the end of the array is applied last, or just before the default. This field
-          does not apply to the 'redundant_gre' network type.
+          does not apply to the `redundant_gre` network type.
     :attr str prefix_filters_default: (optional) Default setting of permit or deny
           which applies to any routes that don't match a specified filter. This field does
-          not apply to the 'redundant_gre' network type.
+          not apply to the `redundant_gre` network type.
     :attr int remote_bgp_asn: (optional) Remote network BGP ASN.  This field only
-          applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str remote_gateway_ip: (optional) Remote gateway IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str remote_tunnel_ip: (optional) Remote tunnel IP address.  This field
-          only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+          only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
     :attr str request_status: Only visible for cross account connections, this field
           represents the status of a connection request between IBM Cloud accounts. The
           list of enumerated values for this property may expand in the future. Code and
@@ -5342,51 +4950,47 @@ class TransitGatewayConnectionCust:
     :attr str status: Connection's current configuration state. The list of
           enumerated values for this property may expand in the future. Code and processes
           using this field must tolerate unexpected values.
-    :attr List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
-          Collection of all tunnels for 'redundant_gre' connection.
+    :attr List[TransitGatewayTunnel] tunnels: (optional) Collection of all tunnels
+          for `redundant_gre` connection.
     :attr datetime updated_at: The date and time that this connection was last
           updated.
-    :attr GreTunnelZoneReference zone: (optional) Location of GRE tunnel.  This
-          field only applies to network type 'gre_tunnel' connections.
+    :attr ZoneReference zone: (optional) Location of GRE tunnel. This field only
+          applies to network type `gre_tunnel` connections.
     """
 
     def __init__(
         self,
-        name: str,
-        network_type: str,
-        id: str,
         created_at: datetime,
+        id: str,
         request_status: str,
         status: str,
         updated_at: datetime,
         *,
-        base_network_type: str = None,
-        network_id: str = None,
         base_connection_id: str = None,
+        base_network_type: str = None,
+        cidr: str = None,
         local_bgp_asn: int = None,
         local_gateway_ip: str = None,
         local_tunnel_ip: str = None,
         mtu: int = None,
+        name: str = None,
         network_account_id: str = None,
+        network_id: str = None,
+        network_type: str = None,
         prefix_filters: List['TransitGatewayConnectionPrefixFilterReference'] = None,
         prefix_filters_default: str = None,
         remote_bgp_asn: int = None,
         remote_gateway_ip: str = None,
         remote_tunnel_ip: str = None,
-        tunnels: List['TransitGatewayRedundantGRETunnelReference'] = None,
-        zone: 'GreTunnelZoneReference' = None,
+        tunnels: List['TransitGatewayTunnel'] = None,
+        zone: 'ZoneReference' = None,
     ) -> None:
         """
         Initialize a TransitGatewayConnectionCust object.
 
-        :param str name: The user-defined name for this transit gateway connection.
-        :param str network_type: Defines what type of network is connected via this
-               connection. The list of enumerated values for this property may expand in
-               the future. Code and processes using this field must tolerate unexpected
-               values.
-        :param str id: The unique identifier for this Transit Gateway Connection.
         :param datetime created_at: The date and time that this connection was
                created.
+        :param str id: The unique identifier for this Transit Gateway connection.
         :param str request_status: Only visible for cross account connections, this
                field represents the status of a connection request between IBM Cloud
                accounts. The list of enumerated values for this property may expand in the
@@ -5397,68 +5001,89 @@ class TransitGatewayConnectionCust:
                processes using this field must tolerate unexpected values.
         :param datetime updated_at: The date and time that this connection was last
                updated.
-        :param str base_network_type: (optional) The type of network the GRE tunnel
-               is targeting.
-        :param str network_id: (optional) The ID of the network being connected via
-               this connection. This field is required for some types, such as 'vpc',
-               'power_virtual_server', 'directlink' and 'redundant_gre'. For network types
-               'vpc', 'redundant_gre', 'power_virtual_server' and 'directlink' this is the
-               CRN of the VPC  / PowerVS / Direct Link gateway respectively.
         :param str base_connection_id: (optional) Deprecated: network_type
-               'gre_tunnel' connections use 'base_connection_id' to specify the ID of a
-               network_type 'classic' connection the tunnel is configured over. The
+               `gre_tunnel` connections use `base_connection_id` to specify the ID of a
+               network_type `classic` connection the tunnel is configured over. The
                specified connection must reside in the same transit gateway and be in an
-               active state. The 'classic' connection cannot be deleted until any
-               'gre_tunnel' connections using it are deleted. This field only applies to
-               and is required for network type 'gre_tunnel' connections.
+               active state. The `classic` connection cannot be deleted until any
+               `gre_tunnel` connections using it are deleted. This field only applies to
+               and is required for network type `gre_tunnel` connections.
+        :param str base_network_type: (optional) The type of network the Unbound
+               GRE tunnel is targeting. This field is required for network type
+               `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre`
+               network type, the value is required and can be either VPC or Classic. This
+               field is required to be unspecified for network type `classic`, `vmware`,
+               `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel`
+               connections.
+        :param str cidr: (optional) network_type 'vpn_gateway' connections use
+               'cidr' to specify the CIDR to use for the VPN GRE tunnels.
         :param int local_bgp_asn: (optional) Local network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str local_gateway_ip: (optional) Local gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str local_tunnel_ip: (optional) Local tunnel IP address.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param int mtu: (optional) GRE tunnel MTU.  This field only applies to
-               network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+               network type `gre_tunnel` and `unbound_gre_tunnel` connections.
+        :param str name: (optional) The user-defined name for this transit gateway
+               connection. Network type `vpc`  connections are defaulted to the name of
+               the VPC.  Network type `classic` connections are named `classic`.
+               This field is required for network type `power_virtual_server`,
+               `directlink`, `vmware`, `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway`
+               and `redundant_gre` connections.
+               This field is optional for network type `classic`, `vpc` connections.
         :param str network_account_id: (optional) The ID of the account which owns
                the connected network. Generally only used if the network is in a different
                IBM Cloud account than the gateway.
+        :param str network_id: (optional) The ID of the network being connected via
+               this connection. For network types `vpc`,`power_virtual_server`, `vmware`,
+               `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC /
+               Direct Link / VPN gateway respectively. This field is required for network
+               type `vpc`, `power_virtual_server`, `vmware`, `vpn_gateway`, and
+               `directlink` connections.  It is also required for `redundant_gre`
+               connections when the base_network_type is set to VPC. This field is
+               required to be unspecified for network type `classic`, `gre_tunnel` and
+               `unbound_gre_tunnel` connections.
+        :param str network_type: (optional) Defines what type of network is
+               connected via this connection.
         :param List[TransitGatewayConnectionPrefixFilterReference] prefix_filters:
                (optional) Array of prefix route filters for a transit gateway connection.
                This is order dependent with those first in the array being applied first,
                and those at the end of the array is applied last, or just before the
-               default. This field does not apply to the 'redundant_gre' network type.
+               default. This field does not apply to the `redundant_gre` network type.
         :param str prefix_filters_default: (optional) Default setting of permit or
                deny which applies to any routes that don't match a specified filter. This
-               field does not apply to the 'redundant_gre' network type.
+               field does not apply to the `redundant_gre` network type.
         :param int remote_bgp_asn: (optional) Remote network BGP ASN.  This field
-               only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str remote_gateway_ip: (optional) Remote gateway IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param str remote_tunnel_ip: (optional) Remote tunnel IP address.  This
-               field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+               field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
-        :param List[TransitGatewayRedundantGRETunnelReference] tunnels: (optional)
-               Collection of all tunnels for 'redundant_gre' connection.
-        :param GreTunnelZoneReference zone: (optional) Location of GRE tunnel.
-               This field only applies to network type 'gre_tunnel' connections.
+        :param List[TransitGatewayTunnel] tunnels: (optional) Collection of all
+               tunnels for `redundant_gre` connection.
+        :param ZoneReference zone: (optional) Location of GRE tunnel. This field
+               only applies to network type `gre_tunnel` connections.
         """
-        self.base_network_type = base_network_type
-        self.name = name
-        self.network_id = network_id
-        self.network_type = network_type
-        self.id = id
         self.base_connection_id = base_connection_id
+        self.base_network_type = base_network_type
+        self.cidr = cidr
         self.created_at = created_at
+        self.id = id
         self.local_bgp_asn = local_bgp_asn
         self.local_gateway_ip = local_gateway_ip
         self.local_tunnel_ip = local_tunnel_ip
         self.mtu = mtu
+        self.name = name
         self.network_account_id = network_account_id
+        self.network_id = network_id
+        self.network_type = network_type
         self.prefix_filters = prefix_filters
         self.prefix_filters_default = prefix_filters_default
         self.remote_bgp_asn = remote_bgp_asn
@@ -5474,28 +5099,20 @@ class TransitGatewayConnectionCust:
     def from_dict(cls, _dict: Dict) -> 'TransitGatewayConnectionCust':
         """Initialize a TransitGatewayConnectionCust object from a json dictionary."""
         args = {}
-        if 'base_network_type' in _dict:
-            args['base_network_type'] = _dict.get('base_network_type')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayConnectionCust JSON')
-        if 'network_id' in _dict:
-            args['network_id'] = _dict.get('network_id')
-        if 'network_type' in _dict:
-            args['network_type'] = _dict.get('network_type')
-        else:
-            raise ValueError('Required property \'network_type\' not present in TransitGatewayConnectionCust JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCust JSON')
         if 'base_connection_id' in _dict:
             args['base_connection_id'] = _dict.get('base_connection_id')
+        if 'base_network_type' in _dict:
+            args['base_network_type'] = _dict.get('base_network_type')
+        if 'cidr' in _dict:
+            args['cidr'] = _dict.get('cidr')
         if 'created_at' in _dict:
             args['created_at'] = string_to_datetime(_dict.get('created_at'))
         else:
             raise ValueError('Required property \'created_at\' not present in TransitGatewayConnectionCust JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in TransitGatewayConnectionCust JSON')
         if 'local_bgp_asn' in _dict:
             args['local_bgp_asn'] = _dict.get('local_bgp_asn')
         if 'local_gateway_ip' in _dict:
@@ -5504,8 +5121,14 @@ class TransitGatewayConnectionCust:
             args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
         if 'mtu' in _dict:
             args['mtu'] = _dict.get('mtu')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'network_account_id' in _dict:
             args['network_account_id'] = _dict.get('network_account_id')
+        if 'network_id' in _dict:
+            args['network_id'] = _dict.get('network_id')
+        if 'network_type' in _dict:
+            args['network_type'] = _dict.get('network_type')
         if 'prefix_filters' in _dict:
             args['prefix_filters'] = [TransitGatewayConnectionPrefixFilterReference.from_dict(v) for v in _dict.get('prefix_filters')]
         if 'prefix_filters_default' in _dict:
@@ -5525,13 +5148,13 @@ class TransitGatewayConnectionCust:
         else:
             raise ValueError('Required property \'status\' not present in TransitGatewayConnectionCust JSON')
         if 'tunnels' in _dict:
-            args['tunnels'] = [TransitGatewayRedundantGRETunnelReference.from_dict(v) for v in _dict.get('tunnels')]
+            args['tunnels'] = [TransitGatewayTunnel.from_dict(v) for v in _dict.get('tunnels')]
         if 'updated_at' in _dict:
             args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
         else:
             raise ValueError('Required property \'updated_at\' not present in TransitGatewayConnectionCust JSON')
         if 'zone' in _dict:
-            args['zone'] = GreTunnelZoneReference.from_dict(_dict.get('zone'))
+            args['zone'] = ZoneReference.from_dict(_dict.get('zone'))
         return cls(**args)
 
     @classmethod
@@ -5542,20 +5165,16 @@ class TransitGatewayConnectionCust:
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
-            _dict['base_network_type'] = self.base_network_type
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'network_id') and self.network_id is not None:
-            _dict['network_id'] = self.network_id
-        if hasattr(self, 'network_type') and self.network_type is not None:
-            _dict['network_type'] = self.network_type
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
         if hasattr(self, 'base_connection_id') and self.base_connection_id is not None:
             _dict['base_connection_id'] = self.base_connection_id
+        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
+            _dict['base_network_type'] = self.base_network_type
+        if hasattr(self, 'cidr') and self.cidr is not None:
+            _dict['cidr'] = self.cidr
         if hasattr(self, 'created_at') and self.created_at is not None:
             _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
         if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
             _dict['local_bgp_asn'] = self.local_bgp_asn
         if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
@@ -5564,8 +5183,14 @@ class TransitGatewayConnectionCust:
             _dict['local_tunnel_ip'] = self.local_tunnel_ip
         if hasattr(self, 'mtu') and self.mtu is not None:
             _dict['mtu'] = self.mtu
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'network_account_id') and self.network_account_id is not None:
             _dict['network_account_id'] = self.network_account_id
+        if hasattr(self, 'network_id') and self.network_id is not None:
+            _dict['network_id'] = self.network_id
+        if hasattr(self, 'network_type') and self.network_type is not None:
+            _dict['network_type'] = self.network_type
         if hasattr(self, 'prefix_filters') and self.prefix_filters is not None:
             prefix_filters_list = []
             for v in self.prefix_filters:
@@ -5623,7 +5248,12 @@ class TransitGatewayConnectionCust:
 
     class BaseNetworkTypeEnum(str, Enum):
         """
-        The type of network the GRE tunnel is targeting.
+        The type of network the Unbound GRE tunnel is targeting. This field is required
+        for network type `unbound_gre_tunnel` and must be set to `classic`.  For a
+        `redundant_gre` network type, the value is required and can be either VPC or
+        Classic. This field is required to be unspecified for network type `classic`,
+        `vmware`, `directlink`, `vpc`, `power_virtual_server`, `vpn_gateway` and
+        `gre_tunnel` connections.
         """
 
         CLASSIC = 'classic'
@@ -5632,9 +5262,7 @@ class TransitGatewayConnectionCust:
 
     class NetworkTypeEnum(str, Enum):
         """
-        Defines what type of network is connected via this connection. The list of
-        enumerated values for this property may expand in the future. Code and processes
-        using this field must tolerate unexpected values.
+        Defines what type of network is connected via this connection.
         """
 
         CLASSIC = 'classic'
@@ -5644,12 +5272,14 @@ class TransitGatewayConnectionCust:
         VPC = 'vpc'
         POWER_VIRTUAL_SERVER = 'power_virtual_server'
         REDUNDANT_GRE = 'redundant_gre'
+        VMWARE = 'vmware'
+        VPN_GATEWAY = 'vpn_gateway'
 
 
     class PrefixFiltersDefaultEnum(str, Enum):
         """
         Default setting of permit or deny which applies to any routes that don't match a
-        specified filter. This field does not apply to the 'redundant_gre' network type.
+        specified filter. This field does not apply to the `redundant_gre` network type.
         """
 
         PERMIT = 'permit'
@@ -5954,370 +5584,6 @@ class TransitGatewayConnectionPrefixFilterReference:
 
 
 
-class TransitGatewayRedundantGRETunnelReference:
-    """
-    Details for a redundant GRE tunnel.
-
-    :attr datetime created_at: The date and time that this GRE tunnel was created.
-    :attr str id: The unique identifier for this redundant GRE tunnel.
-    :attr int local_bgp_asn: Local network BGP ASN.  It is assigned by IBM when the
-          tunnel is created.
-    :attr str local_gateway_ip: Local gateway IP address.
-    :attr str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip and
-          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
-          network nor broadcast addresses.
-    :attr int mtu: GRE tunnel MTU.
-    :attr str name: The user-defined name for this tunnel.
-    :attr int remote_bgp_asn: Remote network BGP ASN. The following ASN values are
-          reserved and unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234,
-          65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on
-          create requests, IBM will assign an ASN.
-    :attr str remote_gateway_ip: Remote gateway IP address.
-    :attr str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip and
-          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
-          network nor broadcast addresses.
-    :attr str status: Tunnel's current configuration state. The list of enumerated
-          values for this property may expand in the future. Code and processes using this
-          field must tolerate unexpected values.
-    :attr datetime updated_at: The date and time that this tunnel was last updated.
-    :attr RgreTunnelZoneReference zone: The tunnel's location.  The specified
-          availability zone must reside in the gateway's region. Use the IBM Cloud global
-          catalog to list zones within the desired region.
-    """
-
-    def __init__(
-        self,
-        created_at: datetime,
-        id: str,
-        local_bgp_asn: int,
-        local_gateway_ip: str,
-        local_tunnel_ip: str,
-        mtu: int,
-        name: str,
-        remote_bgp_asn: int,
-        remote_gateway_ip: str,
-        remote_tunnel_ip: str,
-        status: str,
-        updated_at: datetime,
-        zone: 'RgreTunnelZoneReference',
-    ) -> None:
-        """
-        Initialize a TransitGatewayRedundantGRETunnelReference object.
-
-        :param datetime created_at: The date and time that this GRE tunnel was
-               created.
-        :param str id: The unique identifier for this redundant GRE tunnel.
-        :param int local_bgp_asn: Local network BGP ASN.  It is assigned by IBM
-               when the tunnel is created.
-        :param str local_gateway_ip: Local gateway IP address.
-        :param str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip
-               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
-               be the network nor broadcast addresses.
-        :param int mtu: GRE tunnel MTU.
-        :param str name: The user-defined name for this tunnel.
-        :param int remote_bgp_asn: Remote network BGP ASN. The following ASN values
-               are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-               65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-               'remote_bgp_asn' is omitted on create requests, IBM will assign an ASN.
-        :param str remote_gateway_ip: Remote gateway IP address.
-        :param str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip
-               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
-               be the network nor broadcast addresses.
-        :param str status: Tunnel's current configuration state. The list of
-               enumerated values for this property may expand in the future. Code and
-               processes using this field must tolerate unexpected values.
-        :param datetime updated_at: The date and time that this tunnel was last
-               updated.
-        :param RgreTunnelZoneReference zone: The tunnel's location.  The specified
-               availability zone must reside in the gateway's region. Use the IBM Cloud
-               global catalog to list zones within the desired region.
-        """
-        self.created_at = created_at
-        self.id = id
-        self.local_bgp_asn = local_bgp_asn
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.mtu = mtu
-        self.name = name
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.status = status
-        self.updated_at = updated_at
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayRedundantGRETunnelReference':
-        """Initialize a TransitGatewayRedundantGRETunnelReference object from a json dictionary."""
-        args = {}
-        if 'created_at' in _dict:
-            args['created_at'] = string_to_datetime(_dict.get('created_at'))
-        else:
-            raise ValueError('Required property \'created_at\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        else:
-            raise ValueError('Required property \'id\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'local_bgp_asn' in _dict:
-            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
-        else:
-            raise ValueError('Required property \'local_bgp_asn\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        else:
-            raise ValueError('Required property \'local_gateway_ip\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        else:
-            raise ValueError('Required property \'local_tunnel_ip\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'mtu' in _dict:
-            args['mtu'] = _dict.get('mtu')
-        else:
-            raise ValueError('Required property \'mtu\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        else:
-            raise ValueError('Required property \'remote_bgp_asn\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        else:
-            raise ValueError('Required property \'remote_gateway_ip\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        else:
-            raise ValueError('Required property \'remote_tunnel_ip\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError('Required property \'status\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'updated_at' in _dict:
-            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
-        else:
-            raise ValueError('Required property \'updated_at\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        if 'zone' in _dict:
-            args['zone'] = RgreTunnelZoneReference.from_dict(_dict.get('zone'))
-        else:
-            raise ValueError('Required property \'zone\' not present in TransitGatewayRedundantGRETunnelReference JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayRedundantGRETunnelReference object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'created_at') and self.created_at is not None:
-            _dict['created_at'] = datetime_to_string(self.created_at)
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
-            _dict['local_bgp_asn'] = self.local_bgp_asn
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'mtu') and self.mtu is not None:
-            _dict['mtu'] = self.mtu
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'updated_at') and self.updated_at is not None:
-            _dict['updated_at'] = datetime_to_string(self.updated_at)
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayRedundantGRETunnelReference object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayRedundantGRETunnelReference') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayRedundantGRETunnelReference') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class StatusEnum(str, Enum):
-        """
-        Tunnel's current configuration state. The list of enumerated values for this
-        property may expand in the future. Code and processes using this field must
-        tolerate unexpected values.
-        """
-
-        ATTACHED = 'attached'
-        FAILED = 'failed'
-        PENDING = 'pending'
-        DELETING = 'deleting'
-        DETACHING = 'detaching'
-        DETACHED = 'detached'
-        SUSPENDING = 'suspending'
-        SUSPENDED = 'suspended'
-
-
-
-class TransitGatewayRedundantGRETunnelTemplate:
-    """
-    A create template with information for redundant GRE tunnel.
-
-    :attr str local_gateway_ip: Local gateway IP address.
-    :attr str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip and
-          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
-          network nor broadcast addresses.
-    :attr str name: The user-defined name for this tunnel connection.
-    :attr int remote_bgp_asn: (optional) Remote network BGP ASN. The following ASN
-          values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-          65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn'
-          is omitted on create requests, IBM will assign an ASN.
-    :attr str remote_gateway_ip: Remote gateway IP address.
-    :attr str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip and
-          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
-          network nor broadcast addresses.
-    :attr ZoneIdentity zone: Specify the connection's location.  The specified
-          availability zone must reside in the gateway's region.
-          Use the IBM Cloud global catalog to list zones within the desired region.
-    """
-
-    def __init__(
-        self,
-        local_gateway_ip: str,
-        local_tunnel_ip: str,
-        name: str,
-        remote_gateway_ip: str,
-        remote_tunnel_ip: str,
-        zone: 'ZoneIdentity',
-        *,
-        remote_bgp_asn: int = None,
-    ) -> None:
-        """
-        Initialize a TransitGatewayRedundantGRETunnelTemplate object.
-
-        :param str local_gateway_ip: Local gateway IP address.
-        :param str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip
-               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
-               be the network nor broadcast addresses.
-        :param str name: The user-defined name for this tunnel connection.
-        :param str remote_gateway_ip: Remote gateway IP address.
-        :param str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip
-               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
-               be the network nor broadcast addresses.
-        :param ZoneIdentity zone: Specify the connection's location.  The specified
-               availability zone must reside in the gateway's region.
-               Use the IBM Cloud global catalog to list zones within the desired region.
-        :param int remote_bgp_asn: (optional) Remote network BGP ASN. The following
-               ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
-               65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
-               'remote_bgp_asn' is omitted on create requests, IBM will assign an ASN.
-        """
-        self.local_gateway_ip = local_gateway_ip
-        self.local_tunnel_ip = local_tunnel_ip
-        self.name = name
-        self.remote_bgp_asn = remote_bgp_asn
-        self.remote_gateway_ip = remote_gateway_ip
-        self.remote_tunnel_ip = remote_tunnel_ip
-        self.zone = zone
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'TransitGatewayRedundantGRETunnelTemplate':
-        """Initialize a TransitGatewayRedundantGRETunnelTemplate object from a json dictionary."""
-        args = {}
-        if 'local_gateway_ip' in _dict:
-            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
-        else:
-            raise ValueError('Required property \'local_gateway_ip\' not present in TransitGatewayRedundantGRETunnelTemplate JSON')
-        if 'local_tunnel_ip' in _dict:
-            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
-        else:
-            raise ValueError('Required property \'local_tunnel_ip\' not present in TransitGatewayRedundantGRETunnelTemplate JSON')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError('Required property \'name\' not present in TransitGatewayRedundantGRETunnelTemplate JSON')
-        if 'remote_bgp_asn' in _dict:
-            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
-        if 'remote_gateway_ip' in _dict:
-            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
-        else:
-            raise ValueError('Required property \'remote_gateway_ip\' not present in TransitGatewayRedundantGRETunnelTemplate JSON')
-        if 'remote_tunnel_ip' in _dict:
-            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
-        else:
-            raise ValueError('Required property \'remote_tunnel_ip\' not present in TransitGatewayRedundantGRETunnelTemplate JSON')
-        if 'zone' in _dict:
-            args['zone'] = _dict.get('zone')
-        else:
-            raise ValueError('Required property \'zone\' not present in TransitGatewayRedundantGRETunnelTemplate JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TransitGatewayRedundantGRETunnelTemplate object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
-            _dict['local_gateway_ip'] = self.local_gateway_ip
-        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
-            _dict['local_tunnel_ip'] = self.local_tunnel_ip
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
-            _dict['remote_bgp_asn'] = self.remote_bgp_asn
-        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
-            _dict['remote_gateway_ip'] = self.remote_gateway_ip
-        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
-            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
-        if hasattr(self, 'zone') and self.zone is not None:
-            if isinstance(self.zone, dict):
-                _dict['zone'] = self.zone
-            else:
-                _dict['zone'] = self.zone.to_dict()
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this TransitGatewayRedundantGRETunnelTemplate object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'TransitGatewayRedundantGRETunnelTemplate') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'TransitGatewayRedundantGRETunnelTemplate') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class TransitGatewayReference:
     """
     Transit gateway reference.
@@ -6397,6 +5663,536 @@ class TransitGatewayReference:
         return not self == other
 
 
+class TransitGatewayTunnel:
+    """
+    Details for a redundant GRE tunnel.
+
+    :attr str base_network_type: The type of network the redundant GRE tunnel is
+          targeting.
+    :attr datetime created_at: The date and time that this GRE tunnel was created.
+    :attr str id: The unique identifier for this redundant GRE tunnel.
+    :attr int local_bgp_asn: Local network BGP ASN.  It is assigned by IBM when the
+          tunnel is created.
+    :attr str local_gateway_ip: Local gateway IP address.
+    :attr str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip and
+          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
+          network nor broadcast addresses.
+    :attr int mtu: GRE tunnel MTU.
+    :attr str name: The user-defined name for this tunnel.
+    :attr str network_account_id: (optional) The ID of the account for cross account
+          Classic connections.  This field is required when the GRE tunnel is in a
+          different account than the gateway and the base network is Classic.
+    :attr str network_id: (optional) The ID of the network VPC being connected via
+          this connection.
+    :attr int remote_bgp_asn: Remote network BGP ASN. The following ASN values are
+          reserved and unavailable 0, 13884, 36351, 64512-64513, 65100, 65200-65234,
+          65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on
+          create requests, IBM will assign an ASN.
+    :attr str remote_gateway_ip: Remote gateway IP address.
+    :attr str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip and
+          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
+          network nor broadcast addresses.
+    :attr str status: Tunnel's current configuration state. The list of enumerated
+          values for this property may expand in the future. Code and processes using this
+          field must tolerate unexpected values.
+    :attr datetime updated_at: The date and time that this tunnel was last updated.
+    :attr ZoneReference zone: Availability zone reference.
+    """
+
+    def __init__(
+        self,
+        base_network_type: str,
+        created_at: datetime,
+        id: str,
+        local_bgp_asn: int,
+        local_gateway_ip: str,
+        local_tunnel_ip: str,
+        mtu: int,
+        name: str,
+        remote_bgp_asn: int,
+        remote_gateway_ip: str,
+        remote_tunnel_ip: str,
+        status: str,
+        updated_at: datetime,
+        zone: 'ZoneReference',
+        *,
+        network_account_id: str = None,
+        network_id: str = None,
+    ) -> None:
+        """
+        Initialize a TransitGatewayTunnel object.
+
+        :param str base_network_type: The type of network the redundant GRE tunnel
+               is targeting.
+        :param datetime created_at: The date and time that this GRE tunnel was
+               created.
+        :param str id: The unique identifier for this redundant GRE tunnel.
+        :param int local_bgp_asn: Local network BGP ASN.  It is assigned by IBM
+               when the tunnel is created.
+        :param str local_gateway_ip: Local gateway IP address.
+        :param str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip
+               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
+               be the network nor broadcast addresses.
+        :param int mtu: GRE tunnel MTU.
+        :param str name: The user-defined name for this tunnel.
+        :param int remote_bgp_asn: Remote network BGP ASN. The following ASN values
+               are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+               65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
+               `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
+        :param str remote_gateway_ip: Remote gateway IP address.
+        :param str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip
+               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
+               be the network nor broadcast addresses.
+        :param str status: Tunnel's current configuration state. The list of
+               enumerated values for this property may expand in the future. Code and
+               processes using this field must tolerate unexpected values.
+        :param datetime updated_at: The date and time that this tunnel was last
+               updated.
+        :param ZoneReference zone: Availability zone reference.
+        :param str network_account_id: (optional) The ID of the account for cross
+               account Classic connections.  This field is required when the GRE tunnel is
+               in a different account than the gateway and the base network is Classic.
+        :param str network_id: (optional) The ID of the network VPC being connected
+               via this connection.
+        """
+        self.base_network_type = base_network_type
+        self.created_at = created_at
+        self.id = id
+        self.local_bgp_asn = local_bgp_asn
+        self.local_gateway_ip = local_gateway_ip
+        self.local_tunnel_ip = local_tunnel_ip
+        self.mtu = mtu
+        self.name = name
+        self.network_account_id = network_account_id
+        self.network_id = network_id
+        self.remote_bgp_asn = remote_bgp_asn
+        self.remote_gateway_ip = remote_gateway_ip
+        self.remote_tunnel_ip = remote_tunnel_ip
+        self.status = status
+        self.updated_at = updated_at
+        self.zone = zone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitGatewayTunnel':
+        """Initialize a TransitGatewayTunnel object from a json dictionary."""
+        args = {}
+        if 'base_network_type' in _dict:
+            args['base_network_type'] = _dict.get('base_network_type')
+        else:
+            raise ValueError('Required property \'base_network_type\' not present in TransitGatewayTunnel JSON')
+        if 'created_at' in _dict:
+            args['created_at'] = string_to_datetime(_dict.get('created_at'))
+        else:
+            raise ValueError('Required property \'created_at\' not present in TransitGatewayTunnel JSON')
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError('Required property \'id\' not present in TransitGatewayTunnel JSON')
+        if 'local_bgp_asn' in _dict:
+            args['local_bgp_asn'] = _dict.get('local_bgp_asn')
+        else:
+            raise ValueError('Required property \'local_bgp_asn\' not present in TransitGatewayTunnel JSON')
+        if 'local_gateway_ip' in _dict:
+            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
+        else:
+            raise ValueError('Required property \'local_gateway_ip\' not present in TransitGatewayTunnel JSON')
+        if 'local_tunnel_ip' in _dict:
+            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
+        else:
+            raise ValueError('Required property \'local_tunnel_ip\' not present in TransitGatewayTunnel JSON')
+        if 'mtu' in _dict:
+            args['mtu'] = _dict.get('mtu')
+        else:
+            raise ValueError('Required property \'mtu\' not present in TransitGatewayTunnel JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in TransitGatewayTunnel JSON')
+        if 'network_account_id' in _dict:
+            args['network_account_id'] = _dict.get('network_account_id')
+        if 'network_id' in _dict:
+            args['network_id'] = _dict.get('network_id')
+        if 'remote_bgp_asn' in _dict:
+            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
+        else:
+            raise ValueError('Required property \'remote_bgp_asn\' not present in TransitGatewayTunnel JSON')
+        if 'remote_gateway_ip' in _dict:
+            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
+        else:
+            raise ValueError('Required property \'remote_gateway_ip\' not present in TransitGatewayTunnel JSON')
+        if 'remote_tunnel_ip' in _dict:
+            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
+        else:
+            raise ValueError('Required property \'remote_tunnel_ip\' not present in TransitGatewayTunnel JSON')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError('Required property \'status\' not present in TransitGatewayTunnel JSON')
+        if 'updated_at' in _dict:
+            args['updated_at'] = string_to_datetime(_dict.get('updated_at'))
+        else:
+            raise ValueError('Required property \'updated_at\' not present in TransitGatewayTunnel JSON')
+        if 'zone' in _dict:
+            args['zone'] = ZoneReference.from_dict(_dict.get('zone'))
+        else:
+            raise ValueError('Required property \'zone\' not present in TransitGatewayTunnel JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitGatewayTunnel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'base_network_type') and self.base_network_type is not None:
+            _dict['base_network_type'] = self.base_network_type
+        if hasattr(self, 'created_at') and self.created_at is not None:
+            _dict['created_at'] = datetime_to_string(self.created_at)
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'local_bgp_asn') and self.local_bgp_asn is not None:
+            _dict['local_bgp_asn'] = self.local_bgp_asn
+        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
+            _dict['local_gateway_ip'] = self.local_gateway_ip
+        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
+            _dict['local_tunnel_ip'] = self.local_tunnel_ip
+        if hasattr(self, 'mtu') and self.mtu is not None:
+            _dict['mtu'] = self.mtu
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'network_account_id') and self.network_account_id is not None:
+            _dict['network_account_id'] = self.network_account_id
+        if hasattr(self, 'network_id') and self.network_id is not None:
+            _dict['network_id'] = self.network_id
+        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
+            _dict['remote_bgp_asn'] = self.remote_bgp_asn
+        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
+            _dict['remote_gateway_ip'] = self.remote_gateway_ip
+        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
+            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'updated_at') and self.updated_at is not None:
+            _dict['updated_at'] = datetime_to_string(self.updated_at)
+        if hasattr(self, 'zone') and self.zone is not None:
+            if isinstance(self.zone, dict):
+                _dict['zone'] = self.zone
+            else:
+                _dict['zone'] = self.zone.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitGatewayTunnel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitGatewayTunnel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitGatewayTunnel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class BaseNetworkTypeEnum(str, Enum):
+        """
+        The type of network the redundant GRE tunnel is targeting.
+        """
+
+        CLASSIC = 'classic'
+        VPC = 'vpc'
+
+
+    class StatusEnum(str, Enum):
+        """
+        Tunnel's current configuration state. The list of enumerated values for this
+        property may expand in the future. Code and processes using this field must
+        tolerate unexpected values.
+        """
+
+        ATTACHED = 'attached'
+        FAILED = 'failed'
+        PENDING = 'pending'
+        DELETING = 'deleting'
+        DETACHING = 'detaching'
+        DETACHED = 'detached'
+        SUSPENDING = 'suspending'
+        SUSPENDED = 'suspended'
+
+
+
+class TransitGatewayTunnelCollection:
+    """
+    Collection of all tunnels for redundant gre connection.
+
+    :attr List[TransitGatewayTunnel] tunnels: Collection of all tunnels for
+          redundant gre connection.
+    """
+
+    def __init__(
+        self,
+        tunnels: List['TransitGatewayTunnel'],
+    ) -> None:
+        """
+        Initialize a TransitGatewayTunnelCollection object.
+
+        :param List[TransitGatewayTunnel] tunnels: Collection of all tunnels for
+               redundant gre connection.
+        """
+        self.tunnels = tunnels
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitGatewayTunnelCollection':
+        """Initialize a TransitGatewayTunnelCollection object from a json dictionary."""
+        args = {}
+        if 'tunnels' in _dict:
+            args['tunnels'] = [TransitGatewayTunnel.from_dict(v) for v in _dict.get('tunnels')]
+        else:
+            raise ValueError('Required property \'tunnels\' not present in TransitGatewayTunnelCollection JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitGatewayTunnelCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'tunnels') and self.tunnels is not None:
+            tunnels_list = []
+            for v in self.tunnels:
+                if isinstance(v, dict):
+                    tunnels_list.append(v)
+                else:
+                    tunnels_list.append(v.to_dict())
+            _dict['tunnels'] = tunnels_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitGatewayTunnelCollection object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitGatewayTunnelCollection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitGatewayTunnelCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TransitGatewayTunnelPatch:
+    """
+    An update template for a Transit Gateway connection tunnel.
+
+    :attr str name: (optional) The user-defined name for this connection tunnel.
+    """
+
+    def __init__(
+        self,
+        *,
+        name: str = None,
+    ) -> None:
+        """
+        Initialize a TransitGatewayTunnelPatch object.
+
+        :param str name: (optional) The user-defined name for this connection
+               tunnel.
+        """
+        self.name = name
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitGatewayTunnelPatch':
+        """Initialize a TransitGatewayTunnelPatch object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitGatewayTunnelPatch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitGatewayTunnelPatch object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitGatewayTunnelPatch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitGatewayTunnelPatch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TransitGatewayTunnelTemplate:
+    """
+    A create template with information for redundant GRE tunnel.
+
+    :attr str local_gateway_ip: Local gateway IP address.
+    :attr str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip and
+          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
+          network nor broadcast addresses.
+    :attr str name: The user-defined name for this tunnel connection.
+    :attr int remote_bgp_asn: (optional) Remote network BGP ASN. The following ASN
+          values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+          65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn`
+          is omitted on create requests, IBM will assign an ASN.
+    :attr str remote_gateway_ip: Remote gateway IP address.
+    :attr str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip and
+          remote_tunnel_ip addresses must be in the same /30 network. Neither can be the
+          network nor broadcast addresses.
+    :attr ZoneIdentity zone: Specify the connection's location.  The specified
+          availability zone must reside in the gateway's region.
+          Use the IBM Cloud global catalog to list zones within the desired region.
+    """
+
+    def __init__(
+        self,
+        local_gateway_ip: str,
+        local_tunnel_ip: str,
+        name: str,
+        remote_gateway_ip: str,
+        remote_tunnel_ip: str,
+        zone: 'ZoneIdentity',
+        *,
+        remote_bgp_asn: int = None,
+    ) -> None:
+        """
+        Initialize a TransitGatewayTunnelTemplate object.
+
+        :param str local_gateway_ip: Local gateway IP address.
+        :param str local_tunnel_ip: Local tunnel IP address. The local_tunnel_ip
+               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
+               be the network nor broadcast addresses.
+        :param str name: The user-defined name for this tunnel connection.
+        :param str remote_gateway_ip: Remote gateway IP address.
+        :param str remote_tunnel_ip: Remote tunnel IP address. The local_tunnel_ip
+               and remote_tunnel_ip addresses must be in the same /30 network. Neither can
+               be the network nor broadcast addresses.
+        :param ZoneIdentity zone: Specify the connection's location.  The specified
+               availability zone must reside in the gateway's region.
+               Use the IBM Cloud global catalog to list zones within the desired region.
+        :param int remote_bgp_asn: (optional) Remote network BGP ASN. The following
+               ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513,
+               65100, 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If
+               `remote_bgp_asn` is omitted on create requests, IBM will assign an ASN.
+        """
+        self.local_gateway_ip = local_gateway_ip
+        self.local_tunnel_ip = local_tunnel_ip
+        self.name = name
+        self.remote_bgp_asn = remote_bgp_asn
+        self.remote_gateway_ip = remote_gateway_ip
+        self.remote_tunnel_ip = remote_tunnel_ip
+        self.zone = zone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'TransitGatewayTunnelTemplate':
+        """Initialize a TransitGatewayTunnelTemplate object from a json dictionary."""
+        args = {}
+        if 'local_gateway_ip' in _dict:
+            args['local_gateway_ip'] = _dict.get('local_gateway_ip')
+        else:
+            raise ValueError('Required property \'local_gateway_ip\' not present in TransitGatewayTunnelTemplate JSON')
+        if 'local_tunnel_ip' in _dict:
+            args['local_tunnel_ip'] = _dict.get('local_tunnel_ip')
+        else:
+            raise ValueError('Required property \'local_tunnel_ip\' not present in TransitGatewayTunnelTemplate JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError('Required property \'name\' not present in TransitGatewayTunnelTemplate JSON')
+        if 'remote_bgp_asn' in _dict:
+            args['remote_bgp_asn'] = _dict.get('remote_bgp_asn')
+        if 'remote_gateway_ip' in _dict:
+            args['remote_gateway_ip'] = _dict.get('remote_gateway_ip')
+        else:
+            raise ValueError('Required property \'remote_gateway_ip\' not present in TransitGatewayTunnelTemplate JSON')
+        if 'remote_tunnel_ip' in _dict:
+            args['remote_tunnel_ip'] = _dict.get('remote_tunnel_ip')
+        else:
+            raise ValueError('Required property \'remote_tunnel_ip\' not present in TransitGatewayTunnelTemplate JSON')
+        if 'zone' in _dict:
+            args['zone'] = _dict.get('zone')
+        else:
+            raise ValueError('Required property \'zone\' not present in TransitGatewayTunnelTemplate JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TransitGatewayTunnelTemplate object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'local_gateway_ip') and self.local_gateway_ip is not None:
+            _dict['local_gateway_ip'] = self.local_gateway_ip
+        if hasattr(self, 'local_tunnel_ip') and self.local_tunnel_ip is not None:
+            _dict['local_tunnel_ip'] = self.local_tunnel_ip
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'remote_bgp_asn') and self.remote_bgp_asn is not None:
+            _dict['remote_bgp_asn'] = self.remote_bgp_asn
+        if hasattr(self, 'remote_gateway_ip') and self.remote_gateway_ip is not None:
+            _dict['remote_gateway_ip'] = self.remote_gateway_ip
+        if hasattr(self, 'remote_tunnel_ip') and self.remote_tunnel_ip is not None:
+            _dict['remote_tunnel_ip'] = self.remote_tunnel_ip
+        if hasattr(self, 'zone') and self.zone is not None:
+            if isinstance(self.zone, dict):
+                _dict['zone'] = self.zone
+            else:
+                _dict['zone'] = self.zone.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this TransitGatewayTunnelTemplate object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'TransitGatewayTunnelTemplate') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'TransitGatewayTunnelTemplate') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ZoneIdentity:
     """
     ZoneIdentity.
@@ -6471,71 +6267,6 @@ class ZoneReference:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ZoneReference') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ZoneReferenceCollection:
-    """
-    Collection of availability zones.
-
-    :attr List[ZoneReference] zones: Array of valid zones for GRE tunnels.
-    """
-
-    def __init__(
-        self,
-        zones: List['ZoneReference'],
-    ) -> None:
-        """
-        Initialize a ZoneReferenceCollection object.
-
-        :param List[ZoneReference] zones: Array of valid zones for GRE tunnels.
-        """
-        self.zones = zones
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ZoneReferenceCollection':
-        """Initialize a ZoneReferenceCollection object from a json dictionary."""
-        args = {}
-        if 'zones' in _dict:
-            args['zones'] = [ZoneReference.from_dict(v) for v in _dict.get('zones')]
-        else:
-            raise ValueError('Required property \'zones\' not present in ZoneReferenceCollection JSON')
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ZoneReferenceCollection object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'zones') and self.zones is not None:
-            zones_list = []
-            for v in self.zones:
-                if isinstance(v, dict):
-                    zones_list.append(v)
-                else:
-                    zones_list.append(v.to_dict())
-            _dict['zones'] = zones_list
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this ZoneReferenceCollection object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'ZoneReferenceCollection') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'ZoneReferenceCollection') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
