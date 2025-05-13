@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2024.
+# (C) Copyright IBM Corp. 2025.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,23 +50,15 @@ def preprocess_url(operation_path: str):
     The returned request URL is used to register the mock response so it needs
     to match the request URL that is formed by the requests library.
     """
-    # First, unquote the path since it might have some quoted/escaped characters in it
-    # due to how the generator inserts the operation paths into the unit test code.
-    operation_path = urllib.parse.unquote(operation_path)
 
-    # Next, quote the path using urllib so that we approximate what will
-    # happen during request processing.
-    operation_path = urllib.parse.quote(operation_path, safe='/')
-
-    # Finally, form the request URL from the base URL and operation path.
+    # Form the request URL from the base URL and operation path.
     request_url = _base_url + operation_path
 
     # If the request url does NOT end with a /, then just return it as-is.
     # Otherwise, return a regular expression that matches one or more trailing /.
-    if re.fullmatch('.*/+', request_url) is None:
+    if not request_url.endswith('/'):
         return request_url
-    else:
-        return re.compile(request_url.rstrip('/') + '/+')
+    return re.compile(request_url.rstrip('/') + '/+')
 
 
 ##############################################################################
@@ -133,7 +125,7 @@ class TestListGateways:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}]}'
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(
             responses.GET,
             url,
@@ -165,7 +157,7 @@ class TestListGateways:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}]}'
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(
             responses.GET,
             url,
@@ -204,7 +196,7 @@ class TestCreateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -220,9 +212,9 @@ class TestCreateGateway:
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        # Construct a dict representation of a GatewayTemplateAuthenticationKey model
-        gateway_template_authentication_key_model = {}
-        gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a dict representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_model = {}
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayBfdConfigTemplate model
         gateway_bfd_config_template_model = {}
@@ -240,25 +232,33 @@ class TestCreateGateway:
         resource_group_identity_model = {}
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        # Construct a dict representation of a GatewayMacsecConfigTemplateFallbackCak model
-        gateway_macsec_config_template_fallback_cak_model = {}
-        gateway_macsec_config_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        # Construct a dict representation of a GatewayMacsecConfigTemplatePrimaryCak model
-        gateway_macsec_config_template_primary_cak_model = {}
-        gateway_macsec_config_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakPrototype model
+        gateway_macsec_cak_prototype_model = {}
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
 
-        # Construct a dict representation of a GatewayMacsecConfigTemplate model
-        gateway_macsec_config_template_model = {}
-        gateway_macsec_config_template_model['active'] = True
-        gateway_macsec_config_template_model['fallback_cak'] = gateway_macsec_config_template_fallback_cak_model
-        gateway_macsec_config_template_model['primary_cak'] = gateway_macsec_config_template_primary_cak_model
-        gateway_macsec_config_template_model['window_size'] = 148809600
+        # Construct a dict representation of a SakRekeyPrototypeSakRekeyTimerModePrototype model
+        sak_rekey_prototype_model = {}
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        # Construct a dict representation of a GatewayMacsecPrototype model
+        gateway_macsec_prototype_model = {}
+        gateway_macsec_prototype_model['active'] = True
+        gateway_macsec_prototype_model['caks'] = [gateway_macsec_cak_prototype_model]
+        gateway_macsec_prototype_model['sak_rekey'] = sak_rekey_prototype_model
+        gateway_macsec_prototype_model['security_policy'] = 'must_secure'
+        gateway_macsec_prototype_model['window_size'] = 64
 
         # Construct a dict representation of a GatewayTemplateGatewayTypeDedicatedTemplate model
         gateway_template_model = {}
         gateway_template_model['as_prepends'] = [as_prepend_template_model]
-        gateway_template_model['authentication_key'] = gateway_template_authentication_key_model
+        gateway_template_model['authentication_key'] = authentication_key_identity_model
         gateway_template_model['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_model['bgp_asn'] = 64999
         gateway_template_model['bgp_base_cidr'] = 'testString'
@@ -280,7 +280,8 @@ class TestCreateGateway:
         gateway_template_model['cross_connect_router'] = 'xcr01.dal03'
         gateway_template_model['customer_name'] = 'newCustomerName'
         gateway_template_model['location_name'] = 'dal03'
-        gateway_template_model['macsec_config'] = gateway_macsec_config_template_model
+        gateway_template_model['macsec'] = gateway_macsec_prototype_model
+        gateway_template_model['macsec_capability'] = 'non_macsec'
         gateway_template_model['vlan'] = 10
 
         # Set up parameter values
@@ -315,7 +316,7 @@ class TestCreateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -331,9 +332,9 @@ class TestCreateGateway:
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        # Construct a dict representation of a GatewayTemplateAuthenticationKey model
-        gateway_template_authentication_key_model = {}
-        gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a dict representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_model = {}
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayBfdConfigTemplate model
         gateway_bfd_config_template_model = {}
@@ -351,25 +352,33 @@ class TestCreateGateway:
         resource_group_identity_model = {}
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        # Construct a dict representation of a GatewayMacsecConfigTemplateFallbackCak model
-        gateway_macsec_config_template_fallback_cak_model = {}
-        gateway_macsec_config_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        # Construct a dict representation of a GatewayMacsecConfigTemplatePrimaryCak model
-        gateway_macsec_config_template_primary_cak_model = {}
-        gateway_macsec_config_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakPrototype model
+        gateway_macsec_cak_prototype_model = {}
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
 
-        # Construct a dict representation of a GatewayMacsecConfigTemplate model
-        gateway_macsec_config_template_model = {}
-        gateway_macsec_config_template_model['active'] = True
-        gateway_macsec_config_template_model['fallback_cak'] = gateway_macsec_config_template_fallback_cak_model
-        gateway_macsec_config_template_model['primary_cak'] = gateway_macsec_config_template_primary_cak_model
-        gateway_macsec_config_template_model['window_size'] = 148809600
+        # Construct a dict representation of a SakRekeyPrototypeSakRekeyTimerModePrototype model
+        sak_rekey_prototype_model = {}
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        # Construct a dict representation of a GatewayMacsecPrototype model
+        gateway_macsec_prototype_model = {}
+        gateway_macsec_prototype_model['active'] = True
+        gateway_macsec_prototype_model['caks'] = [gateway_macsec_cak_prototype_model]
+        gateway_macsec_prototype_model['sak_rekey'] = sak_rekey_prototype_model
+        gateway_macsec_prototype_model['security_policy'] = 'must_secure'
+        gateway_macsec_prototype_model['window_size'] = 64
 
         # Construct a dict representation of a GatewayTemplateGatewayTypeDedicatedTemplate model
         gateway_template_model = {}
         gateway_template_model['as_prepends'] = [as_prepend_template_model]
-        gateway_template_model['authentication_key'] = gateway_template_authentication_key_model
+        gateway_template_model['authentication_key'] = authentication_key_identity_model
         gateway_template_model['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_model['bgp_asn'] = 64999
         gateway_template_model['bgp_base_cidr'] = 'testString'
@@ -391,7 +400,8 @@ class TestCreateGateway:
         gateway_template_model['cross_connect_router'] = 'xcr01.dal03'
         gateway_template_model['customer_name'] = 'newCustomerName'
         gateway_template_model['location_name'] = 'dal03'
-        gateway_template_model['macsec_config'] = gateway_macsec_config_template_model
+        gateway_template_model['macsec'] = gateway_macsec_prototype_model
+        gateway_template_model['macsec_capability'] = 'non_macsec'
         gateway_template_model['vlan'] = 10
 
         # Set up parameter values
@@ -503,7 +513,7 @@ class TestGetGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.GET,
             url,
@@ -541,7 +551,7 @@ class TestGetGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.GET,
             url,
@@ -584,7 +594,7 @@ class TestUpdateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.PATCH,
             url,
@@ -593,33 +603,18 @@ class TestUpdateGateway:
             status=200,
         )
 
-        # Construct a dict representation of a GatewayPatchTemplateAuthenticationKey model
-        gateway_patch_template_authentication_key_model = {}
-        gateway_patch_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a dict representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_model = {}
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayBfdPatchTemplate model
         gateway_bfd_patch_template_model = {}
         gateway_bfd_patch_template_model['interval'] = 2000
         gateway_bfd_patch_template_model['multiplier'] = 10
 
-        # Construct a dict representation of a GatewayMacsecConfigPatchTemplateFallbackCak model
-        gateway_macsec_config_patch_template_fallback_cak_model = {}
-        gateway_macsec_config_patch_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a dict representation of a GatewayMacsecConfigPatchTemplatePrimaryCak model
-        gateway_macsec_config_patch_template_primary_cak_model = {}
-        gateway_macsec_config_patch_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a dict representation of a GatewayMacsecConfigPatchTemplate model
-        gateway_macsec_config_patch_template_model = {}
-        gateway_macsec_config_patch_template_model['active'] = True
-        gateway_macsec_config_patch_template_model['fallback_cak'] = gateway_macsec_config_patch_template_fallback_cak_model
-        gateway_macsec_config_patch_template_model['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
-        gateway_macsec_config_patch_template_model['window_size'] = 512
-
         # Construct a dict representation of a GatewayPatchTemplate model
         gateway_patch_template_model = {}
-        gateway_patch_template_model['authentication_key'] = gateway_patch_template_authentication_key_model
+        gateway_patch_template_model['authentication_key'] = authentication_key_identity_model
         gateway_patch_template_model['bfd_config'] = gateway_bfd_patch_template_model
         gateway_patch_template_model['bgp_asn'] = 64999
         gateway_patch_template_model['bgp_cer_cidr'] = '169.254.0.10/30'
@@ -629,7 +624,6 @@ class TestUpdateGateway:
         gateway_patch_template_model['default_import_route_filter'] = 'permit'
         gateway_patch_template_model['global'] = True
         gateway_patch_template_model['loa_reject_reason'] = 'The port mentioned was incorrect'
-        gateway_patch_template_model['macsec_config'] = gateway_macsec_config_patch_template_model
         gateway_patch_template_model['metered'] = False
         gateway_patch_template_model['name'] = 'testGateway'
         gateway_patch_template_model['operational_status'] = 'loa_accepted'
@@ -671,7 +665,7 @@ class TestUpdateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.PATCH,
             url,
@@ -680,33 +674,18 @@ class TestUpdateGateway:
             status=200,
         )
 
-        # Construct a dict representation of a GatewayPatchTemplateAuthenticationKey model
-        gateway_patch_template_authentication_key_model = {}
-        gateway_patch_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a dict representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_model = {}
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayBfdPatchTemplate model
         gateway_bfd_patch_template_model = {}
         gateway_bfd_patch_template_model['interval'] = 2000
         gateway_bfd_patch_template_model['multiplier'] = 10
 
-        # Construct a dict representation of a GatewayMacsecConfigPatchTemplateFallbackCak model
-        gateway_macsec_config_patch_template_fallback_cak_model = {}
-        gateway_macsec_config_patch_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a dict representation of a GatewayMacsecConfigPatchTemplatePrimaryCak model
-        gateway_macsec_config_patch_template_primary_cak_model = {}
-        gateway_macsec_config_patch_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a dict representation of a GatewayMacsecConfigPatchTemplate model
-        gateway_macsec_config_patch_template_model = {}
-        gateway_macsec_config_patch_template_model['active'] = True
-        gateway_macsec_config_patch_template_model['fallback_cak'] = gateway_macsec_config_patch_template_fallback_cak_model
-        gateway_macsec_config_patch_template_model['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
-        gateway_macsec_config_patch_template_model['window_size'] = 512
-
         # Construct a dict representation of a GatewayPatchTemplate model
         gateway_patch_template_model = {}
-        gateway_patch_template_model['authentication_key'] = gateway_patch_template_authentication_key_model
+        gateway_patch_template_model['authentication_key'] = authentication_key_identity_model
         gateway_patch_template_model['bfd_config'] = gateway_bfd_patch_template_model
         gateway_patch_template_model['bgp_asn'] = 64999
         gateway_patch_template_model['bgp_cer_cidr'] = '169.254.0.10/30'
@@ -716,7 +695,6 @@ class TestUpdateGateway:
         gateway_patch_template_model['default_import_route_filter'] = 'permit'
         gateway_patch_template_model['global'] = True
         gateway_patch_template_model['loa_reject_reason'] = 'The port mentioned was incorrect'
-        gateway_patch_template_model['macsec_config'] = gateway_macsec_config_patch_template_model
         gateway_patch_template_model['metered'] = False
         gateway_patch_template_model['name'] = 'testGateway'
         gateway_patch_template_model['operational_status'] = 'loa_accepted'
@@ -760,7 +738,7 @@ class TestCreateGatewayAction:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -776,9 +754,9 @@ class TestCreateGatewayAction:
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        # Construct a dict representation of a GatewayActionTemplateAuthenticationKey model
-        gateway_action_template_authentication_key_model = {}
-        gateway_action_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a dict representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_model = {}
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayBfdConfigActionTemplate model
         gateway_bfd_config_action_template_model = {}
@@ -804,7 +782,7 @@ class TestCreateGatewayAction:
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
         action = 'create_gateway_approve'
         as_prepends = [as_prepend_template_model]
-        authentication_key = gateway_action_template_authentication_key_model
+        authentication_key = authentication_key_identity_model
         bfd_config = gateway_bfd_config_action_template_model
         connection_mode = 'transit'
         default_export_route_filter = 'permit'
@@ -842,7 +820,7 @@ class TestCreateGatewayAction:
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['action'] == 'create_gateway_approve'
         assert req_body['as_prepends'] == [as_prepend_template_model]
-        assert req_body['authentication_key'] == gateway_action_template_authentication_key_model
+        assert req_body['authentication_key'] == authentication_key_identity_model
         assert req_body['bfd_config'] == gateway_bfd_config_action_template_model
         assert req_body['connection_mode'] == 'transit'
         assert req_body['default_export_route_filter'] == 'permit'
@@ -870,7 +848,7 @@ class TestCreateGatewayAction:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec_config": {"active": true, "active_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "cryptographic_algorithm": "aes_256_cmac", "fallback_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "key_server_priority": 255, "primary_cak": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222", "status": "status"}, "sak_expiry_time": 3600, "security_policy": "must_secure", "status": "secured", "window_size": 64}, "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "patch_panel_completion_notice": "patch panel configuration details", "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -886,9 +864,9 @@ class TestCreateGatewayAction:
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        # Construct a dict representation of a GatewayActionTemplateAuthenticationKey model
-        gateway_action_template_authentication_key_model = {}
-        gateway_action_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a dict representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_model = {}
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayBfdConfigActionTemplate model
         gateway_bfd_config_action_template_model = {}
@@ -914,7 +892,7 @@ class TestCreateGatewayAction:
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
         action = 'create_gateway_approve'
         as_prepends = [as_prepend_template_model]
-        authentication_key = gateway_action_template_authentication_key_model
+        authentication_key = authentication_key_identity_model
         bfd_config = gateway_bfd_config_action_template_model
         connection_mode = 'transit'
         default_export_route_filter = 'permit'
@@ -1438,6 +1416,247 @@ class TestGetGatewayStatus:
 # endregion
 ##############################################################################
 # End of Service: Gateways
+##############################################################################
+
+##############################################################################
+# Start of Service: GatewayASPrepends
+##############################################################################
+# region
+
+
+class TestNewInstance:
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DirectLinkV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DirectLinkV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DirectLinkV1.new_instance(
+                version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = DirectLinkV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = DirectLinkV1.new_instance(
+                version=None,
+            )
+
+
+class TestListGatewayAsPrepends:
+    """
+    Test Class for list_gateway_as_prepends
+    """
+
+    @responses.activate
+    def test_list_gateway_as_prepends_all_params(self):
+        """
+        list_gateway_as_prepends()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Invoke method
+        response = _service.list_gateway_as_prepends(
+            gateway_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_gateway_as_prepends_all_params_with_retries(self):
+        # Enable retries and run test_list_gateway_as_prepends_all_params.
+        _service.enable_retries()
+        self.test_list_gateway_as_prepends_all_params()
+
+        # Disable retries and run test_list_gateway_as_prepends_all_params.
+        _service.disable_retries()
+        self.test_list_gateway_as_prepends_all_params()
+
+    @responses.activate
+    def test_list_gateway_as_prepends_value_error(self):
+        """
+        test_list_gateway_as_prepends_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "gateway_id": gateway_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_gateway_as_prepends(**req_copy)
+
+    def test_list_gateway_as_prepends_value_error_with_retries(self):
+        # Enable retries and run test_list_gateway_as_prepends_value_error.
+        _service.enable_retries()
+        self.test_list_gateway_as_prepends_value_error()
+
+        # Disable retries and run test_list_gateway_as_prepends_value_error.
+        _service.disable_retries()
+        self.test_list_gateway_as_prepends_value_error()
+
+
+class TestReplaceGatewayAsPrepends:
+    """
+    Test Class for replace_gateway_as_prepends
+    """
+
+    @responses.activate
+    def test_replace_gateway_as_prepends_all_params(self):
+        """
+        replace_gateway_as_prepends()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
+
+        # Construct a dict representation of a AsPrependPrefixArrayTemplate model
+        as_prepend_prefix_array_template_model = {}
+        as_prepend_prefix_array_template_model['length'] = 4
+        as_prepend_prefix_array_template_model['policy'] = 'import'
+        as_prepend_prefix_array_template_model['specific_prefixes'] = ['192.168.3.0/24']
+
+        # Set up parameter values
+        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        if_match = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"'
+        as_prepends = [as_prepend_prefix_array_template_model]
+
+        # Invoke method
+        response = _service.replace_gateway_as_prepends(
+            gateway_id,
+            if_match,
+            as_prepends=as_prepends,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['as_prepends'] == [as_prepend_prefix_array_template_model]
+
+    def test_replace_gateway_as_prepends_all_params_with_retries(self):
+        # Enable retries and run test_replace_gateway_as_prepends_all_params.
+        _service.enable_retries()
+        self.test_replace_gateway_as_prepends_all_params()
+
+        # Disable retries and run test_replace_gateway_as_prepends_all_params.
+        _service.disable_retries()
+        self.test_replace_gateway_as_prepends_all_params()
+
+    @responses.activate
+    def test_replace_gateway_as_prepends_value_error(self):
+        """
+        test_replace_gateway_as_prepends_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
+
+        # Construct a dict representation of a AsPrependPrefixArrayTemplate model
+        as_prepend_prefix_array_template_model = {}
+        as_prepend_prefix_array_template_model['length'] = 4
+        as_prepend_prefix_array_template_model['policy'] = 'import'
+        as_prepend_prefix_array_template_model['specific_prefixes'] = ['192.168.3.0/24']
+
+        # Set up parameter values
+        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        if_match = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"'
+        as_prepends = [as_prepend_prefix_array_template_model]
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "gateway_id": gateway_id,
+            "if_match": if_match,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.replace_gateway_as_prepends(**req_copy)
+
+    def test_replace_gateway_as_prepends_value_error_with_retries(self):
+        # Enable retries and run test_replace_gateway_as_prepends_value_error.
+        _service.enable_retries()
+        self.test_replace_gateway_as_prepends_value_error()
+
+        # Disable retries and run test_replace_gateway_as_prepends_value_error.
+        _service.disable_retries()
+        self.test_replace_gateway_as_prepends_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: GatewayASPrepends
 ##############################################################################
 
 ##############################################################################
@@ -2745,6 +2964,1001 @@ class TestUpdateGatewayImportRouteFilter:
 ##############################################################################
 
 ##############################################################################
+# Start of Service: GatewayMACsec
+##############################################################################
+# region
+
+
+class TestNewInstance:
+    """
+    Test Class for new_instance
+    """
+
+    def test_new_instance(self):
+        """
+        new_instance()
+        """
+        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
+
+        service = DirectLinkV1.new_instance(
+            version=version,
+            service_name='TEST_SERVICE',
+        )
+
+        assert service is not None
+        assert isinstance(service, DirectLinkV1)
+
+    def test_new_instance_without_authenticator(self):
+        """
+        new_instance_without_authenticator()
+        """
+        with pytest.raises(ValueError, match='authenticator must be provided'):
+            service = DirectLinkV1.new_instance(
+                version=version,
+                service_name='TEST_SERVICE_NOT_FOUND',
+            )
+
+    def test_new_instance_without_required_params(self):
+        """
+        new_instance_without_required_params()
+        """
+        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
+            service = DirectLinkV1.new_instance()
+
+    def test_new_instance_required_param_none(self):
+        """
+        new_instance_required_param_none()
+        """
+        with pytest.raises(ValueError, match='version must be provided'):
+            service = DirectLinkV1.new_instance(
+                version=None,
+            )
+
+
+class TestUnsetGatewayMacsec:
+    """
+    Test Class for unset_gateway_macsec
+    """
+
+    @responses.activate
+    def test_unset_gateway_macsec_all_params(self):
+        """
+        unset_gateway_macsec()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Invoke method
+        response = _service.unset_gateway_macsec(
+            id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_unset_gateway_macsec_all_params_with_retries(self):
+        # Enable retries and run test_unset_gateway_macsec_all_params.
+        _service.enable_retries()
+        self.test_unset_gateway_macsec_all_params()
+
+        # Disable retries and run test_unset_gateway_macsec_all_params.
+        _service.disable_retries()
+        self.test_unset_gateway_macsec_all_params()
+
+    @responses.activate
+    def test_unset_gateway_macsec_value_error(self):
+        """
+        test_unset_gateway_macsec_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.unset_gateway_macsec(**req_copy)
+
+    def test_unset_gateway_macsec_value_error_with_retries(self):
+        # Enable retries and run test_unset_gateway_macsec_value_error.
+        _service.enable_retries()
+        self.test_unset_gateway_macsec_value_error()
+
+        # Disable retries and run test_unset_gateway_macsec_value_error.
+        _service.disable_retries()
+        self.test_unset_gateway_macsec_value_error()
+
+
+class TestGetGatewayMacsec:
+    """
+    Test Class for get_gateway_macsec
+    """
+
+    @responses.activate
+    def test_get_gateway_macsec_all_params(self):
+        """
+        get_gateway_macsec()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Invoke method
+        response = _service.get_gateway_macsec(
+            id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_gateway_macsec_all_params_with_retries(self):
+        # Enable retries and run test_get_gateway_macsec_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_macsec_all_params()
+
+        # Disable retries and run test_get_gateway_macsec_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_macsec_all_params()
+
+    @responses.activate
+    def test_get_gateway_macsec_value_error(self):
+        """
+        test_get_gateway_macsec_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_gateway_macsec(**req_copy)
+
+    def test_get_gateway_macsec_value_error_with_retries(self):
+        # Enable retries and run test_get_gateway_macsec_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_macsec_value_error()
+
+        # Disable retries and run test_get_gateway_macsec_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_macsec_value_error()
+
+
+class TestUpdateGatewayMacsec:
+    """
+    Test Class for update_gateway_macsec
+    """
+
+    @responses.activate
+    def test_update_gateway_macsec_all_params(self):
+        """
+        update_gateway_macsec()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a SakRekeyPatchSakRekeyTimerModePatch model
+        sak_rekey_patch_model = {}
+        sak_rekey_patch_model['interval'] = 3600
+        sak_rekey_patch_model['mode'] = 'timer'
+
+        # Construct a dict representation of a GatewayMacsecPatch model
+        gateway_macsec_patch_model = {}
+        gateway_macsec_patch_model['active'] = True
+        gateway_macsec_patch_model['sak_rekey'] = sak_rekey_patch_model
+        gateway_macsec_patch_model['security_policy'] = 'must_secure'
+        gateway_macsec_patch_model['window_size'] = 64
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        gateway_macsec_patch = gateway_macsec_patch_model
+
+        # Invoke method
+        response = _service.update_gateway_macsec(
+            id,
+            gateway_macsec_patch,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body == gateway_macsec_patch
+
+    def test_update_gateway_macsec_all_params_with_retries(self):
+        # Enable retries and run test_update_gateway_macsec_all_params.
+        _service.enable_retries()
+        self.test_update_gateway_macsec_all_params()
+
+        # Disable retries and run test_update_gateway_macsec_all_params.
+        _service.disable_retries()
+        self.test_update_gateway_macsec_all_params()
+
+    @responses.activate
+    def test_update_gateway_macsec_value_error(self):
+        """
+        test_update_gateway_macsec_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a SakRekeyPatchSakRekeyTimerModePatch model
+        sak_rekey_patch_model = {}
+        sak_rekey_patch_model['interval'] = 3600
+        sak_rekey_patch_model['mode'] = 'timer'
+
+        # Construct a dict representation of a GatewayMacsecPatch model
+        gateway_macsec_patch_model = {}
+        gateway_macsec_patch_model['active'] = True
+        gateway_macsec_patch_model['sak_rekey'] = sak_rekey_patch_model
+        gateway_macsec_patch_model['security_policy'] = 'must_secure'
+        gateway_macsec_patch_model['window_size'] = 64
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        gateway_macsec_patch = gateway_macsec_patch_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+            "gateway_macsec_patch": gateway_macsec_patch,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_gateway_macsec(**req_copy)
+
+    def test_update_gateway_macsec_value_error_with_retries(self):
+        # Enable retries and run test_update_gateway_macsec_value_error.
+        _service.enable_retries()
+        self.test_update_gateway_macsec_value_error()
+
+        # Disable retries and run test_update_gateway_macsec_value_error.
+        _service.disable_retries()
+        self.test_update_gateway_macsec_value_error()
+
+
+class TestSetGatewayMacsec:
+    """
+    Test Class for set_gateway_macsec
+    """
+
+    @responses.activate
+    def test_set_gateway_macsec_all_params(self):
+        """
+        set_gateway_macsec()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a dict representation of a GatewayMacsecCakPrototype model
+        gateway_macsec_cak_prototype_model = {}
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
+
+        # Construct a dict representation of a SakRekeyPrototypeSakRekeyTimerModePrototype model
+        sak_rekey_prototype_model = {}
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        active = True
+        caks = [gateway_macsec_cak_prototype_model]
+        sak_rekey = sak_rekey_prototype_model
+        security_policy = 'must_secure'
+        window_size = 64
+        if_match = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"'
+
+        # Invoke method
+        response = _service.set_gateway_macsec(
+            id,
+            active,
+            caks,
+            sak_rekey,
+            security_policy,
+            window_size=window_size,
+            if_match=if_match,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['active'] == True
+        assert req_body['caks'] == [gateway_macsec_cak_prototype_model]
+        assert req_body['sak_rekey'] == sak_rekey_prototype_model
+        assert req_body['security_policy'] == 'must_secure'
+        assert req_body['window_size'] == 64
+
+    def test_set_gateway_macsec_all_params_with_retries(self):
+        # Enable retries and run test_set_gateway_macsec_all_params.
+        _service.enable_retries()
+        self.test_set_gateway_macsec_all_params()
+
+        # Disable retries and run test_set_gateway_macsec_all_params.
+        _service.disable_retries()
+        self.test_set_gateway_macsec_all_params()
+
+    @responses.activate
+    def test_set_gateway_macsec_required_params(self):
+        """
+        test_set_gateway_macsec_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a dict representation of a GatewayMacsecCakPrototype model
+        gateway_macsec_cak_prototype_model = {}
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
+
+        # Construct a dict representation of a SakRekeyPrototypeSakRekeyTimerModePrototype model
+        sak_rekey_prototype_model = {}
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        active = True
+        caks = [gateway_macsec_cak_prototype_model]
+        sak_rekey = sak_rekey_prototype_model
+        security_policy = 'must_secure'
+        window_size = 64
+
+        # Invoke method
+        response = _service.set_gateway_macsec(
+            id,
+            active,
+            caks,
+            sak_rekey,
+            security_policy,
+            window_size=window_size,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['active'] == True
+        assert req_body['caks'] == [gateway_macsec_cak_prototype_model]
+        assert req_body['sak_rekey'] == sak_rekey_prototype_model
+        assert req_body['security_policy'] == 'must_secure'
+        assert req_body['window_size'] == 64
+
+    def test_set_gateway_macsec_required_params_with_retries(self):
+        # Enable retries and run test_set_gateway_macsec_required_params.
+        _service.enable_retries()
+        self.test_set_gateway_macsec_required_params()
+
+        # Disable retries and run test_set_gateway_macsec_required_params.
+        _service.disable_retries()
+        self.test_set_gateway_macsec_required_params()
+
+    @responses.activate
+    def test_set_gateway_macsec_value_error(self):
+        """
+        test_set_gateway_macsec_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec')
+        mock_response = '{"active": true, "cipher_suite": "gcm_aes_xpn_256", "confidentiality_offset": 0, "created_at": "2020-11-02T20:40:29.622Z", "key_server_priority": 255, "sak_rekey": {"interval": 3600, "mode": "timer"}, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "updated_at": "2020-11-02T20:40:29.622Z", "window_size": 512}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a dict representation of a GatewayMacsecCakPrototype model
+        gateway_macsec_cak_prototype_model = {}
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
+
+        # Construct a dict representation of a SakRekeyPrototypeSakRekeyTimerModePrototype model
+        sak_rekey_prototype_model = {}
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        active = True
+        caks = [gateway_macsec_cak_prototype_model]
+        sak_rekey = sak_rekey_prototype_model
+        security_policy = 'must_secure'
+        window_size = 64
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+            "active": active,
+            "caks": caks,
+            "sak_rekey": sak_rekey,
+            "security_policy": security_policy,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.set_gateway_macsec(**req_copy)
+
+    def test_set_gateway_macsec_value_error_with_retries(self):
+        # Enable retries and run test_set_gateway_macsec_value_error.
+        _service.enable_retries()
+        self.test_set_gateway_macsec_value_error()
+
+        # Disable retries and run test_set_gateway_macsec_value_error.
+        _service.disable_retries()
+        self.test_set_gateway_macsec_value_error()
+
+
+class TestListGatewayMacsecCaks:
+    """
+    Test Class for list_gateway_macsec_caks
+    """
+
+    @responses.activate
+    def test_list_gateway_macsec_caks_all_params(self):
+        """
+        list_gateway_macsec_caks()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks')
+        mock_response = '{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Invoke method
+        response = _service.list_gateway_macsec_caks(
+            id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_gateway_macsec_caks_all_params_with_retries(self):
+        # Enable retries and run test_list_gateway_macsec_caks_all_params.
+        _service.enable_retries()
+        self.test_list_gateway_macsec_caks_all_params()
+
+        # Disable retries and run test_list_gateway_macsec_caks_all_params.
+        _service.disable_retries()
+        self.test_list_gateway_macsec_caks_all_params()
+
+    @responses.activate
+    def test_list_gateway_macsec_caks_value_error(self):
+        """
+        test_list_gateway_macsec_caks_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks')
+        mock_response = '{"caks": [{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_gateway_macsec_caks(**req_copy)
+
+    def test_list_gateway_macsec_caks_value_error_with_retries(self):
+        # Enable retries and run test_list_gateway_macsec_caks_value_error.
+        _service.enable_retries()
+        self.test_list_gateway_macsec_caks_value_error()
+
+        # Disable retries and run test_list_gateway_macsec_caks_value_error.
+        _service.disable_retries()
+        self.test_list_gateway_macsec_caks_value_error()
+
+
+class TestCreateGatewayMacsecCak:
+    """
+    Test Class for create_gateway_macsec_cak
+    """
+
+    @responses.activate
+    def test_create_gateway_macsec_cak_all_params(self):
+        """
+        create_gateway_macsec_cak()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks')
+        mock_response = '{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        key = hpcs_key_identity_model
+        name = '1000'
+        session = 'primary'
+
+        # Invoke method
+        response = _service.create_gateway_macsec_cak(
+            id,
+            key,
+            name,
+            session,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['key'] == hpcs_key_identity_model
+        assert req_body['name'] == '1000'
+        assert req_body['session'] == 'primary'
+
+    def test_create_gateway_macsec_cak_all_params_with_retries(self):
+        # Enable retries and run test_create_gateway_macsec_cak_all_params.
+        _service.enable_retries()
+        self.test_create_gateway_macsec_cak_all_params()
+
+        # Disable retries and run test_create_gateway_macsec_cak_all_params.
+        _service.disable_retries()
+        self.test_create_gateway_macsec_cak_all_params()
+
+    @responses.activate
+    def test_create_gateway_macsec_cak_value_error(self):
+        """
+        test_create_gateway_macsec_cak_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks')
+        mock_response = '{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=201,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        key = hpcs_key_identity_model
+        name = '1000'
+        session = 'primary'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+            "key": key,
+            "name": name,
+            "session": session,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_gateway_macsec_cak(**req_copy)
+
+    def test_create_gateway_macsec_cak_value_error_with_retries(self):
+        # Enable retries and run test_create_gateway_macsec_cak_value_error.
+        _service.enable_retries()
+        self.test_create_gateway_macsec_cak_value_error()
+
+        # Disable retries and run test_create_gateway_macsec_cak_value_error.
+        _service.disable_retries()
+        self.test_create_gateway_macsec_cak_value_error()
+
+
+class TestDeleteGatewayMacsecCak:
+    """
+    Test Class for delete_gateway_macsec_cak
+    """
+
+    @responses.activate
+    def test_delete_gateway_macsec_cak_all_params(self):
+        """
+        delete_gateway_macsec_cak()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4')
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        cak_id = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+
+        # Invoke method
+        response = _service.delete_gateway_macsec_cak(
+            id,
+            cak_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+    def test_delete_gateway_macsec_cak_all_params_with_retries(self):
+        # Enable retries and run test_delete_gateway_macsec_cak_all_params.
+        _service.enable_retries()
+        self.test_delete_gateway_macsec_cak_all_params()
+
+        # Disable retries and run test_delete_gateway_macsec_cak_all_params.
+        _service.disable_retries()
+        self.test_delete_gateway_macsec_cak_all_params()
+
+    @responses.activate
+    def test_delete_gateway_macsec_cak_value_error(self):
+        """
+        test_delete_gateway_macsec_cak_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4')
+        responses.add(
+            responses.DELETE,
+            url,
+            status=204,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        cak_id = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+            "cak_id": cak_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_gateway_macsec_cak(**req_copy)
+
+    def test_delete_gateway_macsec_cak_value_error_with_retries(self):
+        # Enable retries and run test_delete_gateway_macsec_cak_value_error.
+        _service.enable_retries()
+        self.test_delete_gateway_macsec_cak_value_error()
+
+        # Disable retries and run test_delete_gateway_macsec_cak_value_error.
+        _service.disable_retries()
+        self.test_delete_gateway_macsec_cak_value_error()
+
+
+class TestGetGatewayMacsecCak:
+    """
+    Test Class for get_gateway_macsec_cak
+    """
+
+    @responses.activate
+    def test_get_gateway_macsec_cak_all_params(self):
+        """
+        get_gateway_macsec_cak()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4')
+        mock_response = '{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        cak_id = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+
+        # Invoke method
+        response = _service.get_gateway_macsec_cak(
+            id,
+            cak_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_gateway_macsec_cak_all_params_with_retries(self):
+        # Enable retries and run test_get_gateway_macsec_cak_all_params.
+        _service.enable_retries()
+        self.test_get_gateway_macsec_cak_all_params()
+
+        # Disable retries and run test_get_gateway_macsec_cak_all_params.
+        _service.disable_retries()
+        self.test_get_gateway_macsec_cak_all_params()
+
+    @responses.activate
+    def test_get_gateway_macsec_cak_value_error(self):
+        """
+        test_get_gateway_macsec_cak_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4')
+        mock_response = '{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        cak_id = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+            "cak_id": cak_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_gateway_macsec_cak(**req_copy)
+
+    def test_get_gateway_macsec_cak_value_error_with_retries(self):
+        # Enable retries and run test_get_gateway_macsec_cak_value_error.
+        _service.enable_retries()
+        self.test_get_gateway_macsec_cak_value_error()
+
+        # Disable retries and run test_get_gateway_macsec_cak_value_error.
+        _service.disable_retries()
+        self.test_get_gateway_macsec_cak_value_error()
+
+
+class TestUpdateGatewayMacsecCak:
+    """
+    Test Class for update_gateway_macsec_cak
+    """
+
+    @responses.activate
+    def test_update_gateway_macsec_cak_all_params(self):
+        """
+        update_gateway_macsec_cak()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4')
+        mock_response = '{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a dict representation of a GatewayMacsecCakPatch model
+        gateway_macsec_cak_patch_model = {}
+        gateway_macsec_cak_patch_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_patch_model['name'] = '1000'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        cak_id = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_macsec_cak_patch = gateway_macsec_cak_patch_model
+
+        # Invoke method
+        response = _service.update_gateway_macsec_cak(
+            id,
+            cak_id,
+            gateway_macsec_cak_patch,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body == gateway_macsec_cak_patch
+
+    def test_update_gateway_macsec_cak_all_params_with_retries(self):
+        # Enable retries and run test_update_gateway_macsec_cak_all_params.
+        _service.enable_retries()
+        self.test_update_gateway_macsec_cak_all_params()
+
+        # Disable retries and run test_update_gateway_macsec_cak_all_params.
+        _service.disable_retries()
+        self.test_update_gateway_macsec_cak_all_params()
+
+    @responses.activate
+    def test_update_gateway_macsec_cak_value_error(self):
+        """
+        test_update_gateway_macsec_cak_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/macsec/caks/ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4')
+        mock_response = '{"active_delta": {"key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "status": "active"}, "created_at": "2020-11-02T20:40:29.622Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "name": "1000", "session": "primary", "status": "active", "updated_at": "2020-11-02T20:40:29.622Z"}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model = {}
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a dict representation of a GatewayMacsecCakPatch model
+        gateway_macsec_cak_patch_model = {}
+        gateway_macsec_cak_patch_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_patch_model['name'] = '1000'
+
+        # Set up parameter values
+        id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
+        cak_id = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_macsec_cak_patch = gateway_macsec_cak_patch_model
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "id": id,
+            "cak_id": cak_id,
+            "gateway_macsec_cak_patch": gateway_macsec_cak_patch,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_gateway_macsec_cak(**req_copy)
+
+    def test_update_gateway_macsec_cak_value_error_with_retries(self):
+        # Enable retries and run test_update_gateway_macsec_cak_value_error.
+        _service.enable_retries()
+        self.test_update_gateway_macsec_cak_value_error()
+
+        # Disable retries and run test_update_gateway_macsec_cak_value_error.
+        _service.disable_retries()
+        self.test_update_gateway_macsec_cak_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: GatewayMACsec
+##############################################################################
+
+##############################################################################
 # Start of Service: GatewayRouteReports
 ##############################################################################
 # region
@@ -3542,18 +4756,21 @@ class TestUpdateGatewayVirtualConnection:
             status=200,
         )
 
+        # Construct a dict representation of a GatewayVirtualConnectionPatchTemplate model
+        gateway_virtual_connection_patch_template_model = {}
+        gateway_virtual_connection_patch_template_model['name'] = 'newConnectionName'
+        gateway_virtual_connection_patch_template_model['status'] = 'attached'
+
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        name = 'newConnectionName'
-        status = 'attached'
+        gateway_virtual_connection_patch_template = gateway_virtual_connection_patch_template_model
 
         # Invoke method
         response = _service.update_gateway_virtual_connection(
             gateway_id,
             id,
-            name=name,
-            status=status,
+            gateway_virtual_connection_patch_template,
             headers={},
         )
 
@@ -3562,8 +4779,7 @@ class TestUpdateGatewayVirtualConnection:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['name'] == 'newConnectionName'
-        assert req_body['status'] == 'attached'
+        assert req_body == gateway_virtual_connection_patch_template
 
     def test_update_gateway_virtual_connection_all_params_with_retries(self):
         # Enable retries and run test_update_gateway_virtual_connection_all_params.
@@ -3590,16 +4806,21 @@ class TestUpdateGatewayVirtualConnection:
             status=200,
         )
 
+        # Construct a dict representation of a GatewayVirtualConnectionPatchTemplate model
+        gateway_virtual_connection_patch_template_model = {}
+        gateway_virtual_connection_patch_template_model['name'] = 'newConnectionName'
+        gateway_virtual_connection_patch_template_model['status'] = 'attached'
+
         # Set up parameter values
         gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        name = 'newConnectionName'
-        status = 'attached'
+        gateway_virtual_connection_patch_template = gateway_virtual_connection_patch_template_model
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "gateway_id": gateway_id,
             "id": id,
+            "gateway_virtual_connection_patch_template": gateway_virtual_connection_patch_template,
         }
         for param in req_param_dict.keys():
             req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
@@ -4253,247 +5474,6 @@ class TestGetPort:
 # End of Service: Ports
 ##############################################################################
 
-##############################################################################
-# Start of Service: GatewayASPrepends
-##############################################################################
-# region
-
-
-class TestNewInstance:
-    """
-    Test Class for new_instance
-    """
-
-    def test_new_instance(self):
-        """
-        new_instance()
-        """
-        os.environ['TEST_SERVICE_AUTH_TYPE'] = 'noAuth'
-
-        service = DirectLinkV1.new_instance(
-            version=version,
-            service_name='TEST_SERVICE',
-        )
-
-        assert service is not None
-        assert isinstance(service, DirectLinkV1)
-
-    def test_new_instance_without_authenticator(self):
-        """
-        new_instance_without_authenticator()
-        """
-        with pytest.raises(ValueError, match='authenticator must be provided'):
-            service = DirectLinkV1.new_instance(
-                version=version,
-                service_name='TEST_SERVICE_NOT_FOUND',
-            )
-
-    def test_new_instance_without_required_params(self):
-        """
-        new_instance_without_required_params()
-        """
-        with pytest.raises(TypeError, match='new_instance\\(\\) missing \\d required positional arguments?: \'.*\''):
-            service = DirectLinkV1.new_instance()
-
-    def test_new_instance_required_param_none(self):
-        """
-        new_instance_required_param_none()
-        """
-        with pytest.raises(ValueError, match='version must be provided'):
-            service = DirectLinkV1.new_instance(
-                version=None,
-            )
-
-
-class TestListGatewayAsPrepends:
-    """
-    Test Class for list_gateway_as_prepends
-    """
-
-    @responses.activate
-    def test_list_gateway_as_prepends_all_params(self):
-        """
-        list_gateway_as_prepends()
-        """
-        # Set up mock
-        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(
-            responses.GET,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=200,
-        )
-
-        # Set up parameter values
-        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-
-        # Invoke method
-        response = _service.list_gateway_as_prepends(
-            gateway_id,
-            headers={},
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_list_gateway_as_prepends_all_params_with_retries(self):
-        # Enable retries and run test_list_gateway_as_prepends_all_params.
-        _service.enable_retries()
-        self.test_list_gateway_as_prepends_all_params()
-
-        # Disable retries and run test_list_gateway_as_prepends_all_params.
-        _service.disable_retries()
-        self.test_list_gateway_as_prepends_all_params()
-
-    @responses.activate
-    def test_list_gateway_as_prepends_value_error(self):
-        """
-        test_list_gateway_as_prepends_value_error()
-        """
-        # Set up mock
-        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(
-            responses.GET,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=200,
-        )
-
-        # Set up parameter values
-        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "gateway_id": gateway_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.list_gateway_as_prepends(**req_copy)
-
-    def test_list_gateway_as_prepends_value_error_with_retries(self):
-        # Enable retries and run test_list_gateway_as_prepends_value_error.
-        _service.enable_retries()
-        self.test_list_gateway_as_prepends_value_error()
-
-        # Disable retries and run test_list_gateway_as_prepends_value_error.
-        _service.disable_retries()
-        self.test_list_gateway_as_prepends_value_error()
-
-
-class TestReplaceGatewayAsPrepends:
-    """
-    Test Class for replace_gateway_as_prepends
-    """
-
-    @responses.activate
-    def test_replace_gateway_as_prepends_all_params(self):
-        """
-        replace_gateway_as_prepends()
-        """
-        # Set up mock
-        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(
-            responses.PUT,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=201,
-        )
-
-        # Construct a dict representation of a AsPrependPrefixArrayTemplate model
-        as_prepend_prefix_array_template_model = {}
-        as_prepend_prefix_array_template_model['length'] = 4
-        as_prepend_prefix_array_template_model['policy'] = 'import'
-        as_prepend_prefix_array_template_model['specific_prefixes'] = ['192.168.3.0/24']
-
-        # Set up parameter values
-        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        if_match = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"'
-        as_prepends = [as_prepend_prefix_array_template_model]
-
-        # Invoke method
-        response = _service.replace_gateway_as_prepends(
-            gateway_id,
-            if_match,
-            as_prepends=as_prepends,
-            headers={},
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['as_prepends'] == [as_prepend_prefix_array_template_model]
-
-    def test_replace_gateway_as_prepends_all_params_with_retries(self):
-        # Enable retries and run test_replace_gateway_as_prepends_all_params.
-        _service.enable_retries()
-        self.test_replace_gateway_as_prepends_all_params()
-
-        # Disable retries and run test_replace_gateway_as_prepends_all_params.
-        _service.disable_retries()
-        self.test_replace_gateway_as_prepends_all_params()
-
-    @responses.activate
-    def test_replace_gateway_as_prepends_value_error(self):
-        """
-        test_replace_gateway_as_prepends_value_error()
-        """
-        # Set up mock
-        url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(
-            responses.PUT,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=201,
-        )
-
-        # Construct a dict representation of a AsPrependPrefixArrayTemplate model
-        as_prepend_prefix_array_template_model = {}
-        as_prepend_prefix_array_template_model['length'] = 4
-        as_prepend_prefix_array_template_model['policy'] = 'import'
-        as_prepend_prefix_array_template_model['specific_prefixes'] = ['192.168.3.0/24']
-
-        # Set up parameter values
-        gateway_id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        if_match = 'W/"96d225c4-56bd-43d9-98fc-d7148e5c5028"'
-        as_prepends = [as_prepend_prefix_array_template_model]
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "gateway_id": gateway_id,
-            "if_match": if_match,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.replace_gateway_as_prepends(**req_copy)
-
-    def test_replace_gateway_as_prepends_value_error_with_retries(self):
-        # Enable retries and run test_replace_gateway_as_prepends_value_error.
-        _service.enable_retries()
-        self.test_replace_gateway_as_prepends_value_error()
-
-        # Disable retries and run test_replace_gateway_as_prepends_value_error.
-        _service.disable_retries()
-        self.test_replace_gateway_as_prepends_value_error()
-
-
-# endregion
-##############################################################################
-# End of Service: GatewayASPrepends
-##############################################################################
-
 
 ##############################################################################
 # Start of Model Tests
@@ -4677,36 +5657,6 @@ class TestModel_AsPrependTemplate:
         assert as_prepend_template_model_json2 == as_prepend_template_model_json
 
 
-class TestModel_CrossAccountGatewayPort:
-    """
-    Test Class for CrossAccountGatewayPort
-    """
-
-    def test_cross_account_gateway_port_serialization(self):
-        """
-        Test serialization/deserialization for CrossAccountGatewayPort
-        """
-
-        # Construct a json representation of a CrossAccountGatewayPort model
-        cross_account_gateway_port_model_json = {}
-        cross_account_gateway_port_model_json['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
-
-        # Construct a model instance of CrossAccountGatewayPort by calling from_dict on the json representation
-        cross_account_gateway_port_model = CrossAccountGatewayPort.from_dict(cross_account_gateway_port_model_json)
-        assert cross_account_gateway_port_model != False
-
-        # Construct a model instance of CrossAccountGatewayPort by calling from_dict on the json representation
-        cross_account_gateway_port_model_dict = CrossAccountGatewayPort.from_dict(cross_account_gateway_port_model_json).__dict__
-        cross_account_gateway_port_model2 = CrossAccountGatewayPort(**cross_account_gateway_port_model_dict)
-
-        # Verify the model instances are equivalent
-        assert cross_account_gateway_port_model == cross_account_gateway_port_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        cross_account_gateway_port_model_json2 = cross_account_gateway_port_model.to_dict()
-        assert cross_account_gateway_port_model_json2 == cross_account_gateway_port_model_json
-
-
 class TestModel_CrossConnectRouter:
     """
     Test Class for CrossConnectRouter
@@ -4719,7 +5669,7 @@ class TestModel_CrossConnectRouter:
 
         # Construct a json representation of a CrossConnectRouter model
         cross_connect_router_model_json = {}
-        cross_connect_router_model_json['capabilities'] = ['non_macsec', 'macsec']
+        cross_connect_router_model_json['capabilities'] = ['testString']
         cross_connect_router_model_json['router_name'] = 'xcr01.dal03'
         cross_connect_router_model_json['total_connections'] = 1
 
@@ -4802,8 +5752,8 @@ class TestModel_Gateway:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
-        gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -4814,34 +5764,24 @@ class TestModel_Gateway:
         gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
         gateway_change_request_model['type'] = 'create_gateway'
 
-        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
-        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_active_cak_model['status'] = 'testString'
+        gateway_macsec_status_reason_model = {}  # GatewayMacsecStatusReason
+        gateway_macsec_status_reason_model['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
-        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
+        gateway_macsec_reference_model = {}  # GatewayMacsecReference
+        gateway_macsec_reference_model['active'] = True
+        gateway_macsec_reference_model['security_policy'] = 'must_secure'
+        gateway_macsec_reference_model['status'] = 'secured'
+        gateway_macsec_reference_model['status_reasons'] = [gateway_macsec_status_reason_model]
 
-        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
-        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_primary_cak_model['status'] = 'testString'
+        gateway_status_reason_model = {}  # GatewayStatusReason
+        gateway_status_reason_model['code'] = 'authentication_key_failed'
+        gateway_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_model = {}  # GatewayMacsecConfig
-        gateway_macsec_config_model['active'] = True
-        gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
-        gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
-        gateway_macsec_config_model['confidentiality_offset'] = 0
-        gateway_macsec_config_model['cryptographic_algorithm'] = 'aes_256_cmac'
-        gateway_macsec_config_model['fallback_cak'] = gateway_macsec_config_fallback_cak_model
-        gateway_macsec_config_model['key_server_priority'] = 255
-        gateway_macsec_config_model['primary_cak'] = gateway_macsec_config_primary_cak_model
-        gateway_macsec_config_model['sak_expiry_time'] = 3600
-        gateway_macsec_config_model['security_policy'] = 'must_secure'
-        gateway_macsec_config_model['status'] = 'secured'
-        gateway_macsec_config_model['window_size'] = 64
-
-        gateway_port_model = {}  # GatewayPort
-        gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+        gateway_port_reference_model = {}  # GatewayPortReference
+        gateway_port_reference_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
         resource_group_reference_model = {}  # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
@@ -4849,7 +5789,7 @@ class TestModel_Gateway:
         # Construct a json representation of a Gateway model
         gateway_model_json = {}
         gateway_model_json['as_prepends'] = [as_prepend_model]
-        gateway_model_json['authentication_key'] = gateway_authentication_key_model
+        gateway_model_json['authentication_key'] = authentication_key_reference_model
         gateway_model_json['bfd_config'] = gateway_bfd_config_model
         gateway_model_json['bgp_asn'] = 64999
         gateway_model_json['bgp_base_cidr'] = 'testString'
@@ -4875,15 +5815,17 @@ class TestModel_Gateway:
         gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_model_json['location_display_name'] = 'Dallas 03'
         gateway_model_json['location_name'] = 'dal03'
-        gateway_model_json['macsec_config'] = gateway_macsec_config_model
+        gateway_model_json['macsec'] = gateway_macsec_reference_model
+        gateway_model_json['macsec_capability'] = 'non_macsec'
         gateway_model_json['metered'] = False
         gateway_model_json['name'] = 'myGateway'
         gateway_model_json['operational_status'] = 'awaiting_completion_notice'
-        gateway_model_json['port'] = gateway_port_model
+        gateway_model_json['operational_status_reasons'] = [gateway_status_reason_model]
+        gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_model_json['port'] = gateway_port_reference_model
         gateway_model_json['provider_api_managed'] = False
         gateway_model_json['resource_group'] = resource_group_reference_model
         gateway_model_json['speed_mbps'] = 1000
-        gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
         gateway_model_json['type'] = 'dedicated'
         gateway_model_json['vlan'] = 10
 
@@ -4901,66 +5843,6 @@ class TestModel_Gateway:
         # Convert model instance back to dict and verify no loss of data
         gateway_model_json2 = gateway_model.to_dict()
         assert gateway_model_json2 == gateway_model_json
-
-
-class TestModel_GatewayActionTemplateAuthenticationKey:
-    """
-    Test Class for GatewayActionTemplateAuthenticationKey
-    """
-
-    def test_gateway_action_template_authentication_key_serialization(self):
-        """
-        Test serialization/deserialization for GatewayActionTemplateAuthenticationKey
-        """
-
-        # Construct a json representation of a GatewayActionTemplateAuthenticationKey model
-        gateway_action_template_authentication_key_model_json = {}
-        gateway_action_template_authentication_key_model_json['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
-
-        # Construct a model instance of GatewayActionTemplateAuthenticationKey by calling from_dict on the json representation
-        gateway_action_template_authentication_key_model = GatewayActionTemplateAuthenticationKey.from_dict(gateway_action_template_authentication_key_model_json)
-        assert gateway_action_template_authentication_key_model != False
-
-        # Construct a model instance of GatewayActionTemplateAuthenticationKey by calling from_dict on the json representation
-        gateway_action_template_authentication_key_model_dict = GatewayActionTemplateAuthenticationKey.from_dict(gateway_action_template_authentication_key_model_json).__dict__
-        gateway_action_template_authentication_key_model2 = GatewayActionTemplateAuthenticationKey(**gateway_action_template_authentication_key_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_action_template_authentication_key_model == gateway_action_template_authentication_key_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_action_template_authentication_key_model_json2 = gateway_action_template_authentication_key_model.to_dict()
-        assert gateway_action_template_authentication_key_model_json2 == gateway_action_template_authentication_key_model_json
-
-
-class TestModel_GatewayAuthenticationKey:
-    """
-    Test Class for GatewayAuthenticationKey
-    """
-
-    def test_gateway_authentication_key_serialization(self):
-        """
-        Test serialization/deserialization for GatewayAuthenticationKey
-        """
-
-        # Construct a json representation of a GatewayAuthenticationKey model
-        gateway_authentication_key_model_json = {}
-        gateway_authentication_key_model_json['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
-
-        # Construct a model instance of GatewayAuthenticationKey by calling from_dict on the json representation
-        gateway_authentication_key_model = GatewayAuthenticationKey.from_dict(gateway_authentication_key_model_json)
-        assert gateway_authentication_key_model != False
-
-        # Construct a model instance of GatewayAuthenticationKey by calling from_dict on the json representation
-        gateway_authentication_key_model_dict = GatewayAuthenticationKey.from_dict(gateway_authentication_key_model_json).__dict__
-        gateway_authentication_key_model2 = GatewayAuthenticationKey(**gateway_authentication_key_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_authentication_key_model == gateway_authentication_key_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_authentication_key_model_json2 = gateway_authentication_key_model.to_dict()
-        assert gateway_authentication_key_model_json2 == gateway_authentication_key_model_json
 
 
 class TestModel_GatewayBfdConfig:
@@ -5110,8 +5992,8 @@ class TestModel_GatewayCollection:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
-        gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -5122,41 +6004,31 @@ class TestModel_GatewayCollection:
         gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
         gateway_change_request_model['type'] = 'create_gateway'
 
-        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
-        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_active_cak_model['status'] = 'testString'
+        gateway_macsec_status_reason_model = {}  # GatewayMacsecStatusReason
+        gateway_macsec_status_reason_model['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
-        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
+        gateway_macsec_reference_model = {}  # GatewayMacsecReference
+        gateway_macsec_reference_model['active'] = True
+        gateway_macsec_reference_model['security_policy'] = 'must_secure'
+        gateway_macsec_reference_model['status'] = 'secured'
+        gateway_macsec_reference_model['status_reasons'] = [gateway_macsec_status_reason_model]
 
-        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
-        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_primary_cak_model['status'] = 'testString'
+        gateway_status_reason_model = {}  # GatewayStatusReason
+        gateway_status_reason_model['code'] = 'authentication_key_failed'
+        gateway_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_model = {}  # GatewayMacsecConfig
-        gateway_macsec_config_model['active'] = True
-        gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
-        gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
-        gateway_macsec_config_model['confidentiality_offset'] = 0
-        gateway_macsec_config_model['cryptographic_algorithm'] = 'aes_256_cmac'
-        gateway_macsec_config_model['fallback_cak'] = gateway_macsec_config_fallback_cak_model
-        gateway_macsec_config_model['key_server_priority'] = 255
-        gateway_macsec_config_model['primary_cak'] = gateway_macsec_config_primary_cak_model
-        gateway_macsec_config_model['sak_expiry_time'] = 3600
-        gateway_macsec_config_model['security_policy'] = 'must_secure'
-        gateway_macsec_config_model['status'] = 'secured'
-        gateway_macsec_config_model['window_size'] = 64
-
-        gateway_port_model = {}  # GatewayPort
-        gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+        gateway_port_reference_model = {}  # GatewayPortReference
+        gateway_port_reference_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
         resource_group_reference_model = {}  # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
         gateway_collection_gateways_item_model = {}  # GatewayCollectionGatewaysItemGateway
         gateway_collection_gateways_item_model['as_prepends'] = [as_prepend_model]
-        gateway_collection_gateways_item_model['authentication_key'] = gateway_authentication_key_model
+        gateway_collection_gateways_item_model['authentication_key'] = authentication_key_reference_model
         gateway_collection_gateways_item_model['bfd_config'] = gateway_bfd_config_model
         gateway_collection_gateways_item_model['bgp_asn'] = 64999
         gateway_collection_gateways_item_model['bgp_base_cidr'] = 'testString'
@@ -5182,15 +6054,17 @@ class TestModel_GatewayCollection:
         gateway_collection_gateways_item_model['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_collection_gateways_item_model['location_display_name'] = 'Dallas 03'
         gateway_collection_gateways_item_model['location_name'] = 'dal03'
-        gateway_collection_gateways_item_model['macsec_config'] = gateway_macsec_config_model
+        gateway_collection_gateways_item_model['macsec'] = gateway_macsec_reference_model
+        gateway_collection_gateways_item_model['macsec_capability'] = 'non_macsec'
         gateway_collection_gateways_item_model['metered'] = False
         gateway_collection_gateways_item_model['name'] = 'myGateway'
         gateway_collection_gateways_item_model['operational_status'] = 'awaiting_completion_notice'
-        gateway_collection_gateways_item_model['port'] = gateway_port_model
+        gateway_collection_gateways_item_model['operational_status_reasons'] = [gateway_status_reason_model]
+        gateway_collection_gateways_item_model['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_collection_gateways_item_model['port'] = gateway_port_reference_model
         gateway_collection_gateways_item_model['provider_api_managed'] = False
         gateway_collection_gateways_item_model['resource_group'] = resource_group_reference_model
         gateway_collection_gateways_item_model['speed_mbps'] = 1000
-        gateway_collection_gateways_item_model['patch_panel_completion_notice'] = 'patch panel configuration details'
         gateway_collection_gateways_item_model['type'] = 'dedicated'
         gateway_collection_gateways_item_model['vlan'] = 10
 
@@ -5214,354 +6088,421 @@ class TestModel_GatewayCollection:
         assert gateway_collection_model_json2 == gateway_collection_model_json
 
 
-class TestModel_GatewayMacsecConfig:
+class TestModel_GatewayMacsec:
     """
-    Test Class for GatewayMacsecConfig
+    Test Class for GatewayMacsec
     """
 
-    def test_gateway_macsec_config_serialization(self):
+    def test_gateway_macsec_serialization(self):
         """
-        Test serialization/deserialization for GatewayMacsecConfig
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
-        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_active_cak_model['status'] = 'testString'
-
-        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
-        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
-
-        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
-        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_primary_cak_model['status'] = 'testString'
-
-        # Construct a json representation of a GatewayMacsecConfig model
-        gateway_macsec_config_model_json = {}
-        gateway_macsec_config_model_json['active'] = True
-        gateway_macsec_config_model_json['active_cak'] = gateway_macsec_config_active_cak_model
-        gateway_macsec_config_model_json['cipher_suite'] = 'gcm_aes_xpn_256'
-        gateway_macsec_config_model_json['confidentiality_offset'] = 0
-        gateway_macsec_config_model_json['cryptographic_algorithm'] = 'aes_256_cmac'
-        gateway_macsec_config_model_json['fallback_cak'] = gateway_macsec_config_fallback_cak_model
-        gateway_macsec_config_model_json['key_server_priority'] = 255
-        gateway_macsec_config_model_json['primary_cak'] = gateway_macsec_config_primary_cak_model
-        gateway_macsec_config_model_json['sak_expiry_time'] = 3600
-        gateway_macsec_config_model_json['security_policy'] = 'must_secure'
-        gateway_macsec_config_model_json['status'] = 'secured'
-        gateway_macsec_config_model_json['window_size'] = 64
-
-        # Construct a model instance of GatewayMacsecConfig by calling from_dict on the json representation
-        gateway_macsec_config_model = GatewayMacsecConfig.from_dict(gateway_macsec_config_model_json)
-        assert gateway_macsec_config_model != False
-
-        # Construct a model instance of GatewayMacsecConfig by calling from_dict on the json representation
-        gateway_macsec_config_model_dict = GatewayMacsecConfig.from_dict(gateway_macsec_config_model_json).__dict__
-        gateway_macsec_config_model2 = GatewayMacsecConfig(**gateway_macsec_config_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_model == gateway_macsec_config_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_model_json2 = gateway_macsec_config_model.to_dict()
-        assert gateway_macsec_config_model_json2 == gateway_macsec_config_model_json
-
-
-class TestModel_GatewayMacsecConfigActiveCak:
-    """
-    Test Class for GatewayMacsecConfigActiveCak
-    """
-
-    def test_gateway_macsec_config_active_cak_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigActiveCak
-        """
-
-        # Construct a json representation of a GatewayMacsecConfigActiveCak model
-        gateway_macsec_config_active_cak_model_json = {}
-        gateway_macsec_config_active_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_active_cak_model_json['status'] = 'testString'
-
-        # Construct a model instance of GatewayMacsecConfigActiveCak by calling from_dict on the json representation
-        gateway_macsec_config_active_cak_model = GatewayMacsecConfigActiveCak.from_dict(gateway_macsec_config_active_cak_model_json)
-        assert gateway_macsec_config_active_cak_model != False
-
-        # Construct a model instance of GatewayMacsecConfigActiveCak by calling from_dict on the json representation
-        gateway_macsec_config_active_cak_model_dict = GatewayMacsecConfigActiveCak.from_dict(gateway_macsec_config_active_cak_model_json).__dict__
-        gateway_macsec_config_active_cak_model2 = GatewayMacsecConfigActiveCak(**gateway_macsec_config_active_cak_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_active_cak_model == gateway_macsec_config_active_cak_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_active_cak_model_json2 = gateway_macsec_config_active_cak_model.to_dict()
-        assert gateway_macsec_config_active_cak_model_json2 == gateway_macsec_config_active_cak_model_json
-
-
-class TestModel_GatewayMacsecConfigFallbackCak:
-    """
-    Test Class for GatewayMacsecConfigFallbackCak
-    """
-
-    def test_gateway_macsec_config_fallback_cak_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigFallbackCak
-        """
-
-        # Construct a json representation of a GatewayMacsecConfigFallbackCak model
-        gateway_macsec_config_fallback_cak_model_json = {}
-        gateway_macsec_config_fallback_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_fallback_cak_model_json['status'] = 'testString'
-
-        # Construct a model instance of GatewayMacsecConfigFallbackCak by calling from_dict on the json representation
-        gateway_macsec_config_fallback_cak_model = GatewayMacsecConfigFallbackCak.from_dict(gateway_macsec_config_fallback_cak_model_json)
-        assert gateway_macsec_config_fallback_cak_model != False
-
-        # Construct a model instance of GatewayMacsecConfigFallbackCak by calling from_dict on the json representation
-        gateway_macsec_config_fallback_cak_model_dict = GatewayMacsecConfigFallbackCak.from_dict(gateway_macsec_config_fallback_cak_model_json).__dict__
-        gateway_macsec_config_fallback_cak_model2 = GatewayMacsecConfigFallbackCak(**gateway_macsec_config_fallback_cak_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_fallback_cak_model == gateway_macsec_config_fallback_cak_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_fallback_cak_model_json2 = gateway_macsec_config_fallback_cak_model.to_dict()
-        assert gateway_macsec_config_fallback_cak_model_json2 == gateway_macsec_config_fallback_cak_model_json
-
-
-class TestModel_GatewayMacsecConfigPatchTemplate:
-    """
-    Test Class for GatewayMacsecConfigPatchTemplate
-    """
-
-    def test_gateway_macsec_config_patch_template_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigPatchTemplate
+        Test serialization/deserialization for GatewayMacsec
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_macsec_config_patch_template_fallback_cak_model = {}  # GatewayMacsecConfigPatchTemplateFallbackCak
-        gateway_macsec_config_patch_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        sak_rekey_model = {}  # SakRekeyTimerMode
+        sak_rekey_model['interval'] = 3600
+        sak_rekey_model['mode'] = 'timer'
 
-        gateway_macsec_config_patch_template_primary_cak_model = {}  # GatewayMacsecConfigPatchTemplatePrimaryCak
-        gateway_macsec_config_patch_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_status_reason_model = {}  # GatewayMacsecStatusReason
+        gateway_macsec_status_reason_model['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        # Construct a json representation of a GatewayMacsecConfigPatchTemplate model
-        gateway_macsec_config_patch_template_model_json = {}
-        gateway_macsec_config_patch_template_model_json['active'] = True
-        gateway_macsec_config_patch_template_model_json['fallback_cak'] = gateway_macsec_config_patch_template_fallback_cak_model
-        gateway_macsec_config_patch_template_model_json['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
-        gateway_macsec_config_patch_template_model_json['window_size'] = 512
+        # Construct a json representation of a GatewayMacsec model
+        gateway_macsec_model_json = {}
+        gateway_macsec_model_json['active'] = True
+        gateway_macsec_model_json['cipher_suite'] = 'gcm_aes_xpn_256'
+        gateway_macsec_model_json['confidentiality_offset'] = 0
+        gateway_macsec_model_json['created_at'] = '2020-11-02T20:40:29.622000Z'
+        gateway_macsec_model_json['key_server_priority'] = 255
+        gateway_macsec_model_json['sak_rekey'] = sak_rekey_model
+        gateway_macsec_model_json['security_policy'] = 'must_secure'
+        gateway_macsec_model_json['status'] = 'secured'
+        gateway_macsec_model_json['status_reasons'] = [gateway_macsec_status_reason_model]
+        gateway_macsec_model_json['updated_at'] = '2020-11-02T20:40:29.622000Z'
+        gateway_macsec_model_json['window_size'] = 512
 
-        # Construct a model instance of GatewayMacsecConfigPatchTemplate by calling from_dict on the json representation
-        gateway_macsec_config_patch_template_model = GatewayMacsecConfigPatchTemplate.from_dict(gateway_macsec_config_patch_template_model_json)
-        assert gateway_macsec_config_patch_template_model != False
+        # Construct a model instance of GatewayMacsec by calling from_dict on the json representation
+        gateway_macsec_model = GatewayMacsec.from_dict(gateway_macsec_model_json)
+        assert gateway_macsec_model != False
 
-        # Construct a model instance of GatewayMacsecConfigPatchTemplate by calling from_dict on the json representation
-        gateway_macsec_config_patch_template_model_dict = GatewayMacsecConfigPatchTemplate.from_dict(gateway_macsec_config_patch_template_model_json).__dict__
-        gateway_macsec_config_patch_template_model2 = GatewayMacsecConfigPatchTemplate(**gateway_macsec_config_patch_template_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_patch_template_model == gateway_macsec_config_patch_template_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_patch_template_model_json2 = gateway_macsec_config_patch_template_model.to_dict()
-        assert gateway_macsec_config_patch_template_model_json2 == gateway_macsec_config_patch_template_model_json
-
-
-class TestModel_GatewayMacsecConfigPatchTemplateFallbackCak:
-    """
-    Test Class for GatewayMacsecConfigPatchTemplateFallbackCak
-    """
-
-    def test_gateway_macsec_config_patch_template_fallback_cak_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigPatchTemplateFallbackCak
-        """
-
-        # Construct a json representation of a GatewayMacsecConfigPatchTemplateFallbackCak model
-        gateway_macsec_config_patch_template_fallback_cak_model_json = {}
-        gateway_macsec_config_patch_template_fallback_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a model instance of GatewayMacsecConfigPatchTemplateFallbackCak by calling from_dict on the json representation
-        gateway_macsec_config_patch_template_fallback_cak_model = GatewayMacsecConfigPatchTemplateFallbackCak.from_dict(gateway_macsec_config_patch_template_fallback_cak_model_json)
-        assert gateway_macsec_config_patch_template_fallback_cak_model != False
-
-        # Construct a model instance of GatewayMacsecConfigPatchTemplateFallbackCak by calling from_dict on the json representation
-        gateway_macsec_config_patch_template_fallback_cak_model_dict = GatewayMacsecConfigPatchTemplateFallbackCak.from_dict(gateway_macsec_config_patch_template_fallback_cak_model_json).__dict__
-        gateway_macsec_config_patch_template_fallback_cak_model2 = GatewayMacsecConfigPatchTemplateFallbackCak(**gateway_macsec_config_patch_template_fallback_cak_model_dict)
+        # Construct a model instance of GatewayMacsec by calling from_dict on the json representation
+        gateway_macsec_model_dict = GatewayMacsec.from_dict(gateway_macsec_model_json).__dict__
+        gateway_macsec_model2 = GatewayMacsec(**gateway_macsec_model_dict)
 
         # Verify the model instances are equivalent
-        assert gateway_macsec_config_patch_template_fallback_cak_model == gateway_macsec_config_patch_template_fallback_cak_model2
+        assert gateway_macsec_model == gateway_macsec_model2
 
         # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_patch_template_fallback_cak_model_json2 = gateway_macsec_config_patch_template_fallback_cak_model.to_dict()
-        assert gateway_macsec_config_patch_template_fallback_cak_model_json2 == gateway_macsec_config_patch_template_fallback_cak_model_json
+        gateway_macsec_model_json2 = gateway_macsec_model.to_dict()
+        assert gateway_macsec_model_json2 == gateway_macsec_model_json
 
 
-class TestModel_GatewayMacsecConfigPatchTemplatePrimaryCak:
+class TestModel_GatewayMacsecCak:
     """
-    Test Class for GatewayMacsecConfigPatchTemplatePrimaryCak
+    Test Class for GatewayMacsecCak
     """
 
-    def test_gateway_macsec_config_patch_template_primary_cak_serialization(self):
+    def test_gateway_macsec_cak_serialization(self):
         """
-        Test serialization/deserialization for GatewayMacsecConfigPatchTemplatePrimaryCak
-        """
-
-        # Construct a json representation of a GatewayMacsecConfigPatchTemplatePrimaryCak model
-        gateway_macsec_config_patch_template_primary_cak_model_json = {}
-        gateway_macsec_config_patch_template_primary_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a model instance of GatewayMacsecConfigPatchTemplatePrimaryCak by calling from_dict on the json representation
-        gateway_macsec_config_patch_template_primary_cak_model = GatewayMacsecConfigPatchTemplatePrimaryCak.from_dict(gateway_macsec_config_patch_template_primary_cak_model_json)
-        assert gateway_macsec_config_patch_template_primary_cak_model != False
-
-        # Construct a model instance of GatewayMacsecConfigPatchTemplatePrimaryCak by calling from_dict on the json representation
-        gateway_macsec_config_patch_template_primary_cak_model_dict = GatewayMacsecConfigPatchTemplatePrimaryCak.from_dict(gateway_macsec_config_patch_template_primary_cak_model_json).__dict__
-        gateway_macsec_config_patch_template_primary_cak_model2 = GatewayMacsecConfigPatchTemplatePrimaryCak(**gateway_macsec_config_patch_template_primary_cak_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_patch_template_primary_cak_model == gateway_macsec_config_patch_template_primary_cak_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_patch_template_primary_cak_model_json2 = gateway_macsec_config_patch_template_primary_cak_model.to_dict()
-        assert gateway_macsec_config_patch_template_primary_cak_model_json2 == gateway_macsec_config_patch_template_primary_cak_model_json
-
-
-class TestModel_GatewayMacsecConfigPrimaryCak:
-    """
-    Test Class for GatewayMacsecConfigPrimaryCak
-    """
-
-    def test_gateway_macsec_config_primary_cak_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigPrimaryCak
-        """
-
-        # Construct a json representation of a GatewayMacsecConfigPrimaryCak model
-        gateway_macsec_config_primary_cak_model_json = {}
-        gateway_macsec_config_primary_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_primary_cak_model_json['status'] = 'testString'
-
-        # Construct a model instance of GatewayMacsecConfigPrimaryCak by calling from_dict on the json representation
-        gateway_macsec_config_primary_cak_model = GatewayMacsecConfigPrimaryCak.from_dict(gateway_macsec_config_primary_cak_model_json)
-        assert gateway_macsec_config_primary_cak_model != False
-
-        # Construct a model instance of GatewayMacsecConfigPrimaryCak by calling from_dict on the json representation
-        gateway_macsec_config_primary_cak_model_dict = GatewayMacsecConfigPrimaryCak.from_dict(gateway_macsec_config_primary_cak_model_json).__dict__
-        gateway_macsec_config_primary_cak_model2 = GatewayMacsecConfigPrimaryCak(**gateway_macsec_config_primary_cak_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_primary_cak_model == gateway_macsec_config_primary_cak_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_primary_cak_model_json2 = gateway_macsec_config_primary_cak_model.to_dict()
-        assert gateway_macsec_config_primary_cak_model_json2 == gateway_macsec_config_primary_cak_model_json
-
-
-class TestModel_GatewayMacsecConfigTemplate:
-    """
-    Test Class for GatewayMacsecConfigTemplate
-    """
-
-    def test_gateway_macsec_config_template_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigTemplate
+        Test serialization/deserialization for GatewayMacsecCak
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_macsec_config_template_fallback_cak_model = {}  # GatewayMacsecConfigTemplateFallbackCak
-        gateway_macsec_config_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        hpcs_key_reference_model = {}  # HpcsKeyReference
+        hpcs_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        gateway_macsec_config_template_primary_cak_model = {}  # GatewayMacsecConfigTemplatePrimaryCak
-        gateway_macsec_config_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_active_delta_model = {}  # GatewayMacsecCakActiveDelta
+        gateway_macsec_cak_active_delta_model['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_active_delta_model['name'] = '1000'
+        gateway_macsec_cak_active_delta_model['status'] = 'active'
 
-        # Construct a json representation of a GatewayMacsecConfigTemplate model
-        gateway_macsec_config_template_model_json = {}
-        gateway_macsec_config_template_model_json['active'] = True
-        gateway_macsec_config_template_model_json['fallback_cak'] = gateway_macsec_config_template_fallback_cak_model
-        gateway_macsec_config_template_model_json['primary_cak'] = gateway_macsec_config_template_primary_cak_model
-        gateway_macsec_config_template_model_json['window_size'] = 148809600
+        # Construct a json representation of a GatewayMacsecCak model
+        gateway_macsec_cak_model_json = {}
+        gateway_macsec_cak_model_json['active_delta'] = gateway_macsec_cak_active_delta_model
+        gateway_macsec_cak_model_json['created_at'] = '2020-11-02T20:40:29.622000Z'
+        gateway_macsec_cak_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_macsec_cak_model_json['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_model_json['name'] = '1000'
+        gateway_macsec_cak_model_json['session'] = 'primary'
+        gateway_macsec_cak_model_json['status'] = 'active'
+        gateway_macsec_cak_model_json['updated_at'] = '2020-11-02T20:40:29.622000Z'
 
-        # Construct a model instance of GatewayMacsecConfigTemplate by calling from_dict on the json representation
-        gateway_macsec_config_template_model = GatewayMacsecConfigTemplate.from_dict(gateway_macsec_config_template_model_json)
-        assert gateway_macsec_config_template_model != False
+        # Construct a model instance of GatewayMacsecCak by calling from_dict on the json representation
+        gateway_macsec_cak_model = GatewayMacsecCak.from_dict(gateway_macsec_cak_model_json)
+        assert gateway_macsec_cak_model != False
 
-        # Construct a model instance of GatewayMacsecConfigTemplate by calling from_dict on the json representation
-        gateway_macsec_config_template_model_dict = GatewayMacsecConfigTemplate.from_dict(gateway_macsec_config_template_model_json).__dict__
-        gateway_macsec_config_template_model2 = GatewayMacsecConfigTemplate(**gateway_macsec_config_template_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_macsec_config_template_model == gateway_macsec_config_template_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_template_model_json2 = gateway_macsec_config_template_model.to_dict()
-        assert gateway_macsec_config_template_model_json2 == gateway_macsec_config_template_model_json
-
-
-class TestModel_GatewayMacsecConfigTemplateFallbackCak:
-    """
-    Test Class for GatewayMacsecConfigTemplateFallbackCak
-    """
-
-    def test_gateway_macsec_config_template_fallback_cak_serialization(self):
-        """
-        Test serialization/deserialization for GatewayMacsecConfigTemplateFallbackCak
-        """
-
-        # Construct a json representation of a GatewayMacsecConfigTemplateFallbackCak model
-        gateway_macsec_config_template_fallback_cak_model_json = {}
-        gateway_macsec_config_template_fallback_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a model instance of GatewayMacsecConfigTemplateFallbackCak by calling from_dict on the json representation
-        gateway_macsec_config_template_fallback_cak_model = GatewayMacsecConfigTemplateFallbackCak.from_dict(gateway_macsec_config_template_fallback_cak_model_json)
-        assert gateway_macsec_config_template_fallback_cak_model != False
-
-        # Construct a model instance of GatewayMacsecConfigTemplateFallbackCak by calling from_dict on the json representation
-        gateway_macsec_config_template_fallback_cak_model_dict = GatewayMacsecConfigTemplateFallbackCak.from_dict(gateway_macsec_config_template_fallback_cak_model_json).__dict__
-        gateway_macsec_config_template_fallback_cak_model2 = GatewayMacsecConfigTemplateFallbackCak(**gateway_macsec_config_template_fallback_cak_model_dict)
+        # Construct a model instance of GatewayMacsecCak by calling from_dict on the json representation
+        gateway_macsec_cak_model_dict = GatewayMacsecCak.from_dict(gateway_macsec_cak_model_json).__dict__
+        gateway_macsec_cak_model2 = GatewayMacsecCak(**gateway_macsec_cak_model_dict)
 
         # Verify the model instances are equivalent
-        assert gateway_macsec_config_template_fallback_cak_model == gateway_macsec_config_template_fallback_cak_model2
+        assert gateway_macsec_cak_model == gateway_macsec_cak_model2
 
         # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_template_fallback_cak_model_json2 = gateway_macsec_config_template_fallback_cak_model.to_dict()
-        assert gateway_macsec_config_template_fallback_cak_model_json2 == gateway_macsec_config_template_fallback_cak_model_json
+        gateway_macsec_cak_model_json2 = gateway_macsec_cak_model.to_dict()
+        assert gateway_macsec_cak_model_json2 == gateway_macsec_cak_model_json
 
 
-class TestModel_GatewayMacsecConfigTemplatePrimaryCak:
+class TestModel_GatewayMacsecCakActiveDelta:
     """
-    Test Class for GatewayMacsecConfigTemplatePrimaryCak
+    Test Class for GatewayMacsecCakActiveDelta
     """
 
-    def test_gateway_macsec_config_template_primary_cak_serialization(self):
+    def test_gateway_macsec_cak_active_delta_serialization(self):
         """
-        Test serialization/deserialization for GatewayMacsecConfigTemplatePrimaryCak
+        Test serialization/deserialization for GatewayMacsecCakActiveDelta
         """
 
-        # Construct a json representation of a GatewayMacsecConfigTemplatePrimaryCak model
-        gateway_macsec_config_template_primary_cak_model_json = {}
-        gateway_macsec_config_template_primary_cak_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct dict forms of any model objects needed in order to build this model.
 
-        # Construct a model instance of GatewayMacsecConfigTemplatePrimaryCak by calling from_dict on the json representation
-        gateway_macsec_config_template_primary_cak_model = GatewayMacsecConfigTemplatePrimaryCak.from_dict(gateway_macsec_config_template_primary_cak_model_json)
-        assert gateway_macsec_config_template_primary_cak_model != False
+        hpcs_key_reference_model = {}  # HpcsKeyReference
+        hpcs_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        # Construct a model instance of GatewayMacsecConfigTemplatePrimaryCak by calling from_dict on the json representation
-        gateway_macsec_config_template_primary_cak_model_dict = GatewayMacsecConfigTemplatePrimaryCak.from_dict(gateway_macsec_config_template_primary_cak_model_json).__dict__
-        gateway_macsec_config_template_primary_cak_model2 = GatewayMacsecConfigTemplatePrimaryCak(**gateway_macsec_config_template_primary_cak_model_dict)
+        # Construct a json representation of a GatewayMacsecCakActiveDelta model
+        gateway_macsec_cak_active_delta_model_json = {}
+        gateway_macsec_cak_active_delta_model_json['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_active_delta_model_json['name'] = '1000'
+        gateway_macsec_cak_active_delta_model_json['status'] = 'active'
+
+        # Construct a model instance of GatewayMacsecCakActiveDelta by calling from_dict on the json representation
+        gateway_macsec_cak_active_delta_model = GatewayMacsecCakActiveDelta.from_dict(gateway_macsec_cak_active_delta_model_json)
+        assert gateway_macsec_cak_active_delta_model != False
+
+        # Construct a model instance of GatewayMacsecCakActiveDelta by calling from_dict on the json representation
+        gateway_macsec_cak_active_delta_model_dict = GatewayMacsecCakActiveDelta.from_dict(gateway_macsec_cak_active_delta_model_json).__dict__
+        gateway_macsec_cak_active_delta_model2 = GatewayMacsecCakActiveDelta(**gateway_macsec_cak_active_delta_model_dict)
 
         # Verify the model instances are equivalent
-        assert gateway_macsec_config_template_primary_cak_model == gateway_macsec_config_template_primary_cak_model2
+        assert gateway_macsec_cak_active_delta_model == gateway_macsec_cak_active_delta_model2
 
         # Convert model instance back to dict and verify no loss of data
-        gateway_macsec_config_template_primary_cak_model_json2 = gateway_macsec_config_template_primary_cak_model.to_dict()
-        assert gateway_macsec_config_template_primary_cak_model_json2 == gateway_macsec_config_template_primary_cak_model_json
+        gateway_macsec_cak_active_delta_model_json2 = gateway_macsec_cak_active_delta_model.to_dict()
+        assert gateway_macsec_cak_active_delta_model_json2 == gateway_macsec_cak_active_delta_model_json
+
+
+class TestModel_GatewayMacsecCakCollection:
+    """
+    Test Class for GatewayMacsecCakCollection
+    """
+
+    def test_gateway_macsec_cak_collection_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecCakCollection
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        hpcs_key_reference_model = {}  # HpcsKeyReference
+        hpcs_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        gateway_macsec_cak_active_delta_model = {}  # GatewayMacsecCakActiveDelta
+        gateway_macsec_cak_active_delta_model['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_active_delta_model['name'] = '1000'
+        gateway_macsec_cak_active_delta_model['status'] = 'active'
+
+        gateway_macsec_cak_model = {}  # GatewayMacsecCak
+        gateway_macsec_cak_model['active_delta'] = gateway_macsec_cak_active_delta_model
+        gateway_macsec_cak_model['created_at'] = '2020-11-02T20:40:29.622000Z'
+        gateway_macsec_cak_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
+        gateway_macsec_cak_model['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_model['name'] = '1000'
+        gateway_macsec_cak_model['session'] = 'primary'
+        gateway_macsec_cak_model['status'] = 'active'
+        gateway_macsec_cak_model['updated_at'] = '2020-11-02T20:40:29.622000Z'
+
+        # Construct a json representation of a GatewayMacsecCakCollection model
+        gateway_macsec_cak_collection_model_json = {}
+        gateway_macsec_cak_collection_model_json['caks'] = [gateway_macsec_cak_model]
+
+        # Construct a model instance of GatewayMacsecCakCollection by calling from_dict on the json representation
+        gateway_macsec_cak_collection_model = GatewayMacsecCakCollection.from_dict(gateway_macsec_cak_collection_model_json)
+        assert gateway_macsec_cak_collection_model != False
+
+        # Construct a model instance of GatewayMacsecCakCollection by calling from_dict on the json representation
+        gateway_macsec_cak_collection_model_dict = GatewayMacsecCakCollection.from_dict(gateway_macsec_cak_collection_model_json).__dict__
+        gateway_macsec_cak_collection_model2 = GatewayMacsecCakCollection(**gateway_macsec_cak_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_cak_collection_model == gateway_macsec_cak_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_cak_collection_model_json2 = gateway_macsec_cak_collection_model.to_dict()
+        assert gateway_macsec_cak_collection_model_json2 == gateway_macsec_cak_collection_model_json
+
+
+class TestModel_GatewayMacsecCakPatch:
+    """
+    Test Class for GatewayMacsecCakPatch
+    """
+
+    def test_gateway_macsec_cak_patch_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecCakPatch
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        hpcs_key_identity_model = {}  # HpcsKeyIdentity
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a json representation of a GatewayMacsecCakPatch model
+        gateway_macsec_cak_patch_model_json = {}
+        gateway_macsec_cak_patch_model_json['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_patch_model_json['name'] = '1000'
+
+        # Construct a model instance of GatewayMacsecCakPatch by calling from_dict on the json representation
+        gateway_macsec_cak_patch_model = GatewayMacsecCakPatch.from_dict(gateway_macsec_cak_patch_model_json)
+        assert gateway_macsec_cak_patch_model != False
+
+        # Construct a model instance of GatewayMacsecCakPatch by calling from_dict on the json representation
+        gateway_macsec_cak_patch_model_dict = GatewayMacsecCakPatch.from_dict(gateway_macsec_cak_patch_model_json).__dict__
+        gateway_macsec_cak_patch_model2 = GatewayMacsecCakPatch(**gateway_macsec_cak_patch_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_cak_patch_model == gateway_macsec_cak_patch_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_cak_patch_model_json2 = gateway_macsec_cak_patch_model.to_dict()
+        assert gateway_macsec_cak_patch_model_json2 == gateway_macsec_cak_patch_model_json
+
+
+class TestModel_GatewayMacsecCakPrototype:
+    """
+    Test Class for GatewayMacsecCakPrototype
+    """
+
+    def test_gateway_macsec_cak_prototype_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecCakPrototype
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        hpcs_key_identity_model = {}  # HpcsKeyIdentity
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a json representation of a GatewayMacsecCakPrototype model
+        gateway_macsec_cak_prototype_model_json = {}
+        gateway_macsec_cak_prototype_model_json['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model_json['name'] = '1000'
+        gateway_macsec_cak_prototype_model_json['session'] = 'primary'
+
+        # Construct a model instance of GatewayMacsecCakPrototype by calling from_dict on the json representation
+        gateway_macsec_cak_prototype_model = GatewayMacsecCakPrototype.from_dict(gateway_macsec_cak_prototype_model_json)
+        assert gateway_macsec_cak_prototype_model != False
+
+        # Construct a model instance of GatewayMacsecCakPrototype by calling from_dict on the json representation
+        gateway_macsec_cak_prototype_model_dict = GatewayMacsecCakPrototype.from_dict(gateway_macsec_cak_prototype_model_json).__dict__
+        gateway_macsec_cak_prototype_model2 = GatewayMacsecCakPrototype(**gateway_macsec_cak_prototype_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_cak_prototype_model == gateway_macsec_cak_prototype_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_cak_prototype_model_json2 = gateway_macsec_cak_prototype_model.to_dict()
+        assert gateway_macsec_cak_prototype_model_json2 == gateway_macsec_cak_prototype_model_json
+
+
+class TestModel_GatewayMacsecPatch:
+    """
+    Test Class for GatewayMacsecPatch
+    """
+
+    def test_gateway_macsec_patch_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecPatch
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        sak_rekey_patch_model = {}  # SakRekeyPatchSakRekeyTimerModePatch
+        sak_rekey_patch_model['interval'] = 3600
+        sak_rekey_patch_model['mode'] = 'timer'
+
+        # Construct a json representation of a GatewayMacsecPatch model
+        gateway_macsec_patch_model_json = {}
+        gateway_macsec_patch_model_json['active'] = True
+        gateway_macsec_patch_model_json['sak_rekey'] = sak_rekey_patch_model
+        gateway_macsec_patch_model_json['security_policy'] = 'must_secure'
+        gateway_macsec_patch_model_json['window_size'] = 64
+
+        # Construct a model instance of GatewayMacsecPatch by calling from_dict on the json representation
+        gateway_macsec_patch_model = GatewayMacsecPatch.from_dict(gateway_macsec_patch_model_json)
+        assert gateway_macsec_patch_model != False
+
+        # Construct a model instance of GatewayMacsecPatch by calling from_dict on the json representation
+        gateway_macsec_patch_model_dict = GatewayMacsecPatch.from_dict(gateway_macsec_patch_model_json).__dict__
+        gateway_macsec_patch_model2 = GatewayMacsecPatch(**gateway_macsec_patch_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_patch_model == gateway_macsec_patch_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_patch_model_json2 = gateway_macsec_patch_model.to_dict()
+        assert gateway_macsec_patch_model_json2 == gateway_macsec_patch_model_json
+
+
+class TestModel_GatewayMacsecPrototype:
+    """
+    Test Class for GatewayMacsecPrototype
+    """
+
+    def test_gateway_macsec_prototype_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecPrototype
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        hpcs_key_identity_model = {}  # HpcsKeyIdentity
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        gateway_macsec_cak_prototype_model = {}  # GatewayMacsecCakPrototype
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
+
+        sak_rekey_prototype_model = {}  # SakRekeyPrototypeSakRekeyTimerModePrototype
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        # Construct a json representation of a GatewayMacsecPrototype model
+        gateway_macsec_prototype_model_json = {}
+        gateway_macsec_prototype_model_json['active'] = True
+        gateway_macsec_prototype_model_json['caks'] = [gateway_macsec_cak_prototype_model]
+        gateway_macsec_prototype_model_json['sak_rekey'] = sak_rekey_prototype_model
+        gateway_macsec_prototype_model_json['security_policy'] = 'must_secure'
+        gateway_macsec_prototype_model_json['window_size'] = 64
+
+        # Construct a model instance of GatewayMacsecPrototype by calling from_dict on the json representation
+        gateway_macsec_prototype_model = GatewayMacsecPrototype.from_dict(gateway_macsec_prototype_model_json)
+        assert gateway_macsec_prototype_model != False
+
+        # Construct a model instance of GatewayMacsecPrototype by calling from_dict on the json representation
+        gateway_macsec_prototype_model_dict = GatewayMacsecPrototype.from_dict(gateway_macsec_prototype_model_json).__dict__
+        gateway_macsec_prototype_model2 = GatewayMacsecPrototype(**gateway_macsec_prototype_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_prototype_model == gateway_macsec_prototype_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_prototype_model_json2 = gateway_macsec_prototype_model.to_dict()
+        assert gateway_macsec_prototype_model_json2 == gateway_macsec_prototype_model_json
+
+
+class TestModel_GatewayMacsecReference:
+    """
+    Test Class for GatewayMacsecReference
+    """
+
+    def test_gateway_macsec_reference_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecReference
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        gateway_macsec_status_reason_model = {}  # GatewayMacsecStatusReason
+        gateway_macsec_status_reason_model['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
+
+        # Construct a json representation of a GatewayMacsecReference model
+        gateway_macsec_reference_model_json = {}
+        gateway_macsec_reference_model_json['active'] = True
+        gateway_macsec_reference_model_json['security_policy'] = 'must_secure'
+        gateway_macsec_reference_model_json['status'] = 'secured'
+        gateway_macsec_reference_model_json['status_reasons'] = [gateway_macsec_status_reason_model]
+
+        # Construct a model instance of GatewayMacsecReference by calling from_dict on the json representation
+        gateway_macsec_reference_model = GatewayMacsecReference.from_dict(gateway_macsec_reference_model_json)
+        assert gateway_macsec_reference_model != False
+
+        # Construct a model instance of GatewayMacsecReference by calling from_dict on the json representation
+        gateway_macsec_reference_model_dict = GatewayMacsecReference.from_dict(gateway_macsec_reference_model_json).__dict__
+        gateway_macsec_reference_model2 = GatewayMacsecReference(**gateway_macsec_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_reference_model == gateway_macsec_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_reference_model_json2 = gateway_macsec_reference_model.to_dict()
+        assert gateway_macsec_reference_model_json2 == gateway_macsec_reference_model_json
+
+
+class TestModel_GatewayMacsecStatusReason:
+    """
+    Test Class for GatewayMacsecStatusReason
+    """
+
+    def test_gateway_macsec_status_reason_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecStatusReason
+        """
+
+        # Construct a json representation of a GatewayMacsecStatusReason model
+        gateway_macsec_status_reason_model_json = {}
+        gateway_macsec_status_reason_model_json['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model_json['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model_json['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
+
+        # Construct a model instance of GatewayMacsecStatusReason by calling from_dict on the json representation
+        gateway_macsec_status_reason_model = GatewayMacsecStatusReason.from_dict(gateway_macsec_status_reason_model_json)
+        assert gateway_macsec_status_reason_model != False
+
+        # Construct a model instance of GatewayMacsecStatusReason by calling from_dict on the json representation
+        gateway_macsec_status_reason_model_dict = GatewayMacsecStatusReason.from_dict(gateway_macsec_status_reason_model_json).__dict__
+        gateway_macsec_status_reason_model2 = GatewayMacsecStatusReason(**gateway_macsec_status_reason_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_status_reason_model == gateway_macsec_status_reason_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_status_reason_model_json2 = gateway_macsec_status_reason_model.to_dict()
+        assert gateway_macsec_status_reason_model_json2 == gateway_macsec_status_reason_model_json
 
 
 class TestModel_GatewayPatchTemplate:
@@ -5576,28 +6517,16 @@ class TestModel_GatewayPatchTemplate:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        gateway_patch_template_authentication_key_model = {}  # GatewayPatchTemplateAuthenticationKey
-        gateway_patch_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_identity_model = {}  # AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_patch_template_model = {}  # GatewayBfdPatchTemplate
         gateway_bfd_patch_template_model['interval'] = 2000
         gateway_bfd_patch_template_model['multiplier'] = 10
 
-        gateway_macsec_config_patch_template_fallback_cak_model = {}  # GatewayMacsecConfigPatchTemplateFallbackCak
-        gateway_macsec_config_patch_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        gateway_macsec_config_patch_template_primary_cak_model = {}  # GatewayMacsecConfigPatchTemplatePrimaryCak
-        gateway_macsec_config_patch_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        gateway_macsec_config_patch_template_model = {}  # GatewayMacsecConfigPatchTemplate
-        gateway_macsec_config_patch_template_model['active'] = True
-        gateway_macsec_config_patch_template_model['fallback_cak'] = gateway_macsec_config_patch_template_fallback_cak_model
-        gateway_macsec_config_patch_template_model['primary_cak'] = gateway_macsec_config_patch_template_primary_cak_model
-        gateway_macsec_config_patch_template_model['window_size'] = 512
-
         # Construct a json representation of a GatewayPatchTemplate model
         gateway_patch_template_model_json = {}
-        gateway_patch_template_model_json['authentication_key'] = gateway_patch_template_authentication_key_model
+        gateway_patch_template_model_json['authentication_key'] = authentication_key_identity_model
         gateway_patch_template_model_json['bfd_config'] = gateway_bfd_patch_template_model
         gateway_patch_template_model_json['bgp_asn'] = 64999
         gateway_patch_template_model_json['bgp_cer_cidr'] = '169.254.0.10/30'
@@ -5607,7 +6536,6 @@ class TestModel_GatewayPatchTemplate:
         gateway_patch_template_model_json['default_import_route_filter'] = 'permit'
         gateway_patch_template_model_json['global'] = True
         gateway_patch_template_model_json['loa_reject_reason'] = 'The port mentioned was incorrect'
-        gateway_patch_template_model_json['macsec_config'] = gateway_macsec_config_patch_template_model
         gateway_patch_template_model_json['metered'] = False
         gateway_patch_template_model_json['name'] = 'testGateway'
         gateway_patch_template_model_json['operational_status'] = 'loa_accepted'
@@ -5629,66 +6557,6 @@ class TestModel_GatewayPatchTemplate:
         # Convert model instance back to dict and verify no loss of data
         gateway_patch_template_model_json2 = gateway_patch_template_model.to_dict()
         assert gateway_patch_template_model_json2 == gateway_patch_template_model_json
-
-
-class TestModel_GatewayPatchTemplateAuthenticationKey:
-    """
-    Test Class for GatewayPatchTemplateAuthenticationKey
-    """
-
-    def test_gateway_patch_template_authentication_key_serialization(self):
-        """
-        Test serialization/deserialization for GatewayPatchTemplateAuthenticationKey
-        """
-
-        # Construct a json representation of a GatewayPatchTemplateAuthenticationKey model
-        gateway_patch_template_authentication_key_model_json = {}
-        gateway_patch_template_authentication_key_model_json['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
-
-        # Construct a model instance of GatewayPatchTemplateAuthenticationKey by calling from_dict on the json representation
-        gateway_patch_template_authentication_key_model = GatewayPatchTemplateAuthenticationKey.from_dict(gateway_patch_template_authentication_key_model_json)
-        assert gateway_patch_template_authentication_key_model != False
-
-        # Construct a model instance of GatewayPatchTemplateAuthenticationKey by calling from_dict on the json representation
-        gateway_patch_template_authentication_key_model_dict = GatewayPatchTemplateAuthenticationKey.from_dict(gateway_patch_template_authentication_key_model_json).__dict__
-        gateway_patch_template_authentication_key_model2 = GatewayPatchTemplateAuthenticationKey(**gateway_patch_template_authentication_key_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_patch_template_authentication_key_model == gateway_patch_template_authentication_key_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_patch_template_authentication_key_model_json2 = gateway_patch_template_authentication_key_model.to_dict()
-        assert gateway_patch_template_authentication_key_model_json2 == gateway_patch_template_authentication_key_model_json
-
-
-class TestModel_GatewayPort:
-    """
-    Test Class for GatewayPort
-    """
-
-    def test_gateway_port_serialization(self):
-        """
-        Test serialization/deserialization for GatewayPort
-        """
-
-        # Construct a json representation of a GatewayPort model
-        gateway_port_model_json = {}
-        gateway_port_model_json['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
-
-        # Construct a model instance of GatewayPort by calling from_dict on the json representation
-        gateway_port_model = GatewayPort.from_dict(gateway_port_model_json)
-        assert gateway_port_model != False
-
-        # Construct a model instance of GatewayPort by calling from_dict on the json representation
-        gateway_port_model_dict = GatewayPort.from_dict(gateway_port_model_json).__dict__
-        gateway_port_model2 = GatewayPort(**gateway_port_model_dict)
-
-        # Verify the model instances are equivalent
-        assert gateway_port_model == gateway_port_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        gateway_port_model_json2 = gateway_port_model.to_dict()
-        assert gateway_port_model_json2 == gateway_port_model_json
 
 
 class TestModel_GatewayPortIdentity:
@@ -5719,6 +6587,36 @@ class TestModel_GatewayPortIdentity:
         # Convert model instance back to dict and verify no loss of data
         gateway_port_identity_model_json2 = gateway_port_identity_model.to_dict()
         assert gateway_port_identity_model_json2 == gateway_port_identity_model_json
+
+
+class TestModel_GatewayPortReference:
+    """
+    Test Class for GatewayPortReference
+    """
+
+    def test_gateway_port_reference_serialization(self):
+        """
+        Test serialization/deserialization for GatewayPortReference
+        """
+
+        # Construct a json representation of a GatewayPortReference model
+        gateway_port_reference_model_json = {}
+        gateway_port_reference_model_json['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+
+        # Construct a model instance of GatewayPortReference by calling from_dict on the json representation
+        gateway_port_reference_model = GatewayPortReference.from_dict(gateway_port_reference_model_json)
+        assert gateway_port_reference_model != False
+
+        # Construct a model instance of GatewayPortReference by calling from_dict on the json representation
+        gateway_port_reference_model_dict = GatewayPortReference.from_dict(gateway_port_reference_model_json).__dict__
+        gateway_port_reference_model2 = GatewayPortReference(**gateway_port_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_port_reference_model == gateway_port_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_port_reference_model_json2 = gateway_port_reference_model.to_dict()
+        assert gateway_port_reference_model_json2 == gateway_port_reference_model_json
 
 
 class TestModel_GatewayStatistic:
@@ -5827,34 +6725,36 @@ class TestModel_GatewayStatusCollection:
         assert gateway_status_collection_model_json2 == gateway_status_collection_model_json
 
 
-class TestModel_GatewayTemplateAuthenticationKey:
+class TestModel_GatewayStatusReason:
     """
-    Test Class for GatewayTemplateAuthenticationKey
+    Test Class for GatewayStatusReason
     """
 
-    def test_gateway_template_authentication_key_serialization(self):
+    def test_gateway_status_reason_serialization(self):
         """
-        Test serialization/deserialization for GatewayTemplateAuthenticationKey
+        Test serialization/deserialization for GatewayStatusReason
         """
 
-        # Construct a json representation of a GatewayTemplateAuthenticationKey model
-        gateway_template_authentication_key_model_json = {}
-        gateway_template_authentication_key_model_json['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        # Construct a json representation of a GatewayStatusReason model
+        gateway_status_reason_model_json = {}
+        gateway_status_reason_model_json['code'] = 'authentication_key_failed'
+        gateway_status_reason_model_json['message'] = 'The `authentication_key` failed configuration.'
+        gateway_status_reason_model_json['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        # Construct a model instance of GatewayTemplateAuthenticationKey by calling from_dict on the json representation
-        gateway_template_authentication_key_model = GatewayTemplateAuthenticationKey.from_dict(gateway_template_authentication_key_model_json)
-        assert gateway_template_authentication_key_model != False
+        # Construct a model instance of GatewayStatusReason by calling from_dict on the json representation
+        gateway_status_reason_model = GatewayStatusReason.from_dict(gateway_status_reason_model_json)
+        assert gateway_status_reason_model != False
 
-        # Construct a model instance of GatewayTemplateAuthenticationKey by calling from_dict on the json representation
-        gateway_template_authentication_key_model_dict = GatewayTemplateAuthenticationKey.from_dict(gateway_template_authentication_key_model_json).__dict__
-        gateway_template_authentication_key_model2 = GatewayTemplateAuthenticationKey(**gateway_template_authentication_key_model_dict)
+        # Construct a model instance of GatewayStatusReason by calling from_dict on the json representation
+        gateway_status_reason_model_dict = GatewayStatusReason.from_dict(gateway_status_reason_model_json).__dict__
+        gateway_status_reason_model2 = GatewayStatusReason(**gateway_status_reason_model_dict)
 
         # Verify the model instances are equivalent
-        assert gateway_template_authentication_key_model == gateway_template_authentication_key_model2
+        assert gateway_status_reason_model == gateway_status_reason_model2
 
         # Convert model instance back to dict and verify no loss of data
-        gateway_template_authentication_key_model_json2 = gateway_template_authentication_key_model.to_dict()
-        assert gateway_template_authentication_key_model_json2 == gateway_template_authentication_key_model_json
+        gateway_status_reason_model_json2 = gateway_status_reason_model.to_dict()
+        assert gateway_status_reason_model_json2 == gateway_status_reason_model_json
 
 
 class TestModel_GatewayTemplateRouteFilter:
@@ -5967,6 +6867,97 @@ class TestModel_GatewayVirtualConnectionCollection:
         assert gateway_virtual_connection_collection_model_json2 == gateway_virtual_connection_collection_model_json
 
 
+class TestModel_GatewayVirtualConnectionPatchTemplate:
+    """
+    Test Class for GatewayVirtualConnectionPatchTemplate
+    """
+
+    def test_gateway_virtual_connection_patch_template_serialization(self):
+        """
+        Test serialization/deserialization for GatewayVirtualConnectionPatchTemplate
+        """
+
+        # Construct a json representation of a GatewayVirtualConnectionPatchTemplate model
+        gateway_virtual_connection_patch_template_model_json = {}
+        gateway_virtual_connection_patch_template_model_json['name'] = 'newConnectionName'
+        gateway_virtual_connection_patch_template_model_json['status'] = 'attached'
+
+        # Construct a model instance of GatewayVirtualConnectionPatchTemplate by calling from_dict on the json representation
+        gateway_virtual_connection_patch_template_model = GatewayVirtualConnectionPatchTemplate.from_dict(gateway_virtual_connection_patch_template_model_json)
+        assert gateway_virtual_connection_patch_template_model != False
+
+        # Construct a model instance of GatewayVirtualConnectionPatchTemplate by calling from_dict on the json representation
+        gateway_virtual_connection_patch_template_model_dict = GatewayVirtualConnectionPatchTemplate.from_dict(gateway_virtual_connection_patch_template_model_json).__dict__
+        gateway_virtual_connection_patch_template_model2 = GatewayVirtualConnectionPatchTemplate(**gateway_virtual_connection_patch_template_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_virtual_connection_patch_template_model == gateway_virtual_connection_patch_template_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_virtual_connection_patch_template_model_json2 = gateway_virtual_connection_patch_template_model.to_dict()
+        assert gateway_virtual_connection_patch_template_model_json2 == gateway_virtual_connection_patch_template_model_json
+
+
+class TestModel_HpcsKeyIdentity:
+    """
+    Test Class for HpcsKeyIdentity
+    """
+
+    def test_hpcs_key_identity_serialization(self):
+        """
+        Test serialization/deserialization for HpcsKeyIdentity
+        """
+
+        # Construct a json representation of a HpcsKeyIdentity model
+        hpcs_key_identity_model_json = {}
+        hpcs_key_identity_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of HpcsKeyIdentity by calling from_dict on the json representation
+        hpcs_key_identity_model = HpcsKeyIdentity.from_dict(hpcs_key_identity_model_json)
+        assert hpcs_key_identity_model != False
+
+        # Construct a model instance of HpcsKeyIdentity by calling from_dict on the json representation
+        hpcs_key_identity_model_dict = HpcsKeyIdentity.from_dict(hpcs_key_identity_model_json).__dict__
+        hpcs_key_identity_model2 = HpcsKeyIdentity(**hpcs_key_identity_model_dict)
+
+        # Verify the model instances are equivalent
+        assert hpcs_key_identity_model == hpcs_key_identity_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        hpcs_key_identity_model_json2 = hpcs_key_identity_model.to_dict()
+        assert hpcs_key_identity_model_json2 == hpcs_key_identity_model_json
+
+
+class TestModel_HpcsKeyReference:
+    """
+    Test Class for HpcsKeyReference
+    """
+
+    def test_hpcs_key_reference_serialization(self):
+        """
+        Test serialization/deserialization for HpcsKeyReference
+        """
+
+        # Construct a json representation of a HpcsKeyReference model
+        hpcs_key_reference_model_json = {}
+        hpcs_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of HpcsKeyReference by calling from_dict on the json representation
+        hpcs_key_reference_model = HpcsKeyReference.from_dict(hpcs_key_reference_model_json)
+        assert hpcs_key_reference_model != False
+
+        # Construct a model instance of HpcsKeyReference by calling from_dict on the json representation
+        hpcs_key_reference_model_dict = HpcsKeyReference.from_dict(hpcs_key_reference_model_json).__dict__
+        hpcs_key_reference_model2 = HpcsKeyReference(**hpcs_key_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert hpcs_key_reference_model == hpcs_key_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        hpcs_key_reference_model_json2 = hpcs_key_reference_model.to_dict()
+        assert hpcs_key_reference_model_json2 == hpcs_key_reference_model_json
+
+
 class TestModel_ImportRouteFilterCollection:
     """
     Test Class for ImportRouteFilterCollection
@@ -6068,7 +7059,7 @@ class TestModel_LocationCrossConnectRouterCollection:
         # Construct dict forms of any model objects needed in order to build this model.
 
         cross_connect_router_model = {}  # CrossConnectRouter
-        cross_connect_router_model['capabilities'] = ['non_macsec', 'macsec']
+        cross_connect_router_model['capabilities'] = ['testString']
         cross_connect_router_model['router_name'] = 'xcr01.dal03'
         cross_connect_router_model['total_connections'] = 1
 
@@ -6829,6 +7820,126 @@ class TestModel_UpdateRouteFilterTemplate:
         assert update_route_filter_template_model_json2 == update_route_filter_template_model_json
 
 
+class TestModel_AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity:
+    """
+    Test Class for AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity
+    """
+
+    def test_authentication_key_identity_hpcs_authentication_key_identity_serialization(self):
+        """
+        Test serialization/deserialization for AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity
+        """
+
+        # Construct a json representation of a AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity model
+        authentication_key_identity_hpcs_authentication_key_identity_model_json = {}
+        authentication_key_identity_hpcs_authentication_key_identity_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity by calling from_dict on the json representation
+        authentication_key_identity_hpcs_authentication_key_identity_model = AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity.from_dict(authentication_key_identity_hpcs_authentication_key_identity_model_json)
+        assert authentication_key_identity_hpcs_authentication_key_identity_model != False
+
+        # Construct a model instance of AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity by calling from_dict on the json representation
+        authentication_key_identity_hpcs_authentication_key_identity_model_dict = AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity.from_dict(authentication_key_identity_hpcs_authentication_key_identity_model_json).__dict__
+        authentication_key_identity_hpcs_authentication_key_identity_model2 = AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(**authentication_key_identity_hpcs_authentication_key_identity_model_dict)
+
+        # Verify the model instances are equivalent
+        assert authentication_key_identity_hpcs_authentication_key_identity_model == authentication_key_identity_hpcs_authentication_key_identity_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        authentication_key_identity_hpcs_authentication_key_identity_model_json2 = authentication_key_identity_hpcs_authentication_key_identity_model.to_dict()
+        assert authentication_key_identity_hpcs_authentication_key_identity_model_json2 == authentication_key_identity_hpcs_authentication_key_identity_model_json
+
+
+class TestModel_AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity:
+    """
+    Test Class for AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+    """
+
+    def test_authentication_key_identity_key_protect_authentication_key_identity_serialization(self):
+        """
+        Test serialization/deserialization for AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+        """
+
+        # Construct a json representation of a AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity model
+        authentication_key_identity_key_protect_authentication_key_identity_model_json = {}
+        authentication_key_identity_key_protect_authentication_key_identity_model_json['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity by calling from_dict on the json representation
+        authentication_key_identity_key_protect_authentication_key_identity_model = AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.from_dict(authentication_key_identity_key_protect_authentication_key_identity_model_json)
+        assert authentication_key_identity_key_protect_authentication_key_identity_model != False
+
+        # Construct a model instance of AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity by calling from_dict on the json representation
+        authentication_key_identity_key_protect_authentication_key_identity_model_dict = AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.from_dict(authentication_key_identity_key_protect_authentication_key_identity_model_json).__dict__
+        authentication_key_identity_key_protect_authentication_key_identity_model2 = AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(**authentication_key_identity_key_protect_authentication_key_identity_model_dict)
+
+        # Verify the model instances are equivalent
+        assert authentication_key_identity_key_protect_authentication_key_identity_model == authentication_key_identity_key_protect_authentication_key_identity_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        authentication_key_identity_key_protect_authentication_key_identity_model_json2 = authentication_key_identity_key_protect_authentication_key_identity_model.to_dict()
+        assert authentication_key_identity_key_protect_authentication_key_identity_model_json2 == authentication_key_identity_key_protect_authentication_key_identity_model_json
+
+
+class TestModel_AuthenticationKeyReferenceHpcsAuthenticationKeyReference:
+    """
+    Test Class for AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+    """
+
+    def test_authentication_key_reference_hpcs_authentication_key_reference_serialization(self):
+        """
+        Test serialization/deserialization for AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+        """
+
+        # Construct a json representation of a AuthenticationKeyReferenceHpcsAuthenticationKeyReference model
+        authentication_key_reference_hpcs_authentication_key_reference_model_json = {}
+        authentication_key_reference_hpcs_authentication_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of AuthenticationKeyReferenceHpcsAuthenticationKeyReference by calling from_dict on the json representation
+        authentication_key_reference_hpcs_authentication_key_reference_model = AuthenticationKeyReferenceHpcsAuthenticationKeyReference.from_dict(authentication_key_reference_hpcs_authentication_key_reference_model_json)
+        assert authentication_key_reference_hpcs_authentication_key_reference_model != False
+
+        # Construct a model instance of AuthenticationKeyReferenceHpcsAuthenticationKeyReference by calling from_dict on the json representation
+        authentication_key_reference_hpcs_authentication_key_reference_model_dict = AuthenticationKeyReferenceHpcsAuthenticationKeyReference.from_dict(authentication_key_reference_hpcs_authentication_key_reference_model_json).__dict__
+        authentication_key_reference_hpcs_authentication_key_reference_model2 = AuthenticationKeyReferenceHpcsAuthenticationKeyReference(**authentication_key_reference_hpcs_authentication_key_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert authentication_key_reference_hpcs_authentication_key_reference_model == authentication_key_reference_hpcs_authentication_key_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        authentication_key_reference_hpcs_authentication_key_reference_model_json2 = authentication_key_reference_hpcs_authentication_key_reference_model.to_dict()
+        assert authentication_key_reference_hpcs_authentication_key_reference_model_json2 == authentication_key_reference_hpcs_authentication_key_reference_model_json
+
+
+class TestModel_AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference:
+    """
+    Test Class for AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+    """
+
+    def test_authentication_key_reference_key_protect_authentication_key_reference_serialization(self):
+        """
+        Test serialization/deserialization for AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+        """
+
+        # Construct a json representation of a AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference model
+        authentication_key_reference_key_protect_authentication_key_reference_model_json = {}
+        authentication_key_reference_key_protect_authentication_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference by calling from_dict on the json representation
+        authentication_key_reference_key_protect_authentication_key_reference_model = AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference.from_dict(authentication_key_reference_key_protect_authentication_key_reference_model_json)
+        assert authentication_key_reference_key_protect_authentication_key_reference_model != False
+
+        # Construct a model instance of AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference by calling from_dict on the json representation
+        authentication_key_reference_key_protect_authentication_key_reference_model_dict = AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference.from_dict(authentication_key_reference_key_protect_authentication_key_reference_model_json).__dict__
+        authentication_key_reference_key_protect_authentication_key_reference_model2 = AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference(**authentication_key_reference_key_protect_authentication_key_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert authentication_key_reference_key_protect_authentication_key_reference_model == authentication_key_reference_key_protect_authentication_key_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        authentication_key_reference_key_protect_authentication_key_reference_model_json2 = authentication_key_reference_key_protect_authentication_key_reference_model.to_dict()
+        assert authentication_key_reference_key_protect_authentication_key_reference_model_json2 == authentication_key_reference_key_protect_authentication_key_reference_model_json
+
+
 class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate:
     """
     Test Class for GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate
@@ -7179,8 +8290,8 @@ class TestModel_GatewayCollectionGatewaysItemCrossAccountGateway:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        cross_account_gateway_port_model = {}  # CrossAccountGatewayPort
-        cross_account_gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+        gateway_port_reference_model = {}  # GatewayPortReference
+        gateway_port_reference_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
         # Construct a json representation of a GatewayCollectionGatewaysItemCrossAccountGateway model
         gateway_collection_gateways_item_cross_account_gateway_model_json = {}
@@ -7199,7 +8310,7 @@ class TestModel_GatewayCollectionGatewaysItemCrossAccountGateway:
         gateway_collection_gateways_item_cross_account_gateway_model_json['location_name'] = 'dal03'
         gateway_collection_gateways_item_cross_account_gateway_model_json['name'] = 'myGateway'
         gateway_collection_gateways_item_cross_account_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
-        gateway_collection_gateways_item_cross_account_gateway_model_json['port'] = cross_account_gateway_port_model
+        gateway_collection_gateways_item_cross_account_gateway_model_json['port'] = gateway_port_reference_model
         gateway_collection_gateways_item_cross_account_gateway_model_json['speed_mbps'] = 1000
         gateway_collection_gateways_item_cross_account_gateway_model_json['type'] = 'dedicated'
 
@@ -7240,8 +8351,8 @@ class TestModel_GatewayCollectionGatewaysItemGateway:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
-        gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -7252,34 +8363,24 @@ class TestModel_GatewayCollectionGatewaysItemGateway:
         gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
         gateway_change_request_model['type'] = 'create_gateway'
 
-        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
-        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_active_cak_model['status'] = 'testString'
+        gateway_macsec_status_reason_model = {}  # GatewayMacsecStatusReason
+        gateway_macsec_status_reason_model['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
-        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
+        gateway_macsec_reference_model = {}  # GatewayMacsecReference
+        gateway_macsec_reference_model['active'] = True
+        gateway_macsec_reference_model['security_policy'] = 'must_secure'
+        gateway_macsec_reference_model['status'] = 'secured'
+        gateway_macsec_reference_model['status_reasons'] = [gateway_macsec_status_reason_model]
 
-        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
-        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_primary_cak_model['status'] = 'testString'
+        gateway_status_reason_model = {}  # GatewayStatusReason
+        gateway_status_reason_model['code'] = 'authentication_key_failed'
+        gateway_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_model = {}  # GatewayMacsecConfig
-        gateway_macsec_config_model['active'] = True
-        gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
-        gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
-        gateway_macsec_config_model['confidentiality_offset'] = 0
-        gateway_macsec_config_model['cryptographic_algorithm'] = 'aes_256_cmac'
-        gateway_macsec_config_model['fallback_cak'] = gateway_macsec_config_fallback_cak_model
-        gateway_macsec_config_model['key_server_priority'] = 255
-        gateway_macsec_config_model['primary_cak'] = gateway_macsec_config_primary_cak_model
-        gateway_macsec_config_model['sak_expiry_time'] = 3600
-        gateway_macsec_config_model['security_policy'] = 'must_secure'
-        gateway_macsec_config_model['status'] = 'secured'
-        gateway_macsec_config_model['window_size'] = 64
-
-        gateway_port_model = {}  # GatewayPort
-        gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+        gateway_port_reference_model = {}  # GatewayPortReference
+        gateway_port_reference_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
         resource_group_reference_model = {}  # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
@@ -7287,7 +8388,7 @@ class TestModel_GatewayCollectionGatewaysItemGateway:
         # Construct a json representation of a GatewayCollectionGatewaysItemGateway model
         gateway_collection_gateways_item_gateway_model_json = {}
         gateway_collection_gateways_item_gateway_model_json['as_prepends'] = [as_prepend_model]
-        gateway_collection_gateways_item_gateway_model_json['authentication_key'] = gateway_authentication_key_model
+        gateway_collection_gateways_item_gateway_model_json['authentication_key'] = authentication_key_reference_model
         gateway_collection_gateways_item_gateway_model_json['bfd_config'] = gateway_bfd_config_model
         gateway_collection_gateways_item_gateway_model_json['bgp_asn'] = 64999
         gateway_collection_gateways_item_gateway_model_json['bgp_base_cidr'] = 'testString'
@@ -7313,15 +8414,17 @@ class TestModel_GatewayCollectionGatewaysItemGateway:
         gateway_collection_gateways_item_gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
         gateway_collection_gateways_item_gateway_model_json['location_display_name'] = 'Dallas 03'
         gateway_collection_gateways_item_gateway_model_json['location_name'] = 'dal03'
-        gateway_collection_gateways_item_gateway_model_json['macsec_config'] = gateway_macsec_config_model
+        gateway_collection_gateways_item_gateway_model_json['macsec'] = gateway_macsec_reference_model
+        gateway_collection_gateways_item_gateway_model_json['macsec_capability'] = 'non_macsec'
         gateway_collection_gateways_item_gateway_model_json['metered'] = False
         gateway_collection_gateways_item_gateway_model_json['name'] = 'myGateway'
         gateway_collection_gateways_item_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
-        gateway_collection_gateways_item_gateway_model_json['port'] = gateway_port_model
+        gateway_collection_gateways_item_gateway_model_json['operational_status_reasons'] = [gateway_status_reason_model]
+        gateway_collection_gateways_item_gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
+        gateway_collection_gateways_item_gateway_model_json['port'] = gateway_port_reference_model
         gateway_collection_gateways_item_gateway_model_json['provider_api_managed'] = False
         gateway_collection_gateways_item_gateway_model_json['resource_group'] = resource_group_reference_model
         gateway_collection_gateways_item_gateway_model_json['speed_mbps'] = 1000
-        gateway_collection_gateways_item_gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
         gateway_collection_gateways_item_gateway_model_json['type'] = 'dedicated'
         gateway_collection_gateways_item_gateway_model_json['vlan'] = 10
 
@@ -7455,8 +8558,8 @@ class TestModel_GatewayTemplateGatewayTypeConnectTemplate:
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        gateway_template_authentication_key_model = {}  # GatewayTemplateAuthenticationKey
-        gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_identity_model = {}  # AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_template_model = {}  # GatewayBfdConfigTemplate
         gateway_bfd_config_template_model['interval'] = 2000
@@ -7477,7 +8580,7 @@ class TestModel_GatewayTemplateGatewayTypeConnectTemplate:
         # Construct a json representation of a GatewayTemplateGatewayTypeConnectTemplate model
         gateway_template_gateway_type_connect_template_model_json = {}
         gateway_template_gateway_type_connect_template_model_json['as_prepends'] = [as_prepend_template_model]
-        gateway_template_gateway_type_connect_template_model_json['authentication_key'] = gateway_template_authentication_key_model
+        gateway_template_gateway_type_connect_template_model_json['authentication_key'] = authentication_key_identity_model
         gateway_template_gateway_type_connect_template_model_json['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_gateway_type_connect_template_model_json['bgp_asn'] = 64999
         gateway_template_gateway_type_connect_template_model_json['bgp_base_cidr'] = 'testString'
@@ -7531,8 +8634,8 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate:
         as_prepend_template_model['prefix'] = '172.17.0.0/16'
         as_prepend_template_model['specific_prefixes'] = ['192.168.3.0/24']
 
-        gateway_template_authentication_key_model = {}  # GatewayTemplateAuthenticationKey
-        gateway_template_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_identity_model = {}  # AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity
+        authentication_key_identity_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_template_model = {}  # GatewayBfdConfigTemplate
         gateway_bfd_config_template_model['interval'] = 2000
@@ -7547,22 +8650,29 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate:
         resource_group_identity_model = {}  # ResourceGroupIdentity
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        gateway_macsec_config_template_fallback_cak_model = {}  # GatewayMacsecConfigTemplateFallbackCak
-        gateway_macsec_config_template_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        hpcs_key_identity_model = {}  # HpcsKeyIdentity
+        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
-        gateway_macsec_config_template_primary_cak_model = {}  # GatewayMacsecConfigTemplatePrimaryCak
-        gateway_macsec_config_template_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_prototype_model = {}  # GatewayMacsecCakPrototype
+        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['name'] = '1000'
+        gateway_macsec_cak_prototype_model['session'] = 'primary'
 
-        gateway_macsec_config_template_model = {}  # GatewayMacsecConfigTemplate
-        gateway_macsec_config_template_model['active'] = True
-        gateway_macsec_config_template_model['fallback_cak'] = gateway_macsec_config_template_fallback_cak_model
-        gateway_macsec_config_template_model['primary_cak'] = gateway_macsec_config_template_primary_cak_model
-        gateway_macsec_config_template_model['window_size'] = 148809600
+        sak_rekey_prototype_model = {}  # SakRekeyPrototypeSakRekeyTimerModePrototype
+        sak_rekey_prototype_model['interval'] = 3600
+        sak_rekey_prototype_model['mode'] = 'timer'
+
+        gateway_macsec_prototype_model = {}  # GatewayMacsecPrototype
+        gateway_macsec_prototype_model['active'] = True
+        gateway_macsec_prototype_model['caks'] = [gateway_macsec_cak_prototype_model]
+        gateway_macsec_prototype_model['sak_rekey'] = sak_rekey_prototype_model
+        gateway_macsec_prototype_model['security_policy'] = 'must_secure'
+        gateway_macsec_prototype_model['window_size'] = 64
 
         # Construct a json representation of a GatewayTemplateGatewayTypeDedicatedTemplate model
         gateway_template_gateway_type_dedicated_template_model_json = {}
         gateway_template_gateway_type_dedicated_template_model_json['as_prepends'] = [as_prepend_template_model]
-        gateway_template_gateway_type_dedicated_template_model_json['authentication_key'] = gateway_template_authentication_key_model
+        gateway_template_gateway_type_dedicated_template_model_json['authentication_key'] = authentication_key_identity_model
         gateway_template_gateway_type_dedicated_template_model_json['bfd_config'] = gateway_bfd_config_template_model
         gateway_template_gateway_type_dedicated_template_model_json['bgp_asn'] = 64999
         gateway_template_gateway_type_dedicated_template_model_json['bgp_base_cidr'] = 'testString'
@@ -7584,7 +8694,8 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate:
         gateway_template_gateway_type_dedicated_template_model_json['cross_connect_router'] = 'xcr01.dal03'
         gateway_template_gateway_type_dedicated_template_model_json['customer_name'] = 'newCustomerName'
         gateway_template_gateway_type_dedicated_template_model_json['location_name'] = 'dal03'
-        gateway_template_gateway_type_dedicated_template_model_json['macsec_config'] = gateway_macsec_config_template_model
+        gateway_template_gateway_type_dedicated_template_model_json['macsec'] = gateway_macsec_prototype_model
+        gateway_template_gateway_type_dedicated_template_model_json['macsec_capability'] = 'non_macsec'
         gateway_template_gateway_type_dedicated_template_model_json['vlan'] = 10
 
         # Construct a model instance of GatewayTemplateGatewayTypeDedicatedTemplate by calling from_dict on the json representation
@@ -7615,8 +8726,8 @@ class TestModel_GetGatewayResponseCrossAccountGateway:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        cross_account_gateway_port_model = {}  # CrossAccountGatewayPort
-        cross_account_gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+        gateway_port_reference_model = {}  # GatewayPortReference
+        gateway_port_reference_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
         # Construct a json representation of a GetGatewayResponseCrossAccountGateway model
         get_gateway_response_cross_account_gateway_model_json = {}
@@ -7635,7 +8746,7 @@ class TestModel_GetGatewayResponseCrossAccountGateway:
         get_gateway_response_cross_account_gateway_model_json['location_name'] = 'dal03'
         get_gateway_response_cross_account_gateway_model_json['name'] = 'myGateway'
         get_gateway_response_cross_account_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
-        get_gateway_response_cross_account_gateway_model_json['port'] = cross_account_gateway_port_model
+        get_gateway_response_cross_account_gateway_model_json['port'] = gateway_port_reference_model
         get_gateway_response_cross_account_gateway_model_json['speed_mbps'] = 1000
         get_gateway_response_cross_account_gateway_model_json['type'] = 'dedicated'
 
@@ -7676,8 +8787,8 @@ class TestModel_GetGatewayResponseGateway:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        gateway_authentication_key_model = {}  # GatewayAuthenticationKey
-        gateway_authentication_key_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -7688,34 +8799,24 @@ class TestModel_GetGatewayResponseGateway:
         gateway_change_request_model = {}  # GatewayChangeRequestGatewayClientGatewayCreate
         gateway_change_request_model['type'] = 'create_gateway'
 
-        gateway_macsec_config_active_cak_model = {}  # GatewayMacsecConfigActiveCak
-        gateway_macsec_config_active_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_active_cak_model['status'] = 'testString'
+        gateway_macsec_status_reason_model = {}  # GatewayMacsecStatusReason
+        gateway_macsec_status_reason_model['code'] = 'macsec_cak_failed'
+        gateway_macsec_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_macsec_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_fallback_cak_model = {}  # GatewayMacsecConfigFallbackCak
-        gateway_macsec_config_fallback_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_fallback_cak_model['status'] = 'testString'
+        gateway_macsec_reference_model = {}  # GatewayMacsecReference
+        gateway_macsec_reference_model['active'] = True
+        gateway_macsec_reference_model['security_policy'] = 'must_secure'
+        gateway_macsec_reference_model['status'] = 'secured'
+        gateway_macsec_reference_model['status_reasons'] = [gateway_macsec_status_reason_model]
 
-        gateway_macsec_config_primary_cak_model = {}  # GatewayMacsecConfigPrimaryCak
-        gateway_macsec_config_primary_cak_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-        gateway_macsec_config_primary_cak_model['status'] = 'testString'
+        gateway_status_reason_model = {}  # GatewayStatusReason
+        gateway_status_reason_model['code'] = 'authentication_key_failed'
+        gateway_status_reason_model['message'] = 'The `authentication_key` failed configuration.'
+        gateway_status_reason_model['more_info'] = 'https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK'
 
-        gateway_macsec_config_model = {}  # GatewayMacsecConfig
-        gateway_macsec_config_model['active'] = True
-        gateway_macsec_config_model['active_cak'] = gateway_macsec_config_active_cak_model
-        gateway_macsec_config_model['cipher_suite'] = 'gcm_aes_xpn_256'
-        gateway_macsec_config_model['confidentiality_offset'] = 0
-        gateway_macsec_config_model['cryptographic_algorithm'] = 'aes_256_cmac'
-        gateway_macsec_config_model['fallback_cak'] = gateway_macsec_config_fallback_cak_model
-        gateway_macsec_config_model['key_server_priority'] = 255
-        gateway_macsec_config_model['primary_cak'] = gateway_macsec_config_primary_cak_model
-        gateway_macsec_config_model['sak_expiry_time'] = 3600
-        gateway_macsec_config_model['security_policy'] = 'must_secure'
-        gateway_macsec_config_model['status'] = 'secured'
-        gateway_macsec_config_model['window_size'] = 64
-
-        gateway_port_model = {}  # GatewayPort
-        gateway_port_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
+        gateway_port_reference_model = {}  # GatewayPortReference
+        gateway_port_reference_model['id'] = '54321b1a-fee4-41c7-9e11-9cd99e000aaa'
 
         resource_group_reference_model = {}  # ResourceGroupReference
         resource_group_reference_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
@@ -7723,7 +8824,7 @@ class TestModel_GetGatewayResponseGateway:
         # Construct a json representation of a GetGatewayResponseGateway model
         get_gateway_response_gateway_model_json = {}
         get_gateway_response_gateway_model_json['as_prepends'] = [as_prepend_model]
-        get_gateway_response_gateway_model_json['authentication_key'] = gateway_authentication_key_model
+        get_gateway_response_gateway_model_json['authentication_key'] = authentication_key_reference_model
         get_gateway_response_gateway_model_json['bfd_config'] = gateway_bfd_config_model
         get_gateway_response_gateway_model_json['bgp_asn'] = 64999
         get_gateway_response_gateway_model_json['bgp_base_cidr'] = 'testString'
@@ -7749,15 +8850,17 @@ class TestModel_GetGatewayResponseGateway:
         get_gateway_response_gateway_model_json['link_status_updated_at'] = '2020-08-20T06:58:41.909000Z'
         get_gateway_response_gateway_model_json['location_display_name'] = 'Dallas 03'
         get_gateway_response_gateway_model_json['location_name'] = 'dal03'
-        get_gateway_response_gateway_model_json['macsec_config'] = gateway_macsec_config_model
+        get_gateway_response_gateway_model_json['macsec'] = gateway_macsec_reference_model
+        get_gateway_response_gateway_model_json['macsec_capability'] = 'non_macsec'
         get_gateway_response_gateway_model_json['metered'] = False
         get_gateway_response_gateway_model_json['name'] = 'myGateway'
         get_gateway_response_gateway_model_json['operational_status'] = 'awaiting_completion_notice'
-        get_gateway_response_gateway_model_json['port'] = gateway_port_model
+        get_gateway_response_gateway_model_json['operational_status_reasons'] = [gateway_status_reason_model]
+        get_gateway_response_gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
+        get_gateway_response_gateway_model_json['port'] = gateway_port_reference_model
         get_gateway_response_gateway_model_json['provider_api_managed'] = False
         get_gateway_response_gateway_model_json['resource_group'] = resource_group_reference_model
         get_gateway_response_gateway_model_json['speed_mbps'] = 1000
-        get_gateway_response_gateway_model_json['patch_panel_completion_notice'] = 'patch panel configuration details'
         get_gateway_response_gateway_model_json['type'] = 'dedicated'
         get_gateway_response_gateway_model_json['vlan'] = 10
 
@@ -7838,6 +8941,189 @@ class TestModel_RouteReportOverlappingRouteForOthers:
         # Convert model instance back to dict and verify no loss of data
         route_report_overlapping_route_for_others_model_json2 = route_report_overlapping_route_for_others_model.to_dict()
         assert route_report_overlapping_route_for_others_model_json2 == route_report_overlapping_route_for_others_model_json
+
+
+class TestModel_SakRekeyPacketNumberRolloverMode:
+    """
+    Test Class for SakRekeyPacketNumberRolloverMode
+    """
+
+    def test_sak_rekey_packet_number_rollover_mode_serialization(self):
+        """
+        Test serialization/deserialization for SakRekeyPacketNumberRolloverMode
+        """
+
+        # Construct a json representation of a SakRekeyPacketNumberRolloverMode model
+        sak_rekey_packet_number_rollover_mode_model_json = {}
+        sak_rekey_packet_number_rollover_mode_model_json['mode'] = 'packet_number_rollover'
+
+        # Construct a model instance of SakRekeyPacketNumberRolloverMode by calling from_dict on the json representation
+        sak_rekey_packet_number_rollover_mode_model = SakRekeyPacketNumberRolloverMode.from_dict(sak_rekey_packet_number_rollover_mode_model_json)
+        assert sak_rekey_packet_number_rollover_mode_model != False
+
+        # Construct a model instance of SakRekeyPacketNumberRolloverMode by calling from_dict on the json representation
+        sak_rekey_packet_number_rollover_mode_model_dict = SakRekeyPacketNumberRolloverMode.from_dict(sak_rekey_packet_number_rollover_mode_model_json).__dict__
+        sak_rekey_packet_number_rollover_mode_model2 = SakRekeyPacketNumberRolloverMode(**sak_rekey_packet_number_rollover_mode_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sak_rekey_packet_number_rollover_mode_model == sak_rekey_packet_number_rollover_mode_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sak_rekey_packet_number_rollover_mode_model_json2 = sak_rekey_packet_number_rollover_mode_model.to_dict()
+        assert sak_rekey_packet_number_rollover_mode_model_json2 == sak_rekey_packet_number_rollover_mode_model_json
+
+
+class TestModel_SakRekeyPatchSakRekeyPacketNumberRolloverModePatch:
+    """
+    Test Class for SakRekeyPatchSakRekeyPacketNumberRolloverModePatch
+    """
+
+    def test_sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_serialization(self):
+        """
+        Test serialization/deserialization for SakRekeyPatchSakRekeyPacketNumberRolloverModePatch
+        """
+
+        # Construct a json representation of a SakRekeyPatchSakRekeyPacketNumberRolloverModePatch model
+        sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json = {}
+        sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json['mode'] = 'packet_number_rollover'
+
+        # Construct a model instance of SakRekeyPatchSakRekeyPacketNumberRolloverModePatch by calling from_dict on the json representation
+        sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model = SakRekeyPatchSakRekeyPacketNumberRolloverModePatch.from_dict(sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json)
+        assert sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model != False
+
+        # Construct a model instance of SakRekeyPatchSakRekeyPacketNumberRolloverModePatch by calling from_dict on the json representation
+        sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_dict = SakRekeyPatchSakRekeyPacketNumberRolloverModePatch.from_dict(sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json).__dict__
+        sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model2 = SakRekeyPatchSakRekeyPacketNumberRolloverModePatch(**sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model == sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json2 = sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model.to_dict()
+        assert sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json2 == sak_rekey_patch_sak_rekey_packet_number_rollover_mode_patch_model_json
+
+
+class TestModel_SakRekeyPatchSakRekeyTimerModePatch:
+    """
+    Test Class for SakRekeyPatchSakRekeyTimerModePatch
+    """
+
+    def test_sak_rekey_patch_sak_rekey_timer_mode_patch_serialization(self):
+        """
+        Test serialization/deserialization for SakRekeyPatchSakRekeyTimerModePatch
+        """
+
+        # Construct a json representation of a SakRekeyPatchSakRekeyTimerModePatch model
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model_json = {}
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model_json['interval'] = 3600
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model_json['mode'] = 'timer'
+
+        # Construct a model instance of SakRekeyPatchSakRekeyTimerModePatch by calling from_dict on the json representation
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model = SakRekeyPatchSakRekeyTimerModePatch.from_dict(sak_rekey_patch_sak_rekey_timer_mode_patch_model_json)
+        assert sak_rekey_patch_sak_rekey_timer_mode_patch_model != False
+
+        # Construct a model instance of SakRekeyPatchSakRekeyTimerModePatch by calling from_dict on the json representation
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model_dict = SakRekeyPatchSakRekeyTimerModePatch.from_dict(sak_rekey_patch_sak_rekey_timer_mode_patch_model_json).__dict__
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model2 = SakRekeyPatchSakRekeyTimerModePatch(**sak_rekey_patch_sak_rekey_timer_mode_patch_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sak_rekey_patch_sak_rekey_timer_mode_patch_model == sak_rekey_patch_sak_rekey_timer_mode_patch_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sak_rekey_patch_sak_rekey_timer_mode_patch_model_json2 = sak_rekey_patch_sak_rekey_timer_mode_patch_model.to_dict()
+        assert sak_rekey_patch_sak_rekey_timer_mode_patch_model_json2 == sak_rekey_patch_sak_rekey_timer_mode_patch_model_json
+
+
+class TestModel_SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype:
+    """
+    Test Class for SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype
+    """
+
+    def test_sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_serialization(self):
+        """
+        Test serialization/deserialization for SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype
+        """
+
+        # Construct a json representation of a SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype model
+        sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json = {}
+        sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json['mode'] = 'packet_number_rollover'
+
+        # Construct a model instance of SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype by calling from_dict on the json representation
+        sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model = SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype.from_dict(sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json)
+        assert sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model != False
+
+        # Construct a model instance of SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype by calling from_dict on the json representation
+        sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_dict = SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype.from_dict(sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json).__dict__
+        sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model2 = SakRekeyPrototypeSakRekeyPacketNumberRolloverModePrototype(**sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model == sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json2 = sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model.to_dict()
+        assert sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json2 == sak_rekey_prototype_sak_rekey_packet_number_rollover_mode_prototype_model_json
+
+
+class TestModel_SakRekeyPrototypeSakRekeyTimerModePrototype:
+    """
+    Test Class for SakRekeyPrototypeSakRekeyTimerModePrototype
+    """
+
+    def test_sak_rekey_prototype_sak_rekey_timer_mode_prototype_serialization(self):
+        """
+        Test serialization/deserialization for SakRekeyPrototypeSakRekeyTimerModePrototype
+        """
+
+        # Construct a json representation of a SakRekeyPrototypeSakRekeyTimerModePrototype model
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json = {}
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json['interval'] = 3600
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json['mode'] = 'timer'
+
+        # Construct a model instance of SakRekeyPrototypeSakRekeyTimerModePrototype by calling from_dict on the json representation
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model = SakRekeyPrototypeSakRekeyTimerModePrototype.from_dict(sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json)
+        assert sak_rekey_prototype_sak_rekey_timer_mode_prototype_model != False
+
+        # Construct a model instance of SakRekeyPrototypeSakRekeyTimerModePrototype by calling from_dict on the json representation
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_dict = SakRekeyPrototypeSakRekeyTimerModePrototype.from_dict(sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json).__dict__
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model2 = SakRekeyPrototypeSakRekeyTimerModePrototype(**sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sak_rekey_prototype_sak_rekey_timer_mode_prototype_model == sak_rekey_prototype_sak_rekey_timer_mode_prototype_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json2 = sak_rekey_prototype_sak_rekey_timer_mode_prototype_model.to_dict()
+        assert sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json2 == sak_rekey_prototype_sak_rekey_timer_mode_prototype_model_json
+
+
+class TestModel_SakRekeyTimerMode:
+    """
+    Test Class for SakRekeyTimerMode
+    """
+
+    def test_sak_rekey_timer_mode_serialization(self):
+        """
+        Test serialization/deserialization for SakRekeyTimerMode
+        """
+
+        # Construct a json representation of a SakRekeyTimerMode model
+        sak_rekey_timer_mode_model_json = {}
+        sak_rekey_timer_mode_model_json['interval'] = 3600
+        sak_rekey_timer_mode_model_json['mode'] = 'timer'
+
+        # Construct a model instance of SakRekeyTimerMode by calling from_dict on the json representation
+        sak_rekey_timer_mode_model = SakRekeyTimerMode.from_dict(sak_rekey_timer_mode_model_json)
+        assert sak_rekey_timer_mode_model != False
+
+        # Construct a model instance of SakRekeyTimerMode by calling from_dict on the json representation
+        sak_rekey_timer_mode_model_dict = SakRekeyTimerMode.from_dict(sak_rekey_timer_mode_model_json).__dict__
+        sak_rekey_timer_mode_model2 = SakRekeyTimerMode(**sak_rekey_timer_mode_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sak_rekey_timer_mode_model == sak_rekey_timer_mode_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sak_rekey_timer_mode_model_json2 = sak_rekey_timer_mode_model.to_dict()
+        assert sak_rekey_timer_mode_model_json2 == sak_rekey_timer_mode_model_json
 
 
 # endregion

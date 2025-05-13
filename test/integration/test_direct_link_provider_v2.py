@@ -13,7 +13,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services import DirectLinkProviderV2
 from ibm_cloud_networking_services.direct_link_provider_v2 import ProviderGatewayPortIdentity
-from ibm_cloud_networking_services.direct_link_v1 import (GatewayActionTemplateAuthenticationKey, GatewayBfdConfigActionTemplate)
+from ibm_cloud_networking_services.direct_link_v1 import (AuthenticationKeyIdentity, GatewayBfdConfigActionTemplate)
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -414,7 +414,7 @@ class TestDirectLinkProviderV2(unittest.TestCase):
         customerAccount = os.getenv("DL_PROVIDER_SERVICES_CUSTOMER_ACCT_ID")
         speedMbps = 1000
         authenticationKeyCRN = os.getenv("DL_SERVICES_AUTHENTICATION_KEY")
-        authenticationKey = GatewayActionTemplateAuthenticationKey(authenticationKeyCRN)
+        authenticationKey = AuthenticationKeyIdentity(authenticationKeyCRN)
 
         """ successfully get a provider port id """
         response = self.dl_provider.list_provider_ports()
