@@ -27,8 +27,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateGatewayTypeDedicatedTemplate,
-    GatewayTemplateAuthenticationKey,
-    GatewayPatchTemplateAuthenticationKey,
+    AuthenticationKeyIdentity,
     GatewayTemplateGatewayTypeConnectTemplate,
     GatewayPatchTemplate,
     GatewayPortIdentity,
@@ -465,7 +464,7 @@ class TestDirectLinkV1(unittest.TestCase):
         customerName = "customer1"
         gatewayType = "dedicated"
         authKeyCrn = os.getenv("DL_SERVICES_AUTHENTICATION_KEY")
-        authKey = GatewayTemplateAuthenticationKey(crn= authKeyCrn)
+        authKey = AuthenticationKeyIdentity(crn= authKeyCrn)
 
         """ test create/update/delete gateway with authentication ket success """
         # create gateway with authentication key
@@ -487,7 +486,7 @@ class TestDirectLinkV1(unittest.TestCase):
         assert response.get_result().get("authentication_key") is not None
 
         # clear the authentication for the created gateway\
-        updAuthKey = GatewayPatchTemplateAuthenticationKey(crn="")
+        updAuthKey = AuthenticationKeyIdentity(crn="")
         response = self.dl.update_gateway(id=gateway_id,
             authentication_key=updAuthKey)
         assert response is not None
@@ -1116,6 +1115,163 @@ class TestDirectLinkV1(unittest.TestCase):
         """ Test delete gateway import route filter"""
         irf_delete_response = self.dl.delete_gateway_import_route_filter(gateway_id, irf_id)
         assert irf_delete_response.status_code == 204
+
+        # delete gateway
+        self.delete_gateway(gateway_id)
+
+    ################## Direct Link Gateway MACsec ############################
+    def test_gateway_macsec(self):
+
+        """ test create gateway """
+        bgpAsn = 64999
+        crossConnectRouter = "LAB-xcr02.dal09"
+        global_bool = True
+        locationName = os.getenv("DL_SERVICES_LOCATION_NAME")
+        speedMbps = 10000
+        metered = True
+        carrierName = "PYSDK_TEST_CARRIER"
+        customerName = "PYSDK_TEST_CUSTOMER"
+        gatewayType = "dedicated"
+
+        # create a dedicated gateway
+        name = os.getenv("DL_SERVICES_GW_NAME") + \
+            str("-DEDICATED-MACsec-") + str(int(time.time()))
+        gtw_template = GatewayTemplateGatewayTypeDedicatedTemplate(name=name,
+                                                                   type=gatewayType, speed_mbps=speedMbps, global_=global_bool,
+                                                                   bgp_asn=bgpAsn, metered=metered, carrier_name=carrierName,
+                                                                   cross_connect_router=crossConnectRouter, customer_name=customerName,
+                                                                   location_name=locationName)
+        response = self.dl.create_gateway(gateway_template=gtw_template)
+        print(response)
+        assert response is not None
+        assert response.get_status_code() == 201
+        gateway_id = response.get_result().get("id")
+        time.sleep(15)
+
+        # macsec
+
+        # Construct of HpcsKeyIdentity
+        hpcs_key_identity = {}
+        hpcs_key_identity['crn'] = 'crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602'
+
+        # Construct of GatewayMacsecCakPrototype
+        gateway_macsec_cak_prototype = {}
+        gateway_macsec_cak_prototype['key'] = hpcs_key_identity
+        gateway_macsec_cak_prototype['name'] = 'AA01'
+        gateway_macsec_cak_prototype['session'] = 'primary'
+
+        # Construct of SakRekeyPrototypeSakRekeyTimerModePrototype
+        sak_rekey_prototype = {}
+        sak_rekey_prototype['interval'] = 76
+        sak_rekey_prototype['mode'] = 'timer'
+
+        # Parameter values
+        active = True
+        caks = [gateway_macsec_cak_prototype]
+        sak_rekey = sak_rekey_prototype
+        security_policy = 'must_secure'
+        window_size = 522
+
+        """ Test set gateway macsec"""
+        macsec_set_response = self.dl.set_gateway_macsec(
+            gateway_id,
+            active,
+            caks,
+            sak_rekey,
+            security_policy,
+            window_size=window_size
+        )
+        assert macsec_set_response.status_code == 200
+        macsec_set_result = macsec_set_response.get_result()
+        assert macsec_set_result['active'] == True
+        assert macsec_set_result['sak_rekey'] == sak_rekey
+        assert macsec_set_result['security_policy'] == 'must_secure'
+        assert macsec_set_result['window_size'] == 522
+
+        """ Test get gateway macsec"""
+        macsec_get_response = self.dl.get_gateway_macsec(gateway_id)
+        assert macsec_get_response.status_code == 200
+        macsec_get_result = macsec_get_response.get_result()
+        assert macsec_get_result['active'] == True
+        assert macsec_get_result['security_policy'] == 'must_secure'
+        assert macsec_get_result['window_size'] == 522
+
+        """ Test list gateway macsec caks"""
+        macsec_list_caks_response = self.dl.list_gateway_macsec_caks(gateway_id)
+        assert macsec_list_caks_response.status_code == 200
+        macsec_list_caks_result = macsec_list_caks_response.get_result()
+        assert len(macsec_list_caks_result['caks']) == 1
+        get_macsec_caks_id = macsec_list_caks_result['caks'][0]['id']
+
+        """ Test get gateway macsec cak"""
+        macsec_get_cak_response = self.dl.get_gateway_macsec_cak(gateway_id, get_macsec_caks_id)
+        assert macsec_get_cak_response.status_code == 200
+        macsec_get_cak_result = macsec_get_cak_response.get_result()
+        assert macsec_get_cak_result['id'] == get_macsec_caks_id
+
+        # Construct of HpcsKeyIdentity for create cak
+        create_cak_hpcs_key_identity = {}
+        create_cak_hpcs_key_identity['crn'] = 'crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6'
+
+        create_cak_key = create_cak_hpcs_key_identity
+        create_cak_name = 'BB02'
+        create_cak_session = 'fallback'
+
+        """ Test create gateway macsec cak"""
+        macsec_create_cak_response = self.dl.create_gateway_macsec_cak(
+            gateway_id,
+            create_cak_key,
+            create_cak_name,
+            create_cak_session,
+        )
+        assert macsec_create_cak_response.status_code == 201
+        macsec_create_cak_result = macsec_create_cak_response.get_result()
+        assert macsec_create_cak_result['key'] == create_cak_key
+        assert macsec_create_cak_result['name'] == create_cak_name
+        assert macsec_create_cak_result['session'] == create_cak_session
+        macsec_new_cak_id = macsec_create_cak_result['id']
+
+        # Construct of HpcsKeyIdentity for update cak
+        update_cak_hpcs_key_identity = {}
+        update_cak_hpcs_key_identity['crn'] = 'crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6'
+
+        # Construct of GatewayMacsecCakPatch for update cak
+        gateway_macsec_cak_patch = {}
+        gateway_macsec_cak_patch['key'] = update_cak_hpcs_key_identity
+        gateway_macsec_cak_patch['name'] = 'AA02'
+
+        """ Test update gateway macsec cak"""
+        macsec_update_cak_response = self.dl.update_gateway_macsec_cak(
+            gateway_id,
+            macsec_new_cak_id,
+            gateway_macsec_cak_patch,
+        )
+        assert macsec_update_cak_response.status_code == 201
+        macsec_update_cak_result = macsec_update_cak_response.get_result()
+        assert macsec_update_cak_result['name'] == 'AA02'
+
+        """ Test delete gateway macsec cak"""
+        macsec_delete_cak_response = self.dl.delete_gateway_macsec_cak(gateway_id, macsec_new_cak_id)
+        assert macsec_delete_cak_response.status_code == 204
+
+        gateway_macsec_patch = {}
+        gateway_macsec_patch['active'] = True
+        gateway_macsec_patch['sak_rekey'] = sak_rekey_prototype
+        gateway_macsec_patch['security_policy'] = 'must_secure'
+        gateway_macsec_patch['window_size'] = 74
+
+        """ Test update gateway macsec"""
+        macsec_update_response = self.dl.update_gateway_macsec(
+            gateway_id,
+            gateway_macsec_patch
+        )
+        assert macsec_update_response.get_status_code() == 200
+        macsec_update_result = macsec_update_response.get_result()
+        assert macsec_update_result['window_size'] == gateway_macsec_patch['window_size']
+
+        """ Test unset gateway macsec"""
+        macsec_unset_response = self.dl.unset_gateway_macsec(gateway_id)
+        assert macsec_unset_response.status_code == 204
 
         # delete gateway
         self.delete_gateway(gateway_id)
