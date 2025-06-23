@@ -5,5 +5,8 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.1",
     "http-cache-semantics": "^4.1.1"
+  },
+  "overrides": {
+    "brace-expansion": "2.0.2"
   }
 }
