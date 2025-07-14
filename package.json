@@ -8,5 +8,8 @@
   },
   "overrides": {
     "brace-expansion": "4.0.1"
+  },
+  "resolutions": { 
+    "brace-expansion": "4.0.1" 
   }
 }
