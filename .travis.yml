@@ -34,6 +34,7 @@ before_script:
     [ -f cis.env ] && . cis.env
     [ -f dns.env ] && . dns.env
     set +a
+  - export CIS_SERVICES_AUTH_URL="https://iam.cloud.ibm.com/identity/token"  
 
   # Debug: show which values are set (secrets masked) + what's inside the files for IAM URL
   - |
