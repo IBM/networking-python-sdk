@@ -8,6 +8,7 @@ notifications:
   email: true
 
 before_script:
+  # Decrypt env files (only on non-PR, non-tag builds)
   - >
     [ -z "${TRAVIS_TAG}" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] &&
     openssl aes-256-cbc -K $encrypted_d4a185972ecc_key -iv $encrypted_d4a185972ecc_iv -in pdns.env.enc -out pdns.env -d || true
@@ -23,6 +24,8 @@ before_script:
   - >
     [ -z "${TRAVIS_TAG}" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] &&
     openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true
+
+  # Source (export) everything from the decrypted files
   - |
     set -a
     [ -f pdns.env ] && . pdns.env
@@ -31,6 +34,41 @@ before_script:
     [ -f cis.env ] && . cis.env
     [ -f dns.env ] && . dns.env
     set +a
+
+  # Debug: show which values are set (secrets masked) + what's inside the files for IAM URL
+  - |
+    echo "=== Debug env start ==="
+    ls -l *.env || true
+
+    for k in CIS_SERVICES_AUTH_URL API_ENDPOINT CRN ZONE_ID; do
+      printf '%s=%s\n' "$k" "${!k:-<unset>}"
+    done
+    if [ -n "$CIS_SERVICES_APIKEY" ]; then
+      echo "CIS_SERVICES_APIKEY=<set>"
+    else
+      echo "CIS_SERVICES_APIKEY=<unset>"
+    fi
+
+    echo "--- IAM URL values found in *.env ---"
+    grep -h '^CIS_SERVICES_AUTH_URL=' *.env || echo "(none in files)"
+    echo "=== Debug env end ==="
+
+  # Force PROD IAM unless you intentionally want test + a test-realm API key
+  - export CIS_SERVICES_AUTH_URL="https://iam.cloud.ibm.com/identity/token"
+
+  # Quick IAM sanity (no secrets printed)
+  - |
+    echo "=== IAM sanity ==="
+    if [ -n "$CIS_SERVICES_APIKEY" ]; then
+      URL="$CIS_SERVICES_AUTH_URL"
+      code=$(curl -s -o /dev/null -w '%{http_code}' -X POST "$URL" \
+        -H 'Content-Type: application/x-www-form-urlencoded' \
+        --data "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=${CIS_SERVICES_APIKEY}&response_type=cloud_iam")
+      echo "IAM POST $URL -> HTTP $code"
+    else
+      echo "No CIS_SERVICES_APIKEY set"
+    fi
+
 matrix:
   include:
     - python: 3.10
@@ -38,13 +76,17 @@ matrix:
     - python: 3.12
 
 before_install:
-- sudo apt-get update
-- sudo apt-get install pandoc
-- pip install pypandoc
-- echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
+  - sudo apt-get update
+  - sudo apt-get install -y pandoc curl
+  - pip install pypandoc
+  # safer .netrc creation
+  - set +x
+  - printf "machine github.ibm.com\n  login %s\n" "$GH_TOKEN" > ~/.netrc
+  - chmod 600 ~/.netrc
+  - set -x
 
 install:
-  - sudo rm -f /etc/apt/sources.list.d/mongodb-4.4.list
+  - sudo rm -f /etc/apt/sources.list.d/mongodb-4.4.list || true
   - wget -O- https://pgp.mongodb.com/server-4.4.asc | sudo gpg --dearmor -o /usr/share/keyrings/mongodb-4.4.gpg
   - echo "deb [signed-by=/usr/share/keyrings/mongodb-4.4.gpg] http://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-4.4.list
   - pip install tox-travis
@@ -52,29 +94,28 @@ install:
 script: tox
 
 before_deploy:
-- nvm install 20
-- npm install npm@latest -g
-- npm install @semantic-release/changelog
-- npm install @semantic-release/exec
-- npm install @semantic-release/git
-- npm install @semantic-release/github
-- pip install bump2version
+  - nvm install 20
+  - npm install npm@latest -g
+  - npm install @semantic-release/changelog
+  - npm install @semantic-release/exec
+  - npm install @semantic-release/git
+  - npm install @semantic-release/github
+  - pip install bump2version
 
 deploy:
-- provider: script
-  script: npx semantic-release
-  skip_cleanup: true
-  on:
-    python: '3.10'
-    all_branches: true  # Allow semantic-release on any branch triggered by tags
-    #branch: master
-    tags: true
-- provider: pypi
-  setuptools_version: "60.8.2"
-  user: __token__
-  password: $PYPI_TOKEN
-  repository: https://upload.pypi.org/legacy
-  skip_cleanup: true
-  on:
-    python: '3.10'
-    tags: true
+  - provider: script
+    script: npx semantic-release
+    skip_cleanup: true
+    on:
+      python: '3.10'
+      all_branches: true
+      tags: true
+  - provider: pypi
+    setuptools_version: "60.8.2"
+    user: __token__
+    password: $PYPI_TOKEN
+    repository: https://upload.pypi.org/legacy
+    skip_cleanup: true
+    on:
+      python: '3.10'
+      tags: true
