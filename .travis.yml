@@ -23,7 +23,14 @@ before_script:
   - >
     [ -z "${TRAVIS_TAG}" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] &&
     openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true
-
+  - |
+    set -a
+    [ -f pdns.env ] && . pdns.env
+    [ -f transit.env ] && . transit.env
+    [ -f dl.env ] && . dl.env
+    [ -f cis.env ] && . cis.env
+    [ -f dns.env ] && . dns.env
+    set +a
 matrix:
   include:
     - python: 3.10
