@@ -1,6 +1,6 @@
 # test dependencies
 coverage>=4.5.4
-pylint>=2.6.0,<3.0.0
+pylint>=3.3.9,<3.4.0
 pytest>=8.4.1,<8.5.0
 pytest-cov>=2.2.1,<3.0.0
 pytest-rerunfailures>=3.1
