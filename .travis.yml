@@ -28,10 +28,6 @@ matrix:
         # debug
         - bash -c 'echo "DEBUG (cis.env):"; (test -f cis.env && grep CIS_SERVICES_AUTH_URL cis.env) || echo "<missing cis.env or var>"'
         - bash -c 'echo "DEBUG (env): CIS_SERVICES_AUTH_URL=${CIS_SERVICES_AUTH_URL}"'
-        - python - <<'PY'
-import os
-print("PYDEBUG before tox: CIS_SERVICES_AUTH_URL =", os.getenv("CIS_SERVICES_AUTH_URL"))
-PY
     - python: 3.11
     - python: 3.12
 
