@@ -7,8 +7,6 @@ cache: pip
 notifications:
   email: true
 
-
-
 matrix:
   include:
     - python: 3.10
