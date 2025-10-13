@@ -25,6 +25,13 @@ matrix:
         - 'grep -q "^CIS_SERVICES_AUTH_URL=" cis.env || echo "CIS_SERVICES_AUTH_URL=https://iam.cloud.ibm.com/identity/token" >> cis.env'
         # also export for safety
         - export CIS_SERVICES_AUTH_URL="https://iam.cloud.ibm.com/identity/token"
+        # debug
+        - bash -c 'echo "DEBUG (cis.env):"; (test -f cis.env && grep CIS_SERVICES_AUTH_URL cis.env) || echo "<missing cis.env or var>"'
+        - bash -c 'echo "DEBUG (env): CIS_SERVICES_AUTH_URL=${CIS_SERVICES_AUTH_URL}"'
+        - python - <<'PY'
+import os
+print("PYDEBUG before tox: CIS_SERVICES_AUTH_URL =", os.getenv("CIS_SERVICES_AUTH_URL"))
+PY
     - python: 3.11
     - python: 3.12
 
