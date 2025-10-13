@@ -18,11 +18,17 @@ matrix:
           && openssl aes-256-cbc -K $encrypted_27cb64608ff6_key -iv $encrypted_27cb64608ff6_iv -in dl.env.enc -out dl.env -d || true
           && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true
           && openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true
+        # 🔧 force prod IAM *inside the file* so dotenv can't override you
+        - sed -i 's#^CIS_SERVICES_AUTH_URL=.*#CIS_SERVICES_AUTH_URL=https://iam.cloud.ibm.com/identity/token#g' cis.env || true
+        # (optional) if the var is missing entirely, append it
+        - 'grep -q "^CIS_SERVICES_AUTH_URL=" cis.env || echo "CIS_SERVICES_AUTH_URL=https://iam.cloud.ibm.com/identity/token" >> cis.env'
+        # also export for safety
         - export CIS_SERVICES_AUTH_URL="https://iam.cloud.ibm.com/identity/token"
-        - echo "DEBUG CIS_SERVICES_AUTH_URL=${CIS_SERVICES_AUTH_URL}"
+        # quick visibility
+        - echo "DEBUG (cis.env): $(grep CIS_SERVICES_AUTH_URL cis.env || true)"
+        - echo "DEBUG (env): CIS_SERVICES_AUTH_URL=${CIS_SERVICES_AUTH_URL}"
     - python: 3.11
     - python: 3.12
-
 before_install:
 - sudo apt-get update
 - sudo apt-get install pandoc
