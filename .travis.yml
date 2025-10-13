@@ -18,6 +18,15 @@ matrix:
           && openssl aes-256-cbc -K $encrypted_27cb64608ff6_key -iv $encrypted_27cb64608ff6_iv -in dl.env.enc -out dl.env -d || true
           && openssl aes-256-cbc -K $encrypted_fc092b9428d6_key -iv $encrypted_fc092b9428d6_iv -in cis.env.enc -out cis.env -d || true
           && openssl aes-256-cbc -K $encrypted_89a9eb4f9417_key -iv $encrypted_89a9eb4f9417_iv -in dns.env.enc -out dns.env -d || true
+        # force prod IAM inside the file so dotenv can't override you
+        - sed -i 's#^CIS_SERVICES_AUTH_URL=.*#CIS_SERVICES_AUTH_URL=https://iam.cloud.ibm.com/identity/token#g' cis.env || true
+        - 'grep -q "^CIS_SERVICES_AUTH_URL=" cis.env || echo "CIS_SERVICES_AUTH_URL=https://iam.cloud.ibm.com/identity/token" >> cis.env'
+        # also export for safety
+        - export CIS_SERVICES_AUTH_URL="https://iam.cloud.ibm.com/identity/token"
+        - python - <<'PY'
+import os
+print("PYDEBUG before tox: CIS_SERVICES_AUTH_URL =", os.getenv("CIS_SERVICES_AUTH_URL"))
+PY
     - python: 3.11
     - python: 3.12
 
@@ -28,7 +37,7 @@ before_install:
 - echo -e "machine github.ibm.com\n  login $GH_TOKEN" > ~/.netrc
 
 install:
-  - sudo rm /etc/apt/sources.list.d/mongodb-4.4.list
+  - sudo rm -f /etc/apt/sources.list.d/mongodb-4.4.list || true
   - wget -O- https://pgp.mongodb.com/server-4.4.asc | sudo gpg --dearmor -o /usr/share/keyrings/mongodb-4.4.gpg
   - echo "deb [signed-by=/usr/share/keyrings/mongodb-4.4.gpg] http://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-4.4.list
   - pip install tox-travis
