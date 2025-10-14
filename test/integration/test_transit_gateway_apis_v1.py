@@ -348,6 +348,33 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         dl_conn_id = response.get_result().get("id")
         assert self.is_resource_available(gateway_id=gateway_id, 
             conn_id=dl_conn_id, rr_id="")   
+
+        #############################################
+        # Success: POST Transit VPN Connection:
+        #############################################
+        vpn_crn = os.getenv("TG_SERVICES_VPN_CRN")
+        vpn_name = "-VPN_" + time.strftime("%H%M%S")
+        vpn_name = os.getenv("TG_SERVICES_CONN_NAME") + vpn_name
+        vpn_cidr = "192.168.100.0/24";
+
+        response = self.tg.create_transit_gateway_connection(
+            name=vpn_name,
+            network_id=vpn_crn,
+            network_type="vpn_gateway",
+            cidr=vpn_cidr,
+            transit_gateway_id=gateway_id)
+
+        assert response is not None
+        assert response.get_status_code() == 201
+        assert response.get_result().get("id") != ""
+        assert response.get_result().get("name") == vpn_name
+        assert response.get_result().get("network_id") == vpn_crn
+        assert response.get_result().get("network_type") == "vpn_gateway"
+
+        # wait until the Connection status = attached
+        vpn_conn_id = response.get_result().get("id")
+        assert self.is_resource_available(gateway_id=gateway_id,
+                                          conn_id=vpn_conn_id, rr_id="")
         
         #############################################
         # Success: POST Transit GRE Connection:
@@ -450,6 +477,20 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_result().get("network_id") == dl_crn
         assert response.get_result().get("network_type") == "directlink"
 
+        #############################################
+        # Success: GET Transit VPN Connection:
+        #############################################
+        response = self.tg.get_transit_gateway_connection(
+            transit_gateway_id=gateway_id, id=vpn_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("name") == vpn_name
+        assert response.get_result().get("id") == vpn_conn_id
+        assert response.get_result().get("network_id") == vpn_crn
+        assert response.get_result().get("network_type") == "vpn_gateway"
+        assert response.get_result().get("cidr") == vpn_cidr
+
         #############################################  
         # Success: GET Transit GRE Connection:
         #############################################
@@ -520,6 +561,20 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_result().get("id") == dl_conn_id
         assert response.get_result().get("name") == dl_name  
 
+        #############################################
+        # Success: UPDATE Transit VPN Connection:
+        #############################################
+        dl_name = "UPDATED_" + vpn_name
+        response = self.tg.update_transit_gateway_connection(
+            transit_gateway_id=gateway_id,
+            name=vpn_name,
+            id=vpn_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == vpn_conn_id
+        assert response.get_result().get("name") == vpn_name
+
         #############################################  
         # Success: UPDATE Transit GRE Connection:
         #############################################
@@ -558,13 +613,18 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         assert response.get_status_code() == 200
         assert len(response.get_result().get("connections")) > 0
         
-        gre_found = dl_found = vpc_found = classic_found = unbound_gre_found = False
+        gre_found = dl_found = vpn_found = vpc_found = classic_found = unbound_gre_found = False
         conns = response.get_result().get("connections")          
         for conn in conns:
             if conn["network_type"] == "directlink":
                 assert conn["name"] == dl_name
                 assert conn["id"] == dl_conn_id
                 dl_found = True
+            
+            elif conn["network_type"] == "vpn_gateway":
+                assert conn["name"] == vpn_name
+                assert conn["id"] == vpn_conn_id
+                vpn_found = True
 
             elif conn["network_type"] == "gre_tunnel":
                 assert conn["name"] == gre_name
@@ -587,6 +647,7 @@ class TestTransitGatewayApisV1(unittest.TestCase):
                 unbound_gre_found = True   
 
         assert dl_found
+        assert vpn_found
         assert gre_found
         assert unbound_gre_found
         assert vpc_found  
@@ -925,6 +986,10 @@ class TestTransitGatewayApisV1(unittest.TestCase):
         # Delete DL Connection
         assert self.delete_resource_test(gateway_id=gateway_id, 
             conn_id=dl_conn_id, rr_id="", pf_id="")
+
+        # Delete VPN Connection
+        assert self.delete_resource_test(gateway_id=gateway_id,
+            conn_id=vpn_conn_id, rr_id="", pf_id="")
 
         # Delete VPC Connection
         assert self.delete_resource_test(gateway_id=gateway_id, 
