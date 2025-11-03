@@ -28,7 +28,7 @@ import re
 import requests
 import responses
 import urllib
-from ibm_cloud.transit_gateway_apis_v1 import *
+from ibm_cloud_networking_services.transit_gateway_apis_v1 import *
 
 version = 'testString'
 
@@ -2654,112 +2654,6 @@ class TestCreateTransitGatewayConnectionPrefixFilter:
         self.test_create_transit_gateway_connection_prefix_filter_value_error()
 
 
-class TestReplaceTransitGatewayConnectionPrefixFilter:
-    """
-    Test Class for replace_transit_gateway_connection_prefix_filter
-    """
-
-    @responses.activate
-    def test_replace_transit_gateway_connection_prefix_filter_all_params(self):
-        """
-        replace_transit_gateway_connection_prefix_filter()
-        """
-        # Set up mock
-        url = preprocess_url('/transit_gateways/testString/connections/testString/prefix_filters')
-        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(
-            responses.PUT,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=201,
-        )
-
-        # Construct a dict representation of a PrefixFilterPut model
-        prefix_filter_put_model = {}
-        prefix_filter_put_model['action'] = 'permit'
-        prefix_filter_put_model['ge'] = 0
-        prefix_filter_put_model['le'] = 32
-        prefix_filter_put_model['prefix'] = '192.168.100.0/24'
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        prefix_filters = [prefix_filter_put_model]
-
-        # Invoke method
-        response = _service.replace_transit_gateway_connection_prefix_filter(
-            transit_gateway_id,
-            id,
-            prefix_filters,
-            headers={},
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['prefix_filters'] == [prefix_filter_put_model]
-
-    def test_replace_transit_gateway_connection_prefix_filter_all_params_with_retries(self):
-        # Enable retries and run test_replace_transit_gateway_connection_prefix_filter_all_params.
-        _service.enable_retries()
-        self.test_replace_transit_gateway_connection_prefix_filter_all_params()
-
-        # Disable retries and run test_replace_transit_gateway_connection_prefix_filter_all_params.
-        _service.disable_retries()
-        self.test_replace_transit_gateway_connection_prefix_filter_all_params()
-
-    @responses.activate
-    def test_replace_transit_gateway_connection_prefix_filter_value_error(self):
-        """
-        test_replace_transit_gateway_connection_prefix_filter_value_error()
-        """
-        # Set up mock
-        url = preprocess_url('/transit_gateways/testString/connections/testString/prefix_filters')
-        mock_response = '{"prefix_filters": [{"action": "permit", "before": "1a15dcab-7e40-45e1-b7c5-bc690eaa9782", "created_at": "2019-01-01T12:00:00.000Z", "ge": 0, "id": "1a15dcab-7e30-45e1-b7c5-bc690eaa9865", "le": 32, "prefix": "192.168.100.0/24", "updated_at": "2019-01-01T12:00:00.000Z"}]}'
-        responses.add(
-            responses.PUT,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=201,
-        )
-
-        # Construct a dict representation of a PrefixFilterPut model
-        prefix_filter_put_model = {}
-        prefix_filter_put_model['action'] = 'permit'
-        prefix_filter_put_model['ge'] = 0
-        prefix_filter_put_model['le'] = 32
-        prefix_filter_put_model['prefix'] = '192.168.100.0/24'
-
-        # Set up parameter values
-        transit_gateway_id = 'testString'
-        id = 'testString'
-        prefix_filters = [prefix_filter_put_model]
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "transit_gateway_id": transit_gateway_id,
-            "id": id,
-            "prefix_filters": prefix_filters,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                _service.replace_transit_gateway_connection_prefix_filter(**req_copy)
-
-    def test_replace_transit_gateway_connection_prefix_filter_value_error_with_retries(self):
-        # Enable retries and run test_replace_transit_gateway_connection_prefix_filter_value_error.
-        _service.enable_retries()
-        self.test_replace_transit_gateway_connection_prefix_filter_value_error()
-
-        # Disable retries and run test_replace_transit_gateway_connection_prefix_filter_value_error.
-        _service.disable_retries()
-        self.test_replace_transit_gateway_connection_prefix_filter_value_error()
-
-
 class TestDeleteTransitGatewayConnectionPrefixFilter:
     """
     Test Class for delete_transit_gateway_connection_prefix_filter
@@ -3698,39 +3592,6 @@ class TestModel_PrefixFilterCust:
         # Convert model instance back to dict and verify no loss of data
         prefix_filter_cust_model_json2 = prefix_filter_cust_model.to_dict()
         assert prefix_filter_cust_model_json2 == prefix_filter_cust_model_json
-
-
-class TestModel_PrefixFilterPut:
-    """
-    Test Class for PrefixFilterPut
-    """
-
-    def test_prefix_filter_put_serialization(self):
-        """
-        Test serialization/deserialization for PrefixFilterPut
-        """
-
-        # Construct a json representation of a PrefixFilterPut model
-        prefix_filter_put_model_json = {}
-        prefix_filter_put_model_json['action'] = 'permit'
-        prefix_filter_put_model_json['ge'] = 0
-        prefix_filter_put_model_json['le'] = 32
-        prefix_filter_put_model_json['prefix'] = '192.168.100.0/24'
-
-        # Construct a model instance of PrefixFilterPut by calling from_dict on the json representation
-        prefix_filter_put_model = PrefixFilterPut.from_dict(prefix_filter_put_model_json)
-        assert prefix_filter_put_model != False
-
-        # Construct a model instance of PrefixFilterPut by calling from_dict on the json representation
-        prefix_filter_put_model_dict = PrefixFilterPut.from_dict(prefix_filter_put_model_json).__dict__
-        prefix_filter_put_model2 = PrefixFilterPut(**prefix_filter_put_model_dict)
-
-        # Verify the model instances are equivalent
-        assert prefix_filter_put_model == prefix_filter_put_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        prefix_filter_put_model_json2 = prefix_filter_put_model.to_dict()
-        assert prefix_filter_put_model_json2 == prefix_filter_put_model_json
 
 
 class TestModel_ResourceGroupIdentity:
