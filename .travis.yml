@@ -24,9 +24,9 @@ matrix:
         # also export for safety
         - export CIS_SERVICES_AUTH_URL="https://iam.cloud.ibm.com/identity/token"
         - python - <<'PY'
-import os
-print("PYDEBUG before tox: CIS_SERVICES_AUTH_URL =", os.getenv("CIS_SERVICES_AUTH_URL"))
-PY
+          import os
+          print("PYDEBUG before tox: CIS_SERVICES_AUTH_URL =", os.getenv("CIS_SERVICES_AUTH_URL"))
+          PY
     - python: 3.11
     - python: 3.12
 
@@ -45,7 +45,7 @@ install:
 script: tox
 
 before_deploy:
-- nvm install 20
+- nvm install 22
 - npm install npm@latest -g
 - npm install @semantic-release/changelog
 - npm install @semantic-release/exec
