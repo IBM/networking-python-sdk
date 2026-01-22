@@ -1,3 +1,31 @@
+## [0.28.0](https://github.com/IBM/networking-python-sdk/compare/v0.27.2...v0.28.0) (2026-01-22)
+
+### Bug Fixes
+
+* Addressed brace-expansion dependency security alert (#158) (4c79ef3)
+* Addressed travis failures (#172) (dc6fffe)
+* Create codeql.yml (#141) (e28dfb5)
+* deps: update dependency @semantic-release/exec to v7 (#131) (d63413f)
+* deps: update dependency @semantic-release/exec to v7.1.0 (#152) (93a365c)
+* deps: update dependency @semantic-release/github to v11.0.2 (#148) (d129737)
+* deps: update dependency @semantic-release/github to v11.0.3 (#154) (dd0b42b)
+* deps: update dependency http-cache-semantics to v4.2.0 (#151) (33c1902)
+* Fix travis failure  (#124) (11fc2af)
+* fixed  security alert by updating brace-expansion (#156) (14ffadb)
+* Fixing CodeQL errors  (#135) (a117f6f)
+* updated tgw with new specs (8536d62)
+
+### Features
+
+* direct link macsec changes (#150) (2dceb5b)
+* Introduced prefix-filters for GRE connections (#170) (32c9cf7)
+* rename allow_gre_traffic_across_zones (#147) (2da6f68)
+* transit-gateway vpnaas changes (a3416e4)
+
+### Reverts
+
+* Revert "feat: Introduced prefix-filters for GRE connections (#170)" (#175) (60b96ec)
+
 ## [0.27.2](https://github.com/IBM/networking-python-sdk/compare/v0.27.1...v0.27.2) (2024-12-10)
 
 
