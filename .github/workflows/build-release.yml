@@ -8,6 +8,9 @@ on:
   workflow_dispatch:
     # Allow workflow to be triggered manually.
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: build-test (python ${{ matrix.python-version }})
@@ -44,6 +47,8 @@ jobs:
     if: "github.ref_name == 'master' && github.event_name != 'pull_request'"
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
