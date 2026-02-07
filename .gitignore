@@ -46,6 +46,7 @@ coverage.xml
 *,cover
 
 .vscode
+node_modules/
 
 # virtual env
 venv/
