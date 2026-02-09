@@ -47,6 +47,17 @@ jobs:
       contents: write
 
     steps:
+      - name: Notify Slack - Release Started
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-python-sdk",
+              "language": "python",
+              "status": "started",
+              "actor": "${{ github.actor }}"
+            }'
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -87,3 +98,36 @@ jobs:
         run: |
           python -m build
           python -m twine upload dist/*
+
+      - name: Get package version
+        if: success()
+        id: get_version
+        run: |
+          VERSION=$(python -c "from ibm_cloud_networking_services.version import __version__; print(__version__)")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Notify Slack - Release Completed
+        if: success()
+        run: |
+          curl -X POST "${{ secrets.SLACK_PYPI_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "version": "${{ steps.get_version.outputs.version }}",
+              "package_name": "ibm-cloud-networking-services",
+              "pypi_url": "https://pypi.org/project/ibm-cloud-networking-services/${{ steps.get_version.outputs.version }}/",
+              "github_release": "${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ steps.get_version.outputs.version }}",
+              "commit_sha": "${{ github.sha }}",
+              "actor": "${{ github.actor }}"
+            }'
+
+      - name: Notify Slack - Release Failed
+        if: failure()
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-python-sdk",
+              "language": "python",
+              "status": "failed",
+              "actor": "${{ github.actor }}"
+            }'
