@@ -1,3 +1,11 @@
+## [0.28.1](https://github.com/IBM/networking-python-sdk/compare/v0.28.0...v0.28.1) (2026-02-12)
+
+
+### Bug Fixes
+
+* bump version validation for consistency ([#193](https://github.com/IBM/networking-python-sdk/issues/193)) ([7b717f4](https://github.com/IBM/networking-python-sdk/commit/7b717f43dc9ee9e8e691803e494a8198677d590b))
+* **CI:** added github actions ([#188](https://github.com/IBM/networking-python-sdk/issues/188)) ([ac466a4](https://github.com/IBM/networking-python-sdk/commit/ac466a4ae33d8e600aaa3e976a44ac7438ea09d4))
+
 ## [0.28.0](https://github.com/IBM/networking-python-sdk/compare/v0.27.2...v0.28.0) (2026-01-22)
 
 ### Bug Fixes
