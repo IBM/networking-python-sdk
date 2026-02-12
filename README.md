@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/networking-python-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-python-sdk)
+[![Build Status](https://github.com/IBM/networking-python-sdk/actions/workflows/build-release.yml/badge.svg)](https://github.com/IBM/networking-python-sdk/actions/workflows/build-release.yml)
 [![Release](https://img.shields.io/github/v/release/IBM/networking-python-sdk)](https://github.com/IBM/networking-python-sdk/releases/latest)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ibm-cloud-networking-services)](https://pypi.org/project/ibm-cloud-networking-services/)
 [![PyPI](https://img.shields.io/pypi/v/ibm-cloud-networking-services)](https://pypi.org/project/ibm-cloud-networking-services/)
@@ -92,7 +92,7 @@ IBM Cloud services:
 
 - An [IBM Cloud][ibm-cloud-onboarding] account.
 - An IAM API key to allow the SDK to access your account. Create one [here](https://cloud.ibm.com/iam/apikeys).
-- Python 3.6 or above.
+- Python 3.10 or above.
 
 ## Installation
 

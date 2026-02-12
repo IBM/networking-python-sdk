@@ -1,0 +1,157 @@
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build-test (python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install 'tox<4' tox-gh-actions
+
+      - name: Run tests
+        run: tox
+
+  create-release:
+    name: semantic-release
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Notify Slack - Release Started
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-python-sdk",
+              "language": "python",
+              "status": "started",
+              "actor": "${{ github.actor }}"
+            }'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          pip install pypandoc
+
+      - name: Install publishing tools
+        run: |
+          pip install bump2version build twine
+          npm ci
+
+      - name: Verify version consistency
+        run: |
+          # Extract versions from all files
+          BUMPVERSION_VERSION=$(grep "current_version" .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
+          SETUP_VERSION=$(grep "__version__ = " setup.py | head -1 | cut -d"'" -f2)
+          VERSION_PY=$(grep "__version__ = " ibm_cloud_networking_services/version.py | cut -d"'" -f2)
+          README_VERSION=$(grep "# IBM Cloud Networking Services Python SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          
+          echo "Version in .bumpversion.cfg: $BUMPVERSION_VERSION"
+          echo "Version in setup.py: $SETUP_VERSION"
+          echo "Version in version.py: $VERSION_PY"
+          echo "Version in README.md: $README_VERSION"
+          
+          # Check if all versions match
+          if [ "$BUMPVERSION_VERSION" != "$SETUP_VERSION" ] || \
+             [ "$BUMPVERSION_VERSION" != "$VERSION_PY" ] || \
+             [ "$BUMPVERSION_VERSION" != "$README_VERSION" ]; then
+            echo "❌ ERROR: Version mismatch detected!"
+            echo "All version strings must match before release."
+            exit 1
+          fi
+          
+          echo "✅ All version strings are consistent: $BUMPVERSION_VERSION"
+
+      - name: Run semantic-release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
+
+      - name: Publish to PyPI
+        if: success()
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          python -m build
+          python -m twine upload dist/*
+
+      - name: Get package version
+        if: success()
+        id: get_version
+        run: |
+          VERSION=$(python -c "from ibm_cloud_networking_services.version import __version__; print(__version__)")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Notify Slack - Release Completed
+        if: success()
+        run: |
+          curl -X POST "${{ secrets.SLACK_PYPI_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "version": "${{ steps.get_version.outputs.version }}",
+              "package_name": "ibm-cloud-networking-services",
+              "pypi_url": "https://pypi.org/project/ibm-cloud-networking-services/${{ steps.get_version.outputs.version }}/",
+              "github_release": "${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ steps.get_version.outputs.version }}",
+              "commit_sha": "${{ github.sha }}",
+              "actor": "${{ github.actor }}"
+            }'
+
+      - name: Notify Slack - Release Failed
+        if: failure()
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-python-sdk",
+              "language": "python",
+              "status": "failed",
+              "actor": "${{ github.actor }}"
+            }'

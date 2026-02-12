@@ -14,21 +14,18 @@
 # limitations under the License.
 
 from setuptools import setup
-from setuptools.command.test import test as TestCommand
 import os
 import sys
-import pkg_resources
 
 __version__ = '0.28.0'
 PACKAGE_NAME = 'ibm_cloud_networking_services'
 PACKAGE_DESC = 'Python client library for IBM Cloud Networking Services'
 
 with open('requirements.txt') as f:
-    install_requires = [
-        str(req) for req in pkg_resources.parse_requirements(f)
-    ]
+    install_requires = [line.strip() for line in f if line.strip() and not line.startswith('#')]
+
 with open('requirements-dev.txt') as f:
-    tests_require = [str(req) for req in pkg_resources.parse_requirements(f)]
+    tests_require = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 if sys.argv[-1] == 'publish':
     # test server
@@ -51,7 +48,7 @@ setup(
       install_requires=install_requires,
       tests_require=tests_require,
       author='IBM',
-      author_email='devexdev@us.ibm.com',
+      author_email='devx.network.services@ibm.com',
       long_description=readme,
       long_description_content_type='text/markdown',
       url='https://github.com/IBM/networking-python-sdk',
@@ -61,10 +58,9 @@ setup(
       classifiers=[
           'Programming Language :: Python',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.7',
-          'Programming Language :: Python :: 3.8',
-          'Programming Language :: Python :: 3.9',
           'Programming Language :: Python :: 3.10',
+          'Programming Language :: Python :: 3.11',
+          'Programming Language :: Python :: 3.12',
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: Apache Software License',
