@@ -48,7 +48,7 @@ setup(
       install_requires=install_requires,
       tests_require=tests_require,
       author='IBM',
-      author_email='devexdev@us.ibm.com',
+      author_email='devx.network.services@ibm.com',
       long_description=readme,
       long_description_content_type='text/markdown',
       url='https://github.com/IBM/networking-python-sdk',
