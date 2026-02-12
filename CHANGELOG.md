@@ -1,3 +1,10 @@
+## [0.28.2](https://github.com/IBM/networking-python-sdk/compare/v0.28.1...v0.28.2) (2026-02-12)
+
+
+### Bug Fixes
+
+* for version verification post publish to PyPI ([#194](https://github.com/IBM/networking-python-sdk/issues/194)) ([1afc0e1](https://github.com/IBM/networking-python-sdk/commit/1afc0e1ca816eed9c21d06363bf496548fc13fe1))
+
 ## [0.28.1](https://github.com/IBM/networking-python-sdk/compare/v0.28.0...v0.28.1) (2026-02-12)
 
 
