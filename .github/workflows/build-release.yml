@@ -127,6 +127,8 @@ jobs:
         if: success()
         id: get_version
         run: |
+          # Install package dependencies to allow importing
+          pip install -e .
           VERSION=$(python -c "from ibm_cloud_networking_services.version import __version__; print(__version__)")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
