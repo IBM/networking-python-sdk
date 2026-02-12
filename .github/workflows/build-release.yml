@@ -88,7 +88,7 @@ jobs:
       - name: Verify version consistency
         run: |
           # Extract versions from all files
-          BUMPVERSION_VERSION=$(grep "current_version" .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
+          BUMPVERSION_VERSION=$(grep "^current_version = " .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
           SETUP_VERSION=$(grep "__version__ = " setup.py | head -1 | cut -d"'" -f2)
           VERSION_PY=$(grep "__version__ = " ibm_cloud_networking_services/version.py | cut -d"'" -f2)
           README_VERSION=$(grep "# IBM Cloud Networking Services Python SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
