@@ -85,6 +85,30 @@ jobs:
           pip install bump2version build twine
           npm ci
 
+      - name: Verify version consistency
+        run: |
+          # Extract versions from all files
+          BUMPVERSION_VERSION=$(grep "current_version" .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
+          SETUP_VERSION=$(grep "__version__ = " setup.py | head -1 | cut -d"'" -f2)
+          VERSION_PY=$(grep "__version__ = " ibm_cloud_networking_services/version.py | cut -d"'" -f2)
+          README_VERSION=$(grep "# IBM Cloud Networking Services Python SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          
+          echo "Version in .bumpversion.cfg: $BUMPVERSION_VERSION"
+          echo "Version in setup.py: $SETUP_VERSION"
+          echo "Version in version.py: $VERSION_PY"
+          echo "Version in README.md: $README_VERSION"
+          
+          # Check if all versions match
+          if [ "$BUMPVERSION_VERSION" != "$SETUP_VERSION" ] || \
+             [ "$BUMPVERSION_VERSION" != "$VERSION_PY" ] || \
+             [ "$BUMPVERSION_VERSION" != "$README_VERSION" ]; then
+            echo "❌ ERROR: Version mismatch detected!"
+            echo "All version strings must match before release."
+            exit 1
+          fi
+          
+          echo "✅ All version strings are consistent: $BUMPVERSION_VERSION"
+
       - name: Run semantic-release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
