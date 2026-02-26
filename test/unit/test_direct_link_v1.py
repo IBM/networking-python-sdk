@@ -30,7 +30,7 @@ import requests
 import responses
 import tempfile
 import urllib
-from github.com/IBM/networking-go-sdk.direct_link_v1 import *
+from ibm_cloud_networking_services.direct_link_v1 import *
 
 version = 'testString'
 
