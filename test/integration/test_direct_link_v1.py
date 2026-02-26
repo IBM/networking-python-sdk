@@ -112,7 +112,7 @@ class TestDirectLinkV1(unittest.TestCase):
             try:
                 response = self.dl.get_gateway(id=gateway_id)
             except ApiException as e:
-                if e.code == 404:
+                if e.status_code == 404:
                     break
 
             if (response is not None) and (response.get_status_code() == 404):
@@ -136,7 +136,7 @@ class TestDirectLinkV1(unittest.TestCase):
                 response = self.dl.get_gateway_virtual_connection(
                     gateway_id=gateway_id, id=conn_id)
             except ApiException as e:
-                if e.code == 404:
+                if e.status_code == 404:
                     break
 
             if (response is not None) and (response.get_status_code() == 404):
@@ -435,7 +435,7 @@ class TestDirectLinkV1(unittest.TestCase):
 
         with self.assertRaises(ApiException) as ex:
             response = self.dl.list_gateway_letter_of_authorization(id=gateway_id)
-        assert ex.exception.code == 404
+        assert ex.exception.status_code == 404
         
         """ create completion notice """
         cn = None
@@ -444,7 +444,7 @@ class TestDirectLinkV1(unittest.TestCase):
             with self.assertRaises(ApiException) as ex:
                 response = self.dl.create_gateway_completion_notice(
                     id=gateway_id, upload=cn)
-            assert ex.exception.code == 412
+            assert ex.exception.status_code == 412
         finally:
             if cn is not None:
                 cn.close()
@@ -452,7 +452,7 @@ class TestDirectLinkV1(unittest.TestCase):
         """ get completion notice """
         with self.assertRaises(ApiException) as ex:
             response = self.dl.list_gateway_completion_notice(id=gateway_id)
-        assert ex.exception.code == 404
+        assert ex.exception.status_code == 404
 
         # delete gateway
         self.delete_gateway(gateway_id)
@@ -691,7 +691,7 @@ class TestDirectLinkV1(unittest.TestCase):
             assert response.get_result()["id"] == gateway_id
             assert response.get_result()["bgp_asn"] == 63999
         except ApiException as e:
-            assert e.code == 400
+            assert e.status_code == 400
             assert e.detail == "Please make sure localIP and remoteIP are not in use"
            
         # delete gateway
@@ -774,7 +774,7 @@ class TestDirectLinkV1(unittest.TestCase):
             assert response.get_result()["bgp_cer_cidr"] == "172.17.252.2/29"
             assert response.get_result()["bgp_ibm_cidr"] == "172.17.252.1/29"
         except ApiException as e:
-            assert e.code == 400
+            assert e.status_code == 400
             assert e.detail == "Please make sure localIP and remoteIP are not in use"
 
         # check gateway status until provisioned
