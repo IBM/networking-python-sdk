@@ -27,7 +27,9 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_cloud_networking_services import DirectLinkV1
 from ibm_cloud_networking_services.direct_link_v1 import (
     GatewayTemplateGatewayTypeDedicatedTemplate,
-    AuthenticationKeyIdentity,
+    AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity,
+    AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity,
+    AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity,
     GatewayTemplateGatewayTypeConnectTemplate,
     GatewayPatchTemplate,
     GatewayPortIdentity,
@@ -110,7 +112,7 @@ class TestDirectLinkV1(unittest.TestCase):
             try:
                 response = self.dl.get_gateway(id=gateway_id)
             except ApiException as e:
-                if e.code == 404:
+                if e.status_code == 404:
                     break
 
             if (response is not None) and (response.get_status_code() == 404):
@@ -134,7 +136,7 @@ class TestDirectLinkV1(unittest.TestCase):
                 response = self.dl.get_gateway_virtual_connection(
                     gateway_id=gateway_id, id=conn_id)
             except ApiException as e:
-                if e.code == 404:
+                if e.status_code == 404:
                     break
 
             if (response is not None) and (response.get_status_code() == 404):
@@ -216,7 +218,12 @@ class TestDirectLinkV1(unittest.TestCase):
         # update for vlan reset
         # gtw_vlan_patch_template = GatewayPatchTemplate(metered=True, vlan=None) 
         # to reset vlan, we need pass this as JSON object
-        reset_response = self.dl.update_gateway(id=gateway_id, gateway_patch_template={ "metered": True, "vlan": None })
+        # update for vlan reset
+        reset_patch = GatewayPatchTemplate(metered=True, vlan=None)
+        reset_response = self.dl.update_gateway(
+            id=gateway_id,
+            gateway_patch_template=reset_patch
+        )
         assert reset_response is not None
         assert reset_response.get_status_code() == 200
 
@@ -428,7 +435,7 @@ class TestDirectLinkV1(unittest.TestCase):
 
         with self.assertRaises(ApiException) as ex:
             response = self.dl.list_gateway_letter_of_authorization(id=gateway_id)
-        assert ex.exception.code == 404
+        assert ex.exception.status_code == 404
         
         """ create completion notice """
         cn = None
@@ -437,7 +444,7 @@ class TestDirectLinkV1(unittest.TestCase):
             with self.assertRaises(ApiException) as ex:
                 response = self.dl.create_gateway_completion_notice(
                     id=gateway_id, upload=cn)
-            assert ex.exception.code == 412
+            assert ex.exception.status_code == 412
         finally:
             if cn is not None:
                 cn.close()
@@ -445,7 +452,7 @@ class TestDirectLinkV1(unittest.TestCase):
         """ get completion notice """
         with self.assertRaises(ApiException) as ex:
             response = self.dl.list_gateway_completion_notice(id=gateway_id)
-        assert ex.exception.code == 404
+        assert ex.exception.status_code == 404
 
         # delete gateway
         self.delete_gateway(gateway_id)
@@ -463,8 +470,20 @@ class TestDirectLinkV1(unittest.TestCase):
         carrierName = "carrier1"
         customerName = "customer1"
         gatewayType = "dedicated"
-        authKeyCrn = os.getenv("DL_SERVICES_AUTHENTICATION_KEY")
-        authKey = AuthenticationKeyIdentity(crn= authKeyCrn)
+        authKeyCrn= os.getenv("DL_SERVICES_AUTHENTICATION_KEY")
+
+        if not authKeyCrn:
+            self.skipTest("DL_SERVICES_AUTHENTICATION_KEY not set")
+        
+        # Determine authentication key type based on CRN and instantiate appropriate class
+        if "secrets-manager" in authKeyCrn:
+            authKey = AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(crn=authKeyCrn)
+        elif "kms" in authKeyCrn or "key-protect" in authKeyCrn:
+            authKey = AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(crn=authKeyCrn)
+        elif "hs-crypto" in authKeyCrn:
+            authKey = AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(crn=authKeyCrn)
+        else:
+            raise ValueError(f"Unknown authentication key type in CRN: {authKeyCrn}")
 
         """ test create/update/delete gateway with authentication ket success """
         # create gateway with authentication key
@@ -485,10 +504,18 @@ class TestDirectLinkV1(unittest.TestCase):
         assert res["authentication_key"]["crn"] == authKeyCrn
         assert response.get_result().get("authentication_key") is not None
 
-        # clear the authentication for the created gateway\
-        updAuthKey = AuthenticationKeyIdentity(crn="")
+        # clear the authentication for the created gateway
+        # Use the same class type as the original key for clearing
+        if "secrets-manager" in authKeyCrn:
+            updAuthKey = AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(crn="")
+        elif "kms" in authKeyCrn or "key-protect" in authKeyCrn:
+            updAuthKey = AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity(crn="")
+        elif "hs-crypto" in authKeyCrn:
+            updAuthKey = AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity(crn="")
+        
+        patch = GatewayPatchTemplate(authentication_key=updAuthKey)
         response = self.dl.update_gateway(id=gateway_id,
-            authentication_key=updAuthKey)
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
@@ -531,8 +558,9 @@ class TestDirectLinkV1(unittest.TestCase):
         assert res["connection_mode"] == connectionMode
 
         # update the connection_mode to direct
+        patch = GatewayPatchTemplate(connection_mode="direct")
         response = self.dl.update_gateway(id=gateway_id,
-            connection_mode="direct")
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
@@ -586,9 +614,10 @@ class TestDirectLinkV1(unittest.TestCase):
                 time.sleep(5)
                 count += 1
 
-        # update the connection_mode to direct
+        # update the connection_mode to transit
+        patch = GatewayPatchTemplate(connection_mode="transit")
         response = self.dl.update_gateway(id=gateway_id,
-            connection_mode="transit")
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
@@ -643,8 +672,9 @@ class TestDirectLinkV1(unittest.TestCase):
         assert res["name"] == name
 
         # update the bgp_asn
+        patch = GatewayPatchTemplate(bgp_asn=63999)
         response = self.dl.update_gateway(id=gateway_id,
-            bgp_asn=63999)
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
@@ -653,14 +683,15 @@ class TestDirectLinkV1(unittest.TestCase):
 
         #update the bgp ip cer and ibm cidr
         try:
+            patch = GatewayPatchTemplate(bgp_cer_cidr="172.17.252.2/29", bgp_ibm_cidr="172.17.252.1/29")
             response = self.dl.update_gateway(id=gateway_id,
-            bgp_cer_cidr="172.17.252.2/29", bgp_ibm_cidr="172.17.252.1/29")
+                gateway_patch_template=patch)
             assert response.get_status_code() == 200
             assert response.get_result()["name"] == name
             assert response.get_result()["id"] == gateway_id
             assert response.get_result()["bgp_asn"] == 63999
         except ApiException as e:
-            assert e.code == 400
+            assert e.status_code == 400
             assert e.detail == "Please make sure localIP and remoteIP are not in use"
            
         # delete gateway
@@ -709,8 +740,9 @@ class TestDirectLinkV1(unittest.TestCase):
                 count += 1
 
         # update the bgp_asn
+        patch = GatewayPatchTemplate(bgp_asn=63999)
         response = self.dl.update_gateway(id=gateway_id,
-            bgp_asn=63999)
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
@@ -733,15 +765,16 @@ class TestDirectLinkV1(unittest.TestCase):
 
         #update the bgp ip cer and ibm cidr
         try:
+            patch = GatewayPatchTemplate(bgp_cer_cidr="172.17.252.2/29", bgp_ibm_cidr="172.17.252.1/29")
             response = self.dl.update_gateway(id=gateway_id,
-            bgp_cer_cidr="172.17.252.2/29", bgp_ibm_cidr="172.17.252.1/29")
+                gateway_patch_template=patch)
             assert response.get_status_code() == 200
             assert response.get_result()["name"] == name
             assert response.get_result()["id"] == gateway_id
             assert response.get_result()["bgp_cer_cidr"] == "172.17.252.2/29"
             assert response.get_result()["bgp_ibm_cidr"] == "172.17.252.1/29"
         except ApiException as e:
-            assert e.code == 400
+            assert e.status_code == 400
             assert e.detail == "Please make sure localIP and remoteIP are not in use"
 
         # check gateway status until provisioned
@@ -800,8 +833,9 @@ class TestDirectLinkV1(unittest.TestCase):
         updatedBfdInterval = 700
         updatedBfdMultiplier = 10
         updatedBfdConfig = GatewayBfdPatchTemplate(interval=updatedBfdInterval, multiplier=updatedBfdMultiplier)
+        patch = GatewayPatchTemplate(bfd_config=updatedBfdConfig)
         response = self.dl.update_gateway(id=gateway_id,
-            bfd_config=updatedBfdConfig)
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
@@ -863,8 +897,9 @@ class TestDirectLinkV1(unittest.TestCase):
         updatedBfdInterval = 700
         updatedBfdMultiplier = 10
         updatedBfdConfig = GatewayBfdPatchTemplate(interval=updatedBfdInterval, multiplier=updatedBfdMultiplier)
+        patch = GatewayPatchTemplate(bfd_config=updatedBfdConfig)
         response = self.dl.update_gateway(id=gateway_id,
-            bfd_config=updatedBfdConfig)
+            gateway_patch_template=patch)
         assert response is not None
         assert response.get_status_code() == 200
         assert response.get_result()["name"] == name
