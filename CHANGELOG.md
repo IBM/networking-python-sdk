@@ -1,3 +1,10 @@
+# [0.29.0](https://github.com/IBM/networking-python-sdk/compare/v0.28.2...v0.29.0) (2026-03-07)
+
+
+### Features
+
+* **cis/zone-settings:** updated zone settings with latest specs ([#197](https://github.com/IBM/networking-python-sdk/issues/197)) ([e988ee1](https://github.com/IBM/networking-python-sdk/commit/e988ee19e169d812659863b32477aefba3ec1758))
+
 ## [0.28.2](https://github.com/IBM/networking-python-sdk/compare/v0.28.1...v0.28.2) (2026-02-12)
 
 
