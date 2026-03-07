@@ -20,7 +20,7 @@ except:
 class TestZonesSettingsV1(unittest.TestCase):
     """ Sample function to call zones sdk functions """
 
-    @unittest.skip("Authentication failing")
+    # @unittest.skip("Authentication failing")
 
     def setUp(self):
         """ test case setup """
@@ -508,6 +508,142 @@ class TestZonesSettingsV1(unittest.TestCase):
         response = self.zonesSettings.update_ciphers(
             value=["AES256-GCM-SHA384", "AES256-SHA256"]).get_result()
         print("update", response)
+        assert response is not None and response.get('success') is True
+
+    def test_1_opportunistic_onion_setting(self):
+        """ Get opportunistic onion setting """
+        response = self.zonesSettings.get_opportunistic_onion().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 'off':
+            self.value = 'on'
+        else:
+            self.value = 'off'
+
+        """ Update opportunistic onion setting """
+        response = self.zonesSettings.update_opportunistic_onion(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_brotli_setting(self):
+        """ Get brotli setting """
+        response = self.zonesSettings.get_brotli().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 'off':
+            self.value = 'on'
+        else:
+            self.value = 'off'
+
+        """ Update brotli setting """
+        response = self.zonesSettings.update_brotli(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_proxy_read_timeout_setting(self):
+        """ Get proxy read timeout setting """
+        response = self.zonesSettings.get_proxy_read_timeout().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 100:
+            self.value = 200
+        else:
+            self.value = 100
+
+        """ Update proxy read timeout setting """
+        response = self.zonesSettings.update_proxy_read_timeout(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_origin_max_http_version_setting(self):
+        """ Get origin max http version setting """
+        response = self.zonesSettings.get_origin_max_http_version().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == '2':
+            self.value = '1'
+        else:
+            self.value = '2'
+
+        """ Update origin max http version setting """
+        response = self.zonesSettings.update_origin_max_http_version(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_origin_post_quantum_encryption_setting(self):
+        """ Get origin post quantum encryption setting """
+        response = self.zonesSettings.get_origin_post_quantum_encryption().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 'preferred':
+            self.value = 'supported'
+        else:
+            self.value = 'preferred'
+
+        """ Update origin post quantum encryption setting """
+        response = self.zonesSettings.update_origin_post_quantum_encryption(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_log_retention_setting(self):
+        """ Get log retention setting """
+        response = self.zonesSettings.get_log_retention(
+            crn=self.crn, zone_identifier=self.zone_id).get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('flag') is True:
+            self.flag = False
+        else:
+            self.flag = True
+
+        """ Update log retention setting """
+        response = self.zonesSettings.update_log_retention(
+            crn=self.crn, zone_identifier=self.zone_id, flag=self.flag).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_bot_management_setting(self):
+        """ Get bot management setting """
+        response = self.zonesSettings.get_bot_management().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('enable_js') is True:
+            self.enable_js = False
+        else:
+            self.enable_js = True
+
+        """ Update bot management setting """
+        response = self.zonesSettings.update_bot_management(
+            enable_js=self.enable_js).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_replace_insecure_js_setting(self):
+        """ Get replace insecure JS setting """
+        response = self.zonesSettings.get_replace_insecure_js().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 'off':
+            self.value = 'on'
+        else:
+            self.value = 'off'
+
+        """ Update replace insecure JS setting """
+        response = self.zonesSettings.update_replace_insecure_js(
+            value=self.value).get_result()
+        assert response is not None and response.get('success') is True
+
+    def test_1_email_obfuscation_setting(self):
+        """ Get email obfuscation setting """
+        response = self.zonesSettings.get_email_obfuscation().get_result()
+        assert response is not None and response.get('success') is True
+        result = response.get('result')
+        if result.get('value') == 'off':
+            self.value = 'on'
+        else:
+            self.value = 'off'
+
+        """ Update email obfuscation setting """
+        response = self.zonesSettings.update_email_obfuscation(
+            value=self.value).get_result()
         assert response is not None and response.get('success') is True
 
 
