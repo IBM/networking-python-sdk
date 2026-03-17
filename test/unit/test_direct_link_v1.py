@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2025.
+# (C) Copyright IBM Corp. 2026.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -125,7 +125,7 @@ class TestListGateways:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(
             responses.GET,
             url,
@@ -157,7 +157,7 @@ class TestListGateways:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
+        mock_response = '{"gateways": [{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}]}'
         responses.add(
             responses.GET,
             url,
@@ -196,7 +196,7 @@ class TestCreateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -232,13 +232,13 @@ class TestCreateGateway:
         resource_group_identity_model = {}
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPrototype model
         gateway_macsec_cak_prototype_model = {}
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -316,7 +316,7 @@ class TestCreateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -352,13 +352,13 @@ class TestCreateGateway:
         resource_group_identity_model = {}
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPrototype model
         gateway_macsec_cak_prototype_model = {}
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -513,7 +513,7 @@ class TestGetGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.GET,
             url,
@@ -551,7 +551,7 @@ class TestGetGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.GET,
             url,
@@ -594,7 +594,7 @@ class TestUpdateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.PATCH,
             url,
@@ -665,7 +665,7 @@ class TestUpdateGateway:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.PATCH,
             url,
@@ -738,7 +738,7 @@ class TestCreateGatewayAction:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -848,7 +848,7 @@ class TestCreateGatewayAction:
         """
         # Set up mock
         url = preprocess_url('/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions')
-        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
+        mock_response = '{"as_prepends": [{"created_at": "2019-01-01T12:00:00.000Z", "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "length": 4, "policy": "import", "prefix": "172.17.0.0/16", "specific_prefixes": ["192.168.3.0/24"], "updated_at": "2019-01-01T12:00:00.000Z"}], "authentication_key": {"crn": "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222"}, "bfd_config": {"bfd_status": "up", "bfd_status_updated_at": "2020-08-20T06:58:41.909Z", "interval": 2000, "multiplier": 10}, "bgp_asn": 64999, "bgp_base_cidr": "bgp_base_cidr", "bgp_cer_cidr": "10.254.30.78/30", "bgp_ibm_asn": 13884, "bgp_ibm_cidr": "10.254.30.77/30", "bgp_status": "active", "bgp_status_updated_at": "2020-08-20T06:58:41.909Z", "carrier_name": "myCarrierName", "change_request": {"type": "create_gateway"}, "completion_notice_reject_reason": "The completion notice file was blank", "connection_mode": "transit", "created_at": "2019-01-01T12:00:00.000Z", "crn": "crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "cross_account": false, "cross_connect_router": "xcr01.dal03", "customer_name": "newCustomerName", "default_export_route_filter": "permit", "default_import_route_filter": "permit", "global": true, "id": "ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4", "link_status": "up", "link_status_updated_at": "2020-08-20T06:58:41.909Z", "location_display_name": "Dallas 03", "location_name": "dal03", "macsec": {"active": true, "security_policy": "must_secure", "status": "secured", "status_reasons": [{"code": "macsec_cak_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}]}, "macsec_capability": "non_macsec", "metered": false, "name": "myGateway", "operational_status": "awaiting_completion_notice", "operational_status_reasons": [{"code": "authentication_key_failed", "message": "The `authentication_key` failed configuration.", "more_info": "https://cloud.ibm.com/docs/dl/TODO_ADD_DOCS_LINK"}], "patch_panel_completion_notice": "patch panel configuration details", "port": {"id": "54321b1a-fee4-41c7-9e11-9cd99e000aaa"}, "provider_api_managed": false, "resource_group": {"id": "56969d6043e9465c883cb9f7363e78e8"}, "speed_mbps": 1000, "type": "dedicated", "vlan": 10}'
         responses.add(
             responses.POST,
             url,
@@ -3304,13 +3304,13 @@ class TestSetGatewayMacsec:
             status=200,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPrototype model
         gateway_macsec_cak_prototype_model = {}
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -3376,13 +3376,13 @@ class TestSetGatewayMacsec:
             status=200,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPrototype model
         gateway_macsec_cak_prototype_model = {}
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -3446,13 +3446,13 @@ class TestSetGatewayMacsec:
             status=200,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPrototype model
         gateway_macsec_cak_prototype_model = {}
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -3594,13 +3594,13 @@ class TestCreateGatewayMacsecCak:
             status=201,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        key = hpcs_key_identity_model
+        key = gateway_macsec_cak_key_reference_model
         name = '1000'
         session = 'primary'
 
@@ -3618,7 +3618,7 @@ class TestCreateGatewayMacsecCak:
         assert response.status_code == 201
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['key'] == hpcs_key_identity_model
+        assert req_body['key'] == gateway_macsec_cak_key_reference_model
         assert req_body['name'] == '1000'
         assert req_body['session'] == 'primary'
 
@@ -3647,13 +3647,13 @@ class TestCreateGatewayMacsecCak:
             status=201,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Set up parameter values
         id = '0a06fb9b-820f-4c44-8a31-77f1f0806d28'
-        key = hpcs_key_identity_model
+        key = gateway_macsec_cak_key_reference_model
         name = '1000'
         session = 'primary'
 
@@ -3864,13 +3864,13 @@ class TestUpdateGatewayMacsecCak:
             status=200,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPatch model
         gateway_macsec_cak_patch_model = {}
-        gateway_macsec_cak_patch_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_patch_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_patch_model['name'] = '1000'
 
         # Set up parameter values
@@ -3918,13 +3918,13 @@ class TestUpdateGatewayMacsecCak:
             status=200,
         )
 
-        # Construct a dict representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model = {}
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        # Construct a dict representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_model = {}
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a dict representation of a GatewayMacsecCakPatch model
         gateway_macsec_cak_patch_model = {}
-        gateway_macsec_cak_patch_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_patch_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_patch_model['name'] = '1000'
 
         # Set up parameter values
@@ -5752,8 +5752,8 @@ class TestModel_Gateway:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
-        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -5992,8 +5992,8 @@ class TestModel_GatewayCollection:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
-        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -6151,11 +6151,11 @@ class TestModel_GatewayMacsecCak:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        hpcs_key_reference_model = {}  # HpcsKeyReference
-        hpcs_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_macsec_cak_active_delta_model = {}  # GatewayMacsecCakActiveDelta
-        gateway_macsec_cak_active_delta_model['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_active_delta_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_active_delta_model['name'] = '1000'
         gateway_macsec_cak_active_delta_model['status'] = 'active'
 
@@ -6164,7 +6164,7 @@ class TestModel_GatewayMacsecCak:
         gateway_macsec_cak_model_json['active_delta'] = gateway_macsec_cak_active_delta_model
         gateway_macsec_cak_model_json['created_at'] = '2020-11-02T20:40:29.622000Z'
         gateway_macsec_cak_model_json['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        gateway_macsec_cak_model_json['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_model_json['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_model_json['name'] = '1000'
         gateway_macsec_cak_model_json['session'] = 'primary'
         gateway_macsec_cak_model_json['status'] = 'active'
@@ -6198,12 +6198,12 @@ class TestModel_GatewayMacsecCakActiveDelta:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        hpcs_key_reference_model = {}  # HpcsKeyReference
-        hpcs_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a json representation of a GatewayMacsecCakActiveDelta model
         gateway_macsec_cak_active_delta_model_json = {}
-        gateway_macsec_cak_active_delta_model_json['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_active_delta_model_json['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_active_delta_model_json['name'] = '1000'
         gateway_macsec_cak_active_delta_model_json['status'] = 'active'
 
@@ -6235,11 +6235,11 @@ class TestModel_GatewayMacsecCakCollection:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        hpcs_key_reference_model = {}  # HpcsKeyReference
-        hpcs_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_macsec_cak_active_delta_model = {}  # GatewayMacsecCakActiveDelta
-        gateway_macsec_cak_active_delta_model['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_active_delta_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_active_delta_model['name'] = '1000'
         gateway_macsec_cak_active_delta_model['status'] = 'active'
 
@@ -6247,7 +6247,7 @@ class TestModel_GatewayMacsecCakCollection:
         gateway_macsec_cak_model['active_delta'] = gateway_macsec_cak_active_delta_model
         gateway_macsec_cak_model['created_at'] = '2020-11-02T20:40:29.622000Z'
         gateway_macsec_cak_model['id'] = 'ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4'
-        gateway_macsec_cak_model['key'] = hpcs_key_reference_model
+        gateway_macsec_cak_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_model['name'] = '1000'
         gateway_macsec_cak_model['session'] = 'primary'
         gateway_macsec_cak_model['status'] = 'active'
@@ -6285,12 +6285,12 @@ class TestModel_GatewayMacsecCakPatch:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        hpcs_key_identity_model = {}  # HpcsKeyIdentity
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a json representation of a GatewayMacsecCakPatch model
         gateway_macsec_cak_patch_model_json = {}
-        gateway_macsec_cak_patch_model_json['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_patch_model_json['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_patch_model_json['name'] = '1000'
 
         # Construct a model instance of GatewayMacsecCakPatch by calling from_dict on the json representation
@@ -6321,12 +6321,12 @@ class TestModel_GatewayMacsecCakPrototype:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        hpcs_key_identity_model = {}  # HpcsKeyIdentity
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         # Construct a json representation of a GatewayMacsecCakPrototype model
         gateway_macsec_cak_prototype_model_json = {}
-        gateway_macsec_cak_prototype_model_json['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model_json['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model_json['name'] = '1000'
         gateway_macsec_cak_prototype_model_json['session'] = 'primary'
 
@@ -6397,11 +6397,11 @@ class TestModel_GatewayMacsecPrototype:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        hpcs_key_identity_model = {}  # HpcsKeyIdentity
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_macsec_cak_prototype_model = {}  # GatewayMacsecCakPrototype
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -6896,66 +6896,6 @@ class TestModel_GatewayVirtualConnectionPatchTemplate:
         # Convert model instance back to dict and verify no loss of data
         gateway_virtual_connection_patch_template_model_json2 = gateway_virtual_connection_patch_template_model.to_dict()
         assert gateway_virtual_connection_patch_template_model_json2 == gateway_virtual_connection_patch_template_model_json
-
-
-class TestModel_HpcsKeyIdentity:
-    """
-    Test Class for HpcsKeyIdentity
-    """
-
-    def test_hpcs_key_identity_serialization(self):
-        """
-        Test serialization/deserialization for HpcsKeyIdentity
-        """
-
-        # Construct a json representation of a HpcsKeyIdentity model
-        hpcs_key_identity_model_json = {}
-        hpcs_key_identity_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a model instance of HpcsKeyIdentity by calling from_dict on the json representation
-        hpcs_key_identity_model = HpcsKeyIdentity.from_dict(hpcs_key_identity_model_json)
-        assert hpcs_key_identity_model != False
-
-        # Construct a model instance of HpcsKeyIdentity by calling from_dict on the json representation
-        hpcs_key_identity_model_dict = HpcsKeyIdentity.from_dict(hpcs_key_identity_model_json).__dict__
-        hpcs_key_identity_model2 = HpcsKeyIdentity(**hpcs_key_identity_model_dict)
-
-        # Verify the model instances are equivalent
-        assert hpcs_key_identity_model == hpcs_key_identity_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        hpcs_key_identity_model_json2 = hpcs_key_identity_model.to_dict()
-        assert hpcs_key_identity_model_json2 == hpcs_key_identity_model_json
-
-
-class TestModel_HpcsKeyReference:
-    """
-    Test Class for HpcsKeyReference
-    """
-
-    def test_hpcs_key_reference_serialization(self):
-        """
-        Test serialization/deserialization for HpcsKeyReference
-        """
-
-        # Construct a json representation of a HpcsKeyReference model
-        hpcs_key_reference_model_json = {}
-        hpcs_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
-
-        # Construct a model instance of HpcsKeyReference by calling from_dict on the json representation
-        hpcs_key_reference_model = HpcsKeyReference.from_dict(hpcs_key_reference_model_json)
-        assert hpcs_key_reference_model != False
-
-        # Construct a model instance of HpcsKeyReference by calling from_dict on the json representation
-        hpcs_key_reference_model_dict = HpcsKeyReference.from_dict(hpcs_key_reference_model_json).__dict__
-        hpcs_key_reference_model2 = HpcsKeyReference(**hpcs_key_reference_model_dict)
-
-        # Verify the model instances are equivalent
-        assert hpcs_key_reference_model == hpcs_key_reference_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        hpcs_key_reference_model_json2 = hpcs_key_reference_model.to_dict()
-        assert hpcs_key_reference_model_json2 == hpcs_key_reference_model_json
 
 
 class TestModel_ImportRouteFilterCollection:
@@ -7880,6 +7820,36 @@ class TestModel_AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity:
         assert authentication_key_identity_key_protect_authentication_key_identity_model_json2 == authentication_key_identity_key_protect_authentication_key_identity_model_json
 
 
+class TestModel_AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity:
+    """
+    Test Class for AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity
+    """
+
+    def test_authentication_key_identity_secrets_manager_authentication_key_identity_serialization(self):
+        """
+        Test serialization/deserialization for AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity
+        """
+
+        # Construct a json representation of a AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity model
+        authentication_key_identity_secrets_manager_authentication_key_identity_model_json = {}
+        authentication_key_identity_secrets_manager_authentication_key_identity_model_json['crn'] = 'crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity by calling from_dict on the json representation
+        authentication_key_identity_secrets_manager_authentication_key_identity_model = AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity.from_dict(authentication_key_identity_secrets_manager_authentication_key_identity_model_json)
+        assert authentication_key_identity_secrets_manager_authentication_key_identity_model != False
+
+        # Construct a model instance of AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity by calling from_dict on the json representation
+        authentication_key_identity_secrets_manager_authentication_key_identity_model_dict = AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity.from_dict(authentication_key_identity_secrets_manager_authentication_key_identity_model_json).__dict__
+        authentication_key_identity_secrets_manager_authentication_key_identity_model2 = AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity(**authentication_key_identity_secrets_manager_authentication_key_identity_model_dict)
+
+        # Verify the model instances are equivalent
+        assert authentication_key_identity_secrets_manager_authentication_key_identity_model == authentication_key_identity_secrets_manager_authentication_key_identity_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        authentication_key_identity_secrets_manager_authentication_key_identity_model_json2 = authentication_key_identity_secrets_manager_authentication_key_identity_model.to_dict()
+        assert authentication_key_identity_secrets_manager_authentication_key_identity_model_json2 == authentication_key_identity_secrets_manager_authentication_key_identity_model_json
+
+
 class TestModel_AuthenticationKeyReferenceHpcsAuthenticationKeyReference:
     """
     Test Class for AuthenticationKeyReferenceHpcsAuthenticationKeyReference
@@ -7938,6 +7908,36 @@ class TestModel_AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference:
         # Convert model instance back to dict and verify no loss of data
         authentication_key_reference_key_protect_authentication_key_reference_model_json2 = authentication_key_reference_key_protect_authentication_key_reference_model.to_dict()
         assert authentication_key_reference_key_protect_authentication_key_reference_model_json2 == authentication_key_reference_key_protect_authentication_key_reference_model_json
+
+
+class TestModel_AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference:
+    """
+    Test Class for AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference
+    """
+
+    def test_authentication_key_reference_secrets_manager_authentication_key_reference_serialization(self):
+        """
+        Test serialization/deserialization for AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference
+        """
+
+        # Construct a json representation of a AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference model
+        authentication_key_reference_secrets_manager_authentication_key_reference_model_json = {}
+        authentication_key_reference_secrets_manager_authentication_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference by calling from_dict on the json representation
+        authentication_key_reference_secrets_manager_authentication_key_reference_model = AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference.from_dict(authentication_key_reference_secrets_manager_authentication_key_reference_model_json)
+        assert authentication_key_reference_secrets_manager_authentication_key_reference_model != False
+
+        # Construct a model instance of AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference by calling from_dict on the json representation
+        authentication_key_reference_secrets_manager_authentication_key_reference_model_dict = AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference.from_dict(authentication_key_reference_secrets_manager_authentication_key_reference_model_json).__dict__
+        authentication_key_reference_secrets_manager_authentication_key_reference_model2 = AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference(**authentication_key_reference_secrets_manager_authentication_key_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert authentication_key_reference_secrets_manager_authentication_key_reference_model == authentication_key_reference_secrets_manager_authentication_key_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        authentication_key_reference_secrets_manager_authentication_key_reference_model_json2 = authentication_key_reference_secrets_manager_authentication_key_reference_model.to_dict()
+        assert authentication_key_reference_secrets_manager_authentication_key_reference_model_json2 == authentication_key_reference_secrets_manager_authentication_key_reference_model_json
 
 
 class TestModel_GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate:
@@ -8351,8 +8351,8 @@ class TestModel_GatewayCollectionGatewaysItemGateway:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
-        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
@@ -8442,6 +8442,66 @@ class TestModel_GatewayCollectionGatewaysItemGateway:
         # Convert model instance back to dict and verify no loss of data
         gateway_collection_gateways_item_gateway_model_json2 = gateway_collection_gateways_item_gateway_model.to_dict()
         assert gateway_collection_gateways_item_gateway_model_json2 == gateway_collection_gateways_item_gateway_model_json
+
+
+class TestModel_GatewayMacsecCakKeyReferenceHpcsCakKeyReference:
+    """
+    Test Class for GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+    """
+
+    def test_gateway_macsec_cak_key_reference_hpcs_cak_key_reference_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        """
+
+        # Construct a json representation of a GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+        gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json = {}
+        gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of GatewayMacsecCakKeyReferenceHpcsCakKeyReference by calling from_dict on the json representation
+        gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model = GatewayMacsecCakKeyReferenceHpcsCakKeyReference.from_dict(gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json)
+        assert gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model != False
+
+        # Construct a model instance of GatewayMacsecCakKeyReferenceHpcsCakKeyReference by calling from_dict on the json representation
+        gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_dict = GatewayMacsecCakKeyReferenceHpcsCakKeyReference.from_dict(gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json).__dict__
+        gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model2 = GatewayMacsecCakKeyReferenceHpcsCakKeyReference(**gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model == gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json2 = gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model.to_dict()
+        assert gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json2 == gateway_macsec_cak_key_reference_hpcs_cak_key_reference_model_json
+
+
+class TestModel_GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference:
+    """
+    Test Class for GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference
+    """
+
+    def test_gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_serialization(self):
+        """
+        Test serialization/deserialization for GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference
+        """
+
+        # Construct a json representation of a GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference model
+        gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json = {}
+        gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json['crn'] = 'crn:v1:bluemix:public:secrets-manager:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:secret:bbb222bc-430a-4de9-9aad-84e5bb022222'
+
+        # Construct a model instance of GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference by calling from_dict on the json representation
+        gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model = GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference.from_dict(gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json)
+        assert gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model != False
+
+        # Construct a model instance of GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference by calling from_dict on the json representation
+        gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_dict = GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference.from_dict(gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json).__dict__
+        gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model2 = GatewayMacsecCakKeyReferenceSecretsManagerCakKeyReference(**gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_dict)
+
+        # Verify the model instances are equivalent
+        assert gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model == gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json2 = gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model.to_dict()
+        assert gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json2 == gateway_macsec_cak_key_reference_secrets_manager_cak_key_reference_model_json
 
 
 class TestModel_GatewayStatusGatewayBFDStatus:
@@ -8650,11 +8710,11 @@ class TestModel_GatewayTemplateGatewayTypeDedicatedTemplate:
         resource_group_identity_model = {}  # ResourceGroupIdentity
         resource_group_identity_model['id'] = '56969d6043e9465c883cb9f7363e78e8'
 
-        hpcs_key_identity_model = {}  # HpcsKeyIdentity
-        hpcs_key_identity_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        gateway_macsec_cak_key_reference_model = {}  # GatewayMacsecCakKeyReferenceHpcsCakKeyReference
+        gateway_macsec_cak_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_macsec_cak_prototype_model = {}  # GatewayMacsecCakPrototype
-        gateway_macsec_cak_prototype_model['key'] = hpcs_key_identity_model
+        gateway_macsec_cak_prototype_model['key'] = gateway_macsec_cak_key_reference_model
         gateway_macsec_cak_prototype_model['name'] = '1000'
         gateway_macsec_cak_prototype_model['session'] = 'primary'
 
@@ -8787,8 +8847,8 @@ class TestModel_GetGatewayResponseGateway:
         as_prepend_model['specific_prefixes'] = ['192.168.3.0/24']
         as_prepend_model['updated_at'] = '2019-01-01T12:00:00Z'
 
-        authentication_key_reference_model = {}  # AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference
-        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
+        authentication_key_reference_model = {}  # AuthenticationKeyReferenceHpcsAuthenticationKeyReference
+        authentication_key_reference_model['crn'] = 'crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222'
 
         gateway_bfd_config_model = {}  # GatewayBfdConfig
         gateway_bfd_config_model['bfd_status'] = 'up'
