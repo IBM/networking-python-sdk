@@ -1,3 +1,10 @@
+# [0.30.0](https://github.com/IBM/networking-python-sdk/compare/v0.29.0...v0.30.0) (2026-03-17)
+
+
+### Features
+
+* **directlink:** Support Secrets Manager CRNs for authentication_key ([#196](https://github.com/IBM/networking-python-sdk/issues/196)) ([c6b5a51](https://github.com/IBM/networking-python-sdk/commit/c6b5a519ec9d835a3aa609fdd02432d9d1079cc2))
+
 # [0.29.0](https://github.com/IBM/networking-python-sdk/compare/v0.28.2...v0.29.0) (2026-03-07)
 
 
