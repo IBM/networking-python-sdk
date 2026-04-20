@@ -1,3 +1,10 @@
+# [0.31.0](https://github.com/IBM/networking-python-sdk/compare/v0.30.0...v0.31.0) (2026-04-20)
+
+
+### Features
+
+* Add batch DNS records ([#200](https://github.com/IBM/networking-python-sdk/issues/200)) ([0d3a739](https://github.com/IBM/networking-python-sdk/commit/0d3a7399123bf3c6a19bce27db0e943159605745))
+
 # [0.30.0](https://github.com/IBM/networking-python-sdk/compare/v0.29.0...v0.30.0) (2026-03-17)
 
 
