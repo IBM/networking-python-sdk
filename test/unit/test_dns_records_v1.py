@@ -107,7 +107,7 @@ class TestNewInstance:
         """
         new_instance_required_param_none()
         """
-        with pytest.raises(ValueError, match='crn must be provided must be provided'):
+        with pytest.raises(ValueError, match='crn must be provided'):
             service = DnsRecordsV1.new_instance(
                 crn=None,
                 zone_identifier=None,
