@@ -1,3 +1,10 @@
+## [0.31.1](https://github.com/IBM/networking-python-sdk/compare/v0.31.0...v0.31.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* naming inconsistencies in integration test files ([#203](https://github.com/IBM/networking-python-sdk/issues/203)) ([af20606](https://github.com/IBM/networking-python-sdk/commit/af20606245f9256b27cd1160c91f8eebafb82480))
+
 # [0.31.0](https://github.com/IBM/networking-python-sdk/compare/v0.30.0...v0.31.0) (2026-04-20)
 
 
