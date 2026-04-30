@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 3.112.0-f88e9264-20260220-115155
+# IBM OpenAPI SDK Code Generator Version: 3.114.0-a902401e-20260427-192904
 
 """
 CIS Zones Settings
@@ -3712,6 +3712,97 @@ class ZonesSettingsV1(BaseService):
         response = self.send(request, **kwargs)
         return response
 
+    def get_security_level(
+        self,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Get security level setting.
+
+        Get security level for a zone.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecurityLevelResp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_security_level',
+        )
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/security_level'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def update_security_level(
+        self,
+        *,
+        value: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Update security level setting.
+
+        Update security level setting for a zone.
+
+        :param str value: (optional) Value.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SecurityLevelResp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_security_level',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'value': value,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/settings/security_level'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='PATCH',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
 
 ##############################################################################
 # Models
@@ -4259,7 +4350,7 @@ class EmailObfuscationRespResult:
     :param str id: ID.
     :param str value: Value.
     :param bool editable: Editable.
-    :param datetime modified_on: Modified date.
+    :param datetime modified_on: (optional) Modified date.
     """
 
     def __init__(
@@ -4267,7 +4358,8 @@ class EmailObfuscationRespResult:
         id: str,
         value: str,
         editable: bool,
-        modified_on: datetime,
+        *,
+        modified_on: Optional[datetime] = None,
     ) -> None:
         """
         Initialize a EmailObfuscationRespResult object.
@@ -4275,7 +4367,7 @@ class EmailObfuscationRespResult:
         :param str id: ID.
         :param str value: Value.
         :param bool editable: Editable.
-        :param datetime modified_on: Modified date.
+        :param datetime modified_on: (optional) Modified date.
         """
         self.id = id
         self.value = value
@@ -4300,8 +4392,6 @@ class EmailObfuscationRespResult:
             raise ValueError('Required property \'editable\' not present in EmailObfuscationRespResult JSON')
         if (modified_on := _dict.get('modified_on')) is not None:
             args['modified_on'] = string_to_datetime(modified_on)
-        else:
-            raise ValueError('Required property \'modified_on\' not present in EmailObfuscationRespResult JSON')
         return cls(**args)
 
     @classmethod
@@ -6480,7 +6570,7 @@ class ReplaceInsecureJsRespResult:
     :param str id: ID.
     :param str value: Value.
     :param bool editable: Editable.
-    :param datetime modified_on: Modified date.
+    :param datetime modified_on: (optional) Modified date.
     """
 
     def __init__(
@@ -6488,7 +6578,8 @@ class ReplaceInsecureJsRespResult:
         id: str,
         value: str,
         editable: bool,
-        modified_on: datetime,
+        *,
+        modified_on: Optional[datetime] = None,
     ) -> None:
         """
         Initialize a ReplaceInsecureJsRespResult object.
@@ -6496,7 +6587,7 @@ class ReplaceInsecureJsRespResult:
         :param str id: ID.
         :param str value: Value.
         :param bool editable: Editable.
-        :param datetime modified_on: Modified date.
+        :param datetime modified_on: (optional) Modified date.
         """
         self.id = id
         self.value = value
@@ -6521,8 +6612,6 @@ class ReplaceInsecureJsRespResult:
             raise ValueError('Required property \'editable\' not present in ReplaceInsecureJsRespResult JSON')
         if (modified_on := _dict.get('modified_on')) is not None:
             args['modified_on'] = string_to_datetime(modified_on)
-        else:
-            raise ValueError('Required property \'modified_on\' not present in ReplaceInsecureJsRespResult JSON')
         return cls(**args)
 
     @classmethod
@@ -7162,6 +7251,94 @@ class SecurityHeaderSettingValueStrictTransportSecurity:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SecurityHeaderSettingValueStrictTransportSecurity') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SecurityLevelRespResult:
+    """
+    Container for response information.
+
+    :param str id: ID.
+    :param str value: Value.
+    :param bool editable: Editable.
+    :param datetime modified_on: (optional) Modified date.
+    """
+
+    def __init__(
+        self,
+        id: str,
+        value: str,
+        editable: bool,
+        *,
+        modified_on: Optional[datetime] = None,
+    ) -> None:
+        """
+        Initialize a SecurityLevelRespResult object.
+
+        :param str id: ID.
+        :param str value: Value.
+        :param bool editable: Editable.
+        :param datetime modified_on: (optional) Modified date.
+        """
+        self.id = id
+        self.value = value
+        self.editable = editable
+        self.modified_on = modified_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecurityLevelRespResult':
+        """Initialize a SecurityLevelRespResult object from a json dictionary."""
+        args = {}
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
+        else:
+            raise ValueError('Required property \'id\' not present in SecurityLevelRespResult JSON')
+        if (value := _dict.get('value')) is not None:
+            args['value'] = value
+        else:
+            raise ValueError('Required property \'value\' not present in SecurityLevelRespResult JSON')
+        if (editable := _dict.get('editable')) is not None:
+            args['editable'] = editable
+        else:
+            raise ValueError('Required property \'editable\' not present in SecurityLevelRespResult JSON')
+        if (modified_on := _dict.get('modified_on')) is not None:
+            args['modified_on'] = string_to_datetime(modified_on)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecurityLevelRespResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'editable') and self.editable is not None:
+            _dict['editable'] = self.editable
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecurityLevelRespResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecurityLevelRespResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecurityLevelRespResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -8594,6 +8771,7 @@ class EmailObfuscationResp:
     email address obfuscation response.
 
     :param EmailObfuscationRespResult result: Container for response information.
+    :param dict result_info: (optional) Result information.
     :param bool success: Was the get successful.
     :param List[List[str]] errors: Array of errors encountered.
     :param List[List[str]] messages: Array of messages returned.
@@ -8605,6 +8783,8 @@ class EmailObfuscationResp:
         success: bool,
         errors: List[List[str]],
         messages: List[List[str]],
+        *,
+        result_info: Optional[dict] = None,
     ) -> None:
         """
         Initialize a EmailObfuscationResp object.
@@ -8614,8 +8794,10 @@ class EmailObfuscationResp:
         :param bool success: Was the get successful.
         :param List[List[str]] errors: Array of errors encountered.
         :param List[List[str]] messages: Array of messages returned.
+        :param dict result_info: (optional) Result information.
         """
         self.result = result
+        self.result_info = result_info
         self.success = success
         self.errors = errors
         self.messages = messages
@@ -8628,6 +8810,8 @@ class EmailObfuscationResp:
             args['result'] = EmailObfuscationRespResult.from_dict(result)
         else:
             raise ValueError('Required property \'result\' not present in EmailObfuscationResp JSON')
+        if (result_info := _dict.get('result_info')) is not None:
+            args['result_info'] = result_info
         if (success := _dict.get('success')) is not None:
             args['success'] = success
         else:
@@ -8655,6 +8839,8 @@ class EmailObfuscationResp:
                 _dict['result'] = self.result
             else:
                 _dict['result'] = self.result.to_dict()
+        if hasattr(self, 'result_info') and self.result_info is not None:
+            _dict['result_info'] = self.result_info
         if hasattr(self, 'success') and self.success is not None:
             _dict['success'] = self.success
         if hasattr(self, 'errors') and self.errors is not None:
@@ -10545,6 +10731,7 @@ class ReplaceInsecureJsResp:
     Replace insecure Javascript response.
 
     :param ReplaceInsecureJsRespResult result: Container for response information.
+    :param dict result_info: (optional) Result information.
     :param bool success: Was the get successful.
     :param List[List[str]] errors: Array of errors encountered.
     :param List[List[str]] messages: Array of messages returned.
@@ -10556,6 +10743,8 @@ class ReplaceInsecureJsResp:
         success: bool,
         errors: List[List[str]],
         messages: List[List[str]],
+        *,
+        result_info: Optional[dict] = None,
     ) -> None:
         """
         Initialize a ReplaceInsecureJsResp object.
@@ -10565,8 +10754,10 @@ class ReplaceInsecureJsResp:
         :param bool success: Was the get successful.
         :param List[List[str]] errors: Array of errors encountered.
         :param List[List[str]] messages: Array of messages returned.
+        :param dict result_info: (optional) Result information.
         """
         self.result = result
+        self.result_info = result_info
         self.success = success
         self.errors = errors
         self.messages = messages
@@ -10579,6 +10770,8 @@ class ReplaceInsecureJsResp:
             args['result'] = ReplaceInsecureJsRespResult.from_dict(result)
         else:
             raise ValueError('Required property \'result\' not present in ReplaceInsecureJsResp JSON')
+        if (result_info := _dict.get('result_info')) is not None:
+            args['result_info'] = result_info
         if (success := _dict.get('success')) is not None:
             args['success'] = success
         else:
@@ -10606,6 +10799,8 @@ class ReplaceInsecureJsResp:
                 _dict['result'] = self.result
             else:
                 _dict['result'] = self.result.to_dict()
+        if hasattr(self, 'result_info') and self.result_info is not None:
+            _dict['result_info'] = self.result_info
         if hasattr(self, 'success') and self.success is not None:
             _dict['success'] = self.success
         if hasattr(self, 'errors') and self.errors is not None:
@@ -10908,6 +11103,98 @@ class SecurityHeaderResp:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SecurityHeaderResp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SecurityLevelResp:
+    """
+    Security level response.
+
+    :param SecurityLevelRespResult result: Container for response information.
+    :param bool success: Was the get successful.
+    :param List[List[str]] errors: Array of errors encountered.
+    :param List[List[str]] messages: Array of messages returned.
+    """
+
+    def __init__(
+        self,
+        result: 'SecurityLevelRespResult',
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+    ) -> None:
+        """
+        Initialize a SecurityLevelResp object.
+
+        :param SecurityLevelRespResult result: Container for response information.
+        :param bool success: Was the get successful.
+        :param List[List[str]] errors: Array of errors encountered.
+        :param List[List[str]] messages: Array of messages returned.
+        """
+        self.result = result
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SecurityLevelResp':
+        """Initialize a SecurityLevelResp object from a json dictionary."""
+        args = {}
+        if (result := _dict.get('result')) is not None:
+            args['result'] = SecurityLevelRespResult.from_dict(result)
+        else:
+            raise ValueError('Required property \'result\' not present in SecurityLevelResp JSON')
+        if (success := _dict.get('success')) is not None:
+            args['success'] = success
+        else:
+            raise ValueError('Required property \'success\' not present in SecurityLevelResp JSON')
+        if (errors := _dict.get('errors')) is not None:
+            args['errors'] = errors
+        else:
+            raise ValueError('Required property \'errors\' not present in SecurityLevelResp JSON')
+        if (messages := _dict.get('messages')) is not None:
+            args['messages'] = messages
+        else:
+            raise ValueError('Required property \'messages\' not present in SecurityLevelResp JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SecurityLevelResp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'result') and self.result is not None:
+            if isinstance(self.result, dict):
+                _dict['result'] = self.result
+            else:
+                _dict['result'] = self.result.to_dict()
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = self.messages
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SecurityLevelResp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SecurityLevelResp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SecurityLevelResp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

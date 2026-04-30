@@ -108,7 +108,7 @@ class TestNewInstance:
         """
         new_instance_required_param_none()
         """
-        with pytest.raises(ValueError, match='crn must be provided'):
+        with pytest.raises(ValueError, match='crn must be provided must be provided'):
             service = ZonesSettingsV1.new_instance(
                 crn=None,
                 zone_identifier=None,
@@ -6963,7 +6963,7 @@ class TestGetReplaceInsecureJs:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/replace_insecure_js')
-        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.GET,
             url,
@@ -6995,7 +6995,7 @@ class TestGetReplaceInsecureJs:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/replace_insecure_js')
-        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.GET,
             url,
@@ -7034,7 +7034,7 @@ class TestUpdateReplaceInsecureJs:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/replace_insecure_js')
-        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.PATCH,
             url,
@@ -7075,7 +7075,7 @@ class TestUpdateReplaceInsecureJs:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/replace_insecure_js')
-        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.PATCH,
             url,
@@ -7107,7 +7107,7 @@ class TestUpdateReplaceInsecureJs:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/replace_insecure_js')
-        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "replace_insecure_js", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.PATCH,
             url,
@@ -7146,7 +7146,7 @@ class TestGetEmailObfuscation:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/email_obfuscation')
-        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.GET,
             url,
@@ -7178,7 +7178,7 @@ class TestGetEmailObfuscation:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/email_obfuscation')
-        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.GET,
             url,
@@ -7217,7 +7217,7 @@ class TestUpdateEmailObfuscation:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/email_obfuscation')
-        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.PATCH,
             url,
@@ -7258,7 +7258,7 @@ class TestUpdateEmailObfuscation:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/email_obfuscation')
-        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.PATCH,
             url,
@@ -7290,7 +7290,7 @@ class TestUpdateEmailObfuscation:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/settings/email_obfuscation')
-        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        mock_response = '{"result": {"id": "email_obfuscation", "value": "off", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "result_info": {"anyKey": "anyValue"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
         responses.add(
             responses.PATCH,
             url,
@@ -7315,6 +7315,189 @@ class TestUpdateEmailObfuscation:
         # Disable retries and run test_update_email_obfuscation_value_error.
         _service.disable_retries()
         self.test_update_email_obfuscation_value_error()
+
+
+class TestGetSecurityLevel:
+    """
+    Test Class for get_security_level
+    """
+
+    @responses.activate
+    def test_get_security_level_all_params(self):
+        """
+        get_security_level()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/settings/security_level')
+        mock_response = '{"result": {"id": "security_level", "value": "medium", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.get_security_level()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_security_level_all_params_with_retries(self):
+        # Enable retries and run test_get_security_level_all_params.
+        _service.enable_retries()
+        self.test_get_security_level_all_params()
+
+        # Disable retries and run test_get_security_level_all_params.
+        _service.disable_retries()
+        self.test_get_security_level_all_params()
+
+    @responses.activate
+    def test_get_security_level_value_error(self):
+        """
+        test_get_security_level_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/settings/security_level')
+        mock_response = '{"result": {"id": "security_level", "value": "medium", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_security_level(**req_copy)
+
+    def test_get_security_level_value_error_with_retries(self):
+        # Enable retries and run test_get_security_level_value_error.
+        _service.enable_retries()
+        self.test_get_security_level_value_error()
+
+        # Disable retries and run test_get_security_level_value_error.
+        _service.disable_retries()
+        self.test_get_security_level_value_error()
+
+
+class TestUpdateSecurityLevel:
+    """
+    Test Class for update_security_level
+    """
+
+    @responses.activate
+    def test_update_security_level_all_params(self):
+        """
+        update_security_level()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/settings/security_level')
+        mock_response = '{"result": {"id": "security_level", "value": "medium", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        value = 'medium'
+
+        # Invoke method
+        response = _service.update_security_level(
+            value=value,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['value'] == 'medium'
+
+    def test_update_security_level_all_params_with_retries(self):
+        # Enable retries and run test_update_security_level_all_params.
+        _service.enable_retries()
+        self.test_update_security_level_all_params()
+
+        # Disable retries and run test_update_security_level_all_params.
+        _service.disable_retries()
+        self.test_update_security_level_all_params()
+
+    @responses.activate
+    def test_update_security_level_required_params(self):
+        """
+        test_update_security_level_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/settings/security_level')
+        mock_response = '{"result": {"id": "security_level", "value": "medium", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.update_security_level()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_update_security_level_required_params_with_retries(self):
+        # Enable retries and run test_update_security_level_required_params.
+        _service.enable_retries()
+        self.test_update_security_level_required_params()
+
+        # Disable retries and run test_update_security_level_required_params.
+        _service.disable_retries()
+        self.test_update_security_level_required_params()
+
+    @responses.activate
+    def test_update_security_level_value_error(self):
+        """
+        test_update_security_level_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/settings/security_level')
+        mock_response = '{"result": {"id": "security_level", "value": "medium", "editable": true, "modified_on": "2017-01-01T05:20:00.123Z"}, "success": true, "errors": [["errors"]], "messages": [["messages"]]}'
+        responses.add(
+            responses.PATCH,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_security_level(**req_copy)
+
+    def test_update_security_level_value_error_with_retries(self):
+        # Enable retries and run test_update_security_level_value_error.
+        _service.enable_retries()
+        self.test_update_security_level_value_error()
+
+        # Disable retries and run test_update_security_level_value_error.
+        _service.disable_retries()
+        self.test_update_security_level_value_error()
 
 
 # endregion
@@ -8649,6 +8832,39 @@ class TestModel_SecurityHeaderSettingValueStrictTransportSecurity:
         assert security_header_setting_value_strict_transport_security_model_json2 == security_header_setting_value_strict_transport_security_model_json
 
 
+class TestModel_SecurityLevelRespResult:
+    """
+    Test Class for SecurityLevelRespResult
+    """
+
+    def test_security_level_resp_result_serialization(self):
+        """
+        Test serialization/deserialization for SecurityLevelRespResult
+        """
+
+        # Construct a json representation of a SecurityLevelRespResult model
+        security_level_resp_result_model_json = {}
+        security_level_resp_result_model_json['id'] = 'security_level'
+        security_level_resp_result_model_json['value'] = 'medium'
+        security_level_resp_result_model_json['editable'] = True
+        security_level_resp_result_model_json['modified_on'] = '2017-01-01T05:20:00.123000Z'
+
+        # Construct a model instance of SecurityLevelRespResult by calling from_dict on the json representation
+        security_level_resp_result_model = SecurityLevelRespResult.from_dict(security_level_resp_result_model_json)
+        assert security_level_resp_result_model != False
+
+        # Construct a model instance of SecurityLevelRespResult by calling from_dict on the json representation
+        security_level_resp_result_model_dict = SecurityLevelRespResult.from_dict(security_level_resp_result_model_json).__dict__
+        security_level_resp_result_model2 = SecurityLevelRespResult(**security_level_resp_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert security_level_resp_result_model == security_level_resp_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        security_level_resp_result_model_json2 = security_level_resp_result_model.to_dict()
+        assert security_level_resp_result_model_json2 == security_level_resp_result_model_json
+
+
 class TestModel_ServerSideExcludeRespResult:
     """
     Test Class for ServerSideExcludeRespResult
@@ -9227,6 +9443,7 @@ class TestModel_EmailObfuscationResp:
         # Construct a json representation of a EmailObfuscationResp model
         email_obfuscation_resp_model_json = {}
         email_obfuscation_resp_model_json['result'] = email_obfuscation_resp_result_model
+        email_obfuscation_resp_model_json['result_info'] = {'anyKey': 'anyValue'}
         email_obfuscation_resp_model_json['success'] = True
         email_obfuscation_resp_model_json['errors'] = [['testString']]
         email_obfuscation_resp_model_json['messages'] = [['testString']]
@@ -10095,6 +10312,7 @@ class TestModel_ReplaceInsecureJsResp:
         # Construct a json representation of a ReplaceInsecureJsResp model
         replace_insecure_js_resp_model_json = {}
         replace_insecure_js_resp_model_json['result'] = replace_insecure_js_resp_result_model
+        replace_insecure_js_resp_model_json['result_info'] = {'anyKey': 'anyValue'}
         replace_insecure_js_resp_model_json['success'] = True
         replace_insecure_js_resp_model_json['errors'] = [['testString']]
         replace_insecure_js_resp_model_json['messages'] = [['testString']]
@@ -10246,6 +10464,47 @@ class TestModel_SecurityHeaderResp:
         # Convert model instance back to dict and verify no loss of data
         security_header_resp_model_json2 = security_header_resp_model.to_dict()
         assert security_header_resp_model_json2 == security_header_resp_model_json
+
+
+class TestModel_SecurityLevelResp:
+    """
+    Test Class for SecurityLevelResp
+    """
+
+    def test_security_level_resp_serialization(self):
+        """
+        Test serialization/deserialization for SecurityLevelResp
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        security_level_resp_result_model = {}  # SecurityLevelRespResult
+        security_level_resp_result_model['id'] = 'security_level'
+        security_level_resp_result_model['value'] = 'medium'
+        security_level_resp_result_model['editable'] = True
+        security_level_resp_result_model['modified_on'] = '2017-01-01T05:20:00.123000Z'
+
+        # Construct a json representation of a SecurityLevelResp model
+        security_level_resp_model_json = {}
+        security_level_resp_model_json['result'] = security_level_resp_result_model
+        security_level_resp_model_json['success'] = True
+        security_level_resp_model_json['errors'] = [['testString']]
+        security_level_resp_model_json['messages'] = [['testString']]
+
+        # Construct a model instance of SecurityLevelResp by calling from_dict on the json representation
+        security_level_resp_model = SecurityLevelResp.from_dict(security_level_resp_model_json)
+        assert security_level_resp_model != False
+
+        # Construct a model instance of SecurityLevelResp by calling from_dict on the json representation
+        security_level_resp_model_dict = SecurityLevelResp.from_dict(security_level_resp_model_json).__dict__
+        security_level_resp_model2 = SecurityLevelResp(**security_level_resp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert security_level_resp_model == security_level_resp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        security_level_resp_model_json2 = security_level_resp_model.to_dict()
+        assert security_level_resp_model_json2 == security_level_resp_model_json
 
 
 class TestModel_ServerSideExcludeResp:
