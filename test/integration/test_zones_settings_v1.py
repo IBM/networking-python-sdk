@@ -650,18 +650,18 @@ class TestZonesSettingsV1(unittest.TestCase):
         """ test for success """
         
         #Get security level
-        response = self.service.get_security_level()
+        response = self.zonesSettings.get_security_level()
         assert response is not None and response.get_status_code() == 200
         assert response.get_result()['result'] is not None
 
     def test_2_update_security_level(self):
         """ test for success """
-        
+
         # Set up parameter values
         value = 'medium'
-        
+
         # invoke method
-        response = self.service.update_security_level(
+        response = self.zonesSettings.update_security_level(
             value=value
         )
         assert response is not None and response.get_status_code() == 200
