@@ -1,3 +1,10 @@
+# [0.33.0](https://github.com/IBM/networking-python-sdk/compare/v0.32.0...v0.33.0) (2026-05-05)
+
+
+### Features
+
+* Update CIS SDK — CIS_Frontend_API_Spec-Lists ([#205](https://github.com/IBM/networking-python-sdk/issues/205)) ([4690267](https://github.com/IBM/networking-python-sdk/commit/469026744a45621b95b618ef0fdc9dee72f23a0b))
+
 # [0.32.0](https://github.com/IBM/networking-python-sdk/compare/v0.31.1...v0.32.0) (2026-05-05)
 
 
