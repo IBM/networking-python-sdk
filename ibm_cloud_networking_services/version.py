@@ -1,4 +1,4 @@
 """
 Version of cloud_networking_services
 """
-__version__ = '0.31.1'
+__version__ = '0.32.0'
