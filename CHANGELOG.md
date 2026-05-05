@@ -1,3 +1,10 @@
+# [0.32.0](https://github.com/IBM/networking-python-sdk/compare/v0.31.1...v0.32.0) (2026-05-05)
+
+
+### Features
+
+* Add security level setting operations ([#204](https://github.com/IBM/networking-python-sdk/issues/204)) ([88ee858](https://github.com/IBM/networking-python-sdk/commit/88ee8582a2f4e8b3861944859b970181803825ff))
+
 ## [0.31.1](https://github.com/IBM/networking-python-sdk/compare/v0.31.0...v0.31.1) (2026-04-29)
 
 
