@@ -52,6 +52,7 @@ from .zones_settings_v1 import ZonesSettingsV1
 from .zones_v1 import ZonesV1
 from .webhooks_v1 import WebhooksV1
 from .alerts_v1 import AlertsV1
+from .logpush_jobs_api_v1 import LogpushJobsApiV1
 
 # Private DNS Service Packages
 from .dns_zones_v1 import DnsZonesV1
