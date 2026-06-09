@@ -1,3 +1,10 @@
+# [0.34.0](https://github.com/IBM/networking-python-sdk/compare/v0.33.0...v0.34.0) (2026-06-09)
+
+
+### Features
+
+* Add Logpush Jobs API V1 SDK with unit and integration tests ([cc0f9a3](https://github.com/IBM/networking-python-sdk/commit/cc0f9a33393e520be6819e05ad1ca1772d4e047e))
+
 # [0.33.0](https://github.com/IBM/networking-python-sdk/compare/v0.32.0...v0.33.0) (2026-05-05)
 
 
