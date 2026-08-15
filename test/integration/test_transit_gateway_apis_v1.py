@@ -1007,6 +1007,123 @@ class TestTransitGatewayApisV1(unittest.TestCase):
 
 
 ###############################################################################
+#                       DRS Connection Tests                                  #
+###############################################################################
+
+    def test_04_drs_connection_actions(self):
+
+        gw_name = "_" + time.strftime("%H%M%S")
+        location = os.getenv("TG_SERVICES_LOCATION")
+        gw_name = os.getenv("TG_SERVICES_GW_NAME") + gw_name
+
+        response = self.tg.create_transit_gateway(
+            name=gw_name, location=location)
+
+        assert response is not None
+        assert response.get_status_code() == 201
+        assert response.get_result().get("id") != ""
+        assert response.get_result().get("name") == gw_name
+        assert response.get_result().get("location") == location
+
+        gateway_id = response.get_result().get("id")
+        assert self.is_resource_available(
+            gateway_id=gateway_id, conn_id="", rr_id="")
+
+        vpc_crn = os.getenv("TG_SERVICES_VPC_CRN")
+        vpc_name = "-VPC_" + time.strftime("%H%M%S")
+        vpc_name = os.getenv("TG_SERVICES_CONN_NAME") + vpc_name
+
+        response = self.tg.create_transit_gateway_connection(
+            transit_gateway_id=gateway_id,
+            name=vpc_name,
+            network_type="vpc",
+            network_id=vpc_crn)
+
+        assert response is not None
+        assert response.get_status_code() == 201
+        vpc_conn_id = response.get_result().get("id")
+        assert self.is_resource_available(gateway_id=gateway_id,
+                                          conn_id=vpc_conn_id, rr_id="")
+
+        drs_crn = os.getenv("TG_SERVICES_DRS_CRN")
+        drs_name = "-DRS_" + time.strftime("%H%M%S")
+        drs_name = os.getenv("TG_SERVICES_CONN_NAME") + drs_name
+        drs_cidr = "192.168.200.0/24"
+
+        response = self.tg.create_transit_gateway_connection(
+            transit_gateway_id=gateway_id,
+            name=drs_name,
+            network_type="dynamic_route_server",
+            network_id=drs_crn,
+            cidr=drs_cidr)
+
+        assert response is not None
+        assert response.get_status_code() == 201
+        assert response.get_result().get("id") != ""
+        assert response.get_result().get("name") == drs_name
+        assert response.get_result().get("network_id") == drs_crn
+        assert response.get_result().get("network_type") == "dynamic_route_server"
+        assert response.get_result().get("cidr") == drs_cidr
+
+        drs_conn_id = response.get_result().get("id")
+        assert self.is_resource_available(gateway_id=gateway_id,
+                                          conn_id=drs_conn_id, rr_id="")
+
+        response = self.tg.get_transit_gateway_connection(
+            transit_gateway_id=gateway_id, id=drs_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == drs_conn_id
+        assert response.get_result().get("name") == drs_name
+        assert response.get_result().get("network_id") == drs_crn
+        assert response.get_result().get("network_type") == "dynamic_route_server"
+        assert response.get_result().get("cidr") == drs_cidr
+
+        drs_name = "UPDATED_" + drs_name
+        response = self.tg.update_transit_gateway_connection(
+            transit_gateway_id=gateway_id,
+            name=drs_name,
+            id=drs_conn_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+        assert response.get_result().get("id") == drs_conn_id
+        assert response.get_result().get("name") == drs_name
+
+        response = self.tg.list_transit_gateway_connections(
+            transit_gateway_id=gateway_id)
+
+        assert response is not None
+        assert response.get_status_code() == 200
+
+        drs_found = False
+        for conn in response.get_result().get("connections"):
+            if conn["network_type"] == "dynamic_route_server":
+                assert conn["id"] == drs_conn_id
+                assert conn["name"] == drs_name
+                drs_found = True
+        assert drs_found
+
+        with self.assertRaises(ApiException) as e:
+            self.tg.create_transit_gateway_connection(
+                transit_gateway_id=gateway_id,
+                name=os.getenv("TG_SERVICES_CONN_NAME"),
+                network_type="dynamic_route_server",
+                network_id="bad_crn")
+            self.assertEqual(e.exception.code, 400)
+
+        assert self.delete_resource_test(gateway_id=gateway_id,
+            conn_id=drs_conn_id, rr_id="", pf_id="")
+
+        assert self.delete_resource_test(gateway_id=gateway_id,
+            conn_id=vpc_conn_id, rr_id="", pf_id="")
+
+        assert self.delete_resource_test(
+            gateway_id=gateway_id, conn_id="", rr_id="", pf_id="")
+
+
+###############################################################################
 #                           Test Helper Methods                               #
 ###############################################################################
 
