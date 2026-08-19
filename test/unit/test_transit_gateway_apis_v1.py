@@ -332,6 +332,7 @@ class TestCreateTransitGateway:
         global_ = True
         gre_enhanced_route_propagation = True
         redundancy_group = 'rg-1'
+        redundancy_group_id = 'bf3f5f91-1234-41c7-9e11-9cd99e65c1f4'
         resource_group = resource_group_identity_model
 
         # Invoke method
@@ -341,6 +342,7 @@ class TestCreateTransitGateway:
             global_=global_,
             gre_enhanced_route_propagation=gre_enhanced_route_propagation,
             redundancy_group=redundancy_group,
+            redundancy_group_id=redundancy_group_id,
             resource_group=resource_group,
             headers={},
         )
@@ -355,6 +357,7 @@ class TestCreateTransitGateway:
         assert req_body['global'] == True
         assert req_body['gre_enhanced_route_propagation'] == True
         assert req_body['redundancy_group'] == 'rg-1'
+        assert req_body['redundancy_group_id'] == 'bf3f5f91-1234-41c7-9e11-9cd99e65c1f4'
         assert req_body['resource_group'] == resource_group_identity_model
 
     def test_create_transit_gateway_all_params_with_retries(self):
@@ -392,6 +395,7 @@ class TestCreateTransitGateway:
         global_ = True
         gre_enhanced_route_propagation = True
         redundancy_group = 'rg-1'
+        redundancy_group_id = 'bf3f5f91-1234-41c7-9e11-9cd99e65c1f4'
         resource_group = resource_group_identity_model
 
         # Pass in all but one required param and check for a ValueError
@@ -1233,7 +1237,7 @@ class TestCreateTransitGatewayConnection:
         local_gateway_ip = '192.168.100.1'
         local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
-        network_account_id = 'testString'
+        network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         prefix_filters = [transit_gateway_connection_prefix_filter_model]
         prefix_filters_default = 'permit'
@@ -1277,7 +1281,7 @@ class TestCreateTransitGatewayConnection:
         assert req_body['local_gateway_ip'] == '192.168.100.1'
         assert req_body['local_tunnel_ip'] == '192.168.129.2'
         assert req_body['name'] == 'Transit_Service_BWTN_SJ_DL'
-        assert req_body['network_account_id'] == 'testString'
+        assert req_body['network_account_id'] == '28e4d90ac7504be694471ee66e70d0d5'
         assert req_body['network_id'] == 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         assert req_body['prefix_filters'] == [transit_gateway_connection_prefix_filter_model]
         assert req_body['prefix_filters_default'] == 'permit'
@@ -1342,7 +1346,7 @@ class TestCreateTransitGatewayConnection:
         local_gateway_ip = '192.168.100.1'
         local_tunnel_ip = '192.168.129.2'
         name = 'Transit_Service_BWTN_SJ_DL'
-        network_account_id = 'testString'
+        network_account_id = '28e4d90ac7504be694471ee66e70d0d5'
         network_id = 'crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b'
         prefix_filters = [transit_gateway_connection_prefix_filter_model]
         prefix_filters_default = 'permit'
