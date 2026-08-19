@@ -4234,7 +4234,7 @@ class TransitConnection:
           using this field must tolerate unexpected values.
     :param TransitGatewayReference transit_gateway: Transit gateway reference.
     :param List[TransitGatewayTunnel] tunnels: (optional) Collection of all tunnels
-          for `redundant_gre`, `vpn_gateway` connections.
+          for `redundant_gre` and `vpn_gateway` connections.
     :param datetime updated_at: The date and time that this connection was last
           updated.
     :param ZoneReference zone: (optional) Availability zone reference.
@@ -4340,7 +4340,7 @@ class TransitConnection:
                field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param List[TransitGatewayTunnel] tunnels: (optional) Collection of all
-               tunnels for `redundant_gre`, `vpn_gateway` connections.
+               tunnels for `redundant_gre` and `vpn_gateway` connections.
         :param ZoneReference zone: (optional) Availability zone reference.
         """
         self.base_network_type = base_network_type
@@ -6216,7 +6216,7 @@ class TransitGatewayTunnel:
 
 class TransitGatewayTunnelCollection:
     """
-    Collection of all tunnels for `redundant_gre` and`vpn_gateway` connections.
+    Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
 
     :param List[TransitGatewayTunnel] tunnels: Collection of all tunnels for
           `redundant_gre` and `vpn_gateway` connections.
