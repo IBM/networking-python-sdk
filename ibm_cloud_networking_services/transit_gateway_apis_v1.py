@@ -167,6 +167,7 @@ class TransitGatewayApisV1(BaseService):
         global_: Optional[bool] = None,
         gre_enhanced_route_propagation: Optional[bool] = None,
         redundancy_group: Optional[str] = None,
+        redundancy_group_id: Optional[str] = None,
         resource_group: Optional['ResourceGroupIdentity'] = None,
         **kwargs,
     ) -> DetailedResponse:
@@ -178,8 +179,10 @@ class TransitGatewayApisV1(BaseService):
         Optional fields: `global` (boolean, enables cross-region routing),
         `resource_group` (object with `id`), `redundancy_group` (string, name of the
         redundancy group to join),
-        `gre_enhanced_route_propagation` (boolean). Returns a `TransitGateway` object.
-        Initial `status` will be `pending` while provisioning.
+        `redundancy_group_id` (string, ID of an existing redundancy group in the account),
+        `gre_enhanced_route_propagation` (boolean). Either `redundancy_group` or
+        `redundancy_group_id` can be provided, but not both. Returns a `TransitGateway`
+        object. Initial `status` will be `pending` while provisioning.
 
         :param str location: Location of Transit Gateway Services.
         :param str name: A human readable name for the transit gateway.
@@ -195,7 +198,12 @@ class TransitGatewayApisV1(BaseService):
                group doesn't exist in the account, it will be created. This property can
                only be set for global transit gateways and the transit gateway cannot be
                in a location already used by a global transit gateway in this redundancy
-               group.
+               group. If specified, `redundancy_group_id` cannot also be specified.
+        :param str redundancy_group_id: (optional) Include the transit gateway in
+               an existing redundancy group in the account. This property can only be set
+               for global transit gateways and the transit gateway cannot be in a location
+               already used by a global transit gateway in this redundancy group. If
+               specified, `redundancy_group` cannot also be specified.
         :param ResourceGroupIdentity resource_group: (optional) The resource group
                to use. If unspecified, the account's [default resource
                group](https://console.bluemix.net/apidocs/resource-manager#introduction)
@@ -229,6 +237,7 @@ class TransitGatewayApisV1(BaseService):
             'global': global_,
             'gre_enhanced_route_propagation': gre_enhanced_route_propagation,
             'redundancy_group': redundancy_group,
+            'redundancy_group_id': redundancy_group_id,
             'resource_group': resource_group,
         }
         data = {k: v for (k, v) in data.items() if v is not None}
@@ -4225,7 +4234,7 @@ class TransitConnection:
           using this field must tolerate unexpected values.
     :param TransitGatewayReference transit_gateway: Transit gateway reference.
     :param List[TransitGatewayTunnel] tunnels: (optional) Collection of all tunnels
-          for `redundant_gre` and `vpn_gateway` connections.
+          for `redundant_gre`, `vpn_gateway` connections.
     :param datetime updated_at: The date and time that this connection was last
           updated.
     :param ZoneReference zone: (optional) Availability zone reference.
@@ -4331,7 +4340,7 @@ class TransitConnection:
                field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
                connections.
         :param List[TransitGatewayTunnel] tunnels: (optional) Collection of all
-               tunnels for `redundant_gre` and `vpn_gateway` connections.
+               tunnels for `redundant_gre`, `vpn_gateway` connections.
         :param ZoneReference zone: (optional) Availability zone reference.
         """
         self.base_network_type = base_network_type
@@ -6207,7 +6216,7 @@ class TransitGatewayTunnel:
 
 class TransitGatewayTunnelCollection:
     """
-    Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+    Collection of all tunnels for `redundant_gre` and`vpn_gateway` connections.
 
     :param List[TransitGatewayTunnel] tunnels: Collection of all tunnels for
           `redundant_gre` and `vpn_gateway` connections.
