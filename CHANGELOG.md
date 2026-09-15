@@ -1,3 +1,10 @@
+## [0.34.1](https://github.com/IBM/networking-python-sdk/compare/v0.34.0...v0.34.1) (2026-09-15)
+
+
+### Bug Fixes
+
+* **npm-deps:** npm audit fixes ([6055ab4](https://github.com/IBM/networking-python-sdk/commit/6055ab43ef4ffa74448200271a3e70eeb70fb96e))
+
 # [0.34.0](https://github.com/IBM/networking-python-sdk/compare/v0.33.0...v0.34.0) (2026-06-09)
 
 
