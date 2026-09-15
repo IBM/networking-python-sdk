@@ -17,7 +17,7 @@ from setuptools import setup
 import os
 import sys
 
-__version__ = '0.34.0'
+__version__ = '0.34.1'
 PACKAGE_NAME = 'ibm_cloud_networking_services'
 PACKAGE_DESC = 'Python client library for IBM Cloud Networking Services'
 
