@@ -1,3 +1,15 @@
+# [0.35.0](https://github.com/IBM/networking-python-sdk/compare/v0.34.1...v0.35.0) (2026-09-16)
+
+
+### Features
+
+* Added Redundant Global TGW related changes ([53f6d50](https://github.com/IBM/networking-python-sdk/commit/53f6d50f6515593dfc450c226ee6be0d7472d327))
+* Added Redundant Global TGW related changes ([07794a2](https://github.com/IBM/networking-python-sdk/commit/07794a2036c26fda3ea05266177c05d08117373d))
+* Added Redundant Global TGW related changes ([cff58cf](https://github.com/IBM/networking-python-sdk/commit/cff58cf7876c47812f49a8f071b593b78984e321))
+* Added Redundant Global TGW related changes ([fb67fd1](https://github.com/IBM/networking-python-sdk/commit/fb67fd1536036318f31faa9d19280a0a309dac34))
+* Added RG ID changes ([9859108](https://github.com/IBM/networking-python-sdk/commit/98591085d079e318361b0abf8d79fd56a831d7b9))
+* Added RG ID changes ([8da76b1](https://github.com/IBM/networking-python-sdk/commit/8da76b116441f85ce7f715c3e4d9eecfbe80f908))
+
 ## [0.34.1](https://github.com/IBM/networking-python-sdk/compare/v0.34.0...v0.34.1) (2026-09-15)
 
 
