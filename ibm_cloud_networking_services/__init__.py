@@ -53,6 +53,29 @@ from .zones_v1 import ZonesV1
 from .webhooks_v1 import WebhooksV1
 from .alerts_v1 import AlertsV1
 from .logpush_jobs_api_v1 import LogpushJobsApiV1
+from .ai_security_for_apps_v1 import AiSecurityForAppsV1
+from .ai_security_for_apps_v1 import ListApiGatewayDiscoveryOperationsEnums
+from .ai_security_for_apps_v1 import AiSecuritySettingsRespResult
+from .ai_security_for_apps_v1 import ApiGatewayOperationItemRespResult
+from .ai_security_for_apps_v1 import ApiGatewayOperationsLabelsInputManaged
+from .ai_security_for_apps_v1 import ApiGatewayOperationsLabelsInputSelector
+from .ai_security_for_apps_v1 import ApiGatewayOperationsLabelsInputSelectorInclude
+from .ai_security_for_apps_v1 import ApiGatewayOperationsLabelsInputUser
+from .ai_security_for_apps_v1 import ApiGatewayOperationsLabelsRespResultItem
+from .ai_security_for_apps_v1 import ApiGatewayOperationsRespResultItem
+from .ai_security_for_apps_v1 import DiscoveryOperationFeatures
+from .ai_security_for_apps_v1 import DiscoveryOperationFeaturesTrafficStats
+from .ai_security_for_apps_v1 import AiSecuritySettingsResp
+from .ai_security_for_apps_v1 import ApiGatewayDiscoveryResp
+from .ai_security_for_apps_v1 import ApiGatewayOperation
+from .ai_security_for_apps_v1 import ApiGatewayOperationItemResp
+from .ai_security_for_apps_v1 import ApiGatewayOperationsLabelsResp
+from .ai_security_for_apps_v1 import ApiGatewayOperationsResp
+from .ai_security_for_apps_v1 import ApiGatewaySchemasResp
+from .ai_security_for_apps_v1 import DiscoveryOperation
+from .ai_security_for_apps_v1 import DiscoveryOperationsListResp
+from .ai_security_for_apps_v1 import DiscoveryOperationsPatchResp
+from .ai_security_for_apps_v1 import ResultInfo
 
 # Private DNS Service Packages
 from .dns_zones_v1 import DnsZonesV1
