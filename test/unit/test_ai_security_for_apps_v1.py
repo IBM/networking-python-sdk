@@ -1050,7 +1050,7 @@ class TestUpdateApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": ["labels"]}]}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "description": "Services that are (partially) powered by Large Language Model (LLM).", "source": "managed", "last_updated": "2025-02-20T08:38:41.864801Z", "created_at": "2025-02-20T08:38:41.864801Z"}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1113,7 +1113,7 @@ class TestUpdateApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": ["labels"]}]}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "description": "Services that are (partially) powered by Large Language Model (LLM).", "source": "managed", "last_updated": "2025-02-20T08:38:41.864801Z", "created_at": "2025-02-20T08:38:41.864801Z"}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1145,7 +1145,7 @@ class TestUpdateApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": ["labels"]}]}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "description": "Services that are (partially) powered by Large Language Model (LLM).", "source": "managed", "last_updated": "2025-02-20T08:38:41.864801Z", "created_at": "2025-02-20T08:38:41.864801Z"}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1268,7 +1268,7 @@ class TestDeleteZoneApiGatewayOperation:
         responses.add(
             responses.DELETE,
             url,
-            status=204,
+            status=200,
         )
 
         # Set up parameter values
@@ -1282,7 +1282,7 @@ class TestDeleteZoneApiGatewayOperation:
 
         # Check for correct operation
         assert len(responses.calls) == 1
-        assert response.status_code == 204
+        assert response.status_code == 200
 
     def test_delete_zone_api_gateway_operation_all_params_with_retries(self):
         # Enable retries and run test_delete_zone_api_gateway_operation_all_params.
@@ -1303,7 +1303,7 @@ class TestDeleteZoneApiGatewayOperation:
         responses.add(
             responses.DELETE,
             url,
-            status=204,
+            status=200,
         )
 
         # Set up parameter values
@@ -1672,7 +1672,15 @@ class TestModel_ApiGatewayOperationsLabelsRespResultItem:
         # Construct a json representation of a ApiGatewayOperationsLabelsRespResultItem model
         api_gateway_operations_labels_resp_result_item_model_json = {}
         api_gateway_operations_labels_resp_result_item_model_json['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
-        api_gateway_operations_labels_resp_result_item_model_json['labels'] = ['cf-llm']
+        api_gateway_operations_labels_resp_result_item_model_json['labels'] = [
+            {
+                'name': 'cf-llm',
+                'description': 'Services that are (partially) powered by Large Language Model (LLM).',
+                'source': 'managed',
+                'last_updated': '2025-02-20T08:38:41.864801Z',
+                'created_at': '2025-02-20T08:38:41.864801Z',
+            }
+        ]
 
         # Construct a model instance of ApiGatewayOperationsLabelsRespResultItem by calling from_dict on the json representation
         api_gateway_operations_labels_resp_result_item_model = ApiGatewayOperationsLabelsRespResultItem.from_dict(api_gateway_operations_labels_resp_result_item_model_json)

@@ -1118,20 +1118,24 @@ class ApiGatewayOperationsLabelsRespResultItem:
     ApiGatewayOperationsLabelsRespResultItem.
 
     :param str operation_id: (optional)
-    :param List[str] labels: (optional)
+    :param List[dict] labels: (optional) List of label objects. Each object contains
+          fields such as ``name``, ``description``, ``source``, ``last_updated``,
+          and ``created_at``.
     """
 
     def __init__(
         self,
         *,
         operation_id: Optional[str] = None,
-        labels: Optional[List[str]] = None,
+        labels: Optional[List[dict]] = None,
     ) -> None:
         """
         Initialize a ApiGatewayOperationsLabelsRespResultItem object.
 
         :param str operation_id: (optional)
-        :param List[str] labels: (optional)
+        :param List[dict] labels: (optional) List of label objects. Each object
+               contains fields such as ``name``, ``description``, ``source``,
+               ``last_updated``, and ``created_at``.
         """
         self.operation_id = operation_id
         self.labels = labels
