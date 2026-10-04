@@ -10,12 +10,9 @@
     "@semantic-release/git": "^11.0.0",
     "@semantic-release/github": "^12.0.0",
     "@semantic-release/release-notes-generator": "^14.0.1",
-    "semantic-release": "^25.0.3"
+    "semantic-release": "^25.0.9"
   },
   "scripts": {
     "semantic-release": "semantic-release"
-  },
-  "resolutions": {
-    "brace-expansion": "5.0.9"
   }
 }
