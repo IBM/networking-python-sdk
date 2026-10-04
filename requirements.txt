@@ -1,3 +1,14 @@
 requests>=2.30.0,<3.0
-python_dateutil>=2.5.3,<3.0.0
-ibm_cloud_sdk_core>=3.20.1,<4.0.0
+python-dateutil>=2.5.3,<3.0.0
+ibm-cloud-sdk-core>=3.20.1,<4.0.0
+# Pinned explicitly to avoid CVE in PyJWT 2.13.0 (transitive via ibm-cloud-sdk-core).
+# ibm-cloud-sdk-core does not floor above 2.13.x, so this pin must remain until upstream fixes it.
+PyJWT>=2.14.0,<3.0.0
+# Pinned explicitly to avoid multiple high-severity CVEs fixed in urllib3 2.8.0
+# (transitive via ibm-cloud-sdk-core, requests). Fixes:
+#   - GHSA-8988-9cw3-xx77 / GHSA-vxq7-64xx-v4gw / GHSA-gh4c-6fx4-qh6g (2.8.0)
+#   - GHSA-mf9v-mfxr-j63j / GHSA-qccp-gfcp-xxvc (2.7.0)
+#   - CVE-2026-21441 / GHSA-38jv-5279-wg99 (2.6.3)
+#   - CVE-2025-66471 / CVE-2025-66418 (2.6.0)
+# Remove this pin once ibm-cloud-sdk-core floors urllib3 at >=2.8.0.
+urllib3>=2.8.0,<3.0.0
