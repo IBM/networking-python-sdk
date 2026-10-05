@@ -1124,6 +1124,95 @@ class TestTransitGatewayApisV1(unittest.TestCase):
 
 
 ###############################################################################
+#                    List Connections (Global) Tests                          #
+###############################################################################
+
+    def test_05_list_connections_actions(self):
+        #############################################
+        # Success: LIST all connections (no filter):
+        #############################################
+        response = self.tg.list_connections()
+        assert response is not None
+        assert response.get_status_code() == 200
+        result = response.get_result()
+        assert "connections" in result
+
+        #############################################
+        # Success: LIST connections filtered by network_type:
+        #############################################
+        response = self.tg.list_connections(network_type="dynamic_route_server")
+        assert response is not None
+        assert response.get_status_code() == 200
+        for conn in response.get_result().get("connections", []):
+            assert conn.get("network_type") == "dynamic_route_server"
+
+        #############################################
+        # Success: LIST connections filtered by vpc network_type:
+        #############################################
+        response = self.tg.list_connections(network_type="vpc")
+        assert response is not None
+        assert response.get_status_code() == 200
+        for conn in response.get_result().get("connections", []):
+            assert conn.get("network_type") == "vpc"
+
+
+###############################################################################
+#                        Redundancy Group Tests                               #
+###############################################################################
+
+    def test_06_redundancy_group_actions(self):
+        #############################################
+        # Success: LIST Redundancy Groups:
+        #############################################
+        response = self.tg.list_redundancy_groups()
+        assert response is not None
+        assert response.get_status_code() == 200
+        result = response.get_result()
+        assert "redundancy_groups" in result
+
+        redundancy_groups = result.get("redundancy_groups")
+        if redundancy_groups and len(redundancy_groups) > 0:
+            rg_id = redundancy_groups[0].get("id")
+            rg_name = redundancy_groups[0].get("name")
+
+            #############################################
+            # Success: LIST Redundancy Groups with name filter:
+            #############################################
+            response = self.tg.list_redundancy_groups(name=rg_name)
+            assert response is not None
+            assert response.get_status_code() == 200
+
+            #############################################
+            # Success: GET Redundancy Group:
+            #############################################
+            response = self.tg.get_redundancy_group(id=rg_id)
+            assert response is not None
+            assert response.get_status_code() == 200
+            assert response.get_result().get("id") == rg_id
+
+            #############################################
+            # Success: UPDATE Redundancy Group:
+            #############################################
+            from ibm_cloud_networking_services.transit_gateway_apis_v1 import RedundancyGroupPatch
+            import time as _time
+            updated_name = "rg-sdk-" + _time.strftime("%H%M%S")
+            patch = RedundancyGroupPatch(name=updated_name)
+            response = self.tg.update_redundancy_group(
+                id=rg_id,
+                redundancy_group_patch=patch)
+            assert response is not None
+            assert response.get_status_code() == 200
+            assert response.get_result().get("id") == rg_id
+            assert response.get_result().get("name") == updated_name
+
+            # Restore original name
+            restore_patch = RedundancyGroupPatch(name=rg_name)
+            self.tg.update_redundancy_group(
+                id=rg_id,
+                redundancy_group_patch=restore_patch)
+
+
+###############################################################################
 #                           Test Helper Methods                               #
 ###############################################################################
 
