@@ -378,6 +378,132 @@ class AiSecurityForAppsV1(BaseService):
     # aPIGatewayOperations
     #########################
 
+    def delete_zone_api_gateway_operations(
+        self,
+        *,
+        operation_ids: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Bulk-delete all API Gateway operations for a zone.
+
+        Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
+
+        :param List[str] operation_ids: (optional) Array of operation UUIDs to
+               delete. When absent, all operations are deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayNullResultResp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_zone_api_gateway_operations',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'operation_ids': operation_ids,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def list_zone_api_gateway_operations(
+        self,
+        *,
+        host: Optional[List[str]] = None,
+        method: Optional[List[str]] = None,
+        endpoint: Optional[str] = None,
+        labels: Optional[List[str]] = None,
+        direction: Optional[str] = None,
+        order: Optional[str] = None,
+        page: Optional[int] = None,
+        per_page: Optional[int] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        List API Gateway operations.
+
+        List all API Gateway operations saved to Endpoint Management for a zone.
+
+        :param List[str] host: (optional) Filter results to only include the
+               specified hosts.
+        :param List[str] method: (optional) Filter results to only include the
+               specified HTTP methods.
+        :param str endpoint: (optional) Filter results to only include endpoints
+               containing this pattern.
+        :param List[str] labels: (optional) Filter results to only include
+               operations with these labels applied. Use cf-llm to find endpoints tagged
+               for AI Security for Apps scanning.
+        :param str direction: (optional) Direction to order results.
+        :param str order: (optional) Field to order results by.
+        :param int page: (optional) Page number of paginated results.
+        :param int per_page: (optional) Maximum number of results per page.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayOperationsListResp` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_zone_api_gateway_operations',
+        )
+        headers.update(sdk_headers)
+
+        params = {
+            'host': convert_list(host),
+            'method': convert_list(method),
+            'endpoint': endpoint,
+            'labels': convert_list(labels),
+            'direction': direction,
+            'order': order,
+            'page': page,
+            'per_page': per_page,
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
     def create_zone_api_gateway_operation(
         self,
         *,
@@ -487,12 +613,144 @@ class AiSecurityForAppsV1(BaseService):
         response = self.send(request, **kwargs)
         return response
 
+    def replace_zone_api_gateway_operation_labels(
+        self,
+        *,
+        selector: Optional['ApiGatewayOperationsLabelsBulkInputSelector'] = None,
+        user: Optional['ApiGatewayOperationsLabelsBulkInputUser'] = None,
+        managed: Optional['ApiGatewayOperationsLabelsBulkInputManaged'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Replace labels on API Gateway operations in bulk.
+
+        Replace labels on a set of API Gateway operations in bulk.
+
+        :param ApiGatewayOperationsLabelsBulkInputSelector selector: (optional)
+               Selector specifying which operations to label.
+        :param ApiGatewayOperationsLabelsBulkInputUser user: (optional)
+               User-defined labels to apply.
+        :param ApiGatewayOperationsLabelsBulkInputManaged managed: (optional)
+               Managed labels to apply (e.g. cf-llm).
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayOperationsLabelsResp` object
+        """
+
+        if selector is not None:
+            selector = convert_model(selector)
+        if user is not None:
+            user = convert_model(user)
+        if managed is not None:
+            managed = convert_model(managed)
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='replace_zone_api_gateway_operation_labels',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'selector': selector,
+            'user': user,
+            'managed': managed,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def delete_zone_api_gateway_operation_labels(
+        self,
+        *,
+        selector: Optional['ApiGatewayOperationsLabelsBulkDeleteInputSelector'] = None,
+        user: Optional['ApiGatewayOperationsLabelsBulkDeleteInputUser'] = None,
+        managed: Optional['ApiGatewayOperationsLabelsBulkDeleteInputManaged'] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Remove labels from API Gateway operations in bulk.
+
+        Remove labels from a set of API Gateway operations in bulk.
+
+        :param ApiGatewayOperationsLabelsBulkDeleteInputSelector selector:
+               (optional) Selector specifying which operations to affect.
+        :param ApiGatewayOperationsLabelsBulkDeleteInputUser user: (optional)
+               User-defined labels to remove.
+        :param ApiGatewayOperationsLabelsBulkDeleteInputManaged managed: (optional)
+               Managed labels to remove.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayNullResultResp` object
+        """
+
+        if selector is not None:
+            selector = convert_model(selector)
+        if user is not None:
+            user = convert_model(user)
+        if managed is not None:
+            managed = convert_model(managed)
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_zone_api_gateway_operation_labels',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'selector': selector,
+            'user': user,
+            'managed': managed,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
     def update_api_gateway_operation_labels(
         self,
         *,
-        selector: Optional['ApiGatewayOperationsLabelsInputSelector'] = None,
-        user: Optional['ApiGatewayOperationsLabelsInputUser'] = None,
-        managed: Optional['ApiGatewayOperationsLabelsInputManaged'] = None,
+        selector: Optional['ApiGatewayOperationsLabelsBulkInputSelector'] = None,
+        user: Optional['ApiGatewayOperationsLabelsBulkInputUser'] = None,
+        managed: Optional['ApiGatewayOperationsLabelsBulkInputManaged'] = None,
         **kwargs,
     ) -> DetailedResponse:
         """
@@ -502,12 +760,12 @@ class AiSecurityForAppsV1(BaseService):
         LLM label to endpoints that receive LLM traffic to enable IBM AI Security for Apps
         to scan those endpoints for prompt injection, PII, and unsafe topics.
 
-        :param ApiGatewayOperationsLabelsInputSelector selector: (optional)
+        :param ApiGatewayOperationsLabelsBulkInputSelector selector: (optional)
                Selector specifying which operations to label.
-        :param ApiGatewayOperationsLabelsInputUser user: (optional) User-defined
-               labels to apply.
-        :param ApiGatewayOperationsLabelsInputManaged managed: (optional) Managed
-               labels to apply (e.g. cf-llm).
+        :param ApiGatewayOperationsLabelsBulkInputUser user: (optional)
+               User-defined labels to apply.
+        :param ApiGatewayOperationsLabelsBulkInputManaged managed: (optional)
+               Managed labels to apply (e.g. cf-llm).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ApiGatewayOperationsLabelsResp` object
@@ -547,6 +805,186 @@ class AiSecurityForAppsV1(BaseService):
         url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/labels'.format(**path_param_dict)
         request = self.prepare_request(
             method='POST',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def create_api_gateway_operation_labels(
+        self,
+        operation_id: str,
+        *,
+        user: Optional[List[str]] = None,
+        managed: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Attach labels to a single operation.
+
+        Attach labels to a single API Gateway operation.
+
+        :param str operation_id: UUID of the API Gateway operation.
+        :param List[str] user: (optional) Flat list of user-defined label names to
+               attach.
+        :param List[str] managed: (optional) Flat list of managed label names to
+               attach (e.g. cf-llm).
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayOperationLabelResp` object
+        """
+
+        if not operation_id:
+            raise ValueError('operation_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_api_gateway_operation_labels',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'user': user,
+            'managed': managed,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier', 'operation_id']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier, operation_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def set_zone_api_gateway_operation_labels(
+        self,
+        operation_id: str,
+        *,
+        user: Optional[List[str]] = None,
+        managed: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Replace labels on a single operation.
+
+        Replace labels on a single API Gateway operation.
+
+        :param str operation_id: UUID of the API Gateway operation.
+        :param List[str] user: (optional) Flat list of user-defined label names to
+               attach.
+        :param List[str] managed: (optional) Flat list of managed label names to
+               attach (e.g. cf-llm).
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayOperationLabelResp` object
+        """
+
+        if not operation_id:
+            raise ValueError('operation_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='set_zone_api_gateway_operation_labels',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'user': user,
+            'managed': managed,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier', 'operation_id']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier, operation_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            data=data,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def unset_zone_api_gateway_operation_labels(
+        self,
+        operation_id: str,
+        *,
+        user: Optional[List[str]] = None,
+        managed: Optional[List[str]] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Remove labels from a single operation.
+
+        Remove labels from a single API Gateway operation.
+
+        :param str operation_id: UUID of the API Gateway operation.
+        :param List[str] user: (optional) Flat list of user-defined label names to
+               remove.
+        :param List[str] managed: (optional) Flat list of managed label names to
+               remove.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ApiGatewayNullResultResp` object
+        """
+
+        if not operation_id:
+            raise ValueError('operation_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='unset_zone_api_gateway_operation_labels',
+        )
+        headers.update(sdk_headers)
+
+        data = {
+            'user': user,
+            'managed': managed,
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['crn', 'zone_identifier', 'operation_id']
+        path_param_values = self.encode_path_vars(self.crn, self.zone_identifier, operation_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/{crn}/zones/{zone_identifier}/api_gateway/operations/{operation_id}/labels'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='DELETE',
             url=url,
             headers=headers,
             data=data,
@@ -727,6 +1165,41 @@ class ListApiGatewayDiscoveryOperationsEnums:
         IGNORED = 'ignored'
 
 
+class ListZoneApiGatewayOperationsEnums:
+    """
+    Enums for list_zone_api_gateway_operations parameters.
+    """
+
+    class Method(str, Enum):
+        """
+        Filter results to only include the specified HTTP methods.
+        """
+
+        GET = 'GET'
+        POST = 'POST'
+        PUT = 'PUT'
+        PATCH = 'PATCH'
+        DELETE = 'DELETE'
+        HEAD = 'HEAD'
+        OPTIONS = 'OPTIONS'
+    class Direction(str, Enum):
+        """
+        Direction to order results.
+        """
+
+        ASC = 'asc'
+        DESC = 'desc'
+    class Order(str, Enum):
+        """
+        Field to order results by.
+        """
+
+        HOST = 'host'
+        METHOD = 'method'
+        ENDPOINT = 'endpoint'
+        LAST_UPDATED = 'last_updated'
+
+
 ##############################################################################
 # Models
 ##############################################################################
@@ -874,11 +1347,151 @@ class ApiGatewayOperationItemRespResult:
         return not self == other
 
 
-class ApiGatewayOperationsLabelsInputManaged:
+class ApiGatewayOperationLabelRespResult:
     """
-    Managed labels to apply (e.g. cf-llm).
+    The updated operation with its label set.
 
-    :param List[str] labels: (optional) Array of managed label strings.
+    :param str operation_id: (optional) UUID of the operation.
+    :param List[ApiGatewayOperationLabelRespResultLabelsItem] labels: (optional)
+          Labels applied to the operation.
+    """
+
+    def __init__(
+        self,
+        *,
+        operation_id: Optional[str] = None,
+        labels: Optional[List['ApiGatewayOperationLabelRespResultLabelsItem']] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationLabelRespResult object.
+
+        :param str operation_id: (optional) UUID of the operation.
+        :param List[ApiGatewayOperationLabelRespResultLabelsItem] labels:
+               (optional) Labels applied to the operation.
+        """
+        self.operation_id = operation_id
+        self.labels = labels
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationLabelRespResult':
+        """Initialize a ApiGatewayOperationLabelRespResult object from a json dictionary."""
+        args = {}
+        if (operation_id := _dict.get('operation_id')) is not None:
+            args['operation_id'] = operation_id
+        if (labels := _dict.get('labels')) is not None:
+            args['labels'] = [ApiGatewayOperationLabelRespResultLabelsItem.from_dict(v) for v in labels]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationLabelRespResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'operation_id') and self.operation_id is not None:
+            _dict['operation_id'] = self.operation_id
+        if hasattr(self, 'labels') and self.labels is not None:
+            labels_list = []
+            for v in self.labels:
+                if isinstance(v, dict):
+                    labels_list.append(v)
+                else:
+                    labels_list.append(v.to_dict())
+            _dict['labels'] = labels_list
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationLabelRespResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationLabelRespResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationLabelRespResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationLabelRespResultLabelsItem:
+    """
+    ApiGatewayOperationLabelRespResultLabelsItem.
+
+    :param str name: (optional) Label name.
+    :param str source: (optional) Label source (e.g. managed or user).
+    """
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        source: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationLabelRespResultLabelsItem object.
+
+        :param str name: (optional) Label name.
+        :param str source: (optional) Label source (e.g. managed or user).
+        """
+        self.name = name
+        self.source = source
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationLabelRespResultLabelsItem':
+        """Initialize a ApiGatewayOperationLabelRespResultLabelsItem object from a json dictionary."""
+        args = {}
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationLabelRespResultLabelsItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationLabelRespResultLabelsItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationLabelRespResultLabelsItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationLabelRespResultLabelsItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsLabelsBulkDeleteInputManaged:
+    """
+    Managed labels to remove.
+
+    :param List[str] labels: (optional) List of managed label names to remove.
     """
 
     def __init__(
@@ -887,15 +1500,15 @@ class ApiGatewayOperationsLabelsInputManaged:
         labels: Optional[List[str]] = None,
     ) -> None:
         """
-        Initialize a ApiGatewayOperationsLabelsInputManaged object.
+        Initialize a ApiGatewayOperationsLabelsBulkDeleteInputManaged object.
 
-        :param List[str] labels: (optional) Array of managed label strings.
+        :param List[str] labels: (optional) List of managed label names to remove.
         """
         self.labels = labels
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsInputManaged':
-        """Initialize a ApiGatewayOperationsLabelsInputManaged object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkDeleteInputManaged':
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputManaged object from a json dictionary."""
         args = {}
         if (labels := _dict.get('labels')) is not None:
             args['labels'] = labels
@@ -903,7 +1516,7 @@ class ApiGatewayOperationsLabelsInputManaged:
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ApiGatewayOperationsLabelsInputManaged object from a json dictionary."""
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputManaged object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -918,53 +1531,53 @@ class ApiGatewayOperationsLabelsInputManaged:
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this ApiGatewayOperationsLabelsInputManaged object."""
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkDeleteInputManaged object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApiGatewayOperationsLabelsInputManaged') -> bool:
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputManaged') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApiGatewayOperationsLabelsInputManaged') -> bool:
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputManaged') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class ApiGatewayOperationsLabelsInputSelector:
+class ApiGatewayOperationsLabelsBulkDeleteInputSelector:
     """
-    Selector specifying which operations to label.
+    Selector specifying which operations to affect.
 
-    :param ApiGatewayOperationsLabelsInputSelectorInclude include: Operations to
-          include in the label operation.
+    :param ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude include:
+          Operations to include.
     """
 
     def __init__(
         self,
-        include: 'ApiGatewayOperationsLabelsInputSelectorInclude',
+        include: 'ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude',
     ) -> None:
         """
-        Initialize a ApiGatewayOperationsLabelsInputSelector object.
+        Initialize a ApiGatewayOperationsLabelsBulkDeleteInputSelector object.
 
-        :param ApiGatewayOperationsLabelsInputSelectorInclude include: Operations
-               to include in the label operation.
+        :param ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude include:
+               Operations to include.
         """
         self.include = include
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsInputSelector':
-        """Initialize a ApiGatewayOperationsLabelsInputSelector object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkDeleteInputSelector':
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputSelector object from a json dictionary."""
         args = {}
         if (include := _dict.get('include')) is not None:
-            args['include'] = ApiGatewayOperationsLabelsInputSelectorInclude.from_dict(include)
+            args['include'] = ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude.from_dict(include)
         else:
-            raise ValueError('Required property \'include\' not present in ApiGatewayOperationsLabelsInputSelector JSON')
+            raise ValueError('Required property \'include\' not present in ApiGatewayOperationsLabelsBulkDeleteInputSelector JSON')
         return cls(**args)
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ApiGatewayOperationsLabelsInputSelector object from a json dictionary."""
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputSelector object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -982,25 +1595,26 @@ class ApiGatewayOperationsLabelsInputSelector:
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this ApiGatewayOperationsLabelsInputSelector object."""
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkDeleteInputSelector object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApiGatewayOperationsLabelsInputSelector') -> bool:
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputSelector') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApiGatewayOperationsLabelsInputSelector') -> bool:
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputSelector') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class ApiGatewayOperationsLabelsInputSelectorInclude:
+class ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude:
     """
-    Operations to include in the label operation.
+    Operations to include.
 
-    :param List[str] operation_ids: (optional) Array of operation UUIDs to label.
+    :param List[str] operation_ids: (optional) Array of operation UUIDs to remove
+          labels from.
     """
 
     def __init__(
@@ -1009,16 +1623,16 @@ class ApiGatewayOperationsLabelsInputSelectorInclude:
         operation_ids: Optional[List[str]] = None,
     ) -> None:
         """
-        Initialize a ApiGatewayOperationsLabelsInputSelectorInclude object.
+        Initialize a ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude object.
 
         :param List[str] operation_ids: (optional) Array of operation UUIDs to
-               label.
+               remove labels from.
         """
         self.operation_ids = operation_ids
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsInputSelectorInclude':
-        """Initialize a ApiGatewayOperationsLabelsInputSelectorInclude object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude':
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude object from a json dictionary."""
         args = {}
         if (operation_ids := _dict.get('operation_ids')) is not None:
             args['operation_ids'] = operation_ids
@@ -1026,7 +1640,7 @@ class ApiGatewayOperationsLabelsInputSelectorInclude:
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ApiGatewayOperationsLabelsInputSelectorInclude object from a json dictionary."""
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -1041,25 +1655,25 @@ class ApiGatewayOperationsLabelsInputSelectorInclude:
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this ApiGatewayOperationsLabelsInputSelectorInclude object."""
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApiGatewayOperationsLabelsInputSelectorInclude') -> bool:
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApiGatewayOperationsLabelsInputSelectorInclude') -> bool:
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
 
-class ApiGatewayOperationsLabelsInputUser:
+class ApiGatewayOperationsLabelsBulkDeleteInputUser:
     """
-    User-defined labels to apply.
+    User-defined labels to remove.
 
-    :param List[str] labels: (optional) Array of user-defined label strings.
+    :param List[str] labels: (optional) List of user-defined label names to remove.
     """
 
     def __init__(
@@ -1068,15 +1682,16 @@ class ApiGatewayOperationsLabelsInputUser:
         labels: Optional[List[str]] = None,
     ) -> None:
         """
-        Initialize a ApiGatewayOperationsLabelsInputUser object.
+        Initialize a ApiGatewayOperationsLabelsBulkDeleteInputUser object.
 
-        :param List[str] labels: (optional) Array of user-defined label strings.
+        :param List[str] labels: (optional) List of user-defined label names to
+               remove.
         """
         self.labels = labels
 
     @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsInputUser':
-        """Initialize a ApiGatewayOperationsLabelsInputUser object from a json dictionary."""
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkDeleteInputUser':
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputUser object from a json dictionary."""
         args = {}
         if (labels := _dict.get('labels')) is not None:
             args['labels'] = labels
@@ -1084,7 +1699,7 @@ class ApiGatewayOperationsLabelsInputUser:
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ApiGatewayOperationsLabelsInputUser object from a json dictionary."""
+        """Initialize a ApiGatewayOperationsLabelsBulkDeleteInputUser object from a json dictionary."""
         return cls.from_dict(_dict)
 
     def to_dict(self) -> Dict:
@@ -1099,16 +1714,256 @@ class ApiGatewayOperationsLabelsInputUser:
         return self.to_dict()
 
     def __str__(self) -> str:
-        """Return a `str` version of this ApiGatewayOperationsLabelsInputUser object."""
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkDeleteInputUser object."""
         return json.dumps(self.to_dict(), indent=2)
 
-    def __eq__(self, other: 'ApiGatewayOperationsLabelsInputUser') -> bool:
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputUser') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other: 'ApiGatewayOperationsLabelsInputUser') -> bool:
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkDeleteInputUser') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsLabelsBulkInputManaged:
+    """
+    Managed labels to apply (e.g. cf-llm).
+
+    :param List[str] labels: (optional) List of managed label names to apply.
+    """
+
+    def __init__(
+        self,
+        *,
+        labels: Optional[List[str]] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsLabelsBulkInputManaged object.
+
+        :param List[str] labels: (optional) List of managed label names to apply.
+        """
+        self.labels = labels
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkInputManaged':
+        """Initialize a ApiGatewayOperationsLabelsBulkInputManaged object from a json dictionary."""
+        args = {}
+        if (labels := _dict.get('labels')) is not None:
+            args['labels'] = labels
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsLabelsBulkInputManaged object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'labels') and self.labels is not None:
+            _dict['labels'] = self.labels
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkInputManaged object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkInputManaged') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkInputManaged') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsLabelsBulkInputSelector:
+    """
+    Selector specifying which operations to label.
+
+    :param ApiGatewayOperationsLabelsBulkInputSelectorInclude include: Operations to
+          include in the label operation.
+    """
+
+    def __init__(
+        self,
+        include: 'ApiGatewayOperationsLabelsBulkInputSelectorInclude',
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsLabelsBulkInputSelector object.
+
+        :param ApiGatewayOperationsLabelsBulkInputSelectorInclude include:
+               Operations to include in the label operation.
+        """
+        self.include = include
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkInputSelector':
+        """Initialize a ApiGatewayOperationsLabelsBulkInputSelector object from a json dictionary."""
+        args = {}
+        if (include := _dict.get('include')) is not None:
+            args['include'] = ApiGatewayOperationsLabelsBulkInputSelectorInclude.from_dict(include)
+        else:
+            raise ValueError('Required property \'include\' not present in ApiGatewayOperationsLabelsBulkInputSelector JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsLabelsBulkInputSelector object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'include') and self.include is not None:
+            if isinstance(self.include, dict):
+                _dict['include'] = self.include
+            else:
+                _dict['include'] = self.include.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkInputSelector object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkInputSelector') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkInputSelector') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsLabelsBulkInputSelectorInclude:
+    """
+    Operations to include in the label operation.
+
+    :param List[str] operation_ids: (optional) Array of operation UUIDs to label.
+    """
+
+    def __init__(
+        self,
+        *,
+        operation_ids: Optional[List[str]] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsLabelsBulkInputSelectorInclude object.
+
+        :param List[str] operation_ids: (optional) Array of operation UUIDs to
+               label.
+        """
+        self.operation_ids = operation_ids
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkInputSelectorInclude':
+        """Initialize a ApiGatewayOperationsLabelsBulkInputSelectorInclude object from a json dictionary."""
+        args = {}
+        if (operation_ids := _dict.get('operation_ids')) is not None:
+            args['operation_ids'] = operation_ids
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsLabelsBulkInputSelectorInclude object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'operation_ids') and self.operation_ids is not None:
+            _dict['operation_ids'] = self.operation_ids
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkInputSelectorInclude object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkInputSelectorInclude') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkInputSelectorInclude') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsLabelsBulkInputUser:
+    """
+    User-defined labels to apply.
+
+    :param List[str] labels: (optional) List of user-defined label names to apply.
+    """
+
+    def __init__(
+        self,
+        *,
+        labels: Optional[List[str]] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsLabelsBulkInputUser object.
+
+        :param List[str] labels: (optional) List of user-defined label names to
+               apply.
+        """
+        self.labels = labels
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsBulkInputUser':
+        """Initialize a ApiGatewayOperationsLabelsBulkInputUser object from a json dictionary."""
+        args = {}
+        if (labels := _dict.get('labels')) is not None:
+            args['labels'] = labels
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsLabelsBulkInputUser object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'labels') and self.labels is not None:
+            _dict['labels'] = self.labels
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsLabelsBulkInputUser object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsBulkInputUser') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsBulkInputUser') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1118,24 +1973,22 @@ class ApiGatewayOperationsLabelsRespResultItem:
     ApiGatewayOperationsLabelsRespResultItem.
 
     :param str operation_id: (optional)
-    :param List[dict] labels: (optional) List of label objects. Each object contains
-          fields such as ``name``, ``description``, ``source``, ``last_updated``,
-          and ``created_at``.
+    :param List[ApiGatewayOperationsLabelsRespResultItemLabelsItem] labels:
+          (optional)
     """
 
     def __init__(
         self,
         *,
         operation_id: Optional[str] = None,
-        labels: Optional[List[dict]] = None,
+        labels: Optional[List['ApiGatewayOperationsLabelsRespResultItemLabelsItem']] = None,
     ) -> None:
         """
         Initialize a ApiGatewayOperationsLabelsRespResultItem object.
 
         :param str operation_id: (optional)
-        :param List[dict] labels: (optional) List of label objects. Each object
-               contains fields such as ``name``, ``description``, ``source``,
-               ``last_updated``, and ``created_at``.
+        :param List[ApiGatewayOperationsLabelsRespResultItemLabelsItem] labels:
+               (optional)
         """
         self.operation_id = operation_id
         self.labels = labels
@@ -1147,7 +2000,7 @@ class ApiGatewayOperationsLabelsRespResultItem:
         if (operation_id := _dict.get('operation_id')) is not None:
             args['operation_id'] = operation_id
         if (labels := _dict.get('labels')) is not None:
-            args['labels'] = labels
+            args['labels'] = [ApiGatewayOperationsLabelsRespResultItemLabelsItem.from_dict(v) for v in labels]
         return cls(**args)
 
     @classmethod
@@ -1161,7 +2014,13 @@ class ApiGatewayOperationsLabelsRespResultItem:
         if hasattr(self, 'operation_id') and self.operation_id is not None:
             _dict['operation_id'] = self.operation_id
         if hasattr(self, 'labels') and self.labels is not None:
-            _dict['labels'] = self.labels
+            labels_list = []
+            for v in self.labels:
+                if isinstance(v, dict):
+                    labels_list.append(v)
+                else:
+                    labels_list.append(v.to_dict())
+            _dict['labels'] = labels_list
         return _dict
 
     def _to_dict(self):
@@ -1179,6 +2038,162 @@ class ApiGatewayOperationsLabelsRespResultItem:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ApiGatewayOperationsLabelsRespResultItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsLabelsRespResultItemLabelsItem:
+    """
+    ApiGatewayOperationsLabelsRespResultItemLabelsItem.
+
+    :param str name: (optional) Label name.
+    :param str source: (optional) Label source (e.g. managed or user).
+    """
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        source: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsLabelsRespResultItemLabelsItem object.
+
+        :param str name: (optional) Label name.
+        :param str source: (optional) Label source (e.g. managed or user).
+        """
+        self.name = name
+        self.source = source
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsLabelsRespResultItemLabelsItem':
+        """Initialize a ApiGatewayOperationsLabelsRespResultItemLabelsItem object from a json dictionary."""
+        args = {}
+        if (name := _dict.get('name')) is not None:
+            args['name'] = name
+        if (source := _dict.get('source')) is not None:
+            args['source'] = source
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsLabelsRespResultItemLabelsItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsLabelsRespResultItemLabelsItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsLabelsRespResultItemLabelsItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsLabelsRespResultItemLabelsItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsListRespResultItem:
+    """
+    ApiGatewayOperationsListRespResultItem.
+
+    :param str operation_id: (optional) UUID of the operation.
+    :param str method: (optional)
+    :param str host: (optional)
+    :param str endpoint: (optional)
+    :param datetime last_updated: (optional)
+    """
+
+    def __init__(
+        self,
+        *,
+        operation_id: Optional[str] = None,
+        method: Optional[str] = None,
+        host: Optional[str] = None,
+        endpoint: Optional[str] = None,
+        last_updated: Optional[datetime] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsListRespResultItem object.
+
+        :param str operation_id: (optional) UUID of the operation.
+        :param str method: (optional)
+        :param str host: (optional)
+        :param str endpoint: (optional)
+        :param datetime last_updated: (optional)
+        """
+        self.operation_id = operation_id
+        self.method = method
+        self.host = host
+        self.endpoint = endpoint
+        self.last_updated = last_updated
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsListRespResultItem':
+        """Initialize a ApiGatewayOperationsListRespResultItem object from a json dictionary."""
+        args = {}
+        if (operation_id := _dict.get('operation_id')) is not None:
+            args['operation_id'] = operation_id
+        if (method := _dict.get('method')) is not None:
+            args['method'] = method
+        if (host := _dict.get('host')) is not None:
+            args['host'] = host
+        if (endpoint := _dict.get('endpoint')) is not None:
+            args['endpoint'] = endpoint
+        if (last_updated := _dict.get('last_updated')) is not None:
+            args['last_updated'] = string_to_datetime(last_updated)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsListRespResultItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'operation_id') and self.operation_id is not None:
+            _dict['operation_id'] = self.operation_id
+        if hasattr(self, 'method') and self.method is not None:
+            _dict['method'] = self.method
+        if hasattr(self, 'host') and self.host is not None:
+            _dict['host'] = self.host
+        if hasattr(self, 'endpoint') and self.endpoint is not None:
+            _dict['endpoint'] = self.endpoint
+        if hasattr(self, 'last_updated') and self.last_updated is not None:
+            _dict['last_updated'] = datetime_to_string(self.last_updated)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsListRespResultItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsListRespResultItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsListRespResultItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1588,6 +2603,95 @@ class ApiGatewayDiscoveryResp:
         return not self == other
 
 
+class ApiGatewayNullResultResp:
+    """
+    API Gateway response with null result on success.
+
+    :param bool success: Was operation successful.
+    :param List[List[str]] errors: Array of errors encountered.
+    :param List[List[str]] messages: Array of messages returned.
+    :param dict result: Result is empty on success.
+    """
+
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: dict,
+    ) -> None:
+        """
+        Initialize a ApiGatewayNullResultResp object.
+
+        :param bool success: Was operation successful.
+        :param List[List[str]] errors: Array of errors encountered.
+        :param List[List[str]] messages: Array of messages returned.
+        :param dict result: Result is empty on success.
+        """
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+        self.result = result
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayNullResultResp':
+        """Initialize a ApiGatewayNullResultResp object from a json dictionary."""
+        args = {}
+        if (success := _dict.get('success')) is not None:
+            args['success'] = success
+        else:
+            raise ValueError('Required property \'success\' not present in ApiGatewayNullResultResp JSON')
+        if (errors := _dict.get('errors')) is not None:
+            args['errors'] = errors
+        else:
+            raise ValueError('Required property \'errors\' not present in ApiGatewayNullResultResp JSON')
+        if (messages := _dict.get('messages')) is not None:
+            args['messages'] = messages
+        else:
+            raise ValueError('Required property \'messages\' not present in ApiGatewayNullResultResp JSON')
+        if (result := _dict.get('result')) is not None:
+            args['result'] = result
+        else:
+            raise ValueError('Required property \'result\' not present in ApiGatewayNullResultResp JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayNullResultResp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = self.messages
+        if hasattr(self, 'result') and self.result is not None:
+            _dict['result'] = self.result
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayNullResultResp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayNullResultResp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayNullResultResp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ApiGatewayOperation:
     """
     An API Gateway operation definition.
@@ -1773,6 +2877,100 @@ class ApiGatewayOperationItemResp:
         return not self == other
 
 
+class ApiGatewayOperationLabelResp:
+    """
+    API Gateway single operation label response.
+
+    :param bool success: Was operation successful.
+    :param List[List[str]] errors: Array of errors encountered.
+    :param List[List[str]] messages: Array of messages returned.
+    :param ApiGatewayOperationLabelRespResult result: The updated operation with its
+          label set.
+    """
+
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: 'ApiGatewayOperationLabelRespResult',
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationLabelResp object.
+
+        :param bool success: Was operation successful.
+        :param List[List[str]] errors: Array of errors encountered.
+        :param List[List[str]] messages: Array of messages returned.
+        :param ApiGatewayOperationLabelRespResult result: The updated operation
+               with its label set.
+        """
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+        self.result = result
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationLabelResp':
+        """Initialize a ApiGatewayOperationLabelResp object from a json dictionary."""
+        args = {}
+        if (success := _dict.get('success')) is not None:
+            args['success'] = success
+        else:
+            raise ValueError('Required property \'success\' not present in ApiGatewayOperationLabelResp JSON')
+        if (errors := _dict.get('errors')) is not None:
+            args['errors'] = errors
+        else:
+            raise ValueError('Required property \'errors\' not present in ApiGatewayOperationLabelResp JSON')
+        if (messages := _dict.get('messages')) is not None:
+            args['messages'] = messages
+        else:
+            raise ValueError('Required property \'messages\' not present in ApiGatewayOperationLabelResp JSON')
+        if (result := _dict.get('result')) is not None:
+            args['result'] = ApiGatewayOperationLabelRespResult.from_dict(result)
+        else:
+            raise ValueError('Required property \'result\' not present in ApiGatewayOperationLabelResp JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationLabelResp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = self.messages
+        if hasattr(self, 'result') and self.result is not None:
+            if isinstance(self.result, dict):
+                _dict['result'] = self.result
+            else:
+                _dict['result'] = self.result.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationLabelResp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationLabelResp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationLabelResp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ApiGatewayOperationsLabelsResp:
     """
     API Gateway operations labels update response.
@@ -1866,6 +3064,115 @@ class ApiGatewayOperationsLabelsResp:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ApiGatewayOperationsLabelsResp') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsListResp:
+    """
+    API Gateway operations list response.
+
+    :param bool success: Was operation successful.
+    :param List[List[str]] errors: Array of errors encountered.
+    :param List[List[str]] messages: Array of messages returned.
+    :param List[ApiGatewayOperationsListRespResultItem] result: List of operations
+          in Endpoint Management.
+    :param ResultInfo result_info: (optional)
+    """
+
+    def __init__(
+        self,
+        success: bool,
+        errors: List[List[str]],
+        messages: List[List[str]],
+        result: List['ApiGatewayOperationsListRespResultItem'],
+        *,
+        result_info: Optional['ResultInfo'] = None,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsListResp object.
+
+        :param bool success: Was operation successful.
+        :param List[List[str]] errors: Array of errors encountered.
+        :param List[List[str]] messages: Array of messages returned.
+        :param List[ApiGatewayOperationsListRespResultItem] result: List of
+               operations in Endpoint Management.
+        :param ResultInfo result_info: (optional)
+        """
+        self.success = success
+        self.errors = errors
+        self.messages = messages
+        self.result = result
+        self.result_info = result_info
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsListResp':
+        """Initialize a ApiGatewayOperationsListResp object from a json dictionary."""
+        args = {}
+        if (success := _dict.get('success')) is not None:
+            args['success'] = success
+        else:
+            raise ValueError('Required property \'success\' not present in ApiGatewayOperationsListResp JSON')
+        if (errors := _dict.get('errors')) is not None:
+            args['errors'] = errors
+        else:
+            raise ValueError('Required property \'errors\' not present in ApiGatewayOperationsListResp JSON')
+        if (messages := _dict.get('messages')) is not None:
+            args['messages'] = messages
+        else:
+            raise ValueError('Required property \'messages\' not present in ApiGatewayOperationsListResp JSON')
+        if (result := _dict.get('result')) is not None:
+            args['result'] = [ApiGatewayOperationsListRespResultItem.from_dict(v) for v in result]
+        else:
+            raise ValueError('Required property \'result\' not present in ApiGatewayOperationsListResp JSON')
+        if (result_info := _dict.get('result_info')) is not None:
+            args['result_info'] = ResultInfo.from_dict(result_info)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsListResp object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'success') and self.success is not None:
+            _dict['success'] = self.success
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = self.errors
+        if hasattr(self, 'messages') and self.messages is not None:
+            _dict['messages'] = self.messages
+        if hasattr(self, 'result') and self.result is not None:
+            result_list = []
+            for v in self.result:
+                if isinstance(v, dict):
+                    result_list.append(v)
+                else:
+                    result_list.append(v.to_dict())
+            _dict['result'] = result_list
+        if hasattr(self, 'result_info') and self.result_info is not None:
+            if isinstance(self.result_info, dict):
+                _dict['result_info'] = self.result_info
+            else:
+                _dict['result_info'] = self.result_info.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsListResp object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsListResp') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsListResp') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

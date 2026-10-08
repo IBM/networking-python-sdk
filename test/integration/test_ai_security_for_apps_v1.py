@@ -11,9 +11,12 @@ from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.ai_security_for_apps_v1 import (
     AiSecurityForAppsV1,
     ApiGatewayOperation,
-    ApiGatewayOperationsLabelsInputManaged,
-    ApiGatewayOperationsLabelsInputSelector,
-    ApiGatewayOperationsLabelsInputSelectorInclude,
+    ApiGatewayOperationsLabelsBulkDeleteInputManaged,
+    ApiGatewayOperationsLabelsBulkDeleteInputSelector,
+    ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude,
+    ApiGatewayOperationsLabelsBulkInputManaged,
+    ApiGatewayOperationsLabelsBulkInputSelector,
+    ApiGatewayOperationsLabelsBulkInputSelectorInclude,
 )
 
 configFile = "cis.env"
@@ -87,6 +90,106 @@ class TestAiSecurityForAppsV1(unittest.TestCase):
         assert response is not None
         assert response.status_code == 200
         assert response.result.get('success') is True
+
+    def test_05a_update_zone_api_gateway_discovery_operation(self):
+        """ Update API Gateway Discovery Operation """
+        response = self.service.update_zone_api_gateway_discovery_operation()
+        assert response is not None
+        assert response.status_code == 200
+        assert response.result.get('success') is True
+
+    def test_05b_list_zone_api_gateway_operations(self):
+        """ List Zone API Gateway Operations """
+        response = self.service.list_zone_api_gateway_operations()
+        assert response is not None
+        assert response.status_code == 200
+        assert response.result.get('success') is True
+
+    def test_05c_delete_zone_api_gateway_operations(self):
+        """ Delete Zone API Gateway Operations (bulk) """
+        response = self.service.delete_zone_api_gateway_operations()
+        assert response is not None
+        assert response.status_code == 200
+        assert response.result.get('success') is True
+
+    # ------------------------------------------------------------------
+    # Per-operation label lifecycle
+    # ------------------------------------------------------------------
+
+    def test_05d_per_operation_label_lifecycle(self):
+        """ Per-operation label lifecycle: add, replace, bulk-replace, remove, bulk-delete """
+        # Create a single operation to work with
+        create_response = self.service.create_api_gateway_operation_item(
+            method='POST',
+            host='api.example.com',
+            endpoint='/v1/label-test',
+        )
+        assert create_response is not None
+        assert create_response.status_code == 200
+        assert create_response.result.get('success') is True
+
+        operation_id = create_response.result['result']['operation_id']
+        assert operation_id is not None
+
+        try:
+            # Step 1: Add labels (create_api_gateway_operation_labels)
+            add_response = self.service.create_api_gateway_operation_labels(
+                operation_id=operation_id,
+                managed=['cf-llm'],
+            )
+            assert add_response is not None
+            assert add_response.status_code == 200
+            assert add_response.result.get('success') is True
+
+            # Step 2: Replace labels on a single operation (set_zone_api_gateway_operation_labels)
+            set_response = self.service.set_zone_api_gateway_operation_labels(
+                operation_id=operation_id,
+                managed=['cf-llm'],
+            )
+            assert set_response is not None
+            assert set_response.status_code == 200
+            assert set_response.result.get('success') is True
+
+            # Step 3: Bulk-replace labels via selector (replace_zone_api_gateway_operation_labels)
+            replace_selector = ApiGatewayOperationsLabelsBulkInputSelector(
+                include=ApiGatewayOperationsLabelsBulkInputSelectorInclude(
+                    operation_ids=[operation_id],
+                ),
+            )
+            replace_response = self.service.replace_zone_api_gateway_operation_labels(
+                selector=replace_selector,
+                managed=ApiGatewayOperationsLabelsBulkInputManaged(labels=['cf-llm']),
+            )
+            assert replace_response is not None
+            assert replace_response.status_code == 200
+            assert replace_response.result.get('success') is True
+
+            # Step 4: Remove labels from a single operation (unset_zone_api_gateway_operation_labels)
+            unset_response = self.service.unset_zone_api_gateway_operation_labels(
+                operation_id=operation_id,
+                managed=['cf-llm'],
+            )
+            assert unset_response is not None
+            assert unset_response.status_code == 200
+            assert unset_response.result.get('success') is True
+
+            # Step 5: Bulk-delete labels via selector (delete_zone_api_gateway_operation_labels)
+            delete_selector = ApiGatewayOperationsLabelsBulkDeleteInputSelector(
+                include=ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude(
+                    operation_ids=[operation_id],
+                ),
+            )
+            delete_labels_response = self.service.delete_zone_api_gateway_operation_labels(
+                selector=delete_selector,
+                managed=ApiGatewayOperationsLabelsBulkDeleteInputManaged(labels=['cf-llm']),
+            )
+            assert delete_labels_response is not None
+            assert delete_labels_response.status_code == 200
+            assert delete_labels_response.result.get('success') is True
+
+        finally:
+            # Cleanup: delete the operation regardless of test outcome
+            self.service.delete_zone_api_gateway_operation(operation_id=operation_id)
 
     # ------------------------------------------------------------------
     # Block 1 — Single operation lifecycle
@@ -199,12 +302,12 @@ class TestAiSecurityForAppsV1(unittest.TestCase):
         managed_label = 'cf-llm'
 
         # --- Step 1: add managed label to all 3 operations ---
-        selector_all = ApiGatewayOperationsLabelsInputSelector(
-            include=ApiGatewayOperationsLabelsInputSelectorInclude(
+        selector_all = ApiGatewayOperationsLabelsBulkInputSelector(
+            include=ApiGatewayOperationsLabelsBulkInputSelectorInclude(
                 operation_ids=bulk_ids,
             ),
         )
-        managed_labels = ApiGatewayOperationsLabelsInputManaged(labels=[managed_label])
+        managed_labels = ApiGatewayOperationsLabelsBulkInputManaged(labels=[managed_label])
 
         label_response_all = self.service.update_api_gateway_operation_labels(
             selector=selector_all,
@@ -224,8 +327,8 @@ class TestAiSecurityForAppsV1(unittest.TestCase):
 
         # --- Step 2: narrow selector to only 2nd and 3rd IDs ---
         narrowed_ids = bulk_ids[1:]
-        selector_narrow = ApiGatewayOperationsLabelsInputSelector(
-            include=ApiGatewayOperationsLabelsInputSelectorInclude(
+        selector_narrow = ApiGatewayOperationsLabelsBulkInputSelector(
+            include=ApiGatewayOperationsLabelsBulkInputSelectorInclude(
                 operation_ids=narrowed_ids,
             ),
         )

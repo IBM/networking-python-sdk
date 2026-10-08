@@ -802,6 +802,252 @@ class TestNewInstance:
             )
 
 
+class TestDeleteZoneApiGatewayOperations:
+    """
+    Test Class for delete_zone_api_gateway_operations
+    """
+
+    @responses.activate
+    def test_delete_zone_api_gateway_operations_all_params(self):
+        """
+        delete_zone_api_gateway_operations()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_ids = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Invoke method
+        response = _service.delete_zone_api_gateway_operations(
+            operation_ids=operation_ids,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['operation_ids'] == ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+    def test_delete_zone_api_gateway_operations_all_params_with_retries(self):
+        # Enable retries and run test_delete_zone_api_gateway_operations_all_params.
+        _service.enable_retries()
+        self.test_delete_zone_api_gateway_operations_all_params()
+
+        # Disable retries and run test_delete_zone_api_gateway_operations_all_params.
+        _service.disable_retries()
+        self.test_delete_zone_api_gateway_operations_all_params()
+
+    @responses.activate
+    def test_delete_zone_api_gateway_operations_required_params(self):
+        """
+        test_delete_zone_api_gateway_operations_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.delete_zone_api_gateway_operations()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_delete_zone_api_gateway_operations_required_params_with_retries(self):
+        # Enable retries and run test_delete_zone_api_gateway_operations_required_params.
+        _service.enable_retries()
+        self.test_delete_zone_api_gateway_operations_required_params()
+
+        # Disable retries and run test_delete_zone_api_gateway_operations_required_params.
+        _service.disable_retries()
+        self.test_delete_zone_api_gateway_operations_required_params()
+
+    @responses.activate
+    def test_delete_zone_api_gateway_operations_value_error(self):
+        """
+        test_delete_zone_api_gateway_operations_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_zone_api_gateway_operations(**req_copy)
+
+    def test_delete_zone_api_gateway_operations_value_error_with_retries(self):
+        # Enable retries and run test_delete_zone_api_gateway_operations_value_error.
+        _service.enable_retries()
+        self.test_delete_zone_api_gateway_operations_value_error()
+
+        # Disable retries and run test_delete_zone_api_gateway_operations_value_error.
+        _service.disable_retries()
+        self.test_delete_zone_api_gateway_operations_value_error()
+
+
+class TestListZoneApiGatewayOperations:
+    """
+    Test Class for list_zone_api_gateway_operations
+    """
+
+    @responses.activate
+    def test_list_zone_api_gateway_operations_all_params(self):
+        """
+        list_zone_api_gateway_operations()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "test-fafe-4643-bbbc-example", "method": "POST", "host": "api.example.com", "endpoint": "/v1/messages", "last_updated": "2024-01-01T00:00:00.000Z"}], "result_info": {"count": 5, "page": 4, "per_page": 8, "total_count": 11}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        host = ['testString']
+        method = ['GET']
+        endpoint = 'testString'
+        labels = ['testString']
+        direction = 'asc'
+        order = 'host'
+        page = 1
+        per_page = 1
+
+        # Invoke method
+        response = _service.list_zone_api_gateway_operations(
+            host=host,
+            method=method,
+            endpoint=endpoint,
+            labels=labels,
+            direction=direction,
+            order=order,
+            page=page,
+            per_page=per_page,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?', 1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'host={}'.format(','.join(host)) in query_string
+        assert 'method={}'.format(','.join(method)) in query_string
+        assert 'endpoint={}'.format(endpoint) in query_string
+        assert 'labels={}'.format(','.join(labels)) in query_string
+        assert 'direction={}'.format(direction) in query_string
+        assert 'order={}'.format(order) in query_string
+        assert 'page={}'.format(page) in query_string
+        assert 'per_page={}'.format(per_page) in query_string
+
+    def test_list_zone_api_gateway_operations_all_params_with_retries(self):
+        # Enable retries and run test_list_zone_api_gateway_operations_all_params.
+        _service.enable_retries()
+        self.test_list_zone_api_gateway_operations_all_params()
+
+        # Disable retries and run test_list_zone_api_gateway_operations_all_params.
+        _service.disable_retries()
+        self.test_list_zone_api_gateway_operations_all_params()
+
+    @responses.activate
+    def test_list_zone_api_gateway_operations_required_params(self):
+        """
+        test_list_zone_api_gateway_operations_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "test-fafe-4643-bbbc-example", "method": "POST", "host": "api.example.com", "endpoint": "/v1/messages", "last_updated": "2024-01-01T00:00:00.000Z"}], "result_info": {"count": 5, "page": 4, "per_page": 8, "total_count": 11}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.list_zone_api_gateway_operations()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_zone_api_gateway_operations_required_params_with_retries(self):
+        # Enable retries and run test_list_zone_api_gateway_operations_required_params.
+        _service.enable_retries()
+        self.test_list_zone_api_gateway_operations_required_params()
+
+        # Disable retries and run test_list_zone_api_gateway_operations_required_params.
+        _service.disable_retries()
+        self.test_list_zone_api_gateway_operations_required_params()
+
+    @responses.activate
+    def test_list_zone_api_gateway_operations_value_error(self):
+        """
+        test_list_zone_api_gateway_operations_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "test-fafe-4643-bbbc-example", "method": "POST", "host": "api.example.com", "endpoint": "/v1/messages", "last_updated": "2024-01-01T00:00:00.000Z"}], "result_info": {"count": 5, "page": 4, "per_page": 8, "total_count": 11}}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_zone_api_gateway_operations(**req_copy)
+
+    def test_list_zone_api_gateway_operations_value_error_with_retries(self):
+        # Enable retries and run test_list_zone_api_gateway_operations_value_error.
+        _service.enable_retries()
+        self.test_list_zone_api_gateway_operations_value_error()
+
+        # Disable retries and run test_list_zone_api_gateway_operations_value_error.
+        _service.disable_retries()
+        self.test_list_zone_api_gateway_operations_value_error()
+
+
 class TestCreateZoneApiGatewayOperation:
     """
     Test Class for create_zone_api_gateway_operation
@@ -1038,6 +1284,274 @@ class TestCreateApiGatewayOperationItem:
         self.test_create_api_gateway_operation_item_value_error()
 
 
+class TestReplaceZoneApiGatewayOperationLabels:
+    """
+    Test Class for replace_zone_api_gateway_operation_labels
+    """
+
+    @responses.activate
+    def test_replace_zone_api_gateway_operation_labels_all_params(self):
+        """
+        replace_zone_api_gateway_operation_labels()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}]}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputSelectorInclude model
+        api_gateway_operations_labels_bulk_input_selector_include_model = {}
+        api_gateway_operations_labels_bulk_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputSelector model
+        api_gateway_operations_labels_bulk_input_selector_model = {}
+        api_gateway_operations_labels_bulk_input_selector_model['include'] = api_gateway_operations_labels_bulk_input_selector_include_model
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputUser model
+        api_gateway_operations_labels_bulk_input_user_model = {}
+        api_gateway_operations_labels_bulk_input_user_model['labels'] = ['testString']
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputManaged model
+        api_gateway_operations_labels_bulk_input_managed_model = {}
+        api_gateway_operations_labels_bulk_input_managed_model['labels'] = ['testString']
+
+        # Set up parameter values
+        selector = api_gateway_operations_labels_bulk_input_selector_model
+        user = api_gateway_operations_labels_bulk_input_user_model
+        managed = api_gateway_operations_labels_bulk_input_managed_model
+
+        # Invoke method
+        response = _service.replace_zone_api_gateway_operation_labels(
+            selector=selector,
+            user=user,
+            managed=managed,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['selector'] == api_gateway_operations_labels_bulk_input_selector_model
+        assert req_body['user'] == api_gateway_operations_labels_bulk_input_user_model
+        assert req_body['managed'] == api_gateway_operations_labels_bulk_input_managed_model
+
+    def test_replace_zone_api_gateway_operation_labels_all_params_with_retries(self):
+        # Enable retries and run test_replace_zone_api_gateway_operation_labels_all_params.
+        _service.enable_retries()
+        self.test_replace_zone_api_gateway_operation_labels_all_params()
+
+        # Disable retries and run test_replace_zone_api_gateway_operation_labels_all_params.
+        _service.disable_retries()
+        self.test_replace_zone_api_gateway_operation_labels_all_params()
+
+    @responses.activate
+    def test_replace_zone_api_gateway_operation_labels_required_params(self):
+        """
+        test_replace_zone_api_gateway_operation_labels_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}]}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.replace_zone_api_gateway_operation_labels()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_replace_zone_api_gateway_operation_labels_required_params_with_retries(self):
+        # Enable retries and run test_replace_zone_api_gateway_operation_labels_required_params.
+        _service.enable_retries()
+        self.test_replace_zone_api_gateway_operation_labels_required_params()
+
+        # Disable retries and run test_replace_zone_api_gateway_operation_labels_required_params.
+        _service.disable_retries()
+        self.test_replace_zone_api_gateway_operation_labels_required_params()
+
+    @responses.activate
+    def test_replace_zone_api_gateway_operation_labels_value_error(self):
+        """
+        test_replace_zone_api_gateway_operation_labels_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}]}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.replace_zone_api_gateway_operation_labels(**req_copy)
+
+    def test_replace_zone_api_gateway_operation_labels_value_error_with_retries(self):
+        # Enable retries and run test_replace_zone_api_gateway_operation_labels_value_error.
+        _service.enable_retries()
+        self.test_replace_zone_api_gateway_operation_labels_value_error()
+
+        # Disable retries and run test_replace_zone_api_gateway_operation_labels_value_error.
+        _service.disable_retries()
+        self.test_replace_zone_api_gateway_operation_labels_value_error()
+
+
+class TestDeleteZoneApiGatewayOperationLabels:
+    """
+    Test Class for delete_zone_api_gateway_operation_labels
+    """
+
+    @responses.activate
+    def test_delete_zone_api_gateway_operation_labels_all_params(self):
+        """
+        delete_zone_api_gateway_operation_labels()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude model
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model = {}
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputSelector model
+        api_gateway_operations_labels_bulk_delete_input_selector_model = {}
+        api_gateway_operations_labels_bulk_delete_input_selector_model['include'] = api_gateway_operations_labels_bulk_delete_input_selector_include_model
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputUser model
+        api_gateway_operations_labels_bulk_delete_input_user_model = {}
+        api_gateway_operations_labels_bulk_delete_input_user_model['labels'] = ['testString']
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputManaged model
+        api_gateway_operations_labels_bulk_delete_input_managed_model = {}
+        api_gateway_operations_labels_bulk_delete_input_managed_model['labels'] = ['testString']
+
+        # Set up parameter values
+        selector = api_gateway_operations_labels_bulk_delete_input_selector_model
+        user = api_gateway_operations_labels_bulk_delete_input_user_model
+        managed = api_gateway_operations_labels_bulk_delete_input_managed_model
+
+        # Invoke method
+        response = _service.delete_zone_api_gateway_operation_labels(
+            selector=selector,
+            user=user,
+            managed=managed,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['selector'] == api_gateway_operations_labels_bulk_delete_input_selector_model
+        assert req_body['user'] == api_gateway_operations_labels_bulk_delete_input_user_model
+        assert req_body['managed'] == api_gateway_operations_labels_bulk_delete_input_managed_model
+
+    def test_delete_zone_api_gateway_operation_labels_all_params_with_retries(self):
+        # Enable retries and run test_delete_zone_api_gateway_operation_labels_all_params.
+        _service.enable_retries()
+        self.test_delete_zone_api_gateway_operation_labels_all_params()
+
+        # Disable retries and run test_delete_zone_api_gateway_operation_labels_all_params.
+        _service.disable_retries()
+        self.test_delete_zone_api_gateway_operation_labels_all_params()
+
+    @responses.activate
+    def test_delete_zone_api_gateway_operation_labels_required_params(self):
+        """
+        test_delete_zone_api_gateway_operation_labels_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Invoke method
+        response = _service.delete_zone_api_gateway_operation_labels()
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_delete_zone_api_gateway_operation_labels_required_params_with_retries(self):
+        # Enable retries and run test_delete_zone_api_gateway_operation_labels_required_params.
+        _service.enable_retries()
+        self.test_delete_zone_api_gateway_operation_labels_required_params()
+
+        # Disable retries and run test_delete_zone_api_gateway_operation_labels_required_params.
+        _service.disable_retries()
+        self.test_delete_zone_api_gateway_operation_labels_required_params()
+
+    @responses.activate
+    def test_delete_zone_api_gateway_operation_labels_value_error(self):
+        """
+        test_delete_zone_api_gateway_operation_labels_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_zone_api_gateway_operation_labels(**req_copy)
+
+    def test_delete_zone_api_gateway_operation_labels_value_error_with_retries(self):
+        # Enable retries and run test_delete_zone_api_gateway_operation_labels_value_error.
+        _service.enable_retries()
+        self.test_delete_zone_api_gateway_operation_labels_value_error()
+
+        # Disable retries and run test_delete_zone_api_gateway_operation_labels_value_error.
+        _service.disable_retries()
+        self.test_delete_zone_api_gateway_operation_labels_value_error()
+
+
 class TestUpdateApiGatewayOperationLabels:
     """
     Test Class for update_api_gateway_operation_labels
@@ -1050,7 +1564,7 @@ class TestUpdateApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "description": "Services that are (partially) powered by Large Language Model (LLM).", "source": "managed", "last_updated": "2025-02-20T08:38:41.864801Z", "created_at": "2025-02-20T08:38:41.864801Z"}]}]}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1059,26 +1573,26 @@ class TestUpdateApiGatewayOperationLabels:
             status=200,
         )
 
-        # Construct a dict representation of a ApiGatewayOperationsLabelsInputSelectorInclude model
-        api_gateway_operations_labels_input_selector_include_model = {}
-        api_gateway_operations_labels_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputSelectorInclude model
+        api_gateway_operations_labels_bulk_input_selector_include_model = {}
+        api_gateway_operations_labels_bulk_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
 
-        # Construct a dict representation of a ApiGatewayOperationsLabelsInputSelector model
-        api_gateway_operations_labels_input_selector_model = {}
-        api_gateway_operations_labels_input_selector_model['include'] = api_gateway_operations_labels_input_selector_include_model
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputSelector model
+        api_gateway_operations_labels_bulk_input_selector_model = {}
+        api_gateway_operations_labels_bulk_input_selector_model['include'] = api_gateway_operations_labels_bulk_input_selector_include_model
 
-        # Construct a dict representation of a ApiGatewayOperationsLabelsInputUser model
-        api_gateway_operations_labels_input_user_model = {}
-        api_gateway_operations_labels_input_user_model['labels'] = ['testString']
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputUser model
+        api_gateway_operations_labels_bulk_input_user_model = {}
+        api_gateway_operations_labels_bulk_input_user_model['labels'] = ['testString']
 
-        # Construct a dict representation of a ApiGatewayOperationsLabelsInputManaged model
-        api_gateway_operations_labels_input_managed_model = {}
-        api_gateway_operations_labels_input_managed_model['labels'] = ['cf-llm']
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkInputManaged model
+        api_gateway_operations_labels_bulk_input_managed_model = {}
+        api_gateway_operations_labels_bulk_input_managed_model['labels'] = ['testString']
 
         # Set up parameter values
-        selector = api_gateway_operations_labels_input_selector_model
-        user = api_gateway_operations_labels_input_user_model
-        managed = api_gateway_operations_labels_input_managed_model
+        selector = api_gateway_operations_labels_bulk_input_selector_model
+        user = api_gateway_operations_labels_bulk_input_user_model
+        managed = api_gateway_operations_labels_bulk_input_managed_model
 
         # Invoke method
         response = _service.update_api_gateway_operation_labels(
@@ -1093,9 +1607,9 @@ class TestUpdateApiGatewayOperationLabels:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['selector'] == api_gateway_operations_labels_input_selector_model
-        assert req_body['user'] == api_gateway_operations_labels_input_user_model
-        assert req_body['managed'] == api_gateway_operations_labels_input_managed_model
+        assert req_body['selector'] == api_gateway_operations_labels_bulk_input_selector_model
+        assert req_body['user'] == api_gateway_operations_labels_bulk_input_user_model
+        assert req_body['managed'] == api_gateway_operations_labels_bulk_input_managed_model
 
     def test_update_api_gateway_operation_labels_all_params_with_retries(self):
         # Enable retries and run test_update_api_gateway_operation_labels_all_params.
@@ -1113,7 +1627,7 @@ class TestUpdateApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "description": "Services that are (partially) powered by Large Language Model (LLM).", "source": "managed", "last_updated": "2025-02-20T08:38:41.864801Z", "created_at": "2025-02-20T08:38:41.864801Z"}]}]}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1145,7 +1659,7 @@ class TestUpdateApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "description": "Services that are (partially) powered by Large Language Model (LLM).", "source": "managed", "last_updated": "2025-02-20T08:38:41.864801Z", "created_at": "2025-02-20T08:38:41.864801Z"}]}]}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": [{"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}]}'
         responses.add(
             responses.POST,
             url,
@@ -1170,6 +1684,387 @@ class TestUpdateApiGatewayOperationLabels:
         # Disable retries and run test_update_api_gateway_operation_labels_value_error.
         _service.disable_retries()
         self.test_update_api_gateway_operation_labels_value_error()
+
+
+class TestCreateApiGatewayOperationLabels:
+    """
+    Test Class for create_api_gateway_operation_labels
+    """
+
+    @responses.activate
+    def test_create_api_gateway_operation_labels_all_params(self):
+        """
+        create_api_gateway_operation_labels()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+        user = ['string']
+        managed = ['cf-llm']
+
+        # Invoke method
+        response = _service.create_api_gateway_operation_labels(
+            operation_id,
+            user=user,
+            managed=managed,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['user'] == ['string']
+        assert req_body['managed'] == ['cf-llm']
+
+    def test_create_api_gateway_operation_labels_all_params_with_retries(self):
+        # Enable retries and run test_create_api_gateway_operation_labels_all_params.
+        _service.enable_retries()
+        self.test_create_api_gateway_operation_labels_all_params()
+
+        # Disable retries and run test_create_api_gateway_operation_labels_all_params.
+        _service.disable_retries()
+        self.test_create_api_gateway_operation_labels_all_params()
+
+    @responses.activate
+    def test_create_api_gateway_operation_labels_required_params(self):
+        """
+        test_create_api_gateway_operation_labels_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+
+        # Invoke method
+        response = _service.create_api_gateway_operation_labels(
+            operation_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_create_api_gateway_operation_labels_required_params_with_retries(self):
+        # Enable retries and run test_create_api_gateway_operation_labels_required_params.
+        _service.enable_retries()
+        self.test_create_api_gateway_operation_labels_required_params()
+
+        # Disable retries and run test_create_api_gateway_operation_labels_required_params.
+        _service.disable_retries()
+        self.test_create_api_gateway_operation_labels_required_params()
+
+    @responses.activate
+    def test_create_api_gateway_operation_labels_value_error(self):
+        """
+        test_create_api_gateway_operation_labels_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "operation_id": operation_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_api_gateway_operation_labels(**req_copy)
+
+    def test_create_api_gateway_operation_labels_value_error_with_retries(self):
+        # Enable retries and run test_create_api_gateway_operation_labels_value_error.
+        _service.enable_retries()
+        self.test_create_api_gateway_operation_labels_value_error()
+
+        # Disable retries and run test_create_api_gateway_operation_labels_value_error.
+        _service.disable_retries()
+        self.test_create_api_gateway_operation_labels_value_error()
+
+
+class TestSetZoneApiGatewayOperationLabels:
+    """
+    Test Class for set_zone_api_gateway_operation_labels
+    """
+
+    @responses.activate
+    def test_set_zone_api_gateway_operation_labels_all_params(self):
+        """
+        set_zone_api_gateway_operation_labels()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+        user = ['string']
+        managed = ['cf-llm']
+
+        # Invoke method
+        response = _service.set_zone_api_gateway_operation_labels(
+            operation_id,
+            user=user,
+            managed=managed,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['user'] == ['string']
+        assert req_body['managed'] == ['cf-llm']
+
+    def test_set_zone_api_gateway_operation_labels_all_params_with_retries(self):
+        # Enable retries and run test_set_zone_api_gateway_operation_labels_all_params.
+        _service.enable_retries()
+        self.test_set_zone_api_gateway_operation_labels_all_params()
+
+        # Disable retries and run test_set_zone_api_gateway_operation_labels_all_params.
+        _service.disable_retries()
+        self.test_set_zone_api_gateway_operation_labels_all_params()
+
+    @responses.activate
+    def test_set_zone_api_gateway_operation_labels_required_params(self):
+        """
+        test_set_zone_api_gateway_operation_labels_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+
+        # Invoke method
+        response = _service.set_zone_api_gateway_operation_labels(
+            operation_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_set_zone_api_gateway_operation_labels_required_params_with_retries(self):
+        # Enable retries and run test_set_zone_api_gateway_operation_labels_required_params.
+        _service.enable_retries()
+        self.test_set_zone_api_gateway_operation_labels_required_params()
+
+        # Disable retries and run test_set_zone_api_gateway_operation_labels_required_params.
+        _service.disable_retries()
+        self.test_set_zone_api_gateway_operation_labels_required_params()
+
+    @responses.activate
+    def test_set_zone_api_gateway_operation_labels_value_error(self):
+        """
+        test_set_zone_api_gateway_operation_labels_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"operation_id": "f174e90a-fafe-4643-bbbc-4a0ed4fc8415", "labels": [{"name": "cf-llm", "source": "managed"}]}}'
+        responses.add(
+            responses.PUT,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "operation_id": operation_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.set_zone_api_gateway_operation_labels(**req_copy)
+
+    def test_set_zone_api_gateway_operation_labels_value_error_with_retries(self):
+        # Enable retries and run test_set_zone_api_gateway_operation_labels_value_error.
+        _service.enable_retries()
+        self.test_set_zone_api_gateway_operation_labels_value_error()
+
+        # Disable retries and run test_set_zone_api_gateway_operation_labels_value_error.
+        _service.disable_retries()
+        self.test_set_zone_api_gateway_operation_labels_value_error()
+
+
+class TestUnsetZoneApiGatewayOperationLabels:
+    """
+    Test Class for unset_zone_api_gateway_operation_labels
+    """
+
+    @responses.activate
+    def test_unset_zone_api_gateway_operation_labels_all_params(self):
+        """
+        unset_zone_api_gateway_operation_labels()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+        user = ['testString']
+        managed = ['testString']
+
+        # Invoke method
+        response = _service.unset_zone_api_gateway_operation_labels(
+            operation_id,
+            user=user,
+            managed=managed,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['user'] == ['testString']
+        assert req_body['managed'] == ['testString']
+
+    def test_unset_zone_api_gateway_operation_labels_all_params_with_retries(self):
+        # Enable retries and run test_unset_zone_api_gateway_operation_labels_all_params.
+        _service.enable_retries()
+        self.test_unset_zone_api_gateway_operation_labels_all_params()
+
+        # Disable retries and run test_unset_zone_api_gateway_operation_labels_all_params.
+        _service.disable_retries()
+        self.test_unset_zone_api_gateway_operation_labels_all_params()
+
+    @responses.activate
+    def test_unset_zone_api_gateway_operation_labels_required_params(self):
+        """
+        test_unset_zone_api_gateway_operation_labels_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+
+        # Invoke method
+        response = _service.unset_zone_api_gateway_operation_labels(
+            operation_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_unset_zone_api_gateway_operation_labels_required_params_with_retries(self):
+        # Enable retries and run test_unset_zone_api_gateway_operation_labels_required_params.
+        _service.enable_retries()
+        self.test_unset_zone_api_gateway_operation_labels_required_params()
+
+        # Disable retries and run test_unset_zone_api_gateway_operation_labels_required_params.
+        _service.disable_retries()
+        self.test_unset_zone_api_gateway_operation_labels_required_params()
+
+    @responses.activate
+    def test_unset_zone_api_gateway_operation_labels_value_error(self):
+        """
+        test_unset_zone_api_gateway_operation_labels_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        responses.add(
+            responses.DELETE,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        operation_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "operation_id": operation_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.unset_zone_api_gateway_operation_labels(**req_copy)
+
+    def test_unset_zone_api_gateway_operation_labels_value_error_with_retries(self):
+        # Enable retries and run test_unset_zone_api_gateway_operation_labels_value_error.
+        _service.enable_retries()
+        self.test_unset_zone_api_gateway_operation_labels_value_error()
+
+        # Disable retries and run test_unset_zone_api_gateway_operation_labels_value_error.
+        _service.disable_retries()
+        self.test_unset_zone_api_gateway_operation_labels_value_error()
 
 
 class TestGetZoneApiGatewayOperation:
@@ -1268,7 +2163,7 @@ class TestDeleteZoneApiGatewayOperation:
         responses.add(
             responses.DELETE,
             url,
-            status=200,
+            status=204,
         )
 
         # Set up parameter values
@@ -1282,7 +2177,7 @@ class TestDeleteZoneApiGatewayOperation:
 
         # Check for correct operation
         assert len(responses.calls) == 1
-        assert response.status_code == 200
+        assert response.status_code == 204
 
     def test_delete_zone_api_gateway_operation_all_params_with_retries(self):
         # Enable retries and run test_delete_zone_api_gateway_operation_all_params.
@@ -1303,7 +2198,7 @@ class TestDeleteZoneApiGatewayOperation:
         responses.add(
             responses.DELETE,
             url,
-            status=200,
+            status=204,
         )
 
         # Set up parameter values
@@ -1534,129 +2429,322 @@ class TestModel_ApiGatewayOperationItemRespResult:
         assert api_gateway_operation_item_resp_result_model_json2 == api_gateway_operation_item_resp_result_model_json
 
 
-class TestModel_ApiGatewayOperationsLabelsInputManaged:
+class TestModel_ApiGatewayOperationLabelRespResult:
     """
-    Test Class for ApiGatewayOperationsLabelsInputManaged
+    Test Class for ApiGatewayOperationLabelRespResult
     """
 
-    def test_api_gateway_operations_labels_input_managed_serialization(self):
+    def test_api_gateway_operation_label_resp_result_serialization(self):
         """
-        Test serialization/deserialization for ApiGatewayOperationsLabelsInputManaged
-        """
-
-        # Construct a json representation of a ApiGatewayOperationsLabelsInputManaged model
-        api_gateway_operations_labels_input_managed_model_json = {}
-        api_gateway_operations_labels_input_managed_model_json['labels'] = ['cf-llm']
-
-        # Construct a model instance of ApiGatewayOperationsLabelsInputManaged by calling from_dict on the json representation
-        api_gateway_operations_labels_input_managed_model = ApiGatewayOperationsLabelsInputManaged.from_dict(api_gateway_operations_labels_input_managed_model_json)
-        assert api_gateway_operations_labels_input_managed_model != False
-
-        # Construct a model instance of ApiGatewayOperationsLabelsInputManaged by calling from_dict on the json representation
-        api_gateway_operations_labels_input_managed_model_dict = ApiGatewayOperationsLabelsInputManaged.from_dict(api_gateway_operations_labels_input_managed_model_json).__dict__
-        api_gateway_operations_labels_input_managed_model2 = ApiGatewayOperationsLabelsInputManaged(**api_gateway_operations_labels_input_managed_model_dict)
-
-        # Verify the model instances are equivalent
-        assert api_gateway_operations_labels_input_managed_model == api_gateway_operations_labels_input_managed_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        api_gateway_operations_labels_input_managed_model_json2 = api_gateway_operations_labels_input_managed_model.to_dict()
-        assert api_gateway_operations_labels_input_managed_model_json2 == api_gateway_operations_labels_input_managed_model_json
-
-
-class TestModel_ApiGatewayOperationsLabelsInputSelector:
-    """
-    Test Class for ApiGatewayOperationsLabelsInputSelector
-    """
-
-    def test_api_gateway_operations_labels_input_selector_serialization(self):
-        """
-        Test serialization/deserialization for ApiGatewayOperationsLabelsInputSelector
+        Test serialization/deserialization for ApiGatewayOperationLabelRespResult
         """
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        api_gateway_operations_labels_input_selector_include_model = {}  # ApiGatewayOperationsLabelsInputSelectorInclude
-        api_gateway_operations_labels_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+        api_gateway_operation_label_resp_result_labels_item_model = {}  # ApiGatewayOperationLabelRespResultLabelsItem
+        api_gateway_operation_label_resp_result_labels_item_model['name'] = 'cf-llm'
+        api_gateway_operation_label_resp_result_labels_item_model['source'] = 'managed'
 
-        # Construct a json representation of a ApiGatewayOperationsLabelsInputSelector model
-        api_gateway_operations_labels_input_selector_model_json = {}
-        api_gateway_operations_labels_input_selector_model_json['include'] = api_gateway_operations_labels_input_selector_include_model
+        # Construct a json representation of a ApiGatewayOperationLabelRespResult model
+        api_gateway_operation_label_resp_result_model_json = {}
+        api_gateway_operation_label_resp_result_model_json['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
+        api_gateway_operation_label_resp_result_model_json['labels'] = [api_gateway_operation_label_resp_result_labels_item_model]
 
-        # Construct a model instance of ApiGatewayOperationsLabelsInputSelector by calling from_dict on the json representation
-        api_gateway_operations_labels_input_selector_model = ApiGatewayOperationsLabelsInputSelector.from_dict(api_gateway_operations_labels_input_selector_model_json)
-        assert api_gateway_operations_labels_input_selector_model != False
+        # Construct a model instance of ApiGatewayOperationLabelRespResult by calling from_dict on the json representation
+        api_gateway_operation_label_resp_result_model = ApiGatewayOperationLabelRespResult.from_dict(api_gateway_operation_label_resp_result_model_json)
+        assert api_gateway_operation_label_resp_result_model != False
 
-        # Construct a model instance of ApiGatewayOperationsLabelsInputSelector by calling from_dict on the json representation
-        api_gateway_operations_labels_input_selector_model_dict = ApiGatewayOperationsLabelsInputSelector.from_dict(api_gateway_operations_labels_input_selector_model_json).__dict__
-        api_gateway_operations_labels_input_selector_model2 = ApiGatewayOperationsLabelsInputSelector(**api_gateway_operations_labels_input_selector_model_dict)
-
-        # Verify the model instances are equivalent
-        assert api_gateway_operations_labels_input_selector_model == api_gateway_operations_labels_input_selector_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        api_gateway_operations_labels_input_selector_model_json2 = api_gateway_operations_labels_input_selector_model.to_dict()
-        assert api_gateway_operations_labels_input_selector_model_json2 == api_gateway_operations_labels_input_selector_model_json
-
-
-class TestModel_ApiGatewayOperationsLabelsInputSelectorInclude:
-    """
-    Test Class for ApiGatewayOperationsLabelsInputSelectorInclude
-    """
-
-    def test_api_gateway_operations_labels_input_selector_include_serialization(self):
-        """
-        Test serialization/deserialization for ApiGatewayOperationsLabelsInputSelectorInclude
-        """
-
-        # Construct a json representation of a ApiGatewayOperationsLabelsInputSelectorInclude model
-        api_gateway_operations_labels_input_selector_include_model_json = {}
-        api_gateway_operations_labels_input_selector_include_model_json['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
-
-        # Construct a model instance of ApiGatewayOperationsLabelsInputSelectorInclude by calling from_dict on the json representation
-        api_gateway_operations_labels_input_selector_include_model = ApiGatewayOperationsLabelsInputSelectorInclude.from_dict(api_gateway_operations_labels_input_selector_include_model_json)
-        assert api_gateway_operations_labels_input_selector_include_model != False
-
-        # Construct a model instance of ApiGatewayOperationsLabelsInputSelectorInclude by calling from_dict on the json representation
-        api_gateway_operations_labels_input_selector_include_model_dict = ApiGatewayOperationsLabelsInputSelectorInclude.from_dict(api_gateway_operations_labels_input_selector_include_model_json).__dict__
-        api_gateway_operations_labels_input_selector_include_model2 = ApiGatewayOperationsLabelsInputSelectorInclude(**api_gateway_operations_labels_input_selector_include_model_dict)
+        # Construct a model instance of ApiGatewayOperationLabelRespResult by calling from_dict on the json representation
+        api_gateway_operation_label_resp_result_model_dict = ApiGatewayOperationLabelRespResult.from_dict(api_gateway_operation_label_resp_result_model_json).__dict__
+        api_gateway_operation_label_resp_result_model2 = ApiGatewayOperationLabelRespResult(**api_gateway_operation_label_resp_result_model_dict)
 
         # Verify the model instances are equivalent
-        assert api_gateway_operations_labels_input_selector_include_model == api_gateway_operations_labels_input_selector_include_model2
+        assert api_gateway_operation_label_resp_result_model == api_gateway_operation_label_resp_result_model2
 
         # Convert model instance back to dict and verify no loss of data
-        api_gateway_operations_labels_input_selector_include_model_json2 = api_gateway_operations_labels_input_selector_include_model.to_dict()
-        assert api_gateway_operations_labels_input_selector_include_model_json2 == api_gateway_operations_labels_input_selector_include_model_json
+        api_gateway_operation_label_resp_result_model_json2 = api_gateway_operation_label_resp_result_model.to_dict()
+        assert api_gateway_operation_label_resp_result_model_json2 == api_gateway_operation_label_resp_result_model_json
 
 
-class TestModel_ApiGatewayOperationsLabelsInputUser:
+class TestModel_ApiGatewayOperationLabelRespResultLabelsItem:
     """
-    Test Class for ApiGatewayOperationsLabelsInputUser
+    Test Class for ApiGatewayOperationLabelRespResultLabelsItem
     """
 
-    def test_api_gateway_operations_labels_input_user_serialization(self):
+    def test_api_gateway_operation_label_resp_result_labels_item_serialization(self):
         """
-        Test serialization/deserialization for ApiGatewayOperationsLabelsInputUser
+        Test serialization/deserialization for ApiGatewayOperationLabelRespResultLabelsItem
         """
 
-        # Construct a json representation of a ApiGatewayOperationsLabelsInputUser model
-        api_gateway_operations_labels_input_user_model_json = {}
-        api_gateway_operations_labels_input_user_model_json['labels'] = ['testString']
+        # Construct a json representation of a ApiGatewayOperationLabelRespResultLabelsItem model
+        api_gateway_operation_label_resp_result_labels_item_model_json = {}
+        api_gateway_operation_label_resp_result_labels_item_model_json['name'] = 'cf-llm'
+        api_gateway_operation_label_resp_result_labels_item_model_json['source'] = 'managed'
 
-        # Construct a model instance of ApiGatewayOperationsLabelsInputUser by calling from_dict on the json representation
-        api_gateway_operations_labels_input_user_model = ApiGatewayOperationsLabelsInputUser.from_dict(api_gateway_operations_labels_input_user_model_json)
-        assert api_gateway_operations_labels_input_user_model != False
+        # Construct a model instance of ApiGatewayOperationLabelRespResultLabelsItem by calling from_dict on the json representation
+        api_gateway_operation_label_resp_result_labels_item_model = ApiGatewayOperationLabelRespResultLabelsItem.from_dict(api_gateway_operation_label_resp_result_labels_item_model_json)
+        assert api_gateway_operation_label_resp_result_labels_item_model != False
 
-        # Construct a model instance of ApiGatewayOperationsLabelsInputUser by calling from_dict on the json representation
-        api_gateway_operations_labels_input_user_model_dict = ApiGatewayOperationsLabelsInputUser.from_dict(api_gateway_operations_labels_input_user_model_json).__dict__
-        api_gateway_operations_labels_input_user_model2 = ApiGatewayOperationsLabelsInputUser(**api_gateway_operations_labels_input_user_model_dict)
+        # Construct a model instance of ApiGatewayOperationLabelRespResultLabelsItem by calling from_dict on the json representation
+        api_gateway_operation_label_resp_result_labels_item_model_dict = ApiGatewayOperationLabelRespResultLabelsItem.from_dict(api_gateway_operation_label_resp_result_labels_item_model_json).__dict__
+        api_gateway_operation_label_resp_result_labels_item_model2 = ApiGatewayOperationLabelRespResultLabelsItem(**api_gateway_operation_label_resp_result_labels_item_model_dict)
 
         # Verify the model instances are equivalent
-        assert api_gateway_operations_labels_input_user_model == api_gateway_operations_labels_input_user_model2
+        assert api_gateway_operation_label_resp_result_labels_item_model == api_gateway_operation_label_resp_result_labels_item_model2
 
         # Convert model instance back to dict and verify no loss of data
-        api_gateway_operations_labels_input_user_model_json2 = api_gateway_operations_labels_input_user_model.to_dict()
-        assert api_gateway_operations_labels_input_user_model_json2 == api_gateway_operations_labels_input_user_model_json
+        api_gateway_operation_label_resp_result_labels_item_model_json2 = api_gateway_operation_label_resp_result_labels_item_model.to_dict()
+        assert api_gateway_operation_label_resp_result_labels_item_model_json2 == api_gateway_operation_label_resp_result_labels_item_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkDeleteInputManaged:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkDeleteInputManaged
+    """
+
+    def test_api_gateway_operations_labels_bulk_delete_input_managed_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkDeleteInputManaged
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkDeleteInputManaged model
+        api_gateway_operations_labels_bulk_delete_input_managed_model_json = {}
+        api_gateway_operations_labels_bulk_delete_input_managed_model_json['labels'] = ['testString']
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputManaged by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_managed_model = ApiGatewayOperationsLabelsBulkDeleteInputManaged.from_dict(api_gateway_operations_labels_bulk_delete_input_managed_model_json)
+        assert api_gateway_operations_labels_bulk_delete_input_managed_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputManaged by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_managed_model_dict = ApiGatewayOperationsLabelsBulkDeleteInputManaged.from_dict(api_gateway_operations_labels_bulk_delete_input_managed_model_json).__dict__
+        api_gateway_operations_labels_bulk_delete_input_managed_model2 = ApiGatewayOperationsLabelsBulkDeleteInputManaged(**api_gateway_operations_labels_bulk_delete_input_managed_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_delete_input_managed_model == api_gateway_operations_labels_bulk_delete_input_managed_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_delete_input_managed_model_json2 = api_gateway_operations_labels_bulk_delete_input_managed_model.to_dict()
+        assert api_gateway_operations_labels_bulk_delete_input_managed_model_json2 == api_gateway_operations_labels_bulk_delete_input_managed_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkDeleteInputSelector:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkDeleteInputSelector
+    """
+
+    def test_api_gateway_operations_labels_bulk_delete_input_selector_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkDeleteInputSelector
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model = {}  # ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkDeleteInputSelector model
+        api_gateway_operations_labels_bulk_delete_input_selector_model_json = {}
+        api_gateway_operations_labels_bulk_delete_input_selector_model_json['include'] = api_gateway_operations_labels_bulk_delete_input_selector_include_model
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputSelector by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_selector_model = ApiGatewayOperationsLabelsBulkDeleteInputSelector.from_dict(api_gateway_operations_labels_bulk_delete_input_selector_model_json)
+        assert api_gateway_operations_labels_bulk_delete_input_selector_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputSelector by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_selector_model_dict = ApiGatewayOperationsLabelsBulkDeleteInputSelector.from_dict(api_gateway_operations_labels_bulk_delete_input_selector_model_json).__dict__
+        api_gateway_operations_labels_bulk_delete_input_selector_model2 = ApiGatewayOperationsLabelsBulkDeleteInputSelector(**api_gateway_operations_labels_bulk_delete_input_selector_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_delete_input_selector_model == api_gateway_operations_labels_bulk_delete_input_selector_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_delete_input_selector_model_json2 = api_gateway_operations_labels_bulk_delete_input_selector_model.to_dict()
+        assert api_gateway_operations_labels_bulk_delete_input_selector_model_json2 == api_gateway_operations_labels_bulk_delete_input_selector_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude
+    """
+
+    def test_api_gateway_operations_labels_bulk_delete_input_selector_include_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude model
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model_json = {}
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model_json['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model = ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude.from_dict(api_gateway_operations_labels_bulk_delete_input_selector_include_model_json)
+        assert api_gateway_operations_labels_bulk_delete_input_selector_include_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model_dict = ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude.from_dict(api_gateway_operations_labels_bulk_delete_input_selector_include_model_json).__dict__
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model2 = ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude(**api_gateway_operations_labels_bulk_delete_input_selector_include_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_delete_input_selector_include_model == api_gateway_operations_labels_bulk_delete_input_selector_include_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model_json2 = api_gateway_operations_labels_bulk_delete_input_selector_include_model.to_dict()
+        assert api_gateway_operations_labels_bulk_delete_input_selector_include_model_json2 == api_gateway_operations_labels_bulk_delete_input_selector_include_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkDeleteInputUser:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkDeleteInputUser
+    """
+
+    def test_api_gateway_operations_labels_bulk_delete_input_user_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkDeleteInputUser
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkDeleteInputUser model
+        api_gateway_operations_labels_bulk_delete_input_user_model_json = {}
+        api_gateway_operations_labels_bulk_delete_input_user_model_json['labels'] = ['testString']
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputUser by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_user_model = ApiGatewayOperationsLabelsBulkDeleteInputUser.from_dict(api_gateway_operations_labels_bulk_delete_input_user_model_json)
+        assert api_gateway_operations_labels_bulk_delete_input_user_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkDeleteInputUser by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_delete_input_user_model_dict = ApiGatewayOperationsLabelsBulkDeleteInputUser.from_dict(api_gateway_operations_labels_bulk_delete_input_user_model_json).__dict__
+        api_gateway_operations_labels_bulk_delete_input_user_model2 = ApiGatewayOperationsLabelsBulkDeleteInputUser(**api_gateway_operations_labels_bulk_delete_input_user_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_delete_input_user_model == api_gateway_operations_labels_bulk_delete_input_user_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_delete_input_user_model_json2 = api_gateway_operations_labels_bulk_delete_input_user_model.to_dict()
+        assert api_gateway_operations_labels_bulk_delete_input_user_model_json2 == api_gateway_operations_labels_bulk_delete_input_user_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkInputManaged:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkInputManaged
+    """
+
+    def test_api_gateway_operations_labels_bulk_input_managed_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkInputManaged
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkInputManaged model
+        api_gateway_operations_labels_bulk_input_managed_model_json = {}
+        api_gateway_operations_labels_bulk_input_managed_model_json['labels'] = ['testString']
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputManaged by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_managed_model = ApiGatewayOperationsLabelsBulkInputManaged.from_dict(api_gateway_operations_labels_bulk_input_managed_model_json)
+        assert api_gateway_operations_labels_bulk_input_managed_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputManaged by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_managed_model_dict = ApiGatewayOperationsLabelsBulkInputManaged.from_dict(api_gateway_operations_labels_bulk_input_managed_model_json).__dict__
+        api_gateway_operations_labels_bulk_input_managed_model2 = ApiGatewayOperationsLabelsBulkInputManaged(**api_gateway_operations_labels_bulk_input_managed_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_input_managed_model == api_gateway_operations_labels_bulk_input_managed_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_input_managed_model_json2 = api_gateway_operations_labels_bulk_input_managed_model.to_dict()
+        assert api_gateway_operations_labels_bulk_input_managed_model_json2 == api_gateway_operations_labels_bulk_input_managed_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkInputSelector:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkInputSelector
+    """
+
+    def test_api_gateway_operations_labels_bulk_input_selector_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkInputSelector
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        api_gateway_operations_labels_bulk_input_selector_include_model = {}  # ApiGatewayOperationsLabelsBulkInputSelectorInclude
+        api_gateway_operations_labels_bulk_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkInputSelector model
+        api_gateway_operations_labels_bulk_input_selector_model_json = {}
+        api_gateway_operations_labels_bulk_input_selector_model_json['include'] = api_gateway_operations_labels_bulk_input_selector_include_model
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputSelector by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_selector_model = ApiGatewayOperationsLabelsBulkInputSelector.from_dict(api_gateway_operations_labels_bulk_input_selector_model_json)
+        assert api_gateway_operations_labels_bulk_input_selector_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputSelector by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_selector_model_dict = ApiGatewayOperationsLabelsBulkInputSelector.from_dict(api_gateway_operations_labels_bulk_input_selector_model_json).__dict__
+        api_gateway_operations_labels_bulk_input_selector_model2 = ApiGatewayOperationsLabelsBulkInputSelector(**api_gateway_operations_labels_bulk_input_selector_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_input_selector_model == api_gateway_operations_labels_bulk_input_selector_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_input_selector_model_json2 = api_gateway_operations_labels_bulk_input_selector_model.to_dict()
+        assert api_gateway_operations_labels_bulk_input_selector_model_json2 == api_gateway_operations_labels_bulk_input_selector_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkInputSelectorInclude:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkInputSelectorInclude
+    """
+
+    def test_api_gateway_operations_labels_bulk_input_selector_include_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkInputSelectorInclude
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkInputSelectorInclude model
+        api_gateway_operations_labels_bulk_input_selector_include_model_json = {}
+        api_gateway_operations_labels_bulk_input_selector_include_model_json['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputSelectorInclude by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_selector_include_model = ApiGatewayOperationsLabelsBulkInputSelectorInclude.from_dict(api_gateway_operations_labels_bulk_input_selector_include_model_json)
+        assert api_gateway_operations_labels_bulk_input_selector_include_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputSelectorInclude by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_selector_include_model_dict = ApiGatewayOperationsLabelsBulkInputSelectorInclude.from_dict(api_gateway_operations_labels_bulk_input_selector_include_model_json).__dict__
+        api_gateway_operations_labels_bulk_input_selector_include_model2 = ApiGatewayOperationsLabelsBulkInputSelectorInclude(**api_gateway_operations_labels_bulk_input_selector_include_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_input_selector_include_model == api_gateway_operations_labels_bulk_input_selector_include_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_input_selector_include_model_json2 = api_gateway_operations_labels_bulk_input_selector_include_model.to_dict()
+        assert api_gateway_operations_labels_bulk_input_selector_include_model_json2 == api_gateway_operations_labels_bulk_input_selector_include_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsBulkInputUser:
+    """
+    Test Class for ApiGatewayOperationsLabelsBulkInputUser
+    """
+
+    def test_api_gateway_operations_labels_bulk_input_user_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsBulkInputUser
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsBulkInputUser model
+        api_gateway_operations_labels_bulk_input_user_model_json = {}
+        api_gateway_operations_labels_bulk_input_user_model_json['labels'] = ['testString']
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputUser by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_user_model = ApiGatewayOperationsLabelsBulkInputUser.from_dict(api_gateway_operations_labels_bulk_input_user_model_json)
+        assert api_gateway_operations_labels_bulk_input_user_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsBulkInputUser by calling from_dict on the json representation
+        api_gateway_operations_labels_bulk_input_user_model_dict = ApiGatewayOperationsLabelsBulkInputUser.from_dict(api_gateway_operations_labels_bulk_input_user_model_json).__dict__
+        api_gateway_operations_labels_bulk_input_user_model2 = ApiGatewayOperationsLabelsBulkInputUser(**api_gateway_operations_labels_bulk_input_user_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_bulk_input_user_model == api_gateway_operations_labels_bulk_input_user_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_bulk_input_user_model_json2 = api_gateway_operations_labels_bulk_input_user_model.to_dict()
+        assert api_gateway_operations_labels_bulk_input_user_model_json2 == api_gateway_operations_labels_bulk_input_user_model_json
 
 
 class TestModel_ApiGatewayOperationsLabelsRespResultItem:
@@ -1669,18 +2757,16 @@ class TestModel_ApiGatewayOperationsLabelsRespResultItem:
         Test serialization/deserialization for ApiGatewayOperationsLabelsRespResultItem
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        api_gateway_operations_labels_resp_result_item_labels_item_model = {}  # ApiGatewayOperationsLabelsRespResultItemLabelsItem
+        api_gateway_operations_labels_resp_result_item_labels_item_model['name'] = 'cf-llm'
+        api_gateway_operations_labels_resp_result_item_labels_item_model['source'] = 'managed'
+
         # Construct a json representation of a ApiGatewayOperationsLabelsRespResultItem model
         api_gateway_operations_labels_resp_result_item_model_json = {}
         api_gateway_operations_labels_resp_result_item_model_json['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
-        api_gateway_operations_labels_resp_result_item_model_json['labels'] = [
-            {
-                'name': 'cf-llm',
-                'description': 'Services that are (partially) powered by Large Language Model (LLM).',
-                'source': 'managed',
-                'last_updated': '2025-02-20T08:38:41.864801Z',
-                'created_at': '2025-02-20T08:38:41.864801Z',
-            }
-        ]
+        api_gateway_operations_labels_resp_result_item_model_json['labels'] = [api_gateway_operations_labels_resp_result_item_labels_item_model]
 
         # Construct a model instance of ApiGatewayOperationsLabelsRespResultItem by calling from_dict on the json representation
         api_gateway_operations_labels_resp_result_item_model = ApiGatewayOperationsLabelsRespResultItem.from_dict(api_gateway_operations_labels_resp_result_item_model_json)
@@ -1696,6 +2782,71 @@ class TestModel_ApiGatewayOperationsLabelsRespResultItem:
         # Convert model instance back to dict and verify no loss of data
         api_gateway_operations_labels_resp_result_item_model_json2 = api_gateway_operations_labels_resp_result_item_model.to_dict()
         assert api_gateway_operations_labels_resp_result_item_model_json2 == api_gateway_operations_labels_resp_result_item_model_json
+
+
+class TestModel_ApiGatewayOperationsLabelsRespResultItemLabelsItem:
+    """
+    Test Class for ApiGatewayOperationsLabelsRespResultItemLabelsItem
+    """
+
+    def test_api_gateway_operations_labels_resp_result_item_labels_item_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsLabelsRespResultItemLabelsItem
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsLabelsRespResultItemLabelsItem model
+        api_gateway_operations_labels_resp_result_item_labels_item_model_json = {}
+        api_gateway_operations_labels_resp_result_item_labels_item_model_json['name'] = 'cf-llm'
+        api_gateway_operations_labels_resp_result_item_labels_item_model_json['source'] = 'managed'
+
+        # Construct a model instance of ApiGatewayOperationsLabelsRespResultItemLabelsItem by calling from_dict on the json representation
+        api_gateway_operations_labels_resp_result_item_labels_item_model = ApiGatewayOperationsLabelsRespResultItemLabelsItem.from_dict(api_gateway_operations_labels_resp_result_item_labels_item_model_json)
+        assert api_gateway_operations_labels_resp_result_item_labels_item_model != False
+
+        # Construct a model instance of ApiGatewayOperationsLabelsRespResultItemLabelsItem by calling from_dict on the json representation
+        api_gateway_operations_labels_resp_result_item_labels_item_model_dict = ApiGatewayOperationsLabelsRespResultItemLabelsItem.from_dict(api_gateway_operations_labels_resp_result_item_labels_item_model_json).__dict__
+        api_gateway_operations_labels_resp_result_item_labels_item_model2 = ApiGatewayOperationsLabelsRespResultItemLabelsItem(**api_gateway_operations_labels_resp_result_item_labels_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_labels_resp_result_item_labels_item_model == api_gateway_operations_labels_resp_result_item_labels_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_labels_resp_result_item_labels_item_model_json2 = api_gateway_operations_labels_resp_result_item_labels_item_model.to_dict()
+        assert api_gateway_operations_labels_resp_result_item_labels_item_model_json2 == api_gateway_operations_labels_resp_result_item_labels_item_model_json
+
+
+class TestModel_ApiGatewayOperationsListRespResultItem:
+    """
+    Test Class for ApiGatewayOperationsListRespResultItem
+    """
+
+    def test_api_gateway_operations_list_resp_result_item_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsListRespResultItem
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsListRespResultItem model
+        api_gateway_operations_list_resp_result_item_model_json = {}
+        api_gateway_operations_list_resp_result_item_model_json['operation_id'] = 'test-fafe-4643-bbbc-example'
+        api_gateway_operations_list_resp_result_item_model_json['method'] = 'POST'
+        api_gateway_operations_list_resp_result_item_model_json['host'] = 'api.example.com'
+        api_gateway_operations_list_resp_result_item_model_json['endpoint'] = '/v1/messages'
+        api_gateway_operations_list_resp_result_item_model_json['last_updated'] = '2024-01-01T00:00:00Z'
+
+        # Construct a model instance of ApiGatewayOperationsListRespResultItem by calling from_dict on the json representation
+        api_gateway_operations_list_resp_result_item_model = ApiGatewayOperationsListRespResultItem.from_dict(api_gateway_operations_list_resp_result_item_model_json)
+        assert api_gateway_operations_list_resp_result_item_model != False
+
+        # Construct a model instance of ApiGatewayOperationsListRespResultItem by calling from_dict on the json representation
+        api_gateway_operations_list_resp_result_item_model_dict = ApiGatewayOperationsListRespResultItem.from_dict(api_gateway_operations_list_resp_result_item_model_json).__dict__
+        api_gateway_operations_list_resp_result_item_model2 = ApiGatewayOperationsListRespResultItem(**api_gateway_operations_list_resp_result_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_list_resp_result_item_model == api_gateway_operations_list_resp_result_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_list_resp_result_item_model_json2 = api_gateway_operations_list_resp_result_item_model.to_dict()
+        assert api_gateway_operations_list_resp_result_item_model_json2 == api_gateway_operations_list_resp_result_item_model_json
 
 
 class TestModel_ApiGatewayOperationsRespResultItem:
@@ -1871,6 +3022,39 @@ class TestModel_ApiGatewayDiscoveryResp:
         assert api_gateway_discovery_resp_model_json2 == api_gateway_discovery_resp_model_json
 
 
+class TestModel_ApiGatewayNullResultResp:
+    """
+    Test Class for ApiGatewayNullResultResp
+    """
+
+    def test_api_gateway_null_result_resp_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayNullResultResp
+        """
+
+        # Construct a json representation of a ApiGatewayNullResultResp model
+        api_gateway_null_result_resp_model_json = {}
+        api_gateway_null_result_resp_model_json['success'] = True
+        api_gateway_null_result_resp_model_json['errors'] = [['testString']]
+        api_gateway_null_result_resp_model_json['messages'] = [['testString']]
+        api_gateway_null_result_resp_model_json['result'] = {'anyKey': 'anyValue'}
+
+        # Construct a model instance of ApiGatewayNullResultResp by calling from_dict on the json representation
+        api_gateway_null_result_resp_model = ApiGatewayNullResultResp.from_dict(api_gateway_null_result_resp_model_json)
+        assert api_gateway_null_result_resp_model != False
+
+        # Construct a model instance of ApiGatewayNullResultResp by calling from_dict on the json representation
+        api_gateway_null_result_resp_model_dict = ApiGatewayNullResultResp.from_dict(api_gateway_null_result_resp_model_json).__dict__
+        api_gateway_null_result_resp_model2 = ApiGatewayNullResultResp(**api_gateway_null_result_resp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_null_result_resp_model == api_gateway_null_result_resp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_null_result_resp_model_json2 = api_gateway_null_result_resp_model.to_dict()
+        assert api_gateway_null_result_resp_model_json2 == api_gateway_null_result_resp_model_json
+
+
 class TestModel_ApiGatewayOperation:
     """
     Test Class for ApiGatewayOperation
@@ -1944,6 +3128,49 @@ class TestModel_ApiGatewayOperationItemResp:
         assert api_gateway_operation_item_resp_model_json2 == api_gateway_operation_item_resp_model_json
 
 
+class TestModel_ApiGatewayOperationLabelResp:
+    """
+    Test Class for ApiGatewayOperationLabelResp
+    """
+
+    def test_api_gateway_operation_label_resp_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationLabelResp
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        api_gateway_operation_label_resp_result_labels_item_model = {}  # ApiGatewayOperationLabelRespResultLabelsItem
+        api_gateway_operation_label_resp_result_labels_item_model['name'] = 'cf-llm'
+        api_gateway_operation_label_resp_result_labels_item_model['source'] = 'managed'
+
+        api_gateway_operation_label_resp_result_model = {}  # ApiGatewayOperationLabelRespResult
+        api_gateway_operation_label_resp_result_model['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
+        api_gateway_operation_label_resp_result_model['labels'] = [api_gateway_operation_label_resp_result_labels_item_model]
+
+        # Construct a json representation of a ApiGatewayOperationLabelResp model
+        api_gateway_operation_label_resp_model_json = {}
+        api_gateway_operation_label_resp_model_json['success'] = True
+        api_gateway_operation_label_resp_model_json['errors'] = [['testString']]
+        api_gateway_operation_label_resp_model_json['messages'] = [['testString']]
+        api_gateway_operation_label_resp_model_json['result'] = api_gateway_operation_label_resp_result_model
+
+        # Construct a model instance of ApiGatewayOperationLabelResp by calling from_dict on the json representation
+        api_gateway_operation_label_resp_model = ApiGatewayOperationLabelResp.from_dict(api_gateway_operation_label_resp_model_json)
+        assert api_gateway_operation_label_resp_model != False
+
+        # Construct a model instance of ApiGatewayOperationLabelResp by calling from_dict on the json representation
+        api_gateway_operation_label_resp_model_dict = ApiGatewayOperationLabelResp.from_dict(api_gateway_operation_label_resp_model_json).__dict__
+        api_gateway_operation_label_resp_model2 = ApiGatewayOperationLabelResp(**api_gateway_operation_label_resp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operation_label_resp_model == api_gateway_operation_label_resp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operation_label_resp_model_json2 = api_gateway_operation_label_resp_model.to_dict()
+        assert api_gateway_operation_label_resp_model_json2 == api_gateway_operation_label_resp_model_json
+
+
 class TestModel_ApiGatewayOperationsLabelsResp:
     """
     Test Class for ApiGatewayOperationsLabelsResp
@@ -1956,9 +3183,13 @@ class TestModel_ApiGatewayOperationsLabelsResp:
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        api_gateway_operations_labels_resp_result_item_labels_item_model = {}  # ApiGatewayOperationsLabelsRespResultItemLabelsItem
+        api_gateway_operations_labels_resp_result_item_labels_item_model['name'] = 'cf-llm'
+        api_gateway_operations_labels_resp_result_item_labels_item_model['source'] = 'managed'
+
         api_gateway_operations_labels_resp_result_item_model = {}  # ApiGatewayOperationsLabelsRespResultItem
         api_gateway_operations_labels_resp_result_item_model['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
-        api_gateway_operations_labels_resp_result_item_model['labels'] = ['cf-llm']
+        api_gateway_operations_labels_resp_result_item_model['labels'] = [api_gateway_operations_labels_resp_result_item_labels_item_model]
 
         # Construct a json representation of a ApiGatewayOperationsLabelsResp model
         api_gateway_operations_labels_resp_model_json = {}
@@ -1981,6 +3212,55 @@ class TestModel_ApiGatewayOperationsLabelsResp:
         # Convert model instance back to dict and verify no loss of data
         api_gateway_operations_labels_resp_model_json2 = api_gateway_operations_labels_resp_model.to_dict()
         assert api_gateway_operations_labels_resp_model_json2 == api_gateway_operations_labels_resp_model_json
+
+
+class TestModel_ApiGatewayOperationsListResp:
+    """
+    Test Class for ApiGatewayOperationsListResp
+    """
+
+    def test_api_gateway_operations_list_resp_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsListResp
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        api_gateway_operations_list_resp_result_item_model = {}  # ApiGatewayOperationsListRespResultItem
+        api_gateway_operations_list_resp_result_item_model['operation_id'] = 'test-fafe-4643-bbbc-example'
+        api_gateway_operations_list_resp_result_item_model['method'] = 'POST'
+        api_gateway_operations_list_resp_result_item_model['host'] = 'api.example.com'
+        api_gateway_operations_list_resp_result_item_model['endpoint'] = '/v1/messages'
+        api_gateway_operations_list_resp_result_item_model['last_updated'] = '2024-01-01T00:00:00Z'
+
+        result_info_model = {}  # ResultInfo
+        result_info_model['count'] = 38
+        result_info_model['page'] = 38
+        result_info_model['per_page'] = 38
+        result_info_model['total_count'] = 38
+
+        # Construct a json representation of a ApiGatewayOperationsListResp model
+        api_gateway_operations_list_resp_model_json = {}
+        api_gateway_operations_list_resp_model_json['success'] = True
+        api_gateway_operations_list_resp_model_json['errors'] = [['testString']]
+        api_gateway_operations_list_resp_model_json['messages'] = [['testString']]
+        api_gateway_operations_list_resp_model_json['result'] = [api_gateway_operations_list_resp_result_item_model]
+        api_gateway_operations_list_resp_model_json['result_info'] = result_info_model
+
+        # Construct a model instance of ApiGatewayOperationsListResp by calling from_dict on the json representation
+        api_gateway_operations_list_resp_model = ApiGatewayOperationsListResp.from_dict(api_gateway_operations_list_resp_model_json)
+        assert api_gateway_operations_list_resp_model != False
+
+        # Construct a model instance of ApiGatewayOperationsListResp by calling from_dict on the json representation
+        api_gateway_operations_list_resp_model_dict = ApiGatewayOperationsListResp.from_dict(api_gateway_operations_list_resp_model_json).__dict__
+        api_gateway_operations_list_resp_model2 = ApiGatewayOperationsListResp(**api_gateway_operations_list_resp_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_list_resp_model == api_gateway_operations_list_resp_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_list_resp_model_json2 = api_gateway_operations_list_resp_model.to_dict()
+        assert api_gateway_operations_list_resp_model_json2 == api_gateway_operations_list_resp_model_json
 
 
 class TestModel_ApiGatewayOperationsResp:
