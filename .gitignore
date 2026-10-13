@@ -47,9 +47,11 @@ coverage.xml
 
 .vscode
 node_modules/
+.nvmrc
 
 # virtual env
 venv/
+.venv
 # python 3 virtual env
 python3/
 

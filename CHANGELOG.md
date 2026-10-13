@@ -1,3 +1,10 @@
+## [0.35.1](https://github.com/IBM/networking-python-sdk/compare/v0.35.0...v0.35.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* **deps, env:** upgrade deps and tox env ([d4409c0](https://github.com/IBM/networking-python-sdk/commit/d4409c0376b2e422d568c98f4f21bd57debd4c17))
+
 # [0.35.0](https://github.com/IBM/networking-python-sdk/compare/v0.34.1...v0.35.0) (2026-09-16)
 
 
