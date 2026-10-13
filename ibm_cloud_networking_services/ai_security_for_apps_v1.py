@@ -390,7 +390,7 @@ class AiSecurityForAppsV1(BaseService):
         Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
 
         :param List[str] operation_ids: (optional) Array of operation UUIDs to
-               delete. When absent, all operations are deleted.
+               delete.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ApiGatewayNullResultResp` object
@@ -681,8 +681,8 @@ class AiSecurityForAppsV1(BaseService):
 
     def delete_zone_api_gateway_operation_labels(
         self,
+        selector: 'ApiGatewayOperationsLabelsBulkDeleteInputSelector',
         *,
-        selector: Optional['ApiGatewayOperationsLabelsBulkDeleteInputSelector'] = None,
         user: Optional['ApiGatewayOperationsLabelsBulkDeleteInputUser'] = None,
         managed: Optional['ApiGatewayOperationsLabelsBulkDeleteInputManaged'] = None,
         **kwargs,
@@ -692,8 +692,8 @@ class AiSecurityForAppsV1(BaseService):
 
         Remove labels from a set of API Gateway operations in bulk.
 
-        :param ApiGatewayOperationsLabelsBulkDeleteInputSelector selector:
-               (optional) Selector specifying which operations to affect.
+        :param ApiGatewayOperationsLabelsBulkDeleteInputSelector selector: Selector
+               specifying which operations to affect.
         :param ApiGatewayOperationsLabelsBulkDeleteInputUser user: (optional)
                User-defined labels to remove.
         :param ApiGatewayOperationsLabelsBulkDeleteInputManaged managed: (optional)
@@ -703,8 +703,9 @@ class AiSecurityForAppsV1(BaseService):
         :rtype: DetailedResponse with `dict` result representing a `ApiGatewayNullResultResp` object
         """
 
-        if selector is not None:
-            selector = convert_model(selector)
+        if selector is None:
+            raise ValueError('selector must be provided')
+        selector = convert_model(selector)
         if user is not None:
             user = convert_model(user)
         if managed is not None:
@@ -828,7 +829,7 @@ class AiSecurityForAppsV1(BaseService):
 
         :param str operation_id: UUID of the API Gateway operation.
         :param List[str] user: (optional) Flat list of user-defined label names to
-               attach.
+               attach. Must be present; send an empty array if no user labels are needed.
         :param List[str] managed: (optional) Flat list of managed label names to
                attach (e.g. cf-llm).
         :param dict headers: A `dict` containing the request headers
@@ -888,7 +889,7 @@ class AiSecurityForAppsV1(BaseService):
 
         :param str operation_id: UUID of the API Gateway operation.
         :param List[str] user: (optional) Flat list of user-defined label names to
-               attach.
+               attach. Must be present; send an empty array if no user labels are needed.
         :param List[str] managed: (optional) Flat list of managed label names to
                attach (e.g. cf-llm).
         :param dict headers: A `dict` containing the request headers
@@ -1732,18 +1733,17 @@ class ApiGatewayOperationsLabelsBulkInputManaged:
     """
     Managed labels to apply (e.g. cf-llm).
 
-    :param List[str] labels: (optional) List of managed label names to apply.
+    :param List[str] labels: List of managed label names to apply.
     """
 
     def __init__(
         self,
-        *,
-        labels: Optional[List[str]] = None,
+        labels: List[str],
     ) -> None:
         """
         Initialize a ApiGatewayOperationsLabelsBulkInputManaged object.
 
-        :param List[str] labels: (optional) List of managed label names to apply.
+        :param List[str] labels: List of managed label names to apply.
         """
         self.labels = labels
 
@@ -1753,6 +1753,8 @@ class ApiGatewayOperationsLabelsBulkInputManaged:
         args = {}
         if (labels := _dict.get('labels')) is not None:
             args['labels'] = labels
+        else:
+            raise ValueError('Required property \'labels\' not present in ApiGatewayOperationsLabelsBulkInputManaged JSON')
         return cls(**args)
 
     @classmethod
@@ -1913,19 +1915,19 @@ class ApiGatewayOperationsLabelsBulkInputUser:
     """
     User-defined labels to apply.
 
-    :param List[str] labels: (optional) List of user-defined label names to apply.
+    :param List[str] labels: List of user-defined label names to apply. Send an
+          empty array if no user labels are needed.
     """
 
     def __init__(
         self,
-        *,
-        labels: Optional[List[str]] = None,
+        labels: List[str],
     ) -> None:
         """
         Initialize a ApiGatewayOperationsLabelsBulkInputUser object.
 
-        :param List[str] labels: (optional) List of user-defined label names to
-               apply.
+        :param List[str] labels: List of user-defined label names to apply. Send an
+               empty array if no user labels are needed.
         """
         self.labels = labels
 
@@ -1935,6 +1937,8 @@ class ApiGatewayOperationsLabelsBulkInputUser:
         args = {}
         if (labels := _dict.get('labels')) is not None:
             args['labels'] = labels
+        else:
+            raise ValueError('Required property \'labels\' not present in ApiGatewayOperationsLabelsBulkInputUser JSON')
         return cls(**args)
 
     @classmethod
@@ -2610,7 +2614,9 @@ class ApiGatewayNullResultResp:
     :param bool success: Was operation successful.
     :param List[List[str]] errors: Array of errors encountered.
     :param List[List[str]] messages: Array of messages returned.
-    :param dict result: Result is empty on success.
+    :param object result: Result on success. May be an empty object ({}) or an empty
+          array ([]) depending on the operation. No type constraint is applied so that SDK
+          generators produce an interface{} / any field that can hold either.
     """
 
     def __init__(
@@ -2618,7 +2624,7 @@ class ApiGatewayNullResultResp:
         success: bool,
         errors: List[List[str]],
         messages: List[List[str]],
-        result: dict,
+        result: object,
     ) -> None:
         """
         Initialize a ApiGatewayNullResultResp object.
@@ -2626,7 +2632,10 @@ class ApiGatewayNullResultResp:
         :param bool success: Was operation successful.
         :param List[List[str]] errors: Array of errors encountered.
         :param List[List[str]] messages: Array of messages returned.
-        :param dict result: Result is empty on success.
+        :param object result: Result on success. May be an empty object ({}) or an
+               empty array ([]) depending on the operation. No type constraint is applied
+               so that SDK generators produce an interface{} / any field that can hold
+               either.
         """
         self.success = success
         self.errors = errors

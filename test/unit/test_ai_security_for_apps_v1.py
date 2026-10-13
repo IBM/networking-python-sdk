@@ -521,7 +521,7 @@ class TestListApiGatewayDiscoveryOperations:
         origin = 'ML'
         state = 'review'
         page = 1
-        per_page = 1
+        per_page = 5
 
         # Invoke method
         response = _service.list_api_gateway_discovery_operations(
@@ -814,7 +814,7 @@ class TestDeleteZoneApiGatewayOperations:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": "anyValue"}'
         responses.add(
             responses.DELETE,
             url,
@@ -849,45 +849,13 @@ class TestDeleteZoneApiGatewayOperations:
         self.test_delete_zone_api_gateway_operations_all_params()
 
     @responses.activate
-    def test_delete_zone_api_gateway_operations_required_params(self):
-        """
-        test_delete_zone_api_gateway_operations_required_params()
-        """
-        # Set up mock
-        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
-        responses.add(
-            responses.DELETE,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=200,
-        )
-
-        # Invoke method
-        response = _service.delete_zone_api_gateway_operations()
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_delete_zone_api_gateway_operations_required_params_with_retries(self):
-        # Enable retries and run test_delete_zone_api_gateway_operations_required_params.
-        _service.enable_retries()
-        self.test_delete_zone_api_gateway_operations_required_params()
-
-        # Disable retries and run test_delete_zone_api_gateway_operations_required_params.
-        _service.disable_retries()
-        self.test_delete_zone_api_gateway_operations_required_params()
-
-    @responses.activate
     def test_delete_zone_api_gateway_operations_value_error(self):
         """
         test_delete_zone_api_gateway_operations_value_error()
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": "anyValue"}'
         responses.add(
             responses.DELETE,
             url,
@@ -895,6 +863,9 @@ class TestDeleteZoneApiGatewayOperations:
             content_type='application/json',
             status=200,
         )
+
+        # Set up parameter values
+        operation_ids = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -1430,7 +1401,7 @@ class TestDeleteZoneApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": "anyValue"}'
         responses.add(
             responses.DELETE,
             url,
@@ -1462,7 +1433,7 @@ class TestDeleteZoneApiGatewayOperationLabels:
 
         # Invoke method
         response = _service.delete_zone_api_gateway_operation_labels(
-            selector=selector,
+            selector,
             user=user,
             managed=managed,
             headers={},
@@ -1487,45 +1458,13 @@ class TestDeleteZoneApiGatewayOperationLabels:
         self.test_delete_zone_api_gateway_operation_labels_all_params()
 
     @responses.activate
-    def test_delete_zone_api_gateway_operation_labels_required_params(self):
-        """
-        test_delete_zone_api_gateway_operation_labels_required_params()
-        """
-        # Set up mock
-        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
-        responses.add(
-            responses.DELETE,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=200,
-        )
-
-        # Invoke method
-        response = _service.delete_zone_api_gateway_operation_labels()
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_delete_zone_api_gateway_operation_labels_required_params_with_retries(self):
-        # Enable retries and run test_delete_zone_api_gateway_operation_labels_required_params.
-        _service.enable_retries()
-        self.test_delete_zone_api_gateway_operation_labels_required_params()
-
-        # Disable retries and run test_delete_zone_api_gateway_operation_labels_required_params.
-        _service.disable_retries()
-        self.test_delete_zone_api_gateway_operation_labels_required_params()
-
-    @responses.activate
     def test_delete_zone_api_gateway_operation_labels_value_error(self):
         """
         test_delete_zone_api_gateway_operation_labels_value_error()
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": "anyValue"}'
         responses.add(
             responses.DELETE,
             url,
@@ -1534,8 +1473,30 @@ class TestDeleteZoneApiGatewayOperationLabels:
             status=200,
         )
 
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude model
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model = {}
+        api_gateway_operations_labels_bulk_delete_input_selector_include_model['operation_ids'] = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputSelector model
+        api_gateway_operations_labels_bulk_delete_input_selector_model = {}
+        api_gateway_operations_labels_bulk_delete_input_selector_model['include'] = api_gateway_operations_labels_bulk_delete_input_selector_include_model
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputUser model
+        api_gateway_operations_labels_bulk_delete_input_user_model = {}
+        api_gateway_operations_labels_bulk_delete_input_user_model['labels'] = ['testString']
+
+        # Construct a dict representation of a ApiGatewayOperationsLabelsBulkDeleteInputManaged model
+        api_gateway_operations_labels_bulk_delete_input_managed_model = {}
+        api_gateway_operations_labels_bulk_delete_input_managed_model['labels'] = ['testString']
+
+        # Set up parameter values
+        selector = api_gateway_operations_labels_bulk_delete_input_selector_model
+        user = api_gateway_operations_labels_bulk_delete_input_user_model
+        managed = api_gateway_operations_labels_bulk_delete_input_managed_model
+
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
+            "selector": selector,
         }
         for param in req_param_dict.keys():
             req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
@@ -1709,7 +1670,7 @@ class TestCreateApiGatewayOperationLabels:
 
         # Set up parameter values
         operation_id = 'testString'
-        user = ['string']
+        user = []
         managed = ['cf-llm']
 
         # Invoke method
@@ -1725,7 +1686,7 @@ class TestCreateApiGatewayOperationLabels:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['user'] == ['string']
+        assert req_body['user'] == []
         assert req_body['managed'] == ['cf-llm']
 
     def test_create_api_gateway_operation_labels_all_params_with_retries(self):
@@ -1836,7 +1797,7 @@ class TestSetZoneApiGatewayOperationLabels:
 
         # Set up parameter values
         operation_id = 'testString'
-        user = ['string']
+        user = []
         managed = ['cf-llm']
 
         # Invoke method
@@ -1852,7 +1813,7 @@ class TestSetZoneApiGatewayOperationLabels:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['user'] == ['string']
+        assert req_body['user'] == []
         assert req_body['managed'] == ['cf-llm']
 
     def test_set_zone_api_gateway_operation_labels_all_params_with_retries(self):
@@ -1952,7 +1913,7 @@ class TestUnsetZoneApiGatewayOperationLabels:
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": "anyValue"}'
         responses.add(
             responses.DELETE,
             url,
@@ -1992,51 +1953,13 @@ class TestUnsetZoneApiGatewayOperationLabels:
         self.test_unset_zone_api_gateway_operation_labels_all_params()
 
     @responses.activate
-    def test_unset_zone_api_gateway_operation_labels_required_params(self):
-        """
-        test_unset_zone_api_gateway_operation_labels_required_params()
-        """
-        # Set up mock
-        url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
-        responses.add(
-            responses.DELETE,
-            url,
-            body=mock_response,
-            content_type='application/json',
-            status=200,
-        )
-
-        # Set up parameter values
-        operation_id = 'testString'
-
-        # Invoke method
-        response = _service.unset_zone_api_gateway_operation_labels(
-            operation_id,
-            headers={},
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-    def test_unset_zone_api_gateway_operation_labels_required_params_with_retries(self):
-        # Enable retries and run test_unset_zone_api_gateway_operation_labels_required_params.
-        _service.enable_retries()
-        self.test_unset_zone_api_gateway_operation_labels_required_params()
-
-        # Disable retries and run test_unset_zone_api_gateway_operation_labels_required_params.
-        _service.disable_retries()
-        self.test_unset_zone_api_gateway_operation_labels_required_params()
-
-    @responses.activate
     def test_unset_zone_api_gateway_operation_labels_value_error(self):
         """
         test_unset_zone_api_gateway_operation_labels_value_error()
         """
         # Set up mock
         url = preprocess_url('/v1/testString/zones/testString/api_gateway/operations/testString/labels')
-        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": {"anyKey": "anyValue"}}'
+        mock_response = '{"success": true, "errors": [["errors"]], "messages": [["messages"]], "result": "anyValue"}'
         responses.add(
             responses.DELETE,
             url,
@@ -2047,6 +1970,8 @@ class TestUnsetZoneApiGatewayOperationLabels:
 
         # Set up parameter values
         operation_id = 'testString'
+        user = ['testString']
+        managed = ['testString']
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -3037,7 +2962,7 @@ class TestModel_ApiGatewayNullResultResp:
         api_gateway_null_result_resp_model_json['success'] = True
         api_gateway_null_result_resp_model_json['errors'] = [['testString']]
         api_gateway_null_result_resp_model_json['messages'] = [['testString']]
-        api_gateway_null_result_resp_model_json['result'] = {'anyKey': 'anyValue'}
+        api_gateway_null_result_resp_model_json['result'] = 'testString'
 
         # Construct a model instance of ApiGatewayNullResultResp by calling from_dict on the json representation
         api_gateway_null_result_resp_model = ApiGatewayNullResultResp.from_dict(api_gateway_null_result_resp_model_json)
