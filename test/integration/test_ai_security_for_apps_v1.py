@@ -11,6 +11,7 @@ from dotenv import load_dotenv, find_dotenv
 from ibm_cloud_networking_services.ai_security_for_apps_v1 import (
     AiSecurityForAppsV1,
     ApiGatewayOperation,
+    ApiGatewayOperationsDeleteInputItem,
     ApiGatewayOperationsLabelsBulkDeleteInputManaged,
     ApiGatewayOperationsLabelsBulkDeleteInputSelector,
     ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude,
@@ -161,8 +162,9 @@ class TestAiSecurityForAppsV1(unittest.TestCase):
         try:
             # Tolerate failure (backend inconsistency on some zones); cleanup below handles teardown
             try:
+                delete_items = [ApiGatewayOperationsDeleteInputItem(operation_id=oid) for oid in ids]
                 bulk_response = self.service.delete_zone_api_gateway_operations(
-                    operation_ids=ids,
+                    api_gateway_operations_delete_input_item=delete_items,
                 )
             except Exception as exc:
                 print(f'delete_zone_api_gateway_operations returned error '

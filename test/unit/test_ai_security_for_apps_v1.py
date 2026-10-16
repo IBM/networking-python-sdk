@@ -823,12 +823,16 @@ class TestDeleteZoneApiGatewayOperations:
             status=200,
         )
 
+        # Construct a dict representation of a ApiGatewayOperationsDeleteInputItem model
+        api_gateway_operations_delete_input_item_model = {}
+        api_gateway_operations_delete_input_item_model['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
+
         # Set up parameter values
-        operation_ids = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+        api_gateway_operations_delete_input_item = [api_gateway_operations_delete_input_item_model]
 
         # Invoke method
         response = _service.delete_zone_api_gateway_operations(
-            operation_ids=operation_ids,
+            api_gateway_operations_delete_input_item,
             headers={},
         )
 
@@ -837,7 +841,7 @@ class TestDeleteZoneApiGatewayOperations:
         assert response.status_code == 200
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['operation_ids'] == ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+        assert req_body == api_gateway_operations_delete_input_item
 
     def test_delete_zone_api_gateway_operations_all_params_with_retries(self):
         # Enable retries and run test_delete_zone_api_gateway_operations_all_params.
@@ -864,11 +868,16 @@ class TestDeleteZoneApiGatewayOperations:
             status=200,
         )
 
+        # Construct a dict representation of a ApiGatewayOperationsDeleteInputItem model
+        api_gateway_operations_delete_input_item_model = {}
+        api_gateway_operations_delete_input_item_model['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
+
         # Set up parameter values
-        operation_ids = ['f174e90a-fafe-4643-bbbc-4a0ed4fc8415']
+        api_gateway_operations_delete_input_item = [api_gateway_operations_delete_input_item_model]
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
+            "api_gateway_operations_delete_input_item": api_gateway_operations_delete_input_item,
         }
         for param in req_param_dict.keys():
             req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
@@ -2420,6 +2429,36 @@ class TestModel_ApiGatewayOperationLabelRespResultLabelsItem:
         # Convert model instance back to dict and verify no loss of data
         api_gateway_operation_label_resp_result_labels_item_model_json2 = api_gateway_operation_label_resp_result_labels_item_model.to_dict()
         assert api_gateway_operation_label_resp_result_labels_item_model_json2 == api_gateway_operation_label_resp_result_labels_item_model_json
+
+
+class TestModel_ApiGatewayOperationsDeleteInputItem:
+    """
+    Test Class for ApiGatewayOperationsDeleteInputItem
+    """
+
+    def test_api_gateway_operations_delete_input_item_serialization(self):
+        """
+        Test serialization/deserialization for ApiGatewayOperationsDeleteInputItem
+        """
+
+        # Construct a json representation of a ApiGatewayOperationsDeleteInputItem model
+        api_gateway_operations_delete_input_item_model_json = {}
+        api_gateway_operations_delete_input_item_model_json['operation_id'] = 'f174e90a-fafe-4643-bbbc-4a0ed4fc8415'
+
+        # Construct a model instance of ApiGatewayOperationsDeleteInputItem by calling from_dict on the json representation
+        api_gateway_operations_delete_input_item_model = ApiGatewayOperationsDeleteInputItem.from_dict(api_gateway_operations_delete_input_item_model_json)
+        assert api_gateway_operations_delete_input_item_model != False
+
+        # Construct a model instance of ApiGatewayOperationsDeleteInputItem by calling from_dict on the json representation
+        api_gateway_operations_delete_input_item_model_dict = ApiGatewayOperationsDeleteInputItem.from_dict(api_gateway_operations_delete_input_item_model_json).__dict__
+        api_gateway_operations_delete_input_item_model2 = ApiGatewayOperationsDeleteInputItem(**api_gateway_operations_delete_input_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert api_gateway_operations_delete_input_item_model == api_gateway_operations_delete_input_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        api_gateway_operations_delete_input_item_model_json2 = api_gateway_operations_delete_input_item_model.to_dict()
+        assert api_gateway_operations_delete_input_item_model_json2 == api_gateway_operations_delete_input_item_model_json
 
 
 class TestModel_ApiGatewayOperationsLabelsBulkDeleteInputManaged:

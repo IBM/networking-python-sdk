@@ -380,8 +380,7 @@ class AiSecurityForAppsV1(BaseService):
 
     def delete_zone_api_gateway_operations(
         self,
-        *,
-        operation_ids: Optional[List[str]] = None,
+        api_gateway_operations_delete_input_item: List['ApiGatewayOperationsDeleteInputItem'],
         **kwargs,
     ) -> DetailedResponse:
         """
@@ -389,13 +388,17 @@ class AiSecurityForAppsV1(BaseService):
 
         Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
 
-        :param List[str] operation_ids: (optional) Array of operation UUIDs to
+        :param List[ApiGatewayOperationsDeleteInputItem]
+               api_gateway_operations_delete_input_item: List of specific operation IDs to
                delete.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ApiGatewayNullResultResp` object
         """
 
+        if api_gateway_operations_delete_input_item is None:
+            raise ValueError('api_gateway_operations_delete_input_item must be provided')
+        api_gateway_operations_delete_input_item = [convert_model(x) for x in api_gateway_operations_delete_input_item]
         headers = {}
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
@@ -404,11 +407,7 @@ class AiSecurityForAppsV1(BaseService):
         )
         headers.update(sdk_headers)
 
-        data = {
-            'operation_ids': operation_ids,
-        }
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
+        data = json.dumps(api_gateway_operations_delete_input_item)
         headers['content-type'] = 'application/json'
 
         if 'headers' in kwargs:
@@ -1484,6 +1483,65 @@ class ApiGatewayOperationLabelRespResultLabelsItem:
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ApiGatewayOperationLabelRespResultLabelsItem') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ApiGatewayOperationsDeleteInputItem:
+    """
+    ApiGatewayOperationsDeleteInputItem.
+
+    :param str operation_id: UUID of the operation to delete.
+    """
+
+    def __init__(
+        self,
+        operation_id: str,
+    ) -> None:
+        """
+        Initialize a ApiGatewayOperationsDeleteInputItem object.
+
+        :param str operation_id: UUID of the operation to delete.
+        """
+        self.operation_id = operation_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ApiGatewayOperationsDeleteInputItem':
+        """Initialize a ApiGatewayOperationsDeleteInputItem object from a json dictionary."""
+        args = {}
+        if (operation_id := _dict.get('operation_id')) is not None:
+            args['operation_id'] = operation_id
+        else:
+            raise ValueError('Required property \'operation_id\' not present in ApiGatewayOperationsDeleteInputItem JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ApiGatewayOperationsDeleteInputItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'operation_id') and self.operation_id is not None:
+            _dict['operation_id'] = self.operation_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ApiGatewayOperationsDeleteInputItem object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ApiGatewayOperationsDeleteInputItem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ApiGatewayOperationsDeleteInputItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
