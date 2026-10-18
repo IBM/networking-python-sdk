@@ -1,3 +1,10 @@
+## [0.35.2](https://github.com/IBM/networking-python-sdk/compare/v0.35.1...v0.35.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **release:** replace bump2version with scripted version bump ([fb5f80b](https://github.com/IBM/networking-python-sdk/commit/fb5f80b03d25cac75ad82073f485128a81cbf79b))
+
 ## [0.35.1](https://github.com/IBM/networking-python-sdk/compare/v0.35.0...v0.35.1) (2026-10-13)
 
 
