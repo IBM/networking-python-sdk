@@ -1,3 +1,18 @@
+# [0.36.0](https://github.com/IBM/networking-python-sdk/compare/v0.35.2...v0.36.0) (2026-10-19)
+
+
+### Bug Fixes
+
+* **CIS:** added few more scenarios to gateway operations and fixed label update response struct ([fb3e0e2](https://github.com/IBM/networking-python-sdk/commit/fb3e0e2484db479a31228fd75f196b099ff4ede9))
+* **cis:** update ai security for apps to latest specs ([4a64c84](https://github.com/IBM/networking-python-sdk/commit/4a64c848e15e39637ba0b4bfa97aa931e30a870a))
+* **cis:** update AI Security with latest specs ([e7b8ff4](https://github.com/IBM/networking-python-sdk/commit/e7b8ff42a3f32af1cf2db44c9556dac8326d522e))
+* **CIS:** update AI Security with latest specs ([af2e6ec](https://github.com/IBM/networking-python-sdk/commit/af2e6ec2914536b3c333e8a015e48393476cd90b))
+
+
+### Features
+
+* **CIS:** Add Support for AI Security for Apps ([cef4a99](https://github.com/IBM/networking-python-sdk/commit/cef4a99eb09ae14c1bca898ae9505d23ff77ff64))
+
 ## [0.35.2](https://github.com/IBM/networking-python-sdk/compare/v0.35.1...v0.35.2) (2026-10-18)
 
 
