@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.12', '3.13', '3.14']
+        python-version: ['3.13', '3.14', '3.15']
 
     steps:
       - name: Checkout repository
@@ -37,6 +37,11 @@ jobs:
       - name: Run tests
         run: tox
 
+      - name: Dry run version bump
+        run: |
+          CURRENT=$(grep -oE "__version__ = '[^']+'" ibm_cloud_networking_services/version.py | cut -d"'" -f2)
+          ./scripts/bump-version.sh --dry-run "$CURRENT" 999.999.999
+
   create-release:
     name: semantic-release
     if: github.ref == 'refs/heads/master' && github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore')
@@ -49,14 +54,9 @@ jobs:
     steps:
       - name: Notify Slack - Release Started
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-python-sdk",
-              "language": "python",
-              "status": "started",
-              "actor": "${{ github.actor }}"
-            }'
+          jq -n --arg results "Run : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{sdk: "networking-python-sdk", language: "python", status: "started", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -72,7 +72,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v7
         with:
-          python-version: '3.14'
+          python-version: '3.15'
 
       - name: Install pandoc
         run: |
@@ -82,34 +82,35 @@ jobs:
 
       - name: Install publishing tools
         run: |
-          pip install bump2version build twine
+          pip install build twine
           npm ci
 
-      - name: Verify version consistency
+      - name: Validate version consistency
+        id: validate
         run: |
-          # Extract versions from all files
-          BUMPVERSION_VERSION=$(grep "^current_version = " .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
+          echo "=== Checking version consistency across files ==="
+
+          # Extract versions from each file
           SETUP_VERSION=$(grep "__version__ = " setup.py | head -1 | cut -d"'" -f2)
           VERSION_PY=$(grep "__version__ = " ibm_cloud_networking_services/version.py | cut -d"'" -f2)
           README_VERSION=$(grep "# IBM Cloud Networking Services Python SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
-          
-          echo "Version in .bumpversion.cfg: $BUMPVERSION_VERSION"
-          echo "Version in setup.py: $SETUP_VERSION"
+
+          echo "Version in setup.py:   $SETUP_VERSION"
           echo "Version in version.py: $VERSION_PY"
-          echo "Version in README.md: $README_VERSION"
-          
+          echo "Version in README.md:  $README_VERSION"
+
           # Check if all versions match
-          if [ "$BUMPVERSION_VERSION" != "$SETUP_VERSION" ] || \
-             [ "$BUMPVERSION_VERSION" != "$VERSION_PY" ] || \
-             [ "$BUMPVERSION_VERSION" != "$README_VERSION" ]; then
+          if [ "$SETUP_VERSION" != "$VERSION_PY" ] || \
+             [ "$SETUP_VERSION" != "$README_VERSION" ]; then
             echo "❌ ERROR: Version mismatch detected!"
             echo "All version strings must match before release."
             exit 1
           fi
-          
-          echo "✅ All version strings are consistent: $BUMPVERSION_VERSION"
+
+          echo "✅ All version strings are consistent: $SETUP_VERSION"
 
       - name: Run semantic-release
+        id: release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
@@ -123,37 +124,23 @@ jobs:
           python -m build
           python -m twine upload dist/*
 
-      - name: Get package version
-        if: success()
-        id: get_version
-        run: |
-          # Install package dependencies to allow importing
-          pip install -e .
-          VERSION=$(python -c "from ibm_cloud_networking_services.version import __version__; print(__version__)")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
       - name: Notify Slack - Release Completed
         if: success()
         run: |
-          curl -X POST "${{ secrets.SLACK_PYPI_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "version": "${{ steps.get_version.outputs.version }}",
-              "package_name": "ibm-cloud-networking-services",
-              "pypi_url": "https://pypi.org/project/ibm-cloud-networking-services/${{ steps.get_version.outputs.version }}/",
-              "github_release": "${{ github.server_url }}/${{ github.repository }}/releases/tag/v${{ steps.get_version.outputs.version }}",
-              "commit_sha": "${{ github.sha }}",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Release : %s\nPyPI    : %s\nRun     : %s' \
+            "${{ steps.release.outputs.version || 'No new release published' }}" \
+            "https://pypi.org/project/ibm-cloud-networking-services/${{ steps.release.outputs.version }}/" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-python-sdk", language: "python", status: "completed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
       - name: Notify Slack - Release Failed
         if: failure()
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-python-sdk",
-              "language": "python",
-              "status": "failed",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Error : %s\nRun   : %s' \
+            "${{ steps.validate.outcome == 'failure' && 'Version validation failed, version strings in setup.py, version.py and README.md do not match' || steps.release.outcome == 'failure' && 'semantic-release failed' || 'Failed before semantic-release' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-python-sdk", language: "python", status: "failed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
