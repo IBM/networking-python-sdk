@@ -1,5 +1,5 @@
 requests>=2.30.0,<3.0
-python-dateutil>=2.5.3,<3.0.0
+python-dateutil>=3.0.0,<3.1.0
 ibm-cloud-sdk-core>=3.20.1,<4.0.0
 # Pinned explicitly to avoid CVE in PyJWT 2.13.0 (transitive via ibm-cloud-sdk-core).
 # ibm-cloud-sdk-core does not floor above 2.13.x, so this pin must remain until upstream fixes it.
