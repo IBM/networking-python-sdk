@@ -1,3 +1,12 @@
+## [0.36.1](https://github.com/IBM/networking-python-sdk/compare/v0.36.0...v0.36.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* added detect secrets in workflow ([c1cb78b](https://github.com/IBM/networking-python-sdk/commit/c1cb78b08dbc01f49574a61ae48032e80b508d0e))
+* detect secrets audit fixes ([b222fc5](https://github.com/IBM/networking-python-sdk/commit/b222fc5d19e8570966187dfb401268693da448aa))
+* **package:** fresh package-lock.json ([3f6d007](https://github.com/IBM/networking-python-sdk/commit/3f6d0076dd734a348279a26dc78279845d23d59d))
+
 # [0.36.0](https://github.com/IBM/networking-python-sdk/compare/v0.35.2...v0.36.0) (2026-10-19)
 
 
