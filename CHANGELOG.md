@@ -1,3 +1,10 @@
+# [0.37.0](https://github.com/IBM/networking-python-sdk/compare/v0.36.1...v0.37.0) (2026-10-27)
+
+
+### Features
+
+* regenerate TGW SDK and add DRS integration tests ([#225](https://github.com/IBM/networking-python-sdk/issues/225)) ([73fa0aa](https://github.com/IBM/networking-python-sdk/commit/73fa0aa821ad51c11e0f2b8164bcbd244942d024))
+
 ## [0.36.1](https://github.com/IBM/networking-python-sdk/compare/v0.36.0...v0.36.1) (2026-10-27)
 
 
