@@ -1,3 +1,41 @@
+## [0.36.1](https://github.com/IBM/networking-python-sdk/compare/v0.36.0...v0.36.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* added detect secrets in workflow ([c1cb78b](https://github.com/IBM/networking-python-sdk/commit/c1cb78b08dbc01f49574a61ae48032e80b508d0e))
+* detect secrets audit fixes ([b222fc5](https://github.com/IBM/networking-python-sdk/commit/b222fc5d19e8570966187dfb401268693da448aa))
+* **package:** fresh package-lock.json ([3f6d007](https://github.com/IBM/networking-python-sdk/commit/3f6d0076dd734a348279a26dc78279845d23d59d))
+
+# [0.36.0](https://github.com/IBM/networking-python-sdk/compare/v0.35.2...v0.36.0) (2026-10-19)
+
+
+### Bug Fixes
+
+* **CIS:** added few more scenarios to gateway operations and fixed label update response struct ([fb3e0e2](https://github.com/IBM/networking-python-sdk/commit/fb3e0e2484db479a31228fd75f196b099ff4ede9))
+* **cis:** update ai security for apps to latest specs ([4a64c84](https://github.com/IBM/networking-python-sdk/commit/4a64c848e15e39637ba0b4bfa97aa931e30a870a))
+* **cis:** update AI Security with latest specs ([e7b8ff4](https://github.com/IBM/networking-python-sdk/commit/e7b8ff42a3f32af1cf2db44c9556dac8326d522e))
+* **CIS:** update AI Security with latest specs ([af2e6ec](https://github.com/IBM/networking-python-sdk/commit/af2e6ec2914536b3c333e8a015e48393476cd90b))
+
+
+### Features
+
+* **CIS:** Add Support for AI Security for Apps ([cef4a99](https://github.com/IBM/networking-python-sdk/commit/cef4a99eb09ae14c1bca898ae9505d23ff77ff64))
+
+## [0.35.2](https://github.com/IBM/networking-python-sdk/compare/v0.35.1...v0.35.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **release:** replace bump2version with scripted version bump ([fb5f80b](https://github.com/IBM/networking-python-sdk/commit/fb5f80b03d25cac75ad82073f485128a81cbf79b))
+
+## [0.35.1](https://github.com/IBM/networking-python-sdk/compare/v0.35.0...v0.35.1) (2026-10-13)
+
+
+### Bug Fixes
+
+* **deps, env:** upgrade deps and tox env ([d4409c0](https://github.com/IBM/networking-python-sdk/commit/d4409c0376b2e422d568c98f4f21bd57debd4c17))
+
 # [0.35.0](https://github.com/IBM/networking-python-sdk/compare/v0.34.1...v0.35.0) (2026-09-16)
 
 
