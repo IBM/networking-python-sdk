@@ -10589,3 +10589,524 @@ class TestModel_ResourceRecordUpdateInputRdataRdataTxtRecord():
 ##############################################################################
 # End of Model Tests
 ##############################################################################
+
+
+class TestListClearCacheActions:
+    """
+    Test Class for list_clear_cache_actions
+    """
+
+    @responses.activate
+    def test_list_clear_cache_actions_all_params(self):
+        """
+        list_clear_cache_actions()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache')
+        mock_response = '{"clear_cache_actions": [{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}], "count": 1}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.list_clear_cache_actions(
+            instance_id,
+            resolver_id,
+            x_correlation_id=x_correlation_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_clear_cache_actions_all_params_with_retries(self):
+        # Enable retries and run test_list_clear_cache_actions_all_params.
+        _service.enable_retries()
+        self.test_list_clear_cache_actions_all_params()
+
+        # Disable retries and run test_list_clear_cache_actions_all_params.
+        _service.disable_retries()
+        self.test_list_clear_cache_actions_all_params()
+
+    @responses.activate
+    def test_list_clear_cache_actions_required_params(self):
+        """
+        test_list_clear_cache_actions_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache')
+        mock_response = '{"clear_cache_actions": [{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}], "count": 1}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+
+        # Invoke method
+        response = _service.list_clear_cache_actions(
+            instance_id,
+            resolver_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_list_clear_cache_actions_required_params_with_retries(self):
+        # Enable retries and run test_list_clear_cache_actions_required_params.
+        _service.enable_retries()
+        self.test_list_clear_cache_actions_required_params()
+
+        # Disable retries and run test_list_clear_cache_actions_required_params.
+        _service.disable_retries()
+        self.test_list_clear_cache_actions_required_params()
+
+    @responses.activate
+    def test_list_clear_cache_actions_value_error(self):
+        """
+        test_list_clear_cache_actions_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache')
+        mock_response = '{"clear_cache_actions": [{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}], "count": 1}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_clear_cache_actions(**req_copy)
+
+    def test_list_clear_cache_actions_value_error_with_retries(self):
+        # Enable retries and run test_list_clear_cache_actions_value_error.
+        _service.enable_retries()
+        self.test_list_clear_cache_actions_value_error()
+
+        # Disable retries and run test_list_clear_cache_actions_value_error.
+        _service.disable_retries()
+        self.test_list_clear_cache_actions_value_error()
+
+
+class TestClearCustomResolverCache:
+    """
+    Test Class for clear_custom_resolver_cache
+    """
+
+    @responses.activate
+    def test_clear_custom_resolver_cache_all_params(self):
+        """
+        clear_custom_resolver_cache()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache')
+        mock_response = '{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.clear_custom_resolver_cache(
+            instance_id,
+            resolver_id,
+            x_correlation_id=x_correlation_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_clear_custom_resolver_cache_all_params_with_retries(self):
+        # Enable retries and run test_clear_custom_resolver_cache_all_params.
+        _service.enable_retries()
+        self.test_clear_custom_resolver_cache_all_params()
+
+        # Disable retries and run test_clear_custom_resolver_cache_all_params.
+        _service.disable_retries()
+        self.test_clear_custom_resolver_cache_all_params()
+
+    @responses.activate
+    def test_clear_custom_resolver_cache_required_params(self):
+        """
+        test_clear_custom_resolver_cache_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache')
+        mock_response = '{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+
+        # Invoke method
+        response = _service.clear_custom_resolver_cache(
+            instance_id,
+            resolver_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+
+    def test_clear_custom_resolver_cache_required_params_with_retries(self):
+        # Enable retries and run test_clear_custom_resolver_cache_required_params.
+        _service.enable_retries()
+        self.test_clear_custom_resolver_cache_required_params()
+
+        # Disable retries and run test_clear_custom_resolver_cache_required_params.
+        _service.disable_retries()
+        self.test_clear_custom_resolver_cache_required_params()
+
+    @responses.activate
+    def test_clear_custom_resolver_cache_value_error(self):
+        """
+        test_clear_custom_resolver_cache_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache')
+        mock_response = '{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}'
+        responses.add(
+            responses.POST,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=202,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.clear_custom_resolver_cache(**req_copy)
+
+    def test_clear_custom_resolver_cache_value_error_with_retries(self):
+        # Enable retries and run test_clear_custom_resolver_cache_value_error.
+        _service.enable_retries()
+        self.test_clear_custom_resolver_cache_value_error()
+
+        # Disable retries and run test_clear_custom_resolver_cache_value_error.
+        _service.disable_retries()
+        self.test_clear_custom_resolver_cache_value_error()
+
+
+class TestGetClearCacheAction:
+    """
+    Test Class for get_clear_cache_action
+    """
+
+    @responses.activate
+    def test_get_clear_cache_action_all_params(self):
+        """
+        get_clear_cache_action()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache/1717236000000000')
+        mock_response = '{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+        action_id = '1717236000000000'
+        x_correlation_id = 'testString'
+
+        # Invoke method
+        response = _service.get_clear_cache_action(
+            instance_id,
+            resolver_id,
+            action_id,
+            x_correlation_id=x_correlation_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_clear_cache_action_all_params_with_retries(self):
+        # Enable retries and run test_get_clear_cache_action_all_params.
+        _service.enable_retries()
+        self.test_get_clear_cache_action_all_params()
+
+        # Disable retries and run test_get_clear_cache_action_all_params.
+        _service.disable_retries()
+        self.test_get_clear_cache_action_all_params()
+
+    @responses.activate
+    def test_get_clear_cache_action_required_params(self):
+        """
+        test_get_clear_cache_action_required_params()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache/1717236000000000')
+        mock_response = '{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+        action_id = '1717236000000000'
+
+        # Invoke method
+        response = _service.get_clear_cache_action(
+            instance_id,
+            resolver_id,
+            action_id,
+            headers={},
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+    def test_get_clear_cache_action_required_params_with_retries(self):
+        # Enable retries and run test_get_clear_cache_action_required_params.
+        _service.enable_retries()
+        self.test_get_clear_cache_action_required_params()
+
+        # Disable retries and run test_get_clear_cache_action_required_params.
+        _service.disable_retries()
+        self.test_get_clear_cache_action_required_params()
+
+    @responses.activate
+    def test_get_clear_cache_action_value_error(self):
+        """
+        test_get_clear_cache_action_value_error()
+        """
+        # Set up mock
+        url = preprocess_url('/instances/2be5d4a7-78f0-4c62-a957-41dc15342777/custom_resolvers/ddbe7a53-7971-46dc-b021-420335c31562/clear_cache/1717236000000000')
+        mock_response = '{"id": "1717236000000000", "status": "pending", "errors": [{"code": "location_unreachable", "message": "The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.", "location_id": "9a234ede-c2b6-4c39-bc27-d39ec139ecdb"}], "created_on": "2024-06-01T10:00:00.000Z", "modified_on": "2024-06-01T10:00:05.000Z", "expires_on": "2024-06-01T15:00:00.000Z"}'
+        responses.add(
+            responses.GET,
+            url,
+            body=mock_response,
+            content_type='application/json',
+            status=200,
+        )
+
+        # Set up parameter values
+        instance_id = '2be5d4a7-78f0-4c62-a957-41dc15342777'
+        resolver_id = 'ddbe7a53-7971-46dc-b021-420335c31562'
+        action_id = '1717236000000000'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "instance_id": instance_id,
+            "resolver_id": resolver_id,
+            "action_id": action_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key: val if key is not param else None for (key, val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_clear_cache_action(**req_copy)
+
+    def test_get_clear_cache_action_value_error_with_retries(self):
+        # Enable retries and run test_get_clear_cache_action_value_error.
+        _service.enable_retries()
+        self.test_get_clear_cache_action_value_error()
+
+        # Disable retries and run test_get_clear_cache_action_value_error.
+        _service.disable_retries()
+        self.test_get_clear_cache_action_value_error()
+
+
+# endregion
+##############################################################################
+# End of Service: ClearCacheAction
+##############################################################################
+
+
+##############################################################################
+# Start of Model Tests
+##############################################################################
+# region
+
+
+class TestModel_ClearCacheAction:
+    """
+    Test Class for ClearCacheAction
+    """
+
+    def test_clear_cache_action_serialization(self):
+        """
+        Test serialization/deserialization for ClearCacheAction
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        clear_cache_error_model = {}  # ClearCacheError
+        clear_cache_error_model['code'] = 'location_unreachable'
+        clear_cache_error_model['message'] = 'The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.'
+        clear_cache_error_model['location_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+
+        # Construct a json representation of a ClearCacheAction model
+        clear_cache_action_model_json = {}
+        clear_cache_action_model_json['id'] = '1717236000000000'
+        clear_cache_action_model_json['status'] = 'pending'
+        clear_cache_action_model_json['errors'] = [clear_cache_error_model]
+        clear_cache_action_model_json['created_on'] = '2024-06-01T10:00:00Z'
+        clear_cache_action_model_json['modified_on'] = '2024-06-01T10:00:05Z'
+        clear_cache_action_model_json['expires_on'] = '2024-06-01T15:00:00Z'
+
+        # Construct a model instance of ClearCacheAction by calling from_dict on the json representation
+        clear_cache_action_model = ClearCacheAction.from_dict(clear_cache_action_model_json)
+        assert clear_cache_action_model != False
+
+        # Construct a model instance of ClearCacheAction by calling from_dict on the json representation
+        clear_cache_action_model_dict = ClearCacheAction.from_dict(clear_cache_action_model_json).__dict__
+        clear_cache_action_model2 = ClearCacheAction(**clear_cache_action_model_dict)
+
+        # Verify the model instances are equivalent
+        assert clear_cache_action_model == clear_cache_action_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        clear_cache_action_model_json2 = clear_cache_action_model.to_dict()
+        assert clear_cache_action_model_json2 == clear_cache_action_model_json
+
+
+class TestModel_ClearCacheActionList:
+    """
+    Test Class for ClearCacheActionList
+    """
+
+    def test_clear_cache_action_list_serialization(self):
+        """
+        Test serialization/deserialization for ClearCacheActionList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        clear_cache_error_model = {}  # ClearCacheError
+        clear_cache_error_model['code'] = 'location_unreachable'
+        clear_cache_error_model['message'] = 'The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.'
+        clear_cache_error_model['location_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+
+        clear_cache_action_model = {}  # ClearCacheAction
+        clear_cache_action_model['id'] = '1717236000000000'
+        clear_cache_action_model['status'] = 'pending'
+        clear_cache_action_model['errors'] = [clear_cache_error_model]
+        clear_cache_action_model['created_on'] = '2024-06-01T10:00:00Z'
+        clear_cache_action_model['modified_on'] = '2024-06-01T10:00:05Z'
+        clear_cache_action_model['expires_on'] = '2024-06-01T15:00:00Z'
+
+        # Construct a json representation of a ClearCacheActionList model
+        clear_cache_action_list_model_json = {}
+        clear_cache_action_list_model_json['clear_cache_actions'] = [clear_cache_action_model]
+        clear_cache_action_list_model_json['count'] = 1
+
+        # Construct a model instance of ClearCacheActionList by calling from_dict on the json representation
+        clear_cache_action_list_model = ClearCacheActionList.from_dict(clear_cache_action_list_model_json)
+        assert clear_cache_action_list_model != False
+
+        # Construct a model instance of ClearCacheActionList by calling from_dict on the json representation
+        clear_cache_action_list_model_dict = ClearCacheActionList.from_dict(clear_cache_action_list_model_json).__dict__
+        clear_cache_action_list_model2 = ClearCacheActionList(**clear_cache_action_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert clear_cache_action_list_model == clear_cache_action_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        clear_cache_action_list_model_json2 = clear_cache_action_list_model.to_dict()
+        assert clear_cache_action_list_model_json2 == clear_cache_action_list_model_json
+
+
+class TestModel_ClearCacheError:
+    """
+    Test Class for ClearCacheError
+    """
+
+    def test_clear_cache_error_serialization(self):
+        """
+        Test serialization/deserialization for ClearCacheError
+        """
+
+        # Construct a json representation of a ClearCacheError model
+        clear_cache_error_model_json = {}
+        clear_cache_error_model_json['code'] = 'location_unreachable'
+        clear_cache_error_model_json['message'] = 'The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.'
+        clear_cache_error_model_json['location_id'] = '9a234ede-c2b6-4c39-bc27-d39ec139ecdb'
+
+        # Construct a model instance of ClearCacheError by calling from_dict on the json representation
+        clear_cache_error_model = ClearCacheError.from_dict(clear_cache_error_model_json)
+        assert clear_cache_error_model != False
+
+        # Construct a model instance of ClearCacheError by calling from_dict on the json representation
+        clear_cache_error_model_dict = ClearCacheError.from_dict(clear_cache_error_model_json).__dict__
+        clear_cache_error_model2 = ClearCacheError(**clear_cache_error_model_dict)
+
+        # Verify the model instances are equivalent
+        assert clear_cache_error_model == clear_cache_error_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        clear_cache_error_model_json2 = clear_cache_error_model.to_dict()
+        assert clear_cache_error_model_json2 == clear_cache_error_model_json
+
+

@@ -8,6 +8,8 @@ Integration test code to execute dns zones
 import os
 import unittest
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+import time
+from ibm_cloud_sdk_core import ApiException
 from ibm_cloud_networking_services.dns_svcs_v1 import DnsSvcsV1
 from dotenv import load_dotenv, find_dotenv
 
@@ -1206,6 +1208,11 @@ class TestCustomResolversV1(unittest.TestCase):
 
         # Create Custom Resolver class object
         self.cr = DnsSvcsV1.new_instance(service_name="dns_svcs")
+        # Clean any stale resources before test
+        try:
+            self._clean_dns_custom_resolver()
+        except Exception:
+            pass
 
     def tearDown(self):
         """ tear down """
@@ -1275,7 +1282,7 @@ class TestCustomResolversV1(unittest.TestCase):
 
         # Update Custom Resolver Locations
         resp = self.cr.update_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
-                                                       location_id=location_id, enabled=False)
+                                                       location_id=location_id, enabled=True)
         assert resp is not None
         assert resp.status_code == 200
 
@@ -1442,6 +1449,52 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 204
 
+        """ Clear Custom Resolver Cache Actions """
+        # 1. List clear cache actions initially
+        resp = self.cr.list_clear_cache_actions(instance_id=self.instance_id, resolver_id=resolver_id)
+        assert resp is not None
+        assert resp.status_code == 200
+
+        # 2. Trigger Clear Custom Resolver Cache
+        resp = self.cr.clear_custom_resolver_cache(instance_id=self.instance_id, resolver_id=resolver_id, headers={'Content-Type': 'application/json'})
+        assert resp is not None
+        assert resp.status_code == 202
+        action = resp.get_result()
+        assert action.get("id") is not None
+        assert action.get("status") == "pending"
+        assert action.get("created_on") is not None
+        assert action.get("expires_on") is not None
+        action_id = action.get("id")
+
+        # 3. Get Clear Cache Action by ID & poll for completion
+        final_status = "pending"
+        for _ in range(30):
+            resp = self.cr.get_clear_cache_action(instance_id=self.instance_id, resolver_id=resolver_id, action_id=action_id)
+            assert resp is not None
+            assert resp.status_code == 200
+            action_status = resp.get_result().get("status")
+            assert resp.get_result().get("id") == action_id
+            if action_status != "pending":
+                final_status = action_status
+                break
+            time.sleep(2)
+        assert final_status in ["pending", "success", "failed"]
+
+        # 4. List Clear Cache Actions (verify action appears in list)
+        resp = self.cr.list_clear_cache_actions(instance_id=self.instance_id, resolver_id=resolver_id)
+        assert resp is not None
+        assert resp.status_code == 200
+        actions_list = resp.get_result().get("clear_cache_actions", [])
+        assert len(actions_list) >= 1
+        assert resp.get_result().get("count") >= 1
+
+        # 5. Negative Test - Get non-existent Clear Cache Action (expect 404)
+        try:
+            self.cr.get_clear_cache_action(instance_id=self.instance_id, resolver_id=resolver_id, action_id="non-existent-action-id")
+            assert False, "Expected 404 ApiException for non-existent action_id"
+        except ApiException as e:
+            assert getattr(e, "status_code", e.code) == 404
+
         """ Delete Custom Resolver,  Locations, Forwarding rules """ 
         # Delete Forwarding rules
         resp = self.cr.delete_forwarding_rule(instance_id=self.instance_id, resolver_id=resolver_id, rule_id=rule_1_id)
@@ -1452,7 +1505,12 @@ class TestCustomResolversV1(unittest.TestCase):
         assert resp is not None
         assert resp.status_code == 204
 
-        # Delete Custom resolver locations
+        # Disable and Delete Custom resolver locations
+        resp = self.cr.update_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
+                                                       location_id=location_id, enabled=False)
+        assert resp is not None
+        assert resp.status_code == 200
+
         resp = self.cr.delete_custom_resolver_location(instance_id=self.instance_id, resolver_id=resolver_id,
                                                        location_id=location_id)
         assert resp is not None

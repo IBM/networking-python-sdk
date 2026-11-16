@@ -24,7 +24,7 @@ API Version: 1.0.0
 
 from datetime import datetime
 from enum import Enum
-from typing import BinaryIO, Dict, List
+from typing import BinaryIO, Dict, List, Optional
 import json
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
@@ -3194,6 +3194,174 @@ class DnsSvcsV1(BaseService):
     # Linked Zones
     #########################
 
+
+    def list_clear_cache_actions(
+        self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        List cache clear actions.
+
+        List the cache clear actions for the given custom resolver.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ClearCacheActionList` object
+        """
+
+        if not instance_id:
+            raise ValueError('instance_id must be provided')
+        if not resolver_id:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id,
+        }
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_clear_cache_actions',
+        )
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def clear_custom_resolver_cache(
+        self,
+        instance_id: str,
+        resolver_id: str,
+        *,
+        x_correlation_id: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Clear the DNS cache of a custom resolver.
+
+        Initiate an asynchronous DNS cache flush on all locations of the custom resolver.
+        The returned action resource can be polled to track completion. The action record
+        is retained for up to 5 hours after the request is accepted. Only one cache clear
+        can be pending for a custom resolver at a time; the request fails with 409
+        Conflict if a cache clear is already pending.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ClearCacheAction` object
+        """
+
+        if not instance_id:
+            raise ValueError('instance_id must be provided')
+        if not resolver_id:
+            raise ValueError('resolver_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id,
+        }
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='clear_custom_resolver_cache',
+        )
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='POST',
+            url=url,
+            headers=headers,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
+
+    def get_clear_cache_action(
+        self,
+        instance_id: str,
+        resolver_id: str,
+        action_id: str,
+        *,
+        x_correlation_id: Optional[str] = None,
+        **kwargs,
+    ) -> DetailedResponse:
+        """
+        Get a cache clear action.
+
+        Get the status of a cache clear action for the given custom resolver. The action
+        record is available for up to 5 hours after the action was accepted.
+
+        :param str instance_id: The unique identifier of a service instance.
+        :param str resolver_id: The unique identifier of a custom resolver.
+        :param str action_id: The unique identifier of a cache clear action.
+        :param str x_correlation_id: (optional) Uniquely identifying a request.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ClearCacheAction` object
+        """
+
+        if not instance_id:
+            raise ValueError('instance_id must be provided')
+        if not resolver_id:
+            raise ValueError('resolver_id must be provided')
+        if not action_id:
+            raise ValueError('action_id must be provided')
+        headers = {
+            'X-Correlation-ID': x_correlation_id,
+        }
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='get_clear_cache_action',
+        )
+        headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+            del kwargs['headers']
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['instance_id', 'resolver_id', 'action_id']
+        path_param_values = self.encode_path_vars(instance_id, resolver_id, action_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache/{action_id}'.format(**path_param_dict)
+        request = self.prepare_request(
+            method='GET',
+            url=url,
+            headers=headers,
+        )
+
+        response = self.send(request, **kwargs)
+        return response
 
     def list_linked_zones(self,
         instance_id: str,
@@ -8929,3 +9097,286 @@ class ResourceRecordUpdateInputRdataRdataTxtRecord(ResourceRecordUpdateInputRdat
     def __ne__(self, other: 'ResourceRecordUpdateInputRdataRdataTxtRecord') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class ClearCacheAction:
+    """
+    Cache clear action details.
+
+    :param str id: (optional) Identifier of the cache clear action.
+    :param str status: (optional) The status of the cache clear action.
+    :param List[ClearCacheError] errors: (optional) Errors encountered during the
+          cache clear action. Present only when status is failed.
+    :param datetime created_on: (optional) The time when the cache clear action was
+          created, RFC3339 format.
+    :param datetime modified_on: (optional) The time when the cache clear action was
+          last modified, RFC3339 format.
+    :param datetime expires_on: (optional) The time when the cache clear action
+          record will be deleted, RFC3339 format. The record is retained for up to 5
+          hours.
+    """
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,
+        status: Optional[str] = None,
+        errors: Optional[List['ClearCacheError']] = None,
+        created_on: Optional[datetime] = None,
+        modified_on: Optional[datetime] = None,
+        expires_on: Optional[datetime] = None,
+    ) -> None:
+        """
+        Initialize a ClearCacheAction object.
+
+        :param str id: (optional) Identifier of the cache clear action.
+        :param str status: (optional) The status of the cache clear action.
+        :param List[ClearCacheError] errors: (optional) Errors encountered during
+               the cache clear action. Present only when status is failed.
+        :param datetime created_on: (optional) The time when the cache clear action
+               was created, RFC3339 format.
+        :param datetime modified_on: (optional) The time when the cache clear
+               action was last modified, RFC3339 format.
+        :param datetime expires_on: (optional) The time when the cache clear action
+               record will be deleted, RFC3339 format. The record is retained for up to 5
+               hours.
+        """
+        self.id = id
+        self.status = status
+        self.errors = errors
+        self.created_on = created_on
+        self.modified_on = modified_on
+        self.expires_on = expires_on
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClearCacheAction':
+        """Initialize a ClearCacheAction object from a json dictionary."""
+        args = {}
+        if (id := _dict.get('id')) is not None:
+            args['id'] = id
+        if (status := _dict.get('status')) is not None:
+            args['status'] = status
+        if (errors := _dict.get('errors')) is not None:
+            args['errors'] = [ClearCacheError.from_dict(v) for v in errors]
+        if (created_on := _dict.get('created_on')) is not None:
+            args['created_on'] = string_to_datetime(created_on)
+        if (modified_on := _dict.get('modified_on')) is not None:
+            args['modified_on'] = string_to_datetime(modified_on)
+        if (expires_on := _dict.get('expires_on')) is not None:
+            args['expires_on'] = string_to_datetime(expires_on)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClearCacheAction object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'errors') and self.errors is not None:
+            errors_list = []
+            for v in self.errors:
+                if isinstance(v, dict):
+                    errors_list.append(v)
+                else:
+                    errors_list.append(v.to_dict())
+            _dict['errors'] = errors_list
+        if hasattr(self, 'created_on') and self.created_on is not None:
+            _dict['created_on'] = datetime_to_string(self.created_on)
+        if hasattr(self, 'modified_on') and self.modified_on is not None:
+            _dict['modified_on'] = datetime_to_string(self.modified_on)
+        if hasattr(self, 'expires_on') and self.expires_on is not None:
+            _dict['expires_on'] = datetime_to_string(self.expires_on)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClearCacheAction object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClearCacheAction') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClearCacheAction') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        The status of the cache clear action.
+        """
+
+        PENDING = 'pending'
+        SUCCESS = 'success'
+        FAILED = 'failed'
+
+
+
+class ClearCacheActionList:
+    """
+    List of cache clear actions response.
+
+    :param List[ClearCacheAction] clear_cache_actions: An array of cache clear
+          actions.
+    :param int count: The number of resources are returned.
+    """
+
+    def __init__(
+        self,
+        clear_cache_actions: List['ClearCacheAction'],
+        count: int,
+    ) -> None:
+        """
+        Initialize a ClearCacheActionList object.
+
+        :param List[ClearCacheAction] clear_cache_actions: An array of cache clear
+               actions.
+        :param int count: The number of resources are returned.
+        """
+        self.clear_cache_actions = clear_cache_actions
+        self.count = count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClearCacheActionList':
+        """Initialize a ClearCacheActionList object from a json dictionary."""
+        args = {}
+        if (clear_cache_actions := _dict.get('clear_cache_actions')) is not None:
+            args['clear_cache_actions'] = [ClearCacheAction.from_dict(v) for v in clear_cache_actions]
+        else:
+            raise ValueError('Required property \'clear_cache_actions\' not present in ClearCacheActionList JSON')
+        if (count := _dict.get('count')) is not None:
+            args['count'] = count
+        else:
+            raise ValueError('Required property \'count\' not present in ClearCacheActionList JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClearCacheActionList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'clear_cache_actions') and self.clear_cache_actions is not None:
+            clear_cache_actions_list = []
+            for v in self.clear_cache_actions:
+                if isinstance(v, dict):
+                    clear_cache_actions_list.append(v)
+                else:
+                    clear_cache_actions_list.append(v.to_dict())
+            _dict['clear_cache_actions'] = clear_cache_actions_list
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClearCacheActionList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClearCacheActionList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClearCacheActionList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClearCacheError:
+    """
+    An error associated with a failed cache clear action.
+
+    :param str code: A snake case string succinctly identifying the error.
+    :param str message: An explanation of the error.
+    :param str location_id: (optional) The identifier of the location on which the
+          error occurred, if applicable.
+    """
+
+    def __init__(
+        self,
+        code: str,
+        message: str,
+        *,
+        location_id: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize a ClearCacheError object.
+
+        :param str code: A snake case string succinctly identifying the error.
+        :param str message: An explanation of the error.
+        :param str location_id: (optional) The identifier of the location on which
+               the error occurred, if applicable.
+        """
+        self.code = code
+        self.message = message
+        self.location_id = location_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClearCacheError':
+        """Initialize a ClearCacheError object from a json dictionary."""
+        args = {}
+        if (code := _dict.get('code')) is not None:
+            args['code'] = code
+        else:
+            raise ValueError('Required property \'code\' not present in ClearCacheError JSON')
+        if (message := _dict.get('message')) is not None:
+            args['message'] = message
+        else:
+            raise ValueError('Required property \'message\' not present in ClearCacheError JSON')
+        if (location_id := _dict.get('location_id')) is not None:
+            args['location_id'] = location_id
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClearCacheError object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        if hasattr(self, 'location_id') and self.location_id is not None:
+            _dict['location_id'] = self.location_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClearCacheError object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClearCacheError') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClearCacheError') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
